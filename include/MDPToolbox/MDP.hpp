@@ -10,15 +10,22 @@ namespace MDPToolbox {
 
     class MDP {
         public:
-            using MDPType = std::vector<std::vector<std::vector<std::tuple<double, double>>>>;
-            using ValueType = std::vector<double>;
+            using TransitionTable   = std::vector<std::vector<std::vector<double>>>;
+            using RewardTable       = std::vector<std::vector<std::vector<double>>>;
+            using ValueFunction     = std::vector<double>;
 
             MDP(size_t sNum, size_t aNum);
 
             template <typename T>
-            void setPolicy(const T & mdp);
+            void setTransitions(const T & transitions);
 
-            Policy valueIteration(double discount, double epsilon = 0.01, unsigned maxIter = 0, ValueType v0 = ValueType(0), bool * doneOut = nullptr ) const;
+            template <typename T>
+            void setRewards(const T & rewards);
+
+            template <typename T>
+            void setMDP(const T & mdp);
+
+            Policy valueIteration(bool * doneOut = nullptr, double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v1 = ValueFunction(0) ) const;
 
             size_t getS() const;
             size_t getA() const;
@@ -28,25 +35,57 @@ namespace MDPToolbox {
 
             size_t S, A;
 
-            MDPType mdp_; 
-            enum {
-                Probability,
-                Reward
-            };
+            template <typename T>
+            void setTransitions(const T & transitions, bool computePR = true);
+
+            template <typename T>
+            void setRewards(const T & rewards, bool computePR = true);
+
+            TransitionTable transitions_;
+            RewardTable rewards_;
+
             PRType pr_;
 
-            std::tuple<ValueType, Policy> bellmanOperator(double discount, const ValueType & v0) const;
+            std::tuple<ValueFunction, Policy> bellmanOperator(double discount, const ValueFunction & v0) const;
             void computePR();
 
-            unsigned valueIterationBoundIter(double discount, double epsilon, const ValueType & v0) const;
+            unsigned valueIterationBoundIter(double discount, double epsilon, const ValueFunction & v0) const;
     };
 
     template <typename T>
-    void MDP::setPolicy(const T & mdp) {
+    void MDP::setTransitions(const T & transitions) {
+        setTransitions(transitions, true);
+    }
+
+    template <typename T>
+    void MDP::setTransitions(const T & transitions, bool compute ) {
         for ( size_t s = 0; s < S; s++ )
             for ( size_t s1 = 0; s1 < S; s1++ )
                 for ( size_t a = 0; a < A; a++ )
-                    mdp_[s][s1][a] = mdp.at(s).at(s1).at(a);
+                    transitions_[s][s1][a] = transitions.at(s).at(s1).at(a);
+        if ( compute )
+            computePR();
+    }
+
+    template <typename T>
+    void MDP::setRewards(const T & rewards) {
+        setRewards(rewards, true);
+    }
+
+    template <typename T>
+    void MDP::setRewards(const T & rewards, bool compute ) {
+        for ( size_t s = 0; s < S; s++ )
+            for ( size_t s1 = 0; s1 < S; s1++ )
+                for ( size_t a = 0; a < A; a++ )
+                    rewards_[s][s1][a] = rewards.at(s).at(s1).at(a);
+        if ( compute )
+            computePR();
+    }
+
+    template <typename T>
+    void MDP::setMDP(const T & mdp) {
+        setTransitions(std::get<0>(mdp), false);
+        setRewards(std::get<1>(mdp), true);
     }
 }
 

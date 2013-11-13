@@ -5,24 +5,29 @@
 #include <vector>
 #include <tuple>
 
+#include <ostream>
+
 namespace MDPToolbox {
     class Policy {
         public:
             Policy(size_t sNum, size_t aNum);
 
-            using ActionPolicyType = std::vector<double>;
+            using StatePolicy = std::vector<double>;
 
-            ActionPolicyType getProbability(size_t s) const;
+            StatePolicy getStatePolicy(size_t s) const;
 
-            void setPolicy(size_t s, const ActionPolicyType &);
+            void setPolicy(size_t s, const StatePolicy &);
             void setPolicy(size_t s, size_t a);
 
             size_t getS() const;
             size_t getA() const;
+
         private:
             size_t S, A;
-            std::vector<ActionPolicyType> policy_; 
+            std::vector<StatePolicy> policy_;
     };
+
+    std::ostream& operator<<(std::ostream &os, const Policy &);
 }
 
 #endif
