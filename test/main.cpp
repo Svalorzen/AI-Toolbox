@@ -4,7 +4,7 @@
 
 #include <MDPToolbox/MDP.hpp>
 #include <MDPToolbox/Policy.hpp>
-#include "Table.h"
+#include <MDPToolbox/Experience.hpp>
 
 using std::cout;
 using std::cerr;
@@ -14,7 +14,7 @@ int main(int argc, char * argv[]) {
         cerr << "Usage: solve_mdp filename\n";
         return -1;
     }
-    Table t(96, 2);
+    MDPToolbox::Experience t(96, 2);
 
     t.load(argv[1]);
 
@@ -23,8 +23,8 @@ int main(int argc, char * argv[]) {
         return 1;
     }
 
-    // cout << "Table output for sanity check...\n";
-    // t.save("table_sanity.txt");
+    //cout << "Table output for sanity check...\n";
+    //t.save("table_sanity.txt");
 
     cout << "Table loaded correctly.\n";
     cout << "Loading table in MDPToolbox...\n";

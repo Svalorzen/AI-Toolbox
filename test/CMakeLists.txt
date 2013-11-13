@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 
-add_executable(solve_mdp main.cpp Table.cpp)
+add_executable(solve_mdp main.cpp)
 
 target_link_libraries(solve_mdp MDPToolbox)
 

@@ -2,27 +2,21 @@
 
 #include <cmath>
 #include <algorithm>
+#include <chrono>
 #include <MDPToolbox/Policy.hpp>
 
 #include <iostream>
 using namespace std;
 
 namespace MDPToolbox {
-    MDP::MDP(size_t sNum, size_t aNum) : S(sNum), A(aNum) {
-        transitions_.resize(S);
-        rewards_.resize(S);
-
+    MDP::MDP(size_t sNum, size_t aNum) : S(sNum), A(aNum), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]), pr_(boost::extents[S][A]),
+                                         rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0)
+    {
         for ( size_t s = 0; s < S; s++ ) {
-            transitions_[s].resize(S);
-            rewards_[s].resize(S);
-
             for ( size_t s1 = 0; s1 < S; s1++ ) {
-                transitions_[s][s1].reserve(A);
-                rewards_[s][s1].reserve(A);
-
                 for ( size_t a = 0; a < A; a++ ) {
-                    transitions_[s][s1].emplace_back( 1.0/S );
-                    rewards_[s][s1].emplace_back( 0 );
+                    transitions_[s][s1][a] = 1.0/S;
+                    rewards_[s][s1][a] = 0.0;
                 }
             }
         }
@@ -81,10 +75,8 @@ namespace MDPToolbox {
 
 
     void MDP::computePR() {
-        pr_.resize(S);
         // for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;
         for ( size_t s = 0; s < S; s++ ) {
-            pr_[s].resize(A, 0.0);
             for ( size_t s1 = 0; s1 < S; s1++ ) {
                 for ( size_t a = 0; a < A; a++ ) {
                     pr_[s][a] += transitions_[s][s1][a] * rewards_[s][s1][a];
@@ -158,5 +150,15 @@ namespace MDPToolbox {
 
     size_t MDP::getA() const {
         return A;
+    }
+
+    std::tuple<size_t, double> MDP::sample(size_t s, size_t a) const {
+        double p = sampleDistribution_(rand_);
+
+        for ( size_t s1 = 0; s1 < S; s1++ ) {
+            if ( transitions_[s][s1][a] > p ) return std::make_tuple(s1, rewards_[s][s1][a]);
+            p -= transitions_[s][s1][a];
+        }
+        return std::make_tuple(S-1, rewards_[s][S-1][a]);
     }
 }
