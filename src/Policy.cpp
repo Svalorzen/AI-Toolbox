@@ -1,14 +1,13 @@
 #include <MDPToolbox/Policy.hpp>
 
+#include <chrono>
 #include <algorithm>
 
 namespace MDPToolbox {
-    Policy::Policy(size_t sNum, size_t aNum) : S(sNum), A(aNum) {
-        policy_.resize(S);
-
+    Policy::Policy(size_t sNum, size_t aNum) : S(sNum), A(aNum), policy_(boost::extents[S][A]),
+                                               rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0), randomDistribution_(0, A-1)
+    {
         for ( size_t s = 0; s < S; s++ ) {
-            policy_[s].resize(A);
-
             for ( size_t a = 0; a < A; a++ ) {
                 // Random policy
                 policy_[s][a] = 1.0/A;
@@ -16,15 +15,28 @@ namespace MDPToolbox {
         }
     }
 
-    Policy::StatePolicy Policy::getStatePolicy( size_t s ) const {
-        return policy_.at(s);
+    size_t Policy::getAction(size_t s, double epsilon) const {
+        if ( epsilon != 0.0 ) {
+            double greedy = sampleDistribution_(rand_);
+            if ( greedy > epsilon ) {
+                // RANDOM!
+                return randomDistribution_(rand_);
+            }
+        }
+        // GREEDY!
+        double p = sampleDistribution_(rand_);
+        for ( size_t a = 0; a < A; a++ ) {
+            if ( policy_[s][a] > p ) return s;
+            p -= policy_[s][a];
+        }
+        return S-1+epsilon;
     }
 
-    void Policy::setPolicy(size_t s, const StatePolicy & apt) {
-        if ( std::accumulate(begin(apt), end(apt), 0.0) != 1.0 )
-            throw std::runtime_error("Policy values for a state must sum to one");
-
-       policy_[s] = apt;
+    std::vector<double> Policy::getStatePolicy( size_t s ) const {
+        std::vector<double> statePolicy(A);
+        for ( size_t a = 0; a < A; a++ )
+            statePolicy[a] = policy_[s][a];
+        return statePolicy;
     }
 
     void Policy::setPolicy(size_t s, size_t a) {

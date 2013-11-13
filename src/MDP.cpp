@@ -104,7 +104,7 @@ namespace MDPToolbox {
 
         for ( size_t s = 0; s < S; s++ ) {
             auto it = std::max_element(begin(q[s]), end(q[s]));
-            p.setPolicy(s, std::distance(begin(q[s]), it));
+            p.setPolicy(s, static_cast<size_t>(std::distance(begin(q[s]), it)));
             v1[s] = *it;
         }
 

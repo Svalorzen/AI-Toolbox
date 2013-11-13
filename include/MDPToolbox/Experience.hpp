@@ -11,7 +11,7 @@ namespace MDPToolbox {
     class Experience {
         public:
             using VisitsTable = boost::multi_array<long,3>;
-            using RewardTable = MDPToolbox::MDP::Table3D;
+            using RewardTable = boost::multi_array<double,3>;
 
             Experience(size_t S, size_t A);
 
