@@ -24,33 +24,36 @@ int main(int argc, char * argv[]) {
         boost::system::error_code returnedError;
         boost::filesystem::create_directories( "debug", returnedError );
         if ( returnedError ) {
-            cerr << "Could not create directory 'debug', debug files will not be created.\n";
+            cerr << "ERR -- Could not create directory 'debug', debug files will not be created.\n";
         }
         else {
             debug = true;
         }
     }
 
+    // LOADING TABLE
+    cout << "Loading Table.\n\n";
+
     if ( ! t.isValid() ) {
-        cerr << "Could not load specified table.\n";
+        cerr << "ERR -- Could not load specified table.\n";
         return 1;
     }
 
+    cout << "Table loaded correctly.\n\n";
+
+    // OUTPUT LOADED TABLE
     if ( debug ) {
-        cout << "Table output for sanity check...\n";
+        cout << "DBG -- Outputting table for sanity check...\n";
         t.save("debug/table_sanity.txt");
+        cout << "DBG -- Done.\n\n";
     }
 
-    cout << "Table loaded correctly.\n";
-    cout << "Loading table in MDPToolbox...\n";
-
-    MDPToolbox::MDP mdp(96, 2);
-
+    // NORMALIZING DATA
     auto mdpdata = t.getMDP();
-    cout << "MDP extracted.\n";
+    cout << "MDP extracted.\n\n";
 
     if ( debug ) {
-        cout << "Saving MDP to file...\n";
+        cout << "DBG -- Saving MDP to file...\n";
         {
             std::ofstream outfile("debug/transitionprobabilities_sanity.txt");
             outfile.precision(4);
@@ -91,22 +94,31 @@ int main(int argc, char * argv[]) {
             }
             outfile.close();
         }
-        cout << "MDP saved.\n";
+        cout << "DBG -- MDP saved.\n\n";
     }
 
-    mdp.setMDP(mdpdata);
-    cout << "Table loaded.\n";
+    // LOADING TABLE
+    cout << "Loading table in MDPToolbox...\n";
 
+    MDPToolbox::MDP mdp(96, 2);
+
+    mdp.setMDP(mdpdata);
+    cout << "Table loaded.\n\n";
+
+    // SOLVING MDP
+    cout << "Solving MDP...\n";
     bool out;
     auto p = mdp.valueIteration(&out);
+    cout << "MDP Solved.\n";
+    cout << "+--> Did we actually solve the MDP? " << ( out ? "YES": "NO" ) << "\n\n";
 
-    cout << "Did we actually solve the MDP? " << out << "\n";
-
-    cout << "Policy created.\n";
+    // CREATING POLICY
+    cout << "Creating Policy...\n";
     {
         std::ofstream outfile("policy.txt");
         outfile << p;
         outfile.close();
     }
+    cout << "Policy created.\n\n";
     return 0;
 }
