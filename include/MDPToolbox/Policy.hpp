@@ -21,7 +21,6 @@ namespace MDPToolbox {
 
             size_t getS() const;
             size_t getA() const;
-
         private:
             size_t S, A;
             std::vector<StatePolicy> policy_;

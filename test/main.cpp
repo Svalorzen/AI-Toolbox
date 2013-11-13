@@ -18,7 +18,6 @@ int main(int argc, char * argv[]) {
     }
     MDPToolbox::Experience t(96, 2);
 
-    t.load(argv[1]);
     bool debug = false;
     if ( argc == 3 ) {
         boost::system::error_code returnedError;
@@ -33,18 +32,22 @@ int main(int argc, char * argv[]) {
 
     // LOADING TABLE
     cout << "Loading Table.\n\n";
-
-    if ( ! t.isValid() ) {
-        cerr << "ERR -- Could not load specified table.\n";
-        return 1;
+    {
+        std::ifstream tableFile(argv[1]);
+        if ( ! ( tableFile >> t ) ) {
+            cerr << "ERR -- Could not load specified table.\n";
+            return 1;
+        }
     }
-
     cout << "Table loaded correctly.\n\n";
 
     // OUTPUT LOADED TABLE
     if ( debug ) {
         cout << "DBG -- Outputting table for sanity check...\n";
-        t.save("debug/table_sanity.txt");
+
+        std::ofstream tableFile("debug/table_sanity.txt");
+        tableFile << t;
+
         cout << "DBG -- Done.\n\n";
     }
 
@@ -72,7 +75,6 @@ int main(int argc, char * argv[]) {
                 outfile << "\n\n\n\n\n";
                 counter = 1;
             }
-            outfile.close();
         }
         {
             std::ofstream outfile("debug/rewardsnormalized_sanity.txt");
@@ -92,7 +94,6 @@ int main(int argc, char * argv[]) {
                 outfile << "\n\n\n\n\n";
                 counter = 1;
             }
-            outfile.close();
         }
         cout << "DBG -- MDP saved.\n\n";
     }
