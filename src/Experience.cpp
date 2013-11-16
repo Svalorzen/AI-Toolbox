@@ -33,10 +33,9 @@ namespace MDPToolbox {
         MDPToolbox::MDP::TransitionTable P(boost::extents[S][S][A]); // Can't initialize it here, long -> double
         MDPToolbox::MDP::RewardTable R(rewards_);
 
-        double actionSum[A];
+        std::vector<double> actionSum(A, 0.0);
         for ( size_t s = 0; s < S; s++ ) {
             for ( size_t a = 0; a < A; a++ ) {
-                actionSum[a] = 0.0;
                 for ( size_t s1 = 0; s1 < S; s1++ ) {
                     P[s][s1][a] = static_cast<double>(visits_[s][s1][a]);
                     // actionSum contains the time we have executed action 'a' in state 's'
