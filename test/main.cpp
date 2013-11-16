@@ -112,7 +112,7 @@ int main(int argc, char * argv[]) {
     cout << "MDP Solved.\n";
     cout << "+--> Did we actually solve the MDP? " << ( done ? "YES": "NO" ) << "\n\n";
 
-    MDPToolbox::Policy p(96, 2);
+    MDPToolbox::Policy p = mdp.getPolicy();
     // CREATING POLICY
     cout << "Creating Policy...\n";
     {

@@ -39,17 +39,18 @@ namespace MDPToolbox {
             epsilon = ( discount != 1 ) ? ( epsilon * ( 1 - discount ) / discount ) : epsilon;
         }
 
+        //cout << "I'm starting now..\n";
+
         unsigned iter = 0;
         bool done = false, completed = false;
         ValueFunction v0;
-        Policy p(0,0);
 
         while ( !done ) {
             iter++;
-            // std::cout << "Iteration: " << iter;
+            //std::cout << "Iteration: " << iter;
             v0 = v1;
 
-            std::tie( q_, v1, p ) = bellmanOperator( discount, v1 );
+            std::tie( q_, v1, policy_ ) = bellmanOperator( discount, v1 );
 
             std::transform(begin(v1), end(v1), begin(v0), begin(v0), std::minus<double>() );
 
@@ -58,7 +59,7 @@ namespace MDPToolbox {
                 auto minmax = std::minmax_element(begin(v0), end(v0));
                 variation = *(minmax.second) - *(minmax.first);
             }
-            // std::cout << "    Variation: " << variation << "\n";
+            //std::cout << "    Variation: " << variation << "\n";
             if ( variation < epsilon ) {
                 completed = true;
                 done = true;
