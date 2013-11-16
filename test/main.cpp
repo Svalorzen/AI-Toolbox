@@ -108,11 +108,11 @@ int main(int argc, char * argv[]) {
 
     // SOLVING MDP
     cout << "Solving MDP...\n";
-    bool out;
-    auto p = mdp.valueIteration(&out);
+    bool done = mdp.valueIteration();
     cout << "MDP Solved.\n";
-    cout << "+--> Did we actually solve the MDP? " << ( out ? "YES": "NO" ) << "\n\n";
+    cout << "+--> Did we actually solve the MDP? " << ( done ? "YES": "NO" ) << "\n\n";
 
+    MDPToolbox::Policy p(96, 2);
     // CREATING POLICY
     cout << "Creating Policy...\n";
     {

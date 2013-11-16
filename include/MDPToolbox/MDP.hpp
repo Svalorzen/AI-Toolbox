@@ -7,6 +7,7 @@
 #include <random>
 
 #include <boost/multi_array.hpp>
+#include <MDPToolbox/Policy.hpp>
 
 namespace MDPToolbox {
     class Policy;
@@ -18,6 +19,7 @@ namespace MDPToolbox {
             using TransitionTable   = Table3D;
             using RewardTable       = Table3D;
             using ValueFunction     = std::vector<double>;
+            using QFunction         = Table2D;
 
             MDP(size_t sNum, size_t aNum);
 
@@ -31,13 +33,16 @@ namespace MDPToolbox {
             void setMDP(const T & mdp);
 
             std::tuple<size_t, double> sample(size_t s, size_t a) const;
-            Policy valueIteration(bool * doneOut = nullptr, double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v1 = ValueFunction(0) ) const;
+            bool valueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v1 = ValueFunction(0) );
+
+            const Policy & getPolicy() const;
+            const ValueFunction & getValueFunction() const;
+            const QFunction & getQFunction() const;
 
             size_t getS() const;
             size_t getA() const;
         private:
             using PRType = Table2D;
-            using QType = Table2D;
 
             size_t S, A;
 
@@ -45,6 +50,10 @@ namespace MDPToolbox {
             RewardTable rewards_;
 
             PRType pr_;
+
+            QFunction q_;
+            ValueFunction v_;
+            Policy policy_;
 
             // These are mutable because sampling doesn't really change the MDP
             mutable std::default_random_engine rand_;
@@ -57,7 +66,7 @@ namespace MDPToolbox {
             void setRewards(const T & rewards, bool computePR = true);
 
             void computePR();
-            std::tuple<ValueFunction, Policy> bellmanOperator(double discount, const ValueFunction & v0) const;
+            std::tuple<QFunction, ValueFunction, Policy> bellmanOperator(double discount, const ValueFunction & v0) const;
             unsigned valueIterationBoundIter(double discount, double epsilon, const ValueFunction & v0) const;
     };
 

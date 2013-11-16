@@ -3,13 +3,13 @@
 #include <cmath>
 #include <algorithm>
 #include <chrono>
-#include <MDPToolbox/Policy.hpp>
 
 #include <iostream>
 using namespace std;
 
 namespace MDPToolbox {
     MDP::MDP(size_t sNum, size_t aNum) : S(sNum), A(aNum), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]), pr_(boost::extents[S][A]),
+                                         q_(boost::extents[S][A]), v_(S,0.0), policy_(S,A),
                                          rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0)
     {
         for ( size_t s = 0; s < S; s++ ) {
@@ -23,7 +23,7 @@ namespace MDPToolbox {
         computePR();
     }
 
-    Policy MDP::valueIteration(bool * doneOut, double discount, double epsilon, unsigned maxIter, ValueFunction v1 ) const {
+    bool MDP::valueIteration(double discount, double epsilon, unsigned maxIter, ValueFunction v1 ) {
         if ( discount <= 0 || discount > 1 )    throw std::runtime_error("Discount parameter must be in (0,1]");
         if ( epsilon <= 0 )                     throw std::runtime_error("Epsilon must be > 0");
         if ( v1.size() != 0 && v1.size() != S ) throw std::runtime_error("The starting value function has the wrong size");
@@ -49,7 +49,7 @@ namespace MDPToolbox {
             // std::cout << "Iteration: " << iter;
             v0 = v1;
 
-            std::tie( v1, p ) = bellmanOperator( discount, v1 );
+            std::tie( q_, v1, p ) = bellmanOperator( discount, v1 );
 
             std::transform(begin(v1), end(v1), begin(v0), begin(v0), std::minus<double>() );
 
@@ -67,10 +67,9 @@ namespace MDPToolbox {
                 done = true;
             }
         }
+        std::copy(begin(v1), end(v1), begin(v_));
 
-        if ( doneOut ) *doneOut = completed;
-
-        return p;
+        return completed;
     }
 
 
@@ -85,14 +84,14 @@ namespace MDPToolbox {
         }
     }
 
-    std::tuple<MDP::ValueFunction, Policy> MDP::bellmanOperator(double discount, const ValueFunction & v0) const {
+    std::tuple<MDP::QFunction, MDP::ValueFunction, Policy> MDP::bellmanOperator(double discount, const ValueFunction & v0) const {
         /*
          *  for a=1:A
          *      Q(:,a) = PR(:,a) + discount*P(:,:,a)*Vprev;
          *  end
          *  [V, policy] = max(Q,[],2);
          */
-        QType q = pr_;
+        QFunction q = pr_;
 
         for ( size_t s = 0; s < S; s++ )
             for ( size_t s1 = 0; s1 < S; s1++ )
@@ -108,7 +107,7 @@ namespace MDPToolbox {
             v1[s] = *it;
         }
 
-        return std::make_tuple(v1, p);
+        return std::make_tuple(q, v1, p);
     }
 
     unsigned MDP::valueIterationBoundIter(double discount, double epsilon, const ValueFunction & v0) const {
@@ -130,7 +129,7 @@ namespace MDPToolbox {
 
         ValueFunction v1;
 
-        std::tie(v1, std::ignore) = bellmanOperator(discount, v0);
+        std::tie(std::ignore, v1, std::ignore) = bellmanOperator(discount, v0);
 
         std::transform(begin(v1), end(v1), begin(v0), begin(v1), std::minus<double>() );
 
@@ -160,5 +159,17 @@ namespace MDPToolbox {
             p -= transitions_[s][s1][a];
         }
         return std::make_tuple(S-1, rewards_[s][S-1][a]);
+    }
+
+    const Policy & MDP::getPolicy() const {
+        return policy_;
+    }
+
+    const MDP::ValueFunction & MDP::getValueFunction() const {
+        return v_;
+    }
+
+    const MDP::QFunction & MDP::getQFunction() const {
+        return q_;
     }
 }
