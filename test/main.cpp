@@ -112,12 +112,11 @@ int main(int argc, char * argv[]) {
     cout << "MDP Solved.\n";
     cout << "+--> Did we actually solve the MDP? " << ( done ? "YES": "NO" ) << "\n\n";
 
-    MDPToolbox::Policy p = mdp.getPolicy();
     // CREATING POLICY
     cout << "Creating Policy...\n";
     {
         std::ofstream outfile("policy.txt");
-        outfile << p;
+        outfile << mdp.getPolicy();
         outfile.close();
     }
     cout << "Policy created.\n\n";

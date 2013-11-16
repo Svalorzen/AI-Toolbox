@@ -33,18 +33,19 @@ namespace MDPToolbox {
         MDPToolbox::MDP::TransitionTable P(boost::extents[S][S][A]); // Can't initialize it here, long -> double
         MDPToolbox::MDP::RewardTable R(rewards_);
 
-        std::vector<double> actionSum(A, 0.0);
+        double actionSum;
         for ( size_t s = 0; s < S; s++ ) {
             for ( size_t a = 0; a < A; a++ ) {
+                actionSum = 0.0;
                 for ( size_t s1 = 0; s1 < S; s1++ ) {
                     P[s][s1][a] = static_cast<double>(visits_[s][s1][a]);
                     // actionSum contains the time we have executed action 'a' in state 's'
-                    actionSum[a] += P[s][s1][a];
+                    actionSum += P[s][s1][a];
                 }
                 // Normalize
                 for ( size_t s1 = 0; s1 < S; s1++ ) {
                     // If we never executed 'a' during 'i'
-                    if ( actionSum[a] == 0.0 ) {
+                    if ( actionSum == 0.0 ) {
                         // Create shadow state since we never encountered it
                         if ( s == s1 )
                             P[s][s1][a] = 1.0;
@@ -58,7 +59,7 @@ namespace MDPToolbox {
                             R[s][s1][a] /= P[s][s1][a];
                         }
                         // Normalize transition probability (times we went to 's1' / times we executed 'a' in 's'
-                        P[s][s1][a] /= actionSum[a];
+                        P[s][s1][a] /= actionSum;
                     }
                 }
             }

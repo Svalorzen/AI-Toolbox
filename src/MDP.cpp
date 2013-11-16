@@ -47,7 +47,7 @@ namespace MDPToolbox {
 
         while ( !done ) {
             iter++;
-            //std::cout << "Iteration: " << iter;
+            //std::cout << "Iteration: " << iter << "\n";
             v0 = v1;
 
             std::tie( q_, v1, policy_ ) = bellmanOperator( discount, v1 );
