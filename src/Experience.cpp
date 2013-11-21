@@ -12,7 +12,6 @@ namespace MDPToolbox {
         reset();
     }
 
-
     void Experience::update(size_t s, size_t s1, size_t a, double rew) {
         visits_[s][s1][a]++;
         rewards_[s][s1][a] += rew;
@@ -67,12 +66,12 @@ namespace MDPToolbox {
         return std::make_tuple(P,R);
     }
 
-    long Experience::getVisits( size_t s, size_t s1, size_t a ) const {
-        return visits_[s][s1][a];
+    const Experience::VisitTable & Experience::getVisits() const {
+        return visits_;
     }
 
-    double Experience::getReward( size_t s, size_t s1, size_t a ) const {
-        return rewards_[s][s1][a];
+    const Experience::RewardTable & Experience::getRewards() const {
+        return rewards_;
     }
 
     size_t Experience::getS() const {
@@ -109,7 +108,7 @@ namespace MDPToolbox {
         for ( size_t s = 0; s < S; s++ ) {
             for ( size_t s1 = 0; s1 < S; s1++ ) {
                 for ( size_t a = 0; a < A; a++ ) {
-                    os << exp.getVisits(s, s1, a) << " " << exp.getReward(s, s1, a) << " ";
+                    os << exp.getVisits()[s][s1][a] << " " << exp.getRewards()[s][s1][a] << " ";
                 }
             }
             os << "\n";

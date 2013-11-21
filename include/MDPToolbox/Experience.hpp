@@ -10,7 +10,7 @@
 namespace MDPToolbox {
     class Experience {
         public:
-            using VisitsTable = boost::multi_array<long,3>;
+            using VisitTable = boost::multi_array<long,3>;
             using RewardTable = boost::multi_array<double,3>;
 
             Experience(size_t S, size_t A);
@@ -20,15 +20,15 @@ namespace MDPToolbox {
 
             std::tuple<MDPToolbox::MDP::TransitionTable, MDPToolbox::MDP::RewardTable> getMDP() const;
 
-            long getVisits(size_t s, size_t s1, size_t a) const;
-            double getReward(size_t s, size_t s1, size_t a) const;
+            const VisitTable  & getVisits() const;
+            const RewardTable & getRewards() const;
 
             size_t getS() const;
             size_t getA() const;
         private:
             size_t S, A;
 
-            VisitsTable visits_;
+            VisitTable visits_;
             RewardTable rewards_;
 
             friend std::istream& operator>>(std::istream &os, Experience &);
