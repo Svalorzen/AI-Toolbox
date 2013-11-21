@@ -29,7 +29,10 @@ namespace MDPToolbox {
             void                        updateModel(size_t s, size_t s1, size_t a, double reward);
             std::tuple<size_t, double>  sampleModel(size_t s, size_t a) const;
 
+            void                        updatePrioritizedSweepingQueue(size_t s, size_t s1, size_t a, double reward);
+
             bool valueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v1 = ValueFunction(0) );
+            void DynaQ         (std::function<std::tuple<size_t s, size_t a>()> generator, double discount = 0.9, unsigned n = 50);
 
             const Policy &          getPolicy()             const;
             const ValueFunction &   getValueFunction()      const;
