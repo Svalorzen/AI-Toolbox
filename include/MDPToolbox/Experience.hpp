@@ -35,7 +35,7 @@ namespace MDPToolbox {
     };
 
     std::ostream& operator<<(std::ostream &os, const Experience &);
-    std::istream& operator>>(std::istream &os, Experience &);
+    std::istream& operator>>(std::istream &is, Experience &);
 }
 
 #endif
