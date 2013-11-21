@@ -54,7 +54,8 @@ int main(int argc, char * argv[]) {
     }
 
     // NORMALIZING DATA
-    auto mdpdata = t.getMDP();
+    cout << "Extracting MDP...\n";
+    MDPToolbox::MDP mdp(t);
     cout << "MDP extracted.\n\n";
 
     if ( debug ) {
@@ -68,7 +69,7 @@ int main(int argc, char * argv[]) {
                 for ( size_t i = 0; i < S; i++ ) {
                     for ( size_t j = 0; j < S; j++ ) {
                         if ( ! ( counter % 21) ) { outfile << "\t\t\t"; counter = 1; }
-                        outfile << std::get<0>(mdpdata)[i][j][a] << "\t";
+                        outfile << mdp.getTransitionFunction()[i][j][a] << "\t";
                         counter ++;
                     }
                     outfile << "\n";
@@ -87,7 +88,7 @@ int main(int argc, char * argv[]) {
                 for ( size_t i = 0; i < S; i++ ) {
                     for ( size_t j = 0; j < S; j++ ) {
                         if ( ! ( counter % 21) ) { outfile << "\t\t\t"; counter = 1; }
-                        outfile << std::get<1>(mdpdata)[i][j][a] << "\t";
+                        outfile << mdp.getTransitionFunction()[i][j][a] << "\t";
                         counter ++;
                     }
                     outfile << "\n";
@@ -99,14 +100,6 @@ int main(int argc, char * argv[]) {
         }
         cout << "DBG -- MDP saved.\n\n";
     }
-
-    // LOADING TABLE
-    cout << "Loading table in MDPToolbox...\n";
-
-    MDPToolbox::MDP mdp(S, A);
-
-    mdp.setMDP(mdpdata);
-    cout << "Table loaded.\n\n";
 
     // SOLVING MDP
     cout << "Solving MDP...\n";

@@ -5,20 +5,18 @@
 #include <vector>
 #include <tuple>
 
-#include <MDPToolbox/MDP.hpp>
+#include <boost/multi_array.hpp>
 
 namespace MDPToolbox {
     class Experience {
         public:
-            using VisitTable = boost::multi_array<long,3>;
+            using VisitTable = boost::multi_array<unsigned long,3>;
             using RewardTable = boost::multi_array<double,3>;
 
             Experience(size_t S, size_t A);
 
             void update(size_t s, size_t s1, size_t a, double rew);
             void reset();
-
-            std::tuple<MDPToolbox::MDP::TransitionTable, MDPToolbox::MDP::RewardTable> getMDP() const;
 
             const VisitTable  & getVisits() const;
             const RewardTable & getRewards() const;

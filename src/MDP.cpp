@@ -2,21 +2,46 @@
 
 #include <cmath>
 #include <algorithm>
-#include <chrono>
 
 #include <iostream>
 using namespace std;
 
 namespace MDPToolbox {
-    MDP::MDP(size_t sNum, size_t aNum) : S(sNum), A(aNum), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]), pr_(boost::extents[S][A]),
+    MDP::MDP(const Experience & exp) : S(exp.getS()), A(exp.getA()), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]), prValid_(false), pr_(boost::extents[S][A]),
                                          q_(boost::extents[S][A]), v_(S,0.0), policy_(S,A),
                                          rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0)
     {
+        rewards_ = exp.getRewards();
+
+        unsigned long actionSum;
         for ( size_t s = 0; s < S; s++ ) {
-            for ( size_t s1 = 0; s1 < S; s1++ ) {
-                for ( size_t a = 0; a < A; a++ ) {
-                    transitions_[s][s1][a] = 1.0/S;
-                    rewards_[s][s1][a] = 0.0;
+            for ( size_t a = 0; a < A; a++ ) {
+                actionSum = 0;
+                for ( size_t s1 = 0; s1 < S; s1++ ) {
+                    unsigned temp = exp.getVisits()[s][s1][a];
+                    transitions_[s][s1][a] = static_cast<double>(temp);
+                    // actionSum contains the numer of times we have executed action 'a' in state 's'
+                    actionSum += temp;
+                }
+                // Normalize
+                for ( size_t s1 = 0; s1 < S; s1++ ) {
+                    // If we never executed 'a' during 'i'
+                    if ( actionSum == 0.0 ) {
+                        // Create shadow state since we never encountered it
+                        if ( s == s1 )
+                            transitions_[s][s1][a] = 1.0;
+                        else
+                            transitions_[s][s1][a] = 0.0;
+                        // Reward is already 0 anyway
+                    }
+                    else {
+                        // Normalize action reward over transition visits
+                        if ( transitions_[s][s1][a] != 0.0 ) {
+                            rewards_[s][s1][a] /= transitions_[s][s1][a];
+                        }
+                        // Normalize transition probability (times we went to 's1' / times we executed 'a' in 's'
+                        transitions_[s][s1][a] /= actionSum;
+                    }
                 }
             }
         }
@@ -29,6 +54,8 @@ namespace MDPToolbox {
         if ( v1.size() != 0 && v1.size() != S ) throw std::runtime_error("The starting value function has the wrong size");
 
         if ( v1.size() == 0 ) v1.resize(S, 0.0);
+
+        computePR();
 
         {   // maxIter setup
             unsigned computedMaxIter = ( discount != 1 ) ? valueIterationBoundIter(discount, epsilon, v1) : 1000;
@@ -75,6 +102,7 @@ namespace MDPToolbox {
 
 
     void MDP::computePR() {
+        if ( prValid_ ) return;
         // for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;
         for ( size_t s = 0; s < S; s++ ) {
             for ( size_t s1 = 0; s1 < S; s1++ ) {
@@ -83,6 +111,7 @@ namespace MDPToolbox {
                 }
             }
         }
+        prValid_ = true;
     }
 
     std::tuple<MDP::QFunction, MDP::ValueFunction, Policy> MDP::bellmanOperator(double discount, const ValueFunction & v0) const {
@@ -152,7 +181,7 @@ namespace MDPToolbox {
         return A;
     }
 
-    std::tuple<size_t, double> MDP::sample(size_t s, size_t a) const {
+    std::tuple<size_t, double> MDP::sampleModel(size_t s, size_t a) const {
         double p = sampleDistribution_(rand_);
 
         for ( size_t s1 = 0; s1 < S; s1++ ) {
@@ -172,6 +201,14 @@ namespace MDPToolbox {
 
     const MDP::QFunction & MDP::getQFunction() const {
         return q_;
+    }
+
+    const MDP::TransitionTable & MDP::getTransitionFunction() const {
+        return transitions_;
+    }
+
+    const MDP::RewardTable & MDP::getRewardFunction() const {
+        return rewards_;
     }
 
     size_t MDP::getGreedyAction(size_t s) const {

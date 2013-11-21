@@ -5,13 +5,13 @@
 #include <vector>
 #include <tuple>
 #include <random>
+#include <chrono>
 
 #include <boost/multi_array.hpp>
+#include <MDPToolbox/Experience.hpp>
 #include <MDPToolbox/Policy.hpp>
 
 namespace MDPToolbox {
-    class Policy;
-
     class MDP {
         public:
             using Table3D = boost::multi_array<double, 3>;
@@ -21,25 +21,21 @@ namespace MDPToolbox {
             using ValueFunction     = std::vector<double>;
             using QFunction         = Table2D;
 
-            MDP(size_t sNum, size_t aNum);
+            MDP(const Experience &);
 
-            template <typename T>
-            void setTransitions(const T & transitions);
-
-            template <typename T>
-            void setRewards(const T & rewards);
-
-            template <typename T>
-            void setMDP(const T & mdp);
+            template <typename T, typename U>
+            MDP(const T & transitions, const U & rewards);
 
             void                        updateModel(size_t s, size_t s1, size_t a, double reward);
             std::tuple<size_t, double>  sampleModel(size_t s, size_t a) const;
 
             bool valueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v1 = ValueFunction(0) );
 
-            const Policy &          getPolicy() const;
-            const ValueFunction &   getValueFunction() const;
-            const QFunction &       getQFunction() const;
+            const Policy &          getPolicy()             const;
+            const ValueFunction &   getValueFunction()      const;
+            const QFunction &       getQFunction()          const;
+            const TransitionTable & getTransitionFunction() const;
+            const RewardTable &     getRewardFunction()     const;
 
             size_t getGreedyAction(size_t s) const;
 
@@ -53,6 +49,7 @@ namespace MDPToolbox {
             TransitionTable transitions_;
             RewardTable rewards_;
 
+            bool prValid_;
             PRType pr_;
 
             QFunction q_;
@@ -74,40 +71,27 @@ namespace MDPToolbox {
             unsigned valueIterationBoundIter(double discount, double epsilon, const ValueFunction & v0) const;
     };
 
-    template <typename T>
-    void MDP::setTransitions(const T & transitions) {
-        setTransitions(transitions, true);
-    }
-
-    template <typename T>
-    void MDP::setTransitions(const T & transitions, bool compute ) {
-        for ( size_t s = 0; s < S; s++ )
-            for ( size_t s1 = 0; s1 < S; s1++ )
-                for ( size_t a = 0; a < A; a++ )
+    template <typename T, typename U>
+    MDP::MDP(const T & transitions, const U & rewards) :
+                                         S(transitions.size()), A(transitions.at(0).at(0).size()), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]), prValid_(false), pr_(boost::extents[S][A]),
+                                         q_(boost::extents[S][A]), v_(S,0.0), policy_(S,A),
+                                         rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0)
+    {
+        for ( size_t s = 0; s < S; s++ ) {
+            for ( size_t s1 = 0; s1 < S; s1++ ) {
+                double pCheck = 0.0;
+                for ( size_t a = 0; a < A; a++ ) {
                     transitions_[s][s1][a] = transitions[s][s1][a];
-        if ( compute )
-            computePR();
-    }
-
-    template <typename T>
-    void MDP::setRewards(const T & rewards) {
-        setRewards(rewards, true);
-    }
-
-    template <typename T>
-    void MDP::setRewards(const T & rewards, bool compute ) {
-        for ( size_t s = 0; s < S; s++ )
-            for ( size_t s1 = 0; s1 < S; s1++ )
-                for ( size_t a = 0; a < A; a++ )
                     rewards_[s][s1][a] = rewards[s][s1][a];
-        if ( compute )
-            computePR();
-    }
 
-    template <typename T>
-    void MDP::setMDP(const T & mdp) {
-        setTransitions(std::get<0>(mdp), false);
-        setRewards(std::get<1>(mdp), true);
+                    pCheck += transitions_[s][s1][a];
+                }
+                if ( pCheck != 1.0 ) {
+                    throw std::runtime_error("Input transition matrix does not contain real probabilities.");
+                }
+            }
+        }
+        computePR();
     }
 }
 
