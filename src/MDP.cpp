@@ -173,4 +173,8 @@ namespace MDPToolbox {
     const MDP::QFunction & MDP::getQFunction() const {
         return q_;
     }
+
+    size_t MDP::getGreedyAction(size_t s) const {
+        return std::distance(begin(q_[s]), std::max_element(begin(q_[s]), end(q_[s])));
+    }
 }

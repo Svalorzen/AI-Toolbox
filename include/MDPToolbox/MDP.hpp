@@ -38,6 +38,7 @@ namespace MDPToolbox {
             const Policy & getPolicy() const;
             const ValueFunction & getValueFunction() const;
             const QFunction & getQFunction() const;
+            size_t getGreedyAction(size_t S) const;
 
             size_t getS() const;
             size_t getA() const;

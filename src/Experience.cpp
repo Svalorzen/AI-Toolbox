@@ -84,7 +84,7 @@ namespace MDPToolbox {
     }
 
     std::istream& operator>>(std::istream &is, Experience & exp) {
-        // old version  if ( !(file >> std::get<visits>(table_[i][j][0]) >> std::get<visits>(table_[i][j][1]) >> std::get<reward>(table_[i][j][0]) >> std::get<reward>(table_[i][j][1]))) {
+        // old version  if ( !(is >> exp.visits_[s][s1][0] >> exp.visits_[s][s1][1] >> exp.rewards_[s][s1][0] >> exp.rewards_[s][s1][1])) {
         size_t S = exp.getS();
         size_t A = exp.getA();
 

@@ -12,11 +12,13 @@ using std::cout;
 using std::cerr;
 
 int main(int argc, char * argv[]) {
+    size_t S = 96, A = 2;
+
     if ( argc < 2 || argc > 3 ) {
         cerr << "Usage: solve_mdp filename [debug]\n";
         return -1;
     }
-    MDPToolbox::Experience t(96, 2);
+    MDPToolbox::Experience t(S, A);
 
     bool debug = false;
     if ( argc == 3 ) {
@@ -62,9 +64,9 @@ int main(int argc, char * argv[]) {
             outfile.precision(4);
             outfile << std::fixed;
             int counter = 1;
-            for ( int a = 0; a < 2; a++ ) {
-                for ( int i = 0; i < 96; i++ ) {
-                    for ( int j = 0; j < 96; j++ ) {
+            for ( size_t a = 0; a < A; a++ ) {
+                for ( size_t i = 0; i < S; i++ ) {
+                    for ( size_t j = 0; j < S; j++ ) {
                         if ( ! ( counter % 21) ) { outfile << "\t\t\t"; counter = 1; }
                         outfile << std::get<0>(mdpdata)[i][j][a] << "\t";
                         counter ++;
@@ -81,9 +83,9 @@ int main(int argc, char * argv[]) {
             outfile.precision(4);
             outfile << std::fixed;
             int counter = 1;
-            for ( int a = 0; a < 2; a++ ) {
-                for ( int i = 0; i < 96; i++ ) {
-                    for ( int j = 0; j < 96; j++ ) {
+            for ( size_t a = 0; a < A; a++ ) {
+                for ( size_t i = 0; i < S; i++ ) {
+                    for ( size_t j = 0; j < S; j++ ) {
                         if ( ! ( counter % 21) ) { outfile << "\t\t\t"; counter = 1; }
                         outfile << std::get<1>(mdpdata)[i][j][a] << "\t";
                         counter ++;
@@ -101,7 +103,7 @@ int main(int argc, char * argv[]) {
     // LOADING TABLE
     cout << "Loading table in MDPToolbox...\n";
 
-    MDPToolbox::MDP mdp(96, 2);
+    MDPToolbox::MDP mdp(S, A);
 
     mdp.setMDP(mdpdata);
     cout << "Table loaded.\n\n";
@@ -120,5 +122,9 @@ int main(int argc, char * argv[]) {
         outfile.close();
     }
     cout << "Policy created.\n\n";
+
+    // Checking policy with Qtable:
+    for (size_t s = 0; s < S; s++)
+        cout << s << " " << mdp.getGreedyAction(s) << "\n";
     return 0;
 }

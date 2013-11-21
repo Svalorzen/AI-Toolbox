@@ -60,7 +60,7 @@ namespace MDPToolbox {
             auto policy = p.getStatePolicy(s);
             for ( size_t a = 0; a < A; a++ ) {
                 if ( policy[a] )
-                    os << s << " " << a << " " << policy[a] << "\n";
+                    os << s << "\t" << a << "\t" << std::fixed << policy[a] << "\n";
             }
         }
         return os;
