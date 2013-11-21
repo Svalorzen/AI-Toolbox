@@ -32,13 +32,16 @@ namespace MDPToolbox {
             template <typename T>
             void setMDP(const T & mdp);
 
-            std::tuple<size_t, double> sample(size_t s, size_t a) const;
+            void                        updateModel(size_t s, size_t s1, size_t a, double reward);
+            std::tuple<size_t, double>  sampleModel(size_t s, size_t a) const;
+
             bool valueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v1 = ValueFunction(0) );
 
-            const Policy & getPolicy() const;
-            const ValueFunction & getValueFunction() const;
-            const QFunction & getQFunction() const;
-            size_t getGreedyAction(size_t S) const;
+            const Policy &          getPolicy() const;
+            const ValueFunction &   getValueFunction() const;
+            const QFunction &       getQFunction() const;
+
+            size_t getGreedyAction(size_t s) const;
 
             size_t getS() const;
             size_t getA() const;
