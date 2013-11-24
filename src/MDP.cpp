@@ -100,6 +100,21 @@ namespace MDPToolbox {
         return completed;
     }
 
+    void MDP::DynaQ(std::function<std::tuple<size_t, size_t>()> stateGen, double discount, unsigned n) {
+        for ( unsigned i = 0; i < n; i++ ) {
+            size_t s, a, s1;
+            double rew;
+
+            std::tie(s,a) = stateGen();
+            std::tie(s1, rew) = sampleModel(s,a); 
+
+            updateQ(s, s1, a, rew, discount);
+        }
+    }
+
+    void MDP::updateQ(size_t s, size_t s1, size_t a, double rew, double discount) {
+        q_[s][a] += discount * ( rew * (*std::max_element(begin(q_[s1]),end(q_[s1]))) - q_[s][a] );
+    }
 
     void MDP::computePR() {
         if ( prValid_ ) return;

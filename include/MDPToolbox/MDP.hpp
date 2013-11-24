@@ -32,8 +32,10 @@ namespace MDPToolbox {
 
             void                        updatePrioritizedSweepingQueue(size_t s, size_t s1, size_t a, double reward);
 
+            void updateQ(size_t s, size_t s1, size_t a, double rew, double discount);
+
             bool valueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v1 = ValueFunction(0) );
-            void DynaQ         (std::function<std::tuple<size_t, size_t>()> generator, double discount = 0.9, unsigned n = 50);
+            void DynaQ         (std::function<std::tuple<size_t, size_t>()> stateGen, double discount = 0.9, unsigned n = 50);
 
             const Policy &          getPolicy()             const;
             const ValueFunction &   getValueFunction()      const;
@@ -71,6 +73,7 @@ namespace MDPToolbox {
             void setRewards(const T & rewards, bool computePR = true);
 
             void computePR();
+
             std::tuple<QFunction, ValueFunction, Policy> bellmanOperator(double discount, const ValueFunction & v0) const;
             unsigned valueIterationBoundIter(double discount, double epsilon, const ValueFunction & v0) const;
     };
