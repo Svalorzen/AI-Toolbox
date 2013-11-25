@@ -1,50 +1,24 @@
-#include <MDPToolbox/MDP.hpp>
+#include <AIToolbox/MDP.hpp>
 
 #include <cmath>
+#include <chrono>
 #include <algorithm>
 
-#include <iostream>
-using namespace std;
+// #include <iostream>
+// using namespace std;
 
-namespace MDPToolbox {
-    MDP::MDP(const Experience & exp) : S(exp.getS()), A(exp.getA()), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]), prValid_(false), pr_(boost::extents[S][A]),
+namespace AIToolbox {
+    MDP::MDP(Model m) : S(m.getS()), A(m.getA()), model_(m), pr_(boost::extents[S][A]),
                                          q_(boost::extents[S][A]), v_(S,0.0), policy_(S,A),
                                          rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0)
     {
-        rewards_ = exp.getRewards();
+        computePR();
+    }
 
-        unsigned long actionSum;
-        for ( size_t s = 0; s < S; s++ ) {
-            for ( size_t a = 0; a < A; a++ ) {
-                actionSum = 0;
-                for ( size_t s1 = 0; s1 < S; s1++ ) {
-                    unsigned temp = exp.getVisits()[s][s1][a];
-                    transitions_[s][s1][a] = static_cast<double>(temp);
-                    // actionSum contains the numer of times we have executed action 'a' in state 's'
-                    actionSum += temp;
-                }
-                // Normalize
-                for ( size_t s1 = 0; s1 < S; s1++ ) {
-                    // If we never executed 'a' during 'i'
-                    if ( actionSum == 0.0 ) {
-                        // Create shadow state since we never encountered it
-                        if ( s == s1 )
-                            transitions_[s][s1][a] = 1.0;
-                        else
-                            transitions_[s][s1][a] = 0.0;
-                        // Reward is already 0 anyway
-                    }
-                    else {
-                        // Normalize action reward over transition visits
-                        if ( transitions_[s][s1][a] != 0.0 ) {
-                            rewards_[s][s1][a] /= transitions_[s][s1][a];
-                        }
-                        // Normalize transition probability (times we went to 's1' / times we executed 'a' in 's'
-                        transitions_[s][s1][a] /= actionSum;
-                    }
-                }
-            }
-        }
+    MDP::MDP(size_t s, size_t a) : S(s), A(a), model_(S,A), pr_(boost::extents[S][A]),
+                                         q_(boost::extents[S][A]), v_(S,0.0), policy_(S,A),
+                                         rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0)
+    {
         computePR();
     }
 
@@ -58,9 +32,13 @@ namespace MDPToolbox {
         computePR();
 
         {   // maxIter setup
-            unsigned computedMaxIter = ( discount != 1 ) ? valueIterationBoundIter(discount, epsilon, v1) : 1000;
-            if ( !maxIter )
-                maxIter = ! maxIter ? computedMaxIter : std::min( computedMaxIter, maxIter );
+            unsigned computedMaxIter = valueIterationBoundIter(discount, epsilon, v1);
+            if ( !maxIter ) {
+                maxIter = discount != 1.0 ? computedMaxIter : 1000;
+            }
+            else {
+                maxIter = ( discount != 1.0 && maxIter > computedMaxIter ) ? computedMaxIter : maxIter;
+            }
         }
         {   // threshold setup
             epsilon = ( discount != 1 ) ? ( epsilon * ( 1 - discount ) / discount ) : epsilon;
@@ -79,11 +57,11 @@ namespace MDPToolbox {
 
             std::tie( q_, v1, policy_ ) = bellmanOperator( discount, v1 );
 
-            std::transform(begin(v1), end(v1), begin(v0), begin(v0), std::minus<double>() );
+            std::transform(std::begin(v1), std::end(v1), std::begin(v0), std::begin(v0), std::minus<double>() );
 
             double variation;
             {
-                auto minmax = std::minmax_element(begin(v0), end(v0));
+                auto minmax = std::minmax_element(std::begin(v0), std::end(v0));
                 variation = *(minmax.second) - *(minmax.first);
             }
             //std::cout << "    Variation: " << variation << "\n";
@@ -95,38 +73,54 @@ namespace MDPToolbox {
                 done = true;
             }
         }
-        std::copy(begin(v1), end(v1), begin(v_));
+
+        v_ = v1;
 
         return completed;
     }
 
-    void MDP::DynaQ(std::function<std::tuple<size_t, size_t>()> stateGen, double discount, unsigned n) {
-        for ( unsigned i = 0; i < n; i++ ) {
-            size_t s, a, s1;
-            double rew;
+    void MDP::dynaQ(size_t s, size_t a, double discount) {
+        size_t s1;
+        double rew;
 
-            std::tie(s,a) = stateGen();
-            std::tie(s1, rew) = sampleModel(s,a); 
+        std::tie(s1, rew) = model_.sample(s,a); 
 
-            updateQ(s, s1, a, rew, discount);
+        updateQ(s, s1, a, rew, discount);
+    }
+/*
+    void MDP::prioritizedSweeping(double discount, double threshold) {
+        size_t s, a;
+        // TODO: Get s and a from queue
+
+        dynaQ(s, a, discount);
+        updatePrioritizedSweepingQueue(s, discount, threshold);
+    }
+*/
+    void MDP::updateQ(size_t s, size_t s1, size_t a, double rew, double discount) {
+        q_[s][a] += discount * ( rew * (*std::max_element(std::begin(q_[s1]),std::end(q_[s1]))) - q_[s][a] );
+    }
+/*
+    void MDP::updatePrioritizedSweepingQueue( size_t state, double discount, double threshold ) {
+        for ( size_t s = 0; s < S; s++ ) {
+            for ( size_t a = 0; a < A; a++ ) {
+                if ( transitions_[s][state][a] != 0.0 ) {
+                    double p = std::fabs(rewards_[s][state][a] + discount * (*std::max_element(std::begin(q_[state]), std::end(q_[state]))) - q_[s][a]);
+                    if ( p > threshold )
+                        return;
+                }
+            }
         }
     }
-
-    void MDP::updateQ(size_t s, size_t s1, size_t a, double rew, double discount) {
-        q_[s][a] += discount * ( rew * (*std::max_element(begin(q_[s1]),end(q_[s1]))) - q_[s][a] );
-    }
-
+*/
     void MDP::computePR() {
-        if ( prValid_ ) return;
         // for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;
         for ( size_t s = 0; s < S; s++ ) {
             for ( size_t s1 = 0; s1 < S; s1++ ) {
                 for ( size_t a = 0; a < A; a++ ) {
-                    pr_[s][a] += transitions_[s][s1][a] * rewards_[s][s1][a];
+                    pr_[s][a] += model_.getTransitionFunction()[s][s1][a] * model_.getRewardFunction()[s][s1][a];
                 }
             }
         }
-        prValid_ = true;
     }
 
     std::tuple<MDP::QFunction, MDP::ValueFunction, Policy> MDP::bellmanOperator(double discount, const ValueFunction & v0) const {
@@ -141,14 +135,14 @@ namespace MDPToolbox {
         for ( size_t s = 0; s < S; s++ )
             for ( size_t s1 = 0; s1 < S; s1++ )
                 for ( size_t a = 0; a < A; a++ )
-                    q[s][a] += transitions_[s][s1][a] * discount * v0[s1];
+                    q[s][a] += model_.getTransitionFunction()[s][s1][a] * discount * v0[s1];
 
         ValueFunction v1(S);
         Policy p(S,A);
 
         for ( size_t s = 0; s < S; s++ ) {
-            auto it = std::max_element(begin(q[s]), end(q[s]));
-            p.setPolicy(s, static_cast<size_t>(std::distance(begin(q[s]), it)));
+            auto it = std::max_element(std::begin(q[s]), std::end(q[s]));
+            p.setPolicy(s, static_cast<size_t>(std::distance(std::begin(q[s]), it)));
             v1[s] = *it;
         }
 
@@ -164,47 +158,33 @@ namespace MDPToolbox {
          *
          *  max_iter = ceil(max_iter);
          */
-        std::vector<double> h(S);
+        std::vector<double> h(S, 0.0);
+
         for ( size_t s = 0; s < S; s++ )
             for ( size_t s1 = 0; s1 < S; s1++ )
                 for ( size_t a = 0; a < A; a++ )
-                    h[s1] = std::min(h[s1], transitions_[s][s1][a]);
+                    h[s1] = std::min(h[s1], model_.getTransitionFunction()[s][s1][a]);
 
-        double k = 1 - std::accumulate(begin(h), end(h), 0.0);
+        double k = 1 - std::accumulate(std::begin(h), std::end(h), 0.0);
 
         ValueFunction v1;
 
         std::tie(std::ignore, v1, std::ignore) = bellmanOperator(discount, v0);
 
-        std::transform(begin(v1), end(v1), begin(v0), begin(v1), std::minus<double>() );
+        std::transform(std::begin(v1), std::end(v1), std::begin(v0), std::begin(v1), std::minus<double>() );
 
         double variation;
         {
-            auto minmax = std::minmax_element(begin(v1), end(v1));
+            auto minmax = std::minmax_element(std::begin(v1), std::end(v1));
             variation = *(minmax.second) - *(minmax.first);
         }
 
         return std::ceil (
-                std::log( (epsilon*(1-discount)/discount) / variation ) / log(discount*k));
+                std::log( (epsilon*(1-discount)/discount) / variation ) / std::log(discount*k));
     }
 
-    size_t MDP::getS() const {
-        return S;
-    }
-
-    size_t MDP::getA() const {
-        return A;
-    }
-
-    std::tuple<size_t, double> MDP::sampleModel(size_t s, size_t a) const {
-        double p = sampleDistribution_(rand_);
-
-        for ( size_t s1 = 0; s1 < S; s1++ ) {
-            if ( transitions_[s][s1][a] > p ) return std::make_tuple(s1, rewards_[s][s1][a]);
-            p -= transitions_[s][s1][a];
-        }
-        return std::make_tuple(S-1, rewards_[s][S-1][a]);
-    }
+    size_t MDP::getS() const { return S; }
+    size_t MDP::getA() const { return A; }
 
     const Policy & MDP::getPolicy() const {
         return policy_;
@@ -218,15 +198,7 @@ namespace MDPToolbox {
         return q_;
     }
 
-    const MDP::TransitionTable & MDP::getTransitionFunction() const {
-        return transitions_;
-    }
-
-    const MDP::RewardTable & MDP::getRewardFunction() const {
-        return rewards_;
-    }
-
     size_t MDP::getGreedyAction(size_t s) const {
-        return std::distance(begin(q_[s]), std::max_element(begin(q_[s]), end(q_[s])));
+        return std::distance(std::begin(q_[s]), std::max_element(std::begin(q_[s]), std::end(q_[s])));
     }
 }

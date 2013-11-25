@@ -1,5 +1,5 @@
-#ifndef MDP_TOOLBOX_POLICY_HEADER_FILE
-#define MDP_TOOLBOX_POLICY_HEADER_FILE
+#ifndef AI_TOOLBOX_POLICY_HEADER_FILE
+#define AI_TOOLBOX_POLICY_HEADER_FILE
 
 #include <cstddef>
 #include <vector>
@@ -8,7 +8,7 @@
 
 #include <boost/multi_array.hpp>
 
-namespace MDPToolbox {
+namespace AIToolbox {
     class Policy {
         public:
             using PolicyTable = boost::multi_array<double,2>;

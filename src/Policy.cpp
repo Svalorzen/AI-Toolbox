@@ -1,9 +1,9 @@
-#include <MDPToolbox/Policy.hpp>
+#include <AIToolbox/Policy.hpp>
 
 #include <chrono>
 #include <algorithm>
 
-namespace MDPToolbox {
+namespace AIToolbox {
     Policy::Policy(size_t sNum, size_t aNum) : S(sNum), A(aNum), policy_(boost::extents[S][A]),
                                                rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0), randomDistribution_(0, A-1)
     {

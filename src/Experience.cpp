@@ -1,18 +1,15 @@
-#include <MDPToolbox/Experience.hpp>
+#include <AIToolbox/Experience.hpp>
 
 #include <fstream>
 #include <array>
 
-#include <iostream>
-using std::cout;
-
-namespace MDPToolbox {
+namespace AIToolbox {
     Experience::Experience(size_t Ss, size_t Aa) : S(Ss), A(Aa), visits_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A])
     {
         reset();
     }
 
-    void Experience::update(size_t s, size_t s1, size_t a, double rew) {
+    void Experience::record(size_t s, size_t s1, size_t a, double rew) {
         visits_[s][s1][a]++;
         rewards_[s][s1][a] += rew;
     }
@@ -45,7 +42,7 @@ namespace MDPToolbox {
     }
 
     std::istream& operator>>(std::istream &is, Experience & exp) {
-        // old version  if ( !(is >> exp.visits_[s][s1][0] >> exp.visits_[s][s1][1] >> exp.rewards_[s][s1][0] >> exp.rewards_[s][s1][1])) {
+        // old version  if ( !(is >> exp.visits_[s][s1][0] >> exp.visits_[s][s1][1] >> exp.rewards_[s][s1][0] >> exp.rewards_[s][s1][1])) 
         size_t S = exp.getS();
         size_t A = exp.getA();
 
@@ -80,4 +77,4 @@ namespace MDPToolbox {
         }
         return os;
     }
-    }
+}

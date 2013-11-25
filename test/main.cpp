@@ -2,9 +2,9 @@
 #include <iostream>
 #include <string>
 
-#include <MDPToolbox/MDP.hpp>
-#include <MDPToolbox/Policy.hpp>
-#include <MDPToolbox/Experience.hpp>
+#include <AIToolbox/MDP.hpp>
+#include <AIToolbox/Policy.hpp>
+#include <AIToolbox/Experience.hpp>
 
 #include "boost/filesystem.hpp"
 
