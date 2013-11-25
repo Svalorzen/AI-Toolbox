@@ -2,9 +2,10 @@
 #include <iostream>
 #include <string>
 
+#include <AIToolbox/Experience.hpp>
 #include <AIToolbox/MDP.hpp>
 #include <AIToolbox/Policy.hpp>
-#include <AIToolbox/Experience.hpp>
+#include <AIToolbox/MDPSolver.hpp>
 
 #include "boost/filesystem.hpp"
 
@@ -18,7 +19,7 @@ int main(int argc, char * argv[]) {
         cerr << "Usage: solve_mdp filename [debug]\n";
         return -1;
     }
-    MDPToolbox::Experience t(S, A);
+    AIToolbox::Experience t(S, A);
 
     bool debug = false;
     if ( argc == 3 ) {
@@ -55,7 +56,7 @@ int main(int argc, char * argv[]) {
 
     // NORMALIZING DATA
     cout << "Extracting MDP...\n";
-    MDPToolbox::MDP mdp(t);
+    AIToolbox::MDP mdp(t);
     cout << "MDP extracted.\n\n";
 
     if ( debug ) {
@@ -103,7 +104,8 @@ int main(int argc, char * argv[]) {
 
     // SOLVING MDP
     cout << "Solving MDP...\n";
-    bool done = mdp.valueIteration();
+    AIToolbox::MDPSolver solver(mdp);
+    bool done = solver.valueIteration();
     cout << "MDP Solved.\n";
     cout << "+--> Did we actually solve the MDP? " << ( done ? "YES": "NO" ) << "\n\n";
 
@@ -111,13 +113,15 @@ int main(int argc, char * argv[]) {
     cout << "Creating Policy...\n";
     {
         std::ofstream outfile("policy.txt");
-        outfile << mdp.getPolicy();
+        outfile << solver.getPolicy();
         outfile.close();
     }
     cout << "Policy created.\n\n";
 
     // Checking policy with Qtable:
+    /*
     for (size_t s = 0; s < S; s++)
-        cout << s << " " << mdp.getGreedyAction(s) << "\n";
+        cout << s << " " << solver.getGreedyAction(s) << "\n";
+    */
     return 0;
 }
