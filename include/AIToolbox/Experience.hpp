@@ -1,8 +1,7 @@
 #ifndef AI_TOOLBOX_EXPERIENCE_HEADER_FILE
 #define AI_TOOLBOX_EXPERIENCE_HEADER_FILE
 
-#include <istream>
-#include <ostream>
+#include <iosfwd>
 
 #include <boost/multi_array.hpp>
 
@@ -24,10 +23,58 @@ namespace AIToolbox {
             /**
              * @brief Basic constructor.
              *
-             * @param S The number of states of the world.
-             * @param A The number of actions available to the agent.
+             * @param s The number of states of the world.
+             * @param a The number of actions available to the agent.
              */
-            Experience(size_t S, size_t A);
+            Experience(size_t s, size_t a);
+
+            /**
+             * @brief Compatibility setter.
+             *
+             * This function takes an arbitrary three dimensional
+             * containers and tries to copy its contents into the
+             * visits table. 
+             *
+             * The container needs to support data access through 
+             * operator[]. In addition, the dimensions of the
+             * container must match the ones specified during the
+             * Experience construction (for three dimensions: S,S,A).
+             * 
+             * This is important, as this function DOES NOT perform
+             * any size checks on the external containers.
+             *
+             * This function is provided so that it is easy to plug
+             * this library into existing code-bases.
+             *
+             * @tparam V The external visits container type.
+             * @param v The external visits container. 
+             */
+            template <typename V>
+            void setVisits(V v);
+
+            /**
+             * @brief Compatibility setter.
+             *
+             * This function takes an arbitrary three dimensional
+             * containers and tries to copy its contents into the
+             * rewards table. 
+             *
+             * The container needs to support data access through 
+             * operator[]. In addition, the dimensions of the
+             * container must match the ones specified during the
+             * Experience construction (for three dimensions: S,S,A).
+             * 
+             * This is important, as this function DOES NOT perform
+             * any size checks on the external containers.
+             *
+             * This function is provided so that it is easy to plug
+             * this library into existing code-bases.
+             *
+             * @tparam R The external rewards container type.
+             * @param r The external rewards container. 
+             */
+            template <typename R>
+            void setRewards(R r);
 
             /**
              * @brief Adds a new event to the recordings.
@@ -82,6 +129,22 @@ namespace AIToolbox {
 
     std::ostream& operator<<(std::ostream &os, const Experience &);
     std::istream& operator>>(std::istream &is, Experience &);
+
+    template <typename V>
+    void Experience::setVisits(V v) {
+        for ( size_t s = 0; s < S; s++ )
+            for ( size_t s1 = 0; s1 < S; s1++ )
+                for ( size_t a = 0; a < A; a++ )
+                    visits_[s][s1][a] = v[s][s1][a];
+    }
+
+    template <typename R>
+    void Experience::setRewards(R r) {
+        for ( size_t s = 0; s < S; s++ )
+            for ( size_t s1 = 0; s1 < S; s1++ )
+                for ( size_t a = 0; a < A; a++ )
+                    rewards_[s][s1][a] = r[s][s1][a];
+    }
 }
 
 #endif

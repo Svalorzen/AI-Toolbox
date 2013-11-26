@@ -5,19 +5,11 @@
 #include <random>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Experience.hpp>
 
 namespace AIToolbox {
     /**
-     * @brief This class models \c Experience as a Markov Decision Process.
+     * @brief This class represents a Markov Decision Process.
      *
-     * This class normalizes an \c Experience object to produce a transition function 
-     * and a reward function. The transition function is guaranteed to be a correct
-     * probability function, as in the sum of the probabilities of all transitions
-     * from a particular state and a particular action is always 1.
-     * The instance allows modification of the underlying \c Experience object, and is
-     * not directly synced with it. This is to avoid possible overheads, as the user
-     * can optimize better syncs depending on their use case. See update().
      */
     class MDP {
         public:
@@ -25,62 +17,61 @@ namespace AIToolbox {
             using RewardTable       = Table3D;
 
             /**
-             * @brief Simple constructor with no Experience.
+             * @brief This function checks whether the supplied table is a correct transition table.
              * 
-             * This constructor guarantees that after the MDP has been
-             * built the transition and reward functions are synced to
-             * the underlying Experience.
+             * This function verifies basic probability conditions on the
+             * supplied container. The sum of all transitions from a 
+             * state action pair to all states must be 1.
              *
-             * @param S The number of states of the world.
-             * @param A The number of actions available to the agent.
+             * The container needs to support data access through 
+             * operator[]. In addition, the dimensions of the
+             * container must match the ones provided as arguments
+             * (for three dimensions: s,s,a).
+             * 
+             * This is important, as this function DOES NOT perform
+             * any size checks on the external containers.
+             *
+             * This function is provided so that it is easy to plug
+             * this library into existing code-bases.
+             *
+             * @tparam T The external transition container type.
+             * @param s The number of states of the world.
+             * @param a The number of actions available to the agent.
+             * @param t The external transitions container. 
+             *
+             * @return True if the container statisfies probability constraints,
+             *         and false otherwise.
              */
-            MDP(size_t S, size_t A);
+            template <typename T>
+            static bool mdpCheck(size_t s, size_t a, T t);
 
             /**
-             * @brief Constructor using previous Experience.
+             * @brief Basic constructor.
+             *
+             * This constructor takes two arbitrary three dimensional
+             * containers and tries to copy their contents into the
+             * transitions and rewards tables respectively. 
+             *
+             * The containers need to support data access through 
+             * operator[]. In addition, the dimensions of the
+             * containers must match the ones provided as arguments
+             * (for three dimensions: s,s,a).
              * 
-             * This constructor guarantees that after the MDP has been
-             * built the transition and reward functions are synced to
-             * the underlying Experience.
-             *
-             * @param exp The base Experience of the model.
-             */
-            MDP(Experience exp);
-
-            /**
-             * @brief This function syncs the MDP to the underlying Experience.
+             * This is important, as this constructor DOES NOT perform
+             * any size checks on the external containers.
              * 
-             * Since use cases in AI are very varied, one may not want to update
-             * its MDP for each single transition experienced by the agent. To
-             * avoid this we leave to the user the task of syncing between the
-             * underlying Experience and the MDP, as he/she sees fit.
+             * In addition, the transition container must respect
+             * the constraint described in the mdpCheck() function.
              *
-             * After this function is run the transition and reward functions
-             * will accurately reflect the state of the underlying Experience.
+             * @tparam T The external transition container type.
+             * @tparam R The external rewards container type.
+             * @param s The number of states of the world.
+             * @param a The number of actions available to the agent.
+             * @param t The external transitions container. 
+             * @param r The external rewards container. 
              */
-            void                        update();
-
-            /**
-             * @brief This function syncs a state action pair in the MDP to the underlying Experience.
-             *
-             * Since use cases in AI are very varied, one may not want to update
-             * its MDP for each single transition experienced by the agent. To
-             * avoid this we leave to the user the task of syncing between the
-             * underlying Experience and the MDP, as he/she sees fit.
-             *
-             * This function updates a single state action pair with the underlying
-             * Experience. This function is offered to avoid having to recompute the
-             * whole MDP if the user knows that only few transitions have been 
-             * experienced by the agent.
-             *
-             * After this function is run the transition and reward functions
-             * will accurately reflect the state of the underlying Experience
-             * for the specified state action pair.
-             *
-             * @param s The state that needs to be synced.
-             * @param a The action that needs to be synced.
-             */
-            void                        update(size_t s, size_t a);
+            template <typename T, typename R>
+            MDP(size_t s, size_t a, T t, R r);
 
             /**
              * @brief This function samples the MDP for the specified state action pair.
@@ -115,25 +106,6 @@ namespace AIToolbox {
             size_t getA() const;
 
             /**
-             * @brief This functions enables access to the underlying Experience.
-             * 
-             * This function allows the user to modify and insert new data into the
-             * underlying Experience of the MDP. Should the Experience be modified,
-             * the user will have to manually update the MDP (see update()) so
-             * that the new Experience and the MDP are in sync.
-             *
-             * @return The underlying Experience of the MDP.
-             */
-            Experience & getExperience();
-
-            /**
-             * @brief This function enables viewing of the underlying Experience for const MDPs.
-             *
-             * @return The underlying Experience of the MDP.
-             */
-            const Experience & getExperience() const;
-
-            /**
              * @brief This function returns the transition table for inspection.
              *
              * @return The rewards table.
@@ -146,10 +118,22 @@ namespace AIToolbox {
              * @return The rewards table.
              */
             const RewardTable &     getRewardFunction()     const;
-        private:
-            size_t S, A;
+        protected:
+            /**
+             * @brief Constructor for derived classes.
+             * 
+             * This constructor is provided as a basic constructor which
+             * does not initialize the values contained in the transitions
+             * and rewards tables. This is so that derived classes can
+             * implement their own initializations without having to pass
+             * two container functions into the main constructor.
+             *
+             * @param s The number of states of the world.
+             * @param a The number of actions available to the agent.
+             */
+            MDP(size_t s, size_t a);
 
-            Experience experience_;
+            size_t S, A;
 
             TransitionTable transitions_;
             RewardTable rewards_;

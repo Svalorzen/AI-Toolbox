@@ -1,10 +1,9 @@
 #include <AIToolbox/Experience.hpp>
 
 #include <fstream>
-#include <array>
 
 namespace AIToolbox {
-    Experience::Experience(size_t Ss, size_t Aa) : S(Ss), A(Aa), visits_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A])
+    Experience::Experience(size_t s, size_t a) : S(s), A(a), visits_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A])
     {
         reset();
     }
@@ -42,7 +41,7 @@ namespace AIToolbox {
     }
 
     std::istream& operator>>(std::istream &is, Experience & exp) {
-        // old version  if ( !(is >> exp.visits_[s][s1][0] >> exp.visits_[s][s1][1] >> exp.rewards_[s][s1][0] >> exp.rewards_[s][s1][1])) 
+        // old version  if ( !(is >> exp.visits_[s][s1][0] >> exp.visits_[s][s1][1] >> exp.rewards_[s][s1][0] >> exp.rewards_[s][s1][1]))
         size_t S = exp.getS();
         size_t A = exp.getA();
 
