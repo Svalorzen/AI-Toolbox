@@ -21,6 +21,7 @@ namespace AIToolbox {
 
             template <typename T>
             void setPolicy(size_t s, const T &);
+
             void setPolicy(size_t s, size_t a);
 
             size_t getS() const;

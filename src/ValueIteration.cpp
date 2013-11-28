@@ -33,6 +33,7 @@ namespace AIToolbox {
                 v1_ = vParameter_;
 
             auto pr = computePR();
+            // std::cout << "Making Bound...\n";
             {   // maxIter setup
                 unsigned computedMaxIter = valueIterationBoundIter(pr);
                 if ( !maxIter_ ) {
@@ -46,7 +47,7 @@ namespace AIToolbox {
                 epsilon_ = ( discount_ != 1 ) ? ( epsilon_ * ( 1 - discount_ ) / discount_ ) : epsilon_;
             }
 
-            //cout << "I'm starting now..\n";
+            // std::cout << "I'm starting now..\n";
 
             unsigned iter = 0;
             bool done = false, completed = false;
@@ -55,7 +56,7 @@ namespace AIToolbox {
 
             while ( !done ) {
                 iter++;
-                //std::cout << "Iteration: " << iter << "\n";
+                // std::cout << "Iteration: " << iter << "\n";
                 v0 = v1_;
 
                 bellmanOperator( pr, v1_ );
@@ -67,7 +68,7 @@ namespace AIToolbox {
                     auto minmax = std::minmax_element(std::begin(v0), std::end(v0));
                     variation = *(minmax.second) - *(minmax.first);
                 }
-                //std::cout << "    Variation: " << variation << "\n";
+                // std::cout << "    Variation: " << variation << "\n";
                 if ( variation < epsilon_ ) {
                     completed = true;
                     done = true;
@@ -144,7 +145,7 @@ namespace AIToolbox {
 
             double k = 1 - std::accumulate(std::begin(h), std::end(h), 0.0);
 
-            ValueFunction v;
+            ValueFunction v(S);
 
             bellmanOperator(pr, v);
 

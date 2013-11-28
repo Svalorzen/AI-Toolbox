@@ -1,6 +1,7 @@
 #include <AIToolbox/Experience.hpp>
 
 #include <fstream>
+#include <algorithm>
 
 namespace AIToolbox {
     Experience::Experience(size_t s, size_t a) : S(s), A(a), visits_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A])
@@ -14,8 +15,8 @@ namespace AIToolbox {
     }
 
     void Experience::reset() {
-        std::fill(std::begin(visits_), std::end(visits_), 0);
-        std::fill(std::begin(rewards_), std::end(rewards_), 0.0);
+        std::fill(visits_.data(), visits_.data() + visits_.num_elements(), 0ul);
+        std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
     }
 
     const Experience::VisitTable & Experience::getVisits() const {

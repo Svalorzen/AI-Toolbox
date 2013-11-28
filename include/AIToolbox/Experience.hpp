@@ -101,7 +101,7 @@ namespace AIToolbox {
              *
              * @return The visits table.
              */
-            const VisitTable  & getVisits() const;
+            const VisitTable & getVisits() const;
 
             /**
              * @brief This function returns the rewards table for inspection.

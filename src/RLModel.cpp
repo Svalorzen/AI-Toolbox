@@ -3,11 +3,11 @@
 namespace AIToolbox {
     namespace MDP {
         RLModel::RLModel( const Experience & exp ) : Model(exp.getS(), exp.getA()), experience_(exp) {
-            std::fill(begin(transitions_), end(transitions_), 0.0);
+            std::fill(transitions_.data(), transitions_.data() + transitions_.num_elements(), 0.0);
             // Make transition table true probability
             for ( size_t s = 0; s < S; s++ )
                 transitions_[s][s][0] = 1.0;
-            std::fill(begin(rewards_), end(rewards_), 0.0);
+            std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
         }
 
         void RLModel::sync() {
@@ -40,7 +40,7 @@ namespace AIToolbox {
                 else {
                     // Normalize action reward over transition visits
                     if ( transitions_[s][s1][a] != 0.0 ) {
-                        rewards_[s][s1][a] /= transitions_[s][s1][a];
+                       rewards_[s][s1][a] /= transitions_[s][s1][a];
                     }
                     // Normalize transition probability (times we went to 's1' / times we executed 'a' in 's'
                     transitions_[s][s1][a] /= actionSum;

@@ -58,6 +58,7 @@ int main(int argc, char * argv[]) {
     // NORMALIZING DATA
     cout << "Extracting MDP...\n";
     AIToolbox::MDP::RLModel mdp(t);
+    mdp.sync();
     cout << "MDP extracted.\n\n";
 
     if ( debug ) {
@@ -90,7 +91,7 @@ int main(int argc, char * argv[]) {
                 for ( size_t i = 0; i < S; i++ ) {
                     for ( size_t j = 0; j < S; j++ ) {
                         if ( ! ( counter % 21) ) { outfile << "\t\t\t"; counter = 1; }
-                        outfile << mdp.getTransitionFunction()[i][j][a] << "\t";
+                        outfile << mdp.getRewardFunction()[i][j][a] << "\t";
                         counter ++;
                     }
                     outfile << "\n";
@@ -104,10 +105,12 @@ int main(int argc, char * argv[]) {
     }
 
     // SOLVING MDP
-    cout << "Solving MDP...\n";
+    cout << "Making Solver & Solution...\n";
     AIToolbox::MDP::ValueIteration solver;
     AIToolbox::MDP::Solution solution(S, A);
+    cout << "Done.\n\n";
 
+    cout << "Solving MDP...\n";
     bool done = solver(mdp, solution);
     cout << "MDP Solved.\n";
     cout << "+--> Did we actually solve the MDP? " << ( done ? "YES": "NO" ) << "\n\n";
