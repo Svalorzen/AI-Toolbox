@@ -14,14 +14,8 @@ namespace AIToolbox {
     }
 
     void Experience::reset() {
-        for ( size_t s = 0; s < S; s++ ) {
-            for ( size_t s1 = 0; s1 < S; s1++ ) {
-                for ( size_t a = 0; a < A; a++ ) {
-                    visits_[s][s1][a] = 0;
-                    rewards_[s][s1][a] = 0;
-                }
-            }
-        }
+        std::fill(std::begin(visits_), std::end(visits_), 0);
+        std::fill(std::begin(rewards_), std::end(rewards_), 0.0);
     }
 
     const Experience::VisitTable & Experience::getVisits() const {

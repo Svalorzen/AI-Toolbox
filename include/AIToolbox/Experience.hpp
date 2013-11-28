@@ -3,7 +3,8 @@
 
 #include <iosfwd>
 
-#include <boost/multi_array.hpp>
+#include <AIToolbox/Types.hpp>
+#include <AIToolbox/Utils.hpp>
 
 namespace AIToolbox {
     /**
@@ -18,7 +19,7 @@ namespace AIToolbox {
     class Experience {
         public:
             using VisitTable = boost::multi_array<unsigned long,3>;
-            using RewardTable = boost::multi_array<double,3>;
+            using RewardTable = Table3D;
 
             /**
              * @brief Basic constructor.
@@ -45,6 +46,8 @@ namespace AIToolbox {
              *
              * This function is provided so that it is easy to plug
              * this library into existing code-bases.
+             * 
+             * \sa copyTable3D()
              *
              * @tparam V The external visits container type.
              * @param v The external visits container. 
@@ -69,6 +72,8 @@ namespace AIToolbox {
              *
              * This function is provided so that it is easy to plug
              * this library into existing code-bases.
+             * 
+             * \sa copyTable3D()
              *
              * @tparam R The external rewards container type.
              * @param r The external rewards container. 
@@ -132,18 +137,12 @@ namespace AIToolbox {
 
     template <typename V>
     void Experience::setVisits(V v) {
-        for ( size_t s = 0; s < S; s++ )
-            for ( size_t s1 = 0; s1 < S; s1++ )
-                for ( size_t a = 0; a < A; a++ )
-                    visits_[s][s1][a] = v[s][s1][a];
+        copyTable3D(v, visits_, S, S, A);
     }
 
     template <typename R>
     void Experience::setRewards(R r) {
-        for ( size_t s = 0; s < S; s++ )
-            for ( size_t s1 = 0; s1 < S; s1++ )
-                for ( size_t a = 0; a < A; a++ )
-                    rewards_[s][s1][a] = r[s][s1][a];
+        copyTable3D(r, rewards_, S, S, A);
     }
 }
 
