@@ -8,9 +8,10 @@ namespace AIToolbox {
     class Policy;
     namespace MDP {
         class ValueIteration : public Solver {
+            public:
                 ValueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v = ValueFunction(0) );
 
-                virtual bool solve(const Model & model, Solution & solution);
+                virtual bool operator()(const Model & model, Solution & solution);
             private:
                 using PRType = Table2D;
                 

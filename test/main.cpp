@@ -3,9 +3,10 @@
 #include <string>
 
 #include <AIToolbox/Experience.hpp>
-#include <AIToolbox/MDP.hpp>
+#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/Solution.hpp>
 #include <AIToolbox/Policy.hpp>
-#include <AIToolbox/MDPSolver.hpp>
+#include <AIToolbox/MDP/ValueIteration.hpp>
 
 #include "boost/filesystem.hpp"
 
@@ -56,7 +57,7 @@ int main(int argc, char * argv[]) {
 
     // NORMALIZING DATA
     cout << "Extracting MDP...\n";
-    AIToolbox::MDP mdp(t);
+    AIToolbox::MDP::RLModel mdp(t);
     cout << "MDP extracted.\n\n";
 
     if ( debug ) {
@@ -104,8 +105,10 @@ int main(int argc, char * argv[]) {
 
     // SOLVING MDP
     cout << "Solving MDP...\n";
-    AIToolbox::MDPSolver solver(mdp);
-    bool done = solver.valueIteration();
+    AIToolbox::MDP::ValueIteration solver;
+    AIToolbox::MDP::Solution solution(S, A);
+
+    bool done = solver(mdp, solution);
     cout << "MDP Solved.\n";
     cout << "+--> Did we actually solve the MDP? " << ( done ? "YES": "NO" ) << "\n\n";
 
@@ -113,7 +116,7 @@ int main(int argc, char * argv[]) {
     cout << "Creating Policy...\n";
     {
         std::ofstream outfile("policy.txt");
-        outfile << solver.getPolicy();
+        outfile << solution.getPolicy();
         outfile.close();
     }
     cout << "Policy created.\n\n";

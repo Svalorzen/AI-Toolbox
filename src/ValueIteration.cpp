@@ -17,7 +17,7 @@ namespace AIToolbox {
         }
 
 
-        bool ValueIteration::solve(const Model & model, Solution & solution) {
+        bool ValueIteration::operator()(const Model & model, Solution & solution) {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
             A = model.getA();

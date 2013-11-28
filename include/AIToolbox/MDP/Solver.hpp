@@ -8,7 +8,7 @@ namespace AIToolbox {
 
         class Solver {
             public:
-                virtual bool solve(const Model &, Solution & s) = 0;
+                virtual bool operator()(const Model &, Solution & s) = 0;
         };
     }
 }
