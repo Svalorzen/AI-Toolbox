@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <algorithm>
+#include <iostream>
 
 namespace AIToolbox {
     Policy::Policy(size_t sNum, size_t aNum) : S(sNum), A(aNum), policy_(boost::extents[S][A]),
@@ -49,17 +50,58 @@ namespace AIToolbox {
         return A;
     }
 
+    const Policy::PolicyTable & Policy::getPolicy() const {
+        return policy_;
+    }
+
+    void Policy::prettyPrint(std::ostream & os) const {
+        for ( size_t s = 0; s < S; s++ ) {
+            for ( size_t a = 0; a < A; a++ ) {
+                if ( policy_[s][a] )
+                    os << s << "\t" << a << "\t" << std::fixed << policy_[s][a] << "\n";
+            }
+        }
+    }
+
     std::ostream& operator<<(std::ostream &os, const Policy &p) {
         size_t S = p.getS();
         size_t A = p.getA();
 
+        auto & policy = p.getPolicy();
+
         for ( size_t s = 0; s < S; s++ ) {
-            auto policy = p.getStatePolicy(s);
             for ( size_t a = 0; a < A; a++ ) {
-                if ( policy[a] )
-                    os << s << "\t" << a << "\t" << std::fixed << policy[a] << "\n";
+                os << s << "\t" << a << "\t" << std::fixed << policy[s][a] << "\n";
             }
         }
         return os;
+    }
+
+    std::istream& operator>>(std::istream &is, Policy &p) {
+        size_t S = p.getS();
+        size_t A = p.getA();
+
+        Policy policy(S, A);
+
+        size_t hole;
+
+        for ( size_t s = 0; s < S; s++ ) {
+            for ( size_t a = 0; a < A; a++ ) {
+                if ( ! ( is >> hole >> hole >> policy.policy_[s][a] ) ) {
+                    std::cerr << "AIToolbox: Could not read policy data.\n";
+                    return is;
+                }
+                else if ( policy.policy_[s][a] < 0.0 || policy.policy_[s][a] > 1.0 ) {
+                    std::cerr << "AIToolbox: Input policy data contains non-probability values.\n";
+                    return is;
+                }
+            }
+        }
+        // Read succeeded
+        for ( size_t s = 0; s < S; s++ )
+            // Sanitization: Assign and normalize everything.
+            p.setPolicy(s, policy.policy_[s]);
+
+        return is;
     }
 }

@@ -129,7 +129,7 @@ namespace AIToolbox {
             VisitTable visits_;
             RewardTable rewards_;
 
-            friend std::istream& operator>>(std::istream &os, Experience &);
+            friend std::istream& operator>>(std::istream &is, Experience &);
     };
 
     std::ostream& operator<<(std::ostream &os, const Experience &);

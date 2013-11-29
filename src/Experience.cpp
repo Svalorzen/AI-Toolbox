@@ -1,5 +1,6 @@
 #include <AIToolbox/Experience.hpp>
 
+#include <iostream>
 #include <fstream>
 #include <algorithm>
 
@@ -40,20 +41,25 @@ namespace AIToolbox {
         size_t S = exp.getS();
         size_t A = exp.getA();
 
+        Experience e(S,A);
+
         for ( size_t s = 0; s < S; s++ ) {
             for ( size_t s1 = 0; s1 < S; s1++ ) {
                 for ( size_t a = 0; a < A; a++ ) {
-                    if ( !(is >> exp.visits_[s][s1][a] >> exp.rewards_[s][s1][a] )) {
-                        exp.reset();
+                    if ( !(is >> e.visits_[s][s1][a] >> e.rewards_[s][s1][a] )) {
+                        std::cerr << "AIToolbox: Could not read Experience data.\n";
                         return is;
                     }
                     // Verification/Sanitization
                     // Ignoring input reward if no visits.
-                    if ( exp.visits_[s][s1][a] == 0 )
-                        exp.rewards_[s][s1][a] = 0.0;
+                    if ( e.visits_[s][s1][a] == 0 )
+                        e.rewards_[s][s1][a] = 0.0;
                 }
             }
         }
+        // This guarantees that if input fucks up we still keep the old Exp.
+        exp = e;
+
         return is;
     }
 

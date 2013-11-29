@@ -7,11 +7,12 @@
 #include <random>
 
 #include <boost/multi_array.hpp>
+#include <AIToolbox/Types.hpp>
 
 namespace AIToolbox {
     class Policy {
         public:
-            using PolicyTable = boost::multi_array<double,2>;
+            using PolicyTable = Table2D;
 
             Policy(size_t s, size_t a);
 
@@ -24,8 +25,12 @@ namespace AIToolbox {
 
             void setPolicy(size_t s, size_t a);
 
+            const PolicyTable & getPolicy() const;
+
             size_t getS() const;
             size_t getA() const;
+
+            void prettyPrint(std::ostream & os) const;
         private:
             size_t S, A;
             PolicyTable policy_;
@@ -34,9 +39,12 @@ namespace AIToolbox {
             mutable std::default_random_engine rand_;
             mutable std::uniform_real_distribution<double> sampleDistribution_;
             mutable std::uniform_int_distribution<int> randomDistribution_;
+
+            friend std::istream& operator>>(std::istream &is, Policy &);
     };
 
     std::ostream& operator<<(std::ostream &os, const Policy &);
+    std::istream& operator>>(std::istream &is, Policy &);
 
     template <typename T>
     void Policy::setPolicy(size_t s, const T & apt) {
