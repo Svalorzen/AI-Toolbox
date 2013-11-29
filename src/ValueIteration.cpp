@@ -113,12 +113,6 @@ namespace AIToolbox {
         }
 
         void ValueIteration::bellmanOperator(const PRType & pr, ValueFunction & vOut) const {
-            /*
-             *  for a=1:A
-             *      Q(:,a) = PR(:,a) + discount*P(:,:,a)*Vprev;
-             *  end
-             *  [V, policy] = max(Q,[],2);
-             */
             QFunction q = makeQFunction(pr);
 
             for ( size_t s = 0; s < S; s++ ) {
@@ -128,14 +122,6 @@ namespace AIToolbox {
         }
 
         unsigned ValueIteration::valueIterationBoundIter(const PRType & pr) const {
-            /*
-             *  for ss=1:S; h(ss) = min(min(P(:,ss,:))); end;
-             *  k = 1 - sum(h);
-             *  V1 = mdp_bellman_operator(P,PR,discount,V0);
-             *  max_iter = log ( (epsilon*(1-discount)/discount) / mdp_span(V1-V0) ) / log(discount*k);
-             *
-             *  max_iter = ceil(max_iter);
-             */
             std::vector<double> h(S, 0.0);
 
             for ( size_t s = 0; s < S; s++ )

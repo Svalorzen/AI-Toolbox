@@ -118,6 +118,7 @@ namespace AIToolbox {
 
                 const Experience & experience_;
         };
+
         template <typename T, typename R>
         RLModel::RLModel(const Experience & exp, T t, R r) : Model(exp.getS(), exp.getA()), experience_(exp) {
             copyTable3D(t, transitions_, S, S, A);
