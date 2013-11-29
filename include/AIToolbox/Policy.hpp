@@ -13,7 +13,7 @@ namespace AIToolbox {
         public:
             using PolicyTable = boost::multi_array<double,2>;
 
-            Policy(size_t sNum, size_t aNum);
+            Policy(size_t s, size_t a);
 
             std::vector<double> getStatePolicy(size_t s) const;
 
@@ -40,11 +40,10 @@ namespace AIToolbox {
 
     template <typename T>
     void Policy::setPolicy(size_t s, const T & apt) {
-        if ( std::accumulate(std::begin(apt), std::end(apt), 0.0) != 1.0 )
-            throw std::runtime_error("Policy values for a state must sum to one");
+        double norm = static_cast<double>(std::accumulate(std::begin(apt), std::end(apt), 0.0));
 
         for ( size_t a = 0; a < A; a++ )
-            policy_[s][a] = apt[a];
+            policy_[s][a] = apt[a] / norm;
     }
 
 }

@@ -10,13 +10,15 @@ namespace AIToolbox {
             public:
                 Solution(size_t s, size_t a);
 
-                void setPolicy(Policy p);
-                void setValueFunction(ValueFunction v);
-                void setQFunction(QFunction q);
+                Policy &          getPolicy();
+                ValueFunction &   getValueFunction();
+                QFunction &       getQFunction();
 
                 const Policy &          getPolicy()             const;
                 const ValueFunction &   getValueFunction()      const;
                 const QFunction &       getQFunction()          const;
+
+                size_t getGreedyQAction(size_t s) const;
 
                 /**
                  * @brief This function returns the number of states of the world.

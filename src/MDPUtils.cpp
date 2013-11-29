@@ -6,11 +6,24 @@ namespace AIToolbox {
     namespace MDP {
         Policy makePolicy(size_t S, size_t A, const QFunction & q) {
             Policy p(S,A);
+            std::vector<double> probs(S);
             for ( size_t s = 0; s < S; s++ ) {
-                const auto it = std::max_element(std::begin(q[s]), std::end(q[s]));
-                p.setPolicy(s, static_cast<size_t>(std::distance(std::begin(q[s]), it)));
+                double max = *std::max_element(std::begin(q[s]), std::end(q[s]));
+                for ( size_t a = 0; a < A; a++ ) {
+                    probs[a] = static_cast<double>(q[s][a] == max);
+                }
+                p.setPolicy(s, probs);
             }
             return p;
+        }
+
+        void updatePolicy(Policy & p, size_t s, const QFunction & q) {
+            double max = *std::max_element(std::begin(q[s]), std::end(q[s]));
+            std::vector<double> probs(p.getS());
+            for ( size_t a = 0; a < p.getA(); a++ ) {
+                probs[a] = static_cast<double>(q[s][a] == max);
+            }
+            p.setPolicy(s, probs);
         }
     }
 }

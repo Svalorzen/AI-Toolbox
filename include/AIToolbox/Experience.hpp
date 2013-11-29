@@ -34,23 +34,23 @@ namespace AIToolbox {
              *
              * This function takes an arbitrary three dimensional
              * containers and tries to copy its contents into the
-             * visits table. 
+             * visits table.
              *
-             * The container needs to support data access through 
+             * The container needs to support data access through
              * operator[]. In addition, the dimensions of the
              * container must match the ones specified during the
              * Experience construction (for three dimensions: S,S,A).
-             * 
+             *
              * This is important, as this function DOES NOT perform
              * any size checks on the external containers.
              *
              * This function is provided so that it is easy to plug
              * this library into existing code-bases.
-             * 
+             *
              * \sa copyTable3D()
              *
              * @tparam V The external visits container type.
-             * @param v The external visits container. 
+             * @param v The external visits container.
              */
             template <typename V>
             void setVisits(V v);
@@ -60,23 +60,23 @@ namespace AIToolbox {
              *
              * This function takes an arbitrary three dimensional
              * containers and tries to copy its contents into the
-             * rewards table. 
+             * rewards table.
              *
-             * The container needs to support data access through 
+             * The container needs to support data access through
              * operator[]. In addition, the dimensions of the
              * container must match the ones specified during the
              * Experience construction (for three dimensions: S,S,A).
-             * 
+             *
              * This is important, as this function DOES NOT perform
              * any size checks on the external containers.
              *
              * This function is provided so that it is easy to plug
              * this library into existing code-bases.
-             * 
+             *
              * \sa copyTable3D()
              *
              * @tparam R The external rewards container type.
-             * @param r The external rewards container. 
+             * @param r The external rewards container.
              */
             template <typename R>
             void setRewards(R r);

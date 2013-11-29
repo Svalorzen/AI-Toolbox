@@ -78,9 +78,9 @@ namespace AIToolbox {
                 }
             }
 
-            solution.setValueFunction(v1_);
-            solution.setQFunction(makeQFunction(pr));
-            solution.setPolicy(makePolicy(S, A, solution.getQFunction()));
+            solution.getValueFunction() = v1_;
+            solution.getQFunction()     = makeQFunction(pr);
+            solution.getPolicy()        = makePolicy(S, A, solution.getQFunction());
 
             model_ = nullptr;
             S = A = 0;

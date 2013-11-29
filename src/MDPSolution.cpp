@@ -2,30 +2,21 @@
 
 namespace AIToolbox {
     namespace MDP {
-        Solution::Solution(size_t s, size_t a) : S(s), A(a), q_(boost::extents[S][A]), v_(S, 0.0), policy_(S, A) {}
-
-        void Solution::setPolicy( Policy p ) {
-            policy_ = p;
+        Solution::Solution(size_t s, size_t a) : S(s), A(a), q_(boost::extents[S][A]), v_(S, 0.0), policy_(S, A) {
+            std::fill(q_.data(), q_.data() + q_.num_elements(), 0.0);
         }
 
-        void Solution::setValueFunction( ValueFunction v ) {
-            v_ = v;
-        }
+        Policy &          Solution::getPolicy()                     { return policy_;   }
+        const Policy & Solution::getPolicy()                const   { return policy_;   }
 
-        void Solution::setQFunction( QFunction q ) {
-            q_ = q;
-        }
+        ValueFunction &   Solution::getValueFunction()              { return v_;        }
+        const ValueFunction & Solution::getValueFunction()  const   { return v_;        }
 
-        const QFunction & Solution::getQFunction() const {
-            return q_;
-        }
+        QFunction &       Solution::getQFunction()                  { return q_;        }
+        const QFunction & Solution::getQFunction()          const   { return q_;        }
 
-        const ValueFunction & Solution::getValueFunction() const {
-            return v_;
-        }
-
-        const Policy & Solution::getPolicy() const {
-            return policy_;
+        size_t Solution::getGreedyQAction(size_t s) const {
+            return std::distance(std::begin(q_[s]), std::max_element(std::begin(q_[s]), std::end(q_[s])));
         }
     }
 }
