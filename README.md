@@ -9,7 +9,7 @@ Current development includes MDPs and related algorithms. This toolbox
 has been partially developed using code from the Matlab MDPToolbox,
 which you can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/).
 
-BUILD INSTRUCTIONS
+Build Instructions
 ==================
 
 To build the library you need to install [cmake](http://www.cmake.org/) and
