@@ -8,6 +8,7 @@
 #include <AIToolbox/Policy.hpp>
 #include <AIToolbox/MDP/ValueIteration.hpp>
 #include <AIToolbox/MDP/QPolicy.hpp>
+#include <AIToolbox/MDP/PrioritizedSweeping.hpp>
 
 #include "boost/filesystem.hpp"
 
@@ -143,6 +144,5 @@ int main(int argc, char * argv[]) {
         for (size_t a = 0; a < A; a++)
             if (qp.getActionProbability(s,a) ) cout << s << " " << a << " " << qp.getActionProbability(s,a) << "\n";
     */
-
     return 0;
 }

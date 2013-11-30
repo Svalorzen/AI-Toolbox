@@ -3,16 +3,65 @@
 
 #include <AIToolbox/MDP/DynaQInterface.hpp>
 
+#include <queue>
+#include <tuple>
+
 namespace AIToolbox {
     namespace MDP {
+        /**
+         * @brief This class represents the PrioritizedSweeping algorithm.
+         */
         class PrioritizedSweeping : public DynaQInterface {
             public:
-                PrioritizedSweeping(double discount = 0.9, unsigned n = 50);
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * @param s The number of states of the world.
+                 * @param a The number of actions available to the agent.
+                 * @param discount The discount of the QLearning method.
+                 * @param theta The queue threshold.
+                 * @param n The number of sampling passes to do on the model upon batchUpdateQ().
+                 */
+                PrioritizedSweeping(size_t s, size_t a, double discount = 0.9, double theta = 0.5, unsigned n = 50);
 
-                virtual void updateSamplingQueue(size_t s, size_t s1, size_t a, double rew);
+                /**
+                 * @brief This function updates the PrioritizedSweeping internal update queue.
+                 * 
+                 * Note that this function does NOT update the QFunction yet, but instead
+                 * waits for the batchUpdateQ() call before doing that.
+                 *
+                 * @param s The previous state.
+                 * @param s1 The new state.
+                 * @param a The action performed.
+                 * @param rew The reward obtained.
+                 * @param q A pointer to the QFunction that is begin accessed.
+                 */
+                virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
 
-                virtual void batchUpdateQ(const RLModel & m, QFunction * q) = 0;
+                /**
+                 * @brief This function updates a QFunction based on simulated experience.
+                 * 
+                 * In PrioritizedSweeping we sample from the queue at most N times for 
+                 * state action pairs that need updating. For each one of them we update
+                 * the QFunction and recursively check whether this produces new changes
+                 * worth updating. If so, they are inserted in the queue_ and the function
+                 * proceeds to the nest iteration.
+                 *
+                 * @param m The RLModel we sample experience from.
+                 * @param q The QFunction to update.
+                 */
+                virtual void batchUpdateQ(const RLModel & m, QFunction * q);
             private:
+                double theta_;
+
+                using PriorityQueueElement = std::tuple<double, size_t, size_t>;
+
+                class PriorityTupleGreater {
+                    public:
+                        bool operator() (const PriorityQueueElement& arg1, const PriorityQueueElement& arg2) const;
+                };
+
+                std::priority_queue<PriorityQueueElement, std::vector<PriorityQueueElement>, PriorityTupleGreater> queue_;
         };
     }
 }

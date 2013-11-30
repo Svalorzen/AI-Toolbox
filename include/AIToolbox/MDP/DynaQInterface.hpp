@@ -6,6 +6,9 @@
 
 namespace AIToolbox {
     namespace MDP {
+        /**
+         * @brief This class represents an interface for algorithm in the form of DynaQ.
+         */
         class DynaQInterface : public QLearning {
             public:
                 /**
@@ -34,19 +37,6 @@ namespace AIToolbox {
                  * @return The current number of updates().
                  */
                 unsigned getN() const;
-
-                /**
-                 * @brief This function is responsible for updating the sampling queue of the algorithm.
-                 *
-                 * This function is responsible for updating whatever type of queue 
-                 * the algorithm sees fit to use, using real-world experience.
-                 *
-                 * @param s The previous state.
-                 * @param s1 The new state.
-                 * @param a The action performed.
-                 * @param rew The reward obtained.
-                 */
-                virtual void updateSamplingQueue(size_t s, size_t s1, size_t a, double rew) = 0;
 
                 /**
                  * @brief This function updates a QFunction based on simulated experience.

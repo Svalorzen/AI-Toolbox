@@ -10,6 +10,9 @@
 
 namespace AIToolbox {
     namespace MDP {
+        /**
+         * @brief This class represents the DynaQ algorithm.
+         */
         class DynaQ : public DynaQInterface {
             public:
                 /**
@@ -20,24 +23,29 @@ namespace AIToolbox {
                  * @param discount The discount of the QLearning method.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
-                DynaQ(size_t s, size_t a, double discount = 0.9, unsigned n = 50);
+                explicit DynaQ(size_t s, size_t a, double discount = 0.9, unsigned n = 50);
 
                 /**
-                 * @brief This function is updates DynaQ sampling list.
+                 * @brief This function updates a given QFunction using the discount set during construction.
+                 * 
+                 * This function takes a single experience point and uses it to update
+                 * a QFunction. This is a very efficient method to keep the QFunction
+                 * up to date with the latest experience.
+                 *
+                 * In addition, the sampling list is updated so that batch
+                 * updating becomes possible as a second phase.
                  *
                  * The sampling list in DynaQ is a simple list of all visited
                  * state action pairs. This function is responsible for inserting
                  * them in a set, keeping them unique. 
                  *
-                 * The new state and reward are not used, but are here to keep
-                 * the interface uniform.
-                 *
                  * @param s The previous state.
                  * @param s1 The new state.
                  * @param a The action performed.
                  * @param rew The reward obtained.
+                 * @param q A pointer to the QFunction that is begin modified.
                  */
-                virtual void updateSamplingQueue(size_t s, size_t s1, size_t a, double rew);
+                virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
 
                 /**
                  * @brief This function updates a QFunction based on simulated experience.

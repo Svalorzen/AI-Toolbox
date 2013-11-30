@@ -9,7 +9,7 @@ namespace AIToolbox {
             if ( discount_ <= 0 || discount_ > 1 )  throw std::runtime_error("Discount parameter must be in (0,1]");
         }
 
-        void QLearning::updateQ(size_t s, size_t s1, size_t a, double rew, QFunction * pq) {
+        void QLearning::stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * pq) {
             assert(pq != nullptr);
 
             QFunction & q = *pq;

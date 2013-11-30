@@ -1,7 +1,6 @@
 #include <AIToolbox/MDP/Utils.hpp>
 
 #include <AIToolbox/Policy.hpp>
-#include <iostream>
 
 namespace AIToolbox {
     namespace MDP {
@@ -16,7 +15,7 @@ namespace AIToolbox {
                     probs[a] = static_cast<double>(q[s][a] == max);
                 }
                 if ( ! p.setStatePolicy(s, probs) ) {
-                    std::cout << "What the hell.\n";
+                    throw std::runtime_error("AIToolbox: makePolicy() could not create Policy.");
                 }
             }
             return p;

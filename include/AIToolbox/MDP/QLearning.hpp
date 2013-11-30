@@ -6,6 +6,9 @@
 
 namespace AIToolbox {
     namespace MDP {
+        /**
+         * @brief This class represents the QLearning algorithm.
+         */
         class QLearning {
             public:
                 /**
@@ -48,7 +51,7 @@ namespace AIToolbox {
                  * @param rew The reward obtained.
                  * @param q A pointer to the QFunction that is begin modified.
                  */
-                void updateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
+                virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
             protected:
                 double discount_;
         };

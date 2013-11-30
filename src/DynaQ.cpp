@@ -13,7 +13,8 @@ namespace AIToolbox {
             visitedStatesActionsSampler_.reserve(S*A);
         }
 
-        void DynaQ::updateSamplingQueue(size_t s, size_t, size_t a, double ) {
+        void DynaQ::stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q) {
+            QLearning::stepUpdateQ(s, s1, a, rew, q);
             // O(1) insertion...
             auto result = visitedStatesActionsInserter_.insert(std::make_pair(s,a)); 
             if ( std::get<1>(result) )
@@ -32,7 +33,7 @@ namespace AIToolbox {
                 std::tie(s,a) = visitedStatesActionsSampler_[sampleDistribution_(rand_)];
 
                 std::tie(s1, rew) = m.sample(s, a);
-                updateQ(s, s1, a, rew, q);
+                QLearning::stepUpdateQ(s, s1, a, rew, q);
             }
         } 
     }

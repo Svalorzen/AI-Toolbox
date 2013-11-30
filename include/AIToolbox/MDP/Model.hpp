@@ -10,7 +10,6 @@ namespace AIToolbox {
     namespace MDP {
         /**
          * @brief This class represents a Markov Decision Process.
-         *
          */
         class Model {
             public:
