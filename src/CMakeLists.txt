@@ -1,3 +1,3 @@
 cmake_minimum_required (VERSION 2.6)
 
-add_library(AIToolbox Experience.cpp MDPUtils.cpp Model.cpp Policy.cpp RLModel.cpp ValueIteration.cpp MDPSolution.cpp)
+add_library(AIToolbox DynaQ.cpp Experience.cpp Model.cpp Policy.cpp PolicyInterface.cpp QLearning.cpp QPolicy.cpp RLModel.cpp MDPUtils.cpp ValueIteration.cpp)

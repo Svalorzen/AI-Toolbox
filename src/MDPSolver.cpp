@@ -1,25 +1,5 @@
-#include <AIToolbox/MDPSolver.hpp>
-
-#include <cmath>
-#include <chrono>
-#include <algorithm>
-
-// #include <iostream>
-// using namespace std;
 
 namespace AIToolbox {
-    MDPSolver::MDPSolver(MDP m) : S(m.getS()), A(m.getA()), model_(m), pr_(boost::extents[S][A]),
-                                         q_(boost::extents[S][A]), v_(S,0.0), policy_(S,A)
-    {
-        computePR();
-    }
-
-    MDPSolver::MDPSolver(size_t s, size_t a) : S(s), A(a), model_(S,A), pr_(boost::extents[S][A]),
-                                         q_(boost::extents[S][A]), v_(S,0.0), policy_(S,A)
-    {
-        computePR();
-    }
-
     bool MDPSolver::valueIteration(double discount, double epsilon, unsigned maxIter, ValueFunction v1 ) {
         if ( discount <= 0 || discount > 1 )    throw std::runtime_error("Discount parameter must be in (0,1]");
         if ( epsilon <= 0 )                     throw std::runtime_error("Epsilon must be > 0");
@@ -181,22 +161,35 @@ namespace AIToolbox {
                 std::log( (epsilon*(1-discount)/discount) / variation ) / std::log(discount*k));
     }
 
-    size_t MDPSolver::getS() const { return S; }
-    size_t MDPSolver::getA() const { return A; }
 
-    const Policy & MDPSolver::getPolicy() const {
-        return policy_;
-    }
+    // EPSILON GREEDY
+        if ( epsilon < 1.0 ) {
+            double greedy = sampleDistribution_(rand_);
+            if ( greedy > epsilon ) {
+                // RANDOM!
+                return randomDistribution_(rand_);
+            }
+        }
 
-    const MDPSolver::ValueFunction & MDPSolver::getValueFunction() const {
-        return v_;
-    }
+        Policy makeGreedyPolicy(size_t S, size_t A, const QFunction & q) {
+            Policy p(S,A);
+            std::vector<double> probs(S);
+            for ( size_t s = 0; s < S; s++ ) {
+                double max = *std::max_element(std::begin(q[s]), std::end(q[s]));
+                for ( size_t a = 0; a < A; a++ ) {
+                    probs[a] = static_cast<double>(q[s][a] == max);
+                }
+                p.setStatePolicy(s, probs);
+            }
+            return p;
+        }
 
-    const MDPSolver::QFunction & MDPSolver::getQFunction() const {
-        return q_;
-    }
-
-    size_t MDPSolver::getGreedyAction(size_t s) const {
-        return std::distance(std::begin(q_[s]), std::max_element(std::begin(q_[s]), std::end(q_[s])));
-    }
+        void updatePolicy(Policy & p, size_t s, const QFunction & q) {
+            double max = *std::max_element(std::begin(q[s]), std::end(q[s]));
+            std::vector<double> probs(p.getS());
+            for ( size_t a = 0; a < p.getA(); a++ ) {
+                probs[a] = static_cast<double>(q[s][a] == max);
+            }
+            p.setStatePolicy(s, probs);
+        }
 }

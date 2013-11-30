@@ -10,13 +10,11 @@ namespace AIToolbox {
         /**
          * @brief This function creates a policy from a given QFunction.
          *
-         * @param s The number of states of the world.
-         * @param a The number of actions available to the agent.
          * @param q The QFunction that is begin read.
          *
          * @return A new Policy.
          */
-        Policy makePolicy(size_t s, size_t a, const QFunction & q);
+        Policy makePolicy(const QFunction & q);
     }
 }
 

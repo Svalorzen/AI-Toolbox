@@ -4,9 +4,10 @@
 
 #include <AIToolbox/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
-#include <AIToolbox/MDP/Solution.hpp>
+#include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/Policy.hpp>
 #include <AIToolbox/MDP/ValueIteration.hpp>
+#include <AIToolbox/MDP/QPolicy.hpp>
 
 #include "boost/filesystem.hpp"
 
@@ -105,29 +106,43 @@ int main(int argc, char * argv[]) {
     }
 
     // SOLVING MDP
-    cout << "Making Solver & Solution...\n";
+    cout << "Making Solver...\n";
     AIToolbox::MDP::ValueIteration solver;
-    AIToolbox::MDP::Solution solution(S, A);
     cout << "Done.\n\n";
 
     cout << "Solving MDP...\n";
-    bool done = solver(mdp, solution);
+    auto solution = solver(mdp); // Tuple(solved, VFunction, QFunction)
     cout << "MDP Solved.\n";
-    cout << "+--> Did we actually solve the MDP? " << ( done ? "YES": "NO" ) << "\n\n";
+    cout << "+--> Did we actually solve the MDP? " << ( std::get<0>(solution) ? "YES": "NO" ) << "\n\n";
+
+    {
+        std::ofstream outfile("qfun.txt");
+        for (size_t s = 0; s < S; s++)
+            for (size_t a = 0; a < A; a++)
+                outfile << s << " " << a << " " << std::get<2>(solution)[s][a] << "\n";
+    }
+
 
     // CREATING POLICY
     cout << "Creating Policy...\n";
+    AIToolbox::Policy p = AIToolbox::MDP::makePolicy( std::get<2>(solution) );
     {
         std::ofstream outfile("policy.txt");
-        outfile << solution.getPolicy();
-        outfile.close();
+        p.prettyPrint(outfile);
     }
     cout << "Policy created.\n\n";
 
     // Checking policy with Qtable:
+    
     /*
+    cout << "Creating QPolicy...\n";
+    AIToolbox::MDP::QPolicy qp ( std::get<2>(solution) );
+    cout << "QPolicy created.\n\n";
+    cout << "Testing QPolicy...\n";
     for (size_t s = 0; s < S; s++)
-        cout << s << " " << solver.getGreedyAction(s) << "\n";
+        for (size_t a = 0; a < A; a++)
+            if (qp.getActionProbability(s,a) ) cout << s << " " << a << " " << qp.getActionProbability(s,a) << "\n";
     */
+
     return 0;
 }

@@ -1,9 +1,11 @@
 #ifndef AI_TOOLBOX_MDP_SOLVER_HEADER_FILE
 #define AI_TOOLBOX_MDP_SOLVER_HEADER_FILE
 
+#include <tuple>
+#include <AIToolbox/MDP/Types.hpp>
+
 namespace AIToolbox {
     namespace MDP {
-        class Solution;
         class Model;
 
         /**
@@ -15,16 +17,19 @@ namespace AIToolbox {
                  * @brief This function solves an MDP Model.
                  *
                  * Ideally this is the main function where the
-                 * solving process happens. Different methods may
+                 * solving process happens. Different algorithms may
                  * need to implement auxiliary functions to help
                  * them work.
+                 * 
+                 * Users of this class should check whether the final
+                 * Solution is valid or invalid.
                  *
                  * @param m The Model that needs to be solved.
-                 * @param s The Solution that is going to be outputted.
-                 *
-                 * @return True if the solving process succeeded, false otherwise.
+                 * @return A tuple containing a boolean value specifying the
+                 *         return status of the solution problem, the
+                 *         ValueFunction and the QFunction for the Model.
                  */
-                virtual bool operator()(const Model & m, Solution & s) = 0;
+                virtual std::tuple<bool, ValueFunction, QFunction> operator()(const Model & m) = 0;
         };
     }
 }

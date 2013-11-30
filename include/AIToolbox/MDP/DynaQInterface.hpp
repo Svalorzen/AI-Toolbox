@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_MDP_DYNAQINTERFACE_HEADER_FILE
 
 #include <AIToolbox/MDP/QLearning.hpp>
+#include <AIToolbox/MDP/RLModel.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -11,9 +12,8 @@ namespace AIToolbox {
 
                 virtual void updateSamplingQueue(size_t s, size_t s1, size_t a, double rew) = 0;
 
-                virtual bool operator()(Experience &, RLModel &, Solution & s);
+                virtual void batchUpdateQ(const RLModel & m, QFunction * q) = 0;
             private:
-                double discount_;
                 unsigned N_;
         };
     }

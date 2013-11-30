@@ -1,19 +1,24 @@
 #ifndef AI_TOOLBOX_POLICY_HEADER_FILE
 #define AI_TOOLBOX_POLICY_HEADER_FILE
 
-#include <cstddef>
 #include <vector>
 #include <tuple>
 #include <random>
 
 #include <boost/multi_array.hpp>
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/PolicyInterface.hpp>
 
 namespace AIToolbox {
     /**
-     * @brief This class represents a policy.
+     * @brief This class represents a full policy.
+     * 
+     * Building this object is expensive, so it should be done
+     * mostly when it is known that the final solution won't
+     * change again. Otherwise you may want to build a wrapper
+     * around some data to extract the policy dynamically.
      */
-    class Policy {
+    class Policy : public PolicyInterface {
         public:
             using PolicyTable = Table2D;
 
@@ -33,29 +38,23 @@ namespace AIToolbox {
             Policy(size_t s, size_t a);
 
             /**
-             * @brief This function returns a copy of a particular slice of the policy.
-             *
-             * @param s The requested state.
-             *
-             * @return The probabilities of choosing each action in state s.
-             */
-            std::vector<double> getStatePolicy(size_t s) const;
-
-            /**
              * @brief This function chooses a random action for state s, following the policy distribution.
              *
-             * The epsilon parameter controls the randomness of the choice.
-             * If epsilon = 1 or greater, the action returned follows the distribution
-             * specified by the policy. If epsilon = 0 or lower, the action returned is
-             * random. A value of 0.9 would mean a 0.9 chance of getting a policy action,
-             * and a 0.1 chance of getting a random action.
-             *
              * @param s The sampled state of the policy.
-             * @param epsilon The epsilon-greediness of the policy.
              *
              * @return The chosen action.
              */
-            size_t getAction(size_t s, double epsilon = 1.0) const;
+            virtual size_t sampleAction(size_t s) const;
+
+            /**
+             * @brief This function returns the probability of taking the specified action in the specified state.
+             *
+             * @param s The selected state.
+             * @param a The selected action.
+             *
+             * @return The probability of taking the selected action in the specified state.
+             */
+            virtual double getActionProbability(size_t s, size_t a) const;
 
             /**
              * @brief This function sets the policy for a particular state.
@@ -69,9 +68,20 @@ namespace AIToolbox {
              * @tparam T The type of the input container.
              * @param s The state where the policy is being set.
              * @param container The input container.
+             * 
+             * @return If the assignment was completed correctly.
              */
             template <typename T>
-            void setPolicy(size_t s, const T & container);
+            bool setStatePolicy(size_t s, const T & container);
+
+            /**
+             * @brief This function returns a copy of a particular slice of the policy.
+             *
+             * @param s The requested state.
+             *
+             * @return The probabilities of choosing each action in state s.
+             */
+            std::vector<double> getStatePolicy(size_t s) const;
 
             /**
              * @brief This function sets the policy for a particular state.
@@ -83,7 +93,7 @@ namespace AIToolbox {
              * @param s The state where the policy is being set.
              * @param a The action that must be chosen in state s.
              */
-            void setPolicy(size_t s, size_t a);
+            void setStatePolicy(size_t s, size_t a);
 
             /**
              * @brief This function enables inspection of the internal policy.
@@ -91,20 +101,6 @@ namespace AIToolbox {
              * @return A constant reference to the internal policy.
              */
             const PolicyTable & getPolicy() const;
-
-            /**
-             * @brief This function returns the number of states of the world.
-             *
-             * @return The total number of states.
-             */
-            size_t getS() const;
-
-            /**
-             * @brief This function returns the number of available actions to the agent.
-             *
-             * @return The total number of actions.
-             */
-            size_t getA() const;
 
             /**
              * @brief Prints the policy to a stream.
@@ -121,13 +117,7 @@ namespace AIToolbox {
              */
             void prettyPrint(std::ostream & os) const;
         private:
-            size_t S, A;
             PolicyTable policy_;
-
-            // These are mutable because sampling doesn't really change the MDP
-            mutable std::default_random_engine rand_;
-            mutable std::uniform_real_distribution<double> sampleDistribution_;
-            mutable std::uniform_int_distribution<int> randomDistribution_;
 
             friend std::istream& operator>>(std::istream &is, Policy &);
     };
@@ -176,11 +166,13 @@ namespace AIToolbox {
     std::istream& operator>>(std::istream &is, Policy & p);
 
     template <typename T>
-    void Policy::setPolicy(size_t s, const T & container) {
-        if ( container.size() != A ) return;
+    bool Policy::setStatePolicy(size_t s, const T & container) {
+        if ( container.size() != getA() ) return false;
 
         double norm = static_cast<double>(std::accumulate(std::begin(container), std::end(container), 0.0));
-        std::transform(std::begin(container), std::end(container), std::begin(policy_[s]), [norm](decltype(*begin(container)) t){ return t/norm; });
+        auto ref = policy_[s]; // This is needed because policy_[s] by itself is a temporary, and "saving" it enables the use of transform. Boost magic!
+        std::transform(std::begin(container), std::end(container), std::begin(ref), [norm](decltype(*std::begin(container)) t){ return t/norm; });
+        return true;
     }
 
 }

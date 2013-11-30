@@ -1,9 +1,7 @@
 #include <AIToolbox/MDP/ValueIteration.hpp>
 
 #include <AIToolbox/MDP/Model.hpp>
-#include <AIToolbox/MDP/Solution.hpp>
 #include <AIToolbox/Policy.hpp>
-#include <AIToolbox/MDP/Utils.hpp>
 
 #include <iostream>
 
@@ -16,8 +14,35 @@ namespace AIToolbox {
             if ( epsilon_ <= 0 )                    throw std::runtime_error("Epsilon must be > 0");
         }
 
+        void ValueIteration::setDiscount(double d) {
+            if ( d <= 0.0 || d > 1.0 ) return;
+            discount_ = d;
+        }
+        void ValueIteration::setEpsilon(double e) {
+            if ( e <= 0 ) return;
+            epsilon_ = e;
+        }
+        void ValueIteration::setMaxIter(unsigned m) {
+            maxIter_ = m;
+        }
+        void ValueIteration::setValueFunction(ValueFunction v) {
+            vParameter_ = v;
+        }
 
-        bool ValueIteration::operator()(const Model & model, Solution & solution) {
+        double                  ValueIteration::getDiscount() const {
+            return discount_;
+        }
+        double                  ValueIteration::getEpsilon() const {
+            return epsilon_;
+        }
+        unsigned                ValueIteration::getMaxIter() const {
+            return maxIter_;
+        }
+        const ValueFunction &   ValueIteration::getValueFunction() const {
+            return vParameter_;
+        }
+
+        std::tuple<bool, ValueFunction, QFunction> ValueIteration::operator()(const Model & model) {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
             A = model.getA();
@@ -78,14 +103,10 @@ namespace AIToolbox {
                 }
             }
 
-            solution.getValueFunction() = v1_;
-            solution.getQFunction()     = makeQFunction(pr);
-            solution.getPolicy()        = makePolicy(S, A, solution.getQFunction());
-
             model_ = nullptr;
             S = A = 0;
 
-            return completed;
+            return std::make_tuple(completed, v1_, makeQFunction(pr));
         }
 
         ValueIteration::PRType ValueIteration::computePR() const {

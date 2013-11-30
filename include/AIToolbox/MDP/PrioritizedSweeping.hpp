@@ -11,10 +11,8 @@ namespace AIToolbox {
 
                 virtual void updateSamplingQueue(size_t s, size_t s1, size_t a, double rew);
 
-                virtual bool operator()(Experience &, RLModel &, Solution & s);
+                virtual void batchUpdateQ(const RLModel & m, QFunction * q) = 0;
             private:
-                double discount_;
-                unsigned N_;
         };
     }
 }
