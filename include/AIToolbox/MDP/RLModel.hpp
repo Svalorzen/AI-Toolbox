@@ -19,7 +19,7 @@ namespace AIToolbox {
          * from a particular state and a particular action is always 1.
          * Each instance is not directly synced with the supplied Experience object.
          * This is to avoid possible overheads, as the user can optimize better
-         * depending on their use case. See update().
+         * depending on their use case. See sync().
          */
         class RLModel : public Model {
             public:
