@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_MDP_MODEL_HEADER_FILE
 #define AI_TOOLBOX_MDP_MODEL_HEADER_FILE
 
-#include <tuple>
+#include <utility>
 #include <random>
 
 #include <AIToolbox/Types.hpp>
@@ -92,7 +92,7 @@ namespace AIToolbox {
                  *
                  * @return A tuple containing a new state and a reward.
                  */
-                std::tuple<size_t, double>  sample(size_t s, size_t a) const;
+                std::pair<size_t, double>  sample(size_t s, size_t a) const;
 
                 /**
                  * @brief This function returns the number of states of the world.

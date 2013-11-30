@@ -8,13 +8,56 @@ namespace AIToolbox {
     namespace MDP {
         class DynaQInterface : public QLearning {
             public:
-                DynaQInterface(double discount = 0.9, unsigned n = 50);
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * This constructor requires the size of the MDP state and action
+                 * spaces because they are most often needed in order to initialize
+                 * and mantain the sampling queue.
+                 *
+                 * @param s The number of states of the world.
+                 * @param a The number of actions available to the agent.
+                 * @param discount The discount of the QLearning method.
+                 * @param n The number of sampling passes to do on the model upon batchUpdateQ().
+                 */
+                DynaQInterface(size_t s, size_t a, double discount = 0.9, unsigned n = 50);
 
+                /**
+                 * @brief This function sets the number of sampling passes during batchUpdateQ().
+                 *
+                 * @param n The new number of updates.
+                 */
+                void setN(unsigned n);
+                /**
+                 * @brief This function returns the currently set number of sampling passes during batchUpdateQ().
+                 *
+                 * @return The current number of updates().
+                 */
+                unsigned getN() const;
+
+                /**
+                 * @brief This function is responsible for updating the sampling queue of the algorithm.
+                 *
+                 * This function is responsible for updating whatever type of queue 
+                 * the algorithm sees fit to use, using real-world experience.
+                 *
+                 * @param s The previous state.
+                 * @param s1 The new state.
+                 * @param a The action performed.
+                 * @param rew The reward obtained.
+                 */
                 virtual void updateSamplingQueue(size_t s, size_t s1, size_t a, double rew) = 0;
 
+                /**
+                 * @brief This function updates a QFunction based on simulated experience.
+                 *
+                 * @param m The RLModel we sample experience from.
+                 * @param q The QFunction to update.
+                 */
                 virtual void batchUpdateQ(const RLModel & m, QFunction * q) = 0;
-            private:
-                unsigned N_;
+            protected:
+                size_t S, A;
+                unsigned N;
         };
     }
 }

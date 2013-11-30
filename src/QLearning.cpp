@@ -1,5 +1,7 @@
 #include <AIToolbox/MDP/QLearning.hpp>
 
+#include <cassert>
+
 namespace AIToolbox {
     namespace MDP {
          
@@ -8,7 +10,7 @@ namespace AIToolbox {
         }
 
         void QLearning::updateQ(size_t s, size_t s1, size_t a, double rew, QFunction * pq) {
-            if ( !pq ) return;
+            assert(pq != nullptr);
 
             QFunction & q = *pq;
 

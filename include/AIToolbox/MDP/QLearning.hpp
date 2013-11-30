@@ -49,7 +49,7 @@ namespace AIToolbox {
                  * @param q A pointer to the QFunction that is begin modified.
                  */
                 void updateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
-            private:
+            protected:
                 double discount_;
         };
     }
