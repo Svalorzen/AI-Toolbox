@@ -10,8 +10,8 @@ namespace AIToolbox {
         ValueIteration::ValueIteration(double discount, double epsilon, unsigned maxIter, ValueFunction v) : discount_(discount), epsilon_(epsilon), maxIter_(maxIter), vParameter_(v),
                                                                                                              model_(nullptr), S(0), A(0)
         {
-            if ( discount_ <= 0 || discount_ > 1 )  throw std::runtime_error("Discount parameter must be in (0,1]");
-            if ( epsilon_ <= 0 )                    throw std::runtime_error("Epsilon must be > 0");
+            if ( discount_ <= 0.0 || discount_ > 1.0 )  throw std::runtime_error("Discount parameter must be in (0,1]");
+            if ( epsilon_ <= 0.0 )                    throw std::runtime_error("Epsilon must be > 0");
         }
 
         void ValueIteration::setDiscount(double d) {
@@ -19,7 +19,7 @@ namespace AIToolbox {
             discount_ = d;
         }
         void ValueIteration::setEpsilon(double e) {
-            if ( e <= 0 ) return;
+            if ( e <= 0.0 ) return;
             epsilon_ = e;
         }
         void ValueIteration::setMaxIter(unsigned m) {

@@ -80,7 +80,7 @@ namespace AIToolbox {
                 double getDiscount() const;
 
                 /**
-                 * @brief This function will return the current set epsilon parameter.
+                 * @brief This function will return the currently set epsilon parameter.
                  *
                  * @return The currently set epsilon parameter.
                  */

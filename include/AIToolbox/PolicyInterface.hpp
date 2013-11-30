@@ -6,7 +6,7 @@
 
 namespace AIToolbox {
     /**
-     * @brief This class represents a policy.
+     * @brief This class represents the base interface for policies.
      * 
      * This class represents an interface that all policies must conform to.
      * The interface is generic as different methods may have very different
