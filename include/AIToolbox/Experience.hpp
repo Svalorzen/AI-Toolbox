@@ -8,7 +8,7 @@
 
 namespace AIToolbox {
     /**
-     * @brief This class keeps track of registered events and rewads.
+     * @brief This class keeps track of registered events and rewards.
      *
      * This class is a simple logger of events. It keeps track of both
      * the number of times a particular transition has happened, and the

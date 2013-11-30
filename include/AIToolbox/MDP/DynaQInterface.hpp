@@ -7,7 +7,7 @@
 namespace AIToolbox {
     namespace MDP {
         /**
-         * @brief This class represents an interface for algorithm in the form of DynaQ.
+         * @brief This class represents an interface for algorithms in the form of DynaQ.
          */
         class DynaQInterface : public QLearning {
             public:
