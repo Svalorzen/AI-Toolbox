@@ -13,7 +13,8 @@ namespace AIToolbox {
          * This function provides a way to sample actions without the
          * need to compute a full Policy from a QFunction. This is useful
          * because often many methods need to modify small parts of a Qfunction
-         * for progressive improvement, and computing a policy
+         * for progressive improvement, and computing a full Policy at each
+         * step can become too expensive to do.
          */
         class QPolicy : public PolicyInterface {
             public:
