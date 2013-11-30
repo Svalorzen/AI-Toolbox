@@ -103,9 +103,6 @@ namespace AIToolbox {
                 }
             }
 
-            model_ = nullptr;
-            S = A = 0;
-
             return std::make_tuple(completed, v1_, makeQFunction(pr));
         }
 
