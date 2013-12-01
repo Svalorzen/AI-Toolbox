@@ -36,3 +36,10 @@ project's main folder:
 
 After that the documentation will be generated into an `html` folder in the
 main directory.
+
+Documentation
+=============
+
+The latest documentation is available [here](http://svalorzen.github.io/AI-Toolbox/).
+Keep in mind that it may not always be 100% up to date with the latest
+commits, while the one you compile yourself will of course be.
