@@ -13,7 +13,7 @@ Build Instructions
 ==================
 
 To build the library you need to install [cmake](http://www.cmake.org/) and
-the [boost library](http://www.cmake.org/) >= 1.53.
+the [boost library](http://www.boost.org/) >= 1.53.
 
 After that, you can simply execute the following commands from the project's
 main folder:
