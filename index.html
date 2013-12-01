@@ -79,10 +79,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">AIToolbox Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p>This C++ toolbox is aimed at representing and solving common AI problems, implementing an easy-to-use interface which should be hopefully extensible to many problems, while keeping code readable.</p>
+<p>Current development includes MDPs and related algorithms. This toolbox has been developed taking inspiration from the Matlab MDPToolbox, which you can find <a href="http://www7.inra.fr/mia/T/MDPtoolbox/">here</a>.</p>
+<h1>Build Instructions </h1>
+<p>To build the library you need to install <a href="http://www.cmake.org/">cmake</a> and the <a href="http://www.boost.org/">boost library</a> &gt;= 1.53.</p>
+<p>After that, you can simply execute the following commands from the project's main folder: </p>
+<pre class="fragment">mkdir build
+cd build/
+cmake ..
+make
+</pre><p>The static library file will be available directly in the <code>build</code> directory. In addition, a small program will be outputted in the project's main folder. The program's source is in the <code>test</code> folder and offers a small example of what the library can do.</p>
+<p>To compile the library's documentation you need the <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> tool. To use it it is sufficient to execute the following command from the project's main folder: </p>
+<pre class="fragment">doxygen
+</pre><p>After that the documentation will be generated into an <code>html</code> folder in the main directory.</p>
+<h1>Documentation </h1>
+<p>The latest documentation is available <a href="http://svalorzen.github.io/AI-Toolbox/">here</a>. Keep in mind that it may not always be 100% up to date with the latest commits, while the one you compile yourself will of course be. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 1 2013 00:51:31 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 1 2013 01:55:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>
