@@ -21,6 +21,7 @@ main folder:
     mkdir build
     cd build/
     cmake ..
+    make
 
 The static library file will be available directly in the `build` directory.
 In addition, a small program will be outputted in the project's main folder.
