@@ -48,6 +48,7 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < A; a++ ) {
                     if ( !(is >> e.visits_[s][s1][a] >> e.rewards_[s][s1][a] )) {
                         std::cerr << "AIToolbox: Could not read Experience data.\n";
+                        is.setstate(std::ios::failbit);
                         return is;
                     }
                     // Verification/Sanitization
