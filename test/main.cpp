@@ -10,7 +10,7 @@
 #include <AIToolbox/MDP/QPolicy.hpp>
 #include <AIToolbox/MDP/PrioritizedSweeping.hpp>
 
-#include "boost/filesystem.hpp"
+#include <boost/filesystem.hpp>
 
 using std::cout;
 using std::cerr;
