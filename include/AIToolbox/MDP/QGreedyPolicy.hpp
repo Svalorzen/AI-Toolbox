@@ -11,7 +11,12 @@ namespace AIToolbox {
          */
         class QGreedyPolicy : public QPolicyInterface {
             public:
-                using QPolicyInterface::QPolicyInterface;
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * @param q The QFunction this policy is linked with.
+                 */
+                QGreedyPolicy(const QFunction & q);
 
                 /**
                  * @brief This function chooses the greediest action for state s.

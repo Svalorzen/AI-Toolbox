@@ -23,8 +23,6 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * @param s The number of states of the world.
-                 * @param a The number of actions available to the agent.
                  * @param q The QFunction this policy is linked with.
                  */
                 QPolicyInterface(const QFunction & q);

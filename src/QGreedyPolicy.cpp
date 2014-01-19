@@ -2,6 +2,8 @@
 
 namespace AIToolbox {
     namespace MDP {
+        QGreedyPolicy::QGreedyPolicy(const QFunction & q) : QPolicyInterface(q) {}
+
         size_t QGreedyPolicy::sampleAction(size_t s) const {
             std::vector<unsigned> probs(A, 0);
 
