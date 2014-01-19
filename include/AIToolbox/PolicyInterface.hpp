@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <random>
 
+#include <iosfwd>
+
 namespace AIToolbox {
     /**
      * @brief This class represents the base interface for policies.
@@ -63,6 +65,24 @@ namespace AIToolbox {
             mutable std::uniform_real_distribution<double> sampleDistribution_;
     };
 
+    /**
+     * @brief This function prints the whole policy to a file.
+     *
+     * This function outputs each and every value of the policy
+     * for easy parsing. The output is broken into multiple lines
+     * where each line is of the format:
+     *
+     * state_number action_number probability
+     *
+     * And all lines are sorted by state, and each state is sorted
+     * by action.
+     *
+     * @param os The stream where the policy is printed.
+     * @param p The policy that is begin printed.
+     *
+     * @return The original stream.
+     */
+    std::ostream& operator<<(std::ostream &os, const PolicyInterface & p);
 }
 
 #endif

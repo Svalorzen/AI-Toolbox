@@ -1,6 +1,5 @@
 #include <AIToolbox/Policy.hpp>
 
-#include <chrono>
 #include <algorithm>
 #include <iostream>
 
@@ -9,6 +8,13 @@ namespace AIToolbox {
     {
         // Random policy is default
         std::fill(policy_.data(), policy_.data() + policy_.num_elements(), 1.0/getA());
+    }
+
+    Policy::Policy(const PolicyInterface & p) : PolicyInterface(p.getS(), p.getA()), policy_(boost::extents[S][A])
+    {
+        for ( size_t s = 0; s < S; s++ )
+            for ( size_t a = 0; a < A; a++ )
+                policy_[s][a] = p.getActionProbability(s, a);
     }
 
     size_t Policy::sampleAction(size_t s) const {
@@ -49,20 +55,6 @@ namespace AIToolbox {
                     os << s << "\t" << a << "\t" << std::fixed << policy_[s][a] << "\n";
             }
         }
-    }
-
-    std::ostream& operator<<(std::ostream &os, const Policy &p) {
-        size_t S = p.getS();
-        size_t A = p.getA();
-
-        auto & policy = p.getPolicy();
-
-        for ( size_t s = 0; s < S; s++ ) {
-            for ( size_t a = 0; a < A; a++ ) {
-                os << s << "\t" << a << "\t" << std::fixed << policy[s][a] << "\n";
-            }
-        }
-        return os;
     }
 
     std::istream& operator>>(std::istream &is, Policy &p) {

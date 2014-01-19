@@ -1,13 +1,13 @@
 #include <AIToolbox/MDP/DynaQ.hpp>
 
-#include <chrono>
-
 #include <cassert>
+
+#include "Seeder.hpp"
 
 namespace AIToolbox {
     namespace MDP {
         DynaQ::DynaQ(size_t s, size_t a, double discount, unsigned n) : DynaQInterface(s, a, discount, n),
-                                                                        rand_(std::chrono::system_clock::now().time_since_epoch().count()) 
+                                                                        rand_(Impl::Seeder::getSeed()) 
         {
             visitedStatesActionsInserter_.reserve(S*A);
             visitedStatesActionsSampler_.reserve(S*A);

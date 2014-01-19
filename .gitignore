@@ -1,4 +1,5 @@
 .ycm*
+*.swp
 build/
 data/
 MDPtoolboxMatlab/

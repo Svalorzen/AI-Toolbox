@@ -1,11 +1,11 @@
 #include <AIToolbox/MDP/Model.hpp>
 
-#include <chrono>
+#include "Seeder.hpp"
 
 namespace AIToolbox {
     namespace MDP {
         Model::Model(size_t s, size_t a) : S(s), A(a), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]),
-        rand_(std::chrono::system_clock::now().time_since_epoch().count()), sampleDistribution_(0.0, 1.0) { }
+        rand_(Impl::Seeder::getSeed()), sampleDistribution_(0.0, 1.0) { }
 
         std::pair<size_t, double> Model::sample(size_t s, size_t a) const {
             double p = sampleDistribution_(rand_);

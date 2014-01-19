@@ -125,8 +125,11 @@ int main(int argc, char * argv[]) {
 
 
     // CREATING POLICY
+    cout << "Creating QPolicy...\n";
+    AIToolbox::MDP::QPolicy qp ( std::get<2>(solution) );
+
     cout << "Creating Policy...\n";
-    AIToolbox::Policy p = AIToolbox::MDP::makePolicy( std::get<2>(solution) );
+    AIToolbox::Policy p(qp);
     {
         std::ofstream outfile("policy.txt");
         p.prettyPrint(outfile);
@@ -134,15 +137,10 @@ int main(int argc, char * argv[]) {
     cout << "Policy created.\n\n";
 
     // Checking policy with Qtable:
+    std::ofstream pcomplete("policy_full.txt");
+    pcomplete << p;
+    std::ofstream qcomplete("qpolicy_full.txt");
+    qcomplete << qp;
     
-    /*
-    cout << "Creating QPolicy...\n";
-    AIToolbox::MDP::QPolicy qp ( std::get<2>(solution) );
-    cout << "QPolicy created.\n\n";
-    cout << "Testing QPolicy...\n";
-    for (size_t s = 0; s < S; s++)
-        for (size_t a = 0; a < A; a++)
-            if (qp.getActionProbability(s,a) ) cout << s << " " << a << " " << qp.getActionProbability(s,a) << "\n";
-    */
     return 0;
 }
