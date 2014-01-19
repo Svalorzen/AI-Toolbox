@@ -7,7 +7,7 @@
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/Policy.hpp>
 #include <AIToolbox/MDP/ValueIteration.hpp>
-#include <AIToolbox/MDP/QPolicy.hpp>
+#include <AIToolbox/MDP/QGreedyPolicy.hpp>
 #include <AIToolbox/MDP/PrioritizedSweeping.hpp>
 
 #include <boost/filesystem.hpp>
@@ -123,10 +123,9 @@ int main(int argc, char * argv[]) {
                 outfile << s << " " << a << " " << std::get<2>(solution)[s][a] << "\n";
     }
 
-
     // CREATING POLICY
     cout << "Creating QPolicy...\n";
-    AIToolbox::MDP::QPolicy qp ( std::get<2>(solution) );
+    AIToolbox::MDP::QGreedyPolicy qp( std::get<2>(solution) );
 
     cout << "Creating Policy...\n";
     AIToolbox::Policy p(qp);
@@ -141,6 +140,6 @@ int main(int argc, char * argv[]) {
     pcomplete << p;
     std::ofstream qcomplete("qpolicy_full.txt");
     qcomplete << qp;
-    
+
     return 0;
 }

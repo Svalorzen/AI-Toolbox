@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_EPSILONPOLICY_HEADER_FILE
-#define AI_TOOLBOX_EPSILONPOLICY_HEADER_FILE
+#ifndef AI_TOOLBOX_EPSILON_POLICY_HEADER_FILE
+#define AI_TOOLBOX_EPSILON_POLICY_HEADER_FILE
 
 #include <AIToolbox/PolicyInterface.hpp>
 
@@ -24,8 +24,8 @@ namespace AIToolbox {
              * The epsilon parameter must be >= 0.0 and <= 1.0,
              * otherwise the constructor will throw an std::runtime_error.
              *
-             * @param p
-             * @param epsilon
+             * @param p The policy that is being extended.
+             * @param epsilon The parameter that controls the amount of exploration.
              */
             EpsilonPolicy(const PolicyInterface & p, double epsilon = 0.9);
 
