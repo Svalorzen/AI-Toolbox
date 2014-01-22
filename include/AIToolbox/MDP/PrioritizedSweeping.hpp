@@ -18,11 +18,12 @@ namespace AIToolbox {
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
+                 * @param alpha The learning rate of the QLearning method.
                  * @param discount The discount of the QLearning method.
                  * @param theta The queue threshold.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
-                PrioritizedSweeping(size_t s, size_t a, double discount = 0.9, double theta = 0.5, unsigned n = 50);
+                PrioritizedSweeping(size_t s, size_t a, double alpha = 0.5, double discount = 0.9, double theta = 0.5, unsigned n = 50);
 
                 /**
                  * @brief This function updates the PrioritizedSweeping internal update queue.

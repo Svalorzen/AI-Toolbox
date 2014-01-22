@@ -6,8 +6,8 @@
 
 namespace AIToolbox {
     namespace MDP {
-        DynaQ::DynaQ(size_t s, size_t a, double discount, unsigned n) : DynaQInterface(s, a, discount, n),
-                                                                        rand_(Impl::Seeder::getSeed()) 
+        DynaQ::DynaQ(size_t s, size_t a, double alpha, double discount, unsigned n) : DynaQInterface(s, a, alpha, discount, n),
+                                                                                      rand_(Impl::Seeder::getSeed()) 
         {
             visitedStatesActionsInserter_.reserve(S*A);
             visitedStatesActionsSampler_.reserve(S*A);

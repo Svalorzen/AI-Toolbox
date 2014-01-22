@@ -20,10 +20,11 @@ namespace AIToolbox {
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
+                 * @param alpha The learning rate of the QLearning method.
                  * @param discount The discount of the QLearning method.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
-                DynaQInterface(size_t s, size_t a, double discount = 0.9, unsigned n = 50);
+                explicit DynaQInterface(size_t s, size_t a, double alpha = 0.5, double discount = 0.9, unsigned n = 50);
 
                 /**
                  * @brief This function sets the number of sampling passes during batchUpdateQ().

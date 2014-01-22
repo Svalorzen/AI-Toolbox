@@ -14,12 +14,31 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  * 
-                 * The discount parameter must be > 0.0 and <= 1.0,
-                 * otherwise the constructor will throw an std::runtime_error.
+                 * The both the learning rate and the discount parameter 
+                 * must be > 0.0 and <= 1.0, otherwise the constructor 
+                 * will throw an std::runtime_error.
                  *
+                 * @param alpha The learning rate of the QLearning method.
                  * @param discount The discount of the QLearning method.
                  */
-                QLearning(double discount = 0.9);
+                QLearning(double alpha = 0.5, double discount = 0.9);
+
+                /**
+                 * @brief This function sets the learning rate parameter.
+                 * 
+                 * The learning rate parameter must be > 0.0 and <= 1.0,
+                 * otherwise the function will do nothing.
+                 *
+                 * @param a The new learning rate parameter.
+                 */
+                void setLearningRate(double a);
+
+                /**
+                 * @brief This function will return the current set learning rate parameter.
+                 *
+                 * @return The currently set learning rate parameter.
+                 */
+                double getLearningRate() const;
 
                 /**
                  * @brief This function sets the discount parameter.
@@ -53,6 +72,7 @@ namespace AIToolbox {
                  */
                 virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
             protected:
+                double alpha_;
                 double discount_;
         };
     }

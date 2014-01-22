@@ -7,7 +7,7 @@ namespace AIToolbox {
             return std::get<0>(arg1) > std::get<0>(arg2);
         }
 
-        PrioritizedSweeping::PrioritizedSweeping(size_t s, size_t a, double discount, double theta, unsigned n) : DynaQInterface(s, a, discount, n), theta_(theta) {}
+        PrioritizedSweeping::PrioritizedSweeping(size_t s, size_t a, double alpha, double discount, double theta, unsigned n) : DynaQInterface(s, a, alpha, discount, n), theta_(theta) {}
 
         void PrioritizedSweeping::stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q_) {
             assert(q_ != nullptr);
