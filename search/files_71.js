@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['qgreedypolicy_2ehpp',['QGreedyPolicy.hpp',['../QGreedyPolicy_8hpp.html',1,'']]],
   ['qlearning_2ehpp',['QLearning.hpp',['../QLearning_8hpp.html',1,'']]],
-  ['qpolicy_2ehpp',['QPolicy.hpp',['../QPolicy_8hpp.html',1,'']]]
+  ['qpolicyinterface_2ehpp',['QPolicyInterface.hpp',['../QPolicyInterface_8hpp.html',1,'']]]
 ];

@@ -93,6 +93,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1Impl"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Impl.html">Impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceAIToolbox_1_1MDP"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -124,12 +126,12 @@ Functions</h2></td></tr>
 <tr class="separator:a1a914b70201737faec621c75c1e21710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a314200b0cae0913492e60c5bcb8d6832"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a314200b0cae0913492e60c5bcb8d6832">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1Experience.html">Experience</a> &amp;)</td></tr>
 <tr class="separator:a314200b0cae0913492e60c5bcb8d6832"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a560e36e1055b92564b208254bff660a9"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a560e36e1055b92564b208254bff660a9">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1Policy.html">Policy</a> &amp;p)</td></tr>
-<tr class="memdesc:a560e36e1055b92564b208254bff660a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a file.  <a href="#a560e36e1055b92564b208254bff660a9">More...</a><br/></td></tr>
-<tr class="separator:a560e36e1055b92564b208254bff660a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59b370d98aa199d2938152b773e7ada0"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a59b370d98aa199d2938152b773e7ada0">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1Policy.html">Policy</a> &amp;p)</td></tr>
 <tr class="memdesc:a59b370d98aa199d2938152b773e7ada0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="#a59b370d98aa199d2938152b773e7ada0">More...</a><br/></td></tr>
 <tr class="separator:a59b370d98aa199d2938152b773e7ada0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbefa395a90cb007ced37d59bcd3a007"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#afbefa395a90cb007ced37d59bcd3a007">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> &amp;p)</td></tr>
+<tr class="memdesc:afbefa395a90cb007ced37d59bcd3a007"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a file.  <a href="#afbefa395a90cb007ced37d59bcd3a007">More...</a><br/></td></tr>
+<tr class="separator:afbefa395a90cb007ced37d59bcd3a007"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad910375dbc82dfa1e526938ca3406841"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
 <tr class="memitem:ad910375dbc82dfa1e526938ca3406841"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad910375dbc82dfa1e526938ca3406841">copyTable3D</a> (const T &amp;in, U &amp;out, size_t d1, size_t d2, size_t d3)</td></tr>
 <tr class="memdesc:ad910375dbc82dfa1e526938ca3406841"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a 3d container into another 3d container.  <a href="#ad910375dbc82dfa1e526938ca3406841">More...</a><br/></td></tr>
@@ -228,6 +230,45 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="afbefa395a90cb007ced37d59bcd3a007"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; AIToolbox::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PolicyInterface &amp;&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function prints the whole policy to a file. </p>
+<p>This function outputs each and every value of the policy for easy parsing. The output is broken into multiple lines where each line is of the format:</p>
+<p>state_number action_number probability</p>
+<p>And all lines are sorted by state, and each state is sorted by action.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">os</td><td>The stream where the policy is printed. </td></tr>
+    <tr><td class="paramname">p</td><td>The policy that is begin printed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The original stream. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a1a914b70201737faec621c75c1e21710"></a>
 <div class="memitem">
 <div class="memproto">
@@ -251,45 +292,6 @@ template&lt;typename T , typename U &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a560e36e1055b92564b208254bff660a9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::ostream&amp; AIToolbox::operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Policy &amp;&#160;</td>
-          <td class="paramname"><em>p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function prints the whole policy to a file. </p>
-<p>This function outputs each and every value of the policy for easy parsing. The output is broken into multiple lines where each line is of the format:</p>
-<p>state_number action_number probability</p>
-<p>And all lines are sorted by state, and each state is sorted by action.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">os</td><td>The stream where the policy is printed. </td></tr>
-    <tr><td class="paramname">p</td><td>The policy that is begin printed.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The original stream. </dd></dl>
 
 </div>
 </div>
@@ -361,7 +363,7 @@ template&lt;typename T , typename U &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 1 2013 01:55:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 22 2014 23:04:15 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

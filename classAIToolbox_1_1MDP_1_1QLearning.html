@@ -114,9 +114,15 @@ Inheritance diagram for AIToolbox::MDP::QLearning:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac7d47f9c60d556733750f586ff888fdb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#ac7d47f9c60d556733750f586ff888fdb">QLearning</a> (double discount=0.9)</td></tr>
-<tr class="memdesc:ac7d47f9c60d556733750f586ff888fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ac7d47f9c60d556733750f586ff888fdb">More...</a><br/></td></tr>
-<tr class="separator:ac7d47f9c60d556733750f586ff888fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af86bab21f1013f7924494ad15cc227da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#af86bab21f1013f7924494ad15cc227da">QLearning</a> (double alpha=0.5, double discount=0.9)</td></tr>
+<tr class="memdesc:af86bab21f1013f7924494ad15cc227da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#af86bab21f1013f7924494ad15cc227da">More...</a><br/></td></tr>
+<tr class="separator:af86bab21f1013f7924494ad15cc227da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a546a1723d1d97bdadf511bbc7175e972"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a546a1723d1d97bdadf511bbc7175e972">setLearningRate</a> (double a)</td></tr>
+<tr class="memdesc:a546a1723d1d97bdadf511bbc7175e972"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the learning rate parameter.  <a href="#a546a1723d1d97bdadf511bbc7175e972">More...</a><br/></td></tr>
+<tr class="separator:a546a1723d1d97bdadf511bbc7175e972"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ad2f57ac9f08708a9df519208776fc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#ab0ad2f57ac9f08708a9df519208776fc">getLearningRate</a> () const </td></tr>
+<tr class="memdesc:ab0ad2f57ac9f08708a9df519208776fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function will return the current set learning rate parameter.  <a href="#ab0ad2f57ac9f08708a9df519208776fc">More...</a><br/></td></tr>
+<tr class="separator:ab0ad2f57ac9f08708a9df519208776fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac39afad638e55158d5741feb4927cc55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#ac39afad638e55158d5741feb4927cc55">setDiscount</a> (double d)</td></tr>
 <tr class="memdesc:ac39afad638e55158d5741feb4927cc55"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the discount parameter.  <a href="#ac39afad638e55158d5741feb4927cc55">More...</a><br/></td></tr>
 <tr class="separator:ac39afad638e55158d5741feb4927cc55"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,13 +135,15 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a8c3708df50f1bbfd0ffe3a08df6bf72f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a8c3708df50f1bbfd0ffe3a08df6bf72f">alpha_</a></td></tr>
+<tr class="separator:a8c3708df50f1bbfd0ffe3a08df6bf72f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50ea57f923019fc430826ae0a9507178"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a50ea57f923019fc430826ae0a9507178">discount_</a></td></tr>
 <tr class="separator:a50ea57f923019fc430826ae0a9507178"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> algorithm. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ac7d47f9c60d556733750f586ff888fdb"></a>
+<a class="anchor" id="af86bab21f1013f7924494ad15cc227da"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -143,16 +151,27 @@ Protected Attributes</h2></td></tr>
           <td class="memname">AIToolbox::MDP::QLearning::QLearning </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>discount</em> = <code>0.9</code>)</td><td></td>
+          <td class="paramname"><em>alpha</em> = <code>0.5</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>discount</em> = <code>0.9</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>The discount parameter must be &gt; 0.0 and &lt;= 1.0, otherwise the constructor will throw an std::runtime_error.</p>
+<p>The both the learning rate and the discount parameter must be &gt; 0.0 and &lt;= 1.0, otherwise the constructor will throw an std::runtime_error.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">alpha</td><td>The learning rate of the <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> method. </td></tr>
     <tr><td class="paramname">discount</td><td>The discount of the <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> method. </td></tr>
   </table>
   </dd>
@@ -179,6 +198,24 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab0ad2f57ac9f08708a9df519208776fc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::MDP::QLearning::getLearningRate </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function will return the current set learning rate parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set learning rate parameter. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ac39afad638e55158d5741feb4927cc55"></a>
 <div class="memitem">
 <div class="memproto">
@@ -198,6 +235,31 @@ Protected Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>The new discount parameter. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a546a1723d1d97bdadf511bbc7175e972"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::QLearning::setLearningRate </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>a</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function sets the learning rate parameter. </p>
+<p>The learning rate parameter must be &gt; 0.0 and &lt;= 1.0, otherwise the function will do nothing.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The new learning rate parameter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -272,6 +334,26 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a8c3708df50f1bbfd0ffe3a08df6bf72f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::MDP::QLearning::alpha_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a50ea57f923019fc430826ae0a9507178"></a>
 <div class="memitem">
 <div class="memproto">
@@ -298,7 +380,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 1 2013 01:55:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 22 2014 23:04:15 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['qlearning',['QLearning',['../classAIToolbox_1_1MDP_1_1QLearning.html#ac7d47f9c60d556733750f586ff888fdb',1,'AIToolbox::MDP::QLearning']]],
-  ['qpolicy',['QPolicy',['../classAIToolbox_1_1MDP_1_1QPolicy.html#a29728cf94ed81bfc151b6416b12327d7',1,'AIToolbox::MDP::QPolicy']]]
+  ['qgreedypolicy',['QGreedyPolicy',['../classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#adb6f8acfa676df74b18ea87e40cb3c51',1,'AIToolbox::MDP::QGreedyPolicy']]],
+  ['qlearning',['QLearning',['../classAIToolbox_1_1MDP_1_1QLearning.html#af86bab21f1013f7924494ad15cc227da',1,'AIToolbox::MDP::QLearning']]],
+  ['qpolicyinterface',['QPolicyInterface',['../classAIToolbox_1_1MDP_1_1QPolicyInterface.html#adfab9bef8960e29735bcdaa2c8aa286f',1,'AIToolbox::MDP::QPolicyInterface']]]
 ];
