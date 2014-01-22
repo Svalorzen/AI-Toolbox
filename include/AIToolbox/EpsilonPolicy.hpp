@@ -13,7 +13,7 @@ namespace AIToolbox {
      * Please note that to obtain an epsilon-greedy policy the wrapped
      * policy needs to already be greedy with respect to the model.
      */
-    class EpsilonPolicy : PolicyInterface {
+    class EpsilonPolicy : public PolicyInterface {
         public:
             /**
              * @brief Basic constructor.
