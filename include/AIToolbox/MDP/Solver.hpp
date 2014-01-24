@@ -13,6 +13,7 @@ namespace AIToolbox {
          */
         class Solver {
             public:
+                virtual ~Solver();
                 /**
                  * @brief This function solves an MDP Model.
                  *

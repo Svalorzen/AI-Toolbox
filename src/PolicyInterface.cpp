@@ -9,6 +9,8 @@ namespace AIToolbox {
                                                            rand_(Impl::Seeder::getSeed()),
                                                            sampleDistribution_(0.0, 1.0) {}
 
+    PolicyInterface::~PolicyInterface() {}
+
     size_t PolicyInterface::getS() const { return S; }
     size_t PolicyInterface::getA() const { return A; }
 

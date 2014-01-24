@@ -26,6 +26,11 @@ namespace AIToolbox {
             PolicyInterface(size_t s, size_t a);
 
             /**
+             * @brief Basic virtual destructor.
+             */
+            virtual ~PolicyInterface();
+
+            /**
              * @brief This function chooses a random action for state s, following the policy distribution.
              *
              * @param s The sampled state of the policy.

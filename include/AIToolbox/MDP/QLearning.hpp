@@ -24,6 +24,11 @@ namespace AIToolbox {
                 QLearning(double alpha = 0.5, double discount = 0.9);
 
                 /**
+                 * @brief Basic virtual destructor.
+                 */
+                virtual ~QLearning();
+
+                /**
                  * @brief This function sets the learning rate parameter.
                  * 
                  * The learning rate parameter must be > 0.0 and <= 1.0,
