@@ -34,7 +34,7 @@ namespace AIToolbox {
                  *
                  * @return The chosen action.
                  */
-                virtual size_t sampleAction(size_t s) const = 0;
+                virtual size_t sampleAction(size_t s) const override = 0;
 
                 /**
                  * @brief This function returns the probability of taking the specified action in the specified state.
@@ -44,7 +44,7 @@ namespace AIToolbox {
                  *
                  * @return The probability of taking the selected action in the specified state.
                  */
-                virtual double getActionProbability(size_t s, size_t a) const = 0;
+                virtual double getActionProbability(size_t s, size_t a) const override = 0;
 
             protected:
                 const QFunction & q_;

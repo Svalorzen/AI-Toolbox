@@ -46,7 +46,7 @@ namespace AIToolbox {
                  * @param rew The reward obtained.
                  * @param q A pointer to the QFunction that is begin modified.
                  */
-                virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
+                virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q) override;
 
                 /**
                  * @brief This function updates a QFunction based on simulated experience.
@@ -58,7 +58,7 @@ namespace AIToolbox {
                  * @param m The RLModel we sample experience from.
                  * @param q The QFunction to update.
                  */
-                virtual void batchUpdateQ(const RLModel & m, QFunction * q);
+                virtual void batchUpdateQ(const RLModel & m, QFunction * q) override;
             protected:
                 // We use two structures because generally S*A is not THAT big, and we can definitely use
                 // the O(1) insertion and O(1) sampling time.

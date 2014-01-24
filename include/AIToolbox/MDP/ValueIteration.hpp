@@ -110,7 +110,7 @@ namespace AIToolbox {
                  *         return status of the solution problem, the
                  *         ValueFunction and the QFunction for the Model.
                  */
-                virtual std::tuple<bool, ValueFunction, QFunction> operator()(const Model & m);
+                virtual std::tuple<bool, ValueFunction, QFunction> operator()(const Model & m) override;
             private:
                 /**
                  * @brief This type represents the trivial part of a ValueFunction.
