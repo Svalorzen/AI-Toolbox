@@ -82,7 +82,7 @@ namespace AIToolbox {
             void setRewards(R r);
 
             /**
-             * @brief Adds a new event to the recordings.
+             * @brief This function adds a new event to the recordings.
              *
              * @param s     Old state.
              * @param s1    New state.
@@ -95,6 +95,26 @@ namespace AIToolbox {
              * @brief This function resets all experienced rewards and transitions.
              */
             void reset();
+
+            /**
+             * @brief This function returns the current recorded visits for a transitions.
+             *
+             * @param s     Old state.
+             * @param s1    New state.
+             * @param a     Performed action.
+             * @param rew   Obtained reward.
+             */
+            unsigned long getVisit(size_t s, size_t s1, size_t a) const;
+
+            /**
+             * @brief This function returns the current recorded visits for a transitions.
+             *
+             * @param s     Old state.
+             * @param s1    New state.
+             * @param a     Performed action.
+             * @param rew   Obtained reward.
+             */
+            double getReward(size_t s, size_t s1, size_t a) const;
 
             /**
              * @brief This function returns the visits table for inspection.
