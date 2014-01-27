@@ -24,9 +24,9 @@ namespace AIToolbox {
      */
     template <typename T, typename U>
     void copyTable3D(const T & in, U & out, size_t d1, size_t d2, size_t d3) {
-        for ( size_t i = 0; i < d1; i++ )
-            for ( size_t j = 0; j < d2; j++ )
-                for ( size_t x = 0; x < d3; x++ )
+        for ( size_t i = 0; i < d1; ++i )
+            for ( size_t j = 0; j < d2; ++j )
+                for ( size_t x = 0; x < d3; ++x )
                     out[i][j][x] = in[i][j][x]; 
     }
 }

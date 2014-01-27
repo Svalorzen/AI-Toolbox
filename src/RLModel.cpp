@@ -2,12 +2,16 @@
 
 namespace AIToolbox {
     namespace MDP {
-        RLModel::RLModel( const Experience & exp ) : Model(exp.getS(), exp.getA()), experience_(exp) {
-            std::fill(transitions_.data(), transitions_.data() + transitions_.num_elements(), 0.0);
-            // Make transition table true probability
-            for ( size_t s = 0; s < S; s++ )
-                transitions_[s][s][0] = 1.0;
-            std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
+        RLModel::RLModel( const Experience & exp, bool sync ) : Model(exp.getS(), exp.getA()), experience_(exp) {
+            if ( sync ) sync();
+            else {
+                std::fill(transitions_.data(), transitions_.data() + transitions_.num_elements(), 0.0);
+                // Make transition table true probability
+                for ( size_t s = 0; s < S; s++ )
+                    for ( size_t a = 0; a < A; a++ )
+                        transitions_[s][s][a] = 1.0;
+                std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
+            }
         }
 
         void RLModel::sync() {

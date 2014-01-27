@@ -26,22 +26,23 @@ namespace AIToolbox {
                 /**
                  * @brief Constructor using previous Experience.
                  *
-                 * This constructor simply selects the Experience that will
-                 * be used to learn an MDP Model from the data.
+                 * This constructor selects the Experience that will
+                 * be used to learn an MDP Model from the data, and initializes
+                 * internal Model data.
                  *
-                 * After the constructor the user needs to manually sync() 
-                 * the RLModel to the Experience in order for the transitions
-                 * and rewards tables to be correctly computed. 
+                 * The user can choose whether he wants to directly sync
+                 * the RLModel to the underlying Experience, or delay
+                 * it for later.
                  * 
-                 * The default transition function defines a transition of 
-                 * probability 1 for each transition to state to itself,
-                 * using action 0.
+                 * In the latter case the default transition function 
+                 * defines a transition of probability 1 for each 
+                 * state to itself, no matter the action.
                  *
                  * The default reward function is 0.
                  *
                  * @param exp The base Experience of the model.
                  */
-                RLModel(const Experience & exp);
+                RLModel(const Experience & exp, bool sync);
 
                 /**
                  * @brief Constructor that sets initial transition and reward tables.
