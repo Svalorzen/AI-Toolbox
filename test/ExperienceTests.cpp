@@ -7,6 +7,7 @@
 
 #include <array>
 #include <algorithm>
+#include <fstream>
 
 BOOST_AUTO_TEST_CASE( construction ) {
     const int S = 5, A = 6;
@@ -79,5 +80,28 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
 }
 
 BOOST_AUTO_TEST_CASE( files ) {
-    // TODO: Add actual data to load and output in repo.
+    const int S = 96, A = 2;
+    AIToolbox::Experience exp(S,A);
+    {
+        std::ifstream savedExp("./data/experience.txt");
+
+        if ( !savedExp ) BOOST_FAIL("Data to perform test could not be loaded.");
+        BOOST_CHECK( savedExp >> exp );
+    }
+    {
+        std::ofstream output("./loadedExperience.txt");
+        if ( !output ) BOOST_FAIL("Could not open file for writing.");
+        BOOST_CHECK( output << exp );
+    }
+    {
+        std::ifstream testExp("./loadedExperience.txt");
+        std::ifstream savedExp("./data/experience.txt");
+
+        std::stringstream testBuffer, trueBuffer;
+
+        testBuffer << testExp.rdbuf();
+        trueBuffer << savedExp.rdbuf();
+
+        BOOST_CHECK( testBuffer.str() == trueBuffer.str() );
+    }
 }

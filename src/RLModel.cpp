@@ -2,8 +2,8 @@
 
 namespace AIToolbox {
     namespace MDP {
-        RLModel::RLModel( const Experience & exp, bool sync ) : Model(exp.getS(), exp.getA()), experience_(exp) {
-            if ( sync ) sync();
+        RLModel::RLModel( const Experience & exp, bool toSync ) : Model(exp.getS(), exp.getA()), experience_(exp) {
+            if ( toSync ) sync();
             else {
                 std::fill(transitions_.data(), transitions_.data() + transitions_.num_elements(), 0.0);
                 // Make transition table true probability
