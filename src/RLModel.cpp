@@ -1,8 +1,12 @@
 #include <AIToolbox/MDP/RLModel.hpp>
 
+#include "Seeder.hpp"
+
 namespace AIToolbox {
     namespace MDP {
-        RLModel::RLModel( const Experience & exp, bool toSync ) : Model(exp.getS(), exp.getA()), experience_(exp) {
+        RLModel::RLModel( const Experience & exp, bool toSync ) : S(exp.getS()), A(exp.getA()), experience_(exp),
+                                                       rand_(Impl::Seeder::getSeed()), sampleDistribution_(0.0, 1.0)
+        {
             if ( toSync ) sync();
             else {
                 std::fill(transitions_.data(), transitions_.data() + transitions_.num_elements(), 0.0);
@@ -52,6 +56,29 @@ namespace AIToolbox {
             }
         }
 
+        std::pair<size_t, double> RLModel::sample(size_t s, size_t a) const {
+            double p = sampleDistribution_(rand_);
+
+            for ( size_t s1 = 0; s1 < S; s1++ ) {
+                if ( transitions_[s][s1][a] > p ) return std::make_pair(s1, rewards_[s][s1][a]);
+                p -= transitions_[s][s1][a];
+            }
+            return std::make_pair(S-1, rewards_[s][S-1][a]);
+        }
+
+        double RLModel::getTransitionProbability(size_t s, size_t s1, size_t a) const {
+            return transitions_[s][s1][a];
+        }
+
+        double RLModel::getExpectedReward(size_t s, size_t s1, size_t a) const {
+            return rewards_[s][s1][a];
+        }
+
+        size_t RLModel::getS() const { return S; }
+        size_t RLModel::getA() const { return A; }
         const Experience & RLModel::getExperience() const { return experience_; }
+
+        const RLModel::TransitionTable & RLModel::getTransitionFunction() const { return transitions_; }
+        const RLModel::RewardTable &     RLModel::getRewardFunction()     const { return rewards_; }
     }
 }

@@ -59,8 +59,7 @@ int main(int argc, char * argv[]) {
 
     // NORMALIZING DATA
     cout << "Extracting MDP...\n";
-    AIToolbox::MDP::RLModel mdp(t);
-    mdp.sync();
+    AIToolbox::MDP::RLModel mdp(t, true);
     cout << "MDP extracted.\n\n";
 
     if ( debug ) {

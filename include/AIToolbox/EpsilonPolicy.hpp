@@ -59,7 +59,7 @@ namespace AIToolbox {
              * @brief This function sets the epsilon parameter.
              *
              * The epsilon parameter must be >= 0.0 and <= 1.0,
-             * otherwise the function will do nothing.
+             * otherwise the function will do throw std::invalid_argument.
              *
              * @param e The new epsilon parameter.
              */

@@ -6,7 +6,6 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Experience.hpp>
-#include <AIToolbox/MDP/Model.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -21,8 +20,10 @@ namespace AIToolbox {
          * This is to avoid possible overheads, as the user can optimize better
          * depending on their use case. See sync().
          */
-        class RLModel : public Model {
+        class RLModel {
             public:
+                using TransitionTable   = Table3D;
+                using RewardTable       = Table3D;
                 /**
                  * @brief Constructor using previous Experience.
                  *
@@ -33,9 +34,9 @@ namespace AIToolbox {
                  * The user can choose whether he wants to directly sync
                  * the RLModel to the underlying Experience, or delay
                  * it for later.
-                 * 
-                 * In the latter case the default transition function 
-                 * defines a transition of probability 1 for each 
+                 *
+                 * In the latter case the default transition function
+                 * defines a transition of probability 1 for each
                  * state to itself, no matter the action.
                  *
                  * The default reward function is 0.
@@ -43,33 +44,6 @@ namespace AIToolbox {
                  * @param exp The base Experience of the model.
                  */
                 RLModel(const Experience & exp, bool sync);
-
-                /**
-                 * @brief Constructor that sets initial transition and reward tables.
-                 *
-                 * This constructor takes two arbitrary three dimensional
-                 * containers and tries to copy their contents into the
-                 * transitions and rewards tables respectively. 
-                 *
-                 * The containers need to support data access through 
-                 * operator[]. In addition, the dimensions of the
-                 * containers must match the ones of the provided
-                 * Experience (for three dimensions: s,s,a).
-                 * 
-                 * This is important, as this constructor DOES NOT perform
-                 * any size checks on the external containers.
-                 * 
-                 * In addition, the transition container must respect
-                 * the constraint described in the Model::mdpCheck() function.
-                 *
-                 * @tparam T The external transition container type.
-                 * @tparam R The external rewards container type.
-                 * @param exp The base Experience of the model.
-                 * @param t The external transitions container. 
-                 * @param r The external rewards container. 
-                 */
-                template <typename T, typename R>
-                RLModel(const Experience & exp, T t, R r);
 
                 /**
                  * @brief This function syncs the whole RLModel to the underlying Experience.
@@ -107,24 +81,91 @@ namespace AIToolbox {
                 void sync(size_t s, size_t a);
 
                 /**
+                 * @brief This function samples the MDP for the specified state action pair.
+                 *
+                 * This function samples the model for simulate experience. The transition
+                 * and reward functions are used to produce, from the state action pair
+                 * inserted as arguments, a possible new state with respective reward.
+                 * The new state is picked from all possible states that the MDP allows
+                 * transitioning to, each with probability equal to the same probability
+                 * of the transition in the model. After a new state is picked, the reward
+                 * is the corresponding reward contained in the reward function.
+                 *
+                 * @param s The state that needs to be sampled.
+                 * @param a The action that needs to be sampled.
+                 *
+                 * @return A tuple containing a new state and a reward.
+                 */
+                std::pair<size_t, double> sample(size_t s, size_t a) const;
+
+                /**
+                 * @brief This function returns the number of states of the world.
+                 *
+                 * @return The total number of states.
+                 */
+                size_t getS() const;
+
+                /**
+                 * @brief This function returns the number of available actions to the agent.
+                 *
+                 * @return The total number of actions.
+                 */
+                size_t getA() const;
+
+                /**
                  * @brief This function enables inspection of the underlying Experience of the RLModel.
                  *
                  * @return The underlying Experience of the RLModel.
                  */
                 const Experience & getExperience() const;
 
-            protected:
-                using Model::S;
-                using Model::A;
+                /**
+                 * @brief This function returns the stored transition probability for the specified transition.
+                 *
+                 * @param s The initial state of the transition.
+                 * @param s1 The final state of the transition.
+                 * @param a The action performed in the transition.
+                 *
+                 * @return The probability of the specified transition.
+                 */
+                double getTransitionProbability(size_t s, size_t s1, size_t a) const;
+
+                /**
+                 * @brief This function returns the stored expected reward for the specified transition.
+                 *
+                 * @param s The initial state of the transition.
+                 * @param s1 The final state of the transition.
+                 * @param a The action performed in the transition.
+                 *
+                 * @return The expected reward of the specified transition.
+                 */
+                double getExpectedReward(size_t s, size_t s1, size_t a) const;
+
+                /**
+                 * @brief This function returns the transition table for inspection.
+                 *
+                 * @return The rewards table.
+                 */
+                const TransitionTable & getTransitionFunction() const;
+
+                /**
+                 * @brief This function returns the rewards table for inspection.
+                 *
+                 * @return The rewards table.
+                 */
+                const RewardTable &     getRewardFunction()     const;
+
+            private:
+                size_t S, A;
 
                 const Experience & experience_;
-        };
 
-        template <typename T, typename R>
-        RLModel::RLModel(const Experience & exp, T t, R r) : Model(exp.getS(), exp.getA()), experience_(exp) {
-            copyTable3D(t, transitions_, S, S, A);
-            copyTable3D(r, rewards_, S, S, A);
-        }
+                TransitionTable transitions_;
+                RewardTable rewards_;
+
+                mutable std::default_random_engine rand_;
+                mutable std::uniform_real_distribution<double> sampleDistribution_;
+        };
     }
 }
 

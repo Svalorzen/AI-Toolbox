@@ -1,16 +1,18 @@
 #ifndef AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 #define AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 
-#include <AIToolbox/MDP/Solver.hpp>
+#include <tuple>
+#include <iostream>
+#include <iterator>
+
 #include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox {
-    class Policy;
     namespace MDP {
         /**
          * @brief This class applies the value iteration algorithm on a Model.
          */
-        class ValueIteration : public Solver {
+        class ValueIteration {
             public:
                 /**
                  * @brief Basic constructor.
@@ -34,10 +36,24 @@ namespace AIToolbox {
                 ValueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v = ValueFunction(0) );
 
                 /**
+                 * @brief This function applies value iteration on an MDP to solve it.
+                 *
+                 * The algorithm is constrained by the currently set parameters.
+                 *
+                 * @tparam M The type of the solvable MDP.
+                 * @param m The MDP that needs to be solved.
+                 * @return A tuple containing a boolean value specifying the
+                 *         return status of the solution problem, the
+                 *         ValueFunction and the QFunction for the Model.
+                 */
+                template <typename M>
+                std::tuple<bool, ValueFunction, QFunction> operator()(const M & m);
+
+                /**
                  * @brief This function sets the discount parameter.
                  *
                  * The discount parameter must be > 0.0 and <= 1.0,
-                 * otherwise the function will do nothing.
+                 * otherwise the function will throw std::invalid_argument.
                  *
                  * @param d The new discount parameter.
                  */
@@ -47,7 +63,7 @@ namespace AIToolbox {
                  * @brief This function sets the epsilon parameter.
                  *
                  * The epsilon parameter must be > 0.0,
-                 * otherwise the function will do nothing.
+                 * otherwise the function will do throw std::invalid_argument.
                  *
                  * @param e The new epsilon parameter.
                  */
@@ -65,8 +81,8 @@ namespace AIToolbox {
                  *
                  * An empty value function defaults to all zeroes. Note
                  * that the default value function size needs to match
-                 * the number of states of the Model. Otherwise it will
-                 * be ignored.
+                 * the number of states of the Model that needs to be
+                 * solved. Otherwise it will be ignored.
                  *
                  * @param m The new starting value function.
                  */
@@ -100,17 +116,6 @@ namespace AIToolbox {
                  */
                 const ValueFunction & getValueFunction() const;
 
-                /**
-                 * @brief This function applies value iteration on the Model to solve it.
-                 *
-                 * The algorithm is constrained by the currently set parameters.
-                 *
-                 * @param m The Model that needs to be solved.
-                 * @return A tuple containing a boolean value specifying the
-                 *         return status of the solution problem, the
-                 *         ValueFunction and the QFunction for the Model.
-                 */
-                virtual std::tuple<bool, ValueFunction, QFunction> operator()(const Model & m) override;
             private:
                 /**
                  * @brief This type represents the trivial part of a ValueFunction.
@@ -118,42 +123,56 @@ namespace AIToolbox {
                  * This type contains, for each state-action pair, the expected
                  * one-step reward that can be gained. This does not include the
                  * non-trivial part, which is the inclusion of the future expected
-                 * discounted value. 
+                 * discounted value.
                  */
                 using PRType = Table2D;
+
                 // Parameters
                 double discount_, epsilon_;
                 unsigned maxIter_;
                 ValueFunction vParameter_;
+
                 // Internals
                 ValueFunction v1_;
-                const Model * model_;
                 size_t S, A;
+
                 // Internal methods
                 /**
-                 * @brief This function computes the single PRType of the Model once for improved speed.
-                 * 
+                 * @brief This function computes the single PRType of the MDP once for improved speed.
+                 *
+                 * @tparam M The type of the solvable MDP.
+                 * @param m The MDP that needs to be solved.
+                 *
                  * @return The Models's PRType.
                  */
-                PRType computePR() const;
+                template <typename M>
+                PRType computePR(const M & model) const;
 
                 /**
                  * @brief This function computes an upper bound on the number of iteration needed to solve the Model.
                  *
+                 * @tparam M The type of the solvable MDP.
+                 *
+                 * @param m The MDP that needs to be solved.
                  * @param pr The Model's PRType.
                  *
                  * @return The estimated upper iteration bound.
                  */
-                unsigned valueIterationBoundIter(const PRType & pr) const;
+                template <typename M>
+                unsigned valueIterationBoundIter(const M & model, const PRType & pr) const;
 
                 /**
                  * @brief This function creates the Model's most up-to-date QFunction.
                  *
+                 * @tparam M The type of the solvable MDP.
+                 *
+                 * @param m The MDP that needs to be solved.
                  * @param pr The Model's PRType.
                  *
                  * @return A new QFunction.
                  */
-                QFunction makeQFunction(const PRType & pr) const;
+                template <typename M>
+                QFunction makeQFunction(const M & model, const PRType & pr) const;
 
                 /**
                  * @brief This function applies a single pass Bellman operator, improving the current ValueFunction estimate.
@@ -162,12 +181,140 @@ namespace AIToolbox {
                  * the class (v1_). The result is then passed to vOut. This
                  * is to avoid allocating multiple ValueFunctions.
                  *
+                 * @tparam M The type of the solvable MDP.
+                 *
+                 * @param m The MDP that needs to be solved.
                  * @param pr The Model's PRType.
                  * @param vOut The newly estimated ValueFunction.
                  */
-                void bellmanOperator(const PRType & pr, ValueFunction & vOut) const;
+                template <typename M>
+                void bellmanOperator(const M & model, const PRType & pr, ValueFunction * vOut) const;
         };
 
+        template <typename M>
+        std::tuple<bool, ValueFunction, QFunction> ValueIteration::operator()(const M & model) {
+            // Extract necessary knowledge from model so we don't have to pass it around
+            S = model.getS();
+            A = model.getA();
+
+            // Verify that parameter value function is compatible.
+            if ( vParameter_.size() != S ) {
+                if ( vParameter_.size() != 0 )
+                    std::cerr << "AIToolbox: Size of starting value function in ValueIteration::solve() is incorrect, ignoring...\n";
+                v1_ = ValueFunction(S, 0.0);
+            }
+            else
+                v1_ = vParameter_;
+
+            auto pr = computePR(model);
+            {   // maxIter setup
+                unsigned computedMaxIter = valueIterationBoundIter(model, pr);
+                if ( !maxIter_ ) {
+                    maxIter_ = discount_ != 1.0 ? computedMaxIter : 1000;
+                }
+                else {
+                    maxIter_ = ( discount_ != 1.0 && maxIter_ > computedMaxIter ) ? computedMaxIter : maxIter_;
+                }
+            }
+            // threshold setup
+            double epsilon = ( discount_ != 1 ) ? ( epsilon_ * ( 1 - discount_ ) / discount_ ) : epsilon_;
+
+
+            unsigned iter = 0;
+            bool done = false, completed = false;
+
+            ValueFunction v0 = v1_;
+
+            while ( !done ) {
+                iter++;
+                v0 = v1_;
+
+                bellmanOperator( model, pr, &v1_ );
+
+                std::transform(std::begin(v1_), std::end(v1_), std::begin(v0), std::begin(v0), std::minus<double>() );
+
+                double variation;
+                {
+                    auto minmax = std::minmax_element(std::begin(v0), std::end(v0));
+                    variation = *(minmax.second) - *(minmax.first);
+                }
+                if ( variation < epsilon ) {
+                    completed = true;
+                    done = true;
+                }
+                else if ( iter > maxIter_ ) {
+                    done = true;
+                }
+            }
+
+            return std::make_tuple(completed, v1_, makeQFunction(model, pr));
+        }
+
+        template <typename M>
+        ValueIteration::PRType ValueIteration::computePR(const M & model) const {
+            // for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;
+            PRType pr(boost::extents[S][A]);
+
+            for ( size_t s = 0; s < S; s++ ) {
+                for ( size_t s1 = 0; s1 < S; s1++ ) {
+                    for ( size_t a = 0; a < A; a++ ) {
+                        pr[s][a] += model.getTransitionFunction()[s][s1][a] * model.getRewardFunction()[s][s1][a];
+                    }
+                }
+            }
+            return pr;
+        }
+
+        template <typename M>
+        QFunction ValueIteration::makeQFunction(const M & model, const PRType & pr) const {
+            QFunction q = pr;
+
+            for ( size_t s = 0; s < S; s++ )
+                for ( size_t s1 = 0; s1 < S; s1++ )
+                    for ( size_t a = 0; a < A; a++ )
+                        q[s][a] += model.getTransitionProbability(s, s1, a) * discount_ * v1_[s1];
+            return q;
+        }
+
+        template <typename M>
+        unsigned ValueIteration::valueIterationBoundIter(const M & model, const PRType & pr) const {
+            std::vector<double> h(S, 0.0);
+
+            for ( size_t s = 0; s < S; s++ )
+                for ( size_t s1 = 0; s1 < S; s1++ )
+                    for ( size_t a = 0; a < A; a++ )
+                        h[s1] = std::min(h[s1], model.getTransitionProbability(s, s1, a));
+
+            double k = 1 - std::accumulate(std::begin(h), std::end(h), 0.0);
+
+            ValueFunction v(S);
+
+            bellmanOperator(model, pr, &v);
+
+            std::transform(std::begin(v), std::end(v), std::begin(v1_), std::begin(v), std::minus<double>() );
+
+            double variation;
+            {
+                auto minmax = std::minmax_element(std::begin(v), std::end(v));
+                variation = *(minmax.second) - *(minmax.first);
+            }
+
+            return std::ceil (
+                    std::log( (epsilon_*(1-discount_)/discount_) / variation ) / std::log(discount_*k));
+        }
+
+        template <typename M>
+        void ValueIteration::bellmanOperator(const M & model, const PRType & pr, ValueFunction * v) const {
+            auto & vOut = *v;
+            QFunction q = makeQFunction(model, pr);
+
+            for ( size_t s = 0; s < S; s++ ) {
+                // Accessing an element like this creates a temporary. Thus we need to bind it.
+                decltype(q)::reference ref = q[s];
+                auto it = std::max_element(std::begin(ref), std::end(ref));
+                vOut[s] = *it;
+            }
+        }
     }
 }
 

@@ -5,7 +5,7 @@
 namespace AIToolbox {
     EpsilonPolicy::EpsilonPolicy(const PolicyInterface & p, double e) : PolicyInterface(p.getS(), p.getA()), policy_(p), epsilon_(e), randomDistribution_(0, A-1)
     {
-        if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::runtime_error("Epsilon must be >= 0 and <= 1");
+        if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
     }
 
     size_t EpsilonPolicy::sampleAction(size_t s) const {
@@ -22,7 +22,7 @@ namespace AIToolbox {
     }
 
     void EpsilonPolicy::setEpsilon(double e) {
-        if ( e < 0.0 || e > 1.0 ) return;
+        if ( e < 0.0 || e > 1.0 ) throw std::invalid_argument("Epsilon parameter was outside specified bounds");
         epsilon_ = e;
     }
 
