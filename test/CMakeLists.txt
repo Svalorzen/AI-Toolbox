@@ -9,7 +9,7 @@ target_link_libraries(solve_mdp AIToolbox ${Boost_FILESYSTEM_LIBRARY} ${Boost_SY
 function (AddTest name)
     add_executable(${name} ${name}.cpp)
     target_link_libraries(${name} AIToolbox ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
-    add_test(${name} ${name})
+    add_test(NAME ${name} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${name}>)
 endfunction (AddTest)
 
 AddTest(ExperienceTests)

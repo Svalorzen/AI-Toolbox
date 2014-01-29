@@ -8,6 +8,7 @@
 #include <array>
 #include <algorithm>
 #include <fstream>
+#include <cstdio>
 
 BOOST_AUTO_TEST_CASE( construction ) {
     const int S = 5, A = 6;
@@ -82,26 +83,33 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
 BOOST_AUTO_TEST_CASE( files ) {
     const int S = 96, A = 2;
     AIToolbox::Experience exp(S,A);
-    {
-        std::ifstream savedExp("./data/experience.txt");
 
-        if ( !savedExp ) BOOST_FAIL("Data to perform test could not be loaded.");
-        BOOST_CHECK( savedExp >> exp );
+    std::string inputFile = "./data/experience.txt";
+    std::string outpuFile = "./loadedExperience.txt";
+    {
+        std::ifstream testData(inputFile);
+
+        if ( !testData ) BOOST_FAIL("Data to perform test could not be loaded.");
+        BOOST_CHECK( testData >> exp );
     }
     {
-        std::ofstream output("./loadedExperience.txt");
+        std::ofstream output(outpuFile);
         if ( !output ) BOOST_FAIL("Could not open file for writing.");
         BOOST_CHECK( output << exp );
     }
     {
-        std::ifstream testExp("./loadedExperience.txt");
-        std::ifstream savedExp("./data/experience.txt");
+        std::ifstream testData(inputFile);
+        std::ifstream writtenData(outpuFile);
 
-        std::stringstream testBuffer, trueBuffer;
+        std::stringstream testBuffer, writtenBuffer;
 
-        testBuffer << testExp.rdbuf();
-        trueBuffer << savedExp.rdbuf();
+        testBuffer      << testData.rdbuf();
+        writtenBuffer   << writtenData.rdbuf();
 
-        BOOST_CHECK( testBuffer.str() == trueBuffer.str() );
+        BOOST_CHECK( testBuffer.str() == writtenBuffer.str() );
+    }
+    // Cleanup
+    {
+        std::remove(outpuFile.c_str());
     }
 }
