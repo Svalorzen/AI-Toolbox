@@ -29,7 +29,7 @@ namespace AIToolbox {
             auto & ttable = m.getTransitionFunction();
             auto & rtable = m.getRewardFunction();
 
-            for ( unsigned i = 0; i < N; i++ ) {
+            for ( unsigned i = 0; i < N; ++i ) {
                 if ( queue_.empty() ) return;
 
                 size_t s, s1, a;
@@ -40,8 +40,8 @@ namespace AIToolbox {
                 std::tie(s1, rew) = m.sample(s, a);
                 QLearning::stepUpdateQ(s, s1, a, rew, q);
 
-                for ( size_t ss = 0; ss < S; ss++ ) {
-                    for ( size_t aa = 0; aa < A; aa++ ) {
+                for ( size_t ss = 0; ss < S; ++ss ) {
+                    for ( size_t aa = 0; aa < A; ++aa ) {
                         if ( ttable[ss][s][aa] > 0.0 ) {
                             stepUpdateQ(ss, s, aa, rtable[ss][s][aa], q);
                         }

@@ -12,14 +12,14 @@ namespace AIToolbox {
 
     Policy::Policy(const PolicyInterface & p) : PolicyInterface(p.getS(), p.getA()), policy_(boost::extents[S][A])
     {
-        for ( size_t s = 0; s < S; s++ )
-            for ( size_t a = 0; a < A; a++ )
+        for ( size_t s = 0; s < S; ++s )
+            for ( size_t a = 0; a < A; ++a )
                 policy_[s][a] = p.getActionProbability(s, a);
     }
 
     size_t Policy::sampleAction(size_t s) const {
         double p = sampleDistribution_(rand_);
-        for ( size_t a = 0; a < A; a++ ) {
+        for ( size_t a = 0; a < A; ++a ) {
             if ( policy_[s][a] > p ) return a;
             p -= policy_[s][a];
         }
@@ -40,7 +40,7 @@ namespace AIToolbox {
     }
 
     void Policy::setStatePolicy(size_t s, size_t a) {
-        for ( size_t ax = 0; ax < A; ax++ )
+        for ( size_t ax = 0; ax < A; ++ax )
             policy_[s][ax] = static_cast<double>( ax == a );
     }
 
@@ -49,8 +49,8 @@ namespace AIToolbox {
     }
 
     void Policy::prettyPrint(std::ostream & os) const {
-        for ( size_t s = 0; s < S; s++ ) {
-            for ( size_t a = 0; a < A; a++ ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            for ( size_t a = 0; a < A; ++a ) {
                 if ( policy_[s][a] )
                     os << s << "\t" << a << "\t" << std::fixed << policy_[s][a] << "\n";
             }
@@ -66,8 +66,8 @@ namespace AIToolbox {
         size_t scheck, acheck;
 
         bool fail = false;
-        for ( size_t s = 0; s < S; s++ ) {
-            for ( size_t a = 0; a < A; a++ ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            for ( size_t a = 0; a < A; ++a ) {
                 if ( ! ( is >> scheck >> acheck >> policy.policy_[s][a] ) ) {
                     std::cerr << "AIToolbox: Could not read policy data.\n"; 
                     fail = true;
@@ -87,7 +87,7 @@ namespace AIToolbox {
             }
         }
         // Read succeeded
-        for ( size_t s = 0; s < S; s++ ) {
+        for ( size_t s = 0; s < S; ++s ) {
             // Sanitization: Assign and normalize everything.
             p.setStatePolicy(s, policy.policy_[s]);
         }

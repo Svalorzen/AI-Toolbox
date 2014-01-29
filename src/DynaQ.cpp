@@ -26,7 +26,7 @@ namespace AIToolbox {
 
             std::uniform_int_distribution<size_t> sampleDistribution_(0, visitedStatesActionsSampler_.size()-1);
 
-            for ( unsigned i = 0; i < N; i++ ) {
+            for ( unsigned i = 0; i < N; ++i ) {
                 size_t s, s1, a;
                 double rew;
                 // O(1) sampling...

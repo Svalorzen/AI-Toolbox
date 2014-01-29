@@ -65,16 +65,16 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
     AIToolbox::Experience exp(S,A);
 
     std::array<std::array<std::array<int, A>, S>, S> values;
-    for ( size_t s = 0; s < S; s++ ) 
-        for ( size_t s1 = 0; s1 < S; s1++ ) 
+    for ( size_t s = 0; s < S; ++s ) 
+        for ( size_t s1 = 0; s1 < S; ++s1 ) 
             std::generate(values[s][s1].begin(), values[s][s1].end(), generator);
 
     exp.setVisits(values);
     exp.setRewards(values);
 
-    for ( size_t s = 0; s < S; s++ ) 
-        for ( size_t s1 = 0; s1 < S; s1++ ) 
-            for ( size_t a = 0; a < A; a++ ) {
+    for ( size_t s = 0; s < S; ++s ) 
+        for ( size_t s1 = 0; s1 < S; ++s1 ) 
+            for ( size_t a = 0; a < A; ++a ) {
                 BOOST_CHECK_EQUAL( exp.getVisit(s,s1,a), values[s][s1][a] );
                 BOOST_CHECK_EQUAL( exp.getReward(s,s1,a), values[s][s1][a] );
             }

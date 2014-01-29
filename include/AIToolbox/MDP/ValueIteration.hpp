@@ -226,7 +226,7 @@ namespace AIToolbox {
             ValueFunction v0 = v1_;
 
             while ( !done ) {
-                iter++;
+                ++iter;
                 v0 = v1_;
 
                 bellmanOperator( model, pr, &v1_ );
@@ -255,9 +255,9 @@ namespace AIToolbox {
             // for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;
             PRType pr(boost::extents[S][A]);
 
-            for ( size_t s = 0; s < S; s++ ) {
-                for ( size_t s1 = 0; s1 < S; s1++ ) {
-                    for ( size_t a = 0; a < A; a++ ) {
+            for ( size_t s = 0; s < S; ++s ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    for ( size_t a = 0; a < A; ++a ) {
                         pr[s][a] += model.getTransitionFunction()[s][s1][a] * model.getRewardFunction()[s][s1][a];
                     }
                 }
@@ -269,9 +269,9 @@ namespace AIToolbox {
         QFunction ValueIteration::makeQFunction(const M & model, const PRType & pr) const {
             QFunction q = pr;
 
-            for ( size_t s = 0; s < S; s++ )
-                for ( size_t s1 = 0; s1 < S; s1++ )
-                    for ( size_t a = 0; a < A; a++ )
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t s1 = 0; s1 < S; ++s1 )
+                    for ( size_t a = 0; a < A; ++a )
                         q[s][a] += model.getTransitionProbability(s, s1, a) * discount_ * v1_[s1];
             return q;
         }
@@ -280,9 +280,9 @@ namespace AIToolbox {
         unsigned ValueIteration::valueIterationBoundIter(const M & model, const PRType & pr) const {
             std::vector<double> h(S, 0.0);
 
-            for ( size_t s = 0; s < S; s++ )
-                for ( size_t s1 = 0; s1 < S; s1++ )
-                    for ( size_t a = 0; a < A; a++ )
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t s1 = 0; s1 < S; ++s1 )
+                    for ( size_t a = 0; a < A; ++a )
                         h[s1] = std::min(h[s1], model.getTransitionProbability(s, s1, a));
 
             double k = 1 - std::accumulate(std::begin(h), std::end(h), 0.0);
@@ -308,7 +308,7 @@ namespace AIToolbox {
             auto & vOut = *v;
             QFunction q = makeQFunction(model, pr);
 
-            for ( size_t s = 0; s < S; s++ ) {
+            for ( size_t s = 0; s < S; ++s ) {
                 // Accessing an element like this creates a temporary. Thus we need to bind it.
                 decltype(q)::reference ref = q[s];
                 auto it = std::max_element(std::begin(ref), std::end(ref));
