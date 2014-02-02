@@ -23,8 +23,8 @@ namespace AIToolbox {
             }
 
             // The multiplication avoids the need to normalize the whole probs vector
-            unsigned p = sampleDistribution_(rand_) * count;
-
+            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, count-1);
+            unsigned p = pickDistribution(rand_);
             for ( size_t a = 0; a < A; ++a ) {
                 if ( probs[a] == sign && !p ) return a;
                 --p;
