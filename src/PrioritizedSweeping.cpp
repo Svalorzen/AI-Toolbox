@@ -16,8 +16,16 @@ namespace AIToolbox {
                                   + discount_ * (*std::max_element(std::begin(q[s1]), std::end(q[s1])))
                                   - q[s][a] );
 
-            if ( p > theta_ )
-                queue_.emplace(p, s, a);
+            auto stateActionPair = std::make_tuple(s, a);
+            if ( p > theta_ ) {
+                auto it = queueHandles_.find(stateActionPair);
+                if ( it != std::end(queueHandles_) ) {
+                    if ( std::get<0>(*(it->second)) < p ) queue_.increase(it->second, std::make_tuple(p, s, a));
+                }
+                else {
+                    queueHandles_[stateActionPair] = queue_.emplace(p, s, a);
+                }
+            }
         }
 
         void PrioritizedSweeping::batchUpdateQ(const RLModel & m, QFunction * q) {
@@ -30,10 +38,11 @@ namespace AIToolbox {
                 if ( queue_.empty() ) return;
 
                 size_t s, s1, a;
-                double rew, p;
-                //std::tie(std::ignore, s, a) = queue_.top();
-                std::tie(p, s, a) = queue_.top();
+                double rew;
+                std::tie(std::ignore, s, a) = queue_.top();
+
                 queue_.pop();
+                queueHandles_.erase(std::make_pair(s, a));
 
                 std::tie(s1, rew) = m.sample(s, a);
                 QLearning::stepUpdateQ(s, s1, a, rew, q);

@@ -6,6 +6,10 @@
 #include <queue>
 #include <tuple>
 
+#include <boost/heap/fibonacci_heap.hpp>
+#include <boost/functional/hash.hpp>
+#include <unordered_map>
+
 namespace AIToolbox {
     namespace MDP {
         /**
@@ -64,7 +68,10 @@ namespace AIToolbox {
                         bool operator() (const PriorityQueueElement& arg1, const PriorityQueueElement& arg2) const;
                 };
 
-                std::priority_queue<PriorityQueueElement, std::vector<PriorityQueueElement>, PriorityTupleLess> queue_;
+                using QueueType = boost::heap::fibonacci_heap<PriorityQueueElement, boost::heap::compare<PriorityTupleLess>>;
+                
+                QueueType queue_;
+                std::unordered_map<std::tuple<size_t, size_t>, QueueType::handle_type, boost::hash<std::tuple<size_t, size_t>>> queueHandles_;
         };
     }
 }
