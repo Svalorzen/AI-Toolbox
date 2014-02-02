@@ -1,4 +1,5 @@
 #include <AIToolbox/MDP/QGreedyPolicy.hpp>
+#include <iostream>
 
 namespace AIToolbox {
     namespace MDP {
@@ -8,8 +9,8 @@ namespace AIToolbox {
             std::vector<unsigned> probs(A, 0);
 
             // This work is due to multiple max-valued actions
-            double max = q_[s][0]; unsigned count = 0, sign = 0;
-            for ( size_t a = 0; a < A; ++a ) {
+            double max = q_[s][0]; unsigned count = 1, sign = 0;
+            for ( size_t a = 1; a < A; ++a ) {
                 if ( q_[s][a] == max ) {
                     ++count;
                     probs[a] = sign;
@@ -28,21 +29,21 @@ namespace AIToolbox {
                 if ( probs[a] == sign && !p ) return a;
                 --p;
             }
-
-            // Return last action just in case
-            return A-1;
+            std::cerr << "QGreedyPolicy missed a sampling.\n";
+            // Make program fail in case this does not work.
+            return 100000000000;
         }
 
         double QGreedyPolicy::getActionProbability(size_t s, size_t a) const {
-            double max = q_[s][0]; unsigned count = 0;
-            for ( size_t aa = 0; aa < A; ++aa ) {
+            double max = q_[s][0]; unsigned count = 1;
+            for ( size_t aa = 1; aa < A; ++aa ) {
                 if ( q_[s][aa] == max ) ++count;
                 else if ( q_[s][aa] > max ) {
                     max = q_[s][aa];
                     count = 1;
                 }
             }
-
+            // This can be weird with double math unfortunately..
             if ( q_[s][a] != max ) return 0.0;
 
             return 1.0 / count;

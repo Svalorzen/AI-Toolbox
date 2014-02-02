@@ -1,10 +1,9 @@
 #include <AIToolbox/MDP/QLearning.hpp>
-
-#include <cassert>
+#include <iostream>
 
 namespace AIToolbox {
     namespace MDP {
-         
+
         QLearning::QLearning(double alpha, double discount) : alpha_(alpha), discount_(discount) {
             if ( alpha_ <= 0 || alpha_ > 1 )  throw std::runtime_error("Learning rate parameter must be in (0,1]");
             if ( discount_ <= 0 || discount_ > 1 )  throw std::runtime_error("Discount parameter must be in (0,1]");

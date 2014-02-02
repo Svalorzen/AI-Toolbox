@@ -13,4 +13,5 @@ function (AddTest name)
 endfunction (AddTest)
 
 AddTest(ExperienceTests)
+AddTest(MDP_RLModelTests)
 

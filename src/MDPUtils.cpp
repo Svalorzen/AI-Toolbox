@@ -13,5 +13,9 @@ namespace AIToolbox {
             }
             p.setStatePolicy(s, probs);
         }
+
+        QFunction makeQFunction(size_t S, size_t A) {
+            return QFunction(boost::extents[S][A]);
+        }
     }
 }

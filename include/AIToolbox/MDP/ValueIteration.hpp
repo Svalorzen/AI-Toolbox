@@ -219,7 +219,6 @@ namespace AIToolbox {
             // threshold setup
             double epsilon = ( discount_ != 1 ) ? ( epsilon_ * ( 1 - discount_ ) / discount_ ) : epsilon_;
 
-
             unsigned iter = 0;
             bool done = false, completed = false;
 
@@ -246,7 +245,7 @@ namespace AIToolbox {
                     done = true;
                 }
             }
-
+            // We do not guarantee that the Value/QFunctions are correct, as we stop as long as the policy is fine.
             return std::make_tuple(completed, v1_, makeQFunction(model, pr));
         }
 

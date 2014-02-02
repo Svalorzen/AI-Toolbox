@@ -7,6 +7,7 @@
 namespace AIToolbox {
     class Policy;
     namespace MDP {
+        QFunction makeQFunction(size_t S, size_t A);
     }
 }
 

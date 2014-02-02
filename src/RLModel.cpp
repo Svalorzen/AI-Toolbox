@@ -4,7 +4,7 @@
 
 namespace AIToolbox {
     namespace MDP {
-        RLModel::RLModel( const Experience & exp, bool toSync ) : S(exp.getS()), A(exp.getA()), experience_(exp),
+        RLModel::RLModel( const Experience & exp, bool toSync ) : S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]),
                                                        rand_(Impl::Seeder::getSeed()), sampleDistribution_(0.0, 1.0)
         {
             if ( toSync ) sync();

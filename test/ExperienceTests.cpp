@@ -65,15 +65,15 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
     AIToolbox::Experience exp(S,A);
 
     std::array<std::array<std::array<int, A>, S>, S> values;
-    for ( size_t s = 0; s < S; ++s ) 
-        for ( size_t s1 = 0; s1 < S; ++s1 ) 
+    for ( size_t s = 0; s < S; ++s )
+        for ( size_t s1 = 0; s1 < S; ++s1 )
             std::generate(values[s][s1].begin(), values[s][s1].end(), generator);
 
     exp.setVisits(values);
     exp.setRewards(values);
 
-    for ( size_t s = 0; s < S; ++s ) 
-        for ( size_t s1 = 0; s1 < S; ++s1 ) 
+    for ( size_t s = 0; s < S; ++s )
+        for ( size_t s1 = 0; s1 < S; ++s1 )
             for ( size_t a = 0; a < A; ++a ) {
                 BOOST_CHECK_EQUAL( exp.getVisit(s,s1,a), values[s][s1][a] );
                 BOOST_CHECK_EQUAL( exp.getReward(s,s1,a), values[s][s1][a] );
@@ -84,32 +84,32 @@ BOOST_AUTO_TEST_CASE( files ) {
     const int S = 96, A = 2;
     AIToolbox::Experience exp(S,A);
 
-    std::string inputFile = "./data/experience.txt";
-    std::string outpuFile = "./loadedExperience.txt";
+    std::string inputFilename  = "./data/experience.txt";
+    std::string outputFilename = "./loadedExperience.txt";
     {
-        std::ifstream testData(inputFile);
+        std::ifstream inputFile(inputFilename);
 
-        if ( !testData ) BOOST_FAIL("Data to perform test could not be loaded.");
-        BOOST_CHECK( testData >> exp );
+        if ( !inputFile ) BOOST_FAIL("Data to perform test could not be loaded: " + inputFilename);
+        BOOST_CHECK( inputFile >> exp );
     }
     {
-        std::ofstream output(outpuFile);
-        if ( !output ) BOOST_FAIL("Could not open file for writing.");
-        BOOST_CHECK( output << exp );
+        std::ofstream outputFile(outputFilename);
+        if ( !outputFile ) BOOST_FAIL("Could not open file for writing: " + outputFilename);
+        BOOST_CHECK( outputFile << exp );
     }
     {
-        std::ifstream testData(inputFile);
-        std::ifstream writtenData(outpuFile);
+        std::ifstream inputFile(inputFilename);
+        std::ifstream writtenFile(outputFilename);
 
-        std::stringstream testBuffer, writtenBuffer;
-
-        testBuffer      << testData.rdbuf();
-        writtenBuffer   << writtenData.rdbuf();
-
-        BOOST_CHECK( testBuffer.str() == writtenBuffer.str() );
+        double input, written;
+        while ( inputFile >> input ) {
+            BOOST_CHECK( writtenFile >> written );
+            BOOST_CHECK_EQUAL( written, input );
+        }
+        BOOST_CHECK( ! ( writtenFile >> written ) );
     }
     // Cleanup
     {
-        std::remove(outpuFile.c_str());
+        std::remove(outputFilename.c_str());
     }
 }

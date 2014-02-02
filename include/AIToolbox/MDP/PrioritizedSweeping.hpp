@@ -57,12 +57,12 @@ namespace AIToolbox {
 
                 using PriorityQueueElement = std::tuple<double, size_t, size_t>;
 
-                class PriorityTupleGreater {
+                class PriorityTupleLess {
                     public:
                         bool operator() (const PriorityQueueElement& arg1, const PriorityQueueElement& arg2) const;
                 };
 
-                std::priority_queue<PriorityQueueElement, std::vector<PriorityQueueElement>, PriorityTupleGreater> queue_;
+                std::priority_queue<PriorityQueueElement, std::vector<PriorityQueueElement>, PriorityTupleLess> queue_;
         };
     }
 }

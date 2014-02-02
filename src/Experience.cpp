@@ -79,10 +79,10 @@ namespace AIToolbox {
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
                 for ( size_t a = 0; a < A; ++a ) {
-                    os << exp.getVisits()[s][s1][a] << " " << exp.getRewards()[s][s1][a] << " ";
+                    os << exp.getVisit(s, s1, a) << '\t' << exp.getReward(s, s1, a) << '\t';
                 }
             }
-            os << "\n";
+            os << '\n';
         }
         return os;
     }
