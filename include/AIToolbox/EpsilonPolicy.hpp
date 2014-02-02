@@ -22,7 +22,7 @@ namespace AIToolbox {
              * parameter for later use.
              * 
              * The epsilon parameter must be >= 0.0 and <= 1.0,
-             * otherwise the constructor will throw an std::runtime_error.
+             * otherwise the constructor will throw an std::invalid_argument.
              *
              * @param p The policy that is being extended.
              * @param epsilon The parameter that controls the amount of exploration.

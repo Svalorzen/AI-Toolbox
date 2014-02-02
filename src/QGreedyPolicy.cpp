@@ -6,10 +6,10 @@ namespace AIToolbox {
         QGreedyPolicy::QGreedyPolicy(const QFunction & q) : QPolicyInterface(q) {}
 
         size_t QGreedyPolicy::sampleAction(size_t s) const {
-            std::vector<unsigned> probs(A, 0);
+            std::vector<unsigned> probs(A, 1);
 
             // This work is due to multiple max-valued actions
-            double max = q_[s][0]; unsigned count = 1, sign = 0;
+            double max = q_[s][0]; unsigned count = 1, sign = 1;
             for ( size_t a = 1; a < A; ++a ) {
                 if ( q_[s][a] == max ) {
                     ++count;
@@ -20,18 +20,22 @@ namespace AIToolbox {
                     count = 1;
                     probs[a] = ++sign;
                 }
+                else if ( q_[s][a] < max ) {
+                    probs[a] = sign - 1; // Discard these values
+                }
             }
 
             // The multiplication avoids the need to normalize the whole probs vector
             auto pickDistribution = std::uniform_int_distribution<unsigned>(0, count-1);
             unsigned p = pickDistribution(rand_);
-            std::cout << "Vector contains: "; for ( auto v : probs ) std::cout << v << " "; std::cout << "\n"; std::cout << "Value picked is: " << p << "\n";
             for ( size_t a = 0; a < A; ++a ) {
-                if ( probs[a] == sign && !p ) return a;
-                --p;
+                if ( probs[a] == sign ) {
+                    if ( !p ) return a;
+                    else      --p;
+                }
             }
-            std::cerr << "QGreedyPolicy missed a sampling.\n";
             // Make program fail in case this does not work.
+            std::cerr << "QGreedyPolicy missed a sampling.\n";
             return 100000000000;
         }
 
