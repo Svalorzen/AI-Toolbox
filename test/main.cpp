@@ -22,19 +22,19 @@ int main(/*int argc, char * argv[]*/) {
     Experience exp(S,A);
     MDP::RLModel model(exp, false);
     MDP::QFunction q = MDP::makeQFunction(S,A);
-    MDP::PrioritizedSweeping ps(S,A);
+    MDP::PrioritizedSweeping ps(S, A, 1, 0.9, 0.01, 200);
 
     std::default_random_engine rand(0);
     std::uniform_int_distribution<int> dist(0,A-1);
 
     for ( int i = 0; i < 500; ++i ) {
         size_t s = dist(rand), s1 = dist(rand), a = dist(rand);
-        double rew = a;
+        double rew = !( a % 2 ) + 5;
 
         exp.record(s,s1,a,rew);
         model.sync(s,a);
 
-        ps.stepUpdateQ(s,s1,a,rew, &q);
+        ps.stepUpdateQ(s,s1,a,rew, q);
         ps.batchUpdateQ(model, &q);
     }
 

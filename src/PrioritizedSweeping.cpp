@@ -11,11 +11,7 @@ namespace AIToolbox {
 
         PrioritizedSweeping::PrioritizedSweeping(size_t s, size_t a, double alpha, double discount, double theta, unsigned n) : DynaQInterface(s, a, alpha, discount, n), theta_(theta) {}
 
-        void PrioritizedSweeping::stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q_) {
-            assert(q_ != nullptr);
-
-            QFunction & q = *q_;
-
+        void PrioritizedSweeping::stepUpdateQ(size_t s, size_t s1, size_t a, double rew, const QFunction & q) {
             double p = std::fabs( rew
                                   + discount_ * (*std::max_element(std::begin(q[s1]), std::end(q[s1])))
                                   - q[s][a] );
@@ -45,12 +41,15 @@ namespace AIToolbox {
                 for ( size_t ss = 0; ss < S; ++ss ) {
                     for ( size_t aa = 0; aa < A; ++aa ) {
                         if ( ttable[ss][s][aa] > 0.0 ) {
-                            stepUpdateQ(ss, s, aa, rtable[ss][s][aa], q);
+                            stepUpdateQ(ss, s, aa, rtable[ss][s][aa], *q);
                         }
                     }
                 }
             }
         }
 
+        size_t PrioritizedSweeping::getQueueLength() const {
+            return queue_.size();
+        }
     }
 }
