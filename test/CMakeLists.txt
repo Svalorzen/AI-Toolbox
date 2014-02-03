@@ -14,4 +14,4 @@ endfunction (AddTest)
 
 AddTest(ExperienceTests)
 AddTest(MDP_RLModelTests)
-
+AddTest(QLearningTests)
