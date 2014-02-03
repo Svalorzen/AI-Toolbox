@@ -42,7 +42,7 @@ namespace AIToolbox {
                 std::tie(std::ignore, s, a) = queue_.top();
 
                 queue_.pop();
-                queueHandles_.erase(std::make_pair(s, a));
+                queueHandles_.erase(std::make_tuple(s, a));
 
                 std::tie(s1, rew) = m.sample(s, a);
                 QLearning::stepUpdateQ(s, s1, a, rew, q);
