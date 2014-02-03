@@ -217,7 +217,7 @@ namespace AIToolbox {
                 }
             }
             // threshold setup
-            double epsilon = ( discount_ != 1 ) ? ( epsilon_ * ( 1 - discount_ ) / discount_ ) : epsilon_;
+            double epsilon = ( discount_ != 1.0 ) ? ( epsilon_ * ( 1.0 - discount_ ) / discount_ ) : epsilon_;
 
             unsigned iter = 0;
             bool done = false, completed = false;
@@ -284,7 +284,7 @@ namespace AIToolbox {
                     for ( size_t a = 0; a < A; ++a )
                         h[s1] = std::min(h[s1], model.getTransitionProbability(s, s1, a));
 
-            double k = 1 - std::accumulate(std::begin(h), std::end(h), 0.0);
+            double k = 1.0 - std::accumulate(std::begin(h), std::end(h), 0.0);
 
             ValueFunction v(S);
 
@@ -299,7 +299,7 @@ namespace AIToolbox {
             }
 
             return std::ceil (
-                    std::log( (epsilon_*(1-discount_)/discount_) / variation ) / std::log(discount_*k));
+                    std::log( (epsilon_*(1.0-discount_)/discount_) / variation ) / std::log(discount_*k));
         }
 
         template <typename M>

@@ -63,7 +63,7 @@ namespace AIToolbox {
                 if ( transitions_[s][s1][a] > p ) return std::make_pair(s1, rewards_[s][s1][a]);
                 p -= transitions_[s][s1][a];
             }
-            return std::make_pair(S-1, rewards_[s][S-1][a]);
+            throw std::runtime_error("RLModel could not sample");
         }
 
         double RLModel::getTransitionProbability(size_t s, size_t s1, size_t a) const {

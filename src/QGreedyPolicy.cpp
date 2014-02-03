@@ -34,9 +34,7 @@ namespace AIToolbox {
                     else      --p;
                 }
             }
-            // Make program fail in case this does not work.
-            std::cerr << "QGreedyPolicy missed a sampling.\n";
-            return 100000000000;
+            throw std::runtime_error("QGreedyPolicy could not sample action");
         }
 
         double QGreedyPolicy::getActionProbability(size_t s, size_t a) const {
