@@ -16,7 +16,7 @@ namespace AIToolbox {
                  * 
                  * The both the learning rate and the discount parameter 
                  * must be > 0.0 and <= 1.0, otherwise the constructor 
-                 * will throw an std::runtime_error.
+                 * will throw an std::invalid_argument.
                  *
                  * @param alpha The learning rate of the QLearning method.
                  * @param discount The discount of the QLearning method.
@@ -32,7 +32,7 @@ namespace AIToolbox {
                  * @brief This function sets the learning rate parameter.
                  * 
                  * The learning rate parameter must be > 0.0 and <= 1.0,
-                 * otherwise the function will do nothing.
+                 * otherwise the function will throw an std::invalid_argument.
                  *
                  * @param a The new learning rate parameter.
                  */
@@ -49,7 +49,7 @@ namespace AIToolbox {
                  * @brief This function sets the discount parameter.
                  * 
                  * The discount parameter must be > 0.0 and <= 1.0,
-                 * otherwise the function will do nothing.
+                 * otherwise the function will throw an std::invalid_argument.
                  *
                  * @param d The new discount parameter.
                  */
