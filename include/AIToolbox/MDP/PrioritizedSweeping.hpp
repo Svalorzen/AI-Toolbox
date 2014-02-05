@@ -1,21 +1,20 @@
 #ifndef AI_TOOLBOX_MDP_PRIORITIZEDSWEEPING_HEADER_FILE
 #define AI_TOOLBOX_MDP_PRIORITIZEDSWEEPING_HEADER_FILE
 
-#include <AIToolbox/MDP/DynaQInterface.hpp>
-
-#include <queue>
 #include <tuple>
+#include <unordered_map>
 
 #include <boost/heap/fibonacci_heap.hpp>
-#include <boost/functional/hash.hpp>
-#include <unordered_map>
+
+#include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox {
     namespace MDP {
+        class RLModel;
         /**
          * @brief This class represents the PrioritizedSweeping algorithm.
          */
-        class PrioritizedSweeping : public DynaQInterface {
+        class PrioritizedSweeping {
             public:
                 /**
                  * @brief Basic constructor.
@@ -27,7 +26,7 @@ namespace AIToolbox {
                  * @param theta The queue threshold.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
-                PrioritizedSweeping(size_t s, size_t a, double alpha = 0.5, double discount = 0.9, double theta = 0.5, unsigned n = 50);
+                PrioritizedSweeping(const RLModel & m, double discount = 0.9, double theta = 0.5, unsigned n = 50);
 
                 /**
                  * @brief This function updates the PrioritizedSweeping internal update queue.
@@ -41,7 +40,7 @@ namespace AIToolbox {
                  * @param rew The reward obtained.
                  * @param q A pointer to the QFunction that is begin accessed.
                  */
-                virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, const QFunction & q);
+                void stepUpdateQ(size_t s, size_t a);
 
                 /**
                  * @brief This function updates a QFunction based on simulated experience.
@@ -55,13 +54,23 @@ namespace AIToolbox {
                  * @param m The RLModel we sample experience from.
                  * @param q The QFunction to update.
                  */
-                virtual void batchUpdateQ(const RLModel & m, QFunction * q) override;
+                void batchUpdateQ();
 
                 size_t getQueueLength() const;
-            private:
-                double theta_;
+                const RLModel & getModel() const;
+                const QFunction & getQFunction() const;
+                const ValueFunction & getValueFunction() const;
 
-                using PriorityQueueElement = std::tuple<double, size_t, size_t>;
+            private:
+                size_t S, A;
+                unsigned N;
+                double discount_, theta_;
+
+                const RLModel & model_;
+                QFunction qfun_;
+                ValueFunction vfun_;
+
+                using PriorityQueueElement = std::tuple<double, size_t>;
 
                 class PriorityTupleLess {
                     public:
@@ -71,7 +80,8 @@ namespace AIToolbox {
                 using QueueType = boost::heap::fibonacci_heap<PriorityQueueElement, boost::heap::compare<PriorityTupleLess>>;
                 
                 QueueType queue_;
-                std::unordered_map<std::tuple<size_t, size_t>, QueueType::handle_type, boost::hash<std::tuple<size_t, size_t>>> queueHandles_;
+
+                std::unordered_map<size_t, QueueType::handle_type> queueHandles_;
         };
     }
 }

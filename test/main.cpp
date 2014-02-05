@@ -17,25 +17,30 @@ using std::cerr;
 
 int main(/*int argc, char * argv[]*/) {
     using namespace AIToolbox;
-    size_t S = 3, A = 3;
+    size_t S = 5, A = S;
     
     Experience exp(S,A);
     MDP::RLModel model(exp, false);
-    MDP::QFunction q = MDP::makeQFunction(S,A);
-    MDP::PrioritizedSweeping ps(S, A, 1, 0.9, 0.01, 200);
+    MDP::PrioritizedSweeping ps(model, 0.9, 0.01, 200);
 
     std::default_random_engine rand(0);
     std::uniform_int_distribution<int> dist(0,A-1);
+//    std::normal_distribution<double> rew1(4, 2);
+//   std::normal_distribution<double> rew2(-3, 1);
 
-    for ( int i = 0; i < 500; ++i ) {
+    for ( int i = 0; i < 5000; ++i ) {
         size_t s = dist(rand), s1 = dist(rand), a = dist(rand);
-        double rew = !( a % 2 ) + 5;
+        s1 = a;
+        double rew;
+        if ( s == s1 ) rew = 0;
+        else if ( s ) rew = -10;
+        else rew = 12;
 
         exp.record(s,s1,a,rew);
         model.sync(s,a);
 
-        ps.stepUpdateQ(s,s1,a,rew, q);
-        ps.batchUpdateQ(model, &q);
+        ps.stepUpdateQ(s,a);
+        ps.batchUpdateQ();
     }
 
     AIToolbox::MDP::ValueIteration solver;
@@ -46,7 +51,8 @@ int main(/*int argc, char * argv[]*/) {
     // CREATING POLICY
     cout << "Creating QPolicies...\n";
     AIToolbox::MDP::QGreedyPolicy qp1( std::get<2>(solution) );
-    AIToolbox::MDP::QGreedyPolicy qp2( q );
+    auto & q = ps.getQFunction();
+    AIToolbox::MDP::QGreedyPolicy qp2( ps.getQFunction() );
 
     cout << exp << "\n\n";
     cout << model << "\n\n";
