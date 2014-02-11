@@ -46,7 +46,7 @@ namespace AIToolbox {
                  *         return status of the solution problem, the
                  *         ValueFunction and the QFunction for the Model.
                  */
-                template <typename M>
+                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 std::tuple<bool, ValueFunction, QFunction> operator()(const M & m);
 
                 /**
@@ -145,7 +145,7 @@ namespace AIToolbox {
                  *
                  * @return The Models's PRType.
                  */
-                template <typename M>
+                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 PRType computePR(const M & model) const;
 
                 /**
@@ -158,7 +158,7 @@ namespace AIToolbox {
                  *
                  * @return The estimated upper iteration bound.
                  */
-                template <typename M>
+                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 unsigned valueIterationBoundIter(const M & model, const PRType & pr) const;
 
                 /**
@@ -171,7 +171,7 @@ namespace AIToolbox {
                  *
                  * @return A new QFunction.
                  */
-                template <typename M>
+                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 QFunction makeQFunction(const M & model, const PRType & pr) const;
 
                 /**
@@ -187,11 +187,11 @@ namespace AIToolbox {
                  * @param pr The Model's PRType.
                  * @param vOut The newly estimated ValueFunction.
                  */
-                template <typename M>
+                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 void bellmanOperator(const M & model, const PRType & pr, ValueFunction * vOut) const;
         };
 
-        template <typename M>
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
         std::tuple<bool, ValueFunction, QFunction> ValueIteration::operator()(const M & model) {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
@@ -249,7 +249,7 @@ namespace AIToolbox {
             return std::make_tuple(completed, v1_, makeQFunction(model, pr));
         }
 
-        template <typename M>
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
         ValueIteration::PRType ValueIteration::computePR(const M & model) const {
             // for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;
             PRType pr(boost::extents[S][A]);
@@ -264,7 +264,7 @@ namespace AIToolbox {
             return pr;
         }
 
-        template <typename M>
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
         QFunction ValueIteration::makeQFunction(const M & model, const PRType & pr) const {
             QFunction q = pr;
 
@@ -275,7 +275,7 @@ namespace AIToolbox {
             return q;
         }
 
-        template <typename M>
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
         unsigned ValueIteration::valueIterationBoundIter(const M & model, const PRType & pr) const {
             std::vector<double> h(S, 0.0);
 
@@ -302,7 +302,7 @@ namespace AIToolbox {
                     std::log( (epsilon_*(1.0-discount_)/discount_) / variation ) / std::log(discount_*k));
         }
 
-        template <typename M>
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
         void ValueIteration::bellmanOperator(const M & model, const PRType & pr, ValueFunction * v) const {
             auto & vOut = *v;
             QFunction q = makeQFunction(model, pr);

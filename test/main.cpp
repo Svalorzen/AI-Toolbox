@@ -21,7 +21,7 @@ int main(/*int argc, char * argv[]*/) {
     
     Experience exp(S,A);
     MDP::RLModel model(exp, false);
-    MDP::PrioritizedSweeping ps(model, 0.9, 0.01, 200);
+    MDP::PrioritizedSweeping<MDP::RLModel> ps(model, 0.9, 0.01, 200);
 
     std::default_random_engine rand(0);
     std::uniform_int_distribution<int> dist(0,A-1);
