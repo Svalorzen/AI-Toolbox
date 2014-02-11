@@ -64,7 +64,7 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function sets the discount parameter.
-                 * 
+                 *
                  * The discount parameter must be > 0.0 and <= 1.0,
                  * otherwise the function will throw an std::invalid_argument.
                  *
@@ -81,20 +81,20 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function sets the theta parameter.
-                 * 
+                 *
                  * The discount parameter must be >= 0.0.
                  * otherwise the function will throw an std::invalid_argument.
                  *
                  * @param d The new theta parameter.
                  */
-                void setTheta(double t);
+                void setQueueThreshold(double t);
 
                 /**
                  * @brief This function will return the currently set theta parameter.
                  *
                  * @return The currently set theta parameter.
                  */
-                double getTheta() const;
+                double getQueueThreshold() const;
 
                 /**
                  * @brief This function sets the number of sampling passes during batchUpdateQ().
@@ -137,27 +137,27 @@ namespace AIToolbox {
                 std::unordered_map<size_t, typename QueueType::handle_type> queueHandles_;
         };
 
-        template <typename M> 
+        template <typename M>
         bool PrioritizedSweeping<M>::PriorityTupleLess::operator() (const PriorityQueueElement& arg1, const PriorityQueueElement& arg2) const
         {
             return std::get<0>(arg1) < std::get<0>(arg2);
         }
 
-        template <typename M> 
-        PrioritizedSweeping<M>::PrioritizedSweeping(const M & m, double discount, double theta, unsigned n) : 
-                                                                                                                S(m.getS()), 
-                                                                                                                A(m.getA()), 
-                                                                                                                N(n), 
-                                                                                                                discount_(discount), 
-                                                                                                                theta_(theta), 
-                                                                                                                model_(m), 
-                                                                                                                qfun_(makeQFunction(S,A)), 
-                                                                                                                vfun_(S, 0.0) 
+        template <typename M>
+        PrioritizedSweeping<M>::PrioritizedSweeping(const M & m, double discount, double theta, unsigned n) :
+                                                                                                                S(m.getS()),
+                                                                                                                A(m.getA()),
+                                                                                                                N(n),
+                                                                                                                discount_(discount),
+                                                                                                                theta_(theta),
+                                                                                                                model_(m),
+                                                                                                                qfun_(makeQFunction(S,A)),
+                                                                                                                vfun_(S, 0.0)
         {
             if ( discount <= 0.0 || discount > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
         }
 
-        template <typename M> 
+        template <typename M>
         void PrioritizedSweeping<M>::stepUpdateQ(size_t s, size_t a) {
             { // Update q[s][a]
                 double newQValue = 0;
@@ -185,7 +185,7 @@ namespace AIToolbox {
             }
         }
 
-        template <typename M> 
+        template <typename M>
         void PrioritizedSweeping<M>::batchUpdateQ() {
             for ( unsigned i = 0; i < N; ++i ) {
                 if ( queue_.empty() ) return;
@@ -205,54 +205,54 @@ namespace AIToolbox {
             }
         }
 
-        template <typename M> 
+        template <typename M>
         void PrioritizedSweeping<M>::setN(unsigned n) {
             N = n;
         }
 
-        template <typename M> 
+        template <typename M>
         unsigned PrioritizedSweeping<M>::getN() const {
             return N;
         }
 
-        template <typename M> 
+        template <typename M>
         void PrioritizedSweeping<M>::setDiscount(double d) {
             if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
             discount_ = d;
         }
 
-        template <typename M> 
+        template <typename M>
         double PrioritizedSweeping<M>::getDiscount() const {
             return discount_;
         }
 
-        template <typename M> 
-        void PrioritizedSweeping<M>::setTheta(double t) {
+        template <typename M>
+        void PrioritizedSweeping<M>::setQueueThreshold(double t) {
             if ( t < 0.0 ) throw std::invalid_argument("Theta parameter must be >= 0");
             theta_ = t;
         }
 
-        template <typename M> 
-        double PrioritizedSweeping<M>::getTheta() const {
+        template <typename M>
+        double PrioritizedSweeping<M>::getQueueThreshold() const {
             return theta_;
         }
 
-        template <typename M> 
+        template <typename M>
         size_t PrioritizedSweeping<M>::getQueueLength() const {
             return queue_.size();
         }
 
-        template <typename M> 
+        template <typename M>
         const M & PrioritizedSweeping<M>::getModel() const {
             return model_;
         }
 
-        template <typename M> 
+        template <typename M>
         const QFunction & PrioritizedSweeping<M>::getQFunction() const {
             return qfun_;
         }
 
-        template <typename M> 
+        template <typename M>
         const ValueFunction & PrioritizedSweeping<M>::getValueFunction() const {
             return vfun_;
         }
