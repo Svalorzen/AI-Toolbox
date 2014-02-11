@@ -7,7 +7,7 @@
 namespace AIToolbox {
     namespace MDP {
         DynaQ::DynaQ(size_t s, size_t a, double alpha, double discount, unsigned n) : DynaQInterface(s, a, alpha, discount, n),
-                                                                                      rand_(Impl::Seeder::getSeed()) 
+                                                                                      rand_(Impl::Seeder::getSeed())
         {
             visitedStatesActionsInserter_.reserve(S*A);
             visitedStatesActionsSampler_.reserve(S*A);
@@ -16,7 +16,7 @@ namespace AIToolbox {
         void DynaQ::stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q) {
             QLearning::stepUpdateQ(s, s1, a, rew, q);
             // O(1) insertion...
-            auto result = visitedStatesActionsInserter_.insert(std::make_pair(s,a)); 
+            auto result = visitedStatesActionsInserter_.insert(std::make_pair(s,a));
             if ( std::get<1>(result) )
                 visitedStatesActionsSampler_.push_back(*std::get<0>(result));
         }
@@ -35,6 +35,6 @@ namespace AIToolbox {
                 std::tie(s1, rew) = m.sample(s, a);
                 QLearning::stepUpdateQ(s, s1, a, rew, q);
             }
-        } 
+        }
     }
 }

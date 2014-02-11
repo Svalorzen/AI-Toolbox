@@ -1,22 +1,16 @@
 #include <AIToolbox/MDP/QLearning.hpp>
-#include <iostream>
+
+#include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox {
     namespace MDP {
-
-        QLearning::QLearning(double alpha, double discount) : alpha_(alpha), discount_(discount) {
+        QLearning::QLearning(size_t s, size_t a, double alpha, double discount) : S(s), A(a), alpha_(alpha), discount_(discount), q_(makeQFunction(S,A)) {
             if ( alpha_ <= 0 || alpha_ > 1 )        throw std::invalid_argument("Learning rate parameter must be in (0,1]");
             if ( discount_ <= 0 || discount_ > 1 )  throw std::invalid_argument("Discount parameter must be in (0,1]");
         }
 
-        QLearning::~QLearning() {}
-
-        void QLearning::stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * pq) {
-            assert(pq != nullptr);
-
-            QFunction & q = *pq;
-
-            q[s][a] += alpha_ * ( rew + discount_ * (*std::max_element(std::begin(q[s1]),std::end(q[s1]))) - q[s][a] );
+        void QLearning::stepUpdateQ(size_t s, size_t s1, size_t a, double rew) {
+            q_[s][a] += alpha_ * ( rew + discount_ * (*std::max_element(std::begin(q_[s1]),std::end(q_[s1]))) - q_[s][a] );
         }
 
         void QLearning::setLearningRate(double a) {
@@ -35,6 +29,10 @@ namespace AIToolbox {
 
         double QLearning::getDiscount() const {
             return discount_;
+        }
+
+        const QFunction & QLearning::getQFunction() const {
+            return q_;
         }
     }
 }

@@ -21,12 +21,7 @@ namespace AIToolbox {
                  * @param alpha The learning rate of the QLearning method.
                  * @param discount The discount of the QLearning method.
                  */
-                QLearning(double alpha = 0.5, double discount = 0.9);
-
-                /**
-                 * @brief Basic virtual destructor.
-                 */
-                virtual ~QLearning();
+                QLearning(size_t s, size_t a, double alpha = 0.5, double discount = 0.9);
 
                 /**
                  * @brief This function sets the learning rate parameter.
@@ -63,22 +58,32 @@ namespace AIToolbox {
                 double getDiscount() const;
 
                 /**
-                 * @brief This function updates a given QFunction using the discount set during construction.
+                 * @brief This function updates the internal QFunction using the discount set during construction.
                  * 
                  * This function takes a single experience point and uses it to update
-                 * a QFunction. This is a very efficient method to keep the QFunction
+                 * the QFunction. This is a very efficient method to keep the QFunction
                  * up to date with the latest experience.
                  *
                  * @param s The previous state.
                  * @param s1 The new state.
                  * @param a The action performed.
                  * @param rew The reward obtained.
-                 * @param q A pointer to the QFunction that is begin modified.
                  */
-                virtual void stepUpdateQ(size_t s, size_t s1, size_t a, double rew, QFunction * q);
+                void stepUpdateQ(size_t s, size_t s1, size_t a, double rew);
+
+                /**
+                 * @brief This function returns a reference to the internal QFunction.
+                 *
+                 * @return The internal QFunction.
+                 */
+                const QFunction & getQFunction() const;
+
             protected:
+                size_t S, A;
                 double alpha_;
                 double discount_;
+
+                QFunction q_;
         };
     }
 }
