@@ -1,6 +1,6 @@
 #include <AIToolbox/MDP/RLModel.hpp>
 
-#include "Seeder.hpp"
+#include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox {
     namespace MDP {

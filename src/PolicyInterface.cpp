@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include "Seeder.hpp"
+#include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox {
     PolicyInterface::PolicyInterface(size_t s, size_t a) : S(s), A(a),
