@@ -25,10 +25,8 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * @param s The number of states of the world.
-                 * @param a The number of actions available to the agent.
-                 * @param alpha The learning rate of the QLearning method.
-                 * @param discount The discount of the QLearning method.
+                 * @param M The model to be used to update the QFunction.
+                 * @param discount The discount of the PrioritizedSweeping method.
                  * @param theta The queue threshold.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
@@ -36,15 +34,13 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function updates the PrioritizedSweeping internal update queue.
-                 *
-                 * Note that this function does NOT update the QFunction yet, but instead
-                 * waits for the batchUpdateQ() call before doing that.
+                 * 
+                 * This function updates the QFunction for the specified pair, and decides
+                 * whether any parent couple that can lead to this state is worth pushing
+                 * into the queue.
                  *
                  * @param s The previous state.
-                 * @param s1 The new state.
                  * @param a The action performed.
-                 * @param rew The reward obtained.
-                 * @param q A pointer to the QFunction that is begin accessed.
                  */
                 void stepUpdateQ(size_t s, size_t a);
 
@@ -55,10 +51,8 @@ namespace AIToolbox {
                  * state action pairs that need updating. For each one of them we update
                  * the QFunction and recursively check whether this produces new changes
                  * worth updating. If so, they are inserted in the queue_ and the function
-                 * proceeds to the nest iteration.
+                 * proceeds to the next most urgent iteration.
                  *
-                 * @param m The RLModel we sample experience from.
-                 * @param q The QFunction to update.
                  */
                 void batchUpdateQ();
 
@@ -102,6 +96,7 @@ namespace AIToolbox {
                  * @param n The new number of updates.
                  */
                 void setN(unsigned n);
+
                 /**
                  * @brief This function returns the currently set number of sampling passes during batchUpdateQ().
                  *
@@ -109,9 +104,32 @@ namespace AIToolbox {
                  */
                 unsigned getN() const;
 
+                /**
+                 * @brief This function returns the current number of elements unprocessed in the queue.
+                 *
+                 * @return The current length of the queue.
+                 */
                 size_t getQueueLength() const;
+
+                /**
+                 * @brief This function returns a reference to the referenced Model.
+                 *
+                 * @return The internal Model.
+                 */
                 const M & getModel() const;
+
+                /**
+                 * @brief This function returns a reference to the internal QFunction.
+                 *
+                 * @return The internal QFunction.
+                 */
                 const QFunction & getQFunction() const;
+
+                /**
+                 * @brief This function returns a reference to the internal ValueFunction.
+                 *
+                 * @return The internal ValueFunction.
+                 */
                 const ValueFunction & getValueFunction() const;
 
             private:

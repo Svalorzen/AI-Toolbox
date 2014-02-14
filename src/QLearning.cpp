@@ -34,5 +34,8 @@ namespace AIToolbox {
         const QFunction & QLearning::getQFunction() const {
             return q_;
         }
+
+        size_t QLearning::getS() const { return S; }
+        size_t QLearning::getA() const { return A; }
     }
 }

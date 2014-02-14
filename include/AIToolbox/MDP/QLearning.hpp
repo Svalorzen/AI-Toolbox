@@ -18,6 +18,8 @@ namespace AIToolbox {
                  * must be > 0.0 and <= 1.0, otherwise the constructor 
                  * will throw an std::invalid_argument.
                  *
+                 * @param s The number of states of the world.
+                 * @param a The number of actions available to the agent.
                  * @param alpha The learning rate of the QLearning method.
                  * @param discount The discount of the QLearning method.
                  */
@@ -77,6 +79,20 @@ namespace AIToolbox {
                  * @return The internal QFunction.
                  */
                 const QFunction & getQFunction() const;
+
+                /**
+                 * @brief This function returns the number of states of the world.
+                 *
+                 * @return The total number of states.
+                 */
+                size_t getS() const;
+
+                /**
+                 * @brief This function returns the number of available actions to the agent.
+                 *
+                 * @return The total number of actions.
+                 */
+                size_t getA() const;
 
             protected:
                 size_t S, A;
