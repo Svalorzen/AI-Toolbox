@@ -12,9 +12,12 @@
 
 namespace AIToolbox {
     namespace MDP {
+
+#ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.
         template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
         class DynaQ;
+#endif
         /**
          * @brief This class represents the DynaQ algorithm.
          */
