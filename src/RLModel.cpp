@@ -27,9 +27,9 @@ namespace AIToolbox {
         void RLModel::sync(size_t s, size_t a) {
             unsigned long actionSum = 0;
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                rewards_[s][s1][a] = experience_.getRewards()[s][s1][a];
+                rewards_[s][s1][a] = experience_.getReward(s, s1, a);
 
-                unsigned temp = experience_.getVisits()[s][s1][a];
+                unsigned temp = experience_.getVisits(s, s1, a);
                 transitions_[s][s1][a] = static_cast<double>(temp);
                 // actionSum contains the numer of times we have executed action 'a' in state 's'
                 actionSum += temp;
