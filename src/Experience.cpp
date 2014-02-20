@@ -20,7 +20,7 @@ namespace AIToolbox {
         std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
     }
 
-    unsigned long Experience::getVisit(size_t s, size_t s1, size_t a) const {
+    unsigned long Experience::getVisits(size_t s, size_t s1, size_t a) const {
         return visits_[s][s1][a];
     }
 

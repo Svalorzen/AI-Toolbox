@@ -102,9 +102,8 @@ namespace AIToolbox {
              * @param s     Old state.
              * @param s1    New state.
              * @param a     Performed action.
-             * @param rew   Obtained reward.
              */
-            unsigned long getVisit(size_t s, size_t s1, size_t a) const;
+            unsigned long getVisits(size_t s, size_t s1, size_t a) const;
 
             /**
              * @brief This function returns the current recorded visits for a transitions.
@@ -112,7 +111,6 @@ namespace AIToolbox {
              * @param s     Old state.
              * @param s1    New state.
              * @param a     Performed action.
-             * @param rew   Obtained reward.
              */
             double getReward(size_t s, size_t s1, size_t a) const;
 
