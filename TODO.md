@@ -5,3 +5,4 @@ MISSING FEATURES (incomplete list)
 - Be able to use Value Iteration to possibly sync online methods (prioritizedSweeping mostly) with already existing Experience/RLModel data.
 - Experience: change getRewards/Visits names into getRewardTable/VisitsTable.
 - Experience: Store total values, to allow RLModel to do less work during sync, as it is a major computation hog as it is currently.
+- Extract sampling methods from policies?

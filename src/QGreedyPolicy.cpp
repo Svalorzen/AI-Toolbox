@@ -6,35 +6,26 @@ namespace AIToolbox {
         QGreedyPolicy::QGreedyPolicy(const QFunction & q) : QPolicyInterface(q) {}
 
         size_t QGreedyPolicy::sampleAction(size_t s) const {
-            std::vector<unsigned> probs(A, 1);
+            std::vector<unsigned> bestActions(A, 0);
 
             // This work is due to multiple max-valued actions
-            double max = q_[s][0]; unsigned count = 1, sign = 1;
+            double bestQValue = q_[s][0]; unsigned bestActionCount = 0;
             for ( size_t a = 1; a < A; ++a ) {
-                if ( q_[s][a] == max ) {
-                    ++count;
-                    probs[a] = sign;
+                if ( q_[s][a] > bestQValue ) {
+                    bestActions[0] = a;
+                    bestActionCount = 1;
+                    bestQValue = q_[s][a];
                 }
-                else if ( q_[s][a] > max ) {
-                    max = q_[s][a];
-                    count = 1;
-                    probs[a] = ++sign;
-                }
-                else if ( q_[s][a] < max ) {
-                    probs[a] = sign - 1; // Discard these values
+                else if ( q_[s][a] == bestQValue ) {
+                    bestActions[bestActionCount] = a;
+                    ++bestActionCount;
                 }
             }
 
-            // The multiplication avoids the need to normalize the whole probs vector
-            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, count-1);
-            unsigned p = pickDistribution(rand_);
-            for ( size_t a = 0; a < A; ++a ) {
-                if ( probs[a] == sign ) {
-                    if ( !p ) return a;
-                    else      --p;
-                }
-            }
-            throw std::runtime_error("QGreedyPolicy could not sample action");
+            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
+            unsigned selection = pickDistribution(rand_);
+
+            return bestActions[selection];
         }
 
         double QGreedyPolicy::getActionProbability(size_t s, size_t a) const {

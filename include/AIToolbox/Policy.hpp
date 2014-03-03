@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <tuple>
-#include <random>
 
 #include <boost/multi_array.hpp>
 #include <AIToolbox/Types.hpp>
@@ -12,7 +11,7 @@
 namespace AIToolbox {
     /**
      * @brief This class represents a full policy.
-     * 
+     *
      * Building this object is expensive, so it should be done
      * mostly when it is known that the final solution won't
      * change again. Otherwise you may want to build a wrapper
@@ -26,7 +25,7 @@ namespace AIToolbox {
              * @brief Basic constrctor.
              *
              * This constructor initializes the internal policy table so that
-             * each action in each state has the same probability of being 
+             * each action in each state has the same probability of being
              * chosen (random policy). This class guarantees that at any point
              * the internal policy is a true probability distribution, i.e.
              * for each state the sum of the probabilities of chosing an action
@@ -62,19 +61,19 @@ namespace AIToolbox {
              * @brief This function sets the policy for a particular state.
              *
              * This function copies correctly sized container into the policy,
-             * normalizing it so that it sums to 1. If the size of the container 
-             * is incorrect, nothing happens.
+             * normalizing it so that it sums to 1. If the size of the container
+             * is incorrect, an std::invalid_argument is thrown.
              *
              * The container needs to support size() and begin/end iterators.
+             * The elements of the container must be convertible to double, and the
+             * results of the convertions MUST BE positive.
              *
              * @tparam T The type of the input container.
              * @param s The state where the policy is being set.
              * @param container The input container.
-             * 
-             * @return If the assignment was completed correctly.
              */
             template <typename T>
-            bool setStatePolicy(size_t s, const T & container);
+            void setStatePolicy(size_t s, const T & container);
 
             /**
              * @brief This function returns a copy of a particular slice of the policy.
@@ -89,7 +88,7 @@ namespace AIToolbox {
              * @brief This function sets the policy for a particular state.
              *
              * This function represents an easier way to set a probability
-             * of 1 to execute a given action in a particular state, and 
+             * of 1 to execute a given action in a particular state, and
              * setting all other probabilities to 0.
              *
              * @param s The state where the policy is being set.
@@ -110,7 +109,7 @@ namespace AIToolbox {
              * This function differs from operator<<() in that it
              * avoids printing all probabilities that equal 0. This
              * results in a much more readable and smaller file.
-             * 
+             *
              * The format of the output file is:
              *
              * state_number action_number probability
@@ -131,8 +130,8 @@ namespace AIToolbox {
      * operator>>(). If not enough values can be extracted from
      * the stream, the function stops and the input policy is
      * not modified. In addition, it checks whether the probability
-     * values are within 0 and 1. 
-     * 
+     * values are within 0 and 1.
+     *
      * State and actions are also verified, and this function does
      * not accept a randomly shuffled policy file. The file must
      * be sorted by state, and each state must be sorted by action.
@@ -149,13 +148,12 @@ namespace AIToolbox {
     std::istream& operator>>(std::istream &is, Policy & p);
 
     template <typename T>
-    bool Policy::setStatePolicy(size_t s, const T & container) {
-        if ( container.size() != getA() ) return false;
+    void Policy::setStatePolicy(size_t s, const T & container) {
+        if ( container.size() != getA() ) throw std::invalid_argument("Container to copy has the wrong size.");
 
         double norm = static_cast<double>(std::accumulate(std::begin(container), std::end(container), 0.0));
         decltype(policy_)::reference ref = policy_[s]; // This is needed because policy_[s] by itself is a temporary (const), and "saving" it enables the use of transform. Boost magic!
         std::transform(std::begin(container), std::end(container), std::begin(ref), [norm](decltype(*std::begin(container)) t){ return t/norm; });
-        return true;
     }
 
 }
