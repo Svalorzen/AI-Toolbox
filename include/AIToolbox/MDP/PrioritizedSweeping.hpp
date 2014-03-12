@@ -129,6 +129,17 @@ namespace AIToolbox {
                 const QFunction & getQFunction() const;
 
                 /**
+                 * @brief This function allows you to set the value of the internal QFunction.
+                 *
+                 * This function can be useful in case you are starting with an already populated
+                 * Experience/Model, which you can solve (for example with ValueIteration)
+                 * and then improve the solution with new experience.
+                 *
+                 * @param The QFunction that will be copied.
+                 */
+                void setQFunction(const QFunction &);
+
+                /**
                  * @brief This function returns a reference to the internal ValueFunction.
                  *
                  * @return The internal ValueFunction.
@@ -271,6 +282,13 @@ namespace AIToolbox {
         template <typename M>
         const QFunction & PrioritizedSweeping<M>::getQFunction() const {
             return qfun_;
+        }
+
+        template <typename M>
+        void PrioritizedSweeping<M>::setQFunction(const QFunction & qfun) {
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a )
+                    qfun_[s][a] = qfun[s][a];
         }
 
         template <typename M>
