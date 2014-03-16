@@ -38,6 +38,12 @@ namespace AIToolbox {
                  * In the latter case the default transition function
                  * defines a transition of probability 1 for each
                  * state to itself, no matter the action.
+                 * 
+                 * In general it would be better to add some amount of bias
+                 * to the Experience so that when a new state-action pair is
+                 * tried, the RLModel doesn't automatically compute 100%
+                 * probability of transitioning to the resulting state, but
+                 * smooths into it. This may depend on your problem though.
                  *
                  * The default reward function is 0.
                  *

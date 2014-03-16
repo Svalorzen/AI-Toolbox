@@ -19,7 +19,9 @@ namespace AIToolbox {
     class Experience {
         public:
             using VisitTable = boost::multi_array<unsigned long,3>;
+            using VisitSumTable = boost::multi_array<unsigned long,2>;
             using RewardTable = Table3D;
+            using RewardSumTable = Table2D;
 
             /**
              * @brief Basic constructor.
@@ -105,6 +107,8 @@ namespace AIToolbox {
              */
             unsigned long getVisits(size_t s, size_t s1, size_t a) const;
 
+            unsigned long getVisitsSum(size_t s, size_t a) const;
+
             /**
              * @brief This function returns the current recorded visits for a transitions.
              *
@@ -114,19 +118,21 @@ namespace AIToolbox {
              */
             double getReward(size_t s, size_t s1, size_t a) const;
 
+            double getRewardSum(size_t s, size_t a) const;
+
             /**
              * @brief This function returns the visits table for inspection.
              *
              * @return The visits table.
              */
-            const VisitTable & getVisits() const;
+            const VisitTable & getVisitTable() const;
 
             /**
              * @brief This function returns the rewards table for inspection.
              *
              * @return The rewards table.
              */
-            const RewardTable & getRewards() const;
+            const RewardTable & getRewardTable() const;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -145,7 +151,10 @@ namespace AIToolbox {
             size_t S, A;
 
             VisitTable visits_;
+            VisitSumTable visitsSum_;
+
             RewardTable rewards_;
+            RewardSumTable rewardsSum_;
 
             friend std::istream& operator>>(std::istream &is, Experience &);
     };
@@ -156,11 +165,23 @@ namespace AIToolbox {
     template <typename V>
     void Experience::setVisits(V v) {
         copyTable3D(v, visits_, S, S, A);
+        std::fill(visitsSum_.data(), visitsSum_.data() + visitsSum_.num_elements(), 0ul);
+
+        for ( size_t s = 0; s < S; ++s )
+            for ( size_t s1 = 0; s1 < S; ++s1 )
+                for ( size_t a = 0; a < A; ++a )
+                    visitsSum_[s][a] += visits_[s][s1][a];
     }
 
     template <typename R>
     void Experience::setRewards(R r) {
         copyTable3D(r, rewards_, S, S, A);
+        std::fill(rewardsSum_.data(), rewardsSum_.data() + rewardsSum_.num_elements(), 0.0);
+
+        for ( size_t s = 0; s < S; ++s )
+            for ( size_t s1 = 0; s1 < S; ++s1 )
+                for ( size_t a = 0; a < A; ++a )
+                    rewardsSum_[s][a] += rewards_[s][s1][a];
     }
 }
 

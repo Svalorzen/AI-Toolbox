@@ -7,14 +7,23 @@ namespace AIToolbox {
         RLModel::RLModel( const Experience & exp, bool toSync ) : S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]),
                                                        rand_(Impl::Seeder::getSeed()), sampleDistribution_(0.0, 1.0)
         {
-            if ( toSync ) sync();
+            // Boost initializes everything to 0 automatically (uses default
+            // element constructors).
+            if ( toSync ) {
+                sync();
+                // Sync does not touch state-action pairs which have never been
+                // seen. To keep the model consistent we set all of them as
+                // self-absorbing. 
+                for ( size_t s = 0; s < S; ++s )
+                    for ( size_t a = 0; a < A; ++a )
+                        if ( experience_.getVisitsSum(s, a) == 0ul )
+                            transitions_[s][s][a] = 1.0;
+            }
             else {
-                std::fill(transitions_.data(), transitions_.data() + transitions_.num_elements(), 0.0);
                 // Make transition table true probability
                 for ( size_t s = 0; s < S; ++s )
                     for ( size_t a = 0; a < A; ++a )
                         transitions_[s][s][a] = 1.0;
-                std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
             }
         }
 
@@ -25,34 +34,17 @@ namespace AIToolbox {
         }
 
         void RLModel::sync(size_t s, size_t a) {
-            unsigned long actionSum = 0;
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                rewards_[s][s1][a] = experience_.getReward(s, s1, a);
-
-                unsigned temp = experience_.getVisits(s, s1, a);
-                transitions_[s][s1][a] = static_cast<double>(temp);
-                // actionSum contains the numer of times we have executed action 'a' in state 's'
-                actionSum += temp;
-            }
+            // Nothing to do
+            unsigned long visitSum = experience_.getVisitsSum(s, a);
+            if ( visitSum == 0ul ) return;
             // Normalize
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                // If we never executed 'a' during 'i'
-                if ( actionSum == 0.0 ) {
-                    // Create shadow state since we never encountered it
-                    if ( s == s1 )
-                        transitions_[s][s1][a] = 1.0;
-                    else
-                        transitions_[s][s1][a] = 0.0;
-                    // Reward is already 0 anyway
+                unsigned long visits = experience_.getVisits(s, s1, a);
+                // Normalize action reward over transition visits
+                if ( visits != 0 ) {
+                    rewards_[s][s1][a] = experience_.getReward(s, s1, a) / visits;
                 }
-                else {
-                    // Normalize action reward over transition visits
-                    if ( transitions_[s][s1][a] != 0.0 ) {
-                       rewards_[s][s1][a] /= transitions_[s][s1][a];
-                    }
-                    // Normalize transition probability (times we went to 's1' / times we executed 'a' in 's'
-                    transitions_[s][s1][a] /= actionSum;
-                }
+                transitions_[s][s1][a] = static_cast<double>(visits) / static_cast<double>(visitSum);
             }
         }
 

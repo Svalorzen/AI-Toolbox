@@ -4,18 +4,11 @@
 #include <iostream>
 #include <iomanip>
 
-#include <type_traits>
+#include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox {
     namespace MDP {
-        template <typename M, 
-                  typename std::enable_if<
-                                std::is_class<M>::value &&
-                                std::is_member_function_pointer<decltype(&M::getS)>::value &&
-                                std::is_member_function_pointer<decltype(&M::getA)>::value &&
-                                std::is_member_function_pointer<decltype(&M::getTransitionProbability)>::value &&
-                                std::is_member_function_pointer<decltype(&M::getExpectedReward)>::value
-                            >::type* = nullptr>
+        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
         std::ostream& operator<<(std::ostream &os, const M & model) {
             size_t S = model.getS();
             size_t A = model.getA();

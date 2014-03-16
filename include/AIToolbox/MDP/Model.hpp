@@ -5,6 +5,7 @@
 #include <random>
 
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/Utils.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -221,7 +222,7 @@ namespace AIToolbox {
             for ( size_t s = 0; s < s_; ++s ) {
                 for ( size_t a = 0; a < a_; ++a ) {
                     double p = 0.0;
-                    for ( size_t s1 = 0; s1 < s; ++s1 ) {
+                    for ( size_t s1 = 0; s1 < s_; ++s1 ) {
                         p += t[s][s1][a];
                     }
                     if ( p != 1.0 ) return false;

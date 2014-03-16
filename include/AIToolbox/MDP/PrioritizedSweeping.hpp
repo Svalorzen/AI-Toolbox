@@ -37,7 +37,7 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function updates the PrioritizedSweeping internal update queue.
-                 * 
+                 *
                  * This function updates the QFunction for the specified pair, and decides
                  * whether any parent couple that can lead to this state is worth pushing
                  * into the queue.
