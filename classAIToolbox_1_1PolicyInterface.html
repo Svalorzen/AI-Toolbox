@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -109,7 +109,8 @@ Inheritance diagram for AIToolbox::PolicyInterface:</div>
 <area href="classAIToolbox_1_1EpsilonPolicy.html" title="This class is a policy wrapper for epsilon action choice. " alt="AIToolbox::EpsilonPolicy" shape="rect" coords="0,56,203,80"/>
 <area href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html" title="This class is an interface to specify a policy through a QFunction. " alt="AIToolbox::MDP::QPolicyInterface" shape="rect" coords="213,56,416,80"/>
 <area href="classAIToolbox_1_1Policy.html" title="This class represents a full policy. " alt="AIToolbox::Policy" shape="rect" coords="426,56,629,80"/>
-<area href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction. " alt="AIToolbox::MDP::QGreedyPolicy" shape="rect" coords="213,112,416,136"/>
+<area href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction. " alt="AIToolbox::MDP::QGreedyPolicy" shape="rect" coords="106,112,309,136"/>
+<area href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" alt="AIToolbox::MDP::WoLFPolicy" shape="rect" coords="319,112,522,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -118,6 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad5348057f04e44190c9be9f8b3de424c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#ad5348057f04e44190c9be9f8b3de424c">PolicyInterface</a> (size_t s, size_t a)</td></tr>
 <tr class="memdesc:ad5348057f04e44190c9be9f8b3de424c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ad5348057f04e44190c9be9f8b3de424c">More...</a><br/></td></tr>
 <tr class="separator:ad5348057f04e44190c9be9f8b3de424c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071b6ba843ab58cf30b5f2150f235130"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a071b6ba843ab58cf30b5f2150f235130">~PolicyInterface</a> ()</td></tr>
+<tr class="memdesc:a071b6ba843ab58cf30b5f2150f235130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic virtual destructor.  <a href="#a071b6ba843ab58cf30b5f2150f235130">More...</a><br/></td></tr>
+<tr class="separator:a071b6ba843ab58cf30b5f2150f235130"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73d3df9ef39d006a3f7bfe0418997147"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a73d3df9ef39d006a3f7bfe0418997147">sampleAction</a> (size_t s) const =0</td></tr>
 <tr class="memdesc:a73d3df9ef39d006a3f7bfe0418997147"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="#a73d3df9ef39d006a3f7bfe0418997147">More...</a><br/></td></tr>
 <tr class="separator:a73d3df9ef39d006a3f7bfe0418997147"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,6 +186,31 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a071b6ba843ab58cf30b5f2150f235130"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual AIToolbox::PolicyInterface::~PolicyInterface </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Basic virtual destructor. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ae1e21b346edfd4b161c6f3def4d10336"></a>
 <div class="memitem">
@@ -243,7 +272,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The probability of taking the selected action in the specified state. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#a72c7199cffaf786c07f4b662389e6d15">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a3725df60914c727ddeb215120135b6c1">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#ac66db5d07d10ebfd4e07fc1c0b5c9125">AIToolbox::MDP::QPolicyInterface</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#ae06e8fda6bc976c543e44cc0177761b0">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#adbbaca62b05156b249e8fb1fb09a2165">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a04c482577bdb69c7987d56372937f597">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a37110b265e6f9bb7b1e66b0322feed68">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a43118cb5ecf6ed1214b1a33dc5f2951d">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a3019e1a86e9185824ced28cd7c0dca61">AIToolbox::MDP::QGreedyPolicy</a>.</p>
 
 </div>
 </div>
@@ -296,7 +325,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#ae2c21b3321b12d21b17037244c3b626e">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#aa6a5bd0c5bcb3cc4c8f61329a81e0723">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a181752d2277e1c1a913bf91efc34e757">AIToolbox::MDP::QPolicyInterface</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a105ac0db2fc37ad22e2886a5a5dc5c41">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#ac95b6244a8c59c71f14ba5837c20e41d">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a4b0e3962e0dca77b4d48541d4129579f">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a06a4a69ff9923c73155e06d56a3ecb3b">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a98b3a2965bc1cce2bb800f24d6b65a9f">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a55a8e741b195c5b956c976775cefa948">AIToolbox::MDP::QGreedyPolicy</a>.</p>
 
 </div>
 </div>
@@ -387,7 +416,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 22 2014 23:04:15 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

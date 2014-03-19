@@ -73,6 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li class="current"><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
       <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
@@ -82,7 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -94,8 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 &#160;<ul>
 <li>A
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQInterface.html#a6aef2118d50ceec73b2616235e323bdf">AIToolbox::MDP::DynaQInterface</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ae30a162d89c77cf3b88ba93cc7b5b6ae">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a607c4fcf7bcdbe426d83c788ff93a862">AIToolbox::MDP::QLearning</a>
 , <a class="el" href="classAIToolbox_1_1PolicyInterface.html#ac21251c1b21027805639ca0f752859dc">AIToolbox::PolicyInterface</a>
 </li>
 <li>alpha_
@@ -107,52 +107,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>epsilon_
 : <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#af93b52a04af4030978051b4b153753bb">AIToolbox::EpsilonPolicy</a>
 </li>
-<li>experience_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a24046590ae8d0513cae4fbec0c1e20ea">AIToolbox::MDP::RLModel</a>
+<li>model_
+: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 </li>
 <li>N
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQInterface.html#a017c259f878dac671fd547f3201a54a3">AIToolbox::MDP::DynaQInterface</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a18ad693d8a11415b137c3b409cc335c9">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 </li>
 <li>policy_
 : <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#ac202ba849cbfc3af6cba17d88226eeb6">AIToolbox::EpsilonPolicy</a>
 </li>
 <li>q_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a8839415f6249ba9e9af49437b1604f98">AIToolbox::MDP::QPolicyInterface</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a6939b84ffc54e7d56293af2a495ea96e">AIToolbox::MDP::QLearning</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a8839415f6249ba9e9af49437b1604f98">AIToolbox::MDP::QPolicyInterface</a>
+</li>
+<li>qLearning_
+: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a02d8630f794658f93fa6deb6920f2dc3">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 </li>
 <li>rand_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a7e1492cc81936574d9dc6ac40691b7cf">AIToolbox::MDP::DynaQ</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ae3c8e086d8cfac9600203ff37afa8b82">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a7230355de44f1a1d36e1fb65fc761d55">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1PolicyInterface.html#a1e54b57eb7b9c0ddb054baab0b8b9383">AIToolbox::PolicyInterface</a>
 </li>
 <li>randomDistribution_
 : <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a25501a697a3998748a6a0d9ce26e585f">AIToolbox::EpsilonPolicy</a>
 </li>
-<li>rewards_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a129a2e19fe2a76461603e6b9001a1ece">AIToolbox::MDP::Model</a>
-</li>
 <li>S
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQInterface.html#af9a933d2d9a387097f7514b108c0efe2">AIToolbox::MDP::DynaQInterface</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a7da577f7856f60535cc545501e68e59a">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a8205b155ceb8a03395ded8c0a2296367">AIToolbox::MDP::QLearning</a>
 , <a class="el" href="classAIToolbox_1_1PolicyInterface.html#ad11a83dc9c74b207594c0bf776f9edb4">AIToolbox::PolicyInterface</a>
 </li>
 <li>sampleDistribution_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#abc826c39490440dda12c7f6dd0e47f3f">AIToolbox::MDP::Model</a>
-, <a class="el" href="classAIToolbox_1_1PolicyInterface.html#a04901c0b9235ec7535611338daf78229">AIToolbox::PolicyInterface</a>
-</li>
-<li>transitions_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#afabaf2560059758bb4d861def063f1ab">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1PolicyInterface.html#a04901c0b9235ec7535611338daf78229">AIToolbox::PolicyInterface</a>
 </li>
 <li>visitedStatesActionsInserter_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a9bf1e3849b7c275beb4b2afc96895704">AIToolbox::MDP::DynaQ</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5880854dbb85072087ba323a232d9fb6">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 </li>
 <li>visitedStatesActionsSampler_
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a0a0e21b605137ed0f5383c320413dbca">AIToolbox::MDP::DynaQ</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#afdeb0e98c7ab2bc636136908eef313e7">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 22 2014 23:04:15 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

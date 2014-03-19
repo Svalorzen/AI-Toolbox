@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['batchupdateq',['batchUpdateQ',['../classAIToolbox_1_1MDP_1_1DynaQ.html#add6ffbb1cd746c945685f37390a49f11',1,'AIToolbox::MDP::DynaQ::batchUpdateQ()'],['../classAIToolbox_1_1MDP_1_1DynaQInterface.html#aa9331e435429d507c61cfba6a2b9b87b',1,'AIToolbox::MDP::DynaQInterface::batchUpdateQ()'],['../classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html#afbe74f4c348c17567d8388adc98314d6',1,'AIToolbox::MDP::PrioritizedSweeping::batchUpdateQ()']]]
+  ['batchupdateq',['batchUpdateQ',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a073bfb0e2b8f9ed93df99a79a8f91a01',1,'AIToolbox::MDP::DynaQ&lt; M &gt;::batchUpdateQ()'],['../classAIToolbox_1_1MDP_1_1PrioritizedSweeping_3_01M_01_4.html#acc75ce11d877c1c5cfa047706372d724',1,'AIToolbox::MDP::PrioritizedSweeping&lt; M &gt;::batchUpdateQ()']]],
+  ['belief',['Belief',['../namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573',1,'AIToolbox::POMDP']]]
 ];

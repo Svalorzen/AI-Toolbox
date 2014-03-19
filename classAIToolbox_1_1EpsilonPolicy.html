@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -115,12 +115,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a45ca1e0a59dc69dabc07d01015bd9c50"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a45ca1e0a59dc69dabc07d01015bd9c50">EpsilonPolicy</a> (const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> &amp;p, double epsilon=0.9)</td></tr>
 <tr class="memdesc:a45ca1e0a59dc69dabc07d01015bd9c50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a45ca1e0a59dc69dabc07d01015bd9c50">More...</a><br/></td></tr>
 <tr class="separator:a45ca1e0a59dc69dabc07d01015bd9c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6a5bd0c5bcb3cc4c8f61329a81e0723"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#aa6a5bd0c5bcb3cc4c8f61329a81e0723">sampleAction</a> (size_t s) const </td></tr>
-<tr class="memdesc:aa6a5bd0c5bcb3cc4c8f61329a81e0723"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution and epsilon.  <a href="#aa6a5bd0c5bcb3cc4c8f61329a81e0723">More...</a><br/></td></tr>
-<tr class="separator:aa6a5bd0c5bcb3cc4c8f61329a81e0723"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3725df60914c727ddeb215120135b6c1"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a3725df60914c727ddeb215120135b6c1">getActionProbability</a> (size_t s, size_t a) const </td></tr>
-<tr class="memdesc:a3725df60914c727ddeb215120135b6c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a3725df60914c727ddeb215120135b6c1">More...</a><br/></td></tr>
-<tr class="separator:a3725df60914c727ddeb215120135b6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b0e3962e0dca77b4d48541d4129579f"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a4b0e3962e0dca77b4d48541d4129579f">sampleAction</a> (size_t s) const override</td></tr>
+<tr class="memdesc:a4b0e3962e0dca77b4d48541d4129579f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution and epsilon.  <a href="#a4b0e3962e0dca77b4d48541d4129579f">More...</a><br/></td></tr>
+<tr class="separator:a4b0e3962e0dca77b4d48541d4129579f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04c482577bdb69c7987d56372937f597"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a04c482577bdb69c7987d56372937f597">getActionProbability</a> (size_t s, size_t a) const override</td></tr>
+<tr class="memdesc:a04c482577bdb69c7987d56372937f597"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a04c482577bdb69c7987d56372937f597">More...</a><br/></td></tr>
+<tr class="separator:a04c482577bdb69c7987d56372937f597"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcb0c3438511305c8bdd906473b076bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#abcb0c3438511305c8bdd906473b076bd">setEpsilon</a> (double e)</td></tr>
 <tr class="memdesc:abcb0c3438511305c8bdd906473b076bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the epsilon parameter.  <a href="#abcb0c3438511305c8bdd906473b076bd">More...</a><br/></td></tr>
 <tr class="separator:abcb0c3438511305c8bdd906473b076bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad5348057f04e44190c9be9f8b3de424c inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#ad5348057f04e44190c9be9f8b3de424c">PolicyInterface</a> (size_t s, size_t a)</td></tr>
 <tr class="memdesc:ad5348057f04e44190c9be9f8b3de424c inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ad5348057f04e44190c9be9f8b3de424c">More...</a><br/></td></tr>
 <tr class="separator:ad5348057f04e44190c9be9f8b3de424c inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071b6ba843ab58cf30b5f2150f235130 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a071b6ba843ab58cf30b5f2150f235130">~PolicyInterface</a> ()</td></tr>
+<tr class="memdesc:a071b6ba843ab58cf30b5f2150f235130 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic virtual destructor.  <a href="#a071b6ba843ab58cf30b5f2150f235130">More...</a><br/></td></tr>
+<tr class="separator:a071b6ba843ab58cf30b5f2150f235130 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a687c680458952c0070d09752549be09d inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a687c680458952c0070d09752549be09d">getS</a> () const </td></tr>
 <tr class="memdesc:a687c680458952c0070d09752549be09d inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#a687c680458952c0070d09752549be09d">More...</a><br/></td></tr>
 <tr class="separator:a687c680458952c0070d09752549be09d inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,7 +192,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Basic constructor. </p>
 <p>This constructor saves the input policy and the epsilon parameter for later use.</p>
-<p>The epsilon parameter must be &gt;= 0.0 and &lt;= 1.0, otherwise the constructor will throw an std::runtime_error.</p>
+<p>The epsilon parameter must be &gt;= 0.0 and &lt;= 1.0, otherwise the constructor will throw an std::invalid_argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>The policy that is being extended. </td></tr>
@@ -201,7 +204,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3725df60914c727ddeb215120135b6c1"></a>
+<a class="anchor" id="a04c482577bdb69c7987d56372937f597"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -228,7 +231,7 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -266,7 +269,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa6a5bd0c5bcb3cc4c8f61329a81e0723"></a>
+<a class="anchor" id="a4b0e3962e0dca77b4d48541d4129579f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -283,7 +286,7 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -317,7 +320,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function sets the epsilon parameter. </p>
-<p>The epsilon parameter must be &gt;= 0.0 and &lt;= 1.0, otherwise the function will do nothing.</p>
+<p>The epsilon parameter must be &gt;= 0.0 and &lt;= 1.0, otherwise the function will do throw std::invalid_argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>The new epsilon parameter. </td></tr>
@@ -394,7 +397,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 22 2014 23:04:15 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

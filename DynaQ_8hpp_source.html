@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -91,38 +91,151 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="DynaQ_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef AI_TOOLBOX_MDP_DYNAQ_HEADER_FILE</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define AI_TOOLBOX_MDP_DYNAQ_HEADER_FILE</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="DynaQInterface_8hpp.html">AIToolbox/MDP/DynaQInterface.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;boost/functional/hash.hpp&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="code" href="namespaceAIToolbox_1_1MDP.html">   12</a></span>&#160;    <span class="keyword">namespace </span>MDP {</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html">   16</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html" title="This class represents the DynaQ algorithm. ">DynaQ</a> : <span class="keyword">public</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQInterface.html" title="This class represents an interface for algorithms in the form of DynaQ. ">DynaQInterface</a> {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keyword">explicit</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a4dc08e1a60cbeeab48d966ef1adc6cde" title="Basic constructor. ">DynaQ</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keywordtype">double</span> alpha = 0.5, <span class="keywordtype">double</span> discount = 0.9, <span class="keywordtype">unsigned</span> n = 50);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#ac681aec32cfb22bd0422233e14c258b5" title="This function updates a given QFunction using the discount set during construction. ">stepUpdateQ</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a, <span class="keywordtype">double</span> rew, <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> * q);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#add6ffbb1cd746c945685f37390a49f11" title="This function updates a QFunction based on simulated experience. ">batchUpdateQ</a>(<span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> &amp; m, <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> * q);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="comment">// We use two structures because generally S*A is not THAT big, and we can definitely use</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">// the O(1) insertion and O(1) sampling time.</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a9bf1e3849b7c275beb4b2afc96895704">   65</a></span>&#160;                std::unordered_set&lt;std::pair&lt;size_t,size_t&gt;, boost::hash&lt;std::pair&lt;size_t, size_t&gt;&gt;&gt; <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a9bf1e3849b7c275beb4b2afc96895704">visitedStatesActionsInserter_</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a0a0e21b605137ed0f5383c320413dbca">   66</a></span>&#160;                std::vector&lt;std::pair&lt;size_t,size_t&gt;&gt; <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a0a0e21b605137ed0f5383c320413dbca">visitedStatesActionsSampler_</a>;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="MDP_2Types_8hpp.html">AIToolbox/MDP/Types.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="QLearning_8hpp.html">AIToolbox/MDP/QLearning.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Seeder_8hpp.html">AIToolbox/Impl/Seeder.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;boost/functional/hash.hpp&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="code" href="namespaceAIToolbox_1_1MDP.html">   14</a></span>&#160;    <span class="keyword">namespace </span>MDP {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifndef DOXYGEN_SKIP</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span>        <span class="comment">// This is done to avoid bringing around the enable_if everywhere.</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        template &lt;typename M, typename = typename std::enable_if&lt;is_model&lt;M&gt;::value&gt;::type&gt;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">class </span>DynaQ;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html">   25</a></span>&#160;        <span class="keyword">class </span>DynaQ&lt;M&gt; {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keyword">explicit</span> DynaQ(<span class="keyword">const</span> M &amp; m, <span class="keywordtype">double</span> alpha = 0.5, <span class="keywordtype">double</span> discount = 0.9, <span class="keywordtype">unsigned</span> n = 50);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordtype">void</span> stepUpdateQ(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a, <span class="keywordtype">double</span> rew);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="keywordtype">void</span> batchUpdateQ();</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="comment">// Stuff for batch update</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a7e1492cc81936574d9dc6ac40691b7cf">   69</a></span>&#160;                <span class="keyword">mutable</span> std::default_random_engine <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a7e1492cc81936574d9dc6ac40691b7cf">rand_</a>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        };</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordtype">void</span> setLearningRate(<span class="keywordtype">double</span> a);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordtype">double</span> getLearningRate() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordtype">void</span> setDiscount(<span class="keywordtype">double</span> d);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordtype">double</span> getDiscount() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordtype">void</span> setN(<span class="keywordtype">unsigned</span> n);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                <span class="keywordtype">size_t</span> getS() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordtype">size_t</span> getA() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                <span class="keywordtype">unsigned</span> getN() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> &amp; getQFunction() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keyword">const</span> M &amp; getModel() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00145"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a18ad693d8a11415b137c3b409cc335c9">  145</a></span>&#160;                <span class="keywordtype">unsigned</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a18ad693d8a11415b137c3b409cc335c9">N</a>;</div>
+<div class="line"><a name="l00146"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48">  146</a></span>&#160;                <span class="keyword">const</span> M &amp; <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48">model_</a>;</div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a02d8630f794658f93fa6deb6920f2dc3">  147</a></span>&#160;                <a class="code" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a02d8630f794658f93fa6deb6920f2dc3">qLearning_</a>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="comment">// We use two structures because generally S*A is not THAT big, and we can definitely use</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                <span class="comment">// the O(1) insertion and O(1) sampling time.</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5880854dbb85072087ba323a232d9fb6">  151</a></span>&#160;                std::unordered_set&lt;std::pair&lt;size_t,size_t&gt;, boost::hash&lt;std::pair&lt;size_t, size_t&gt;&gt;&gt; <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5880854dbb85072087ba323a232d9fb6">visitedStatesActionsInserter_</a>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#afdeb0e98c7ab2bc636136908eef313e7">  152</a></span>&#160;                std::vector&lt;std::pair&lt;size_t,size_t&gt;&gt; <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#afdeb0e98c7ab2bc636136908eef313e7">visitedStatesActionsSampler_</a>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                <span class="comment">// Stuff for batch update</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a7230355de44f1a1d36e1fb65fc761d55">  155</a></span>&#160;                <span class="keyword">mutable</span> std::default_random_engine <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a7230355de44f1a1d36e1fb65fc761d55">rand_</a>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        };</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00159"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a9a992ccd96a925b014ac293c1087bd7a">  159</a></span>&#160;        <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a9a992ccd96a925b014ac293c1087bd7a" title="Basic constructor. ">DynaQ&lt;M&gt;::DynaQ</a>(<span class="keyword">const</span> M &amp; m, <span class="keywordtype">double</span> alpha, <span class="keywordtype">double</span> discount, <span class="keywordtype">unsigned</span> n) : N(n),</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                                                                                  model_(m),</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                                                                  qLearning_(m.getS(), m.getA(), alpha, discount),</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                                                                                  rand_(Impl::Seeder::getSeed())</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            visitedStatesActionsInserter_.reserve(getS()*getA());</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            visitedStatesActionsSampler_.reserve(getS()*getA());</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a172c2bf08eecbcc75d81e54ccace093a">  169</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a172c2bf08eecbcc75d81e54ccace093a" title="This function updates the internal QFunction using the discount set during construction. ">DynaQ&lt;M&gt;::stepUpdateQ</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a, <span class="keywordtype">double</span> rew) {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            qLearning_.stepUpdateQ(s, s1, a, rew);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="comment">// O(1) insertion...</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keyword">auto</span> result = visitedStatesActionsInserter_.insert(std::make_pair(s,a));</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordflow">if</span> ( std::get&lt;1&gt;(result) )</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                visitedStatesActionsSampler_.push_back(*std::get&lt;0&gt;(result));</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a073bfb0e2b8f9ed93df99a79a8f91a01">  178</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a073bfb0e2b8f9ed93df99a79a8f91a01" title="This function updates a QFunction based on simulated experience. ">DynaQ&lt;M&gt;::batchUpdateQ</a>() {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            std::uniform_int_distribution&lt;size_t&gt; sampleDistribution_(0, visitedStatesActionsSampler_.size()-1);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">unsigned</span> i = 0; i &lt; N; ++i ) {</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                <span class="keywordtype">size_t</span> s, s1, a;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                <span class="keywordtype">double</span> rew;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                <span class="comment">// O(1) sampling...</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                std::tie(s,a) = visitedStatesActionsSampler_[sampleDistribution_(rand_)];</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                std::tie(s1, rew) = model_.sample(s, a);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                qLearning_.stepUpdateQ(s, s1, a, rew);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        }</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00193"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a9f153e3a7e75664b9ee55680f07c3a0b">  193</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a9f153e3a7e75664b9ee55680f07c3a0b" title="This function returns the number of states of the world. ">DynaQ&lt;M&gt;::getS</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">return</span> qLearning_.getS();</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00198"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a8925598fa8aeafafc062c69a1880f378">  198</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a8925598fa8aeafafc062c69a1880f378" title="This function returns the number of available actions to the agent. ">DynaQ&lt;M&gt;::getA</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="keywordflow">return</span> qLearning_.getA();</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        }</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00203"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a8f18bc049854157e2a59662fdbf3cc64">  203</a></span>&#160;        <span class="keywordtype">unsigned</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a8f18bc049854157e2a59662fdbf3cc64" title="This function returns the currently set number of sampling passes during batchUpdateQ(). ">DynaQ&lt;M&gt;::getN</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordflow">return</span> N;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        }</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00208"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a28cb1a447c876e5a752d5c1b41781368">  208</a></span>&#160;        <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> &amp; <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a28cb1a447c876e5a752d5c1b41781368" title="This function returns a reference to the internal QFunction. ">DynaQ&lt;M&gt;::getQFunction</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">return</span> qLearning_.getQFunction();</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        }</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00212"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a2692a479c7a2689b09a3477252203c17">  212</a></span>&#160;        <span class="keyword">const</span> M &amp; <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a2692a479c7a2689b09a3477252203c17" title="This function returns a reference to the referenced Model. ">DynaQ&lt;M&gt;::getModel</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">return</span> model_;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00217"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5e955f1ffae5c4d99f5205a822d491b9">  217</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5e955f1ffae5c4d99f5205a822d491b9" title="This function sets the learning rate parameter. ">DynaQ&lt;M&gt;::setLearningRate</a>(<span class="keywordtype">double</span> a) {</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            qLearning_.setLearningRate(a);</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        }</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00222"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5c38d35c44e4ab68868736c550a09cdb">  222</a></span>&#160;        <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5c38d35c44e4ab68868736c550a09cdb" title="This function will return the current set learning rate parameter. ">DynaQ&lt;M&gt;::getLearningRate</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="keywordflow">return</span> qLearning_.getLearningRate();</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        }</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00227"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a1868de44e60e640a827468809338f366">  227</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a1868de44e60e640a827468809338f366" title="This function sets the discount parameter. ">DynaQ&lt;M&gt;::setDiscount</a>(<span class="keywordtype">double</span> d) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            qLearning_.setDiscount(d);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M&gt;</div>
+<div class="line"><a name="l00232"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#afb65c6ddc7fbd9710e4e2cce0bae56c5">  232</a></span>&#160;        <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#afb65c6ddc7fbd9710e4e2cce0bae56c5" title="This function will return the current set discount parameter. ">DynaQ&lt;M&gt;::getDiscount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="keywordflow">return</span> qLearning_.getDiscount();</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        }</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    }</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;}</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 22 2014 23:04:15 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['dynaq',['DynaQ',['../classAIToolbox_1_1MDP_1_1DynaQ.html#a4dc08e1a60cbeeab48d966ef1adc6cde',1,'AIToolbox::MDP::DynaQ']]],
-  ['dynaqinterface',['DynaQInterface',['../classAIToolbox_1_1MDP_1_1DynaQInterface.html#ae6fc5503f2c516cc5f65ba6b9e8bbd00',1,'AIToolbox::MDP::DynaQInterface']]]
+  ['dynaq',['DynaQ',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a9a992ccd96a925b014ac293c1087bd7a',1,'AIToolbox::MDP::DynaQ&lt; M &gt;']]]
 ];
