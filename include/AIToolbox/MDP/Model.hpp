@@ -18,38 +18,6 @@ namespace AIToolbox {
                 using RewardTable       = Table3D;
 
                 /**
-                 * @brief This function checks whether the supplied table is a correct transition table.
-                 *
-                 * This function verifies basic probability conditions on the
-                 * supplied container. The sum of all transitions from a
-                 * state action pair to all states must be 1.
-                 *
-                 * The container needs to support data access through
-                 * operator[]. In addition, the dimensions of the
-                 * container must match the ones provided as arguments
-                 * (for three dimensions: s,s,a).
-                 *
-                 * This is important, as this function DOES NOT perform
-                 * any size checks on the external containers.
-                 *
-                 * Internal values of the container will be converted to double,
-                 * so that convertion must be possible.
-                 *
-                 * This function is provided so that it is easy to plug
-                 * this library into existing code-bases.
-                 *
-                 * @tparam T The external transition container type.
-                 * @param s The number of states of the world.
-                 * @param a The number of actions available to the agent.
-                 * @param t The external transitions container.
-                 *
-                 * @return True if the container statisfies probability constraints,
-                 *         and false otherwise.
-                 */
-                template <typename T>
-                static bool mdpCheck(size_t s, size_t a, T t);
-
-                /**
                  * @brief Basic constructor.
                  *
                  * This constructor initializes the Model so that all
@@ -81,8 +49,9 @@ namespace AIToolbox {
                  * Internal values of the containers will be converted to double,
                  * so these convertions must be possible.
                  *
-                 * In addition, the transition container must respect
-                 * the constraint described in the mdpCheck() function.
+                 * In addition, the transition container must contain a
+                 * valid transition function.
+                 * \sa transitionCheck()
                  *
                  * \sa copyTable3D()
                  *
@@ -94,7 +63,7 @@ namespace AIToolbox {
                  * @param r The external rewards container.
                  */
                 template <typename T, typename R>
-                Model(size_t s, size_t a, T t, R r);
+                Model(size_t s, size_t a, const T & t, const R & r);
 
                 /**
                  * @brief This function replaces the Model transition function with the one provided.
@@ -117,7 +86,7 @@ namespace AIToolbox {
                  * @param t The external transitions container.
                  */
                 template <typename T>
-                void setTransitionFunction(T t);
+                void setTransitionFunction(const T & t);
 
                 /**
                  * @brief This function replaces the Model reward function with the one provided.
@@ -137,7 +106,7 @@ namespace AIToolbox {
                  * @param t The external transitions container.
                  */
                 template <typename R>
-                void setRewardFunction(R r);
+                void setRewardFunction(const R & r);
 
                 /**
                  * @brief This function samples the MDP for the specified state action pair.
@@ -217,35 +186,21 @@ namespace AIToolbox {
                 mutable std::uniform_real_distribution<double> sampleDistribution_;
         };
 
-        template <typename T>
-        bool Model::mdpCheck(size_t s_, size_t a_, T t) {
-            for ( size_t s = 0; s < s_; ++s ) {
-                for ( size_t a = 0; a < a_; ++a ) {
-                    double p = 0.0;
-                    for ( size_t s1 = 0; s1 < s_; ++s1 ) {
-                        p += t[s][s1][a];
-                    }
-                    if ( p != 1.0 ) return false;
-                }
-            }
-            return true;
-        }
-
         template <typename T, typename R>
-        Model::Model(size_t s, size_t a, T t, R r) : S(s), A(a), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]) {
+        Model::Model(size_t s, size_t a, const T & t, const R & r) : S(s), A(a), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]) {
             setTransitionFunction(t);
             setRewardFunction(r);
         }
 
         template <typename T>
-        void Model::setTransitionFunction( T t ) {
-            if ( ! mdpCheck(S, A, t) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+        void Model::setTransitionFunction( const T & t ) {
+            if ( ! transitionCheck(t, S, S, A) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
 
             copyTable3D(t, transitions_, S, S, A);
         }
 
         template <typename R>
-        void Model::setRewardFunction( R r ) {
+        void Model::setRewardFunction( const R & r ) {
             copyTable3D(r, rewards_, S, S, A);
         }
 
