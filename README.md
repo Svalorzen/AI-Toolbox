@@ -5,7 +5,7 @@ This C++ toolbox is aimed at representing and solving common AI problems,
 implementing an easy-to-use interface which should be hopefully extensible
 to many problems, while keeping code readable.
 
-Current development includes MDPs and related algorithms. This toolbox
+Current development includes MDPs, POMDPs and related algorithms. This toolbox
 has been developed taking inspiration from the Matlab MDPToolbox,
 which you can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/).
 
@@ -24,9 +24,14 @@ main folder:
     make
 
 The static library file will be available directly in the `build` directory.
-In addition, a small program will be outputted in the project's main folder.
-The program's source is in the `test` folder and offers a small example of
-what the library can do.
+A number of small tests are included which you can find in the `test/` folder.
+You can execute them after building the project using the following command
+in the build directory:
+
+    ctest
+
+The tests also offer a brief introduction for the framework, waiting for a
+more complete descriptive write-up.
 
 To compile the library's documentation you need the [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
 tool. To use it it is sufficient to execute the following command from the
