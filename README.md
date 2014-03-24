@@ -9,6 +9,31 @@ Current development includes MDPs, POMDPs and related algorithms. This toolbox
 has been developed taking inspiration from the Matlab MDPToolbox,
 which you can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/).
 
+Brief
+=====
+
+This toolbox is aimed at Decision Theoretic Control algorithms. The general idea
+is to create algorithms that are able to interact with an environment in order
+to obtain some reward using actions, and to find the best policy of actions to
+use to do so.
+
+The field divides itself into planning and learning: planning focuses into
+solving problems that we know how to model: think chess. Learning focuses into
+creating a model for an environment we do not know in advance, and subsequently
+learn the best policy for it.
+
+There are many variants of these problems, with single agent world, multi agent,
+competitive, cooperative, partially observable and so on. This framework is a
+work in progress that tries to implement many DTC algorithms in one place, much
+like OpenCV is for Computer Vision algorithms.
+
+Currently the available functionality is very little, and the API is not yet
+stable, as I can only work on this inbetween my thesis, and I generally only
+have time to insert algorithms that I happen to use for other projects too. My
+hope is that one day it will be big enough that I will be able to publicize it
+and hopefully obtain contribution from other scientists that want to use these
+type of methods.
+
 Build Instructions
 ==================
 
@@ -48,3 +73,4 @@ Documentation
 The latest documentation is available [here](http://svalorzen.github.io/AI-Toolbox/).
 Keep in mind that it may not always be 100% up to date with the latest
 commits, while the one you compile yourself will of course be.
+
