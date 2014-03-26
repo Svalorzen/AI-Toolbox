@@ -1,4 +1,4 @@
-#include <AIToolbox/MDP/QLearning.hpp>
+#include <AIToolbox/MDP/Algorithms/QLearning.hpp>
 
 #include <AIToolbox/MDP/Utils.hpp>
 

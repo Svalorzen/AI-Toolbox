@@ -3,7 +3,7 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/MDP/QLearning.hpp>
+#include <AIToolbox/MDP/Algorithms/QLearning.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
 BOOST_AUTO_TEST_CASE( updates ) {

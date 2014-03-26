@@ -1,6 +1,6 @@
 #include <AIToolbox/MDP/Utils.hpp>
 
-#include <AIToolbox/Policy.hpp>
+#include <AIToolbox/MDP/Policies/Policy.hpp>
 
 namespace AIToolbox {
     namespace MDP {

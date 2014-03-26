@@ -3,13 +3,13 @@
 #include <string>
 #include <random>
 
-#include <AIToolbox/Experience.hpp>
+#include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
 #include <AIToolbox/MDP/IO.hpp>
-#include <AIToolbox/Policy.hpp>
-#include <AIToolbox/MDP/ValueIteration.hpp>
-#include <AIToolbox/MDP/QGreedyPolicy.hpp>
-#include <AIToolbox/MDP/PrioritizedSweeping.hpp>
+#include <AIToolbox/MDP/Policies/Policy.hpp>
+#include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
+#include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
+#include <AIToolbox/MDP/Algorithms/PrioritizedSweeping.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
 using std::cout;

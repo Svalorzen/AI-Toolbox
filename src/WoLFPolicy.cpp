@@ -1,4 +1,4 @@
-#include <AIToolbox/MDP/WoLFPolicy.hpp>
+#include <AIToolbox/MDP/Policies/WoLFPolicy.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -26,7 +26,7 @@ namespace AIToolbox {
                 unsigned bestActionCount = 0; double bestQValue = q_[s][0];
                 double avgValue = 0.0, actualValue = 0.0;
 
-                std::vector<size_t> bestActions(A,0); 
+                std::vector<size_t> bestActions(A,0);
 
                 for ( size_t a = 0; a < A; ++a ) {
                     double qsa = q_[s][a];
@@ -71,7 +71,7 @@ namespace AIToolbox {
          *
          * @return The chosen action.
          */
-        size_t WoLFPolicy::sampleAction(size_t s) const {
+        size_t WoLFPolicy::sampleAction(const size_t & s) const {
             return actualPolicy_.sampleAction(s);
         }
 
@@ -83,7 +83,7 @@ namespace AIToolbox {
          *
          * @return The probability of taking the selected action in the specified state.
          */
-        double WoLFPolicy::getActionProbability(size_t s, size_t a) const {
+        double WoLFPolicy::getActionProbability(const size_t & s, size_t a) const {
             return actualPolicy_.getActionProbability(s,a);
         }
 

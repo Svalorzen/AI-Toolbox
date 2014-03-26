@@ -1,4 +1,4 @@
-#include <AIToolbox/EpsilonPolicy.hpp>
+#include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 
 #include <stdexcept>
 
@@ -8,7 +8,7 @@ namespace AIToolbox {
         if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
     }
 
-    size_t EpsilonPolicy::sampleAction(size_t s) const {
+    size_t EpsilonPolicy::sampleAction(const size_t & s) const {
         double pe = sampleDistribution_(rand_);
         if ( pe > epsilon_ ) {
             return randomDistribution_(rand_);
@@ -16,7 +16,7 @@ namespace AIToolbox {
         return policy_.sampleAction(s);
     }
 
-    double EpsilonPolicy::getActionProbability(size_t s, size_t a) const {
+    double EpsilonPolicy::getActionProbability(const size_t & s, size_t a) const {
         //          Probability of taking old decision          Other probability
         return epsilon_ * policy_.getActionProbability(s,a) + ( 1.0 - epsilon_ ) / A;
     }

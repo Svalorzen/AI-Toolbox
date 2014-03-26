@@ -1,4 +1,4 @@
-#include <AIToolbox/MDP/ValueIteration.hpp>
+#include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 
 namespace AIToolbox {
     namespace MDP {

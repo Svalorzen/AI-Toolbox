@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include <AIToolbox/MDP/QPolicyInterface.hpp>
-#include <AIToolbox/Policy.hpp>
+#include <AIToolbox/MDP/Policies/QPolicyInterface.hpp>
+#include <AIToolbox/MDP/Policies/Policy.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -27,7 +27,7 @@ namespace AIToolbox {
                  *
                  * @return The chosen action.
                  */
-                virtual size_t sampleAction(size_t s) const override;
+                virtual size_t sampleAction(const size_t & s) const override;
 
                 /**
                  * @brief This function returns the probability of taking the specified action in the specified state.
@@ -37,7 +37,7 @@ namespace AIToolbox {
                  *
                  * @return The probability of taking the selected action in the specified state.
                  */
-                virtual double getActionProbability(size_t s, size_t a) const override;
+                virtual double getActionProbability(const size_t & s, size_t a) const override;
 
             private:
                 double deltaW_, deltaL_;

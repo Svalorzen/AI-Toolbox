@@ -1,10 +1,10 @@
-#include <AIToolbox/Policy.hpp>
+#include <AIToolbox/MDP/Policies/Policy.hpp>
 
 #include <algorithm>
 #include <iostream>
 
 namespace AIToolbox {
-    Policy::Policy(size_t s, size_t a) : PolicyInterface(s, a), policy_(boost::extents[S][A])
+    Policy::Policy(size_t s, size_t a) : PolicyInterface<size_t>(s, a), policy_(boost::extents[S][A])
     {
         // Random policy is default
         std::fill(policy_.data(), policy_.data() + policy_.num_elements(), 1.0/getA());
@@ -17,7 +17,7 @@ namespace AIToolbox {
                 policy_[s][a] = p.getActionProbability(s, a);
     }
 
-    size_t Policy::sampleAction(size_t s) const {
+    size_t Policy::sampleAction(const size_t & s) const {
         double p = sampleDistribution_(rand_);
         for ( size_t a = 0; a < A; ++a ) {
             if ( policy_[s][a] > p ) return a;
@@ -27,7 +27,7 @@ namespace AIToolbox {
         return A-1;
     }
 
-    double Policy::getActionProbability(size_t s, size_t a) const {
+    double Policy::getActionProbability(const size_t & s, size_t a) const {
         return policy_[s][a];
     }
 

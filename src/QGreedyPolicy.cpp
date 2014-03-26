@@ -1,11 +1,11 @@
-#include <AIToolbox/MDP/QGreedyPolicy.hpp>
+#include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 #include <iostream>
 
 namespace AIToolbox {
     namespace MDP {
         QGreedyPolicy::QGreedyPolicy(const QFunction & q) : QPolicyInterface(q) {}
 
-        size_t QGreedyPolicy::sampleAction(size_t s) const {
+        size_t QGreedyPolicy::sampleAction(const size_t & s) const {
             std::vector<unsigned> bestActions(A, 0);
 
             // This work is due to multiple max-valued actions
@@ -28,7 +28,7 @@ namespace AIToolbox {
             return bestActions[selection];
         }
 
-        double QGreedyPolicy::getActionProbability(size_t s, size_t a) const {
+        double QGreedyPolicy::getActionProbability(const size_t & s, size_t a) const {
             double max = q_[s][0]; unsigned count = 1;
             for ( size_t aa = 1; aa < A; ++aa ) {
                 if ( q_[s][aa] == max ) ++count;

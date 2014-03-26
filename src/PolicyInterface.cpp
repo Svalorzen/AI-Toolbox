@@ -2,19 +2,9 @@
 
 #include <ostream>
 
-#include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox {
-    PolicyInterface::PolicyInterface(size_t s, size_t a) : S(s), A(a),
-                                                           rand_(Impl::Seeder::getSeed()),
-                                                           sampleDistribution_(0.0, 1.0) {}
-
-    PolicyInterface::~PolicyInterface() {}
-
-    size_t PolicyInterface::getS() const { return S; }
-    size_t PolicyInterface::getA() const { return A; }
-
-    std::ostream& operator<<(std::ostream &os, const PolicyInterface &p) {
+    std::ostream& operator<<(std::ostream &os, const PolicyInterface<size_t> &p) {
         size_t S = p.getS();
         size_t A = p.getA();
 

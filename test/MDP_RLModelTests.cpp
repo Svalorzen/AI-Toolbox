@@ -3,7 +3,7 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/Experience.hpp>
+#include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
 #include <AIToolbox/MDP/IO.hpp>
 

@@ -3,11 +3,11 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/MDP/WoLFPolicy.hpp>
+#include <AIToolbox/MDP/Policies/WoLFPolicy.hpp>
 
-#include <AIToolbox/Experience.hpp>
+#include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
-#include <AIToolbox/MDP/PrioritizedSweeping.hpp>
+#include <AIToolbox/MDP/Algorithms/PrioritizedSweeping.hpp>
 
 #include <random>
 #include <fstream>

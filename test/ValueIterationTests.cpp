@@ -3,8 +3,8 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/MDP/ValueIteration.hpp>
-#include <AIToolbox/MDP/QGreedyPolicy.hpp>
+#include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
+#include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
 // The gist of this problem is a small grid where

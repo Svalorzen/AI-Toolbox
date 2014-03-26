@@ -5,16 +5,26 @@
 #include <random>
 
 #include <iosfwd>
+#include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox {
     /**
      * @brief This class represents the base interface for policies.
-     * 
+     *
      * This class represents an interface that all policies must conform to.
      * The interface is generic as different methods may have very different
      * ways to store and compute policies, and this interface simply asks
      * for a way to sample them.
+     *
+     * This class is templatized since it works as an interface for both
+     * MDP and POMDP policies. In the case of MDPs, the template parameter
+     * State is of type size_t, which represents the states from which we are
+     * sampling. In case of POMDPs, the template parameter is of type Belief,
+     * which allows us to sample the policy from different beliefs.
+     *
+     * @tparam State This defines the type that is used to sample from the policy.
      */
+    template <typename State>
     class PolicyInterface {
         public:
             /**
@@ -37,7 +47,7 @@ namespace AIToolbox {
              *
              * @return The chosen action.
              */
-            virtual size_t sampleAction(size_t s) const = 0;
+            virtual size_t sampleAction(const State & s) const = 0;
 
             /**
              * @brief This function returns the probability of taking the specified action in the specified state.
@@ -47,7 +57,7 @@ namespace AIToolbox {
              *
              * @return The probability of taking the selected action in the specified state.
              */
-            virtual double getActionProbability(size_t s, size_t a) const = 0;
+            virtual double getActionProbability(const State & s, size_t a) const = 0;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -70,6 +80,19 @@ namespace AIToolbox {
             mutable std::uniform_real_distribution<double> sampleDistribution_;
     };
 
+    template <typename State>
+    PolicyInterface<State>::PolicyInterface(size_t s, size_t a) : S(s), A(a),
+                                                           rand_(Impl::Seeder::getSeed()),
+                                                           sampleDistribution_(0.0, 1.0) {}
+
+    template <typename State>
+    PolicyInterface<State>::~PolicyInterface() {}
+
+    template <typename State>
+    size_t PolicyInterface<State>::getS() const { return S; }
+    template <typename State>
+    size_t PolicyInterface<State>::getA() const { return A; }
+
     /**
      * @brief This function prints the whole policy to a file.
      *
@@ -87,7 +110,7 @@ namespace AIToolbox {
      *
      * @return The original stream.
      */
-    std::ostream& operator<<(std::ostream &os, const PolicyInterface & p);
+    std::ostream& operator<<(std::ostream &os, const PolicyInterface<size_t> & p);
 }
 
 #endif

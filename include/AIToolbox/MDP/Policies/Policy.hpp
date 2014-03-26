@@ -17,7 +17,7 @@ namespace AIToolbox {
      * change again. Otherwise you may want to build a wrapper
      * around some data to extract the policy dynamically.
      */
-    class Policy : public PolicyInterface {
+    class Policy : public PolicyInterface<size_t> {
         public:
             using PolicyTable = Table2D;
 
@@ -45,7 +45,7 @@ namespace AIToolbox {
              *
              * @return The chosen action.
              */
-            virtual size_t sampleAction(size_t s) const override;
+            virtual size_t sampleAction(const size_t & s) const override;
 
             /**
              * @brief This function returns the probability of taking the specified action in the specified state.
@@ -55,7 +55,7 @@ namespace AIToolbox {
              *
              * @return The probability of taking the selected action in the specified state.
              */
-            virtual double getActionProbability(size_t s, size_t a) const override;
+            virtual double getActionProbability(const size_t & s, size_t a) const override;
 
             /**
              * @brief This function sets the policy for a particular state.

@@ -5,7 +5,7 @@
 #include <random>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Experience.hpp>
+#include <AIToolbox/MDP/Experience.hpp>
 
 namespace AIToolbox {
     namespace MDP {
