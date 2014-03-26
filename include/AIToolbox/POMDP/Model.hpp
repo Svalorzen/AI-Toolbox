@@ -1,5 +1,4 @@
 #ifndef AI_TOOLBOX_POMDP_MODEL_HEADER_FILE
-
 #define AI_TOOLBOX_POMDP_MODEL_HEADER_FILE
 
 #include <AIToolbox/Utils.hpp>
@@ -55,6 +54,7 @@ namespace AIToolbox {
                  * @return The probability of the specified observation.
                  */
                 double getObservationProbability(size_t s, size_t o, size_t a) const;
+                double getObservationProbability(const Belief & b, size_t o, size_t a) const;
 
                 Belief updateBelief(const Belief & b, size_t a, size_t o) const;
 
