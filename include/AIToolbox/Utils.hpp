@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_UTILS_HEADER_FILE
 
 #include <stddef.h>
+#include <cmath>
 
 namespace AIToolbox {
     /**
@@ -65,7 +66,7 @@ namespace AIToolbox {
                 for ( size_t j = 0; j < d2; ++j ) {
                     p += in[i][j][x];
                 }
-                if ( p != 1.0 ) return false;
+                if ( fabs(p - 1.0) > 0.000001 ) return false;
             }
         }
         return true;
