@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 
-find_package(Boost 1.53 COMPONENTS system filesystem unit_test_framework REQUIRED)
+find_package(Boost 1.53 COMPONENTS unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 function (AddTest name)
