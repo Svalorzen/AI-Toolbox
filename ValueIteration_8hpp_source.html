@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>AIToolbox: include/AIToolbox/MDP/ValueIteration.hpp Source File</title>
+<title>AIToolbox: include/AIToolbox/MDP/Algorithms/ValueIteration.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -80,7 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_5d4dd356414a129804423ce26149d08e.html">MDP</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_5d4dd356414a129804423ce26149d08e.html">MDP</a></li><li class="navelem"><a class="el" href="dir_a94e81586743f067f15ccd77d52c614b.html">Algorithms</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -208,77 +208,74 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type&gt;</div>
 <div class="line"><a name="l00253"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a432656adc2b83b50f4eb7af632a2f914">  253</a></span>&#160;        ValueIteration::PRType ValueIteration::computePR(<span class="keyword">const</span> M &amp; model)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="comment">// for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            PRType pr(boost::extents[S][A]);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s ) {</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 ) {</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a ) {</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                        pr[s][a] += model.getTransitionFunction()[s][s1][a] * model.getRewardFunction()[s][s1][a];</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                    }</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                }</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            <span class="keywordflow">return</span> pr;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        }</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type&gt;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> ValueIteration::makeQFunction(<span class="keyword">const</span> M &amp; model, <span class="keyword">const</span> PRType &amp; pr)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> q = pr;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                        q[s][a] += model.getTransitionProbability(s, s1, a) * discount_ * v1_[s1];</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            <span class="keywordflow">return</span> q;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        }</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type&gt;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="keywordtype">unsigned</span> ValueIteration::valueIterationBoundIter(<span class="keyword">const</span> M &amp; model, <span class="keyword">const</span> PRType &amp; pr)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            std::vector&lt;double&gt; h(S, 0.0);</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                        h[s1] = std::min(h[s1], model.getTransitionProbability(s, s1, a));</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            <span class="keywordtype">double</span> k = 1.0 - std::accumulate(std::begin(h), std::end(h), 0.0);</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6be9397493a82615e57b89b8876d22f8">ValueFunction</a> v(S);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;            bellmanOperator(model, pr, &amp;v);</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            std::transform(std::begin(v), std::end(v), std::begin(v1_), std::begin(v), std::minus&lt;double&gt;() );</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <span class="keywordtype">double</span> variation;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            {</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                <span class="keyword">auto</span> minmax = std::minmax_element(std::begin(v), std::end(v));</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                variation = *(minmax.second) - *(minmax.first);</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            }</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keywordflow">return</span> std::ceil (</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                    std::log( (epsilon_*(1.0-discount_)/discount_) / variation ) / std::log(discount_*k));</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        }</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type&gt;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordtype">void</span> ValueIteration::bellmanOperator(<span class="keyword">const</span> M &amp; model, <span class="keyword">const</span> PRType &amp; pr, <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6be9397493a82615e57b89b8876d22f8">ValueFunction</a> * v)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <span class="keyword">auto</span> &amp; vOut = *v;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> q = makeQFunction(model, pr);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s ) {</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                <span class="comment">// Accessing an element like this creates a temporary. Thus we need to bind it.</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                decltype(q)::reference ref = q[s];</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                <span class="keyword">auto</span> it = std::max_element(std::begin(ref), std::end(ref));</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                vOut[s] = *it;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            }</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        }</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    }</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;}</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            PRType pr(boost::extents[S][A]);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                        pr[s][a] += model.getTransitionProbability(s,a,s1) * model.getExpectedReward(s,a,s1);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            <span class="keywordflow">return</span> pr;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        }</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type&gt;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> ValueIteration::makeQFunction(<span class="keyword">const</span> M &amp; model, <span class="keyword">const</span> PRType &amp; pr)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> q = pr;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                        q[s][a] += model.getTransitionProbability(s,a,s1) * discount_ * v1_[s1];</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordflow">return</span> q;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        }</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type&gt;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <span class="keywordtype">unsigned</span> ValueIteration::valueIterationBoundIter(<span class="keyword">const</span> M &amp; model, <span class="keyword">const</span> PRType &amp; pr)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            std::vector&lt;double&gt; h(S, 0.0);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                        h[s1] = std::min(h[s1], model.getTransitionProbability(s,a,s1));</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordtype">double</span> k = 1.0 - std::accumulate(std::begin(h), std::end(h), 0.0);</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6be9397493a82615e57b89b8876d22f8">ValueFunction</a> v(S);</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            bellmanOperator(model, pr, &amp;v);</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            std::transform(std::begin(v), std::end(v), std::begin(v1_), std::begin(v), std::minus&lt;double&gt;() );</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            <span class="keywordtype">double</span> variation;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            {</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                <span class="keyword">auto</span> minmax = std::minmax_element(std::begin(v), std::end(v));</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                variation = *(minmax.second) - *(minmax.first);</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            }</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            <span class="keywordflow">return</span> std::ceil (</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    std::log( (epsilon_*(1.0-discount_)/discount_) / variation ) / std::log(discount_*k));</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        }</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type&gt;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="keywordtype">void</span> ValueIteration::bellmanOperator(<span class="keyword">const</span> M &amp; model, <span class="keyword">const</span> PRType &amp; pr, <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6be9397493a82615e57b89b8876d22f8">ValueFunction</a> * v)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <span class="keyword">auto</span> &amp; vOut = *v;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            <a class="code" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> q = makeQFunction(model, pr);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s ) {</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="comment">// Accessing an element like this creates a temporary. Thus we need to bind it.</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                decltype(q)::reference ref = q[s];</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                <span class="keyword">auto</span> it = std::max_element(std::begin(ref), std::end(ref));</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                vOut[s] = *it;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            }</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        }</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    }</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;}</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

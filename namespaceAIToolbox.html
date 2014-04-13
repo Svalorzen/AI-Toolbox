@@ -102,17 +102,17 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html">EpsilonPolicy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is a policy wrapper for epsilon action choice.  <a href="classAIToolbox_1_1EpsilonPolicy.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Experience.html">Experience</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class keeps track of registered events and rewards.  <a href="classAIToolbox_1_1Experience.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Policy.html">Policy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a full policy.  <a href="classAIToolbox_1_1Policy.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the base interface for policies.  <a href="classAIToolbox_1_1PolicyInterface.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html">EpsilonPolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is a policy wrapper for epsilon action choice.  <a href="classAIToolbox_1_1EpsilonPolicy.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Policy.html">Policy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a full policy.  <a href="classAIToolbox_1_1Policy.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -131,17 +131,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a59b370d98aa199d2938152b773e7ada0"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a59b370d98aa199d2938152b773e7ada0">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1Policy.html">Policy</a> &amp;p)</td></tr>
 <tr class="memdesc:a59b370d98aa199d2938152b773e7ada0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="#a59b370d98aa199d2938152b773e7ada0">More...</a><br/></td></tr>
 <tr class="separator:a59b370d98aa199d2938152b773e7ada0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbefa395a90cb007ced37d59bcd3a007"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#afbefa395a90cb007ced37d59bcd3a007">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> &amp;p)</td></tr>
-<tr class="memdesc:afbefa395a90cb007ced37d59bcd3a007"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a file.  <a href="#afbefa395a90cb007ced37d59bcd3a007">More...</a><br/></td></tr>
-<tr class="separator:afbefa395a90cb007ced37d59bcd3a007"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f8a834af7a976624feec2a7852a9ddd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8f8a834af7a976624feec2a7852a9ddd"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a8f8a834af7a976624feec2a7852a9ddd">isProbability</a> (const T &amp;in, size_t d)</td></tr>
+<tr class="memdesc:a8f8a834af7a976624feec2a7852a9ddd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether the supplied vector is a correct probability vector.  <a href="#a8f8a834af7a976624feec2a7852a9ddd">More...</a><br/></td></tr>
+<tr class="separator:a8f8a834af7a976624feec2a7852a9ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab395056ccc2c32b6edf71fe4e33d2709"><td class="memTemplParams" colspan="2">template&lt;typename T , typename G &gt; </td></tr>
+<tr class="memitem:ab395056ccc2c32b6edf71fe4e33d2709"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ab395056ccc2c32b6edf71fe4e33d2709">sampleProbability</a> (const T &amp;in, size_t d, G &amp;generator)</td></tr>
+<tr class="memdesc:ab395056ccc2c32b6edf71fe4e33d2709"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a probability vector.  <a href="#ab395056ccc2c32b6edf71fe4e33d2709">More...</a><br/></td></tr>
+<tr class="separator:ab395056ccc2c32b6edf71fe4e33d2709"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad910375dbc82dfa1e526938ca3406841"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
 <tr class="memitem:ad910375dbc82dfa1e526938ca3406841"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad910375dbc82dfa1e526938ca3406841">copyTable3D</a> (const T &amp;in, U &amp;out, size_t d1, size_t d2, size_t d3)</td></tr>
 <tr class="memdesc:ad910375dbc82dfa1e526938ca3406841"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a 3d container into another 3d container.  <a href="#ad910375dbc82dfa1e526938ca3406841">More...</a><br/></td></tr>
 <tr class="separator:ad910375dbc82dfa1e526938ca3406841"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af499e6ad06258356e6e983a0b428522f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:af499e6ad06258356e6e983a0b428522f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#af499e6ad06258356e6e983a0b428522f">transitionCheck</a> (const T &amp;in, size_t d1, size_t d2, size_t d3)</td></tr>
-<tr class="memdesc:af499e6ad06258356e6e983a0b428522f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether the supplied table is a correct probability table.  <a href="#af499e6ad06258356e6e983a0b428522f">More...</a><br/></td></tr>
-<tr class="separator:af499e6ad06258356e6e983a0b428522f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="af774ebb18ec376e43d77e908e3854370"></a>
@@ -236,21 +237,23 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="afbefa395a90cb007ced37d59bcd3a007"></a>
+<a class="anchor" id="a8f8a834af7a976624feec2a7852a9ddd"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::ostream&amp; AIToolbox::operator&lt;&lt; </td>
+          <td class="memname">bool AIToolbox::isProbability </td>
           <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>in</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const PolicyInterface &amp;&#160;</td>
-          <td class="paramname"><em>p</em>&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -260,18 +263,25 @@ template&lt;typename T , typename U &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function prints the whole policy to a file. </p>
-<p>This function outputs each and every value of the policy for easy parsing. The output is broken into multiple lines where each line is of the format:</p>
-<p>state_number action_number probability</p>
-<p>And all lines are sorted by state, and each state is sorted by action.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">os</td><td>The stream where the policy is printed. </td></tr>
-    <tr><td class="paramname">p</td><td>The policy that is begin printed.</td></tr>
+<p>This function checks whether the supplied vector is a correct probability vector. </p>
+<p>This function verifies basic probability conditions on the supplied container. The sum of all elements must be 1, and all elements must be &gt;= 0 and &lt;= 1.</p>
+<p>The container needs to support data access through operator[]. In addition, the dimension of the container must match the one provided as argument.</p>
+<p>This is important, as this function DOES NOT perform any size checks on the external container.</p>
+<p>Internal values of the container will be converted to double, so the conversion T to double must be possible.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The external transition container type. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The original stream. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">in</td><td>The external transitions container. </td></tr>
+    <tr><td class="paramname">d</td><td>The size of the supplied container.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the container satisfies probability constraints, and false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -366,14 +376,14 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="af499e6ad06258356e6e983a0b428522f"></a>
+<a class="anchor" id="ab395056ccc2c32b6edf71fe4e33d2709"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename G &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool AIToolbox::transitionCheck </td>
+          <td class="memname">size_t AIToolbox::sampleProbability </td>
           <td>(</td>
           <td class="paramtype">const T &amp;&#160;</td>
           <td class="paramname"><em>in</em>, </td>
@@ -382,19 +392,13 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>d1</em>, </td>
+          <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>d2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>d3</em>&#160;</td>
+          <td class="paramtype">G &amp;&#160;</td>
+          <td class="paramname"><em>generator</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -404,34 +408,33 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function checks whether the supplied table is a correct probability table. </p>
-<p>This function verifies basic probability conditions on the supplied container. The sum of all rows along the second dimension must be 1.</p>
-<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones provided as arguments (for three dimensions: d1,d2,d3).</p>
-<p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
-<p>Internal values of the container will be converted to double, so that convertion must be possible.</p>
+<p>This function samples an index from a probability vector. </p>
+<p>This function randomly samples an index between 0 and d, given a vector containing the probabilities of sampling each of the indexes.</p>
+<p>For performance reasons this function does not verify that the input container is effectively a probability.</p>
+<p>The generator has to be supplied to the function, so that different objects are able to maintain different generators, to reduce correlations between different samples. The generator has to be compatible with std::uniform_real_distribution&lt;double&gt;, since that is what is used to obtain the random sample.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>The external transition container type. </td></tr>
+    <tr><td class="paramname">T</td><td>The type of the container vector to sample. </td></tr>
+    <tr><td class="paramname">G</td><td>The type of the generator used. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">in</td><td>The external transitions container. </td></tr>
-    <tr><td class="paramname">d1</td><td>The size along the first dimension of the supplied container. </td></tr>
-    <tr><td class="paramname">d2</td><td>The size along the second dimension of the supplied container. </td></tr>
-    <tr><td class="paramname">d3</td><td>The size along the third dimension of the supplied container.</td></tr>
+    <tr><td class="paramname">in</td><td>The external probability container. </td></tr>
+    <tr><td class="paramname">d</td><td>The size of the supplied container. </td></tr>
+    <tr><td class="paramname">generator</td><td>The generator used to sample.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the container statisfies probability constraints, and false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An index in range [0,d-1]. </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

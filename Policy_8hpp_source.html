@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>AIToolbox: include/AIToolbox/Policy.hpp Source File</title>
+<title>AIToolbox: include/AIToolbox/MDP/Policies/Policy.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -80,7 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_5d4dd356414a129804423ce26149d08e.html">MDP</a></li><li class="navelem"><a class="el" href="dir_3556cced2cb26751b0d96533a65d7122.html">Policies</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -99,7 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="PolicyInterface_8hpp.html">AIToolbox/PolicyInterface.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1Policy.html">   20</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1Policy.html" title="This class represents a full policy. ">Policy</a> : <span class="keyword">public</span> <a class="code" href="classAIToolbox_1_1PolicyInterface.html" title="This class represents the base interface for policies. ">PolicyInterface</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1Policy.html">   20</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1Policy.html" title="This class represents a full policy. ">Policy</a> : <span class="keyword">public</span> <a class="code" href="classAIToolbox_1_1PolicyInterface.html" title="This class represents the base interface for policies. ">PolicyInterface</a>&lt;size_t&gt; {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00022"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1Policy.html#adab5c3fe602a06432cc123299b681d26">   22</a></span>&#160;            <span class="keyword">using</span> <a class="code" href="classAIToolbox_1_1Policy.html#adab5c3fe602a06432cc123299b681d26">PolicyTable</a> = <a class="code" href="namespaceAIToolbox.html#af774ebb18ec376e43d77e908e3854370">Table2D</a>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
@@ -107,9 +107,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <a class="code" href="classAIToolbox_1_1Policy.html#ab95886d2514fd85af5da15998d91df29" title="Basic constrctor. ">Policy</a>(<span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1PolicyInterface.html" title="This class represents the base interface for policies. ">PolicyInterface</a> &amp; p);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1Policy.html#ac95b6244a8c59c71f14ba5837c20e41d" title="This function chooses a random action for state s, following the policy distribution. ">sampleAction</a>(<span class="keywordtype">size_t</span> s) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1Policy.html#a17b8ae0a02d26f772f179f9da4ff6ab3" title="This function chooses a random action for state s, following the policy distribution. ">sampleAction</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> &amp; s) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Policy.html#adbbaca62b05156b249e8fb1fb09a2165" title="This function returns the probability of taking the specified action in the specified state...">getActionProbability</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Policy.html#abcfdd8b1d7953c89253f5b5cf16d03a6" title="This function returns the probability of taking the specified action in the specified state...">getActionProbability</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> &amp; s, <span class="keywordtype">size_t</span> a) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Policy.html#a24fa5b14d04310f400aedf3e55415ef5" title="This function sets the policy for a particular state. ">setStatePolicy</a>(<span class="keywordtype">size_t</span> s, <span class="keyword">const</span> T &amp; container);</div>
@@ -131,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a name="l00151"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1Policy.html#a24fa5b14d04310f400aedf3e55415ef5">  151</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Policy.html#a24fa5b14d04310f400aedf3e55415ef5" title="This function sets the policy for a particular state. ">Policy::setStatePolicy</a>(<span class="keywordtype">size_t</span> s, <span class="keyword">const</span> T &amp; container) {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">if</span> ( container.size() != <a class="code" href="classAIToolbox_1_1PolicyInterface.html#ae1e21b346edfd4b161c6f3def4d10336" title="This function returns the number of available actions to the agent. ">getA</a>() ) <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Container to copy has the wrong size.&quot;</span>);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">if</span> ( container.size() != <a class="code" href="classAIToolbox_1_1PolicyInterface.html#a6ebd914d4d88cbf4a02d857e61cd8f63" title="This function returns the number of available actions to the agent. ">getA</a>() ) <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Container to copy has the wrong size.&quot;</span>);</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordtype">double</span> norm = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::accumulate(std::begin(container), std::end(container), 0.0));</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        decltype(policy_)::reference ref = policy_[s]; <span class="comment">// This is needed because policy_[s] by itself is a temporary (const), and &quot;saving&quot; it enables the use of transform. Boost magic!</span></div>
@@ -144,7 +144,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

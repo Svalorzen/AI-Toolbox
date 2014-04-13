@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>AIToolbox: include/AIToolbox/Experience.hpp Source File</title>
+<title>AIToolbox: include/AIToolbox/MDP/Experience.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -80,7 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_5d4dd356414a129804423ce26149d08e.html">MDP</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -112,15 +112,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> R&gt;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Experience.html#afdb067cf4add4ef46011567bd4e62f95" title="Compatibility setter. ">setRewards</a>(R r);</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Experience.html#afd25442deea3212b36327caf5999b9a6" title="This function adds a new event to the recordings. ">record</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a, <span class="keywordtype">double</span> rew);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Experience.html#ad72da348b4b1f280c2a50c439d6ce4d3" title="This function adds a new event to the recordings. ">record</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">double</span> rew);</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Experience.html#a02709808ccac7c11c2ae2df535553dc4" title="This function resets all experienced rewards and transitions. ">reset</a>();</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="classAIToolbox_1_1Experience.html#acf19df4867a5addec393883e65e42463" title="This function returns the current recorded visits for a transitions. ">getVisits</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="classAIToolbox_1_1Experience.html#a67837af6fff4d74421d3dad8b19c4e78" title="This function returns the current recorded visits for a transitions. ">getVisits</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="classAIToolbox_1_1Experience.html#a3cdae5c98eb74097b3089866869f7ec2">getVisitsSum</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Experience.html#a57389dbc8efd8eccb0397a7559d210db" title="This function returns the current recorded visits for a transitions. ">getReward</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Experience.html#addfe2ea2e6906f7e8ec68f4e8b32964d" title="This function returns the current recorded visits for a transitions. ">getReward</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Experience.html#a0b035fd2b5134857c165d53292c20837">getRewardSum</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
@@ -148,24 +148,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> V&gt;</div>
 <div class="line"><a name="l00166"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1Experience.html#a9cf73df73cb96a36e87ba6b18fc08db1">  166</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Experience.html#a9cf73df73cb96a36e87ba6b18fc08db1" title="Compatibility setter. ">Experience::setVisits</a>(V v) {</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <a class="code" href="namespaceAIToolbox.html#ad910375dbc82dfa1e526938ca3406841" title="Copies a 3d container into another 3d container. ">copyTable3D</a>(v, visits_, S, S, A);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <a class="code" href="namespaceAIToolbox.html#ad910375dbc82dfa1e526938ca3406841" title="Copies a 3d container into another 3d container. ">copyTable3D</a>(v, visits_, S, A, S);</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        std::fill(visitsSum_.data(), visitsSum_.data() + visitsSum_.num_elements(), 0ul);</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                    visitsSum_[s][a] += visits_[s][s1][a];</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                    visitsSum_[s][a] += visits_[s][a][s1];</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    }</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> R&gt;</div>
 <div class="line"><a name="l00177"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1Experience.html#afdb067cf4add4ef46011567bd4e62f95">  177</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Experience.html#afdb067cf4add4ef46011567bd4e62f95" title="Compatibility setter. ">Experience::setRewards</a>(R r) {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <a class="code" href="namespaceAIToolbox.html#ad910375dbc82dfa1e526938ca3406841" title="Copies a 3d container into another 3d container. ">copyTable3D</a>(r, rewards_, S, S, A);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <a class="code" href="namespaceAIToolbox.html#ad910375dbc82dfa1e526938ca3406841" title="Copies a 3d container into another 3d container. ">copyTable3D</a>(r, rewards_, S, A, S);</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        std::fill(rewardsSum_.data(), rewardsSum_.data() + rewardsSum_.num_elements(), 0.0);</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    rewardsSum_[s][a] += rewards_[s][s1][a];</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a )</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 )</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    rewardsSum_[s][a] += rewards_[s][a][s1];</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    }</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;}</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
@@ -173,7 +173,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

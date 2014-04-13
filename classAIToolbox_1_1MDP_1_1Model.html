@@ -134,12 +134,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acbdee5afcccf18f4fc56dbf043fdd248"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#acbdee5afcccf18f4fc56dbf043fdd248">getA</a> () const </td></tr>
 <tr class="memdesc:acbdee5afcccf18f4fc56dbf043fdd248"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of available actions to the agent.  <a href="#acbdee5afcccf18f4fc56dbf043fdd248">More...</a><br/></td></tr>
 <tr class="separator:acbdee5afcccf18f4fc56dbf043fdd248"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ae4644773ea0179311178a8d96bab56"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a4ae4644773ea0179311178a8d96bab56">getTransitionProbability</a> (size_t s, size_t s1, size_t a) const </td></tr>
-<tr class="memdesc:a4ae4644773ea0179311178a8d96bab56"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored transition probability for the specified transition.  <a href="#a4ae4644773ea0179311178a8d96bab56">More...</a><br/></td></tr>
-<tr class="separator:a4ae4644773ea0179311178a8d96bab56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac07f5d36a25af1460fb5887694202c45"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ac07f5d36a25af1460fb5887694202c45">getExpectedReward</a> (size_t s, size_t s1, size_t a) const </td></tr>
-<tr class="memdesc:ac07f5d36a25af1460fb5887694202c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored expected reward for the specified transition.  <a href="#ac07f5d36a25af1460fb5887694202c45">More...</a><br/></td></tr>
-<tr class="separator:ac07f5d36a25af1460fb5887694202c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a813f540ff9cfe3a888d122c8b8328966"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a813f540ff9cfe3a888d122c8b8328966">getTransitionProbability</a> (size_t s, size_t a, size_t s1) const </td></tr>
+<tr class="memdesc:a813f540ff9cfe3a888d122c8b8328966"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored transition probability for the specified transition.  <a href="#a813f540ff9cfe3a888d122c8b8328966">More...</a><br/></td></tr>
+<tr class="separator:a813f540ff9cfe3a888d122c8b8328966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f998bf560d3727ce481043e941faa92"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a8f998bf560d3727ce481043e941faa92">getExpectedReward</a> (size_t s, size_t a, size_t s1) const </td></tr>
+<tr class="memdesc:a8f998bf560d3727ce481043e941faa92"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored expected reward for the specified transition.  <a href="#a8f998bf560d3727ce481043e941faa92">More...</a><br/></td></tr>
+<tr class="separator:a8f998bf560d3727ce481043e941faa92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d962ffd61906102c8e6ae6cd2b21b23"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aca9e364f7740a3ca3d0a5186e2ceb728">TransitionTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a5d962ffd61906102c8e6ae6cd2b21b23">getTransitionFunction</a> () const </td></tr>
 <tr class="memdesc:a5d962ffd61906102c8e6ae6cd2b21b23"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the transition table for inspection.  <a href="#a5d962ffd61906102c8e6ae6cd2b21b23">More...</a><br/></td></tr>
 <tr class="separator:a5d962ffd61906102c8e6ae6cd2b21b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -256,7 +256,7 @@ template&lt;typename T , typename R &gt; </div>
 <p>This is important, as this constructor DOES NOT perform any size checks on the external containers.</p>
 <p>Internal values of the containers will be converted to double, so these convertions must be possible.</p>
 <p>In addition, the transition container must contain a valid transition function. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="namespaceAIToolbox.html#af499e6ad06258356e6e983a0b428522f" title="This function checks whether the supplied table is a correct probability table. ">transitionCheck()</a></dd>
+<dl class="section see"><dt>See Also</dt><dd>transitionCheck()</dd>
 <dd>
 <a class="el" href="namespaceAIToolbox.html#ad910375dbc82dfa1e526938ca3406841" title="Copies a 3d container into another 3d container. ">copyTable3D()</a></dd></dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -297,7 +297,7 @@ template&lt;typename T , typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ac07f5d36a25af1460fb5887694202c45"></a>
+<a class="anchor" id="a8f998bf560d3727ce481043e941faa92"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -311,13 +311,13 @@ template&lt;typename T , typename R &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s1</em>, </td>
+          <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
+          <td class="paramname"><em>s1</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -331,8 +331,8 @@ template&lt;typename T , typename R &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The initial state of the transition. </td></tr>
-    <tr><td class="paramname">s1</td><td>The final state of the transition. </td></tr>
-    <tr><td class="paramname">a</td><td>The action performed in the transition.</td></tr>
+    <tr><td class="paramname">a</td><td>The action performed in the transition. </td></tr>
+    <tr><td class="paramname">s1</td><td>The final state of the transition.</td></tr>
   </table>
   </dd>
 </dl>
@@ -394,7 +394,7 @@ template&lt;typename T , typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a4ae4644773ea0179311178a8d96bab56"></a>
+<a class="anchor" id="a813f540ff9cfe3a888d122c8b8328966"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -408,13 +408,13 @@ template&lt;typename T , typename R &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s1</em>, </td>
+          <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
+          <td class="paramname"><em>s1</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -428,8 +428,8 @@ template&lt;typename T , typename R &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The initial state of the transition. </td></tr>
-    <tr><td class="paramname">s1</td><td>The final state of the transition. </td></tr>
-    <tr><td class="paramname">a</td><td>The action performed in the transition.</td></tr>
+    <tr><td class="paramname">a</td><td>The action performed in the transition. </td></tr>
+    <tr><td class="paramname">s1</td><td>The final state of the transition.</td></tr>
   </table>
   </dd>
 </dl>
@@ -551,7 +551,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

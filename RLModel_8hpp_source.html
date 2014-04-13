@@ -95,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;random&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Types_8hpp.html">AIToolbox/Types.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Experience_8hpp.html">AIToolbox/Experience.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Experience_8hpp.html">AIToolbox/MDP/Experience.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">namespace </span>MDP {</div>
@@ -117,9 +117,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> &amp; <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#a13b31a7232309800fee0a852e894fd7b" title="This function enables inspection of the underlying Experience of the RLModel. ">getExperience</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#a7cb71dbb48c69ad5179a3094d885c5a9" title="This function returns the stored transition probability for the specified transition. ">getTransitionProbability</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#a45a87f7b9f3a19bb116dc8740bfd81ed" title="This function returns the stored transition probability for the specified transition. ">getTransitionProbability</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#a39bf334eb0312a5a474056ede41be50a" title="This function returns the stored expected reward for the specified transition. ">getExpectedReward</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> s1, <span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#a95c5ecd83821b095b7b1c5a133c1fff8" title="This function returns the stored expected reward for the specified transition. ">getExpectedReward</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#a12607e8546fa692df7525bdca1360a99">TransitionTable</a> &amp; <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#a8f1f379a0d9b53ed20ca0bd9c7ef9d27" title="This function returns the transition table for inspection. ">getTransitionFunction</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
@@ -134,16 +134,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                <a class="code" href="classAIToolbox_1_1MDP_1_1RLModel.html#ab2d8ab1bad71739ae4753b24f02ff949">RewardTable</a> rewards_;</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                <span class="keyword">mutable</span> std::default_random_engine rand_;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                <span class="keyword">mutable</span> std::uniform_real_distribution&lt;double&gt; sampleDistribution_;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        };</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;}</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        };</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    }</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;}</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

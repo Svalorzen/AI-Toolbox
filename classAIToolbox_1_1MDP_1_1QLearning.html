@@ -118,9 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a826df62c98f47dd622663f97f8392d69"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a826df62c98f47dd622663f97f8392d69">getDiscount</a> () const </td></tr>
 <tr class="memdesc:a826df62c98f47dd622663f97f8392d69"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function will return the current set discount parameter.  <a href="#a826df62c98f47dd622663f97f8392d69">More...</a><br/></td></tr>
 <tr class="separator:a826df62c98f47dd622663f97f8392d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00ad35df85d85a89d62e5884904dcf71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a00ad35df85d85a89d62e5884904dcf71">stepUpdateQ</a> (size_t s, size_t s1, size_t a, double rew)</td></tr>
-<tr class="memdesc:a00ad35df85d85a89d62e5884904dcf71"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the internal QFunction using the discount set during construction.  <a href="#a00ad35df85d85a89d62e5884904dcf71">More...</a><br/></td></tr>
-<tr class="separator:a00ad35df85d85a89d62e5884904dcf71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57a3177a82d8fada9004f0f81f1f7970"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a57a3177a82d8fada9004f0f81f1f7970">stepUpdateQ</a> (size_t s, size_t a, size_t s1, double rew)</td></tr>
+<tr class="memdesc:a57a3177a82d8fada9004f0f81f1f7970"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the internal QFunction using the discount set during construction.  <a href="#a57a3177a82d8fada9004f0f81f1f7970">More...</a><br/></td></tr>
+<tr class="separator:a57a3177a82d8fada9004f0f81f1f7970"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad93c6939351a9c0642a82f8fb88e15e6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#ad93c6939351a9c0642a82f8fb88e15e6">getQFunction</a> () const </td></tr>
 <tr class="memdesc:ad93c6939351a9c0642a82f8fb88e15e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal QFunction.  <a href="#ad93c6939351a9c0642a82f8fb88e15e6">More...</a><br/></td></tr>
 <tr class="separator:ad93c6939351a9c0642a82f8fb88e15e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -338,7 +338,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a00ad35df85d85a89d62e5884904dcf71"></a>
+<a class="anchor" id="a57a3177a82d8fada9004f0f81f1f7970"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -352,13 +352,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s1</em>, </td>
+          <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
+          <td class="paramname"><em>s1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -379,8 +379,8 @@ Protected Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The previous state. </td></tr>
-    <tr><td class="paramname">s1</td><td>The new state. </td></tr>
     <tr><td class="paramname">a</td><td>The action performed. </td></tr>
+    <tr><td class="paramname">s1</td><td>The new state. </td></tr>
     <tr><td class="paramname">rew</td><td>The reward obtained. </td></tr>
   </table>
   </dd>
@@ -490,12 +490,12 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/AIToolbox/MDP/<a class="el" href="QLearning_8hpp_source.html">QLearning.hpp</a></li>
+<li>include/AIToolbox/MDP/Algorithms/<a class="el" href="QLearning_8hpp_source.html">QLearning.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

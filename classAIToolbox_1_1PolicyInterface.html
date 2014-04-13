@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>AIToolbox: AIToolbox::PolicyInterface Class Reference</title>
+<title>AIToolbox: AIToolbox::PolicyInterface&lt; State &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,71 +92,67 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classAIToolbox_1_1PolicyInterface-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AIToolbox::PolicyInterface Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">AIToolbox::PolicyInterface&lt; State &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>This class represents the base interface for policies.  
  <a href="classAIToolbox_1_1PolicyInterface.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="PolicyInterface_8hpp_source.html">PolicyInterface.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for AIToolbox::PolicyInterface:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="classAIToolbox_1_1PolicyInterface.png" usemap="#AIToolbox::PolicyInterface_map" alt=""/>
-  <map id="AIToolbox::PolicyInterface_map" name="AIToolbox::PolicyInterface_map">
-<area href="classAIToolbox_1_1EpsilonPolicy.html" title="This class is a policy wrapper for epsilon action choice. " alt="AIToolbox::EpsilonPolicy" shape="rect" coords="0,56,203,80"/>
-<area href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html" title="This class is an interface to specify a policy through a QFunction. " alt="AIToolbox::MDP::QPolicyInterface" shape="rect" coords="213,56,416,80"/>
-<area href="classAIToolbox_1_1Policy.html" title="This class represents a full policy. " alt="AIToolbox::Policy" shape="rect" coords="426,56,629,80"/>
-<area href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction. " alt="AIToolbox::MDP::QGreedyPolicy" shape="rect" coords="106,112,309,136"/>
-<area href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" alt="AIToolbox::MDP::WoLFPolicy" shape="rect" coords="319,112,522,136"/>
-</map>
- </div></div>
+<p><code>#include &lt;<a class="el" href="IO_8hpp_source.html">IO.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad5348057f04e44190c9be9f8b3de424c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#ad5348057f04e44190c9be9f8b3de424c">PolicyInterface</a> (size_t s, size_t a)</td></tr>
-<tr class="memdesc:ad5348057f04e44190c9be9f8b3de424c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ad5348057f04e44190c9be9f8b3de424c">More...</a><br/></td></tr>
-<tr class="separator:ad5348057f04e44190c9be9f8b3de424c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a071b6ba843ab58cf30b5f2150f235130"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a071b6ba843ab58cf30b5f2150f235130">~PolicyInterface</a> ()</td></tr>
-<tr class="memdesc:a071b6ba843ab58cf30b5f2150f235130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic virtual destructor.  <a href="#a071b6ba843ab58cf30b5f2150f235130">More...</a><br/></td></tr>
-<tr class="separator:a071b6ba843ab58cf30b5f2150f235130"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73d3df9ef39d006a3f7bfe0418997147"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a73d3df9ef39d006a3f7bfe0418997147">sampleAction</a> (size_t s) const =0</td></tr>
-<tr class="memdesc:a73d3df9ef39d006a3f7bfe0418997147"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="#a73d3df9ef39d006a3f7bfe0418997147">More...</a><br/></td></tr>
-<tr class="separator:a73d3df9ef39d006a3f7bfe0418997147"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31a21b93e11bc1e3f52374260087118e"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a31a21b93e11bc1e3f52374260087118e">getActionProbability</a> (size_t s, size_t a) const =0</td></tr>
-<tr class="memdesc:a31a21b93e11bc1e3f52374260087118e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a31a21b93e11bc1e3f52374260087118e">More...</a><br/></td></tr>
-<tr class="separator:a31a21b93e11bc1e3f52374260087118e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a687c680458952c0070d09752549be09d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a687c680458952c0070d09752549be09d">getS</a> () const </td></tr>
-<tr class="memdesc:a687c680458952c0070d09752549be09d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#a687c680458952c0070d09752549be09d">More...</a><br/></td></tr>
-<tr class="separator:a687c680458952c0070d09752549be09d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1e21b346edfd4b161c6f3def4d10336"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#ae1e21b346edfd4b161c6f3def4d10336">getA</a> () const </td></tr>
-<tr class="memdesc:ae1e21b346edfd4b161c6f3def4d10336"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of available actions to the agent.  <a href="#ae1e21b346edfd4b161c6f3def4d10336">More...</a><br/></td></tr>
-<tr class="separator:ae1e21b346edfd4b161c6f3def4d10336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c045e93651f9af784f44690f1b29e95"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a4c045e93651f9af784f44690f1b29e95">PolicyInterface</a> (size_t s, size_t a)</td></tr>
+<tr class="memdesc:a4c045e93651f9af784f44690f1b29e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a4c045e93651f9af784f44690f1b29e95">More...</a><br/></td></tr>
+<tr class="separator:a4c045e93651f9af784f44690f1b29e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28be8dac8ef25246f7704968a3bd3a79"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a28be8dac8ef25246f7704968a3bd3a79">~PolicyInterface</a> ()</td></tr>
+<tr class="memdesc:a28be8dac8ef25246f7704968a3bd3a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic virtual destructor.  <a href="#a28be8dac8ef25246f7704968a3bd3a79">More...</a><br/></td></tr>
+<tr class="separator:a28be8dac8ef25246f7704968a3bd3a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af57a8d643518f7e5b0f5834f0975ff34"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#af57a8d643518f7e5b0f5834f0975ff34">sampleAction</a> (const State &amp;s) const =0</td></tr>
+<tr class="memdesc:af57a8d643518f7e5b0f5834f0975ff34"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="#af57a8d643518f7e5b0f5834f0975ff34">More...</a><br/></td></tr>
+<tr class="separator:af57a8d643518f7e5b0f5834f0975ff34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a762cadffb5a7901f1cd10d3716afea"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a7a762cadffb5a7901f1cd10d3716afea">getActionProbability</a> (const State &amp;s, size_t a) const =0</td></tr>
+<tr class="memdesc:a7a762cadffb5a7901f1cd10d3716afea"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a7a762cadffb5a7901f1cd10d3716afea">More...</a><br/></td></tr>
+<tr class="separator:a7a762cadffb5a7901f1cd10d3716afea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee84f129e998a1538eb884c3a58ad67b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#aee84f129e998a1538eb884c3a58ad67b">getS</a> () const </td></tr>
+<tr class="memdesc:aee84f129e998a1538eb884c3a58ad67b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#aee84f129e998a1538eb884c3a58ad67b">More...</a><br/></td></tr>
+<tr class="separator:aee84f129e998a1538eb884c3a58ad67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ebd914d4d88cbf4a02d857e61cd8f63"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a6ebd914d4d88cbf4a02d857e61cd8f63">getA</a> () const </td></tr>
+<tr class="memdesc:a6ebd914d4d88cbf4a02d857e61cd8f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of available actions to the agent.  <a href="#a6ebd914d4d88cbf4a02d857e61cd8f63">More...</a><br/></td></tr>
+<tr class="separator:a6ebd914d4d88cbf4a02d857e61cd8f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ad11a83dc9c74b207594c0bf776f9edb4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#ad11a83dc9c74b207594c0bf776f9edb4">S</a></td></tr>
-<tr class="separator:ad11a83dc9c74b207594c0bf776f9edb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac21251c1b21027805639ca0f752859dc"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#ac21251c1b21027805639ca0f752859dc">A</a></td></tr>
-<tr class="separator:ac21251c1b21027805639ca0f752859dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e54b57eb7b9c0ddb054baab0b8b9383"><td class="memItemLeft" align="right" valign="top">std::default_random_engine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a1e54b57eb7b9c0ddb054baab0b8b9383">rand_</a></td></tr>
-<tr class="separator:a1e54b57eb7b9c0ddb054baab0b8b9383"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04901c0b9235ec7535611338daf78229"><td class="memItemLeft" align="right" valign="top">std::uniform_real_distribution<br class="typebreak"/>
-&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a04901c0b9235ec7535611338daf78229">sampleDistribution_</a></td></tr>
-<tr class="separator:a04901c0b9235ec7535611338daf78229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcd45109a87e156da7bf5b4dec15693e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#adcd45109a87e156da7bf5b4dec15693e">S</a></td></tr>
+<tr class="separator:adcd45109a87e156da7bf5b4dec15693e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02fadd3579094be6ad15967ecb185295"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a02fadd3579094be6ad15967ecb185295">A</a></td></tr>
+<tr class="separator:a02fadd3579094be6ad15967ecb185295"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41ac8e3da01431e6b5265b3e812a89ce"><td class="memItemLeft" align="right" valign="top">std::default_random_engine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a41ac8e3da01431e6b5265b3e812a89ce">rand_</a></td></tr>
+<tr class="separator:a41ac8e3da01431e6b5265b3e812a89ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class represents the base interface for policies. </p>
-<p>This class represents an interface that all policies must conform to. The interface is generic as different methods may have very different ways to store and compute policies, and this interface simply asks for a way to sample them. </p>
+<div class="textblock"><h3>template&lt;typename State&gt;<br/>
+class AIToolbox::PolicyInterface&lt; State &gt;</h3>
+
+<p>This class represents the base interface for policies. </p>
+<p>This class represents an interface that all policies must conform to. The interface is generic as different methods may have very different ways to store and compute policies, and this interface simply asks for a way to sample them.</p>
+<p>This class is templatized since it works as an interface for both <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> and <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> policies. In the case of MDPs, the template parameter State is of type size_t, which represents the states from which we are sampling. In case of POMDPs, the template parameter is of type Belief, which allows us to sample the policy from different beliefs.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">State</td><td>This defines the type that is used to sample from the policy. </td></tr>
+  </table>
+  </dd>
+</dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ad5348057f04e44190c9be9f8b3de424c"></a>
+<a class="anchor" id="a4c045e93651f9af784f44690f1b29e95"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">AIToolbox::PolicyInterface::PolicyInterface </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::<a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>s</em>, </td>
@@ -186,15 +182,17 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a071b6ba843ab58cf30b5f2150f235130"></a>
+<a class="anchor" id="a28be8dac8ef25246f7704968a3bd3a79"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual AIToolbox::PolicyInterface::~PolicyInterface </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::~<a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td></td>
@@ -212,12 +210,14 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae1e21b346edfd4b161c6f3def4d10336"></a>
+<a class="anchor" id="a6ebd914d4d88cbf4a02d857e61cd8f63"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t AIToolbox::PolicyInterface::getA </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getA </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td> const</td>
@@ -230,17 +230,19 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a31a21b93e11bc1e3f52374260087118e"></a>
+<a class="anchor" id="a7a762cadffb5a7901f1cd10d3716afea"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double AIToolbox::PolicyInterface::getActionProbability </td>
+          <td class="memname">virtual double <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getActionProbability </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const State &amp;&#160;</td>
           <td class="paramname"><em>s</em>, </td>
         </tr>
         <tr>
@@ -272,16 +274,18 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The probability of taking the selected action in the specified state. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#adbbaca62b05156b249e8fb1fb09a2165">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a04c482577bdb69c7987d56372937f597">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a37110b265e6f9bb7b1e66b0322feed68">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a43118cb5ecf6ed1214b1a33dc5f2951d">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a3019e1a86e9185824ced28cd7c0dca61">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#abcfdd8b1d7953c89253f5b5cf16d03a6">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a31da4d44df052c86a10c5ce13707037e">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#aabb4e5a077379acc09fb337d3f1d1480">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a49437bc8e7a7f2f581ccd5ae21786ae4">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#ad5e22ec08b50ddfd0288a6b3c8314a10">AIToolbox::MDP::QGreedyPolicy</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a687c680458952c0070d09752549be09d"></a>
+<a class="anchor" id="aee84f129e998a1538eb884c3a58ad67b"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t AIToolbox::PolicyInterface::getS </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getS </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td> const</td>
@@ -294,17 +298,19 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a73d3df9ef39d006a3f7bfe0418997147"></a>
+<a class="anchor" id="af57a8d643518f7e5b0f5834f0975ff34"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual size_t AIToolbox::PolicyInterface::sampleAction </td>
+          <td class="memname">virtual size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::sampleAction </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const State &amp;&#160;</td>
           <td class="paramname"><em>s</em>)</td><td></td>
           <td> const</td>
         </tr>
@@ -325,20 +331,22 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#ac95b6244a8c59c71f14ba5837c20e41d">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a4b0e3962e0dca77b4d48541d4129579f">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a06a4a69ff9923c73155e06d56a3ecb3b">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a98b3a2965bc1cce2bb800f24d6b65a9f">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a55a8e741b195c5b956c976775cefa948">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#a17b8ae0a02d26f772f179f9da4ff6ab3">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a2d9ecb95101012c909828c2790c24c52">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a89cddb51851abde7ede8e81cd3ae7cd6">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#abad70f10b1461617509e747bf8b192df">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a9f094d8cb872e504631cf9971685aea0">AIToolbox::MDP::QGreedyPolicy</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ac21251c1b21027805639ca0f752859dc"></a>
+<a class="anchor" id="a02fadd3579094be6ad15967ecb185295"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t AIToolbox::PolicyInterface::A</td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::A</td>
         </tr>
       </table>
   </td>
@@ -350,15 +358,17 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1e54b57eb7b9c0ddb054baab0b8b9383"></a>
+<a class="anchor" id="a41ac8e3da01431e6b5265b3e812a89ce"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::default_random_engine AIToolbox::PolicyInterface::rand_</td>
+          <td class="memname">std::default_random_engine <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::rand_</td>
         </tr>
       </table>
   </td>
@@ -370,15 +380,17 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad11a83dc9c74b207594c0bf776f9edb4"></a>
+<a class="anchor" id="adcd45109a87e156da7bf5b4dec15693e"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename State&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t AIToolbox::PolicyInterface::S</td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::S</td>
         </tr>
       </table>
   </td>
@@ -390,33 +402,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a04901c0b9235ec7535611338daf78229"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uniform_real_distribution&lt;double&gt; AIToolbox::PolicyInterface::sampleDistribution_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>include/AIToolbox/MDP/<a class="el" href="IO_8hpp_source.html">IO.hpp</a></li>
 <li>include/AIToolbox/<a class="el" href="PolicyInterface_8hpp_source.html">PolicyInterface.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

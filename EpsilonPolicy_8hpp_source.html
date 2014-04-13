@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>AIToolbox: include/AIToolbox/EpsilonPolicy.hpp Source File</title>
+<title>AIToolbox: include/AIToolbox/MDP/Policies/EpsilonPolicy.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -80,7 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_5d4dd356414a129804423ce26149d08e.html">MDP</a></li><li class="navelem"><a class="el" href="dir_3556cced2cb26751b0d96533a65d7122.html">Policies</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -93,14 +93,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="PolicyInterface_8hpp.html">AIToolbox/PolicyInterface.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="code" href="namespaceAIToolbox.html">    6</a></span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1EpsilonPolicy.html">   16</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1EpsilonPolicy.html" title="This class is a policy wrapper for epsilon action choice. ">EpsilonPolicy</a> : <span class="keyword">public</span> <a class="code" href="classAIToolbox_1_1PolicyInterface.html" title="This class represents the base interface for policies. ">PolicyInterface</a> {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1EpsilonPolicy.html">   16</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1EpsilonPolicy.html" title="This class is a policy wrapper for epsilon action choice. ">EpsilonPolicy</a> : <span class="keyword">public</span> <a class="code" href="classAIToolbox_1_1PolicyInterface.html" title="This class represents the base interface for policies. ">PolicyInterface</a>&lt;size_t&gt; {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#a45ca1e0a59dc69dabc07d01015bd9c50" title="Basic constructor. ">EpsilonPolicy</a>(<span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1PolicyInterface.html" title="This class represents the base interface for policies. ">PolicyInterface</a> &amp; p, <span class="keywordtype">double</span> epsilon = 0.9);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#aa4dd4ceb1e9e1cf03bf0c2fd41c3a577" title="Basic constructor. ">EpsilonPolicy</a>(<span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface&lt;size_t&gt;</a> &amp; p, <span class="keywordtype">double</span> epsilon = 0.9);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#a4b0e3962e0dca77b4d48541d4129579f" title="This function chooses a random action for state s, following the policy distribution and epsilon...">sampleAction</a>(<span class="keywordtype">size_t</span> s) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#a2d9ecb95101012c909828c2790c24c52" title="This function chooses a random action for state s, following the policy distribution and epsilon...">sampleAction</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> &amp; s) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#a04c482577bdb69c7987d56372937f597" title="This function returns the probability of taking the specified action in the specified state...">getActionProbability</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#a31da4d44df052c86a10c5ce13707037e" title="This function returns the probability of taking the specified action in the specified state...">getActionProbability</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> &amp; s, <span class="keywordtype">size_t</span> a) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#abcb0c3438511305c8bdd906473b076bd" title="This function sets the epsilon parameter. ">setEpsilon</a>(<span class="keywordtype">double</span> e);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
@@ -112,14 +112,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="comment">// Used to sampled random actions</span></div>
 <div class="line"><a name="l00080"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#a25501a697a3998748a6a0d9ce26e585f">   80</a></span>&#160;            <span class="keyword">mutable</span> std::uniform_int_distribution&lt;size_t&gt; <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#a25501a697a3998748a6a0d9ce26e585f">randomDistribution_</a>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    };</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#aa4811264f6fcf76c321bc4c12eda62de">   81</a></span>&#160;            <span class="keyword">mutable</span> std::uniform_real_distribution&lt;double&gt; <a class="code" href="classAIToolbox_1_1EpsilonPolicy.html#aa4811264f6fcf76c321bc4c12eda62de">sampleDistribution_</a>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    };</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 19 2014 20:28:24 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>
