@@ -1,6 +1,9 @@
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 #include <iostream>
 
+#include <cmath>
+#include <limits>
+
 namespace AIToolbox {
     namespace MDP {
         QGreedyPolicy::QGreedyPolicy(const QFunction & q) : QPolicyInterface(q) {}
@@ -37,8 +40,7 @@ namespace AIToolbox {
                     count = 1;
                 }
             }
-            // This can be weird with double math unfortunately..
-            if ( q_[s][a] != max ) return 0.0;
+            if ( std::fabs( q_[s][a] - max ) > std::numeric_limits<double>::epsilon() ) return 0.0;
 
             return 1.0 / count;
         }
