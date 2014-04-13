@@ -6,6 +6,7 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Utils.hpp>
+#include <AIToolbox/ProbabilityUtils.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -144,23 +145,23 @@ namespace AIToolbox {
                  * @brief This function returns the stored transition probability for the specified transition.
                  *
                  * @param s The initial state of the transition.
-                 * @param s1 The final state of the transition.
                  * @param a The action performed in the transition.
+                 * @param s1 The final state of the transition.
                  *
                  * @return The probability of the specified transition.
                  */
-                double getTransitionProbability(size_t s, size_t s1, size_t a) const;
+                double getTransitionProbability(size_t s, size_t a, size_t s1) const;
 
                 /**
                  * @brief This function returns the stored expected reward for the specified transition.
                  *
                  * @param s The initial state of the transition.
-                 * @param s1 The final state of the transition.
                  * @param a The action performed in the transition.
+                 * @param s1 The final state of the transition.
                  *
                  * @return The expected reward of the specified transition.
                  */
-                double getExpectedReward(size_t s, size_t s1, size_t a) const;
+                double getExpectedReward(size_t s, size_t a, size_t s1) const;
 
                 /**
                  * @brief This function returns the transition table for inspection.
@@ -183,25 +184,26 @@ namespace AIToolbox {
                 RewardTable rewards_;
 
                 mutable std::default_random_engine rand_;
-                mutable std::uniform_real_distribution<double> sampleDistribution_;
         };
 
         template <typename T, typename R>
-        Model::Model(size_t s, size_t a, const T & t, const R & r) : S(s), A(a), transitions_(boost::extents[S][S][A]), rewards_(boost::extents[S][S][A]) {
+        Model::Model(size_t s, size_t a, const T & t, const R & r) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]) {
             setTransitionFunction(t);
             setRewardFunction(r);
         }
 
         template <typename T>
-        void Model::setTransitionFunction( const T & t ) {
-            if ( ! transitionCheck(t, S, S, A) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+        void Model::setTransitionFunction(const T & t) {
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a )
+                    if ( ! isProbability(t[s][a], S) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
 
-            copyTable3D(t, transitions_, S, S, A);
+            copyTable3D(t, transitions_, S, A, S);
         }
 
         template <typename R>
         void Model::setRewardFunction( const R & r ) {
-            copyTable3D(r, rewards_, S, S, A);
+            copyTable3D(r, rewards_, S, A, S);
         }
 
     } // MDP

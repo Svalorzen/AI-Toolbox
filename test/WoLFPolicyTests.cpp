@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
 
         int result = testRockPaperScissors(a,b);
 
-        exp.record(0,0,a,result);
+        exp.record(0,a,0,result);
         model.sync(0,a);
         solver.stepUpdateQ(0,a);
         solver.batchUpdateQ();
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE( matching_pennies ) {
 
         int result = ( a == dist(engine) ) ? 1 : -1;
 
-        exp.record(0,0,a,result);
+        exp.record(0,a,0,result);
         model.sync(0,a);
         solver.stepUpdateQ(0,a);
         solver.batchUpdateQ();

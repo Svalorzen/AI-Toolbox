@@ -38,7 +38,7 @@ namespace AIToolbox {
                  * In the latter case the default transition function
                  * defines a transition of probability 1 for each
                  * state to itself, no matter the action.
-                 * 
+                 *
                  * In general it would be better to add some amount of bias
                  * to the Experience so that when a new state-action pair is
                  * tried, the RLModel doesn't automatically compute 100%
@@ -129,23 +129,23 @@ namespace AIToolbox {
                  * @brief This function returns the stored transition probability for the specified transition.
                  *
                  * @param s The initial state of the transition.
-                 * @param s1 The final state of the transition.
                  * @param a The action performed in the transition.
+                 * @param s1 The final state of the transition.
                  *
                  * @return The probability of the specified transition.
                  */
-                double getTransitionProbability(size_t s, size_t s1, size_t a) const;
+                double getTransitionProbability(size_t s, size_t a, size_t s1) const;
 
                 /**
                  * @brief This function returns the stored expected reward for the specified transition.
                  *
                  * @param s The initial state of the transition.
-                 * @param s1 The final state of the transition.
                  * @param a The action performed in the transition.
+                 * @param s1 The final state of the transition.
                  *
                  * @return The expected reward of the specified transition.
                  */
-                double getExpectedReward(size_t s, size_t s1, size_t a) const;
+                double getExpectedReward(size_t s, size_t a, size_t s1) const;
 
                 /**
                  * @brief This function returns the transition table for inspection.
@@ -170,7 +170,6 @@ namespace AIToolbox {
                 RewardTable rewards_;
 
                 mutable std::default_random_engine rand_;
-                mutable std::uniform_real_distribution<double> sampleDistribution_;
         };
     }
 }

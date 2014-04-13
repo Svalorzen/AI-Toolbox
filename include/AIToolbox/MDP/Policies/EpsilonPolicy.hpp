@@ -78,6 +78,7 @@ namespace AIToolbox {
 
             // Used to sampled random actions
             mutable std::uniform_int_distribution<size_t> randomDistribution_;
+            mutable std::uniform_real_distribution<double> sampleDistribution_;
     };
 }
 

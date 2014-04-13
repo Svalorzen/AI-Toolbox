@@ -19,10 +19,10 @@ BOOST_AUTO_TEST_CASE( updates ) {
     }
     {
         // Here it does not, so improvement is slower.
-        solver.stepUpdateQ(3, 4, 0, 10);
+        solver.stepUpdateQ(3, 0, 4, 10);
         BOOST_CHECK_EQUAL( solver.getQFunction()[3][0], 5.0 );
 
-        solver.stepUpdateQ(3, 4, 0, 10);
+        solver.stepUpdateQ(3, 0, 4, 10);
         BOOST_CHECK_EQUAL( solver.getQFunction()[3][0], 7.50 );
     }
     {

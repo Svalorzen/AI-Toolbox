@@ -67,11 +67,11 @@ namespace AIToolbox {
                  * up to date with the latest experience.
                  *
                  * @param s The previous state.
-                 * @param s1 The new state.
                  * @param a The action performed.
+                 * @param s1 The new state.
                  * @param rew The reward obtained.
                  */
-                void stepUpdateQ(size_t s, size_t s1, size_t a, double rew);
+                void stepUpdateQ(size_t s, size_t a, size_t s1, double rew);
 
                 /**
                  * @brief This function returns a reference to the internal QFunction.

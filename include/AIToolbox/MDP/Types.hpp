@@ -19,8 +19,8 @@ namespace AIToolbox {
          *
          * - size_t getS() const : Returns the number of states of the Model.
          * - size_t getA() const : Returns the number of actions of the Model.
-         * - double getTransitionProbability(size_t s, size_t s1, size_t a) : Returns the transition probability given (s,a) to s1
-         * - double getExpectedReward(size_t s, size_t s1, size_t a) : Returns the expected reward for transition (s,a) to s1
+         * - double getTransitionProbability(size_t s, size_t a, size_t s1) : Returns the transition probability given (s,a) to s1
+         * - double getExpectedReward(size_t s, size_t a, size_t s1) : Returns the expected reward for transition (s,a) to s1
          *
          * is_model<M>::value will be equal to true is M implements the interface,
          * and false otherwise.

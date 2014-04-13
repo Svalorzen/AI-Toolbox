@@ -77,13 +77,10 @@ namespace AIToolbox {
 
             // These are mutable because sampling doesn't really change the policy
             mutable std::default_random_engine rand_;
-            mutable std::uniform_real_distribution<double> sampleDistribution_;
     };
 
     template <typename State>
-    PolicyInterface<State>::PolicyInterface(size_t s, size_t a) : S(s), A(a),
-                                                           rand_(Impl::Seeder::getSeed()),
-                                                           sampleDistribution_(0.0, 1.0) {}
+    PolicyInterface<State>::PolicyInterface(size_t s, size_t a) : S(s), A(a), rand_(Impl::Seeder::getSeed()) {}
 
     template <typename State>
     PolicyInterface<State>::~PolicyInterface() {}

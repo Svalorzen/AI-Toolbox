@@ -63,8 +63,8 @@ BOOST_AUTO_TEST_CASE( findCorners ) {
 
     size_t S = 16, A = 4;
 
-    Model::TransitionTable transitions(boost::extents[S][S][A]);
-    Model::RewardTable rewards(boost::extents[S][S][A]);
+    Model::TransitionTable transitions(boost::extents[S][A][S]);
+    Model::RewardTable rewards(boost::extents[S][A][S]);
 
     for ( int x = 0; x < 4; ++x ) {
         for ( int y = 0; y < 4; ++y ) {
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE( findCorners ) {
             if ( s == 0 || s == 15 ) {
                 // Self absorbing states
                 for ( size_t a = 0; a < A; ++a )
-                    transitions[s][s][a] = 1.0;
+                    transitions[s][a][s] = 1.0;
             }
             else {
                 for ( size_t a = 0; a < A; ++a ) {
@@ -80,12 +80,12 @@ BOOST_AUTO_TEST_CASE( findCorners ) {
                     s1.adjacent((State::Direction)a);
                     // If the move takes you outside the map, it doesn't do
                     // anything
-                    if ( s == s1 ) transitions[s][s1][a] = 1.0;
+                    if ( s == s1 ) transitions[s][a][s1] = 1.0;
                     else {
-                        transitions[s][s1][a] = 0.8; 
-                        transitions[s][s][a] = 0.2; 
+                        transitions[s][a][s1] = 0.8;
+                        transitions[s][a][s] = 0.2;
                     }
-                    rewards[s][s1][a] = -1.0;
+                    rewards[s][a][s1] = -1.0;
                 }
             }
         }
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE( findCorners ) {
     // Check that problem has been solved
     BOOST_CHECK( std::get<0>(solution) );
     // Get best policy from QFunction
-    QGreedyPolicy policy(std::get<2>(solution) );
+    QGreedyPolicy policy( std::get<2>(solution) );
 
     // Check that solution agrees with that we'd like
     //
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE( findCorners ) {
     //  |   +-> |   +-> |   +-> | <-+-> |
     //  |       |       |       |   v   |
     //  +-------+-------+-------+-------+
-    
+
     // Self-absorbing states have all same values, so action does not matter.
     // Also cells in the diagonal are indifferent as to the chosen direction.
     for ( size_t a = 0; a < A; ++a ) {

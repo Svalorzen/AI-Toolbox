@@ -21,8 +21,8 @@ BOOST_AUTO_TEST_CASE( construction ) {
     BOOST_CHECK_EQUAL(exp.getVisits(0,0,0), 0);
     BOOST_CHECK_EQUAL(exp.getReward(0,0,0), 0.0);
 
-    BOOST_CHECK_EQUAL(exp.getVisits(S-1,S-1,A-1), 0);
-    BOOST_CHECK_EQUAL(exp.getReward(S-1,S-1,A-1), 0.0);
+    BOOST_CHECK_EQUAL(exp.getVisits(S-1,A-1,S-1), 0);
+    BOOST_CHECK_EQUAL(exp.getReward(S-1,A-1,S-1), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE( recording ) {
@@ -33,26 +33,26 @@ BOOST_AUTO_TEST_CASE( recording ) {
     const int s = 3, s1 = 4, a = 5;
     const double rew = 7.4, negrew = -4.2, zerorew = 0.0;
 
-    BOOST_CHECK_EQUAL(exp.getVisits(s,s1,a), 0);
+    BOOST_CHECK_EQUAL(exp.getVisits(s,a,s1), 0);
 
-    exp.record(s,s1,a,rew);
+    exp.record(s,a,s1,rew);
 
-    BOOST_CHECK_EQUAL(exp.getVisits(s,s1,a), 1);
-    BOOST_CHECK_EQUAL(exp.getReward(s,s1,a), rew);
+    BOOST_CHECK_EQUAL(exp.getVisits(s,a,s1), 1);
+    BOOST_CHECK_EQUAL(exp.getReward(s,a,s1), rew);
 
     exp.reset();
 
-    BOOST_CHECK_EQUAL(exp.getVisits(s,s1,a), 0);
+    BOOST_CHECK_EQUAL(exp.getVisits(s,a,s1), 0);
 
-    exp.record(s,s1,a,negrew);
+    exp.record(s,a,s1,negrew);
 
-    BOOST_CHECK_EQUAL(exp.getVisits(s,s1,a), 1);
-    BOOST_CHECK_EQUAL(exp.getReward(s,s1,a), negrew);
+    BOOST_CHECK_EQUAL(exp.getVisits(s,a,s1), 1);
+    BOOST_CHECK_EQUAL(exp.getReward(s,a,s1), negrew);
 
-    exp.record(s,s1,a,zerorew);
+    exp.record(s,a,s1,zerorew);
 
-    BOOST_CHECK_EQUAL(exp.getVisits(s,s1,a), 2);
-    BOOST_CHECK_EQUAL(exp.getReward(s,s1,a), negrew);
+    BOOST_CHECK_EQUAL(exp.getVisits(s,a,s1), 2);
+    BOOST_CHECK_EQUAL(exp.getReward(s,a,s1), negrew);
 
     BOOST_CHECK_EQUAL(exp.getVisitsSum(s, a), 2);
 }
@@ -66,30 +66,28 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
     const int S = 4, A = 3;
     AIToolbox::Experience exp(S,A);
 
-    std::array<std::array<std::array<int, A>, S>, S> visits;
-    std::array<std::array<std::array<int, A>, S>, S> rewards;
+    std::array<std::array<std::array<int, S>, A>, S> visits;
+    std::array<std::array<std::array<int, S>, A>, S> rewards;
     for ( size_t s = 0; s < S; ++s )
-        for ( size_t s1 = 0; s1 < S; ++s1 ) {
-            std::generate(visits[s][s1].begin(), visits[s][s1].end(), generator);
-            std::generate(rewards[s][s1].begin(), rewards[s][s1].end(), generator);
+        for ( size_t a = 0; a < A; ++a ) {
+            std::generate(visits[s][a].begin(), visits[s][a].end(), generator);
+            std::generate(rewards[s][a].begin(), rewards[s][a].end(), generator);
         }
 
     exp.setVisits(visits);
     exp.setRewards(rewards);
 
-    for ( size_t s = 0; s < S; ++s ) {
-        std::vector<int> visitsSum(A,0), rewardSum(A,0);
-        for ( size_t s1 = 0; s1 < S; ++s1 ) {
-            for ( size_t a = 0; a < A; ++a ) {
-                BOOST_CHECK_EQUAL( exp.getVisits(s,s1,a), visits[s][s1][a] );
-                BOOST_CHECK_EQUAL( exp.getReward(s,s1,a), rewards[s][s1][a] );
-                visitsSum[a] += visits[s][s1][a];
-                rewardSum[a] += rewards[s][s1][a];
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            int visitsSum = 0, rewardSum = 0;
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                BOOST_CHECK_EQUAL( exp.getVisits(s,a,s1), visits[s][a][s1] );
+                BOOST_CHECK_EQUAL( exp.getReward(s,a,s1), rewards[s][a][s1] );
+                visitsSum += visits[s][a][s1];
+                rewardSum += rewards[s][a][s1];
             }
-        }
-        for ( size_t a = 0; a < A; ++a ) {
-            BOOST_CHECK_EQUAL( exp.getVisitsSum(s,a), visitsSum[a] );
-            BOOST_CHECK_EQUAL( exp.getRewardSum(s,a), rewardSum[a] );
+            BOOST_CHECK_EQUAL( exp.getVisitsSum(s,a), visitsSum );
+            BOOST_CHECK_EQUAL( exp.getRewardSum(s,a), rewardSum );
         }
     }
 }

@@ -38,7 +38,8 @@ Build Instructions
 ==================
 
 To build the library you need to install [cmake](http://www.cmake.org/) and
-the [boost library](http://www.boost.org/) >= 1.53.
+the [boost library](http://www.boost.org/) >= 1.53. In addition, C++11 support
+is required.
 
 After that, you can simply execute the following commands from the project's
 main folder:

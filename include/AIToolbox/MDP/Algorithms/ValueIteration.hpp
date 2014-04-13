@@ -251,16 +251,13 @@ namespace AIToolbox {
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
         ValueIteration::PRType ValueIteration::computePR(const M & model) const {
-            // for a=1:A; PR(:,a) = sum(P(:,:,a).*R(:,:,a),2); end;
             PRType pr(boost::extents[S][A]);
 
-            for ( size_t s = 0; s < S; ++s ) {
-                for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    for ( size_t a = 0; a < A; ++a ) {
-                        pr[s][a] += model.getTransitionFunction()[s][s1][a] * model.getRewardFunction()[s][s1][a];
-                    }
-                }
-            }
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a )
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        pr[s][a] += model.getTransitionProbability(s,a,s1) * model.getExpectedReward(s,a,s1);
+
             return pr;
         }
 
@@ -269,9 +266,9 @@ namespace AIToolbox {
             QFunction q = pr;
 
             for ( size_t s = 0; s < S; ++s )
-                for ( size_t s1 = 0; s1 < S; ++s1 )
-                    for ( size_t a = 0; a < A; ++a )
-                        q[s][a] += model.getTransitionProbability(s, s1, a) * discount_ * v1_[s1];
+                for ( size_t a = 0; a < A; ++a )
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        q[s][a] += model.getTransitionProbability(s,a,s1) * discount_ * v1_[s1];
             return q;
         }
 
@@ -280,9 +277,9 @@ namespace AIToolbox {
             std::vector<double> h(S, 0.0);
 
             for ( size_t s = 0; s < S; ++s )
-                for ( size_t s1 = 0; s1 < S; ++s1 )
-                    for ( size_t a = 0; a < A; ++a )
-                        h[s1] = std::min(h[s1], model.getTransitionProbability(s, s1, a));
+                for ( size_t a = 0; a < A; ++a )
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        h[s1] = std::min(h[s1], model.getTransitionProbability(s,a,s1));
 
             double k = 1.0 - std::accumulate(std::begin(h), std::end(h), 0.0);
 

@@ -87,11 +87,11 @@ namespace AIToolbox {
              * @brief This function adds a new event to the recordings.
              *
              * @param s     Old state.
-             * @param s1    New state.
              * @param a     Performed action.
+             * @param s1    New state.
              * @param rew   Obtained reward.
              */
-            void record(size_t s, size_t s1, size_t a, double rew);
+            void record(size_t s, size_t a, size_t s1, double rew);
 
             /**
              * @brief This function resets all experienced rewards and transitions.
@@ -102,10 +102,10 @@ namespace AIToolbox {
              * @brief This function returns the current recorded visits for a transitions.
              *
              * @param s     Old state.
-             * @param s1    New state.
              * @param a     Performed action.
+             * @param s1    New state.
              */
-            unsigned long getVisits(size_t s, size_t s1, size_t a) const;
+            unsigned long getVisits(size_t s, size_t a, size_t s1) const;
 
             unsigned long getVisitsSum(size_t s, size_t a) const;
 
@@ -113,10 +113,10 @@ namespace AIToolbox {
              * @brief This function returns the current recorded visits for a transitions.
              *
              * @param s     Old state.
-             * @param s1    New state.
              * @param a     Performed action.
+             * @param s1    New state.
              */
-            double getReward(size_t s, size_t s1, size_t a) const;
+            double getReward(size_t s, size_t a, size_t s1) const;
 
             double getRewardSum(size_t s, size_t a) const;
 
@@ -164,24 +164,24 @@ namespace AIToolbox {
 
     template <typename V>
     void Experience::setVisits(V v) {
-        copyTable3D(v, visits_, S, S, A);
+        copyTable3D(v, visits_, S, A, S);
         std::fill(visitsSum_.data(), visitsSum_.data() + visitsSum_.num_elements(), 0ul);
 
         for ( size_t s = 0; s < S; ++s )
-            for ( size_t s1 = 0; s1 < S; ++s1 )
-                for ( size_t a = 0; a < A; ++a )
-                    visitsSum_[s][a] += visits_[s][s1][a];
+            for ( size_t a = 0; a < A; ++a )
+                for ( size_t s1 = 0; s1 < S; ++s1 )
+                    visitsSum_[s][a] += visits_[s][a][s1];
     }
 
     template <typename R>
     void Experience::setRewards(R r) {
-        copyTable3D(r, rewards_, S, S, A);
+        copyTable3D(r, rewards_, S, A, S);
         std::fill(rewardsSum_.data(), rewardsSum_.data() + rewardsSum_.num_elements(), 0.0);
 
         for ( size_t s = 0; s < S; ++s )
-            for ( size_t s1 = 0; s1 < S; ++s1 )
-                for ( size_t a = 0; a < A; ++a )
-                    rewardsSum_[s][a] += rewards_[s][s1][a];
+            for ( size_t a = 0; a < A; ++a )
+                for ( size_t s1 = 0; s1 < S; ++s1 )
+                    rewardsSum_[s][a] += rewards_[s][a][s1];
     }
 }
 

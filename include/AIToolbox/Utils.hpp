@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_UTILS_HEADER_FILE
 #define AI_TOOLBOX_UTILS_HEADER_FILE
 
-#include <stddef.h>
+#include <cstddef>
 
 namespace AIToolbox {
     /**
@@ -28,47 +28,6 @@ namespace AIToolbox {
             for ( size_t j = 0; j < d2; ++j )
                 for ( size_t x = 0; x < d3; ++x )
                     out[i][j][x] = in[i][j][x];
-    }
-
-    /**
-     * @brief This function checks whether the supplied table is a correct probability table.
-     *
-     * This function verifies basic probability conditions on the
-     * supplied container. The sum of all rows along the second
-     * dimension must be 1.
-     *
-     * The container needs to support data access through
-     * operator[]. In addition, the dimensions of the
-     * container must match the ones provided as arguments
-     * (for three dimensions: d1,d2,d3).
-     *
-     * This is important, as this function DOES NOT perform
-     * any size checks on the external containers.
-     *
-     * Internal values of the container will be converted to double,
-     * so that convertion must be possible.
-     *
-     * @tparam T The external transition container type.
-     * @param in The external transitions container.
-     * @param d1 The size along the first dimension of the supplied container.
-     * @param d2 The size along the second dimension of the supplied container.
-     * @param d3 The size along the third dimension of the supplied container.
-     *
-     * @return True if the container statisfies probability constraints,
-     *         and false otherwise.
-     */
-    template <typename T>
-    bool transitionCheck(const T & in, size_t d1, size_t d2, size_t d3) {
-        for ( size_t i = 0; i < d1; ++i ) {
-            for ( size_t x = 0; x < d3; ++x ) {
-                double p = 0.0;
-                for ( size_t j = 0; j < d2; ++j ) {
-                    p += in[i][j][x];
-                }
-                if ( p != 1.0 ) return false;
-            }
-        }
-        return true;
     }
 }
 

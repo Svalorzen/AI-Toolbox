@@ -5,14 +5,14 @@
 #include <algorithm>
 
 namespace AIToolbox {
-    Experience::Experience(size_t s, size_t a) : S(s), A(a), visits_(boost::extents[S][S][A]), visitsSum_(boost::extents[S][A]),
-                                                             rewards_(boost::extents[S][S][A]), rewardsSum_(boost::extents[S][A]) {}
+    Experience::Experience(size_t s, size_t a) : S(s), A(a), visits_(boost::extents[S][A][S]), visitsSum_(boost::extents[S][A]),
+                                                             rewards_(boost::extents[S][A][S]), rewardsSum_(boost::extents[S][A]) {}
 
-    void Experience::record(size_t s, size_t s1, size_t a, double rew) {
-        visits_[s][s1][a]   += 1;
+    void Experience::record(size_t s, size_t a, size_t s1, double rew) {
+        visits_[s][a][s1]   += 1;
         visitsSum_[s][a]    += 1;
 
-        rewards_[s][s1][a]  += rew;
+        rewards_[s][a][s1]  += rew;
         rewardsSum_[s][a]   += rew;
     }
 
@@ -24,16 +24,16 @@ namespace AIToolbox {
         std::fill(rewardsSum_.data(), rewardsSum_.data() + rewardsSum_.num_elements(), 0.0);
     }
 
-    unsigned long Experience::getVisits(size_t s, size_t s1, size_t a) const {
-        return visits_[s][s1][a];
+    unsigned long Experience::getVisits(size_t s, size_t a, size_t s1) const {
+        return visits_[s][a][s1];
     }
 
     unsigned long Experience::getVisitsSum(size_t s, size_t a) const {
         return visitsSum_[s][a];
     }
 
-    double Experience::getReward(size_t s, size_t s1, size_t a) const {
-        return rewards_[s][s1][a];
+    double Experience::getReward(size_t s, size_t a, size_t s1) const {
+        return rewards_[s][a][s1];
     }
 
     double Experience::getRewardSum(size_t s, size_t a) const {
@@ -57,28 +57,27 @@ namespace AIToolbox {
     }
 
     std::istream& operator>>(std::istream &is, Experience & exp) {
-        // old version  if ( !(is >> exp.visits_[s][s1][0] >> exp.visits_[s][s1][1] >> exp.rewards_[s][s1][0] >> exp.rewards_[s][s1][1]))
         size_t S = exp.getS();
         size_t A = exp.getA();
 
         Experience e(S,A);
 
         for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                for ( size_t a = 0; a < A; ++a ) {
-                    if ( !(is >> e.visits_[s][s1][a] >> e.rewards_[s][s1][a] )) {
+            for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    if ( !(is >> e.visits_[s][a][s1] >> e.rewards_[s][a][s1] )) {
                         std::cerr << "AIToolbox: Could not read Experience data.\n";
                         is.setstate(std::ios::failbit);
                         return is;
                     }
                     // Verification/Sanitization
                     // Ignoring input reward if no visits.
-                    if ( e.visits_[s][s1][a] == 0 )
-                        e.rewards_[s][s1][a] = 0.0;
+                    if ( e.visits_[s][a][s1] == 0 )
+                        e.rewards_[s][a][s1] = 0.0;
                 }
             }
         }
-        // This guarantees that if input fucks up we still keep the old Exp.
+        // This guarantees that if input is invalid we still keep the old Exp.
         exp = e;
 
         return is;
@@ -89,9 +88,9 @@ namespace AIToolbox {
         size_t A = exp.getA();
 
         for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                for ( size_t a = 0; a < A; ++a ) {
-                    os << exp.getVisits(s, s1, a) << '\t' << exp.getReward(s, s1, a) << '\t';
+            for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    os << exp.getVisits(s, a, s1) << '\t' << exp.getReward(s, a, s1) << '\t';
                 }
             }
             os << '\n';

@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include <AIToolbox/ProbabilityUtils.hpp>
+
 namespace AIToolbox {
     Policy::Policy(size_t s, size_t a) : PolicyInterface<size_t>(s, a), policy_(boost::extents[S][A])
     {
@@ -18,13 +20,7 @@ namespace AIToolbox {
     }
 
     size_t Policy::sampleAction(const size_t & s) const {
-        double p = sampleDistribution_(rand_);
-        for ( size_t a = 0; a < A; ++a ) {
-            if ( policy_[s][a] > p ) return a;
-            p -= policy_[s][a];
-        }
-        // Return last action just in case
-        return A-1;
+        return sampleProbability(policy_[s], A, rand_);
     }
 
     double Policy::getActionProbability(const size_t & s, size_t a) const {
