@@ -1,4 +1,5 @@
-AI-Toolbox
+
+AI-Toolbox [![Build Status](https://travis-ci.org/Svalorzen/AI-Toolbox.svg?branch=master)](https://travis-ci.org/Svalorzen/AI-Toolbox)
 ==========
 
 This C++ toolbox is aimed at representing and solving common AI problems,
