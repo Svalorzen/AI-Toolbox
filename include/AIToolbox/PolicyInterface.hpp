@@ -64,7 +64,7 @@ namespace AIToolbox {
              *
              * @return The total number of states.
              */
-            size_t getS() const;
+            State getS() const;
 
             /**
              * @brief This function returns the number of available actions to the agent.
@@ -73,7 +73,8 @@ namespace AIToolbox {
              */
             size_t getA() const;
         protected:
-            size_t S, A;
+            State S;
+            size_t A;
 
             // These are mutable because sampling doesn't really change the policy
             mutable std::default_random_engine rand_;
@@ -86,7 +87,7 @@ namespace AIToolbox {
     PolicyInterface<State>::~PolicyInterface() {}
 
     template <typename State>
-    size_t PolicyInterface<State>::getS() const { return S; }
+    State PolicyInterface<State>::getS() const { return S; }
 
     template <typename State>
     size_t PolicyInterface<State>::getA() const { return A; }
