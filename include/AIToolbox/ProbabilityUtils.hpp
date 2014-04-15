@@ -7,6 +7,35 @@
 #include <random>
 
 namespace AIToolbox {
+
+    /**
+     * @brief This function checks if two doubles near [0,1] are reasonably equal.
+     * 
+     * The order of the parameter is not important.
+     *
+     * @param a The first number to compare.
+     * @param b The second number to compare.
+     *
+     * @return True if the two numbers are close enough, false otherwise.
+     */
+    bool checkEqual(double a, double b) {
+        return ( std::fabs(a - b) < std::numeric_limits<double>::epsilon() );
+    }
+
+    /**
+     * @brief This function checks if two doubles near [0,1] are reasonably different.
+     * 
+     * The order of the parameter is not important.
+     *
+     * @param a The first number to compare.
+     * @param b The second number to compare.
+     *
+     * @return True if the two numbers are far away enough, false otherwise.
+     */
+    bool checkDifferent(double a, double b) {
+        return ( std::fabs(a - b) >= std::numeric_limits<double>::epsilon() );
+    }
+
     /**
      * @brief This function checks whether the supplied vector is a correct probability vector.
      *
@@ -39,7 +68,7 @@ namespace AIToolbox {
             if ( value < 0.0 || value > 1.0 ) return false;
             p += value;
         }
-        if ( std::fabs(p - 1.0) > std::numeric_limits<double>::epsilon() ) 
+        if ( checkDifferent(p, 1.0) )
             return false;
 
         return true;
@@ -79,6 +108,7 @@ namespace AIToolbox {
         }
         return d-1;
     }
+
 }
 
 #endif

@@ -1,5 +1,7 @@
 #include <AIToolbox/MDP/Policies/WoLFPolicy.hpp>
 
+#include <AIToolbox/ProbabilityUtils.hpp>
+
 namespace AIToolbox {
     namespace MDP {
 
@@ -23,9 +25,9 @@ namespace AIToolbox {
 
             size_t bestAction; double finalDelta;
             {
-                unsigned bestActionCount = 0; double bestQValue = q_[s][0];
+                unsigned bestActionCount = 1; double bestQValue = q_[s][0];
                 double avgValue = 0.0, actualValue = 0.0;
-
+                // Automatically sets initial best action as bestAction[0] = 0
                 std::vector<size_t> bestActions(A,0);
 
                 for ( size_t a = 0; a < A; ++a ) {
@@ -38,7 +40,7 @@ namespace AIToolbox {
                         bestActionCount = 1;
                         bestQValue = qsa;
                     }
-                    else if ( qsa == bestQValue ) {
+                    else if ( checkEqual(qsa, bestQValue) ) {
                         bestActions[bestActionCount] = a;
                         ++bestActionCount;
                     }

@@ -176,6 +176,7 @@ namespace AIToolbox {
 
         template <typename M>
         void DynaQ<M>::batchUpdateQ() {
+            if ( ! visitedStatesActionsSampler_.size() ) return;
             std::uniform_int_distribution<size_t> sampleDistribution_(0, visitedStatesActionsSampler_.size()-1);
 
             for ( unsigned i = 0; i < N; ++i ) {
