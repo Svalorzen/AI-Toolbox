@@ -12,7 +12,7 @@ namespace AIToolbox {
             std::vector<unsigned> bestActions(A, 0);
 
             // This work is due to multiple max-valued actions
-            double bestQValue = q_[s][0]; unsigned bestActionCount = 0;
+            double bestQValue = q_[s][0]; unsigned bestActionCount = 1;
             for ( size_t a = 1; a < A; ++a ) {
                 if ( q_[s][a] > bestQValue ) {
                     bestActions[0] = a;
