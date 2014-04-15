@@ -12,20 +12,20 @@ namespace AIToolbox {
             std::vector<unsigned> bestActions(A, 0);
 
             // This work is due to multiple max-valued actions
-            double bestQValue = q_[s][0]; unsigned bestActionCount = 0;
+            double bestQValue = q_[s][0]; unsigned bestActionCount = 1;
             for ( size_t a = 1; a < A; ++a ) {
                 if ( q_[s][a] > bestQValue ) {
                     bestActions[0] = a;
-                    bestActionCount = 0;
+                    bestActionCount = 1;
                     bestQValue = q_[s][a];
                 }
                 else if ( q_[s][a] == bestQValue ) {
-                    ++bestActionCount;
                     bestActions[bestActionCount] = a;
+                    ++bestActionCount;
                 }
             }
 
-            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount);
+            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
             unsigned selection = pickDistribution(rand_);
 
             return bestActions[selection];
