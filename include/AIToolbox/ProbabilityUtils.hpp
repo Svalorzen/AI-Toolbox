@@ -18,7 +18,7 @@ namespace AIToolbox {
      *
      * @return True if the two numbers are close enough, false otherwise.
      */
-    bool checkEqual(double a, double b) {
+    inline bool checkEqual(double a, double b) {
         return ( std::fabs(a - b) < std::numeric_limits<double>::epsilon() );
     }
 
@@ -32,7 +32,7 @@ namespace AIToolbox {
      *
      * @return True if the two numbers are far away enough, false otherwise.
      */
-    bool checkDifferent(double a, double b) {
+    inline bool checkDifferent(double a, double b) {
         return ( std::fabs(a - b) >= std::numeric_limits<double>::epsilon() );
     }
 
