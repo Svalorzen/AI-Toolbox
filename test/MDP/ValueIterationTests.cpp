@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE ValueIteration
+#define BOOST_TEST_MODULE MDP_ValueIteration
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
