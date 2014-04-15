@@ -16,16 +16,16 @@ namespace AIToolbox {
             for ( size_t a = 1; a < A; ++a ) {
                 if ( q_[s][a] > bestQValue ) {
                     bestActions[0] = a;
-                    bestActionCount = 1;
+                    bestActionCount = 0;
                     bestQValue = q_[s][a];
                 }
                 else if ( q_[s][a] == bestQValue ) {
-                    bestActions[bestActionCount] = a;
                     ++bestActionCount;
+                    bestActions[bestActionCount] = a;
                 }
             }
 
-            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
+            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount);
             unsigned selection = pickDistribution(rand_);
 
             return bestActions[selection];
