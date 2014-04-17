@@ -42,7 +42,7 @@ namespace AIToolbox {
                  * The containers need to support data access through
                  * operator[]. In addition, the dimensions of the
                  * containers must match the ones provided as arguments
-                 * (for three dimensions: s,s,a).
+                 * (for three dimensions: s,a,s).
                  *
                  * This is important, as this constructor DOES NOT perform
                  * any size checks on the external containers.
@@ -75,7 +75,7 @@ namespace AIToolbox {
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
                  * container must match the ones provided as arguments
-                 * (for three dimensions: s,s,a).
+                 * (for three dimensions: s,a,s).
                  *
                  * This is important, as this constructor DOES NOT perform
                  * any size checks on the external container.
@@ -95,7 +95,7 @@ namespace AIToolbox {
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
                  * containers must match the ones provided as arguments
-                 * (for three dimensions: s,s,a).
+                 * (for three dimensions: s,a,s).
                  *
                  * This is important, as this constructor DOES NOT perform
                  * any size checks on the external containers.

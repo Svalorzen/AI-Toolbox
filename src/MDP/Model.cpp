@@ -8,12 +8,10 @@ namespace AIToolbox {
         Model::Model(size_t s, size_t a) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
                                                        rand_(Impl::Seeder::getSeed())
         {
-            std::fill(transitions_.data(), transitions_.data() + transitions_.num_elements(), 0.0);
             // Make transition table true probability
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     transitions_[s][a][s] = 1.0;
-            std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
         }
 
         std::pair<size_t, double> Model::sample(size_t s, size_t a) const {

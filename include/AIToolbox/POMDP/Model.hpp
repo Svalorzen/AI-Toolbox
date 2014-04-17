@@ -5,6 +5,10 @@
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
+#include <random>
+#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/ProbabilityUtils.hpp>
+
 namespace AIToolbox {
     namespace POMDP {
 
@@ -14,10 +18,37 @@ namespace AIToolbox {
         class Model;
 #endif
 
+        /**
+         * @brief This class represents a Partially Observable Markov Decision Process.
+         *
+         * This class inherits from any valid MDP model type, so that it can
+         * use its base methods, and it builds from those. Templated inheritance
+         * was chosen to improve performance and keep code small, instead of
+         * doing composition.
+         *
+         * @tparam M The particular MDP type that we want to extend.
+         */
         template <typename M>
-        class Model<M> {
+        class Model<M> : public M {
             public:
                 using ObservationTable = Table3D;
+
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * This constructor initializes the Model so that all
+                 * transitions happen with probability 0 but for transitions
+                 * that bring back to the same state, no matter the action.
+                 *
+                 * All rewards are set to 0.
+                 *
+                 * All actions will return observation 0.
+                 *
+                 * @param s The number of states of the world.
+                 * @param a The number of actions available to the agent.
+                 * @param o The number of possible observations the agent could make.
+                 */
+                Model(size_t s, size_t a, size_t o);
 
                 /**
                  * @brief Basic constructor.
@@ -35,39 +66,147 @@ namespace AIToolbox {
                  * \sa transitionCheck()
                  * \sa copyTable3D()
                  *
-                 * @tparam O The external observation container type.
+                 * @tparam OF The external observation container type.
                  * @param underlyingMDP A reference to the underlying MDP for
-                 * this POMDP.
+                 * this POMDP. Make sure M supports copy construction!
                  * @param o The number of observations possible in the POMDP.
                  * @param table The observation probability table.
                  */
-                template <typename O>
-                Model(const M & underlyingMDP, size_t o, const O & table);
+                template <typename OF>
+                Model(const M & underlyingMDP, size_t o, const OF & table);
+
+                /**
+                 * @brief This function replaces the Model observation function with the one provided.
+                 *
+                 * The container needs to support data access through
+                 * operator[]. In addition, the dimensions of the
+                 * containers must match the ones provided as arguments
+                 * (for three dimensions: s,a,o).
+                 *
+                 * This is important, as this constructor DOES NOT perform
+                 * any size checks on the external containers.
+                 *
+                 * Internal values of the container will be converted to double,
+                 * so that convertion must be possible.
+                 *
+                 * @tparam OF The external observations container type.
+                 * @param table The external observations container.
+                 */
+                template <typename OF>
+                void setObservationFunction(const OF & table);
 
                 /**
                  * @brief This function returns the stored observation probability for the specified state-action pair.
                  *
                  * @param s The initial state of the transition.
-                 * @param o The recorded observation for the transition.
                  * @param a The action performed in the transition.
+                 * @param o The recorded observation for the transition.
                  *
                  * @return The probability of the specified observation.
                  */
-                double getObservationProbability(size_t s, size_t o, size_t a) const;
+                double getObservationProbability(size_t s, size_t a, size_t o) const;
+
+                /**
+                 * @brief This function *computes* the probability of obtaining an observation given an action and an initial belief.
+                 *
+                 * @param b The initial belief state.
+                 * @param a The action performed.
+                 * @param o The resulting observation.
+                 *
+                 * @return The probability of obtaining the specified observation.
+                 */
                 double getObservationProbability(const Belief & b, size_t o, size_t a) const;
 
+                /**
+                 * @brief Creates a new belief reflecting changes after an action and observation.
+                 *
+                 * This function creates a new belief since modifying a belief in place
+                 * is not possible, as each cell update requires all values from the
+                 * previous belief.
+                 *
+                 * @param b The old belief.
+                 * @param a The action taken during the transition.
+                 * @param o The observation registered.
+                 */
                 Belief updateBelief(const Belief & b, size_t a, size_t o) const;
 
-                double getTransitionProbability(const Belief & b, size_t a) const;
-                double getExpectedReward(const Belief & b, size_t a, size_t o) const;
+                /**
+                 * @brief This function returns the number of observations possible.
+                 *
+                 * @return The total number of observations.
+                 */
+                size_t getO() const;
 
-                const M & getMDP() const;
+                /**
+                 * @brief This function returns the observation table for inspection.
+                 *
+                 * @return The rewards table.
+                 */
+                const ObservationTable & getObservationFunction() const;
+
             private:
-                const M & mdp_;
-
                 size_t O;
                 ObservationTable observations_;
+                // We need this because we don't know if our parent already has one,
+                // and we wouldn't know how to access it!
+                mutable std::default_random_engine rand_;
         };
+
+        template <typename M>
+        Model<M>::Model(size_t s, size_t a, size_t o) : M(s,a), O(o), observations_(boost::extents[this->getS()][this->getA()][O]) {
+            for ( size_t s = 0; s < this->getS(); ++s )
+                for ( size_t a = 0; a < this->getA(); ++a )
+                    observations_[s][a][0] = 1.0;
+        }
+
+        template <typename M>
+        template <typename OF>
+        Model<M>::Model(const M & underlyingMDP, size_t o, const OF & table) : M(underlyingMDP), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+                                                                               rand_(Impl::Seeder::getSeed())
+        {
+            setObservationFunction(table);
+        }
+
+        template <typename M>
+        template <typename OF>
+        void Model<M>::setObservationFunction(const OF & table) {
+            for ( size_t s = 0; s < this->getS(); ++s )
+                for ( size_t a = 0; a < this->getA(); ++a )
+                    if ( ! isProbability(table[s][a], O) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+
+            copyTable3D(table, observations_, this->getS(), this->getA(), O);
+        }
+
+        template <typename M>
+        Belief Model<M>::updateBelief(const Belief & b, size_t a, size_t o) const {
+            size_t S = this->getS();
+            Belief br(S, 0.0);
+
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                double sum = 0.0;
+                for ( size_t s = 0; s < S; ++s )
+                    sum += this->getTransitionProbability(s,a,s1) * b[s];
+
+                br[s1] = getObservationProbability(s1,a,o) * sum;
+            }
+
+            return br;
+        }
+
+        template <typename M>
+        double Model<M>::getObservationProbability(size_t s, size_t a, size_t o) const {
+            return observations_[s][a][o];
+        }
+
+        template <typename M>
+        size_t Model<M>::getO() const {
+            return O;
+        }
+
+        template <typename M>
+        const typename Model<M>::ObservationTable & Model<M>::getObservationFunction() const {
+            return observations_;
+        }
     }
 }
 

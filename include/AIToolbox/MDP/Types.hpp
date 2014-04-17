@@ -39,7 +39,9 @@ namespace AIToolbox {
                         helper<double (Z::*)(size_t,size_t,size_t) const,   &Z::getTransitionProbability>(),
                         helper<double (Z::*)(size_t,size_t,size_t) const,   &Z::getExpectedReward>(),
 
-                        std::true_type());
+                        std::true_type()
+                );
+
                 template <typename> static auto test(...) -> std::false_type;
 
             public:

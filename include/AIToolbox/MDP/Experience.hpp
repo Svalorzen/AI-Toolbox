@@ -165,7 +165,6 @@ namespace AIToolbox {
     template <typename V>
     void Experience::setVisits(V v) {
         copyTable3D(v, visits_, S, A, S);
-        std::fill(visitsSum_.data(), visitsSum_.data() + visitsSum_.num_elements(), 0ul);
 
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
@@ -176,7 +175,6 @@ namespace AIToolbox {
     template <typename R>
     void Experience::setRewards(R r) {
         copyTable3D(r, rewards_, S, A, S);
-        std::fill(rewardsSum_.data(), rewardsSum_.data() + rewardsSum_.num_elements(), 0.0);
 
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
