@@ -53,6 +53,43 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
+                 * This constructor takes three arbitrary three dimensional
+                 * containers and tries to copy their contents into the
+                 * transitions, rewards and observations tables respectively.
+                 *
+                 * The containers need to support data access through
+                 * operator[]. In addition, the dimensions of the
+                 * containers must match the ones provided as arguments
+                 * (for three dimensions: s,a,s/s,a,o).
+                 *
+                 * This is important, as this constructor DOES NOT perform
+                 * any size checks on the external containers.
+                 *
+                 * Internal values of the containers will be converted to double,
+                 * so these convertions must be possible.
+                 *
+                 * In addition, the transition and observation containers must contain
+                 * valid transition functions
+                 * \sa transitionCheck()
+                 *
+                 * \sa copyTable3D()
+                 *
+                 * @tparam T The external transition container type.
+                 * @tparam R The external rewards container type.
+                 * @tparam OF The external observations container type.
+                 * @param s The number of states of the world.
+                 * @param a The number of actions available to the agent.
+                 * @param o The number of possible observations the agent could make.
+                 * @param t The external transitions container.
+                 * @param r The external rewards container.
+                 * @param of The observation probability table.
+                 */
+                template <typename T, typename R, typename OF>
+                Model(size_t s, size_t a, size_t o, const T & t, const R & r, const OF & of);
+
+                /**
+                 * @brief Basic constructor.
+                 *
                  * This constructor initializes the POMDP based on the values
                  * available from the underlying MDP and the provided
                  * information. The observation table dimensions have to match
@@ -70,10 +107,10 @@ namespace AIToolbox {
                  * @param underlyingMDP A reference to the underlying MDP for
                  * this POMDP. Make sure M supports copy construction!
                  * @param o The number of observations possible in the POMDP.
-                 * @param table The observation probability table.
+                 * @param of The observation probability table.
                  */
                 template <typename OF>
-                Model(const M & underlyingMDP, size_t o, const OF & table);
+                Model(const M & underlyingMDP, size_t o, const OF & of);
 
                 /**
                  * @brief This function replaces the Model observation function with the one provided.
@@ -93,7 +130,7 @@ namespace AIToolbox {
                  * @param table The external observations container.
                  */
                 template <typename OF>
-                void setObservationFunction(const OF & table);
+                void setObservationFunction(const OF & of);
 
                 /**
                  * @brief This function returns the stored observation probability for the specified state-action pair.
@@ -160,21 +197,29 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        template <typename OF>
-        Model<M>::Model(const M & underlyingMDP, size_t o, const OF & table) : M(underlyingMDP), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+        template <typename T, typename R, typename OF>
+        Model<M>::Model(size_t s, size_t a, size_t o, const T & t, const R & r, const OF & of) : M(s,a,t,r), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
                                                                                rand_(Impl::Seeder::getSeed())
         {
-            setObservationFunction(table);
+            setObservationFunction(of);
         }
 
         template <typename M>
         template <typename OF>
-        void Model<M>::setObservationFunction(const OF & table) {
+        Model<M>::Model(const M & underlyingMDP, size_t o, const OF & of) : M(underlyingMDP), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+                                                                               rand_(Impl::Seeder::getSeed())
+        {
+            setObservationFunction(of);
+        }
+
+        template <typename M>
+        template <typename OF>
+        void Model<M>::setObservationFunction(const OF & of) {
             for ( size_t s = 0; s < this->getS(); ++s )
                 for ( size_t a = 0; a < this->getA(); ++a )
-                    if ( ! isProbability(table[s][a], O) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    if ( ! isProbability(of[s][a], O) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
-            copyTable3D(table, observations_, this->getS(), this->getA(), O);
+            copyTable3D(of, observations_, this->getS(), this->getA(), O);
         }
 
         template <typename M>
