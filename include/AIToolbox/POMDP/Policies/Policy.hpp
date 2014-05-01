@@ -84,14 +84,16 @@ namespace AIToolbox {
                  *
                  * An example of usage for this function would be:
                  *
-                 *     horizon = 3;
-                 *     // First sample
-                 *     auto result = sampleAction(belief, horizon);
-                 *     // We do the action, something happens, we get an observation.
-                 *     size_t observation = performAction(std::get<0>(result));
-                 *     --horizon;
-                 *     // We sample again, after reducing the horizon, with the previous id.
-                 *     result = sampleAction(std::get<1>(result), observation, horizon);
+                 * ~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+                 * horizon = 3;
+                 * // First sample
+                 * auto result = sampleAction(belief, horizon);
+                 * // We do the action, something happens, we get an observation.
+                 * size_t observation = performAction(std::get<0>(result));
+                 * --horizon;
+                 * // We sample again, after reducing the horizon, with the previous id.
+                 * result = sampleAction(std::get<1>(result), observation, horizon);
+                 * ~~~~~~~~~~~~~~~~~~~~~~~
                  *
                  * @param id An id returned from a previous call of sampleAction.
                  * @param o The observation obtained after performing a previously sampled action.
