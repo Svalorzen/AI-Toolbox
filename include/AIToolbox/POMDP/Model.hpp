@@ -135,13 +135,13 @@ namespace AIToolbox {
                 /**
                  * @brief This function returns the stored observation probability for the specified state-action pair.
                  *
-                 * @param s The initial state of the transition.
+                 * @param s1 The final state of the transition.
                  * @param a The action performed in the transition.
                  * @param o The recorded observation for the transition.
                  *
                  * @return The probability of the specified observation.
                  */
-                double getObservationProbability(size_t s, size_t a, size_t o) const;
+                double getObservationProbability(size_t s1, size_t a, size_t o) const;
 
                 /**
                  * @brief This function *computes* the probability of obtaining an observation given an action and an initial belief.
@@ -239,8 +239,8 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        double Model<M>::getObservationProbability(size_t s, size_t a, size_t o) const {
-            return observations_[s][a][o];
+        double Model<M>::getObservationProbability(size_t s1, size_t a, size_t o) const {
+            return observations_[s1][a][o];
         }
 
         template <typename M>
