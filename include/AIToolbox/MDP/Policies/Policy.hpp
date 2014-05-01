@@ -37,6 +37,19 @@ namespace AIToolbox {
                  */
                 Policy(size_t s, size_t a);
 
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * This constructor simply copies policy probability values
+                 * from any other compatible PolicyInterface, and stores them
+                 * internally.
+                 * 
+                 * This may be a useful thing to do in case the policy that is 
+                 * being copied is very costly to use (for example, QGreedyPolicy)
+                 * and it is known that it will not change anymore.
+                 *
+                 * @param p The policy which is being copied.
+                 */
                 Policy(const PolicyInterface<size_t> & p);
 
                 /**
