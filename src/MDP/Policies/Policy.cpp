@@ -13,7 +13,7 @@ namespace AIToolbox {
             std::fill(policy_.data(), policy_.data() + policy_.num_elements(), 1.0/getA());
         }
 
-        Policy::Policy(const PolicyInterface & p) : PolicyInterface(p.getS(), p.getA()), policy_(boost::extents[S][A])
+        Policy::Policy(const PolicyInterface<size_t> & p) : PolicyInterface(p.getS(), p.getA()), policy_(boost::extents[S][A])
         {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )

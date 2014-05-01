@@ -37,7 +37,7 @@ namespace AIToolbox {
                  */
                 Policy(size_t s, size_t a);
 
-                Policy(const PolicyInterface & p);
+                Policy(const PolicyInterface<size_t> & p);
 
                 /**
                  * @brief This function chooses a random action for state s, following the policy distribution.
