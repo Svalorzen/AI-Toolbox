@@ -17,9 +17,6 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * The discount parameter must be > 0.0 and <= 1.0,
-                 * otherwise the constructor will throw an std::runtime_error.
-                 *
                  * The epsilon parameter must be > 0.0,
                  * otherwise the constructor will throw an std::runtime_error.
                  *
@@ -28,12 +25,11 @@ namespace AIToolbox {
                  * be ignored. An empty value function will be defaulted
                  * to all zeroes.
                  *
-                 * @param discount The discount rate to use.
                  * @param epsilon The epsilon factor to stop the value iteration loop.
                  * @param maxIter The maximum number of iterations to perform.
                  * @param v The initial value function from which to start the loop.
                  */
-                ValueIteration(double discount = 0.9, double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v = ValueFunction(0) );
+                ValueIteration(double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v = ValueFunction(0) );
 
                 /**
                  * @brief This function applies value iteration on an MDP to solve it.
@@ -48,16 +44,6 @@ namespace AIToolbox {
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 std::tuple<bool, ValueFunction, QFunction> operator()(const M & m);
-
-                /**
-                 * @brief This function sets the discount parameter.
-                 *
-                 * The discount parameter must be > 0.0 and <= 1.0,
-                 * otherwise the function will throw std::invalid_argument.
-                 *
-                 * @param d The new discount parameter.
-                 */
-                void setDiscount(double d);
 
                 /**
                  * @brief This function sets the epsilon parameter.
@@ -87,13 +73,6 @@ namespace AIToolbox {
                  * @param m The new starting value function.
                  */
                 void setValueFunction(ValueFunction v);
-
-                /**
-                 * @brief This function will return the current set discount parameter.
-                 *
-                 * @return The currently set discount parameter.
-                 */
-                double getDiscount() const;
 
                 /**
                  * @brief This function will return the currently set epsilon parameter.
@@ -196,6 +175,7 @@ namespace AIToolbox {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
             A = model.getA();
+            discount_ = model.getDiscount();
 
             // Verify that parameter value function is compatible.
             if ( vParameter_.size() != S ) {

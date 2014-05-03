@@ -25,7 +25,7 @@ namespace AIToolbox {
                  * transitions happen with probability 0 but for transitions
                  * that bring back to the same state, no matter the action.
                  *
-                 * All rewards are set to 0.
+                 * All rewards are set to 0. The discount parameter is set to 1.
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
@@ -56,15 +56,19 @@ namespace AIToolbox {
                  *
                  * \sa copyTable3D()
                  *
+                 * The discount parameter must be between 0 and 1 included, otherwise
+                 * the constructor will throw an std::invalid_argument.
+                 *
                  * @tparam T The external transition container type.
                  * @tparam R The external rewards container type.
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
                  * @param t The external transitions container.
                  * @param r The external rewards container.
+                 * @param d The discount factor for the MDP.
                  */
                 template <typename T, typename R>
-                Model(size_t s, size_t a, const T & t, const R & r);
+                Model(size_t s, size_t a, const T & t, const R & r, double d);
 
                 /**
                  * @brief This function replaces the Model transition function with the one provided.
@@ -110,6 +114,13 @@ namespace AIToolbox {
                 void setRewardFunction(const R & r);
 
                 /**
+                 * @brief This function sets a new discount factor for the Model.
+                 *
+                 * @param d The new discount factor for the Model.
+                 */
+                void setDiscount(double d);
+
+                /**
                  * @brief This function samples the MDP for the specified state action pair.
                  *
                  * This function samples the model for simulate experience. The transition
@@ -140,6 +151,13 @@ namespace AIToolbox {
                  * @return The total number of actions.
                  */
                 size_t getA() const;
+
+                /**
+                 * @brief This function returns the currently set discount factor.
+                 *
+                 * @return The currently set discount factor.
+                 */
+                double getDiscount() const;
 
                 /**
                  * @brief This function returns the stored transition probability for the specified transition.
@@ -179,6 +197,7 @@ namespace AIToolbox {
 
             private:
                 size_t S, A;
+                double discount_;
 
                 TransitionTable transitions_;
                 RewardTable rewards_;
@@ -187,7 +206,8 @@ namespace AIToolbox {
         };
 
         template <typename T, typename R>
-        Model::Model(size_t s, size_t a, const T & t, const R & r) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]) {
+        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]) {
+            setDiscount(d);
             setTransitionFunction(t);
             setRewardFunction(r);
         }

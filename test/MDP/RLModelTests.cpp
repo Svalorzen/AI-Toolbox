@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     const int S = 10, A = 8;
 
     AIToolbox::Experience exp(S,A);
-    AIToolbox::MDP::RLModel model(exp, false);
+    AIToolbox::MDP::RLModel model(exp, 1.0, false);
 
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
@@ -30,12 +30,12 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     AIToolbox::Experience exp(S,A);
     // Single state sync
     {
-        AIToolbox::MDP::RLModel model(exp, false);
+        AIToolbox::MDP::RLModel model(exp, 1.0, false);
 
         exp.record(0,0,1,10);
         exp.record(0,0,2,10);
         exp.record(0,0,3,10);
-                         
+
         exp.record(4,0,5,10);
 
         BOOST_CHECK_EQUAL( model.getTransitionProbability(0,0,1), 0.0 ); // Not yet synced
@@ -62,10 +62,10 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     }
     // Full sync, manual or on construction
     {
-        AIToolbox::MDP::RLModel model(exp, false);
+        AIToolbox::MDP::RLModel model(exp, 1.0, false);
         model.sync();
 
-        AIToolbox::MDP::RLModel model2(exp, true);
+        AIToolbox::MDP::RLModel model2(exp, 1.0, true);
 
         BOOST_CHECK_EQUAL( model.getTransitionProbability (0,0,1), 1.0/3.0 );
         BOOST_CHECK_EQUAL( model2.getTransitionProbability(0,0,1), 1.0/3.0 );
@@ -85,11 +85,11 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     const int S = 10, A = 8;
 
     AIToolbox::Experience exp(S,A);
-    AIToolbox::MDP::RLModel model(exp, false);
+    AIToolbox::MDP::RLModel model(exp, 1.0, false);
 
     exp.record(0,0,0,0);
     exp.record(0,0,1,0);
-                    
+
     exp.record(1,1,2,0);
     exp.record(2,2,5,0);
     exp.record(5,1,0,5.0);
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE( IO ) {
         BOOST_CHECK( inputExpFile >> exp );
     }
 
-    AIToolbox::MDP::RLModel model(exp, true);
+    AIToolbox::MDP::RLModel model(exp, 1.0, true);
     {
         std::ofstream outputFile(outputFilename);
 

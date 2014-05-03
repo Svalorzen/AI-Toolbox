@@ -29,11 +29,10 @@ namespace AIToolbox {
                  * @brief Basic constructor.
                  *
                  * @param M The model to be used to update the QFunction.
-                 * @param discount The discount of the PrioritizedSweeping method.
                  * @param theta The queue threshold.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
-                PrioritizedSweeping(const M & m, double discount = 0.9, double theta = 0.5, unsigned n = 50);
+                PrioritizedSweeping(const M & m, double theta = 0.5, unsigned n = 50);
 
                 /**
                  * @brief This function updates the PrioritizedSweeping internal update queue.
@@ -58,23 +57,6 @@ namespace AIToolbox {
                  *
                  */
                 void batchUpdateQ();
-
-                /**
-                 * @brief This function sets the discount parameter.
-                 *
-                 * The discount parameter must be > 0.0 and <= 1.0,
-                 * otherwise the function will throw an std::invalid_argument.
-                 *
-                 * @param d The new discount parameter.
-                 */
-                void setDiscount(double d);
-
-                /**
-                 * @brief This function will return the currently set discount parameter.
-                 *
-                 * @return The currently set discount parameter.
-                 */
-                double getDiscount() const;
 
                 /**
                  * @brief This function sets the theta parameter.
@@ -149,7 +131,7 @@ namespace AIToolbox {
             private:
                 size_t S, A;
                 unsigned N;
-                double discount_, theta_;
+                double theta_;
 
                 const M & model_;
                 QFunction qfun_;
@@ -176,18 +158,14 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        PrioritizedSweeping<M>::PrioritizedSweeping(const M & m, double discount, double theta, unsigned n) :
+        PrioritizedSweeping<M>::PrioritizedSweeping(const M & m, double theta, unsigned n) :
                                                                                                                 S(m.getS()),
                                                                                                                 A(m.getA()),
                                                                                                                 N(n),
-                                                                                                                discount_(discount),
                                                                                                                 theta_(theta),
                                                                                                                 model_(m),
                                                                                                                 qfun_(makeQFunction(S,A)),
-                                                                                                                vfun_(S, 0.0)
-        {
-            if ( discount <= 0.0 || discount > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
-        }
+                                                                                                                vfun_(S, 0.0) {}
 
         template <typename M>
         void PrioritizedSweeping<M>::stepUpdateQ(size_t s, size_t a) {
@@ -196,7 +174,7 @@ namespace AIToolbox {
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     double probability = model_.getTransitionProbability(s,a,s1);
                     if ( probability > 0.0 )
-                        newQValue += probability * ( model_.getExpectedReward(s,a,s1) + discount_ * vfun_[s1] );
+                        newQValue += probability * ( model_.getExpectedReward(s,a,s1) + model_.getDiscount() * vfun_[s1] );
                 }
                 qfun_[s][a] = newQValue;
             }
@@ -245,17 +223,6 @@ namespace AIToolbox {
         template <typename M>
         unsigned PrioritizedSweeping<M>::getN() const {
             return N;
-        }
-
-        template <typename M>
-        void PrioritizedSweeping<M>::setDiscount(double d) {
-            if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
-            discount_ = d;
-        }
-
-        template <typename M>
-        double PrioritizedSweeping<M>::getDiscount() const {
-            return discount_;
         }
 
         template <typename M>

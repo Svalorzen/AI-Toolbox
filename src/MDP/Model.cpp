@@ -28,8 +28,14 @@ namespace AIToolbox {
             return rewards_[s][a][s1];
         }
 
+        void Model::setDiscount(double d) {
+            if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
+            discount_ = d;
+        }
+
         size_t Model::getS() const { return S; }
         size_t Model::getA() const { return A; }
+        double Model::getDiscount() const { return discount_; }
 
         const Model::TransitionTable & Model::getTransitionFunction() const { return transitions_; }
         const Model::RewardTable &     Model::getRewardFunction()     const { return rewards_; }

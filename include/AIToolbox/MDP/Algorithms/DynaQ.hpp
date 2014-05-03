@@ -29,13 +29,12 @@ namespace AIToolbox {
                  *
                  * @param M The model to be used to update the QFunction.
                  * @param alpha The learning rate of the QLearning method.
-                 * @param discount The discount of the QLearning method.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
-                explicit DynaQ(const M & m, double alpha = 0.5, double discount = 0.9, unsigned n = 50);
+                explicit DynaQ(const M & m, double alpha = 0.5, unsigned n = 50);
 
                 /**
-                 * @brief This function updates the internal QFunction using the discount set during construction.
+                 * @brief This function updates the internal QFunction.
                  *
                  * This function takes a single experience point and uses it to update
                  * a QFunction. This is a very efficient method to keep the QFunction
@@ -81,23 +80,6 @@ namespace AIToolbox {
                  * @return The currently set learning rate parameter.
                  */
                 double getLearningRate() const;
-
-                /**
-                 * @brief This function sets the discount parameter.
-                 *
-                 * The discount parameter must be > 0.0 and <= 1.0,
-                 * otherwise the function will throw an std::invalid_argument.
-                 *
-                 * @param d The new discount parameter.
-                 */
-                void setDiscount(double d);
-
-                /**
-                 * @brief This function will return the current set discount parameter.
-                 *
-                 * @return The currently set discount parameter.
-                 */
-                double getDiscount() const;
 
                 /**
                  * @brief This function sets the current sample number parameter.
@@ -156,9 +138,9 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        DynaQ<M>::DynaQ(const M & m, double alpha, double discount, unsigned n) : N(n),
+        DynaQ<M>::DynaQ(const M & m, double alpha, unsigned n) : N(n),
                                                                                   model_(m),
-                                                                                  qLearning_(m.getS(), m.getA(), alpha, discount),
+                                                                                  qLearning_(model_.getS(), model_.getA(), alpha, model_.getDiscount()),
                                                                                   rand_(Impl::Seeder::getSeed())
         {
             visitedStatesActionsInserter_.reserve(getS()*getA());
@@ -222,16 +204,6 @@ namespace AIToolbox {
         template <typename M>
         double DynaQ<M>::getLearningRate() const {
             return qLearning_.getLearningRate();
-        }
-
-        template <typename M>
-        void DynaQ<M>::setDiscount(double d) {
-            qLearning_.setDiscount(d);
-        }
-
-        template <typename M>
-        double DynaQ<M>::getDiscount() const {
-            return qLearning_.getDiscount();
         }
     }
 }

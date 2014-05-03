@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
     size_t S = 1, A = 3;
 
     Experience exp(S,A);
-    MDP::RLModel model(exp, false);
+    MDP::RLModel model(exp, 1.0, false);
     MDP::PrioritizedSweeping<MDP::RLModel> solver(model);
 
     MDP::WoLFPolicy policy(solver.getQFunction());
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE( matching_pennies ) {
     size_t S = 1, A = 2;
 
     Experience exp(S,A);
-    MDP::RLModel model(exp, false);
+    MDP::RLModel model(exp, 1.0, false);
     MDP::PrioritizedSweeping<MDP::RLModel> solver(model);
 
     MDP::WoLFPolicy policy(solver.getQFunction());

@@ -48,8 +48,17 @@ namespace AIToolbox {
                  * The default reward function is 0.
                  *
                  * @param exp The base Experience of the model.
+                 * @param discount The discount used in solving methods.
+                 * @param sync Whether to sync with the Experience immediately or delay it.
                  */
-                RLModel(const Experience & exp, bool sync);
+                RLModel(const Experience & exp, double discount, bool sync);
+
+                /**
+                 * @brief This function sets a new discount factor for the Model.
+                 *
+                 * @param d The new discount factor for the Model.
+                 */
+                void setDiscount(double d);
 
                 /**
                  * @brief This function syncs the whole RLModel to the underlying Experience.
@@ -119,6 +128,13 @@ namespace AIToolbox {
                 size_t getA() const;
 
                 /**
+                 * @brief This function returns the currently set discount factor.
+                 *
+                 * @return The currently set discount factor.
+                 */
+                double getDiscount() const;
+
+                /**
                  * @brief This function enables inspection of the underlying Experience of the RLModel.
                  *
                  * @return The underlying Experience of the RLModel.
@@ -163,6 +179,7 @@ namespace AIToolbox {
 
             private:
                 size_t S, A;
+                double discount_;
 
                 const Experience & experience_;
 

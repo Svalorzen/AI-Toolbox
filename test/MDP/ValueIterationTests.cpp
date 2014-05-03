@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE( findCorners ) {
         }
     }
 
-    Model model(S, A, transitions, rewards);
+    Model model(S, A, transitions, rewards, 1.0);
     ValueIteration solver;
 
     auto solution = solver(model);

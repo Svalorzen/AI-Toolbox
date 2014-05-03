@@ -6,6 +6,7 @@
 
 namespace AIToolbox {
     namespace MDP {
+        // TODO: Port these to uBLAS.
         using ValueFunction     = std::vector<double>;
         using QFunction         = Table2D;
 
@@ -19,6 +20,7 @@ namespace AIToolbox {
          *
          * - size_t getS() const : Returns the number of states of the Model.
          * - size_t getA() const : Returns the number of actions of the Model.
+         * - double getDiscount() const : Returns the discount factor of the Model.
          * - double getTransitionProbability(size_t s, size_t a, size_t s1) : Returns the transition probability given (s,a) to s1
          * - double getExpectedReward(size_t s, size_t a, size_t s1) : Returns the expected reward for transition (s,a) to s1
          *
@@ -36,6 +38,7 @@ namespace AIToolbox {
 
                         helper<size_t (Z::*)() const,                       &Z::getS>(),
                         helper<size_t (Z::*)() const,                       &Z::getA>(),
+                        helper<double (Z::*)() const,                       &Z::getDiscount>(),
                         helper<double (Z::*)(size_t,size_t,size_t) const,   &Z::getTransitionProbability>(),
                         helper<double (Z::*)(size_t,size_t,size_t) const,   &Z::getExpectedReward>(),
 

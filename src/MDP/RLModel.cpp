@@ -5,9 +5,10 @@
 
 namespace AIToolbox {
     namespace MDP {
-        RLModel::RLModel( const Experience & exp, bool toSync ) : S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+        RLModel::RLModel( const Experience & exp, double discount, bool toSync ) : S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
                                                        rand_(Impl::Seeder::getSeed())
         {
+            setDiscount(discount);
             // Boost initializes everything to 0 automatically (uses default
             // element constructors).
             if ( toSync ) {
@@ -26,6 +27,11 @@ namespace AIToolbox {
                     for ( size_t a = 0; a < A; ++a )
                         transitions_[s][a][s] = 1.0;
             }
+        }
+
+        void RLModel::setDiscount(double d) {
+            if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
+            discount_ = d;
         }
 
         void RLModel::sync() {
@@ -65,6 +71,7 @@ namespace AIToolbox {
 
         size_t RLModel::getS() const { return S; }
         size_t RLModel::getA() const { return A; }
+        double RLModel::getDiscount() const { return discount_; }
         const Experience & RLModel::getExperience() const { return experience_; }
 
         const RLModel::TransitionTable & RLModel::getTransitionFunction() const { return transitions_; }
