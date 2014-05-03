@@ -63,7 +63,7 @@ namespace AIToolbox {
                  *
                  * @param b The sampled belief of the policy.
                  * @param horizon The requested horizon, meaning the number of timesteps missing until
-                 * the end of the "episode". Both 1 and 0 return the same thing.
+                 * the end of the "episode". horizon 0 will return a random action.
                  *
                  * @return A tuple containing the chosen action, plus an id useful to sample an action
                  * more efficiently at the next timestep, if required.
