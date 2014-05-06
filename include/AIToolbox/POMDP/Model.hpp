@@ -76,7 +76,7 @@ namespace AIToolbox {
                  *
                  * @tparam T The external transition container type.
                  * @tparam R The external rewards container type.
-                 * @tparam OF The external observations container type.
+                 * @tparam ObFun The external observations container type.
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
                  * @param o The number of possible observations the agent could make.
@@ -84,8 +84,8 @@ namespace AIToolbox {
                  * @param r The external rewards container.
                  * @param of The observation probability table.
                  */
-                template <typename T, typename R, typename OF>
-                Model(size_t s, size_t a, size_t o, const T & t, const R & r, const OF & of);
+                template <typename T, typename R, typename ObFun>
+                Model(size_t s, size_t a, size_t o, const T & t, const R & r, const ObFun & of);
 
                 /**
                  * @brief Basic constructor.
@@ -103,14 +103,14 @@ namespace AIToolbox {
                  * \sa transitionCheck()
                  * \sa copyTable3D()
                  *
-                 * @tparam OF The external observation container type.
+                 * @tparam ObFun The external observation container type.
                  * @param underlyingMDP A reference to the underlying MDP for
                  * this POMDP. Make sure M supports copy construction!
                  * @param o The number of observations possible in the POMDP.
                  * @param of The observation probability table.
                  */
-                template <typename OF>
-                Model(const M & underlyingMDP, size_t o, const OF & of);
+                template <typename ObFun>
+                Model(const M & underlyingMDP, size_t o, const ObFun & of);
 
                 /**
                  * @brief This function replaces the Model observation function with the one provided.
@@ -126,11 +126,11 @@ namespace AIToolbox {
                  * Internal values of the container will be converted to double,
                  * so that convertion must be possible.
                  *
-                 * @tparam OF The external observations container type.
+                 * @tparam ObFun The external observations container type.
                  * @param table The external observations container.
                  */
-                template <typename OF>
-                void setObservationFunction(const OF & of);
+                template <typename ObFun>
+                void setObservationFunction(const ObFun & of);
 
                 /**
                  * @brief This function returns the stored observation probability for the specified state-action pair.
@@ -197,24 +197,24 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        template <typename T, typename R, typename OF>
-        Model<M>::Model(size_t s, size_t a, size_t o, const T & t, const R & r, const OF & of) : M(s,a,t,r), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+        template <typename T, typename R, typename ObFun>
+        Model<M>::Model(size_t s, size_t a, size_t o, const T & t, const R & r, const ObFun & of) : M(s,a,t,r), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
                                                                                rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);
         }
 
         template <typename M>
-        template <typename OF>
-        Model<M>::Model(const M & underlyingMDP, size_t o, const OF & of) : M(underlyingMDP), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+        template <typename ObFun>
+        Model<M>::Model(const M & underlyingMDP, size_t o, const ObFun & of) : M(underlyingMDP), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
                                                                                rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);
         }
 
         template <typename M>
-        template <typename OF>
-        void Model<M>::setObservationFunction(const OF & of) {
+        template <typename ObFun>
+        void Model<M>::setObservationFunction(const ObFun & of) {
             for ( size_t s = 0; s < this->getS(); ++s )
                 for ( size_t a = 0; a < this->getA(); ++a )
                     if ( ! isProbability(of[s][a], O) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");

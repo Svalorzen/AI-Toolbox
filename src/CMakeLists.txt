@@ -3,16 +3,29 @@ cmake_minimum_required (VERSION 2.6)
 find_package(Boost 1.53 REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-add_library(AIToolboxMDP
-    Impl/Seeder.cpp
-    MDP/Experience.cpp
-    MDP/Utils.cpp
-    MDP/Model.cpp
-    MDP/RLModel.cpp
-    MDP/IO.cpp
-    MDP/Algorithms/QLearning.cpp
-    MDP/Algorithms/ValueIteration.cpp
-    MDP/Policies/Policy.cpp
-    MDP/Policies/QPolicyInterface.cpp
-    MDP/Policies/QGreedyPolicy.cpp
-    MDP/Policies/WoLFPolicy.cpp)
+if (MAKE_MDP)
+    add_library(AIToolboxMDP
+        Impl/Seeder.cpp
+        MDP/Experience.cpp
+        MDP/Utils.cpp
+        MDP/Model.cpp
+        MDP/RLModel.cpp
+        MDP/IO.cpp
+        MDP/Algorithms/QLearning.cpp
+        MDP/Algorithms/ValueIteration.cpp
+        MDP/Policies/Policy.cpp
+        MDP/Policies/QPolicyInterface.cpp
+        MDP/Policies/QGreedyPolicy.cpp
+        MDP/Policies/WoLFPolicy.cpp)
+endif()
+
+if (MAKE_POMDP)
+    find_package(LpSolve REQUIRED)
+
+    include_directories(${LPSOLVE_INCLUDE_DIR})
+
+    add_library(AIToolboxPOMDP
+        POMDP/IncrementalPruning.cpp)
+
+    target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
+endif()
