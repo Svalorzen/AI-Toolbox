@@ -32,15 +32,13 @@ namespace AIToolbox {
         template <typename T>
         struct is_model {
             private:
-                template<typename U, U> struct helper{};
+                template <typename Z> static auto test(int) -> decltype(
 
-                template <typename Z> static auto test(Z* z) -> decltype(
-
-                        helper<size_t (Z::*)() const,                       &Z::getS>(),
-                        helper<size_t (Z::*)() const,                       &Z::getA>(),
-                        helper<double (Z::*)() const,                       &Z::getDiscount>(),
-                        helper<double (Z::*)(size_t,size_t,size_t) const,   &Z::getTransitionProbability>(),
-                        helper<double (Z::*)(size_t,size_t,size_t) const,   &Z::getExpectedReward>(),
+                        static_cast<size_t (Z::*)() const>                       (&Z::getS),
+                        static_cast<size_t (Z::*)() const>                       (&Z::getA),
+                        static_cast<double (Z::*)() const>                       (&Z::getDiscount),
+                        static_cast<double (Z::*)(size_t,size_t,size_t) const>   (&Z::getTransitionProbability),
+                        static_cast<double (Z::*)(size_t,size_t,size_t) const>   (&Z::getExpectedReward),
 
                         std::true_type()
                 );
@@ -48,7 +46,7 @@ namespace AIToolbox {
                 template <typename> static auto test(...) -> std::false_type;
 
             public:
-                enum { value = std::is_same<decltype(test<T>((T*)nullptr)),std::true_type>::value };
+                enum { value = std::is_same<decltype(test<T>(0)),std::true_type>::value };
         };
     }
 }

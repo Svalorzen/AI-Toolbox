@@ -31,12 +31,10 @@ namespace AIToolbox {
         template <typename T>
         struct is_model {
             private:
-                template<typename U, U> struct helper{};
+                template <typename Z> static auto test(int) -> decltype(
 
-                template <typename Z> static auto test(Z* z) -> decltype(
-
-                        helper<size_t (Z::*)() const,                       &Z::getO>(),
-                        helper<double (Z::*)(size_t,size_t,size_t) const,   &Z::getObservationProbability>(),
+                        static_cast<size_t (Z::*)() const>                       (&Z::getO),
+                        static_cast<double (Z::*)(size_t,size_t,size_t) const>   (&Z::getObservationProbability),
 
                         std::true_type()
                 );
@@ -44,7 +42,7 @@ namespace AIToolbox {
                 template <typename> static auto test(...) -> std::false_type;
 
             public:
-                enum { value = std::is_same<decltype(test<T>((T*)nullptr)),std::true_type>::value && MDP::is_model<T>::value };
+                enum { value = std::is_same<decltype(test<T>(0)),std::true_type>::value && MDP::is_model<T>::value };
         };
     }
 }
