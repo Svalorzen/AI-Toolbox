@@ -27,5 +27,5 @@ if (MAKE_POMDP)
     add_library(AIToolboxPOMDP
         POMDP/IncrementalPruning.cpp)
 
-    target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
+    target_link_libraries(AIToolboxPOMDP ${LPSOLVE_LIBRARIES})
 endif()
