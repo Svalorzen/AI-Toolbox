@@ -49,32 +49,34 @@ main folder:
 mkdir build
 cd build/
 cmake -DCMAKE_BUILD_TYPE=Release ..
-make
+make -j
 ```
 
-The static library file will be available directly in the `build` directory.
+The static library files will be available directly in the `build` directory. At
+the moment two separate libraries are created: `AIToolboxMDP` and
+`AIToolboxPOMDP`. In case you want to link against the POMDP library, you will
+also need to link against the MDP one, since POMDP uses MDP functionality.
 
 In case you do not want to build the whole library (due for example to the
 lp\_solve requirements) you may specify to cmake what parts of the library you
 actually want to build, like so:
 
 ```bash
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP    # Will only build the MDP
-algorithms
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP  # Will build both MDP and
-POMDP algorithms
+cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 ..   # Will only build the MDP algorithms
+cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP=1 .. # Will build both MDP and POMDP algorithms
 ```
 
 A number of small tests are included which you can find in the `test/` folder.
 You can execute them after building the project using the following command
-in the build directory:
+directly from the `build` directory, just after you finish `make`:
 
 ```bash
 ctest
 ```
 
 The tests also offer a brief introduction for the framework, waiting for a
-more complete descriptive write-up.
+more complete descriptive write-up. Only the tests for the parts of the library
+that you compiled are going to be built.
 
 To compile the library's documentation you need the [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
 tool. To use it it is sufficient to execute the following command from the
