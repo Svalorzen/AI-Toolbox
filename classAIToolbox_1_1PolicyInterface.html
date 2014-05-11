@@ -100,6 +100,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <a href="classAIToolbox_1_1PolicyInterface.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="IO_8hpp_source.html">IO.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for AIToolbox::PolicyInterface&lt; State &gt;:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classAIToolbox_1_1PolicyInterface.png" usemap="#AIToolbox::PolicyInterface&lt; State &gt;_map" alt=""/>
+  <map id="AIToolbox::PolicyInterface&lt; State &gt;_map" name="AIToolbox::PolicyInterface&lt; State &gt;_map">
+<area href="classAIToolbox_1_1EpsilonPolicyInterface.html" title="This class is a policy wrapper for epsilon action choice. " alt="AIToolbox::EpsilonPolicyInterface&lt; State &gt;" shape="rect" coords="0,56,252,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -115,17 +124,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7a762cadffb5a7901f1cd10d3716afea"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a7a762cadffb5a7901f1cd10d3716afea">getActionProbability</a> (const State &amp;s, size_t a) const =0</td></tr>
 <tr class="memdesc:a7a762cadffb5a7901f1cd10d3716afea"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a7a762cadffb5a7901f1cd10d3716afea">More...</a><br/></td></tr>
 <tr class="separator:a7a762cadffb5a7901f1cd10d3716afea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee84f129e998a1538eb884c3a58ad67b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#aee84f129e998a1538eb884c3a58ad67b">getS</a> () const </td></tr>
-<tr class="memdesc:aee84f129e998a1538eb884c3a58ad67b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#aee84f129e998a1538eb884c3a58ad67b">More...</a><br/></td></tr>
-<tr class="separator:aee84f129e998a1538eb884c3a58ad67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e11437bac87d986968ebdc344751de9"><td class="memItemLeft" align="right" valign="top">State&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a2e11437bac87d986968ebdc344751de9">getS</a> () const </td></tr>
+<tr class="memdesc:a2e11437bac87d986968ebdc344751de9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#a2e11437bac87d986968ebdc344751de9">More...</a><br/></td></tr>
+<tr class="separator:a2e11437bac87d986968ebdc344751de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ebd914d4d88cbf4a02d857e61cd8f63"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a6ebd914d4d88cbf4a02d857e61cd8f63">getA</a> () const </td></tr>
 <tr class="memdesc:a6ebd914d4d88cbf4a02d857e61cd8f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of available actions to the agent.  <a href="#a6ebd914d4d88cbf4a02d857e61cd8f63">More...</a><br/></td></tr>
 <tr class="separator:a6ebd914d4d88cbf4a02d857e61cd8f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:adcd45109a87e156da7bf5b4dec15693e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#adcd45109a87e156da7bf5b4dec15693e">S</a></td></tr>
-<tr class="separator:adcd45109a87e156da7bf5b4dec15693e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f8a3e1cdf551463e32fa10b1bfc2db1"><td class="memItemLeft" align="right" valign="top">State&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a9f8a3e1cdf551463e32fa10b1bfc2db1">S</a></td></tr>
+<tr class="separator:a9f8a3e1cdf551463e32fa10b1bfc2db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02fadd3579094be6ad15967ecb185295"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a02fadd3579094be6ad15967ecb185295">A</a></td></tr>
 <tr class="separator:a02fadd3579094be6ad15967ecb185295"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41ac8e3da01431e6b5265b3e812a89ce"><td class="memItemLeft" align="right" valign="top">std::default_random_engine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a41ac8e3da01431e6b5265b3e812a89ce">rand_</a></td></tr>
@@ -274,18 +283,18 @@ template&lt;typename State&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The probability of taking the selected action in the specified state. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#abcfdd8b1d7953c89253f5b5cf16d03a6">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a31da4d44df052c86a10c5ce13707037e">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#aabb4e5a077379acc09fb337d3f1d1480">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a49437bc8e7a7f2f581ccd5ae21786ae4">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#ad5e22ec08b50ddfd0288a6b3c8314a10">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a3115358f175725d4327e127f2deb3eec">AIToolbox::MDP::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ad9bcb0b2b3864d2ff9f42a9628eca922">AIToolbox::EpsilonPolicyInterface&lt; State &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#aabb4e5a077379acc09fb337d3f1d1480">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a49437bc8e7a7f2f581ccd5ae21786ae4">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#ad5e22ec08b50ddfd0288a6b3c8314a10">AIToolbox::MDP::QGreedyPolicy</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aee84f129e998a1538eb884c3a58ad67b"></a>
+<a class="anchor" id="a2e11437bac87d986968ebdc344751de9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getS </td>
+          <td class="memname">State <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getS </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td> const</td>
@@ -331,7 +340,7 @@ template&lt;typename State&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1Policy.html#a17b8ae0a02d26f772f179f9da4ff6ab3">AIToolbox::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicy.html#a2d9ecb95101012c909828c2790c24c52">AIToolbox::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a89cddb51851abde7ede8e81cd3ae7cd6">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#abad70f10b1461617509e747bf8b192df">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a9f094d8cb872e504631cf9971685aea0">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a593b773da1a808f6ee52e1befc95bca5">AIToolbox::MDP::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a4d46ea7165e86655c656c7d42bb712de">AIToolbox::EpsilonPolicyInterface&lt; State &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a89cddb51851abde7ede8e81cd3ae7cd6">AIToolbox::MDP::QPolicyInterface</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#abad70f10b1461617509e747bf8b192df">AIToolbox::MDP::WoLFPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a9f094d8cb872e504631cf9971685aea0">AIToolbox::MDP::QGreedyPolicy</a>.</p>
 
 </div>
 </div>
@@ -380,7 +389,7 @@ template&lt;typename State&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="adcd45109a87e156da7bf5b4dec15693e"></a>
+<a class="anchor" id="a9f8a3e1cdf551463e32fa10b1bfc2db1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -390,7 +399,7 @@ template&lt;typename State&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::S</td>
+          <td class="memname">State <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::S</td>
         </tr>
       </table>
   </td>
@@ -409,7 +418,7 @@ template&lt;typename State&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 11 2014 21:23:26 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

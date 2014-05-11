@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>This class models <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process.  
+<p>This class models <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process.  
  <a href="classAIToolbox_1_1MDP_1_1RLModel.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="RLModel_8hpp_source.html">RLModel.hpp</a>&gt;</code></p>
@@ -110,14 +110,17 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae8306f6a3322adcfcd829b9b09e750c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#ae8306f6a3322adcfcd829b9b09e750c3">RLModel</a> (const <a class="el" href="classAIToolbox_1_1Experience.html">Experience</a> &amp;exp, bool <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a74c2a3f11bc73662451c1313cbf5b8ff">sync</a>)</td></tr>
-<tr class="memdesc:ae8306f6a3322adcfcd829b9b09e750c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor using previous <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>.  <a href="#ae8306f6a3322adcfcd829b9b09e750c3">More...</a><br/></td></tr>
-<tr class="separator:ae8306f6a3322adcfcd829b9b09e750c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ce07a49150f2cb8f3bd88c63e0a48aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a4ce07a49150f2cb8f3bd88c63e0a48aa">RLModel</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html">Experience</a> &amp;exp, double discount=1.0, bool <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a74c2a3f11bc73662451c1313cbf5b8ff">sync</a>=false)</td></tr>
+<tr class="memdesc:a4ce07a49150f2cb8f3bd88c63e0a48aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor using previous <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>.  <a href="#a4ce07a49150f2cb8f3bd88c63e0a48aa">More...</a><br/></td></tr>
+<tr class="separator:a4ce07a49150f2cb8f3bd88c63e0a48aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab276df7bbe738daac2d2848887d1c55d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#ab276df7bbe738daac2d2848887d1c55d">setDiscount</a> (double d)</td></tr>
+<tr class="memdesc:ab276df7bbe738daac2d2848887d1c55d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets a new discount factor for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>.  <a href="#ab276df7bbe738daac2d2848887d1c55d">More...</a><br/></td></tr>
+<tr class="separator:ab276df7bbe738daac2d2848887d1c55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74c2a3f11bc73662451c1313cbf5b8ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a74c2a3f11bc73662451c1313cbf5b8ff">sync</a> ()</td></tr>
-<tr class="memdesc:a74c2a3f11bc73662451c1313cbf5b8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function syncs the whole <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>.  <a href="#a74c2a3f11bc73662451c1313cbf5b8ff">More...</a><br/></td></tr>
+<tr class="memdesc:a74c2a3f11bc73662451c1313cbf5b8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function syncs the whole <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>.  <a href="#a74c2a3f11bc73662451c1313cbf5b8ff">More...</a><br/></td></tr>
 <tr class="separator:a74c2a3f11bc73662451c1313cbf5b8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb24cfbe03abce48f69af22005d1e544"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#aeb24cfbe03abce48f69af22005d1e544">sync</a> (size_t s, size_t a)</td></tr>
-<tr class="memdesc:aeb24cfbe03abce48f69af22005d1e544"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function syncs a state action pair in the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>.  <a href="#aeb24cfbe03abce48f69af22005d1e544">More...</a><br/></td></tr>
+<tr class="memdesc:aeb24cfbe03abce48f69af22005d1e544"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function syncs a state action pair in the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>.  <a href="#aeb24cfbe03abce48f69af22005d1e544">More...</a><br/></td></tr>
 <tr class="separator:aeb24cfbe03abce48f69af22005d1e544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a771762f6fb3be11da247b9fb1f57b1dd"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a771762f6fb3be11da247b9fb1f57b1dd">sample</a> (size_t s, size_t a) const </td></tr>
 <tr class="memdesc:a771762f6fb3be11da247b9fb1f57b1dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair.  <a href="#a771762f6fb3be11da247b9fb1f57b1dd">More...</a><br/></td></tr>
@@ -128,8 +131,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad170524c6e54bd4ddba5a8fdd61c8301"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#ad170524c6e54bd4ddba5a8fdd61c8301">getA</a> () const </td></tr>
 <tr class="memdesc:ad170524c6e54bd4ddba5a8fdd61c8301"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of available actions to the agent.  <a href="#ad170524c6e54bd4ddba5a8fdd61c8301">More...</a><br/></td></tr>
 <tr class="separator:ad170524c6e54bd4ddba5a8fdd61c8301"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13b31a7232309800fee0a852e894fd7b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Experience.html">Experience</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a13b31a7232309800fee0a852e894fd7b">getExperience</a> () const </td></tr>
-<tr class="memdesc:a13b31a7232309800fee0a852e894fd7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables inspection of the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>.  <a href="#a13b31a7232309800fee0a852e894fd7b">More...</a><br/></td></tr>
+<tr class="memitem:a686d3563ec6788dda8419912524dbf7f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a686d3563ec6788dda8419912524dbf7f">getDiscount</a> () const </td></tr>
+<tr class="memdesc:a686d3563ec6788dda8419912524dbf7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set discount factor.  <a href="#a686d3563ec6788dda8419912524dbf7f">More...</a><br/></td></tr>
+<tr class="separator:a686d3563ec6788dda8419912524dbf7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13b31a7232309800fee0a852e894fd7b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html">Experience</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a13b31a7232309800fee0a852e894fd7b">getExperience</a> () const </td></tr>
+<tr class="memdesc:a13b31a7232309800fee0a852e894fd7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables inspection of the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>.  <a href="#a13b31a7232309800fee0a852e894fd7b">More...</a><br/></td></tr>
 <tr class="separator:a13b31a7232309800fee0a852e894fd7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45a87f7b9f3a19bb116dc8740bfd81ed"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a45a87f7b9f3a19bb116dc8740bfd81ed">getTransitionProbability</a> (size_t s, size_t a, size_t s1) const </td></tr>
 <tr class="memdesc:a45a87f7b9f3a19bb116dc8740bfd81ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored transition probability for the specified transition.  <a href="#a45a87f7b9f3a19bb116dc8740bfd81ed">More...</a><br/></td></tr>
@@ -145,8 +151,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af63af52a08faf75b1b8065d0da59975a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process. </p>
-<p>This class normalizes an <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> object to produce a transition function and a reward function. The transition function is guaranteed to be a correct probability function, as in the sum of the probabilities of all transitions from a particular state and a particular action is always 1. Each instance is not directly synced with the supplied <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> object. This is to avoid possible overheads, as the user can optimize better depending on their use case. See <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a74c2a3f11bc73662451c1313cbf5b8ff" title="This function syncs the whole RLModel to the underlying Experience. ">sync()</a>. </p>
+<div class="textblock"><p>This class models <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process. </p>
+<p>This class normalizes an <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> object to produce a transition function and a reward function. The transition function is guaranteed to be a correct probability function, as in the sum of the probabilities of all transitions from a particular state and a particular action is always 1. Each instance is not directly synced with the supplied <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> object. This is to avoid possible overheads, as the user can optimize better depending on their use case. See <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a74c2a3f11bc73662451c1313cbf5b8ff" title="This function syncs the whole RLModel to the underlying Experience. ">sync()</a>. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="ab2d8ab1bad71739ae4753b24f02ff949"></a>
 <div class="memitem">
@@ -173,21 +179,27 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ae8306f6a3322adcfcd829b9b09e750c3"></a>
+<a class="anchor" id="a4ce07a49150f2cb8f3bd88c63e0a48aa"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">AIToolbox::MDP::RLModel::RLModel </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Experience.html">Experience</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html">Experience</a> &amp;&#160;</td>
           <td class="paramname"><em>exp</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>discount</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>sync</em>&#160;</td>
+          <td class="paramname"><em>sync</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -197,15 +209,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor using previous <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
-<p>This constructor selects the <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> that will be used to learn an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a> from the data, and initializes internal <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a> data.</p>
-<p>The user can choose whether he wants to directly sync the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>, or delay it for later.</p>
+<p>Constructor using previous <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
+<p>This constructor selects the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> that will be used to learn an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a> from the data, and initializes internal <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a> data.</p>
+<p>The user can choose whether he wants to directly sync the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>, or delay it for later.</p>
 <p>In the latter case the default transition function defines a transition of probability 1 for each state to itself, no matter the action.</p>
-<p>In general it would be better to add some amount of bias to the <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> so that when a new state-action pair is tried, the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> doesn't automatically compute 100% probability of transitioning to the resulting state, but smooths into it. This may depend on your problem though.</p>
+<p>In general it would be better to add some amount of bias to the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> so that when a new state-action pair is tried, the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> doesn't automatically compute 100% probability of transitioning to the resulting state, but smooths into it. This may depend on your problem though.</p>
 <p>The default reward function is 0.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">exp</td><td>The base <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the model. </td></tr>
+    <tr><td class="paramname">exp</td><td>The base <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the model. </td></tr>
+    <tr><td class="paramname">discount</td><td>The discount used in solving methods. </td></tr>
+    <tr><td class="paramname">sync</td><td>Whether to sync with the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> immediately or delay it. </td></tr>
   </table>
   </dd>
 </dl>
@@ -228,6 +242,24 @@ Public Member Functions</h2></td></tr>
 
 <p>This function returns the number of available actions to the agent. </p>
 <dl class="section return"><dt>Returns</dt><dd>The total number of actions. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a686d3563ec6788dda8419912524dbf7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::MDP::RLModel::getDiscount </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the currently set discount factor. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set discount factor. </dd></dl>
 
 </div>
 </div>
@@ -279,7 +311,7 @@ Public Member Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1Experience.html">Experience</a>&amp; AIToolbox::MDP::RLModel::getExperience </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html">Experience</a>&amp; AIToolbox::MDP::RLModel::getExperience </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td> const</td>
@@ -287,8 +319,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function enables inspection of the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>. </dd></dl>
+<p>This function enables inspection of the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> of the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>. </dd></dl>
 
 </div>
 </div>
@@ -426,6 +458,30 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab276df7bbe738daac2d2848887d1c55d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::RLModel::setDiscount </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>d</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function sets a new discount factor for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The new discount factor for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a74c2a3f11bc73662451c1313cbf5b8ff"></a>
 <div class="memitem">
 <div class="memproto">
@@ -439,9 +495,9 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function syncs the whole <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
-<p>Since use cases in AI are very varied, one may not want to update its <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> for each single transition experienced by the agent. To avoid this we leave to the user the task of syncing between the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> and the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>, as he/she sees fit.</p>
-<p>After this function is run the transition and reward functions will accurately reflect the state of the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
+<p>This function syncs the whole <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
+<p>Since use cases in AI are very varied, one may not want to update its <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> for each single transition experienced by the agent. To avoid this we leave to the user the task of syncing between the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> and the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>, as he/she sees fit.</p>
+<p>After this function is run the transition and reward functions will accurately reflect the state of the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
 
 </div>
 </div>
@@ -469,10 +525,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function syncs a state action pair in the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
-<p>Since use cases in AI are very varied, one may not want to update its <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> for each single transition experienced by the agent. To avoid this we leave to the user the task of syncing between the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> and the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>, as he/she sees fit.</p>
-<p>This function updates a single state action pair with the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. This function is offered to avoid having to recompute the whole <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> if the user knows that only few transitions have been experienced by the agent.</p>
-<p>After this function is run the transition and reward functions will accurately reflect the state of the underlying <a class="el" href="classAIToolbox_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> for the specified state action pair.</p>
+<p>This function syncs a state action pair in the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. </p>
+<p>Since use cases in AI are very varied, one may not want to update its <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> for each single transition experienced by the agent. To avoid this we leave to the user the task of syncing between the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> and the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a>, as he/she sees fit.</p>
+<p>This function updates a single state action pair with the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a>. This function is offered to avoid having to recompute the whole <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> if the user knows that only few transitions have been experienced by the agent.</p>
+<p>After this function is run the transition and reward functions will accurately reflect the state of the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> for the specified state action pair.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The state that needs to be synced. </td></tr>
@@ -489,7 +545,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 11 2014 21:23:26 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

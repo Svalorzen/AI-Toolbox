@@ -102,17 +102,11 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Experience.html">Experience</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class keeps track of registered events and rewards.  <a href="classAIToolbox_1_1Experience.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">EpsilonPolicyInterface</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is a policy wrapper for epsilon action choice.  <a href="classAIToolbox_1_1EpsilonPolicyInterface.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the base interface for policies.  <a href="classAIToolbox_1_1PolicyInterface.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicy.html">EpsilonPolicy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is a policy wrapper for epsilon action choice.  <a href="classAIToolbox_1_1EpsilonPolicy.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Policy.html">Policy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a full policy.  <a href="classAIToolbox_1_1Policy.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -124,13 +118,12 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1a914b70201737faec621c75c1e21710"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a1a914b70201737faec621c75c1e21710">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1Experience.html">Experience</a> &amp;)</td></tr>
-<tr class="separator:a1a914b70201737faec621c75c1e21710"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a314200b0cae0913492e60c5bcb8d6832"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a314200b0cae0913492e60c5bcb8d6832">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1Experience.html">Experience</a> &amp;)</td></tr>
-<tr class="separator:a314200b0cae0913492e60c5bcb8d6832"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59b370d98aa199d2938152b773e7ada0"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a59b370d98aa199d2938152b773e7ada0">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1Policy.html">Policy</a> &amp;p)</td></tr>
-<tr class="memdesc:a59b370d98aa199d2938152b773e7ada0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="#a59b370d98aa199d2938152b773e7ada0">More...</a><br/></td></tr>
-<tr class="separator:a59b370d98aa199d2938152b773e7ada0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45921c5bf290286de95327e41aca728c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a45921c5bf290286de95327e41aca728c">checkEqual</a> (double a, double b)</td></tr>
+<tr class="memdesc:a45921c5bf290286de95327e41aca728c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks if two doubles near [0,1] are reasonably equal.  <a href="#a45921c5bf290286de95327e41aca728c">More...</a><br/></td></tr>
+<tr class="separator:a45921c5bf290286de95327e41aca728c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a44682c9abd6d1decc7faa0fc1f51d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a6a44682c9abd6d1decc7faa0fc1f51d3">checkDifferent</a> (double a, double b)</td></tr>
+<tr class="memdesc:a6a44682c9abd6d1decc7faa0fc1f51d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks if two doubles near [0,1] are reasonably different.  <a href="#a6a44682c9abd6d1decc7faa0fc1f51d3">More...</a><br/></td></tr>
+<tr class="separator:a6a44682c9abd6d1decc7faa0fc1f51d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f8a834af7a976624feec2a7852a9ddd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a8f8a834af7a976624feec2a7852a9ddd"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a8f8a834af7a976624feec2a7852a9ddd">isProbability</a> (const T &amp;in, size_t d)</td></tr>
 <tr class="memdesc:a8f8a834af7a976624feec2a7852a9ddd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether the supplied vector is a correct probability vector.  <a href="#a8f8a834af7a976624feec2a7852a9ddd">More...</a><br/></td></tr>
@@ -170,6 +163,96 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a6a44682c9abd6d1decc7faa0fc1f51d3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AIToolbox::checkDifferent </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function checks if two doubles near [0,1] are reasonably different. </p>
+<p>The order of the parameter is not important.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The first number to compare. </td></tr>
+    <tr><td class="paramname">b</td><td>The second number to compare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the two numbers are far away enough, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a45921c5bf290286de95327e41aca728c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AIToolbox::checkEqual </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function checks if two doubles near [0,1] are reasonably equal. </p>
+<p>The order of the parameter is not important.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The first number to compare. </td></tr>
+    <tr><td class="paramname">b</td><td>The second number to compare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the two numbers are close enough, false otherwise. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ad910375dbc82dfa1e526938ca3406841"></a>
 <div class="memitem">
 <div class="memproto">
@@ -285,97 +368,6 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a1a914b70201737faec621c75c1e21710"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::ostream&amp; AIToolbox::operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Experience &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a59b370d98aa199d2938152b773e7ada0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::istream&amp; AIToolbox::operator&gt;&gt; </td>
-          <td>(</td>
-          <td class="paramtype">std::istream &amp;&#160;</td>
-          <td class="paramname"><em>is</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Policy &amp;&#160;</td>
-          <td class="paramname"><em>p</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function reads a policy from a file. </p>
-<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox.html#a314200b0cae0913492e60c5bcb8d6832">operator&gt;&gt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
-<p>State and actions are also verified, and this function does not accept a randomly shuffled policy file. The file must be sorted by state, and each state must be sorted by action.</p>
-<p>As a layer of additional precaution, the function normalizes the policy once it has been read, to assure true probability distribution on the internal policy.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">is</td><td>The stream were the policy is being read from. </td></tr>
-    <tr><td class="paramname">p</td><td>The policy that is being assigned.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The input stream. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a314200b0cae0913492e60c5bcb8d6832"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::istream&amp; AIToolbox::operator&gt;&gt; </td>
-          <td>(</td>
-          <td class="paramtype">std::istream &amp;&#160;</td>
-          <td class="paramname"><em>is</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Experience &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="ab395056ccc2c32b6edf71fe4e33d2709"></a>
 <div class="memitem">
 <div class="memproto">
@@ -434,7 +426,7 @@ template&lt;typename T , typename G &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 13 2014 19:16:04 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 11 2014 21:23:26 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['policytable',['PolicyTable',['../classAIToolbox_1_1Policy.html#adab5c3fe602a06432cc123299b681d26',1,'AIToolbox::Policy']]]
+  ['policytable',['PolicyTable',['../classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74',1,'AIToolbox::MDP::Policy']]]
 ];
