@@ -39,17 +39,28 @@ Build Instructions
 
 To build the library you need to install [cmake](http://www.cmake.org/) and
 the [boost library](http://www.boost.org/) >= 1.53. In addition, C++11 support
-is required.
+is required. If you want to build the POMDP part of the library, the
+[lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required.
 
 After that, you can simply execute the following commands from the project's
 main folder:
 
     mkdir build
     cd build/
-    cmake ..
+    cmake -DCMAKE_BUILD_TYPE=Release ..
     make
 
 The static library file will be available directly in the `build` directory.
+
+In case you do not want to build the whole library (due for example to the
+lp\_solve requirements) you may specify to cmake what parts of the library you
+actually want to build, like so:
+
+    cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP    # Will only build the MDP
+    algorithms
+    cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP  # Will build both MDP and
+    POMDP algorithms
+
 A number of small tests are included which you can find in the `test/` folder.
 You can execute them after building the project using the following command
 in the build directory:
