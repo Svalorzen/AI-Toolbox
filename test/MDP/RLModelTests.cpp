@@ -12,7 +12,7 @@
 BOOST_AUTO_TEST_CASE( construction ) {
     const int S = 10, A = 8;
 
-    AIToolbox::Experience exp(S,A);
+    AIToolbox::MDP::Experience exp(S,A);
     AIToolbox::MDP::RLModel model(exp, 1.0, false);
 
     for ( size_t s = 0; s < S; ++s )
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
 BOOST_AUTO_TEST_CASE( syncing ) {
     const int S = 10, A = 8;
 
-    AIToolbox::Experience exp(S,A);
+    AIToolbox::MDP::Experience exp(S,A);
     // Single state sync
     {
         AIToolbox::MDP::RLModel model(exp, 1.0, false);
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
 BOOST_AUTO_TEST_CASE( sampling ) {
     const int S = 10, A = 8;
 
-    AIToolbox::Experience exp(S,A);
+    AIToolbox::MDP::Experience exp(S,A);
     AIToolbox::MDP::RLModel model(exp, 1.0, false);
 
     exp.record(0,0,0,0);
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE( IO ) {
     std::string inputModelFilename   = "./data/model.txt";
     std::string outputFilename       = "./computedModule.txt";
 
-    AIToolbox::Experience exp(S,A);
+    AIToolbox::MDP::Experience exp(S,A);
     {
         std::ifstream inputExpFile(inputExpFilename);
 

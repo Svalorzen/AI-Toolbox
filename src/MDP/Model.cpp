@@ -5,7 +5,7 @@
 
 namespace AIToolbox {
     namespace MDP {
-        Model::Model(size_t s, size_t a) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+        Model::Model(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
                                                        rand_(Impl::Seeder::getSeed())
         {
             // Make transition table true probability

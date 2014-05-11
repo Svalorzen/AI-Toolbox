@@ -36,31 +36,27 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * This constructor initializes the Model so that all
-                 * transitions happen with probability 0 but for transitions
-                 * that bring back to the same state, no matter the action.
+                 * This constructor initializes the observation function
+                 * so that all actions will return observation 0.
                  *
-                 * All rewards are set to 0.
-                 *
-                 * All actions will return observation 0.
-                 *
-                 * @param s The number of states of the world.
-                 * @param a The number of actions available to the agent.
+                 * @tparam Args All types of the parent constructor arguments.
                  * @param o The number of possible observations the agent could make.
+                 * @param parameters All arguments needed to build the parent Model.
                  */
-                Model(size_t s, size_t a, size_t o);
+                template <typename... Args>
+                Model(size_t o, Args&&... parameters);
 
                 /**
                  * @brief Basic constructor.
                  *
-                 * This constructor takes three arbitrary three dimensional
-                 * containers and tries to copy their contents into the
-                 * transitions, rewards and observations tables respectively.
+                 * This constructor takes an arbitrary three dimensional
+                 * containers and tries to copy its contents into the
+                 * observations table.
                  *
-                 * The containers need to support data access through
+                 * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
-                 * containers must match the ones provided as arguments
-                 * (for three dimensions: s,a,s/s,a,o).
+                 * container must match the ones provided as arguments
+                 * both directly (o) and indirectly (s,a).
                  *
                  * This is important, as this constructor DOES NOT perform
                  * any size checks on the external containers.
@@ -68,49 +64,19 @@ namespace AIToolbox {
                  * Internal values of the containers will be converted to double,
                  * so these convertions must be possible.
                  *
-                 * In addition, the transition and observation containers must contain
-                 * valid transition functions
+                 * In addition, the observation container must contain a
+                 * valid transition function.
                  * \sa transitionCheck()
                  *
                  * \sa copyTable3D()
                  *
-                 * @tparam T The external transition container type.
-                 * @tparam R The external rewards container type.
                  * @tparam ObFun The external observations container type.
-                 * @param s The number of states of the world.
-                 * @param a The number of actions available to the agent.
                  * @param o The number of possible observations the agent could make.
-                 * @param t The external transitions container.
-                 * @param r The external rewards container.
                  * @param of The observation probability table.
+                 * @param parameters All arguments needed to build the parent Model.
                  */
-                template <typename T, typename R, typename ObFun>
-                Model(size_t s, size_t a, size_t o, const T & t, const R & r, const ObFun & of);
-
-                /**
-                 * @brief Basic constructor.
-                 *
-                 * This constructor initializes the POMDP based on the values
-                 * available from the underlying MDP and the provided
-                 * information. The observation table dimensions have to match
-                 * the specified state space, observation space and action space
-                 * in this specific order.
-                 *
-                 * The table container will be traversed through operator[],
-                 * with no bound checking. In addition, it has to specify a
-                 * correct probability distribution.
-                 *
-                 * \sa transitionCheck()
-                 * \sa copyTable3D()
-                 *
-                 * @tparam ObFun The external observation container type.
-                 * @param underlyingMDP A reference to the underlying MDP for
-                 * this POMDP. Make sure M supports copy construction!
-                 * @param o The number of observations possible in the POMDP.
-                 * @param of The observation probability table.
-                 */
-                template <typename ObFun>
-                Model(const M & underlyingMDP, size_t o, const ObFun & of);
+                template <typename ObFun, typename... Args>
+                Model(size_t o, const ObFun & of, Args&&... parameters);
 
                 /**
                  * @brief This function replaces the Model observation function with the one provided.
@@ -190,24 +156,17 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        Model<M>::Model(size_t s, size_t a, size_t o) : M(s,a), O(o), observations_(boost::extents[this->getS()][this->getA()][O]) {
+        template <typename... Args>
+        Model<M>::Model(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]) {
             for ( size_t s = 0; s < this->getS(); ++s )
                 for ( size_t a = 0; a < this->getA(); ++a )
                     observations_[s][a][0] = 1.0;
         }
 
         template <typename M>
-        template <typename T, typename R, typename ObFun>
-        Model<M>::Model(size_t s, size_t a, size_t o, const T & t, const R & r, const ObFun & of) : M(s,a,t,r), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
-                                                                               rand_(Impl::Seeder::getSeed())
-        {
-            setObservationFunction(of);
-        }
-
-        template <typename M>
-        template <typename ObFun>
-        Model<M>::Model(const M & underlyingMDP, size_t o, const ObFun & of) : M(underlyingMDP), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
-                                                                               rand_(Impl::Seeder::getSeed())
+        template <typename ObFun, typename... Args>
+        Model<M>::Model(size_t o, const ObFun & of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+                                                                        rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);
         }

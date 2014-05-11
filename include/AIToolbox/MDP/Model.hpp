@@ -29,8 +29,9 @@ namespace AIToolbox {
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
+                 * @param d The discount factor for the MDP.
                  */
-                Model(size_t s, size_t a);
+                Model(size_t s, size_t a, double discount = 1.0);
 
                 /**
                  * @brief Basic constructor.
@@ -68,7 +69,7 @@ namespace AIToolbox {
                  * @param d The discount factor for the MDP.
                  */
                 template <typename T, typename R>
-                Model(size_t s, size_t a, const T & t, const R & r, double d);
+                Model(size_t s, size_t a, const T & t, const R & r, double d = 1.0);
 
                 /**
                  * @brief This function replaces the Model transition function with the one provided.

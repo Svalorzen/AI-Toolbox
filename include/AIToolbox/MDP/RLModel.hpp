@@ -51,7 +51,7 @@ namespace AIToolbox {
                  * @param discount The discount used in solving methods.
                  * @param sync Whether to sync with the Experience immediately or delay it.
                  */
-                RLModel(const Experience & exp, double discount, bool sync);
+                RLModel(const Experience & exp, double discount = 1.0, bool sync = false);
 
                 /**
                  * @brief This function sets a new discount factor for the Model.
