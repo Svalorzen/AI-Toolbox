@@ -45,10 +45,12 @@ is required. If you want to build the POMDP part of the library, the
 After that, you can simply execute the following commands from the project's
 main folder:
 
-    mkdir build
-    cd build/
-    cmake -DCMAKE_BUILD_TYPE=Release ..
-    make
+```bash
+mkdir build
+cd build/
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+```
 
 The static library file will be available directly in the `build` directory.
 
@@ -56,16 +58,20 @@ In case you do not want to build the whole library (due for example to the
 lp\_solve requirements) you may specify to cmake what parts of the library you
 actually want to build, like so:
 
-    cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP    # Will only build the MDP
-    algorithms
-    cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP  # Will build both MDP and
-    POMDP algorithms
+```bash
+cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP    # Will only build the MDP
+algorithms
+cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP  # Will build both MDP and
+POMDP algorithms
+```
 
 A number of small tests are included which you can find in the `test/` folder.
 You can execute them after building the project using the following command
 in the build directory:
 
-    ctest
+```bash
+ctest
+```
 
 The tests also offer a brief introduction for the framework, waiting for a
 more complete descriptive write-up.
@@ -74,7 +80,9 @@ To compile the library's documentation you need the [Doxygen](http://www.stack.n
 tool. To use it it is sufficient to execute the following command from the
 project's main folder:
 
-    doxygen
+```bash
+doxygen
+```
 
 After that the documentation will be generated into an `html` folder in the
 main directory.
