@@ -6,6 +6,8 @@ ADD_DEFINITIONS(
     -std=c++11 # Or -std=c++0x
     # Other flags
 )
+
+# Default is to build everything
 if (NOT MAKE_ALL AND NOT MAKE_MDP AND NOT MAKE_POMDP)
     set(MAKE_ALL    1)
 endif()
@@ -13,8 +15,6 @@ endif()
 if (MAKE_ALL)
     set(MAKE_MDP    1)
     set(MAKE_POMDP  1)
-elseif(MAKE_MDP)
-    set(MAKE_POMDP  0)
 elseif(MAKE_POMDP)
     set(MAKE_MDP    1)
 endif()
