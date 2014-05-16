@@ -9,6 +9,8 @@
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
+#include <AIToolbox/ProbabilityUtils.hpp>
+
 namespace AIToolbox {
     namespace MDP {
         class RLModel;
@@ -173,7 +175,7 @@ namespace AIToolbox {
                 double newQValue = 0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     double probability = model_.getTransitionProbability(s,a,s1);
-                    if ( probability > 0.0 )
+                    if ( checkDifferent( probability, 0.0 ) )
                         newQValue += probability * ( model_.getExpectedReward(s,a,s1) + model_.getDiscount() * vfun_[s1] );
                 }
                 qfun_[s][a] = newQValue;
