@@ -55,6 +55,26 @@ namespace AIToolbox {
             }
         }
 
+        void RLModel::sync(size_t s, size_t a, size_t s1) {
+            unsigned long visitSum = experience_.getVisitsSum(s, a);
+            if ( visitSum < 2ul ) return sync(s, a);
+
+            double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
+
+            // Update reward for this transition (all others stay the same).
+            rewards_[s][a][s1] = experience_.getReward(s, a, s1) / newVisits;
+
+            double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
+            double newVectorSum = 1.0 + (newTransitionValue - transitions_[s][a][s1]);
+            // This works because as long as all the values in the transition have the same denominator
+            // (in this case visitSum-1), then the numerators do not matter, as we can simply normalize.
+            // In the end of the process the new values will be the same as if we updated directly using
+            // an increased denominator, and thus we will be able to call this function again correctly.
+            transitions_[s][a][s1] = newTransitionValue;
+            for ( size_t ss = 0; ss < S; ++ss )
+                transitions_[s][a][ss] /= newVectorSum;
+        }
+
         std::pair<size_t, double> RLModel::sample(size_t s, size_t a) const {
             size_t s1 = sampleProbability(transitions_[s][a], S, rand_);
 

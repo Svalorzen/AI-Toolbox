@@ -38,7 +38,8 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
         int result = testRockPaperScissors(a,b);
 
         exp.record(0,a,0,result);
-        model.sync(0,a);
+        // model.sync(0,a);
+        model.sync(0,a,0);
         solver.stepUpdateQ(0,a);
         solver.batchUpdateQ();
 

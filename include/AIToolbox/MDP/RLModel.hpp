@@ -96,6 +96,22 @@ namespace AIToolbox {
                 void sync(size_t s, size_t a);
 
                 /**
+                 * @brief This function syncs a state action pair in the RLModel to the underlying Experience in the fastest possible way.
+                 *
+                 * This function updates a state action pair given that the last increased transition
+                 * in the underlying Experience is the triplet s, a, s1. In addition, this function only
+                 * works if it needs to add information from this single new point of information (if
+                 * more has changed from the last sync, use sync(s,a) ).
+                 * 
+                 * NUM_ERRORS
+                 *
+                 * @param s The state that needs to be synced.
+                 * @param a The action that needs to be synced.
+                 * @param s1 The final state of the transition that got updated in the Experience.
+                 */
+                void sync(size_t s, size_t a, size_t s1);
+
+                /**
                  * @brief This function samples the MDP for the specified state action pair.
                  *
                  * This function samples the model for simulate experience. The transition
