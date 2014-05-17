@@ -44,6 +44,10 @@ namespace AIToolbox {
             // Nothing to do
             unsigned long visitSum = experience_.getVisitsSum(s, a);
             if ( visitSum == 0ul ) return;
+
+            // Create reciprocal for fast division
+            double visitSumReciprocal = 1.0 / visitSum;
+
             // Normalize
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
                 unsigned long visits = experience_.getVisits(s, a, s1);
@@ -51,13 +55,18 @@ namespace AIToolbox {
                 if ( visits != 0 ) {
                     rewards_[s][a][s1] = experience_.getReward(s, a, s1) / visits;
                 }
-                transitions_[s][a][s1] = static_cast<double>(visits) / static_cast<double>(visitSum);
+                transitions_[s][a][s1] = static_cast<double>(visits) * visitSumReciprocal;
             }
         }
 
         void RLModel::sync(size_t s, size_t a, size_t s1) {
             unsigned long visitSum = experience_.getVisitsSum(s, a);
-            if ( visitSum < 2ul ) return sync(s, a);
+            // This function will not work on the first sync due to a division
+            // by zero (and possibly because the vector will not be empty, and
+            // even then then the computed new sum would be wrong). The second
+            // condition is related to numerical errors. Once in a while we reset
+            // those by forcing a true update using real data.
+            if ( visitSum < 2ul || !(visitSum % 10000ul) ) return sync(s, a);
 
             double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
 

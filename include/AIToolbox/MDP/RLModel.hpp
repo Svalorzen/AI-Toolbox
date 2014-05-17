@@ -101,9 +101,8 @@ namespace AIToolbox {
                  * This function updates a state action pair given that the last increased transition
                  * in the underlying Experience is the triplet s, a, s1. In addition, this function only
                  * works if it needs to add information from this single new point of information (if
-                 * more has changed from the last sync, use sync(s,a) ).
-                 * 
-                 * NUM_ERRORS
+                 * more has changed from the last sync, use sync(s,a) ). The performance boost that
+                 * this function obtains increases with the increase of the number of states in the model.
                  *
                  * @param s The state that needs to be synced.
                  * @param a The action that needs to be synced.
