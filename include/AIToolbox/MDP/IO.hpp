@@ -17,11 +17,11 @@ namespace AIToolbox {
             size_t A = model.getA();
 
             for ( size_t s = 0; s < S; ++s ) {
-                for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t a = 0; a < A; ++a ) {
+                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
                         // The +2 is for first digit and the dot, since we know that here the max value possible is 1.0
-                        os << std::setw(os.precision()+2) << std::left << model.getTransitionProbability(s, s1, a) << '\t'
-                           << std::setw(os.precision()+2) << std::left << model.getExpectedReward(s, s1, a)        << '\t';
+                        os << std::setw(os.precision()+2) << std::left << model.getTransitionProbability(s, a, s1) << '\t'
+                           << std::setw(os.precision()+2) << std::left << model.getExpectedReward(s, a, s1)        << '\t';
                     }
                 }
                 os << '\n';
