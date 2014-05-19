@@ -7,6 +7,7 @@
 namespace AIToolbox {
     namespace POMDP {
         using Belief            = std::vector<double>;
+        using VList = std::vector<MDP::ValueFunction>;
 
         /**
          * @brief This struct represents the required interface for a POMDP Model.
