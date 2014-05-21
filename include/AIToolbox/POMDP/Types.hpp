@@ -1,13 +1,14 @@
 #ifndef AI_TOOLBOX_POMDP_TYPES_HEADER_FILE
 #define AI_TOOLBOX_POMDP_TYPES_HEADER_FILE
 
+#include <utility>
 #include <vector>
 #include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox {
     namespace POMDP {
         using Belief            = std::vector<double>;
-        using VList = std::vector<MDP::ValueFunction>;
+        using VList = std::vector<std::pair<size_t, MDP::ValueFunction>>;
 
         /**
          * @brief This struct represents the required interface for a POMDP Model.

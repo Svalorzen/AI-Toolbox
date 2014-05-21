@@ -42,8 +42,7 @@ namespace AIToolbox {
             auto immediateRewards = computeImmediateRewards(model);
 
             // And off we go
-            VList w;
-            w.emplace_back(S, 0); // TODO: May take user input
+            VList w(1, {0, MDP::ValueFunction(S, 0.0)}); // TODO: May take user input
 
             unsigned timestep = 0;
 
@@ -79,17 +78,18 @@ namespace AIToolbox {
                 // computed the parsimonious set of value functions.
                 prune( &w );
 
-                // We save them into the policy, which will them sample them to
-                // obtain actions at runtime.
-
-                // #### copy_into_policy(w, timestep); ####
-                std::cout << "RESULTS FOR HORIZON " << timestep << "\n";
-                for ( auto & v : w ) {
-                    for ( auto & s : v )
-                        std::cout << "[" << s << "]";
+                // TESTING
+                std::cout << "STEP " << timestep << "\n";
+                if ( timestep == horizon - 1 ) {
+                    std::cout << "RESULTS FOR HORIZON " << timestep << "\n";
+                    for ( auto & v : w ) {
+                        std::cout << v.first << " ";
+                        for ( auto & s : v.second )
+                            std::cout << "[" << s << "]";
+                        std::cout << "\n";
+                    }
                     std::cout << "\n";
                 }
-                std::cout << "\n";
 
                 ++timestep;
             }
@@ -116,7 +116,7 @@ namespace AIToolbox {
                         MDP::ValueFunction vproj(S, 0.0);
                         for ( size_t s = 0; s < S; ++s )
                             vproj[s] += immediateRewards[a][s];
-                        projections[a][o].push_back(vproj);
+                        projections[a][o].emplace_back(a, std::move(vproj));
                         continue;
                     }
 
@@ -128,12 +128,12 @@ namespace AIToolbox {
                         for ( size_t s = 0; s < S; ++s ) {
                             // vproj_{a,o}[s] = R(s,a) / |O| + discount * sum_{s'} ( T(s,a,s') * O(s',a,o) * v_{t-1}(s') )
                             for ( size_t s1 = 0; s1 < S; ++s1 )
-                                vproj[s] += model.getTransitionProbability(s,a,s1) * model.getObservationProbability(s1,a,o) * v[s1];
+                                vproj[s] += model.getTransitionProbability(s,a,s1) * model.getObservationProbability(s1,a,o) * v.second[s1];
 
                             vproj[s] *= discount;
                             vproj[s] += immediateRewards[a][s];
                         }
-                        projections[a][o].push_back(vproj);
+                        projections[a][o].emplace_back(a, std::move(vproj));
                     }
                 }
             }
