@@ -74,5 +74,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     model.setObservationFunction(observations);
 
     POMDP::IncrementalPruning solver;
-    solver(model, 3);
+    int k;
+    std::cin >> k;
+    solver(model, k);
 }
