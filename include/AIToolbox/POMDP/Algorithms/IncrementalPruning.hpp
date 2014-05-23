@@ -2,9 +2,12 @@
 #define AI_TOOLBOX_POMDP_INCREMENTAL_PRUNING_HEADER_FILE
 
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
+#include <AIToolbox/POMDP/Algorithms/Pruner.hpp>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
 
@@ -44,9 +47,11 @@ namespace AIToolbox {
             // And off we go
             VList w(1, {0, MDP::ValueFunction(S, 0.0)}); // TODO: May take user input
 
-            unsigned timestep = 0;
+            unsigned timestep = 1;
 
-            while ( timestep < horizon ) {
+            Pruner prune(S);
+
+            while ( timestep <= horizon ) {
                 // Compute all possible outcomes, from our previous results.
                 // This means that for each action-observation pair, we are going
                 // to obtain the same number of possible outcomes as the number
@@ -60,11 +65,11 @@ namespace AIToolbox {
                     // We prune each outcome separately to be sure
                     // we do not replicate work later.
                     for ( size_t o = 0; o < model.getO(); ++o ) {
-                        prune(&projs[a][o]);
+                        prune( &projs[a][o] );
                     }
 
                     for ( size_t o = 1; o < model.getO(); ++o ) {
-                        projs[a][0] = crossSum( projs[a][0], projs[a][o] );
+                        projs[a][0] = crossSum( S, a, projs[a][0], projs[a][o] );
                         prune( &projs[a][0] );
                     }
                     finalWSize += projs[a][0].size();
@@ -80,15 +85,15 @@ namespace AIToolbox {
 
                 // TESTING
                 std::cout << "STEP " << timestep << "\n";
-                if ( timestep == horizon - 1 ) {
-                    std::cout << "RESULTS FOR HORIZON " << timestep << "\n";
+                //std::cout << "WE HAVE " << w.size() << " vectors\n";
+                if ( timestep == horizon ) {
+                    std::ofstream file("file");
                     for ( auto & v : w ) {
-                        std::cout << v.first << " ";
+                        file << v.first << "\n";
                         for ( auto & s : v.second )
-                            std::cout << "[" << s << "]";
-                        std::cout << "\n";
+                            file << std::setprecision(25) << std::fixed << s << " ";
+                        file << "\n\n";
                     }
-                    std::cout << "\n";
                 }
 
                 ++timestep;

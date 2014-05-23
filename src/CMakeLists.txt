@@ -25,7 +25,8 @@ if (MAKE_POMDP)
     include_directories(${LPSOLVE_INCLUDE_DIR})
 
     add_library(AIToolboxPOMDP
-        POMDP/Utils.cpp)
+        POMDP/Utils.cpp
+        POMDP/Algorithms/Pruner.cpp)
 
     target_link_libraries(AIToolboxPOMDP ${LPSOLVE_LIBRARIES})
 endif()
