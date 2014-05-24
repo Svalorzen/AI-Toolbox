@@ -16,7 +16,7 @@ namespace AIToolbox {
 
         // Row is initialized to cols+1 since lp_solve reads element from 1 onwards
         Pruner::Pruner(size_t s) : S(s), cols(s+2), lp(make_lp(0,cols), delete_lp), row(new REAL[cols+2]) {
-            // set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
+            set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
             // set_BFP(lp.get(), "../libbfp_etaPFI.so"); Not included in Debian package, speeds around 3x
 
             /*
