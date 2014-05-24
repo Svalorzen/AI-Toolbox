@@ -72,6 +72,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     model.setTransitionFunction(transitions);
     model.setRewardFunction(rewards);
     model.setObservationFunction(observations);
+    model.setDiscount(0.95);
 
     POMDP::IncrementalPruning solver;
     int k;

@@ -75,10 +75,12 @@ namespace AIToolbox {
 
                 // LP_SOLVE DATA
                 int cols;
-
                 std::unique_ptr<lprec, void(*)(lprec*)> lp;
-
                 std::unique_ptr<REAL[]> row;
+
+                void setLP(size_t rows);
+                void addRow(const MDP::ValueFunction & v, int constrType);
+                void popRow();
         };
     }
 }

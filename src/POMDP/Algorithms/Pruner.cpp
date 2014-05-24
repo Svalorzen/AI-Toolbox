@@ -15,8 +15,9 @@ namespace AIToolbox {
         }
 
         // Row is initialized to cols+1 since lp_solve reads element from 1 onwards
-        Pruner::Pruner(size_t s) : S(s), cols(s+1), lp(make_lp(0, cols), delete_lp), row(new REAL[cols+1]) {
-            set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
+        Pruner::Pruner(size_t s) : S(s), cols(s+2), lp(make_lp(0,cols), delete_lp), row(new REAL[cols+2]) {
+            // set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
+            // set_BFP(lp.get(), "../libbfp_etaPFI.so"); Not included in Debian package, speeds around 3x
 
             /*
              * Here we setup the part of the lp that never changes (at least with this number of states)
@@ -30,16 +31,34 @@ namespace AIToolbox {
              * (v[0] - best[1][0]) * b0 + (v[1] - best[1][1]) * b1 + ... - delta >= 0
              * ...
              *
-             * So here we are going to setup 'delta' and all the belief constraints,
-             * while we will modify the others at each 'findWitnessPoint' call.
+             * In particular we know that:
              *
-             * In particular by default no variable will assume negative values, so
+             * 1) By default no variable will assume negative values, so
              * the only constraint that we need to put is the simplex one.
              *
+             * 2) The simplex constraint is the only constraint that never changes,
+             * so we are going to set it up now.
+             *
+             * 3) The other constraints can be rewritten as follows:
+             *
+             *       v[0] * b0 +       v[1] * b1 + ... - K          = 0
+             * best[0][0] * b0 + best[0][1] * b1 + ... - K - delta <= 0
+             * best[1][0] * b0 + best[1][1] * b1 + ... - K - delta <= 0
+             * ...
+             *
+             * Where basically with the first constraint we are setting K
+             * to the value of v in the final belief, and we are forcing
+             * all other values to be less than that.
+             *
+             * It is important to notice that those constraints never change,
+             * they only increase one at a time (aside from the 'v' constraint).
+             * Thus what we are going to do is to push each 'best' constraint
+             * into the lp, and then push/pop the 'v' constraint every time
+             * we need to try out a new one.
+             *
+             * That we do in the findWitnessPoint function.
+             *
              */
-
-            // Make space for the simplex constraint.
-            resize_lp(lp.get(), 1, cols);
 
             // Goal: maximize delta.
             {
@@ -48,18 +67,40 @@ namespace AIToolbox {
                 set_maxim(lp.get());
             }
 
-            // Start adding all the rows
-            set_add_rowmode(lp.get(), TRUE);
-
             // CONSTRAINTS: This is the simplex constraint (beliefs sum to 1)
             {
                 // Note: lp_solve reads elements from 1 onwards, so we don't set row[0]
-                row[cols] = 0.0; // delta coefficient
-                for ( int i = 1; i < cols; ++i )
+                for ( int i = 1; i < cols-1; ++i )
                     row[i] = 1.0;
+                row[cols-1] = 0.0; // magic coefficient
+                row[cols]   = 0.0; // delta coefficient
                 // The cols value doesn't really do anything here, the whole row is read
                 add_constraintex(lp.get(), cols, row.get(), NULL, EQ, 1.0);
             }
+
+            // IMPORTANT: K is unbounded, since the value function may be negative.
+            set_unbounded(lp.get(), cols-1);
+
+            row[cols-1] = -1.0;
+            row[cols]   = +1.0;
+        }
+
+        void Pruner::setLP(size_t rows) {
+            // Here we simply remove all constraints that are not the simplex
+            // one in order to reset the lp without reallocations.
+            resize_lp(lp.get(), 1, cols);
+            resize_lp(lp.get(), rows, cols);
+        }
+
+        void Pruner::addRow(const MDP::ValueFunction & v, int constrType) {
+            for ( size_t s = 0; s < S; ++s )
+                row[s+1] = v[s];
+
+            add_constraintex(lp.get(), cols, row.get(), NULL, constrType, 0.0);
+        }
+
+        void Pruner::popRow() {
+            del_constraint(lp.get(), get_Nrows(lp.get()));
         }
 
         // The idea is that the input thing already has all the best vectors,
@@ -70,12 +111,18 @@ namespace AIToolbox {
             // Remove easy ValueFunctions to avoid doing more work later.
             dominationPrune(&w);
 
-            if ( w.size() < 2 ) return;
+            size_t size = w.size();
+            if ( size < 2 ) return;
+            // We setup the lp preparing for a max of size rows.
+            setLP(size);
 
             // Initialize the new best list with some easy finds, and remove them from
             // the old list.
             auto bestBound = findBestAtSimplexCorners(std::begin(w), std::end(w));
             VList best(std::make_move_iterator(bestBound), std::make_move_iterator(std::end(w)));
+
+            for ( auto & bv : best )
+                addRow(bv.second, LE);
 
             // For each of the remaining points now we try to find a witness point with respect
             // to the best ones. If there is, there is something we need to extract to best.
@@ -88,6 +135,7 @@ namespace AIToolbox {
                     auto bestMatch = findBestVector(std::get<1>(result), begin, end);
                     std::swap( *bestMatch, *(--end) );
                     best.emplace_back(std::move(*end)); // We don't care about what we leave there..
+                    addRow(best.back().second, LE);     // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a
                 // witness point for the current value, but since we are not guaranteed to have
@@ -181,51 +229,27 @@ namespace AIToolbox {
             // If there's nothing to compare to, any belief point is a witness.
             if ( best.size() == 0 ) return std::make_pair(true, Belief(S, 1.0/S));
 
-            int newRows = best.size() + 1;
-            // Remove old constraints and setup lp again.
-            resize_lp(lp.get(), 1, cols);
-            resize_lp(lp.get(), newRows, cols);
-
-            /*
-             * Here we finish up the constraints left.
-             *
-             * (v[0] - best[0][0]) * b0 + (v[1] - best[0][1]) * b1 + ... - delta >= 0
-             * (v[0] - best[1][0]) * b0 + (v[1] - best[1][1]) * b1 + ... - delta >= 0
-             * ...
-             *
-             */
-
-            // Start adding all the rows
-            // set_add_rowmode(lp.get(), TRUE);
-
-            // CONSTRAINTS: This are the value functions constraints.
-            {
-                // delta coefficient
-                row[cols] = -1.0;
-                // This keeps track of which vector we are adding
-                size_t vectorCounter = 0;
-
-                // For all others, we instead use add_constraintex
-                for ( int i = 2; i <= newRows; ++i ) {
-                    for ( int col = 1; col < cols; ++col )
-                        row[col] = v[col-1] - best[vectorCounter].second[col-1];
-
-                    add_constraintex(lp.get(), cols, row.get(), NULL, GE, 0.0);
-                    ++vectorCounter;
-                }
-            }
-            set_add_rowmode(lp.get(), FALSE);
+            // We push the v constraint on to the "stack"
+            row[cols] = 0.0;
+            addRow(v, EQ);
 
             // print_lp(lp.get());
             auto result = solve(lp.get());
 
+            // TODO: There's a function that gets a pointer to the solution
+            // stored within the LP, maybe use that? (get_ptr_primal_solution)
             get_variables(lp.get(), row.get());
             REAL value = get_objective(lp.get());
+
+            // And we pop it at the end.
+            row[cols-1] = -1.0;
+            row[cols]   = +1.0;
+            popRow();
 
             // We have found a witness point if we have found a belief for which the value
             // of the supplied ValueFunction is greater than ALL others. Thus we just need
             // to verify that the variable we have minimized is actually less than 0.
-            if ( result || value <= 0.0 || row[cols-1] <= 0.0 ) {
+            if ( result || value <= 0.0 ) {
                 return std::make_pair(false, Belief());
             }
 
