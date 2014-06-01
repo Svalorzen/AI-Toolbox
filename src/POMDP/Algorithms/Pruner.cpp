@@ -118,31 +118,34 @@ namespace AIToolbox {
 
             // Initialize the new best list with some easy finds, and remove them from
             // the old list.
-            auto bestBound = findBestAtSimplexCorners(std::begin(w), std::end(w));
-            VList best(std::make_move_iterator(bestBound), std::make_move_iterator(std::end(w)));
+            VList::iterator begin = std::begin(w), end = std::end(w), bound = end;
 
+            bound = extractBestAtSimplexCorners(begin, bound, end);
+            // Here we could do some random belief lookups..
+
+            // Initialize best list with what we have found so far.
+            VList best(std::make_move_iterator(bound), std::make_move_iterator(end));
+
+            // Setup initial LP rows.
             for ( auto & bv : best )
                 addRow(bv.second, LE);
 
             // For each of the remaining points now we try to find a witness point with respect
             // to the best ones. If there is, there is something we need to extract to best.
-            VList::iterator begin = std::begin(w), end = bestBound;
-            while ( begin < end ) {
+            while ( begin < bound ) {
                 auto result = findWitnessPoint( begin->second, best );
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
                 if ( std::get<0>(result) ) {
-                    auto bestMatch = findBestVector(std::get<1>(result), begin, end);
-                    std::swap( *bestMatch, *(--end) );
-                    best.emplace_back(std::move(*end)); // We don't care about what we leave there..
-                    addRow(best.back().second, LE);     // Add the newly found vector to our lp.
+                    bound = extractBestAtBelief(std::get<1>(result), begin, bound, bound);    // Moves the best at the "end"
+                    best.emplace_back(std::move(*bound));                                   // We don't care about what we leave here..
+                    addRow(best.back().second, LE);                                         // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a
                 // witness point for the current value, but since we are not guaranteed to have
                 // put into best that value, it may still keep witness to other belief points!
-                else {
+                else
                     ++begin;
-                }
             }
 
             // Finally, we discard all bad vectors (and remains of moved ones) and
@@ -189,40 +192,40 @@ namespace AIToolbox {
             w.erase(end, std::end(w));
         }
 
-        VList::iterator Pruner::findBestAtSimplexCorners(VList::iterator begin, VList::iterator end) {
-            if ( begin == end ) return begin;
+        VList::iterator Pruner::extractBestAtSimplexCorners(VList::iterator begin, VList::iterator bound, VList::iterator end) {
+            if ( begin == bound ) return bound;
             // Setup the corners. The additional space is to avoid
             // writing in unallocated space in the last loop iteration.
             Belief corner(S+1, 0.0);
             corner[0] = 1.0;
 
-            auto bestBound = end;
             // For each corner
             for ( size_t s = 1; s <= S; ++s ) {
-                // We are going to move the best ones at the end, if they are not
-                // already there. This will allow us to move everything easily later.
-                auto bestMatch = findBestVector(corner, begin, end);
-                if ( bestMatch < bestBound )
-                    std::swap(*bestMatch, *(--bestBound));
+                // FIXME: This incrementally adds corners. Since a corner comparison
+                // simply checks a single ValueFunction value, this can be implemented way faster.
+                bound = extractBestAtBelief(corner, begin, bound, end);
                 std::swap(corner[s-1], corner[s]); // change corner
             }
 
-            return bestBound;
+            return bound;
         }
 
-        VList::iterator Pruner::findBestVector(const Belief & belief, VList::iterator begin, VList::iterator end) {
+        VList::iterator Pruner::extractBestAtBelief(const Belief & belief, VList::iterator begin, VList::iterator bound, VList::iterator end) {
             auto bestMatch = begin;
             double bestValue = dotProd(S, belief, bestMatch->second);
 
             while ( (++begin) < end ) {
                 double currValue = dotProd(S, belief, begin->second);
-                if ( currValue > bestValue || ( currValue == bestValue && ( *begin > *bestMatch ) ) ) {
+                if ( currValue > bestValue || ( currValue == bestValue && ( begin->second > bestMatch->second ) ) ) {
                     bestMatch = begin;
                     bestValue = currValue;
                 }
             }
 
-            return bestMatch;
+            if ( bestMatch < bound )
+                std::swap(*bestMatch, *(--bound));
+
+            return bound;
         }
 
         std::pair<bool, Belief> Pruner::findWitnessPoint(const MDP::ValueFunction & v, const VList & best) {
