@@ -10,11 +10,6 @@ namespace AIToolbox {
     namespace POMDP {
         /**
          * @brief This class represents a full policy.
-         *
-         * Building this object is expensive, so it should be done
-         * mostly when it is known that the final solution won't
-         * change again. Otherwise you may want to build a wrapper
-         * around some data to extract the policy dynamically.
          */
         class Policy : public PolicyInterface<Belief> {
             public:
@@ -28,11 +23,29 @@ namespace AIToolbox {
                  * for each state the sum of the probabilities of chosing an action
                  * sums up to 1.
                  *
+                 * THIS CONSTRUCTOR IS NOT IMPLEMENTED AT THE MOMENT AS THERE IS
+                 * LITTLE USE FOR IT.
+                 *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
                  * @param o The number of possible observations the agent could make.
                  */
-                Policy(size_t s, size_t a, size_t o);
+                // Policy(size_t s, size_t a, size_t o);
+
+                /**
+                 * @brief Basic constrctor.
+                 *
+                 * This constructor copies the implied policy contained in a ValueFunction.
+                 * Keep in mind that the policy stored within a ValueFunction is
+                 * non-stochastic in nature, since for each state it can only
+                 * save a single action.
+                 *
+                 * @param s The number of states of the world.
+                 * @param a The number of actions available to the agent.
+                 * @param o The number of possible observations the agent could make.
+                 * @param v The ValueFunction used as a basis for the Policy.
+                 */
+                Policy(size_t s, size_t a, size_t o, const ValueFunction & v);
 
                 // This may be implemented, but probably not since it would be mostly impossible to convert
                 // from a POMDP policy format to another.
@@ -63,7 +76,7 @@ namespace AIToolbox {
                  *
                  * @param b The sampled belief of the policy.
                  * @param horizon The requested horizon, meaning the number of timesteps missing until
-                 * the end of the "episode". horizon 0 will return a random action.
+                 * the end of the "episode". horizon 0 will return a valid, non-specified action.
                  *
                  * @return A tuple containing the chosen action, plus an id useful to sample an action
                  * more efficiently at the next timestep, if required.
@@ -74,7 +87,9 @@ namespace AIToolbox {
                  * @brief This function chooses a random action after performing a sampled action and observing observation o, for a particular horizon.
                  *
                  * This sampling function is provided in case an already sampled action has been performed,
-                 * an observation registered, and now a new action is needed for the next timestep.
+                 * an observation registered, and now a new action is needed for the next timestep. Using
+                 * this function is highly recommended, as no belief update is necessary, and no lookup
+                 * in a possibly very long list of VEntries required.
                  *
                  * Note that this function works if and only if the horizon is going to be 1 (one) less
                  * than the value used for the previous sampling, otherwise anything could happen.
@@ -99,21 +114,61 @@ namespace AIToolbox {
                  * @param o The observation obtained after performing a previously sampled action.
                  * @param horizon The new horizon, equal to the old sampled horizon - 1.
                  *
-                 * @return
+                 * @return A tuple containing the chosen action, plus an id useful to sample an action
+                 * more efficiently at the next timestep, if required.
                  */
                 std::tuple<size_t, size_t> sampleAction(size_t id, size_t o, unsigned horizon) const;
 
                 /**
                  * @brief This function returns the probability of taking the specified action in the specified belief.
                  *
-                 * @param s The selected belief.
+                 * @param b The selected belief.
                  * @param a The selected action.
                  *
                  * @return The probability of taking the selected action in the specified belief.
                  */
-                virtual double getActionProbability(const Belief & s, size_t a) const override;
+                virtual double getActionProbability(const Belief & b, size_t a) const override;
+
+                /**
+                 * @brief This function returns the probability of taking the specified action in the specified belief.
+                 *
+                 * @param b The selected belief.
+                 * @param a The selected action.
+                 * @param horizon The requested horizon, meaning the number of timesteps missing until
+                 * the end of the "episode".
+                 *
+                 * @return The probability of taking the selected action in the specified belief in the specified horizon.
+                 */
+                double getActionProbability(const Belief & b, size_t a, unsigned horizon) const;
+
+                /**
+                 * @brief This function returns the number of observations possible for the agent.
+                 *
+                 * @return The total number of observations.
+                 */
+                size_t getO() const;
+
+                /**
+                 * @brief This function returns the highest horizon available within this Policy.
+                 *
+                 * Note that all functions that accept an horizon as a parameter DO NOT check
+                 * the bounds of that variable. In addition, note that while for S,A,O getters
+                 * you get a number that exceeds by 1 the values allowed (since counting starts
+                 * from 0), here the bound is actually included in the limit, as horizon 0 does
+                 * not really do anything.
+                 *
+                 * Example: getH() returns 5. This means that 5 is the highest allowed parameter
+                 * for an horizon in any other Policy method.
+                 *
+                 * @return The highest horizon policied.
+                 */
+                size_t getH() const;
 
             private:
+                // H holds the available max horizon for this Policy.
+                size_t O, H;
+
+                ValueFunction policy_;
         };
     }
 }

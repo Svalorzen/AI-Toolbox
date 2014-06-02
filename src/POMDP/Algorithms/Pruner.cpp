@@ -1,19 +1,11 @@
 #include <AIToolbox/POMDP/Algorithms/Pruner.hpp>
 
+#include <AIToolbox/POMDP/Utils.hpp>
+
 #include <lpsolve/lp_lib.h>
 
 namespace AIToolbox {
     namespace POMDP {
-        // THIS IS A TEMPORARY FUNCTION UNTIL WE SWITCH TO UBLAS
-        double dotProd(size_t S, const MDP::Values & a, const MDP::Values & b) {
-            double result = 0.0;
-
-            for ( size_t i = 0; i < S; ++i )
-                result += a[i] * b[i];
-
-            return result;
-        }
-
         // Row is initialized to cols+1 since lp_solve reads element from 1 onwards
         Pruner::Pruner(size_t s) : S(s), cols(s+2), lp(make_lp(0,cols), delete_lp), row(new REAL[cols+2]) {
             set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
@@ -212,16 +204,7 @@ namespace AIToolbox {
         }
 
         VList::iterator Pruner::extractBestAtBelief(const Belief & belief, VList::iterator begin, VList::iterator bound, VList::iterator end) {
-            auto bestMatch = begin;
-            double bestValue = dotProd(S, belief, std::get<VALUES>(*bestMatch));
-
-            while ( (++begin) < end ) {
-                double currValue = dotProd(S, belief, std::get<VALUES>(*begin));
-                if ( currValue > bestValue || ( currValue == bestValue && ( std::get<VALUES>(*begin) > std::get<VALUES>(*bestMatch) ) ) ) {
-                    bestMatch = begin;
-                    bestValue = currValue;
-                }
-            }
+            auto bestMatch = findBestAtBelief(S, belief, begin, end);
 
             if ( bestMatch < bound )
                 std::swap(*bestMatch, *(--bound));
