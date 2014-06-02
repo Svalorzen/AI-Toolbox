@@ -5,7 +5,7 @@
 namespace AIToolbox {
     namespace POMDP {
         // THIS IS A TEMPORARY FUNCTION UNTIL WE SWITCH TO UBLAS
-        double dotProd(size_t S, const MDP::ValueFunction & a, const MDP::ValueFunction & b) {
+        double dotProd(size_t S, const MDP::Values & a, const MDP::Values & b) {
             double result = 0.0;
 
             for ( size_t i = 0; i < S; ++i )
@@ -92,7 +92,7 @@ namespace AIToolbox {
             resize_lp(lp.get(), rows, cols);
         }
 
-        void Pruner::addRow(const MDP::ValueFunction & v, int constrType) {
+        void Pruner::addRow(const MDP::Values & v, int constrType) {
             for ( size_t s = 0; s < S; ++s )
                 row[s+1] = v[s];
 
@@ -128,18 +128,18 @@ namespace AIToolbox {
 
             // Setup initial LP rows.
             for ( auto & bv : best )
-                addRow(bv.second, LE);
+                addRow(std::get<VALUES>(bv), LE);
 
             // For each of the remaining points now we try to find a witness point with respect
             // to the best ones. If there is, there is something we need to extract to best.
             while ( begin < bound ) {
-                auto result = findWitnessPoint( begin->second, best );
+                auto result = findWitnessPoint( std::get<VALUES>(*begin), best );
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
                 if ( std::get<0>(result) ) {
-                    bound = extractBestAtBelief(std::get<1>(result), begin, bound, bound);    // Moves the best at the "end"
+                    bound = extractBestAtBelief(std::get<1>(result), begin, bound, bound);  // Moves the best at the "end"
                     best.emplace_back(std::move(*bound));                                   // We don't care about what we leave here..
-                    addRow(best.back().second, LE);                                         // Add the newly found vector to our lp.
+                    addRow(std::get<VALUES>(best.back()), LE);                              // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a
                 // witness point for the current value, but since we are not guaranteed to have
@@ -163,12 +163,13 @@ namespace AIToolbox {
             // we can remove duplicates in a single swoop. However, we avoid
             // removing everything by returning false for comparison of the vector with itself.
             struct {
-                const MDP::ValueFunction * rhs;
+                const MDP::Values * rhs;
                 size_t S;
-                bool operator()(const std::pair<size_t, MDP::ValueFunction> & lhs) {
-                    if ( &(lhs.second) == rhs ) return false;
+                bool operator()(const VEntry & lhs) {
+                    auto & lhsV = std::get<VALUES>(lhs);
+                    if ( &(lhsV) == rhs ) return false;
                     for ( size_t i = 0; i < S; ++i )
-                        if ( (*rhs)[i] > lhs.second[i] ) return false;
+                        if ( (*rhs)[i] > lhsV[i] ) return false;
                     return true;
                 }
             } dominates;
@@ -180,7 +181,7 @@ namespace AIToolbox {
             // vector.
             VList::iterator begin = std::begin(w), end = std::end(w), iter = begin, helper;
             while ( iter < end ) {
-                dominates.rhs = &(iter->second);
+                dominates.rhs = &(std::get<VALUES>(*iter));
                 helper = std::find_if(begin, end, dominates);
                 if ( helper != end )
                     std::swap( *iter, *(--end) );
@@ -212,11 +213,11 @@ namespace AIToolbox {
 
         VList::iterator Pruner::extractBestAtBelief(const Belief & belief, VList::iterator begin, VList::iterator bound, VList::iterator end) {
             auto bestMatch = begin;
-            double bestValue = dotProd(S, belief, bestMatch->second);
+            double bestValue = dotProd(S, belief, std::get<VALUES>(*bestMatch));
 
             while ( (++begin) < end ) {
-                double currValue = dotProd(S, belief, begin->second);
-                if ( currValue > bestValue || ( currValue == bestValue && ( begin->second > bestMatch->second ) ) ) {
+                double currValue = dotProd(S, belief, std::get<VALUES>(*begin));
+                if ( currValue > bestValue || ( currValue == bestValue && ( std::get<VALUES>(*begin) > std::get<VALUES>(*bestMatch) ) ) ) {
                     bestMatch = begin;
                     bestValue = currValue;
                 }
@@ -228,7 +229,7 @@ namespace AIToolbox {
             return bound;
         }
 
-        std::pair<bool, Belief> Pruner::findWitnessPoint(const MDP::ValueFunction & v, const VList & best) {
+        std::pair<bool, Belief> Pruner::findWitnessPoint(const MDP::Values & v, const VList & best) {
             // If there's nothing to compare to, any belief point is a witness.
             if ( best.size() == 0 ) return std::make_pair(true, Belief(S, 1.0/S));
 

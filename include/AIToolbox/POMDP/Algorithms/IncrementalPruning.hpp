@@ -15,8 +15,13 @@ namespace AIToolbox {
     namespace POMDP {
         class IncrementalPruning {
             public:
+                IncrementalPruning(unsigned h);
+
+                unsigned getHorizon() const;
+                void setHorizon(unsigned h);
+
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                void operator()(const M & model, unsigned horizon);
+                std::tuple<bool, ValueFunction> operator()(const M & model);
 
             private:
                 using ProjectionsTable          = boost::multi_array<VList, 2>;
@@ -31,11 +36,14 @@ namespace AIToolbox {
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 Table2D computeImmediateRewards(const M & model);
 
+                VList crossSum(const VList & l1, const VList & l2, size_t a, size_t o);
+
                 size_t S, A, O;
+                unsigned horizon_;
         };
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        void IncrementalPruning::operator()(const M & model, unsigned horizon) {
+        std::tuple<bool, ValueFunction> IncrementalPruning::operator()(const M & model) {
             // Initialize "global" variables
             S = model.getS();
             A = model.getA();
@@ -44,20 +52,20 @@ namespace AIToolbox {
             auto possibleObservations = computePossibleObservations(model);
             auto immediateRewards = computeImmediateRewards(model);
 
-            // And off we go
-            VList w(1, {0, MDP::ValueFunction(S, 0.0)}); // TODO: May take user input
+            ValueFunction v(1, VList(1, makeVEntry(S))); // TODO: May take user input
 
             unsigned timestep = 1;
 
             Pruner prune(S);
 
-            while ( timestep <= horizon ) {
+            // And off we go
+            while ( timestep <= horizon_ ) {
                 // Compute all possible outcomes, from our previous results.
                 // This means that for each action-observation pair, we are going
                 // to obtain the same number of possible outcomes as the number
                 // of entries in our initial vector w.
-                auto projs = makeAllProjections(model, w, possibleObservations, immediateRewards);
-                w.clear();
+                auto projs = makeAllProjections(model, v[timestep-1], possibleObservations, immediateRewards);
+
                 size_t finalWSize = 0;
                 // In this method we split the work by action, which will then
                 // be joined again at the end of the loop.
@@ -69,11 +77,12 @@ namespace AIToolbox {
                     }
 
                     for ( size_t o = 1; o < model.getO(); ++o ) {
-                        projs[a][0] = crossSum( S, a, projs[a][0], projs[a][o] );
+                        projs[a][0] = crossSum( projs[a][0], projs[a][o], a, o );
                         prune( &projs[a][0] );
                     }
                     finalWSize += projs[a][0].size();
                 }
+                VList w;
                 w.reserve(finalWSize);
 
                 for ( size_t a = 0; a < model.getA(); ++a )
@@ -83,23 +92,12 @@ namespace AIToolbox {
                 // computed the parsimonious set of value functions.
                 prune( &w );
 
-                // TESTING
-                std::cout << "STEP " << timestep << "\n";
-                //std::cout << "WE HAVE " << w.size() << " vectors\n";
-                if ( timestep == horizon ) {
-                    std::ofstream file("file");
-                    for ( auto & v : w ) {
-                        file << v.first << "\n";
-                        for ( auto & s : v.second )
-                            file << std::setprecision(25) << std::fixed << s << " ";
-                        file << "\n\n";
-                    }
-                }
+                v.emplace_back(std::move(w));
 
                 ++timestep;
             }
 
-            // Return Policy, V, Q?
+            return std::make_tuple(true, v);
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
@@ -118,27 +116,33 @@ namespace AIToolbox {
                     // function works correctly. However we communicate via the boolean that pruning should
                     // not be done at this step (since adding constants shouldn't do anything anyway).
                     if ( !possibleObservations[a][o] ) {
-                        MDP::ValueFunction vproj(S, 0.0);
+                        MDP::Values vproj(S, 0.0);
                         for ( size_t s = 0; s < S; ++s )
                             vproj[s] += immediateRewards[a][s];
-                        projections[a][o].emplace_back(a, std::move(vproj));
+                        // We add a parent id anyway in order to keep the code that cross-sums simple. However
+                        // note that this fake ID of 0 should never be used, so it should be safe to avoid
+                        // setting it to a special value like -1. If one really wants to check, he/she can
+                        // just look at the observation table and the belief and see if it makes sense.
+                        projections[a][o].emplace_back(std::move(vproj), a, VObs(1,0));
                         continue;
                     }
 
                     // Otherwise we compute a projection for each ValueFunction supplied to us.
-                    for ( auto & v : w ) {
-                        MDP::ValueFunction vproj(S, 0.0);
+                    for ( size_t i = 0; i < w.size(); ++i ) {
+                        auto & v = std::get<VALUES>(w[i]);
+                        MDP::Values vproj(S, 0.0);
                         // For each value function in the previous timestep, we compute the new value
                         // if we performed action a and obtained observation o.
                         for ( size_t s = 0; s < S; ++s ) {
                             // vproj_{a,o}[s] = R(s,a) / |O| + discount * sum_{s'} ( T(s,a,s') * O(s',a,o) * v_{t-1}(s') )
                             for ( size_t s1 = 0; s1 < S; ++s1 )
-                                vproj[s] += model.getTransitionProbability(s,a,s1) * model.getObservationProbability(s1,a,o) * v.second[s1];
+                                vproj[s] += model.getTransitionProbability(s,a,s1) * model.getObservationProbability(s1,a,o) * v[s1];
 
                             vproj[s] *= discount;
                             vproj[s] += immediateRewards[a][s];
                         }
-                        projections[a][o].emplace_back(a, std::move(vproj));
+                        // Set new projection with found value and previous V id.
+                        projections[a][o].emplace_back(std::move(vproj), a, VObs(1,i));
                     }
                 }
             }

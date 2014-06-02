@@ -140,6 +140,10 @@ namespace AIToolbox {
                 ValueFunction vfun_;
 
                 using PriorityQueueElement = std::tuple<double, size_t>;
+                enum {
+                    PRIORITY = 0,
+                    STATE    = 1,
+                };
 
                 class PriorityTupleLess {
                     public:
@@ -156,7 +160,7 @@ namespace AIToolbox {
         template <typename M>
         bool PrioritizedSweeping<M>::PriorityTupleLess::operator() (const PriorityQueueElement& arg1, const PriorityQueueElement& arg2) const
         {
-            return std::get<0>(arg1) < std::get<0>(arg2);
+            return std::get<PRIORITY>(arg1) < std::get<PRIORITY>(arg2);
         }
 
         template <typename M>
@@ -167,30 +171,38 @@ namespace AIToolbox {
                                                                                                                 theta_(theta),
                                                                                                                 model_(m),
                                                                                                                 qfun_(makeQFunction(S,A)),
-                                                                                                                vfun_(S, 0.0) {}
+                                                                                                                vfun_(makeValueFunction(S)) {}
 
         template <typename M>
         void PrioritizedSweeping<M>::stepUpdateQ(size_t s, size_t a) {
+            auto & values = std::get<VALUES>(vfun_);
             { // Update q[s][a]
                 double newQValue = 0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     double probability = model_.getTransitionProbability(s,a,s1);
                     if ( checkDifferent( probability, 0.0 ) )
-                        newQValue += probability * ( model_.getExpectedReward(s,a,s1) + model_.getDiscount() * vfun_[s1] );
+                        newQValue += probability * ( model_.getExpectedReward(s,a,s1) + model_.getDiscount() * values[s1] );
                 }
                 qfun_[s][a] = newQValue;
             }
 
-            double p = vfun_[s];
-            vfun_[s] = *std::max_element(std::begin(qfun_[s]), std::end(qfun_[s]));
+            double p = values[s];
+            {
+                typename decltype(qfun_)::reference ref = qfun_[s];
+                auto begin = std::begin(ref);
+                auto it = std::max_element(begin, std::end(ref));
+                // Update value and action
+                values[s] = *it;
+                std::get<ACTIONS>(vfun_)[s] = std::distance(begin, it);
+            }
 
-            p = std::fabs(vfun_[s] - p);
+            p = std::fabs(values[s] - p);
 
             // If it changed enough, we're going to update its parents.
             if ( p > theta_ ) {
                 auto it = queueHandles_.find(s);
 
-                if ( it != std::end(queueHandles_) && std::get<0>(*(it->second)) < p )
+                if ( it != std::end(queueHandles_) && std::get<PRIORITY>(*(it->second)) < p )
                     queue_.increase(it->second, std::make_tuple(p, s));
                 else
                     queueHandles_[s] = queue_.push(std::make_tuple(p, s));
@@ -212,7 +224,7 @@ namespace AIToolbox {
 
                 for ( size_t s = 0; s < S; ++s )
                     for ( size_t a = 0; a < A; ++a )
-                        if ( model_.getTransitionProbability(s,a,s1) > 0.0 )
+                        if ( checkDifferent(model_.getTransitionProbability(s,a,s1), 0.0) )
                             stepUpdateQ(s, a);
             }
         }

@@ -78,7 +78,7 @@ namespace AIToolbox {
                  *
                  * @return A pair containing true and the found witness point if such a witness exists, and false and empty vector otherwise.
                  */
-                std::pair<bool, Belief> findWitnessPoint(const MDP::ValueFunction & v, const VList & best);
+                std::pair<bool, Belief> findWitnessPoint(const MDP::Values & v, const VList & best);
 
             private:
                 size_t S;
@@ -89,7 +89,7 @@ namespace AIToolbox {
                 std::unique_ptr<REAL[]> row;
 
                 void setLP(size_t rows);
-                void addRow(const MDP::ValueFunction & v, int constrType);
+                void addRow(const MDP::Values & v, int constrType);
                 void popRow();
         };
     }

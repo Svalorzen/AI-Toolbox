@@ -58,7 +58,7 @@ class State {
         int x_, y_;
 };
 
-BOOST_AUTO_TEST_CASE( findCorners ) {
+BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
 
     size_t S = 16, A = 4;

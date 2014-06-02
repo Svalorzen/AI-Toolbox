@@ -6,6 +6,7 @@
 #include <iterator>
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -29,7 +30,7 @@ namespace AIToolbox {
                  * @param maxIter The maximum number of iterations to perform.
                  * @param v The initial value function from which to start the loop.
                  */
-                ValueIteration(double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v = ValueFunction(0) );
+                ValueIteration(double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v = ValueFunction(Values(0), Actions(0)));
 
                 /**
                  * @brief This function applies value iteration on an MDP to solve it.
@@ -177,14 +178,18 @@ namespace AIToolbox {
             A = model.getA();
             discount_ = model.getDiscount();
 
-            // Verify that parameter value function is compatible.
-            if ( vParameter_.size() != S ) {
-                if ( vParameter_.size() != 0 )
-                    std::cerr << "AIToolbox: Size of starting value function in ValueIteration::solve() is incorrect, ignoring...\n";
-                v1_ = ValueFunction(S, 0.0);
+            {
+                // Verify that parameter value function is compatible.
+                size_t size = std::get<VALUES>(vParameter_).size();
+                if ( size != S ) {
+                    if ( size != 0 )
+                        std::cerr << "AIToolbox: Size of starting value function in ValueIteration::solve() is incorrect, ignoring...\n";
+                    // Defaulting
+                    v1_ = makeValueFunction(S);
+                }
+                else
+                    v1_ = vParameter_;
             }
-            else
-                v1_ = vParameter_;
 
             auto pr = computePR(model);
             {   // maxIter setup
@@ -202,19 +207,22 @@ namespace AIToolbox {
             unsigned iter = 0;
             bool done = false, completed = false;
 
-            ValueFunction v0 = v1_;
+            Values val0;
 
             while ( !done ) {
                 ++iter;
-                v0 = v1_;
+
+                auto & val1 = std::get<VALUES>(v1_);
+                val0 = val1;
 
                 bellmanOperator( model, pr, &v1_ );
 
-                std::transform(std::begin(v1_), std::end(v1_), std::begin(v0), std::begin(v0), std::minus<double>() );
+                // We compute the difference and store it into v0 for comparison.
+                std::transform(std::begin(val1), std::end(val1), std::begin(val0), std::begin(val0), std::minus<double>() );
 
                 double variation;
                 {
-                    auto minmax = std::minmax_element(std::begin(v0), std::end(v0));
+                    auto minmax = std::minmax_element(std::begin(val0), std::end(val0));
                     variation = *(minmax.second) - *(minmax.first);
                 }
                 if ( variation < epsilon ) {
@@ -248,7 +256,7 @@ namespace AIToolbox {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
-                        q[s][a] += model.getTransitionProbability(s,a,s1) * discount_ * v1_[s1];
+                        q[s][a] += model.getTransitionProbability(s,a,s1) * discount_ * std::get<VALUES>(v1_)[s1];
             return q;
         }
 
@@ -263,15 +271,18 @@ namespace AIToolbox {
 
             double k = 1.0 - std::accumulate(std::begin(h), std::end(h), 0.0);
 
-            ValueFunction v(S);
+            ValueFunction v = makeValueFunction(S);
 
             bellmanOperator(model, pr, &v);
 
-            std::transform(std::begin(v), std::end(v), std::begin(v1_), std::begin(v), std::minus<double>() );
+            auto & val0 = std::get<VALUES>(v);
+            auto & val1 = std::get<VALUES>(v1_);
+
+            std::transform(std::begin(val0), std::end(val0), std::begin(val1), std::begin(val0), std::minus<double>() );
 
             double variation;
             {
-                auto minmax = std::minmax_element(std::begin(v), std::end(v));
+                auto minmax = std::minmax_element(std::begin(val0), std::end(val0));
                 variation = *(minmax.second) - *(minmax.first);
             }
 
@@ -281,14 +292,18 @@ namespace AIToolbox {
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
         void ValueIteration::bellmanOperator(const M & model, const PRType & pr, ValueFunction * v) const {
-            auto & vOut = *v;
+            auto & values  = std::get<VALUES> (*v);
+            auto & actions = std::get<ACTIONS>(*v);
             QFunction q = makeQFunction(model, pr);
 
             for ( size_t s = 0; s < S; ++s ) {
                 // Accessing an element like this creates a temporary. Thus we need to bind it.
                 decltype(q)::reference ref = q[s];
-                auto it = std::max_element(std::begin(ref), std::end(ref));
-                vOut[s] = *it;
+                auto begin = std::begin(ref);
+                auto it = std::max_element(begin, std::end(ref));
+
+                values[s] = *it;
+                actions[s] = std::distance(begin, it);
             }
         }
     }
