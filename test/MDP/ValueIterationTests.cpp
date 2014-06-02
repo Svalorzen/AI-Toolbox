@@ -98,7 +98,8 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     // Check that problem has been solved
     BOOST_CHECK( std::get<0>(solution) );
     // Get best policy from QFunction
-    QGreedyPolicy policy( std::get<2>(solution) );
+    auto & qfun = std::get<2>(solution);
+    QGreedyPolicy policy( qfun );
 
     // Check that solution agrees with that we'd like
     //
@@ -160,4 +161,18 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     // Finally, bottom middle cells want just right
     BOOST_CHECK_EQUAL( policy.getActionProbability(13, State::RIGHT), 1.0);
     BOOST_CHECK_EQUAL( policy.getActionProbability(14, State::RIGHT), 1.0);
+
+    // Verify that ValueFunction holds the correct actions.
+    auto & vfun = std::get<1>(solution);
+    auto & values = std::get<VALUES>(vfun);
+    auto & actions = std::get<ACTIONS>(vfun);
+    for ( size_t s = 0; s < S; ++s ) {
+        // We check that values correspond between Q and V
+        BOOST_CHECK_EQUAL( qfun[s][actions[s]], values[s] );
+
+        // And that the action truly points to (one of) the best.
+        auto ref = qfun[s];
+        auto maxIt = std::max_element(std::begin(ref), std::end(ref));
+        BOOST_CHECK_EQUAL( *maxIt, values[s] );
+    }
 }

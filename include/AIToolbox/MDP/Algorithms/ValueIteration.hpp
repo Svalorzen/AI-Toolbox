@@ -30,7 +30,7 @@ namespace AIToolbox {
                  * @param maxIter The maximum number of iterations to perform.
                  * @param v The initial value function from which to start the loop.
                  */
-                ValueIteration(double epsilon = 0.01, unsigned maxIter = 0, ValueFunction v = ValueFunction(Values(0), Actions(0)));
+                ValueIteration(double epsilon = 0.0001, unsigned maxIter = 0, ValueFunction v = ValueFunction(Values(0), Actions(0)));
 
                 /**
                  * @brief This function applies value iteration on an MDP to solve it.
@@ -152,23 +152,18 @@ namespace AIToolbox {
                  * @return A new QFunction.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                QFunction makeQFunction(const M & model, const PRType & pr) const;
+                QFunction computeQFunction(const M & model, const PRType & pr) const;
 
                 /**
                  * @brief This function applies a single pass Bellman operator, improving the current ValueFunction estimate.
                  *
-                 * This function uses as base ValueFunction the one stored in
-                 * the class (v1_). The result is then passed to vOut. This
-                 * is to avoid allocating multiple ValueFunctions.
+                 * This function computes the optimal value and action for
+                 * each state, given the precomputed QFunction.
                  *
-                 * @tparam M The type of the solvable MDP.
-                 *
-                 * @param m The MDP that needs to be solved.
-                 * @param pr The Model's PRType.
+                 * @param q The precomputed QFunction.
                  * @param vOut The newly estimated ValueFunction.
                  */
-                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                void bellmanOperator(const M & model, const PRType & pr, ValueFunction * vOut) const;
+                inline void bellmanOperator(const QFunction & q, ValueFunction * vOut) const;
         };
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
@@ -208,6 +203,7 @@ namespace AIToolbox {
             bool done = false, completed = false;
 
             Values val0;
+            QFunction q = makeQFunction(S, A);
 
             while ( !done ) {
                 ++iter;
@@ -215,7 +211,8 @@ namespace AIToolbox {
                 auto & val1 = std::get<VALUES>(v1_);
                 val0 = val1;
 
-                bellmanOperator( model, pr, &v1_ );
+                q = computeQFunction(model, pr);
+                bellmanOperator(q, &v1_);
 
                 // We compute the difference and store it into v0 for comparison.
                 std::transform(std::begin(val1), std::end(val1), std::begin(val0), std::begin(val0), std::minus<double>() );
@@ -233,8 +230,8 @@ namespace AIToolbox {
                     done = true;
                 }
             }
-            // We do not guarantee that the Value/QFunctions are correct, as we stop as long as the policy is fine.
-            return std::make_tuple(completed, v1_, makeQFunction(model, pr));
+            // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
+            return std::make_tuple(completed, v1_, q);
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
@@ -250,7 +247,7 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        QFunction ValueIteration::makeQFunction(const M & model, const PRType & pr) const {
+        QFunction ValueIteration::computeQFunction(const M & model, const PRType & pr) const {
             QFunction q = pr;
 
             for ( size_t s = 0; s < S; ++s )
@@ -273,7 +270,8 @@ namespace AIToolbox {
 
             ValueFunction v = makeValueFunction(S);
 
-            bellmanOperator(model, pr, &v);
+            QFunction q = computeQFunction(model, pr);
+            bellmanOperator(q, &v);
 
             auto & val0 = std::get<VALUES>(v);
             auto & val1 = std::get<VALUES>(v1_);
@@ -290,15 +288,13 @@ namespace AIToolbox {
                     std::log( (epsilon_*(1.0-discount_)/discount_) / variation ) / std::log(discount_*k));
         }
 
-        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        void ValueIteration::bellmanOperator(const M & model, const PRType & pr, ValueFunction * v) const {
+        void ValueIteration::bellmanOperator(const QFunction & q, ValueFunction * v) const {
             auto & values  = std::get<VALUES> (*v);
             auto & actions = std::get<ACTIONS>(*v);
-            QFunction q = makeQFunction(model, pr);
 
             for ( size_t s = 0; s < S; ++s ) {
                 // Accessing an element like this creates a temporary. Thus we need to bind it.
-                decltype(q)::reference ref = q[s];
+                QFunction::const_reference ref = q[s];
                 auto begin = std::begin(ref);
                 auto it = std::max_element(begin, std::end(ref));
 
