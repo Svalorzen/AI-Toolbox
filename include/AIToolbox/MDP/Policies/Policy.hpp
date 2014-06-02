@@ -5,7 +5,7 @@
 #include <tuple>
 
 #include <boost/multi_array.hpp>
-#include <AIToolbox/Types.hpp>
+#include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/PolicyInterface.hpp>
 
 namespace AIToolbox {
@@ -42,15 +42,30 @@ namespace AIToolbox {
                  *
                  * This constructor simply copies policy probability values
                  * from any other compatible PolicyInterface, and stores them
-                 * internally.
-                 * 
-                 * This may be a useful thing to do in case the policy that is 
+                 * internally. This is probably the main way you may want to use
+                 * this class.
+                 *
+                 * This may be a useful thing to do in case the policy that is
                  * being copied is very costly to use (for example, QGreedyPolicy)
                  * and it is known that it will not change anymore.
                  *
                  * @param p The policy which is being copied.
                  */
                 Policy(const PolicyInterface<size_t> & p);
+
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * This constructor copies the implied policy contained in a ValueFunction.
+                 * Keep in mind that the policy stored within a ValueFunction is
+                 * non-stochastic in nature, since for each state it can only
+                 * save a single action.
+                 *
+                 * @param s The number of states of the world.
+                 * @param a The number of actions available to the agent.
+                 * @param v The ValueFunction used as a basis for the Policy.
+                 */
+                Policy(size_t s, size_t a, const ValueFunction & v);
 
                 /**
                  * @brief This function chooses a random action for state s, following the policy distribution.

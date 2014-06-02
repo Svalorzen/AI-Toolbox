@@ -20,6 +20,13 @@ namespace AIToolbox {
                     policy_[s][a] = p.getActionProbability(s, a);
         }
 
+        Policy::Policy(size_t s, size_t a, const ValueFunction & v) : PolicyInterface<size_t>(s, a), policy_(boost::extents[S][A])
+        {
+            auto & actions = std::get<ACTIONS>(v);
+            for ( size_t s = 0; s < S; ++s )
+                policy_[s][actions[s]] = 1.0; 
+        }
+
         size_t Policy::sampleAction(const size_t & s) const {
             return sampleProbability(policy_[s], A, rand_);
         }
