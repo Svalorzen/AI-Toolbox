@@ -13,13 +13,51 @@
 
 namespace AIToolbox {
     namespace POMDP {
+        /**
+         * @brief This class implements the Incremental Pruning algorithm.
+         */
         class IncrementalPruning {
             public:
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * This constructor sets the default horizon used to solve a POMDP::Model.
+                 *
+                 * @param h The horizon chosen.
+                 */
                 IncrementalPruning(unsigned h);
 
+                /**
+                 * @brief This function returns the currently set horizon parameter.
+                 *
+                 * @return The current horizon.
+                 */
                 unsigned getHorizon() const;
+
+                /**
+                 * @brief This function allows setting the horizon parameter.
+                 *
+                 * @param h The new horizon parameter.
+                 */
                 void setHorizon(unsigned h);
 
+                /**
+                 * @brief This function solves a POMDP::Model completely.
+                 *
+                 * This function is pretty expensive (as are possibly all POMDP solvers).
+                 * It generates for each new solved timestep the whole set of possible ValueFunctions,
+                 * and prunes it incrementally, trying to reduce as much as possible the linear
+                 * programming solves required.
+                 *
+                 * This function returns a tuple to be consistent with MDP solving methods, but
+                 * it should always succeed.
+                 *
+                 * @tparam M The type of POMDP model that needs to be solved.
+                 *
+                 * @param model The POMDP model that needs to be solved.
+                 *
+                 * @return True, and the computed ValueFunction up to the requested horizon.
+                 */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 std::tuple<bool, ValueFunction> operator()(const M & model);
 
@@ -27,15 +65,65 @@ namespace AIToolbox {
                 using ProjectionsTable          = boost::multi_array<VList, 2>;
                 using PossibleObservationsTable = boost::multi_array<bool,  2>;
 
+                /**
+                 * @brief This function computes all possible next-step ValueFunctions.
+                 *
+                 * This function in addition records into the VEntries produced which action
+                 * and VEntry index were used, to allow for the final policy reconstruction.
+                 *
+                 * @tparam M The type of POMDP model that needs to be solved.
+                 *
+                 * @param model The POMDP model that needs to be solved.
+                 * @param w The previous timestep VList.
+                 * @param po A table containing which are the possible observations from specific actions.
+                 * @param ir The immediate rewards from each state-action pair.
+                 *
+                 * @return A table containing, for each action-observation pair, the projected VEntries.
+                 */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 ProjectionsTable makeAllProjections(const M & model, const VList & w, const PossibleObservationsTable & po, const Table2D & ir);
 
+                /**
+                 * @brief This function precomputes which observations are possible from specific actions.
+                 *
+                 * @tparam M The type of POMDP model that needs to be solved.
+                 *
+                 * @param model The POMDP model that needs to be solved.
+                 *
+                 * @return A boolean table.
+                 */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 PossibleObservationsTable computePossibleObservations(const M& model);
 
+                /**
+                 * @brief This function precomputes immediate rewards for the POMDP state-action pairs.
+                 *
+                 * @tparam M The type of POMDP model that needs to be solved.
+                 *
+                 * @param model The POMDP model that needs to be solved.
+                 *
+                 * @return A reward table.
+                 */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 Table2D computeImmediateRewards(const M & model);
 
+                /**
+                 * @brief This function computes a VList composed of all possible combinations of sums of the VLists provided.
+                 *
+                 * This function is in addition peculiar as it performs the job of accumulating
+                 * the information required to obtain the final policy. It assumes that the
+                 * rhs List is being cross-summed to the lhs one, and not vice-versa. This is
+                 * because the final result List will need to know which where the original VEntries
+                 * that made up its particular sum. To do so, each cross-sum adds a single new
+                 * parent. This function assumes that the new parent arrives from the rhs.
+                 *
+                 * @param l1 The "main" parent list.
+                 * @param l2 The list being cross-summed to l1.
+                 * @param a The action that this cross-sum is about.
+                 * @param o The observation that generated the l2 list.
+                 *
+                 * @return The cross-sum between l1 and l2.
+                 */
                 VList crossSum(const VList & l1, const VList & l2, size_t a, size_t o);
 
                 size_t S, A, O;

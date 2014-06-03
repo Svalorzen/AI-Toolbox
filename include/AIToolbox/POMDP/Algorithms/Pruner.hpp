@@ -9,6 +9,9 @@
 
 namespace AIToolbox {
     namespace POMDP {
+        /**
+         * @brief This class offers pruning facilities for non-parsimonious ValueFunction sets.
+         */
         class Pruner {
             public:
                 Pruner(size_t S);

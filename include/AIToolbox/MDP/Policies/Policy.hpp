@@ -11,7 +11,7 @@
 namespace AIToolbox {
     namespace MDP {
         /**
-         * @brief This class represents a full policy.
+         * @brief This class represents an MDP Policy.
          *
          * Building this object is expensive, so it should be done
          * mostly when it is known that the final solution won't

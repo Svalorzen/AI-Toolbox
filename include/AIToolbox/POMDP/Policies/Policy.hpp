@@ -9,7 +9,7 @@
 namespace AIToolbox {
     namespace POMDP {
         /**
-         * @brief This class represents a full policy.
+         * @brief This class represents a POMDP Policy.
          */
         class Policy : public PolicyInterface<Belief> {
             public:
