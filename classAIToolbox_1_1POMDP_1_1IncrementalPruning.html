@@ -96,24 +96,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This class implements the Incremental Pruning algorithm.  
+ <a href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="IncrementalPruning_8hpp_source.html">IncrementalPruning.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9a959c766cb9486586defdcbc5aaf579"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a9a959c766cb9486586defdcbc5aaf579">IncrementalPruning</a> (unsigned h)</td></tr>
+<tr class="memdesc:a9a959c766cb9486586defdcbc5aaf579"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a9a959c766cb9486586defdcbc5aaf579">More...</a><br/></td></tr>
 <tr class="separator:a9a959c766cb9486586defdcbc5aaf579"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5122aa20b68c206c4f6967e8b627aa2b"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a5122aa20b68c206c4f6967e8b627aa2b">getHorizon</a> () const </td></tr>
+<tr class="memdesc:a5122aa20b68c206c4f6967e8b627aa2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set horizon parameter.  <a href="#a5122aa20b68c206c4f6967e8b627aa2b">More...</a><br/></td></tr>
 <tr class="separator:a5122aa20b68c206c4f6967e8b627aa2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa59cb719622355d9f25d936de609132d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#aa59cb719622355d9f25d936de609132d">setHorizon</a> (unsigned h)</td></tr>
+<tr class="memdesc:aa59cb719622355d9f25d936de609132d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function allows setting the horizon parameter.  <a href="#aa59cb719622355d9f25d936de609132d">More...</a><br/></td></tr>
 <tr class="separator:aa59cb719622355d9f25d936de609132d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae99091d5abd06399564f5ce2cd399084"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </td></tr>
 <tr class="memitem:ae99091d5abd06399564f5ce2cd399084"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <a class="el" href="group__POMDPVF.html#gab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#ae99091d5abd06399564f5ce2cd399084">operator()</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:ae99091d5abd06399564f5ce2cd399084"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a POMDP::Model completely.  <a href="#ae99091d5abd06399564f5ce2cd399084">More...</a><br/></td></tr>
 <tr class="separator:ae99091d5abd06399564f5ce2cd399084"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0c91366afcfa9cc16add8393f1ad780"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type &gt; </td></tr>
 <tr class="memitem:ae0c91366afcfa9cc16add8393f1ad780"><td class="memTemplItemLeft" align="right" valign="top">boost::multi_array&lt; bool, 2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#ae0c91366afcfa9cc16add8393f1ad780">computePossibleObservations</a> (const M &amp;model)</td></tr>
 <tr class="separator:ae0c91366afcfa9cc16add8393f1ad780"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class implements the Incremental Pruning algorithm. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a9a959c766cb9486586defdcbc5aaf579"></a>
 <div class="memitem">
 <div class="memproto">
@@ -127,6 +136,15 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Basic constructor. </p>
+<p>This constructor sets the default horizon used to solve a POMDP::Model.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">h</td><td>The horizon chosen. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -162,6 +180,9 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
       </table>
 </div><div class="memdoc">
 
+<p>This function returns the currently set horizon parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>The current horizon. </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="ae99091d5abd06399564f5ce2cd399084"></a>
@@ -180,6 +201,23 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
       </table>
 </div><div class="memdoc">
 
+<p>This function solves a POMDP::Model completely. </p>
+<p>This function is pretty expensive (as are possibly all <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> solvers). It generates for each new solved timestep the whole set of possible ValueFunctions, and prunes it incrementally, trying to reduce as much as possible the linear programming solves required.</p>
+<p>This function returns a tuple to be consistent with <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> solving methods, but it should always succeed.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">M</td><td>The type of <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model that needs to be solved.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model that needs to be solved.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True, and the computed ValueFunction up to the requested horizon. </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="aa59cb719622355d9f25d936de609132d"></a>
@@ -196,6 +234,14 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
       </table>
 </div><div class="memdoc">
 
+<p>This function allows setting the horizon parameter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">h</td><td>The new horizon parameter. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -204,7 +250,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 3 2014 14:28:18 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 3 2014 14:56:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
