@@ -6,8 +6,10 @@ implementing an easy-to-use interface which should be hopefully extensible
 to many problems, while keeping code readable.
 
 Current development includes MDPs, POMDPs and related algorithms. This toolbox
-has been developed taking inspiration from the Matlab MDPToolbox,
-which you can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/).
+has been developed taking inspiration from the Matlab `MDPToolbox`, which you
+can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/), and from the
+`pomdp-solve` software written by A. R. Cassandra, which you can find
+[here](http://www.pomdp.org/code/index.shtml).
 
 Brief
 =====
@@ -17,12 +19,12 @@ is to create algorithms that are able to interact with an environment in order
 to obtain some reward using actions, and to find the best policy of actions to
 use to do so.
 
-The field divides itself into planning and learning: planning focuses into
-solving problems that we know how to model: think chess. Learning focuses into
-creating a model for an environment we do not know in advance, and subsequently
-learn the best policy for it.
+The field divides itself into planning and reinforcement learning: planning
+focuses into solving problems that we know how to model: think chess, or 2048.
+Reinforcement learning focuses into creating a model for an environment we do
+not know in advance, and while learning the best policy for it.
 
-There are many variants of these problems, with single agent world, multi agent,
+There are many variants of these problems, with single agent worlds, multi agent,
 competitive, cooperative, partially observable and so on. This framework is a
 work in progress that tries to implement many DTC algorithms in one place, much
 like OpenCV is for Computer Vision algorithms.
@@ -95,4 +97,3 @@ Documentation
 The latest documentation is available [here](http://svalorzen.github.io/AI-Toolbox/).
 Keep in mind that it may not always be 100% up to date with the latest
 commits, while the one you compile yourself will of course be.
-
