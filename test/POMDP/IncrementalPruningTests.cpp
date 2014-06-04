@@ -207,12 +207,6 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];
 
-    for ( auto & v : vf[1] ) {
-        for ( auto & s : std::get<POMDP::VALUES>(v) )
-            std::cout << "[" << s << "]";
-        std::cout << "\n";
-    }
-
     // This is the correct solution
     POMDP::VList truth = {
         // Action 10 here (which does not exist) is used to mark the values for which both listening or acting is a correct
