@@ -37,13 +37,12 @@
 //
 // The solutions of this problem have been computed using Tony
 // Cassandra's pomdp-solve program (www.pomdp.org).
-BOOST_AUTO_TEST_CASE( tiger ) {
-    using namespace AIToolbox;
 
+AIToolbox::POMDP::Model<AIToolbox::MDP::Model> setupTigerProblem() {
     // Actions are: 0-listen, 1-open-left, 2-open-right
     size_t S = 2, A = 3, O = 2;
 
-    POMDP::Model<MDP::Model> model(O, S, A);
+    AIToolbox::POMDP::Model<AIToolbox::MDP::Model> model(O, S, A);
 
     AIToolbox::Table3D transitions(boost::extents[S][A][S]);
     AIToolbox::Table3D rewards(boost::extents[S][A][S]);
@@ -96,6 +95,14 @@ BOOST_AUTO_TEST_CASE( tiger ) {
     model.setTransitionFunction(transitions);
     model.setRewardFunction(rewards);
     model.setObservationFunction(observations);
+
+    return model;
+}
+
+BOOST_AUTO_TEST_CASE( discountedHorizon ) {
+    using namespace AIToolbox;
+
+    auto model = setupTigerProblem();
     model.setDiscount(0.95);
 
     // We solve the problem for an horizon of 15
@@ -172,6 +179,61 @@ BOOST_AUTO_TEST_CASE( tiger ) {
     // We check each entry by itself to avoid checking observations
     for ( size_t i = 0; i < vlist.size(); ++i ) {
         BOOST_CHECK_EQUAL(std::get<POMDP::ACTION>(vlist[i]), std::get<POMDP::ACTION>(truth[i]));
+
+        auto & values      = std::get<POMDP::VALUES>(vlist[i]);
+        auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(values), std::end(values), std::begin(truthValues), std::end(truthValues));
+    }
+}
+
+BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
+    using namespace AIToolbox;
+    // NOTE: This test has been added since I noticed that the action results
+    // for the undiscounted tiger problem for an horizon of 2 gave me different
+    // results from both Cassandra's code and what is published in the literature.
+    // In particular, there is a single ValueFunction which suggests to act, while
+    // in the literature usually in this step all ValueFunctions point to the
+    // listening action. This alternative solution is actually correct, as in an
+    // undiscounted scenario it doesn't matter, if the belief in a state is high
+    // enough, whether we act now and listen later, or vice-versa.
+
+    auto model = setupTigerProblem();
+    model.setDiscount(1.0);
+
+    unsigned horizon = 2;
+    POMDP::IncrementalPruning solver(horizon);
+    auto solution = solver(model);
+
+    auto & vf = std::get<1>(solution);
+    auto vlist = vf[horizon];
+
+    for ( auto & v : vf[1] ) {
+        for ( auto & s : std::get<POMDP::VALUES>(v) )
+            std::cout << "[" << s << "]";
+        std::cout << "\n";
+    }
+
+    // This is the correct solution
+    POMDP::VList truth = {
+        // Action 10 here (which does not exist) is used to mark the values for which both listening or acting is a correct
+        // action. We will not test those.
+        std::make_tuple(MDP::Values({-101.0000000000000000000000000, 9.0000000000000000000000000   }), 10u, POMDP::VObs(0)),
+        std::make_tuple(MDP::Values({-16.8500000000000014210854715 , 7.3499999999999996447286321   }), 0u, POMDP::VObs(0)),
+        std::make_tuple(MDP::Values({-2.0000000000000000000000000  , -2.0000000000000000000000000  }), 0u, POMDP::VObs(0)),
+        std::make_tuple(MDP::Values({7.3499999999999996447286321   , -16.8500000000000014210854715 }), 0u, POMDP::VObs(0)),
+        std::make_tuple(MDP::Values({9.0000000000000000000000000   , -101.0000000000000000000000000}), 10u, POMDP::VObs(0)),
+    };
+
+    // Make sure we can actually compare them
+    std::sort(std::begin(vlist), std::end(vlist));
+    std::sort(std::begin(truth), std::end(truth));
+
+    BOOST_CHECK_EQUAL(vlist.size(), truth.size());
+    // We check each entry by itself to avoid checking observations
+    for ( size_t i = 0; i < vlist.size(); ++i ) {
+        // Avoid checking actions with multiple possible answers.
+        if ( std::get<POMDP::ACTION>(truth[i]) != 10u )
+            BOOST_CHECK_EQUAL(std::get<POMDP::ACTION>(vlist[i]), std::get<POMDP::ACTION>(truth[i]));
 
         auto & values      = std::get<POMDP::VALUES>(vlist[i]);
         auto & truthValues = std::get<POMDP::VALUES>(truth[i]);

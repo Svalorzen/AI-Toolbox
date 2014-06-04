@@ -1,10 +1,6 @@
 #ifndef AI_TOOLBOX_POMDP_INCREMENTAL_PRUNING_HEADER_FILE
 #define AI_TOOLBOX_POMDP_INCREMENTAL_PRUNING_HEADER_FILE
 
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Pruner.hpp>

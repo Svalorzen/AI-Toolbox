@@ -4,24 +4,24 @@
 
 namespace AIToolbox {
     namespace POMDP {
-        Policy::Policy(size_t s, size_t a, size_t o, const ValueFunction & v) : PolicyInterface<Belief>(s, a), O(o), H(v.size()), policy_(v) {
-            if ( H < 1 ) throw std::invalid_argument("The ValueFunction supplied to POMDP::Policy is empty.");
+        Policy::Policy(size_t s, size_t a, size_t o, const ValueFunction & v) : PolicyInterface<Belief>(s, a), O(o), H(v.size()-1), policy_(v) {
+            if ( v.size() < 1 ) throw std::invalid_argument("The ValueFunction supplied to POMDP::Policy is empty.");
         }
 
         size_t Policy::sampleAction(const Belief & b) const {
             // We use the latest horizon here.
             auto & vlist = policy_.back();
 
-            auto bestMatch = findBestAtBelief(getS(), b, std::begin(vlist), std::end(vlist));
+            auto bestMatch = findBestAtBelief(S, b, std::begin(vlist), std::end(vlist));
 
             return std::get<ACTION>(*bestMatch);
         }
 
         std::tuple<size_t, size_t> Policy::sampleAction(const Belief & b, unsigned horizon) const {
-            auto & vlist = policy_[horizon]; 
+            auto & vlist = policy_[horizon];
 
             auto begin     = std::begin(vlist);
-            auto bestMatch = findBestAtBelief(getS(), b, begin, std::end(vlist));
+            auto bestMatch = findBestAtBelief(S, b, begin, std::end(vlist));
 
             size_t action = std::get<ACTION>(*bestMatch);
             size_t id     = std::distance(begin, bestMatch);
