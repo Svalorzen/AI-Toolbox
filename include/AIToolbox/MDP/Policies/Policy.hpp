@@ -130,7 +130,7 @@ namespace AIToolbox {
                  *
                  * @return A constant reference to the internal policy.
                  */
-                const PolicyTable & getPolicy() const;
+                const PolicyTable & getPolicyTable() const;
 
                 /**
                  * @brief Prints the policy to a stream.
@@ -156,7 +156,7 @@ namespace AIToolbox {
          * @brief This function reads a policy from a file.
          *
          * This function reads files that have been outputted through
-         * operator>>(). If not enough values can be extracted from
+         * operator<<(). If not enough values can be extracted from
          * the stream, the function stops and the input policy is
          * not modified. In addition, it checks whether the probability
          * values are within 0 and 1.

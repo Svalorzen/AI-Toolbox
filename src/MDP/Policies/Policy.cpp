@@ -48,7 +48,7 @@ namespace AIToolbox {
                 policy_[s][ax] = static_cast<double>( ax == a );
         }
 
-        const Policy::PolicyTable & Policy::getPolicy() const {
+        const Policy::PolicyTable & Policy::getPolicyTable() const {
             return policy_;
         }
 

@@ -10,27 +10,24 @@ namespace AIToolbox {
     namespace POMDP {
         /**
          * @brief This class represents a POMDP Policy.
+         *
+         * This class currently represents a basic Policy adaptor
+         * for a POMDP::ValueFunction.
          */
         class Policy : public PolicyInterface<Belief> {
             public:
                 /**
                  * @brief Basic constrctor.
                  *
-                 * This constructor initializes the internal policy table so that
-                 * each action in each state has the same probability of being
-                 * chosen (random policy). This class guarantees that at any point
-                 * the internal policy is a true probability distribution, i.e.
-                 * for each state the sum of the probabilities of chosing an action
-                 * sums up to 1.
-                 *
-                 * THIS CONSTRUCTOR IS NOT IMPLEMENTED AT THE MOMENT AS THERE IS
-                 * LITTLE USE FOR IT.
+                 * This constructor initializes the internal ValueFunction as 
+                 * having only the horizon 0 no values solution. This is most
+                 * useful if the Policy needs to be read from a file.
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
                  * @param o The number of possible observations the agent could make.
                  */
-                // Policy(size_t s, size_t a, size_t o);
+                Policy(size_t s, size_t a, size_t o);
 
                 /**
                  * @brief Basic constrctor.
@@ -164,12 +161,50 @@ namespace AIToolbox {
                  */
                 size_t getH() const;
 
+                /**
+                 * @brief This function returns the internally stored ValueFunction.
+                 *
+                 * @return The internally stored ValueFunction.
+                 */
+                const ValueFunction & getValueFunction() const;
+
             private:
                 // H holds the available max horizon for this Policy.
                 size_t O, H;
 
                 ValueFunction policy_;
+
+                friend std::istream& operator>>(std::istream &is, Policy &);
         };
+
+        /**
+         * @brief This function reads a policy from a file.
+         *
+         * This function reads files that have been outputted through
+         * operator<<(). If not enough values can be extracted from
+         * the stream, the function stops and the input policy is
+         * not modified. In addition, it checks whether the probability
+         * values are within 0 and 1.
+         *
+         * @param is The stream were the policy is being read from.
+         * @param p The policy that is being assigned.
+         *
+         * @return The input stream.
+         */
+        std::istream& operator>>(std::istream &is, Policy & p);
+
+        /**
+         * @brief This function prints the whole policy to a stream.
+         *
+         * This function basically outputs the internal ValueFunction
+         * in a recoverable format.
+         *
+         * @param os The stream where the policy is printed.
+         * @param p The policy that is begin printed.
+         *
+         * @return The original stream.
+         */
+        std::ostream& operator<<(std::ostream &os, const Policy & p);
     }
 }
 
