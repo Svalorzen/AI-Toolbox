@@ -91,6 +91,15 @@ doxygen
 After that the documentation will be generated into an `html` folder in the
 main directory.
 
+Compiling a Program
+===================
+
+To compile a program that uses this library, simply link it against
+`libAIToolboxMDP.a` and possibly both `libAIToolboxPOMDP.a` and all `lp_solve`
+libraries. Please note that since the POMDP code relies on the MDP code, you
+__MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
+`undefined reference` errors.
+
 Documentation
 =============
 

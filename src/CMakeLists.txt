@@ -30,5 +30,5 @@ if (MAKE_POMDP)
         POMDP/Algorithms/Pruner.cpp
         POMDP/Policies/Policy.cpp)
 
-    target_link_libraries(AIToolboxPOMDP ${LPSOLVE_LIBRARIES})
+    target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
 endif()
