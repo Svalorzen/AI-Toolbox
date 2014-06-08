@@ -137,7 +137,7 @@ namespace AIToolbox {
                  *
                  * @return A tuple containing a new state and a reward.
                  */
-                std::pair<size_t, double> sample(size_t s, size_t a) const;
+                std::tuple<size_t, double> sampleSR(size_t s, size_t a) const;
 
                 /**
                  * @brief This function returns the number of states of the world.

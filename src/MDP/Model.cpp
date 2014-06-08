@@ -14,10 +14,10 @@ namespace AIToolbox {
                     transitions_[s][a][s] = 1.0;
         }
 
-        std::pair<size_t, double> Model::sample(size_t s, size_t a) const {
+        std::tuple<size_t, double> Model::sampleSR(size_t s, size_t a) const {
             size_t s1 = sampleProbability(transitions_[s][a], S, rand_);
 
-            return std::make_pair(s1, rewards_[s][a][s1]);
+            return std::make_tuple(s1, rewards_[s][a][s1]);
         }
 
         double Model::getTransitionProbability(size_t s, size_t a, size_t s1) const {

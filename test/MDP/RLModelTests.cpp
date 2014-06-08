@@ -97,11 +97,11 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     model.sync();
 
     for ( int i = 0; i < 1000; ++i )
-        BOOST_CHECK_EQUAL( model.sample(5,1).second, 5.0 );
+        BOOST_CHECK_EQUAL( std::get<1>(model.sampleSR(5,1)), 5.0 );
 
     unsigned k = 0;
     for ( int i = 0; i < 10000; ++i )
-        if ( model.sample(0,0).first == 1 ) ++k;
+        if ( std::get<0>(model.sampleSR(0,0)) == 1 ) ++k;
 
     BOOST_CHECK_MESSAGE( k > 4000 && k < 6000, "This test may fail from time to time as it is based on sampling. k should be ~5000. k is " << k ); // Hopefully
 
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
 
     k = 0;
     for ( int i = 0; i < 10000; ++i )
-        if ( model.sample(0,0).first == 1 ) ++k;
+        if ( std::get<0>(model.sampleSR(0,0)) == 1 ) ++k;
 
     BOOST_CHECK_MESSAGE( k > 2000 && k < 4000, "This test may fail from time to time as it is based on sampling. k should be ~3333. k is " << k ); // Hopefully
 }

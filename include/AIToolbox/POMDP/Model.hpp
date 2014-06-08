@@ -99,6 +99,27 @@ namespace AIToolbox {
                 void setObservationFunction(const ObFun & of);
 
                 /**
+                 * @brief This function samples the POMDP for the specified state action pair.
+                 *
+                 * This function samples the model for simulate experience. The
+                 * transition, observation and reward functions are used to
+                 * produce, from the state action pair inserted as arguments, a
+                 * possible new state with respective observation and reward.
+                 * The new state is picked from all possible states that the
+                 * MDP allows transitioning to, each with probability equal to
+                 * the same probability of the transition in the model. After a
+                 * new state is picked, an observation is sampled from the
+                 * observation function distribution, and finally the reward is
+                 * the corresponding reward contained in the reward function.
+                 *
+                 * @param s The state that needs to be sampled.
+                 * @param a The action that needs to be sampled.
+                 *
+                 * @return A tuple containing a new state, observation and reward.
+                 */
+                std::tuple<size_t,size_t, double> sampleSOR(size_t,size_t) const;
+
+                /**
                  * @brief This function returns the stored observation probability for the specified state-action pair.
                  *
                  * @param s1 The final state of the transition.
@@ -210,6 +231,17 @@ namespace AIToolbox {
         template <typename M>
         const typename Model<M>::ObservationTable & Model<M>::getObservationFunction() const {
             return observations_;
+        }
+
+        template <typename M>
+        std::tuple<size_t,size_t, double> Model<M>::sampleSOR(size_t s,size_t a) const {
+            size_t s1, o;
+            double r;
+
+            std::tie(s1, r) = this->sampleSR(s, a);
+            o = sampleProbability(observations_[s][a], O, rand_);
+
+            return std::make_tuple(s1, o, r);
         }
     }
 }
