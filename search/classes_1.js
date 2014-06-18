@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['epsilonpolicyinterface',['EpsilonPolicyInterface',['../classAIToolbox_1_1EpsilonPolicyInterface.html',1,'AIToolbox']]],
-  ['experience',['Experience',['../classAIToolbox_1_1MDP_1_1Experience.html',1,'AIToolbox::MDP']]]
+  ['beliefnode',['BeliefNode',['../structAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4_1_1BeliefNode.html',1,'AIToolbox::POMDP::POMCP&lt; M &gt;']]]
 ];

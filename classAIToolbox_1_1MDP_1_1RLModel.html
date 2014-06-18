@@ -126,9 +126,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a04567aef1073cc3efe89001a8ca40ba1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a04567aef1073cc3efe89001a8ca40ba1">sync</a> (size_t s, size_t a, size_t s1)</td></tr>
 <tr class="memdesc:a04567aef1073cc3efe89001a8ca40ba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function syncs a state action pair in the <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html" title="This class models Experience as a Markov Decision Process. ">RLModel</a> to the underlying <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> in the fastest possible way.  <a href="#a04567aef1073cc3efe89001a8ca40ba1">More...</a><br/></td></tr>
 <tr class="separator:a04567aef1073cc3efe89001a8ca40ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771762f6fb3be11da247b9fb1f57b1dd"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a771762f6fb3be11da247b9fb1f57b1dd">sample</a> (size_t s, size_t a) const </td></tr>
-<tr class="memdesc:a771762f6fb3be11da247b9fb1f57b1dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair.  <a href="#a771762f6fb3be11da247b9fb1f57b1dd">More...</a><br/></td></tr>
-<tr class="separator:a771762f6fb3be11da247b9fb1f57b1dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1af54141bc9297bd7b7a2fb5c49fb3dc"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a1af54141bc9297bd7b7a2fb5c49fb3dc">sampleSR</a> (size_t s, size_t a) const </td></tr>
+<tr class="memdesc:a1af54141bc9297bd7b7a2fb5c49fb3dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair.  <a href="#a1af54141bc9297bd7b7a2fb5c49fb3dc">More...</a><br/></td></tr>
+<tr class="separator:a1af54141bc9297bd7b7a2fb5c49fb3dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac35e24732f6a0305bebf0390095033a6"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#ac35e24732f6a0305bebf0390095033a6">getS</a> () const </td></tr>
 <tr class="memdesc:ac35e24732f6a0305bebf0390095033a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#ac35e24732f6a0305bebf0390095033a6">More...</a><br/></td></tr>
 <tr class="separator:ac35e24732f6a0305bebf0390095033a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,6 +153,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af63af52a08faf75b1b8065d0da59975a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#ab2d8ab1bad71739ae4753b24f02ff949">RewardTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#af63af52a08faf75b1b8065d0da59975a">getRewardFunction</a> () const </td></tr>
 <tr class="memdesc:af63af52a08faf75b1b8065d0da59975a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the rewards table for inspection.  <a href="#af63af52a08faf75b1b8065d0da59975a">More...</a><br/></td></tr>
 <tr class="separator:af63af52a08faf75b1b8065d0da59975a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8916478f374594156915359aa9b0d0d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a8916478f374594156915359aa9b0d0d3">isTerminal</a> (size_t s) const </td></tr>
+<tr class="memdesc:a8916478f374594156915359aa9b0d0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a given state is a terminal.  <a href="#a8916478f374594156915359aa9b0d0d3">More...</a><br/></td></tr>
+<tr class="separator:a8916478f374594156915359aa9b0d0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class models <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process. </p>
@@ -425,12 +428,37 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a771762f6fb3be11da247b9fb1f57b1dd"></a>
+<a class="anchor" id="a8916478f374594156915359aa9b0d0d3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;size_t, double&gt; AIToolbox::MDP::RLModel::sample </td>
+          <td class="memname">bool AIToolbox::MDP::RLModel::isTerminal </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns whether a given state is a terminal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>The state examined.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the input state is a terminal, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1af54141bc9297bd7b7a2fb5c49fb3dc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::tuple&lt;size_t, double&gt; AIToolbox::MDP::RLModel::sampleSR </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>s</em>, </td>
@@ -592,7 +620,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 3 2014 14:56:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

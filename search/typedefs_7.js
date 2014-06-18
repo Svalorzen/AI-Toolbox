@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['table2d',['Table2D',['../namespaceAIToolbox.html#af774ebb18ec376e43d77e908e3854370',1,'AIToolbox']]],
-  ['table3d',['Table3D',['../namespaceAIToolbox.html#a7fa914363e6f779a2ba9f92ea654b90a',1,'AIToolbox']]],
-  ['transitiontable',['TransitionTable',['../classAIToolbox_1_1MDP_1_1Model.html#aca9e364f7740a3ca3d0a5186e2ceb728',1,'AIToolbox::MDP::Model::TransitionTable()'],['../classAIToolbox_1_1MDP_1_1RLModel.html#a12607e8546fa692df7525bdca1360a99',1,'AIToolbox::MDP::RLModel::TransitionTable()']]]
+  ['samplebelief',['SampleBelief',['../classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#a59a857f389a56676e63b3346d8a75f22',1,'AIToolbox::POMDP::POMCP&lt; M &gt;']]]
 ];

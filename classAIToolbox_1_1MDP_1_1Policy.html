@@ -144,9 +144,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a73d8d30a45e6c777d45824c04505a419"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a73d8d30a45e6c777d45824c04505a419">setStatePolicy</a> (size_t s, size_t a)</td></tr>
 <tr class="memdesc:a73d8d30a45e6c777d45824c04505a419"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the policy for a particular state.  <a href="#a73d8d30a45e6c777d45824c04505a419">More...</a><br/></td></tr>
 <tr class="separator:a73d8d30a45e6c777d45824c04505a419"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9199a665a39e660ab71d87cba947f629"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74">PolicyTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a9199a665a39e660ab71d87cba947f629">getPolicy</a> () const </td></tr>
-<tr class="memdesc:a9199a665a39e660ab71d87cba947f629"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables inspection of the internal policy.  <a href="#a9199a665a39e660ab71d87cba947f629">More...</a><br/></td></tr>
-<tr class="separator:a9199a665a39e660ab71d87cba947f629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b631488a6f835408614ce8dfdc78186"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74">PolicyTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a0b631488a6f835408614ce8dfdc78186">getPolicyTable</a> () const </td></tr>
+<tr class="memdesc:a0b631488a6f835408614ce8dfdc78186"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables inspection of the internal policy.  <a href="#a0b631488a6f835408614ce8dfdc78186">More...</a><br/></td></tr>
+<tr class="separator:a0b631488a6f835408614ce8dfdc78186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2aa929472dd2d236996b7e12fdbea21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#ab2aa929472dd2d236996b7e12fdbea21">prettyPrint</a> (std::ostream &amp;os) const </td></tr>
 <tr class="memdesc:ab2aa929472dd2d236996b7e12fdbea21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the policy to a stream.  <a href="#ab2aa929472dd2d236996b7e12fdbea21">More...</a><br/></td></tr>
 <tr class="separator:ab2aa929472dd2d236996b7e12fdbea21"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -349,12 +349,12 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9199a665a39e660ab71d87cba947f629"></a>
+<a class="anchor" id="a0b631488a6f835408614ce8dfdc78186"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74">PolicyTable</a>&amp; AIToolbox::MDP::Policy::getPolicy </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74">PolicyTable</a>&amp; AIToolbox::MDP::Policy::getPolicyTable </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -569,7 +569,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This function reads a policy from a file. </p>
-<p>This function reads files that have been outputted through <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a15e9ad9332032af8e7a556d61f0e8aaf" title="This function reads a policy from a file. ">operator&gt;&gt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
+<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae5895d1c2afb032d325f919e675af162">operator&lt;&lt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
 <p>State and actions are also verified, and this function does not accept a randomly shuffled policy file. The file must be sorted by state, and each state must be sorted by action.</p>
 <p>As a layer of additional precaution, the function normalizes the policy once it has been read, to assure true probability distribution on the internal policy.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -589,7 +589,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 3 2014 14:56:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

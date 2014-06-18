@@ -100,12 +100,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>To compile the library's documentation you need the <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> tool. To use it it is sufficient to execute the following command from the project's main folder:</p>
 <p>```bash doxygen ```</p>
 <p>After that the documentation will be generated into an <code>html</code> folder in the main directory.</p>
+<h1>Compiling a Program </h1>
+<p>To compile a program that uses this library, simply link it against <code>libAIToolboxMDP.a</code> and possibly both <code>libAIToolboxPOMDP.a</code> and all <code>lp_solve</code> libraries. Please note that since the POMDP code relies on the MDP code, you <b>MUST</b> link the MDP library <em>after</em> the POMDP one, otherwise it may result in <code>undefined reference</code> errors.</p>
 <h1>Documentation </h1>
 <p>The latest documentation is available <a href="http://svalorzen.github.io/AI-Toolbox/">here</a>. Keep in mind that it may not always be 100% up to date with the latest commits, while the one you compile yourself will of course be. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 3 2014 14:56:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

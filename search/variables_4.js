@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['n',['N',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a18ad693d8a11415b137c3b409cc335c9',1,'AIToolbox::MDP::DynaQ&lt; M &gt;']]]
+  ['epsilon_5f',['epsilon_',['../classAIToolbox_1_1EpsilonPolicyInterface.html#a72319844fda18b12335e06cb22a046fd',1,'AIToolbox::EpsilonPolicyInterface']]]
 ];

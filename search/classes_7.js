@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['seeder',['Seeder',['../classAIToolbox_1_1Impl_1_1Seeder.html',1,'AIToolbox::Impl']]]
+  ['qgreedypolicy',['QGreedyPolicy',['../classAIToolbox_1_1MDP_1_1QGreedyPolicy.html',1,'AIToolbox::MDP']]],
+  ['qlearning',['QLearning',['../classAIToolbox_1_1MDP_1_1QLearning.html',1,'AIToolbox::MDP']]],
+  ['qpolicyinterface',['QPolicyInterface',['../classAIToolbox_1_1MDP_1_1QPolicyInterface.html',1,'AIToolbox::MDP']]]
 ];

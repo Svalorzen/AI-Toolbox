@@ -63,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -122,7 +123,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1Policy.html#a004d9a3cd04369b3c77970fa8cbbc33a">setStatePolicy</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74">PolicyTable</a> &amp; <a class="code" href="classAIToolbox_1_1MDP_1_1Policy.html#a9199a665a39e660ab71d87cba947f629">getPolicy</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74">PolicyTable</a> &amp; <a class="code" href="classAIToolbox_1_1MDP_1_1Policy.html#a0b631488a6f835408614ce8dfdc78186">getPolicyTable</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1MDP_1_1Policy.html#ab2aa929472dd2d236996b7e12fdbea21">prettyPrint</a>(std::ostream &amp; os) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <span class="keyword">private</span>:</div>
@@ -146,8 +147,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="MDP_2Types_8hpp_html"><div class="ttname"><a href="MDP_2Types_8hpp.html">Types.hpp</a></div></div>
-<div class="ttc" id="classAIToolbox_1_1MDP_1_1Policy_html_a9199a665a39e660ab71d87cba947f629"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1Policy.html#a9199a665a39e660ab71d87cba947f629">AIToolbox::MDP::Policy::getPolicy</a></div><div class="ttdeci">const PolicyTable &amp; getPolicy() const </div><div class="ttdoc">This function enables inspection of the internal policy. </div></div>
 <div class="ttc" id="classAIToolbox_1_1PolicyInterface_html_a6ebd914d4d88cbf4a02d857e61cd8f63"><div class="ttname"><a href="classAIToolbox_1_1PolicyInterface.html#a6ebd914d4d88cbf4a02d857e61cd8f63">AIToolbox::PolicyInterface&lt; size_t &gt;::getA</a></div><div class="ttdeci">size_t getA() const</div><div class="ttdoc">This function returns the number of available actions to the agent. </div></div>
+<div class="ttc" id="classAIToolbox_1_1MDP_1_1Policy_html_a0b631488a6f835408614ce8dfdc78186"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1Policy.html#a0b631488a6f835408614ce8dfdc78186">AIToolbox::MDP::Policy::getPolicyTable</a></div><div class="ttdeci">const PolicyTable &amp; getPolicyTable() const </div><div class="ttdoc">This function enables inspection of the internal policy. </div></div>
 <div class="ttc" id="classAIToolbox_1_1MDP_1_1Policy_html_a593b773da1a808f6ee52e1befc95bca5"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1Policy.html#a593b773da1a808f6ee52e1befc95bca5">AIToolbox::MDP::Policy::sampleAction</a></div><div class="ttdeci">virtual size_t sampleAction(const size_t &amp;s) const override</div><div class="ttdoc">This function chooses a random action for state s, following the policy distribution. </div></div>
 <div class="ttc" id="classAIToolbox_1_1PolicyInterface_html"><div class="ttname"><a href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a></div><div class="ttdoc">This class represents the base interface for policies. </div><div class="ttdef"><b>Definition:</b> IO.hpp:11</div></div>
 <div class="ttc" id="classAIToolbox_1_1MDP_1_1Policy_html"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1Policy.html">AIToolbox::MDP::Policy</a></div><div class="ttdoc">This class represents an MDP Policy. </div><div class="ttdef"><b>Definition:</b> Policy.hpp:21</div></div>
@@ -165,7 +166,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 3 2014 14:56:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

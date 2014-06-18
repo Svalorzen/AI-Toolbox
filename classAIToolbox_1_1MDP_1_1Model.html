@@ -129,9 +129,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a8c7eff99e36477f7fcdbdd9060c34ec9">setDiscount</a> (double d)</td></tr>
 <tr class="memdesc:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets a new discount factor for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>.  <a href="#a8c7eff99e36477f7fcdbdd9060c34ec9">More...</a><br/></td></tr>
 <tr class="separator:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d59bd0da78b4b6e465553400bcc80f3"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2d59bd0da78b4b6e465553400bcc80f3">sample</a> (size_t s, size_t a) const </td></tr>
-<tr class="memdesc:a2d59bd0da78b4b6e465553400bcc80f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair.  <a href="#a2d59bd0da78b4b6e465553400bcc80f3">More...</a><br/></td></tr>
-<tr class="separator:a2d59bd0da78b4b6e465553400bcc80f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5edd94d8355e3e9a66c6f2c529b4733"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ae5edd94d8355e3e9a66c6f2c529b4733">sampleSR</a> (size_t s, size_t a) const </td></tr>
+<tr class="memdesc:ae5edd94d8355e3e9a66c6f2c529b4733"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair.  <a href="#ae5edd94d8355e3e9a66c6f2c529b4733">More...</a><br/></td></tr>
+<tr class="separator:ae5edd94d8355e3e9a66c6f2c529b4733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a180716750c1c6c01213f7d4b887782af"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a180716750c1c6c01213f7d4b887782af">getS</a> () const </td></tr>
 <tr class="memdesc:a180716750c1c6c01213f7d4b887782af"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#a180716750c1c6c01213f7d4b887782af">More...</a><br/></td></tr>
 <tr class="separator:a180716750c1c6c01213f7d4b887782af"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,6 +153,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5cd29b774da070ec7b404783cf53c37b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aa4bbe23cc672cfd0097f113001c78883">RewardTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a5cd29b774da070ec7b404783cf53c37b">getRewardFunction</a> () const </td></tr>
 <tr class="memdesc:a5cd29b774da070ec7b404783cf53c37b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the rewards table for inspection.  <a href="#a5cd29b774da070ec7b404783cf53c37b">More...</a><br/></td></tr>
 <tr class="separator:a5cd29b774da070ec7b404783cf53c37b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff6f9df4c9ff84752411aa2e536e47ce"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aff6f9df4c9ff84752411aa2e536e47ce">isTerminal</a> (size_t s) const </td></tr>
+<tr class="memdesc:aff6f9df4c9ff84752411aa2e536e47ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a given state is a terminal.  <a href="#aff6f9df4c9ff84752411aa2e536e47ce">More...</a><br/></td></tr>
+<tr class="separator:aff6f9df4c9ff84752411aa2e536e47ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents a Markov Decision Process. </p>
@@ -477,12 +480,37 @@ template&lt;typename T , typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a2d59bd0da78b4b6e465553400bcc80f3"></a>
+<a class="anchor" id="aff6f9df4c9ff84752411aa2e536e47ce"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;size_t, double&gt; AIToolbox::MDP::Model::sample </td>
+          <td class="memname">bool AIToolbox::MDP::Model::isTerminal </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns whether a given state is a terminal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>The state examined.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the input state is a terminal, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae5edd94d8355e3e9a66c6f2c529b4733"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::tuple&lt;size_t, double&gt; AIToolbox::MDP::Model::sampleSR </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>s</em>, </td>
@@ -502,7 +530,7 @@ template&lt;typename T , typename R &gt; </div>
 </div><div class="memdoc">
 
 <p>This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair. </p>
-<p>This function samples the model for simulate experience. The transition and reward functions are used to produce, from the state action pair inserted as arguments, a possible new state with respective reward. The new state is picked from all possible states that the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> allows transitioning to, each with probability equal to the same probability of the transition in the model. After a new state is picked, the reward is the corresponding reward contained in the reward function.</p>
+<p>This function samples the model for simulated experience. The transition and reward functions are used to produce, from the state action pair inserted as arguments, a possible new state with respective reward. The new state is picked from all possible states that the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> allows transitioning to, each with probability equal to the same probability of the transition in the model. After a new state is picked, the reward is the corresponding reward contained in the reward function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The state that needs to be sampled. </td></tr>
@@ -615,7 +643,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 3 2014 14:56:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

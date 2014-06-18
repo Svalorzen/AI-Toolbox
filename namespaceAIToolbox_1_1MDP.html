@@ -130,8 +130,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html">RLModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process.  <a href="classAIToolbox_1_1MDP_1_1RLModel.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__generative__model.html">is_generative_model</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="structAIToolbox_1_1MDP_1_1is__generative__model.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html">is_model</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>.  <a href="structAIToolbox_1_1MDP_1_1is__model.html#details">More...</a><br/></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a full <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="structAIToolbox_1_1MDP_1_1is__model.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -441,7 +444,7 @@ template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt
 </div><div class="memdoc">
 
 <p>This function reads a policy from a file. </p>
-<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox_1_1MDP.html#a82b06a67ba7466f726ad6dc1ad2ff2da">operator&gt;&gt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
+<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae5895d1c2afb032d325f919e675af162">operator&lt;&lt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
 <p>State and actions are also verified, and this function does not accept a randomly shuffled policy file. The file must be sorted by state, and each state must be sorted by action.</p>
 <p>As a layer of additional precaution, the function normalizes the policy once it has been read, to assure true probability distribution on the internal policy.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -458,7 +461,7 @@ template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 3 2014 14:56:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
