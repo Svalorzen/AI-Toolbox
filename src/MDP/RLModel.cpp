@@ -98,6 +98,17 @@ namespace AIToolbox {
             return rewards_[s][a][s1];
         }
 
+        bool RLModel::isTerminal(size_t s) const {
+            bool answer = true;
+            for ( size_t a = 0; a < A; ++a ) {
+                if ( !checkEqual(1.0, transitions_[s][a][s]) ) {
+                    answer = false;
+                    break;
+                }
+            }
+            return answer;
+        }
+
         size_t RLModel::getS() const { return S; }
         size_t RLModel::getA() const { return A; }
         double RLModel::getDiscount() const { return discount_; }

@@ -192,6 +192,15 @@ namespace AIToolbox {
                  */
                 const RewardTable &     getRewardFunction()     const;
 
+                /**
+                 * @brief This function returns whether a given state is a terminal.
+                 *
+                 * @param s The state examined.
+                 *
+                 * @return True if the input state is a terminal, false otherwise.
+                 */
+                bool isTerminal(size_t s) const;
+
             private:
                 size_t S, A;
                 double discount_;

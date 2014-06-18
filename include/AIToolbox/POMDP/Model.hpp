@@ -101,7 +101,7 @@ namespace AIToolbox {
                 /**
                  * @brief This function samples the POMDP for the specified state action pair.
                  *
-                 * This function samples the model for simulate experience. The
+                 * This function samples the model for simulated experience. The
                  * transition, observation and reward functions are used to
                  * produce, from the state action pair inserted as arguments, a
                  * possible new state with respective observation and reward.
@@ -118,6 +118,23 @@ namespace AIToolbox {
                  * @return A tuple containing a new state, observation and reward.
                  */
                 std::tuple<size_t,size_t, double> sampleSOR(size_t,size_t) const;
+
+                /**
+                 * @brief This function samples the POMDP for the specified state action pair.
+                 *
+                 * This function samples the model for simulated experience. The
+                 * transition, observation and reward functions are used to
+                 * produce, from the state, action and new state inserted as
+                 * arguments, a possible new observation and reward. The
+                 * observation and rewards are picked so that they are
+                 * consistent with the specified new state.
+                 *
+                 * @param s The state that needs to be sampled.
+                 * @param a The action that needs to be sampled.
+                 *
+                 * @return A tuple containing a new observation and reward.
+                 */
+                std::tuple<size_t, double> sampleOR(size_t,size_t,size_t) const;
 
                 /**
                  * @brief This function returns the stored observation probability for the specified state-action pair.
@@ -234,14 +251,21 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        std::tuple<size_t,size_t, double> Model<M>::sampleSOR(size_t s,size_t a) const {
+        std::tuple<size_t,size_t, double> Model<M>::sampleSOR(size_t s, size_t a) const {
             size_t s1, o;
             double r;
 
             std::tie(s1, r) = this->sampleSR(s, a);
-            o = sampleProbability(observations_[s][a], O, rand_);
+            o = sampleProbability(observations_[s1][a], O, rand_);
 
             return std::make_tuple(s1, o, r);
+        }
+
+        template <typename M>
+        std::tuple<size_t, double> Model<M>::sampleOR(size_t s, size_t a, size_t s1) const {
+            size_t o = sampleProbability(observations_[s1][a], O, rand_);
+            double r = this->getExpectedReward(s, a, s1);
+            return std::make_tuple(o, r);
         }
     }
 }

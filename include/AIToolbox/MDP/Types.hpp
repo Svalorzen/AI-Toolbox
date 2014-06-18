@@ -59,7 +59,10 @@ namespace AIToolbox {
          * The interface must be implemented and be public in the parameter
          * class. The interface is the following:
          *
+         * - size_t getA() const : Returns the number of actions of the Model.
+         * - double getDiscount() const : Returns the discount factor of the Model.
          * - std::tuple<size_t, double> sampleSR(size_t s, size_t a) const : Returns a sampled state-reward pair from (s,a)
+         * - bool isTerminal(size_t s) const : Reports whether the input state is a terminal state.
          *
          * is_generavie_model<M>::value will be equal to true is M implements the interface,
          * and false otherwise.
@@ -71,7 +74,10 @@ namespace AIToolbox {
             private:
                 template <typename Z> static auto test(int) -> decltype(
 
-                        static_cast<std::tuple<size_t, double> (Z::*)(size_t,size_t) const>      (&Z::sampleSR),
+                        static_cast<size_t (Z::*)() const>                                      (&Z::getA),
+                        static_cast<double (Z::*)() const>                                      (&Z::getDiscount),
+                        static_cast<std::tuple<size_t, double> (Z::*)(size_t,size_t) const>     (&Z::sampleSR),
+                        static_cast<bool (Z::*)(size_t) const>                                  (&Z::isTerminal),
 
                         std::true_type()
                 );
@@ -91,15 +97,13 @@ namespace AIToolbox {
          * class. The interface is the following:
          *
          * - size_t getS() const : Returns the number of states of the Model.
-         * - size_t getA() const : Returns the number of actions of the Model.
-         * - double getDiscount() const : Returns the discount factor of the Model.
          * - double getTransitionProbability(size_t s, size_t a, size_t s1) : Returns the transition probability given (s,a) to s1
          * - double getExpectedReward(size_t s, size_t a, size_t s1) : Returns the expected reward for transition (s,a) to s1
          *
          * In addition the MDP needs to respect the interface for the MDP generative model.
          *
          * \sa MDP::is_generative_model
-         * 
+         *
          * is_model<M>::value will be equal to true is M implements the interface,
          * and false otherwise.
          *
@@ -110,11 +114,9 @@ namespace AIToolbox {
             private:
                 template <typename Z> static auto test(int) -> decltype(
 
-                        static_cast<size_t (Z::*)() const>                       (&Z::getS),
-                        static_cast<size_t (Z::*)() const>                       (&Z::getA),
-                        static_cast<double (Z::*)() const>                       (&Z::getDiscount),
-                        static_cast<double (Z::*)(size_t,size_t,size_t) const>   (&Z::getTransitionProbability),
-                        static_cast<double (Z::*)(size_t,size_t,size_t) const>   (&Z::getExpectedReward),
+                        static_cast<size_t (Z::*)() const>                      (&Z::getS),
+                        static_cast<double (Z::*)(size_t,size_t,size_t) const>  (&Z::getTransitionProbability),
+                        static_cast<double (Z::*)(size_t,size_t,size_t) const>  (&Z::getExpectedReward),
 
                         std::true_type()
                 );

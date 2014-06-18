@@ -25,4 +25,5 @@ endif()
 
 if (MAKE_POMDP)
     AddTestPOMDP(IncrementalPruning)
+    AddTestPOMDP(POMCP)
 endif()

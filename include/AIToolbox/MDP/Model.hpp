@@ -124,7 +124,7 @@ namespace AIToolbox {
                 /**
                  * @brief This function samples the MDP for the specified state action pair.
                  *
-                 * This function samples the model for simulate experience. The transition
+                 * This function samples the model for simulated experience. The transition
                  * and reward functions are used to produce, from the state action pair
                  * inserted as arguments, a possible new state with respective reward.
                  * The new state is picked from all possible states that the MDP allows
@@ -195,6 +195,15 @@ namespace AIToolbox {
                  * @return The rewards table.
                  */
                 const RewardTable &     getRewardFunction()     const;
+
+                /**
+                 * @brief This function returns whether a given state is a terminal.
+                 *
+                 * @param s The state examined.
+                 *
+                 * @return True if the input state is a terminal, false otherwise.
+                 */
+                bool isTerminal(size_t s) const;
 
             private:
                 size_t S, A;

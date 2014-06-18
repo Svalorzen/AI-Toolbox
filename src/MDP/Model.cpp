@@ -33,6 +33,17 @@ namespace AIToolbox {
             discount_ = d;
         }
 
+        bool Model::isTerminal(size_t s) const {
+            bool answer = true;
+            for ( size_t a = 0; a < A; ++a ) {
+                if ( !checkEqual(1.0, transitions_[s][a][s]) ) {
+                    answer = false;
+                    break;
+                }
+            }
+            return answer;
+        }
+
         size_t Model::getS() const { return S; }
         size_t Model::getA() const { return A; }
         double Model::getDiscount() const { return discount_; }
