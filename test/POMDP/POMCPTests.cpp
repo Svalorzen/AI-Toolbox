@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         // The main problem is that the high exploration constant here is used to force
         // OPEN actions in high uncertainty situations, in any case. Otherwise, LISTEN actions
         // end up being way better, since POMCP averages across actions (not very smart).
-        POMDP::POMCP<decltype(model)> solver(model, 1000, 10000, horizon * 100.0);
+        POMDP::POMCP<decltype(model)> solver(model, 1000, 10000, horizon * 10000.0);
 
         for ( auto & b : beliefs ) {
             auto a = solver.sampleAction(b, horizon);
