@@ -10,7 +10,7 @@
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
 
-    auto model = setupTigerProblem();
+    auto model = makeTigerProblem();
     model.setDiscount(0.95);
 
     // We solve the problem for an horizon of 15
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     // undiscounted scenario it doesn't matter, if the belief in a state is high
     // enough, whether we act now and listen later, or vice-versa.
 
-    auto model = setupTigerProblem();
+    auto model = makeTigerProblem();
     model.setDiscount(1.0);
 
     unsigned horizon = 2;

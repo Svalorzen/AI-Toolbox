@@ -16,7 +16,7 @@
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
 
-    auto model = setupTigerProblem();
+    auto model = makeTigerProblem();
     model.setDiscount(0.85);
 
     // This indicates where the tiger is.

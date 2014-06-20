@@ -44,7 +44,7 @@ enum {
     TIG_RIGHT   = 1,
 };
 
-inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> setupTigerProblem() {
+inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> makeTigerProblem() {
     // Actions are: 0-listen, 1-open-left, 2-open-right
     size_t S = 2, A = 3, O = 2;
 
