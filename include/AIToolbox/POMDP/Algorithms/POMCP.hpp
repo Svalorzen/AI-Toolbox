@@ -5,6 +5,7 @@
 #include <AIToolbox/ProbabilityUtils.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
 
+#include <unordered_map>
 #include <iostream>
 
 namespace AIToolbox {
@@ -25,7 +26,7 @@ namespace AIToolbox {
                 using SampleBelief = std::vector<size_t>;
 
                 struct BeliefNode;
-                using BeliefNodes = std::vector<BeliefNode>;
+                using BeliefNodes = std::unordered_map<size_t, BeliefNode>;
 
                 struct ActionNode {
                     BeliefNodes children;
@@ -35,11 +36,10 @@ namespace AIToolbox {
                 using ActionNodes = std::vector<ActionNode>;
 
                 struct BeliefNode {
-                    BeliefNode(size_t A) : o(0), N(0) { children.resize(A); }
-                    BeliefNode(size_t s, size_t inO, size_t A) : belief(1, s), o(inO), N(0) { children.resize(A); }
+                    BeliefNode(size_t A) : N(0) { children.resize(A); }
+                    BeliefNode(size_t s, size_t A) : belief(1, s), N(0) { children.resize(A); }
                     ActionNodes children;
                     SampleBelief belief;
-                    size_t o;
                     unsigned N;
                 };
 
@@ -55,7 +55,7 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function resets the internal graph and samples for the provided belief and horizon.
-                 * 
+                 *
                  * In general it would be better if the belief did not contain
                  * any terminal states; although not necessary, it would
                  * prevent unnecessary work from being performed.
@@ -69,7 +69,7 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function uses the internal graph to plan.
-                 * 
+                 *
                  * This function can be called after a previous call to
                  * sampleAction with a Belief. Otherwise, it will invoke it
                  * anyway with a random belief.
@@ -94,7 +94,7 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function sets the new size for initial beliefs created from sampleAction().
-                 * 
+                 *
                  * Note that this parameter does not bound particle beliefs
                  * created within the tree by result of rollouts: only the ones
                  * directly created from true Beliefs.
@@ -112,7 +112,7 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function sets the new exploration constant for POMCP.
-                 * 
+                 *
                  * This parameter is EXTREMELY important to determine POMCP
                  * performance and, ultimately, convergence. In general it is
                  * better to find it empirically, by testing some values and
@@ -175,9 +175,6 @@ namespace AIToolbox {
                 double rollout(size_t s, unsigned horizon);
 
                 template <typename Iterator>
-                Iterator findBranchO(Iterator begin, Iterator end, size_t o);
-
-                template <typename Iterator>
                 Iterator findBestA(Iterator begin, Iterator end);
 
                 template <typename Iterator>
@@ -201,10 +198,10 @@ namespace AIToolbox {
 
         template <typename M>
         size_t POMCP<M>::sampleAction(size_t a, size_t o, unsigned horizon) {
-            auto begin = std::begin(graph_.children[a].children), end = std::end(graph_.children[a].children);
+            auto & obs = graph_.children[a].children;
 
-            auto it = findBranchO(begin, end, o);
-            if ( it == end )
+            auto it = obs.find(o);
+            if ( it == obs.end() )
                 return sampleAction(Belief(S, 1.0 / S), horizon);
 
             // Here we need an additional step, because *it is contained by graph_.
@@ -212,7 +209,7 @@ namespace AIToolbox {
             // contains (included *it), and then we are going to move unallocated memory
             // into graph_! So we move *it outside of the graph_ hierarchy, so that
             // we can then assign safely.
-            { auto tmp = std::move(*it); graph_ = std::move(tmp); }
+            { auto tmp = std::move(it->second); graph_ = std::move(tmp); }
 
             if ( ! graph_.belief.size() ) {
                 std::cerr << "POMCP Lost track of the belief, restarting with uniform..\n";
@@ -253,15 +250,17 @@ namespace AIToolbox {
             // We only go deeper if needed (maxDepth_ is always at least 1).
             if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) ) {
                 auto end = std::end(aNode.children);
-                auto ot = findBranchO(std::begin(aNode.children), end, o);
+                auto ot = aNode.children.find(o);
 
                 double futureRew;
                 if ( ot == end ) {
-                    aNode.children.emplace_back(s1, o, A);
+                    aNode.children.emplace(std::piecewise_construct,
+                                           std::forward_as_tuple(o),
+                                           std::forward_as_tuple(s1, A));
                     futureRew = rollout(s1, depth + 1);
                 }
                 else {
-                    futureRew = simulate( *ot, s1, depth + 1 );
+                    futureRew = simulate( ot->second, s1, depth + 1 );
                 }
 
                 rew += model_.getDiscount() * futureRew;
@@ -286,12 +285,6 @@ namespace AIToolbox {
                 gamma *= model_.getDiscount();
             }
             return totalRew;
-        }
-
-        template <typename M>
-        template <typename Iterator>
-        Iterator POMCP<M>::findBranchO(Iterator begin, Iterator end, size_t o) {
-            return std::find_if(begin, end, [o](const BeliefNode & bn){ return bn.o == o; });
         }
 
         template <typename M>
@@ -366,12 +359,12 @@ namespace AIToolbox {
         size_t POMCP<M>::getBeliefSize() const {
             return beliefSize_;
         }
-        
+
         template <typename M>
         unsigned POMCP<M>::getIterations() const {
             return iterations_;
         }
-        
+
         template <typename M>
         double POMCP<M>::getExploration() const {
             return exploration_;
