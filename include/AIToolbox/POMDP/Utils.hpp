@@ -47,6 +47,35 @@ namespace AIToolbox {
 
             return bestMatch;
         }
+
+        /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function needs to create a new belief since modifying a belief
+         * in place is not possible. This is because each cell update for the
+         * new belief requires all values from the previous belief.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         */
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+        Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
+            size_t S = model.getS();
+            Belief br(S, 0.0);
+
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                double sum = 0.0;
+                for ( size_t s = 0; s < S; ++s )
+                    sum += model.getTransitionProbability(s,a,s1) * b[s];
+
+                br[s1] = model.getObservationProbability(s1,a,o) * sum;
+            }
+
+            return br;
+        }
     }
 }
 

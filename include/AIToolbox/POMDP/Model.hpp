@@ -159,19 +159,6 @@ namespace AIToolbox {
                 double getObservationProbability(const Belief & b, size_t o, size_t a) const;
 
                 /**
-                 * @brief Creates a new belief reflecting changes after an action and observation.
-                 *
-                 * This function creates a new belief since modifying a belief in place
-                 * is not possible, as each cell update requires all values from the
-                 * previous belief.
-                 *
-                 * @param b The old belief.
-                 * @param a The action taken during the transition.
-                 * @param o The observation registered.
-                 */
-                Belief updateBelief(const Belief & b, size_t a, size_t o) const;
-
-                /**
                  * @brief This function returns the number of observations possible.
                  *
                  * @return The total number of observations.
@@ -217,22 +204,6 @@ namespace AIToolbox {
                     if ( ! isProbability(of[s][a], O) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
             copyTable3D(of, observations_, this->getS(), this->getA(), O);
-        }
-
-        template <typename M>
-        Belief Model<M>::updateBelief(const Belief & b, size_t a, size_t o) const {
-            size_t S = this->getS();
-            Belief br(S, 0.0);
-
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                double sum = 0.0;
-                for ( size_t s = 0; s < S; ++s )
-                    sum += this->getTransitionProbability(s,a,s1) * b[s];
-
-                br[s1] = getObservationProbability(s1,a,o) * sum;
-            }
-
-            return br;
         }
 
         template <typename M>
