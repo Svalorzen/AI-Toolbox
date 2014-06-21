@@ -44,14 +44,15 @@ IF (LPSOLVE_INCLUDE_PATH)
         SET(LPSOLVE_FOUND TRUE)
 
         ## Try to find out if lpsolve can link standalone
-        SET(LPSOLVE_TRY_CODE "#include <lpsolve/lp_lib.h>
-        int main(int /*argc*/, char** /*argv*/)
-        {
-        int major, minor, release, build;
-        lp_solve_version(&major, &minor, &release, &build);
+        SET(LPSOLVE_TRY_CODE 
+            "#include <lpsolve/lp_lib.h>
+             int main(int /*argc*/, char** /*argv*/) {
+                int major, minor, release, build;
+                
+                lp_solve_version(&major, &minor, &release, &build);
 
-        return 0;
-        }")
+                return 0;
+             }")
 
         SET(CMAKE_REQUIRED_INCLUDES ${LPSOLVE_INCLUDE_DIR})
         SET(CMAKE_REQUIRED_LIBRARIES ${LPSOLVE_LIBRARIES})

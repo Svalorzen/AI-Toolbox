@@ -4,7 +4,6 @@
 #include <vector>
 #include <tuple>
 
-#include <boost/multi_array.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/PolicyInterface.hpp>
 
