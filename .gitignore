@@ -1,7 +1,6 @@
 .ycm*
 *.swp
 build/
-./data/
-MDPtoolboxMatlab/
 html/
+*Tests
 
