@@ -11,6 +11,13 @@ can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/), and from the
 `pomdp-solve` software written by A. R. Cassandra, which you can find
 [here](http://www.pomdp.org/code/index.shtml).
 
+**NOTE:** With regard the travis build failing, I must point out that it's due to
+travis, not me. The gcc build fails due to a bug in g++-4.8, but compiles
+correctly with g++-4.9. The clang build fails because clang uses libgcc, and the
+versions that are available in Ubuntu 12.04 (the environment travis offers) do
+not provide certain C++11 functions. Once travis updates its build machines to
+Ubuntu 14.04 everything will definitely start working out again.
+
 Brief
 =====
 
