@@ -325,7 +325,7 @@ namespace AIToolbox {
             belief.reserve(beliefSize_);
 
             for ( size_t i = 0; i < beliefSize_; ++i )
-                belief.push_back(sampleProbability(b, S, rand_));
+                belief.push_back(sampleProbability(S, b, rand_));
 
             return belief;
         }

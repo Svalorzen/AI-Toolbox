@@ -24,11 +24,11 @@ namespace AIToolbox {
         {
             auto & actions = std::get<ACTIONS>(v);
             for ( size_t s = 0; s < S; ++s )
-                policy_[s][actions[s]] = 1.0; 
+                policy_[s][actions[s]] = 1.0;
         }
 
         size_t Policy::sampleAction(const size_t & s) const {
-            return sampleProbability(policy_[s], A, rand_);
+            return sampleProbability(A, policy_[s], rand_);
         }
 
         double Policy::getActionProbability(const size_t & s, size_t a) const {
@@ -73,7 +73,7 @@ namespace AIToolbox {
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t a = 0; a < A; ++a ) {
                     if ( ! ( is >> scheck >> acheck >> policy.policy_[s][a] ) ) {
-                        std::cerr << "AIToolbox: Could not read policy data.\n"; 
+                        std::cerr << "AIToolbox: Could not read policy data.\n";
                         fail = true;
                     }
                     else if ( policy.policy_[s][a] < 0.0 || policy.policy_[s][a] > 1.0 ) {

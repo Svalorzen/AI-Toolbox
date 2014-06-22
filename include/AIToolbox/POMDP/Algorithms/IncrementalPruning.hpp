@@ -100,32 +100,25 @@ namespace AIToolbox {
 
             // And off we go
             while ( timestep <= horizon_ ) {
-                std::cout << "Timestep " << timestep << "\nBuilding projections...";
                 // Compute all possible outcomes, from our previous results.
                 // This means that for each action-observation pair, we are going
                 // to obtain the same number of possible outcomes as the number
                 // of entries in our initial vector w.
                 auto projs = projecter(v[timestep-1]);
-                std::cout << "Done.\n";
+
                 size_t finalWSize = 0;
                 // In this method we split the work by action, which will then
                 // be joined again at the end of the loop.
                 for ( size_t a = 0; a < A; ++a ) {
-                    std::cout << "Starting pruning of action " << a << ".\n";
                     // We prune each outcome separately to be sure
                     // we do not replicate work later.
                     for ( size_t o = 0; o < O; ++o )
                         prune( &projs[a][o] );
 
-                    std::cout << "Pruned each observation.\n";
-
                     for ( size_t o = 1; o < O; ++o ) {
-                        std::cout << "Crossumming obs " << o << "...";
                         projs[a][0] = crossSum( projs[a][0], projs[a][o], a, o );
                         prune( &projs[a][0] );
-                        std::cout << "Done.\n";
                     }
-                    std::cout << "Finished cross-summing.\n";
                     finalWSize += projs[a][0].size();
                 }
                 VList w;
@@ -134,11 +127,9 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < A; ++a )
                     std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
 
-                std::cout << "Final prune...";
                 // We have them all, and we prune one final time to be sure we have
                 // computed the parsimonious set of value functions.
                 prune( &w );
-                std::cout << "Done.\n";
 
                 v.emplace_back(std::move(w));
 

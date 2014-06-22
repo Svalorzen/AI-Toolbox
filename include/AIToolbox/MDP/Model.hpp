@@ -226,7 +226,7 @@ namespace AIToolbox {
         void Model::setTransitionFunction(const T & t) {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
-                    if ( ! isProbability(t[s][a], S) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    if ( ! isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
 
             copyTable3D(t, transitions_, S, A, S);
         }

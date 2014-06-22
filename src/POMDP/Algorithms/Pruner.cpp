@@ -101,7 +101,7 @@ namespace AIToolbox {
             auto & w = *pw;
 
             // Remove easy ValueFunctions to avoid doing more work later.
-            dominationPrune(&w);
+            dominationPrune(S, &w);
 
             size_t size = w.size();
             if ( size < 2 ) return;
@@ -129,9 +129,9 @@ namespace AIToolbox {
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
                 if ( std::get<0>(result) ) {
-                    bound = extractBestAtBelief(std::get<1>(result), begin, bound, bound);  // Moves the best at the "end"
-                    best.emplace_back(std::move(*bound));                                   // We don't care about what we leave here..
-                    addRow(std::get<VALUES>(best.back()), LE);                              // Add the newly found vector to our lp.
+                    bound = extractBestAtBelief(S, std::get<1>(result), begin, bound, bound);  // Moves the best at the "end"
+                    best.emplace_back(std::move(*bound));                                      // We don't care about what we leave here..
+                    addRow(std::get<VALUES>(best.back()), LE);                                 // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a
                 // witness point for the current value, but since we are not guaranteed to have
@@ -146,7 +146,7 @@ namespace AIToolbox {
         }
 
         // We need to get the list otherwise we cannot erase it.
-        void Pruner::dominationPrune(VList * pw) {
+        void Pruner::dominationPrune(size_t S, VList * pw) {
             auto & w = *pw;
             if ( w.size() < 2 ) return;
 
@@ -196,18 +196,9 @@ namespace AIToolbox {
             for ( size_t s = 1; s <= S; ++s ) {
                 // FIXME: This incrementally adds corners. Since a corner comparison
                 // simply checks a single ValueFunction value, this can be implemented way faster.
-                bound = extractBestAtBelief(corner, begin, bound, end);
+                bound = extractBestAtBelief(S, corner, begin, bound, end);
                 std::swap(corner[s-1], corner[s]); // change corner
             }
-
-            return bound;
-        }
-
-        VList::iterator Pruner::extractBestAtBelief(const Belief & belief, VList::iterator begin, VList::iterator bound, VList::iterator end) {
-            auto bestMatch = findBestAtBelief(S, belief, begin, end);
-
-            if ( bestMatch < bound )
-                std::swap(*bestMatch, *(--bound));
 
             return bound;
         }

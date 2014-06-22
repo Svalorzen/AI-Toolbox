@@ -5,12 +5,13 @@
 #include <cmath>
 #include <limits>
 #include <random>
+#include <algorithm>
 
 namespace AIToolbox {
 
     /**
      * @brief This function checks if two doubles near [0,1] are reasonably equal.
-     * 
+     *
      * The order of the parameter is not important.
      *
      * @param a The first number to compare.
@@ -24,7 +25,7 @@ namespace AIToolbox {
 
     /**
      * @brief This function checks if two doubles near [0,1] are reasonably different.
-     * 
+     *
      * The order of the parameter is not important.
      *
      * @param a The first number to compare.
@@ -61,7 +62,7 @@ namespace AIToolbox {
      *         and false otherwise.
      */
     template <typename T>
-    bool isProbability(const T & in, size_t d) {
+    bool isProbability(size_t d, const T & in) {
         double p = 0.0;
         for ( size_t i = 0; i < d; ++i ) {
             double value = static_cast<double>(in[i]);
@@ -76,7 +77,7 @@ namespace AIToolbox {
 
     /**
      * @brief This function samples an index from a probability vector.
-     * 
+     *
      * This function randomly samples an index between 0 and d, given a
      * vector containing the probabilities of sampling each of the indexes.
      *
@@ -98,7 +99,7 @@ namespace AIToolbox {
      * @return An index in range [0,d-1].
      */
     template <typename T, typename G>
-    size_t sampleProbability(const T& in, size_t d, G& generator) {
+    size_t sampleProbability(size_t d, const T& in, G& generator) {
         static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
         double p = sampleDistribution(generator);
 
@@ -109,6 +110,11 @@ namespace AIToolbox {
         return d-1;
     }
 
+    template <typename InputIterator, typename OutputIterator>
+    void normalizeProbability(InputIterator begin, InputIterator end, OutputIterator out) {
+        double norm = static_cast<double>(std::accumulate(begin, end, 0.0));
+        std::transform(begin, end, out, [norm](decltype(*begin) t){ return t/norm; });
+    }
 }
 
 #endif

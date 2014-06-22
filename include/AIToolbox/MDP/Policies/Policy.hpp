@@ -5,6 +5,7 @@
 #include <tuple>
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/ProbabilityUtils.hpp>
 #include <AIToolbox/PolicyInterface.hpp>
 
 namespace AIToolbox {
@@ -179,9 +180,8 @@ namespace AIToolbox {
         void Policy::setStatePolicy(size_t s, const T & container) {
             if ( container.size() != getA() ) throw std::invalid_argument("Container to copy has the wrong size.");
 
-            double norm = static_cast<double>(std::accumulate(std::begin(container), std::end(container), 0.0));
             decltype(policy_)::reference ref = policy_[s]; // This is needed because policy_[s] by itself is a temporary. We don't want begin and end to be of different things.
-            std::transform(std::begin(container), std::end(container), std::begin(ref), [norm](decltype(*std::begin(container)) t){ return t/norm; });
+            normalizeProbability(std::begin(container), std::end(container), std::begin(ref));
         }
     }
 }

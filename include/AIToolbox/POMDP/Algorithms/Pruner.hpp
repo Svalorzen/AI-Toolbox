@@ -33,7 +33,7 @@ namespace AIToolbox {
                  *
                  * @param pw The list that needs to be pruned.
                  */
-                void dominationPrune(VList * pw);
+                static void dominationPrune(size_t S, VList * pw);
 
                 /**
                  * @brief This function finds and moves all best ValueFunctions in the simplex corners at the end of the specified range.
@@ -55,23 +55,6 @@ namespace AIToolbox {
                  * @return The new bound iterator.
                  */
                 VList::iterator extractBestAtSimplexCorners(VList::iterator begin, VList::iterator bound, VList::iterator end);
-
-                /**
-                 * @brief This function finds and moves the ValueFunction with the highest value for the given belief at the end of the specified range.
-                 *
-                 * This function uses an already existing bound containing previously marked useful
-                 * ValueFunctions. The order is 'begin'->'bound'->'end', where bound may be equal to end
-                 * where no previous bound exists. The found ValueFunction is moved between 'bound' and
-                 * 'end', but only if it was not there previously.
-                 *
-                 * @param belief The belief to be used with the ValueFunctions.
-                 * @param begin The begin of the search range.
-                 * @param bound The begin of the 'useful' range.
-                 * @param end The range end to be checked. It is NOT included in the search.
-                 *
-                 * @return The iterator pointing to the element with the highest dot product with the input belief.
-                 */
-                VList::iterator extractBestAtBelief(const Belief & belief, VList::iterator begin, VList::iterator bound, VList::iterator end);
 
                 /**
                  * @brief This function finds a witness point where the ValueFunction provided is better than any ValueFunction in the VList.

@@ -85,7 +85,7 @@ namespace AIToolbox {
         }
 
         std::tuple<size_t, double> RLModel::sampleSR(size_t s, size_t a) const {
-            size_t s1 = sampleProbability(transitions_[s][a], S, rand_);
+            size_t s1 = sampleProbability(S, transitions_[s][a], rand_);
 
             return std::make_tuple(s1, rewards_[s][a][s1]);
         }

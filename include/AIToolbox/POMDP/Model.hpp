@@ -201,7 +201,7 @@ namespace AIToolbox {
         void Model<M>::setObservationFunction(const ObFun & of) {
             for ( size_t s = 0; s < this->getS(); ++s )
                 for ( size_t a = 0; a < this->getA(); ++a )
-                    if ( ! isProbability(of[s][a], O) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    if ( ! isProbability(O, of[s][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
             copyTable3D(of, observations_, this->getS(), this->getA(), O);
         }
@@ -227,14 +227,14 @@ namespace AIToolbox {
             double r;
 
             std::tie(s1, r) = this->sampleSR(s, a);
-            o = sampleProbability(observations_[s1][a], O, rand_);
+            o = sampleProbability(O, observations_[s1][a], rand_);
 
             return std::make_tuple(s1, o, r);
         }
 
         template <typename M>
         std::tuple<size_t, double> Model<M>::sampleOR(size_t s, size_t a, size_t s1) const {
-            size_t o = sampleProbability(observations_[s1][a], O, rand_);
+            size_t o = sampleProbability(O, observations_[s1][a], rand_);
             double r = this->getExpectedReward(s, a, s1);
             return std::make_tuple(o, r);
         }
