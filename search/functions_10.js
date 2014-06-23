@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7epolicyinterface',['~PolicyInterface',['../classAIToolbox_1_1PolicyInterface.html#a28be8dac8ef25246f7704968a3bd3a79',1,'AIToolbox::PolicyInterface']]]
+  ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#aa406c321277b9159793236a21238ecdb',1,'AIToolbox::MDP::WoLFPolicy']]]
 ];

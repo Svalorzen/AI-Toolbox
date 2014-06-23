@@ -8,6 +8,6 @@ var searchData=
   ['is_5fgenerative_5fmodel',['is_generative_model',['../structAIToolbox_1_1POMDP_1_1is__generative__model.html',1,'AIToolbox::POMDP']]],
   ['is_5fmodel',['is_model',['../structAIToolbox_1_1POMDP_1_1is__model.html',1,'AIToolbox::POMDP']]],
   ['is_5fmodel',['is_model',['../structAIToolbox_1_1MDP_1_1is__model.html',1,'AIToolbox::MDP']]],
-  ['isprobability',['isProbability',['../namespaceAIToolbox.html#a8f8a834af7a976624feec2a7852a9ddd',1,'AIToolbox']]],
+  ['isprobability',['isProbability',['../namespaceAIToolbox.html#a6fbf3c4d55a030b313b6044b657c7ed0',1,'AIToolbox']]],
   ['isterminal',['isTerminal',['../classAIToolbox_1_1MDP_1_1Model.html#aff6f9df4c9ff84752411aa2e536e47ce',1,'AIToolbox::MDP::Model::isTerminal()'],['../classAIToolbox_1_1MDP_1_1RLModel.html#a8916478f374594156915359aa9b0d0d3',1,'AIToolbox::MDP::RLModel::isTerminal()']]]
 ];

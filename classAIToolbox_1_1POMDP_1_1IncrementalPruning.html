@@ -116,12 +116,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae99091d5abd06399564f5ce2cd399084"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <a class="el" href="group__POMDPVF.html#gab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#ae99091d5abd06399564f5ce2cd399084">operator()</a> (const M &amp;model)</td></tr>
 <tr class="memdesc:ae99091d5abd06399564f5ce2cd399084"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a POMDP::Model completely.  <a href="#ae99091d5abd06399564f5ce2cd399084">More...</a><br/></td></tr>
 <tr class="separator:ae99091d5abd06399564f5ce2cd399084"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0c91366afcfa9cc16add8393f1ad780"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type &gt; </td></tr>
-<tr class="memitem:ae0c91366afcfa9cc16add8393f1ad780"><td class="memTemplItemLeft" align="right" valign="top">boost::multi_array&lt; bool, 2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#ae0c91366afcfa9cc16add8393f1ad780">computePossibleObservations</a> (const M &amp;model)</td></tr>
-<tr class="separator:ae0c91366afcfa9cc16add8393f1ad780"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Incremental Pruning algorithm. </p>
+<p>This algorithm solves a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> Model perfectly. It computes solutions for each horizon incrementally, every new solution building upon the previous one.</p>
+<p>From each solution, it computes the full set of possible projections. It then computes all possible cross-sums of such projections, in order to compute all possible vectors that can be included in the final solution.</p>
+<p>What makes this method unique is its pruning strategy. Instead of generating every possible vector, combining them and pruning, it tries to prune at every possible occasion in order to minimize the number of possible vectors at any given time. Thus it will prune after creating the projections, after every single cross-sum, and in the end when combining all projections for each action.</p>
+<p>The performances of this method are <em>heavily</em> dependent on the linear programming methods used. In particular, this code currently utilizes the lp_solve55 library. However, this library is not the most efficient implementation, as it defaults to a somewhat slow solver, and its problem-building API also tends to be slow due to lots of bounds checking (which are cool, but sometimes people know what they are doing). Still, to avoid replicating infinite amounts of code and managing memory by ourselves, we use its API. It would be nice if one day we could port directly into the code a fast lp implementation; for now we do what we can. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a9a959c766cb9486586defdcbc5aaf579"></a>
 <div class="memitem">
@@ -149,24 +150,6 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae0c91366afcfa9cc16add8393f1ad780"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">boost::multi_array&lt;bool,2&gt; AIToolbox::POMDP::IncrementalPruning::computePossibleObservations </td>
-          <td>(</td>
-          <td class="paramtype">const M &amp;&#160;</td>
-          <td class="paramname"><em>model</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a5122aa20b68c206c4f6967e8b627aa2b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -250,7 +233,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

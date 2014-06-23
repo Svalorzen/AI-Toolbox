@@ -82,6 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><p>This C++ toolbox is aimed at representing and solving common AI problems, implementing an easy-to-use interface which should be hopefully extensible to many problems, while keeping code readable.</p>
 <p>Current development includes MDPs, POMDPs and related algorithms. This toolbox has been developed taking inspiration from the Matlab <code>MDPToolbox</code>, which you can find <a href="http://www7.inra.fr/mia/T/MDPtoolbox/">here</a>, and from the <code>pomdp-solve</code> software written by A. R. Cassandra, which you can find <a href="http://www.pomdp.org/code/index.shtml">here</a>.</p>
+<p><b>NOTE:</b> With regard the travis build failing, I must point out that it's due to travis, not me. The gcc build fails due to a bug in g++-4.8, but compiles correctly with g++-4.9. The clang build fails because clang uses libgcc, and the versions that are available in Ubuntu 12.04 (the environment travis offers) do not provide certain C++11 functions. Once travis updates its build machines to Ubuntu 14.04 everything will definitely start working out again.</p>
 <h1>Brief </h1>
 <p>This toolbox is aimed at Decision Theoretic Control algorithms. The general idea is to create algorithms that are able to interact with an environment in order to obtain some reward using actions, and to find the best policy of actions to use to do so.</p>
 <p>The field divides itself into planning and reinforcement learning: planning focuses into solving problems that we know how to model: think chess, or 2048. Reinforcement learning focuses into creating a model for an environment we do not know in advance, and while learning the best policy for it.</p>
@@ -107,7 +108,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

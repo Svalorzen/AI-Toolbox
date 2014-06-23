@@ -1,6 +1,7 @@
 var searchData=
 [
   ['makeqfunction',['makeQFunction',['../namespaceAIToolbox_1_1MDP.html#ab0aa05d69430fdb1ceeaa51dbed01c4c',1,'AIToolbox::MDP']]],
+  ['maketigerproblem',['makeTigerProblem',['../TigerProblem_8hpp.html#a5e66411a54ab65baf071e3eb34410da6',1,'TigerProblem.hpp']]],
   ['makevaluefunction',['makeValueFunction',['../namespaceAIToolbox_1_1MDP.html#a7a7b2edb327feaa5bb82c6e413ce59ad',1,'AIToolbox::MDP']]],
   ['makeventry',['makeVEntry',['../namespaceAIToolbox_1_1POMDP.html#a366c7d8edd1295e44efa8c1816a0ddf8',1,'AIToolbox::POMDP']]],
   ['mdp_20value_20functions_2e',['MDP Value Functions.',['../group__MDPVF.html',1,'']]],
@@ -9,5 +10,5 @@ var searchData=
   ['model_2ehpp',['Model.hpp',['../POMDP_2Model_8hpp.html',1,'']]],
   ['model_2ehpp',['Model.hpp',['../MDP_2Model_8hpp.html',1,'']]],
   ['model_3c_20m_20_3e',['Model&lt; M &gt;',['../classAIToolbox_1_1POMDP_1_1Model_3_01M_01_4.html',1,'AIToolbox::POMDP']]],
-  ['model_5f',['model_',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48',1,'AIToolbox::MDP::DynaQ&lt; M &gt;']]]
+  ['model_5f',['model_',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48',1,'AIToolbox::MDP::DynaQ&lt; M &gt;::model_()'],['../classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#a67066554af0178ae363d87219ee138de',1,'AIToolbox::MDP::QLearning&lt; M &gt;::model_()']]]
 ];

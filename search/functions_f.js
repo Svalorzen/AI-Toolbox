@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#aa406c321277b9159793236a21238ecdb',1,'AIToolbox::MDP::WoLFPolicy']]]
+  ['valueiteration',['ValueIteration',['../classAIToolbox_1_1MDP_1_1ValueIteration.html#a1314784373a465f6e29d368af1fbe1e8',1,'AIToolbox::MDP::ValueIteration']]]
 ];

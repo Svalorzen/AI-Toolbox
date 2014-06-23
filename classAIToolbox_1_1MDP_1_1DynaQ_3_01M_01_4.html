@@ -122,12 +122,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4579273054261d7f2b574cb63734c366"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a4579273054261d7f2b574cb63734c366">setN</a> (unsigned n)</td></tr>
 <tr class="memdesc:a4579273054261d7f2b574cb63734c366"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the current sample number parameter.  <a href="#a4579273054261d7f2b574cb63734c366">More...</a><br/></td></tr>
 <tr class="separator:a4579273054261d7f2b574cb63734c366"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f153e3a7e75664b9ee55680f07c3a0b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a9f153e3a7e75664b9ee55680f07c3a0b">getS</a> () const </td></tr>
-<tr class="memdesc:a9f153e3a7e75664b9ee55680f07c3a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#a9f153e3a7e75664b9ee55680f07c3a0b">More...</a><br/></td></tr>
-<tr class="separator:a9f153e3a7e75664b9ee55680f07c3a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8925598fa8aeafafc062c69a1880f378"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a8925598fa8aeafafc062c69a1880f378">getA</a> () const </td></tr>
-<tr class="memdesc:a8925598fa8aeafafc062c69a1880f378"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of available actions to the agent.  <a href="#a8925598fa8aeafafc062c69a1880f378">More...</a><br/></td></tr>
-<tr class="separator:a8925598fa8aeafafc062c69a1880f378"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f18bc049854157e2a59662fdbf3cc64"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a8f18bc049854157e2a59662fdbf3cc64">getN</a> () const </td></tr>
 <tr class="memdesc:a8f18bc049854157e2a59662fdbf3cc64"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set number of sampling passes during <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a073bfb0e2b8f9ed93df99a79a8f91a01" title="This function updates a QFunction based on simulated experience. ">batchUpdateQ()</a>.  <a href="#a8f18bc049854157e2a59662fdbf3cc64">More...</a><br/></td></tr>
 <tr class="separator:a8f18bc049854157e2a59662fdbf3cc64"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,8 +138,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a18ad693d8a11415b137c3b409cc335c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a352be5c79bb4335938a7178da5e83e48"><td class="memItemLeft" align="right" valign="top">const M &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48">model_</a></td></tr>
 <tr class="separator:a352be5c79bb4335938a7178da5e83e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02d8630f794658f93fa6deb6920f2dc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html">QLearning</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a02d8630f794658f93fa6deb6920f2dc3">qLearning_</a></td></tr>
-<tr class="separator:a02d8630f794658f93fa6deb6920f2dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf7acb4f86f3ecc260ba907fccfc14d9"><td class="memItemLeft" align="right" valign="top">QLearning&lt; M &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#adf7acb4f86f3ecc260ba907fccfc14d9">qLearning_</a></td></tr>
+<tr class="separator:adf7acb4f86f3ecc260ba907fccfc14d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5880854dbb85072087ba323a232d9fb6"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; std::pair<br class="typebreak"/>
 &lt; size_t, size_t &gt;<br class="typebreak"/>
 , boost::hash&lt; std::pair<br class="typebreak"/>
@@ -162,6 +156,9 @@ size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 class AIToolbox::MDP::DynaQ&lt; M &gt;</h3>
 
 <p>This class represents the DynaQ algorithm. </p>
+<p>This algorithm is a simple extension to the QLearning algorithm. What it does is it keeps track of every experienced state-action pair. Each QFunction update is exactly equivalent to the QLearning one, however this algorithm allows for an additional learning phase that can take place, time permitting, before the agent takes another action.</p>
+<p>The state-action pairs we already explored are thus known as possible, and so we use the generative model to obtain more and more data about them. This, of course, requires that the model be sampled from, in constrast with QLearning which does not require this.</p>
+<p>The algorithm selects randomly which state action pairs to try again from. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="acaa11f7ae6d8b2076681251fca81390d"></a>
 <div class="memitem">
@@ -207,7 +204,7 @@ template&lt;typename M &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">M</td><td>The model to be used to update the QFunction. </td></tr>
-    <tr><td class="paramname">alpha</td><td>The learning rate of the <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> method. </td></tr>
+    <tr><td class="paramname">alpha</td><td>The learning rate of the QLearning method. </td></tr>
     <tr><td class="paramname">n</td><td>The number of sampling passes to do on the model upon <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a073bfb0e2b8f9ed93df99a79a8f91a01" title="This function updates a QFunction based on simulated experience. ">batchUpdateQ()</a>. </td></tr>
   </table>
   </dd>
@@ -232,27 +229,8 @@ template&lt;typename M &gt; </div>
 </div><div class="memdoc">
 
 <p>This function updates a QFunction based on simulated experience. </p>
-<p>In DynaQ we sample N times from already experienced state-action pairs, and we update the resulting QFunction as if this experience was actually real. </p>
-
-</div>
-</div>
-<a class="anchor" id="a8925598fa8aeafafc062c69a1880f378"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t AIToolbox::MDP::DynaQ&lt; M &gt;::getA </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns the number of available actions to the agent. </p>
-<dl class="section return"><dt>Returns</dt><dd>The total number of actions. </dd></dl>
+<p>In DynaQ we sample N times from already experienced state-action pairs, and we update the resulting QFunction as if this experience was actually real.</p>
+<p>The idea is that since we know which state action pairs we already explored, we know that whose pairs are actually possible. Thus we use the generative model to sample them again, and obtain a better estimate of the QFunction. </p>
 
 </div>
 </div>
@@ -333,26 +311,6 @@ template&lt;typename M &gt; </div>
 
 <p>This function returns a reference to the internal QFunction. </p>
 <dl class="section return"><dt>Returns</dt><dd>The internal QFunction. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a9f153e3a7e75664b9ee55680f07c3a0b"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t AIToolbox::MDP::DynaQ&lt; M &gt;::getS </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns the number of states of the world. </p>
-<dl class="section return"><dt>Returns</dt><dd>The total number of states. </dd></dl>
 
 </div>
 </div>
@@ -508,7 +466,7 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a02d8630f794658f93fa6deb6920f2dc3"></a>
+<a class="anchor" id="adf7acb4f86f3ecc260ba907fccfc14d9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -518,7 +476,7 @@ template&lt;typename M &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html">QLearning</a> AIToolbox::MDP::DynaQ&lt; M &gt;::qLearning_</td>
+          <td class="memname">QLearning&lt;M&gt; AIToolbox::MDP::DynaQ&lt; M &gt;::qLearning_</td>
         </tr>
       </table>
   </td>
@@ -602,7 +560,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

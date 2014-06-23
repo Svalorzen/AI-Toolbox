@@ -168,6 +168,7 @@ class AIToolbox::EpsilonPolicyInterface&lt; State &gt;</h3>
 
 <p>This class is a policy wrapper for epsilon action choice. </p>
 <p>This class is used to wrap already existing policies to implement automatic exploratory behaviour (e.g. epsilon-greedy policies).</p>
+<p>An epsilon-greedy policy is a policy that takes a greedy action a certain percentage of the time, and otherwise takes a random action. They are useful to force the agent to explore an unknown model, in order to gain new information to refine it and thus gain more reward.</p>
 <p>Please note that to obtain an epsilon-greedy policy the wrapped policy needs to already be greedy with respect to the model. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aded6a7ce4b011e4e1ac9311bef64ce8b"></a>
@@ -334,6 +335,7 @@ template&lt;typename State &gt; </div>
 </div><div class="memdoc">
 
 <p>This function sets the epsilon parameter. </p>
+<p>The epsilon parameter determines the amount of exploration this policy will enforce when selecting actions. In particular actions are going to selected randomly with probability (1-epsilon), and are going to be selected following the underlying policy with probability epsilon.</p>
 <p>The epsilon parameter must be &gt;= 0.0 and &lt;= 1.0, otherwise the function will do throw std::invalid_argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -439,7 +441,7 @@ template&lt;typename State &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

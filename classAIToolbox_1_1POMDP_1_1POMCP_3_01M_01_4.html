@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>This class represents the POMCP online planner.  
+<p>This class represents the POMCP online planner using UCB1.  
  <a href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="POMCP_8hpp_source.html">POMCP.hpp</a>&gt;</code></p>
@@ -114,8 +114,8 @@ Classes</h2></td></tr>
 Public Types</h2></td></tr>
 <tr class="memitem:a59a857f389a56676e63b3346d8a75f22"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#a59a857f389a56676e63b3346d8a75f22">SampleBelief</a> = std::vector&lt; size_t &gt;</td></tr>
 <tr class="separator:a59a857f389a56676e63b3346d8a75f22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a155bef04b3bfd029068d3a00473322cf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#a155bef04b3bfd029068d3a00473322cf">BeliefNodes</a> = std::vector&lt; BeliefNode &gt;</td></tr>
-<tr class="separator:a155bef04b3bfd029068d3a00473322cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdb32c5b9192dbf6d8c2d1b940e53999"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#acdb32c5b9192dbf6d8c2d1b940e53999">BeliefNodes</a> = std::unordered_map&lt; size_t, BeliefNode &gt;</td></tr>
+<tr class="separator:acdb32c5b9192dbf6d8c2d1b940e53999"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af83c4e0348afa686d220f56457d656fa"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#af83c4e0348afa686d220f56457d656fa">ActionNodes</a> = std::vector&lt; ActionNode &gt;</td></tr>
 <tr class="separator:af83c4e0348afa686d220f56457d656fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -159,7 +159,14 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename M&gt;<br/>
 class AIToolbox::POMDP::POMCP&lt; M &gt;</h3>
 
-<p>This class represents the POMCP online planner. </p>
+<p>This class represents the POMCP online planner using UCB1. </p>
+<p>This algorithm is an online planner for POMDPs. As an online planner, it needs to have a generative model of the problem. This means that it only needs a way to sample transitions and observations from the model, but it does not need to know directly the distribution probabilities for it.</p>
+<p>POMCP plans for a single belief at a time. It follows the logic of Monte Carlo Tree Sampling, where a tree structure is build progressively and action values are deduced as averages of the obtained rewards over rollouts. If the number of sample episodes is high enough, it is guaranteed to converge to the optimal solution.</p>
+<p>At each rollout, we follow each action and observation within the tree from root to leaves. During this path we chose actions using an algorithm using UCT. What this does is privilege the most promising actions, while guaranteeing that in the limit every action will still be tried an infinite amount of times.</p>
+<p>Once we arrive to a leaf in the tree, we then expand it with a single new node, representing a new observation we just collected. We then proceed outside the tree following a random policy, but this time we do not track which actions and observations we actually take/obtain. The final reward obtained by this random rollout policy is used to approximate the values for all nodes visited in this rollout inside the tree, before leaving it.</p>
+<p>Since POMCP expands a tree, it can reuse work it has done if multiple action requests are done in order. To do so, it simply asks for the action that has been performed and its respective obtained observation. Then it simply makes that root branch the new root, and starts again.</p>
+<p>In order to avoid performing belief updates between each action/observation pair, which can be expensive, POMCP uses particle beliefs. These approximate the beliefs at every step, and are used to select states in the rollouts.</p>
+<p>A weakness of this implementation is that, as every particle approximation of continuous values, it will lose particles in time. To fight this a possibility is to implement a particle reinvigoration method, which would introduce noise in the particle beliefs in order to keep them "fresh" (possibly using domain knowledge). </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="af83c4e0348afa686d220f56457d656fa"></a>
 <div class="memitem">
@@ -175,14 +182,14 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a155bef04b3bfd029068d3a00473322cf"></a>
+<a class="anchor" id="acdb32c5b9192dbf6d8c2d1b940e53999"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename M &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using AIToolbox::POMDP::POMCP&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#a155bef04b3bfd029068d3a00473322cf">BeliefNodes</a> =  std::vector&lt;BeliefNode&gt;</td>
+          <td class="memname">using AIToolbox::POMDP::POMCP&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#acdb32c5b9192dbf6d8c2d1b940e53999">BeliefNodes</a> =  std::unordered_map&lt;size_t, BeliefNode&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -490,7 +497,7 @@ template&lt;typename M &gt; </div>
 <p>This parameter is EXTREMELY important to determine POMCP performance and, ultimately, convergence. In general it is better to find it empirically, by testing some values and see which one performs best. Tune this parameter, it really matters!</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">exp</td><td>The new exploration contant. </td></tr>
+    <tr><td class="paramname">exp</td><td>The new exploration constant. </td></tr>
   </table>
   </dd>
 </dl>
@@ -529,7 +536,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

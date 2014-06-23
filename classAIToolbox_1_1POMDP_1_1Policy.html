@@ -181,7 +181,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html" title="This class represents a POMDP Policy. ">Policy</a>. </p>
-<p>This class currently represents a basic <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html" title="This class represents a POMDP Policy. ">Policy</a> adaptor for a <a class="el" href="group__POMDPVF.html#gab1cada9fef241e48a9d14d36cb61dabb">POMDP::ValueFunction</a>. </p>
+<p>This class currently represents a basic <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html" title="This class represents a POMDP Policy. ">Policy</a> adaptor for a <a class="el" href="group__POMDPVF.html#gab1cada9fef241e48a9d14d36cb61dabb">POMDP::ValueFunction</a>. What this class does is to extract the policy tree contained within a <a class="el" href="group__POMDPVF.html#gab1cada9fef241e48a9d14d36cb61dabb">POMDP::ValueFunction</a>. The idea is that, at each horizon, the ValueFunction contains a set of applicable solutions (alpha vectors) for the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>. At each Belief point, only one of those vectors applies.</p>
+<p>This class finds out at every belief which is the vector that applies, and returns the appropriate action. At the same time, it provides facilities to follow the chosen vector along the tree (since future actions depend on the observations obtained by the agent). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a5200a70c651b1448d35573c1803fc5fb"></a>
 <div class="memitem">
@@ -599,7 +600,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -132,6 +132,9 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class applies the value iteration algorithm on a <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>. </p>
+<p>This algorithm solves an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model for an infinite horizon (although it is trivial to change it to work for smaller horizons).</p>
+<p>The idea of this algorithm is to iteratively compute the ValueFunction for the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> optimal policy. On the first iteration, the ValueFunction for horizon 1 is obtained. On the second iteration, the one for horizon 2. This process is repeated until the ValueFunction has converged to a specific value within a certain accuracy. This will then represent the ValueFunction for the optimal policy in the infinite horizon.</p>
+<p>This implementation in particular is ported from the MATLAB MDPToolbox. It tries to perform as little updates as possible, as long as the resulting ValueFunction can be converted correctly into the optimal policy. Again, it is trivial to modify the loop conditions to satisfy whatever requirements for convergence you might have. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1314784373a465f6e29d368af1fbe1e8"></a>
 <div class="memitem">
@@ -346,7 +349,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

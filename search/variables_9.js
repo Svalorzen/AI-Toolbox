@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['q_5f',['q_',['../classAIToolbox_1_1MDP_1_1QLearning.html#a6939b84ffc54e7d56293af2a495ea96e',1,'AIToolbox::MDP::QLearning::q_()'],['../classAIToolbox_1_1MDP_1_1QPolicyInterface.html#a8839415f6249ba9e9af49437b1604f98',1,'AIToolbox::MDP::QPolicyInterface::q_()']]],
-  ['qlearning_5f',['qLearning_',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a02d8630f794658f93fa6deb6920f2dc3',1,'AIToolbox::MDP::DynaQ&lt; M &gt;']]]
+  ['rand_5f',['rand_',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a7230355de44f1a1d36e1fb65fc761d55',1,'AIToolbox::MDP::DynaQ&lt; M &gt;::rand_()'],['../classAIToolbox_1_1PolicyInterface.html#a41ac8e3da01431e6b5265b3e812a89ce',1,'AIToolbox::PolicyInterface::rand_()']]],
+  ['randomdistribution_5f',['randomDistribution_',['../classAIToolbox_1_1EpsilonPolicyInterface.html#a587abcc54043d40deff92fe7535fda09',1,'AIToolbox::EpsilonPolicyInterface']]]
 ];

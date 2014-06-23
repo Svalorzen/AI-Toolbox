@@ -94,51 +94,84 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define AI_TOOLBOX_POMDP_UTILS_HEADER_FILE</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="POMDP_2Types_8hpp.html">AIToolbox/POMDP/Types.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">namespace </span>POMDP {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <a class="code" href="group__POMDPVF.html#ga3154731370885b97ddda7b1807e373dc">VEntry</a> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a366c7d8edd1295e44efa8c1816a0ddf8">makeVEntry</a>(<span class="keywordtype">size_t</span> S, <span class="keywordtype">size_t</span> a = 0, <span class="keywordtype">size_t</span> O = 0);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">   12</a></span>&#160;        <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">dotProd</a>(<span class="keywordtype">size_t</span> S, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#ae5041527f88219a674e0f26ba63d2e50">MDP::Values</a> &amp; a, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#ae5041527f88219a674e0f26ba63d2e50">MDP::Values</a> &amp; b) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keywordtype">double</span> result = 0.0;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> i = 0; i &lt; S; ++i )</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                result += a[i] * b[i];</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="ProbabilityUtils_8hpp.html">AIToolbox/ProbabilityUtils.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="POMDP_2Types_8hpp.html">AIToolbox/POMDP/Types.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>AIToolbox {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">namespace </span>POMDP {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="group__POMDPVF.html#ga3154731370885b97ddda7b1807e373dc">VEntry</a> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a366c7d8edd1295e44efa8c1816a0ddf8">makeVEntry</a>(<span class="keywordtype">size_t</span> S, <span class="keywordtype">size_t</span> a = 0, <span class="keywordtype">size_t</span> O = 0);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator&gt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespaceAIToolbox_1_1POMDP.html#adfabdf9567aa607a5b7be5eb28acf5d9">   36</a></span>&#160;        Iterator <a class="code" href="namespaceAIToolbox_1_1POMDP.html#adfabdf9567aa607a5b7be5eb28acf5d9">findBestAtBelief</a>(<span class="keywordtype">size_t</span> S, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573">Belief</a> &amp; belief, Iterator begin, Iterator end) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keyword">auto</span> bestMatch = begin;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordtype">double</span> bestValue = <a class="code" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">dotProd</a>(S, belief, std::get&lt;VALUES&gt;(*bestMatch));</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">while</span> ( (++begin) &lt; end ) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordtype">double</span> currValue = <a class="code" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">dotProd</a>(S, belief, std::get&lt;VALUES&gt;(*begin));</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">if</span> ( currValue &gt; bestValue || ( currValue == bestValue &amp;&amp; ( std::get&lt;VALUES&gt;(*begin) &gt; std::get&lt;VALUES&gt;(*bestMatch) ) ) ) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    bestMatch = begin;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    bestValue = currValue;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">return</span> bestMatch;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_adfabdf9567aa607a5b7be5eb28acf5d9"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#adfabdf9567aa607a5b7be5eb28acf5d9">AIToolbox::POMDP::findBestAtBelief</a></div><div class="ttdeci">Iterator findBestAtBelief(size_t S, const Belief &amp;belief, Iterator begin, Iterator end)</div><div class="ttdoc">This function returns an iterator pointing to the best value for the specified belief. </div><div class="ttdef"><b>Definition:</b> Utils.hpp:36</div></div>
-<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_aeaa041c445d55db318aa964a78f4e4b3"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">AIToolbox::POMDP::dotProd</a></div><div class="ttdeci">double dotProd(size_t S, const MDP::Values &amp;a, const MDP::Values &amp;b)</div><div class="ttdoc">THIS IS A TEMPORARY FUNCTION UNTIL WE SWITCH TO UBLAS. </div><div class="ttdef"><b>Definition:</b> Utils.hpp:12</div></div>
-<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_a366c7d8edd1295e44efa8c1816a0ddf8"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#a366c7d8edd1295e44efa8c1816a0ddf8">AIToolbox::POMDP::makeVEntry</a></div><div class="ttdeci">VEntry makeVEntry(size_t S, size_t a=0, size_t O=0)</div></div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">   22</a></span>&#160;        <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">dotProd</a>(<span class="keywordtype">size_t</span> S, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#ae5041527f88219a674e0f26ba63d2e50">MDP::Values</a> &amp; a, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#ae5041527f88219a674e0f26ba63d2e50">MDP::Values</a> &amp; b) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordtype">double</span> result = 0.0;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> i = 0; i &lt; S; ++i )</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                result += a[i] * b[i];</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator&gt;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="namespaceAIToolbox_1_1POMDP.html#adfabdf9567aa607a5b7be5eb28acf5d9">   46</a></span>&#160;        Iterator <a class="code" href="namespaceAIToolbox_1_1POMDP.html#adfabdf9567aa607a5b7be5eb28acf5d9">findBestAtBelief</a>(<span class="keywordtype">size_t</span> S, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573">Belief</a> &amp; belief, Iterator begin, Iterator end) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keyword">auto</span> bestMatch = begin;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordtype">double</span> bestValue = <a class="code" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">dotProd</a>(S, belief, std::get&lt;VALUES&gt;(*bestMatch));</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">while</span> ( (++begin) &lt; end ) {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordtype">double</span> currValue = <a class="code" href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">dotProd</a>(S, belief, std::get&lt;VALUES&gt;(*begin));</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">if</span> ( currValue &gt; bestValue || ( currValue == bestValue &amp;&amp; ( std::get&lt;VALUES&gt;(*begin) &gt; std::get&lt;VALUES&gt;(*bestMatch) ) ) ) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    bestMatch = begin;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    bestValue = currValue;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">return</span> bestMatch;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator&gt;</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="namespaceAIToolbox_1_1POMDP.html#acb7e3188bad724a9397c64ef662c5959">   79</a></span>&#160;        Iterator <a class="code" href="namespaceAIToolbox_1_1POMDP.html#acb7e3188bad724a9397c64ef662c5959">extractBestAtBelief</a>(<span class="keywordtype">size_t</span> S, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573">Belief</a> &amp; belief, Iterator begin, Iterator bound, Iterator end) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keyword">auto</span> bestMatch = <a class="code" href="namespaceAIToolbox_1_1POMDP.html#adfabdf9567aa607a5b7be5eb28acf5d9">findBestAtBelief</a>(S, belief, begin, end);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">if</span> ( bestMatch &lt; bound )</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                std::swap(*bestMatch, *(--bound));</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">return</span> bound;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        template &lt;typename M, typename std::enable_if&lt;is_model&lt;M&gt;::value, <span class="keywordtype">int</span>&gt;::type = 0&gt;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="namespaceAIToolbox_1_1POMDP.html#ac207e87c65b261e89e5c3d81150c0588">  102</a></span>&#160;        <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573">Belief</a> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#ac207e87c65b261e89e5c3d81150c0588">updateBelief</a>(<span class="keyword">const</span> M &amp; model, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573">Belief</a> &amp; b, <span class="keywordtype">size_t</span> a, <span class="keywordtype">size_t</span> o) {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordtype">size_t</span> S = model.getS();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <a class="code" href="namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573">Belief</a> br(S, 0.0);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; S; ++s1 ) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordtype">double</span> sum = 0.0;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    sum += model.getTransitionProbability(s,a,s1) * b[s];</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                br[s1] = model.getObservationProbability(s1,a,o) * sum;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <a class="code" href="namespaceAIToolbox.html#a9b6f194bb6328d8a92149895e8cd771c">normalizeProbability</a>(std::begin(br), std::end(br), std::begin(br));</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordflow">return</span> br;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="namespaceAIToolbox_html_a9b6f194bb6328d8a92149895e8cd771c"><div class="ttname"><a href="namespaceAIToolbox.html#a9b6f194bb6328d8a92149895e8cd771c">AIToolbox::normalizeProbability</a></div><div class="ttdeci">void normalizeProbability(InputIterator begin, InputIterator end, OutputIterator out)</div><div class="ttdef"><b>Definition:</b> ProbabilityUtils.hpp:114</div></div>
+<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_adfabdf9567aa607a5b7be5eb28acf5d9"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#adfabdf9567aa607a5b7be5eb28acf5d9">AIToolbox::POMDP::findBestAtBelief</a></div><div class="ttdeci">Iterator findBestAtBelief(size_t S, const Belief &amp;belief, Iterator begin, Iterator end)</div><div class="ttdoc">This function returns an iterator pointing to the best value for the specified belief. </div><div class="ttdef"><b>Definition:</b> Utils.hpp:46</div></div>
+<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_aeaa041c445d55db318aa964a78f4e4b3"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#aeaa041c445d55db318aa964a78f4e4b3">AIToolbox::POMDP::dotProd</a></div><div class="ttdeci">double dotProd(size_t S, const MDP::Values &amp;a, const MDP::Values &amp;b)</div><div class="ttdoc">THIS IS A TEMPORARY FUNCTION UNTIL WE SWITCH TO UBLAS. </div><div class="ttdef"><b>Definition:</b> Utils.hpp:22</div></div>
+<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_a366c7d8edd1295e44efa8c1816a0ddf8"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#a366c7d8edd1295e44efa8c1816a0ddf8">AIToolbox::POMDP::makeVEntry</a></div><div class="ttdeci">VEntry makeVEntry(size_t S, size_t a=0, size_t O=0)</div><div class="ttdoc">This function creates an empty VEntry. </div></div>
+<div class="ttc" id="ProbabilityUtils_8hpp_html"><div class="ttname"><a href="ProbabilityUtils_8hpp.html">ProbabilityUtils.hpp</a></div></div>
+<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_acb7e3188bad724a9397c64ef662c5959"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#acb7e3188bad724a9397c64ef662c5959">AIToolbox::POMDP::extractBestAtBelief</a></div><div class="ttdeci">Iterator extractBestAtBelief(size_t S, const Belief &amp;belief, Iterator begin, Iterator bound, Iterator end)</div><div class="ttdoc">This function finds and moves the ValueFunction with the highest value for the given belief at the en...</div><div class="ttdef"><b>Definition:</b> Utils.hpp:79</div></div>
 <div class="ttc" id="namespaceAIToolbox_1_1MDP_html_ae5041527f88219a674e0f26ba63d2e50"><div class="ttname"><a href="namespaceAIToolbox_1_1MDP.html#ae5041527f88219a674e0f26ba63d2e50">AIToolbox::MDP::Values</a></div><div class="ttdeci">std::vector&lt; double &gt; Values</div><div class="ttdef"><b>Definition:</b> Types.hpp:43</div></div>
 <div class="ttc" id="POMDP_2Types_8hpp_html"><div class="ttname"><a href="POMDP_2Types_8hpp.html">Types.hpp</a></div></div>
+<div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_ac207e87c65b261e89e5c3d81150c0588"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#ac207e87c65b261e89e5c3d81150c0588">AIToolbox::POMDP::updateBelief</a></div><div class="ttdeci">Belief updateBelief(const M &amp;model, const Belief &amp;b, size_t a, size_t o)</div><div class="ttdoc">Creates a new belief reflecting changes after an action and observation for a particular Model...</div><div class="ttdef"><b>Definition:</b> Utils.hpp:102</div></div>
 <div class="ttc" id="namespaceAIToolbox_1_1POMDP_html_a01169323173c205c0c31bc02b62bb573"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#a01169323173c205c0c31bc02b62bb573">AIToolbox::POMDP::Belief</a></div><div class="ttdeci">std::vector&lt; double &gt; Belief</div><div class="ttdef"><b>Definition:</b> Types.hpp:10</div></div>
 <div class="ttc" id="group__POMDPVF_html_ga3154731370885b97ddda7b1807e373dc"><div class="ttname"><a href="group__POMDPVF.html#ga3154731370885b97ddda7b1807e373dc">AIToolbox::POMDP::VEntry</a></div><div class="ttdeci">std::tuple&lt; MDP::Values, size_t, VObs &gt; VEntry</div><div class="ttdef"><b>Definition:</b> Types.hpp:48</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

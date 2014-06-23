@@ -114,11 +114,10 @@ struct AIToolbox::POMDP::is_generative_model&lt; M &gt;</h3>
 <p>This struct represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>. </p>
 <p>This struct is used to check interfaces of classes in templates. In particular, this struct tests for the interface of a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model. The interface must be implemented and be public in the parameter class. The interface is the following:</p>
 <ul>
-<li>size_t getS() const : Returns the number of states of the Model. Note that in a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> Model this is not required.</li>
-<li>size_t getO() const : Returns the number of observations of the Model.</li>
 <li>std::tuple&lt;size_t, size_t, double&gt; sampleSOR(size_t s, size_t a) const : Returns a sampled state-observation-reward tuple from (s,a)</li>
 </ul>
-<p>is_generavie_model&lt;M&gt;::value will be equal to true is M implements the interface, and false otherwise.</p>
+<p><a class="el" href="structAIToolbox_1_1POMDP_1_1is__generative__model.html#a597ba9f3048b1e1b2bdbaf3cdcc6a67da15ab8b9f009237756dc4f71bda45f831">is_generative_model&lt;M&gt;::value</a> will be equal to true is M implements the interface, and false otherwise.</p>
+<p>Note that, at least for now, we can avoid asking this generative model for the total number of observation possible, because they are not required as parameters for the functions, but just returned. This may change in future though, depending on algorithms' requirements.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The class to test for the interface. </td></tr>
@@ -150,7 +149,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

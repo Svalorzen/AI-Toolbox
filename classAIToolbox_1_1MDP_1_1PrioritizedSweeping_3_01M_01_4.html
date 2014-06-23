@@ -146,6 +146,10 @@ Public Member Functions</h2></td></tr>
 class AIToolbox::MDP::PrioritizedSweeping&lt; M &gt;</h3>
 
 <p>This class represents the PrioritizedSweeping algorithm. </p>
+<p>This algorithm is a refinement of the DynaQ algorithm. Instead of randomly sampling experienced state action pairs to get more information, we order each pair based on an estimate of how much information we can still extract from them.</p>
+<p>In particular, pairs are sorted based on the amount they modified the estimated ValueFunction on their last sample. This ensures that we always try to sample from useful pairs instead of randomly, extracting knowledge much faster.</p>
+<p>At the same time, this algorithm keeps a threshold for each state-action pair, so that it does not have to internally store all the pairs and save some memory/cpu time keeping the queue updated. Only pairs which obtained an amount of change higher than this treshold are kept in the queue.</p>
+<p>Differently from the QLearning and DynaQ algorithm, this class automatically computes the ValueFunction since it is useful to determine which state-action pairs are actually useful, so there's no need to compute it manually. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7294c49196604a2d12b4e0679360d4ed"></a>
 <div class="memitem">
@@ -456,7 +460,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -120,7 +120,7 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac717c8a330cd5248882297f0760c746d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#ac717c8a330cd5248882297f0760c746d">Policy</a> (size_t s, size_t a)</td></tr>
-<tr class="memdesc:ac717c8a330cd5248882297f0760c746d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constrctor.  <a href="#ac717c8a330cd5248882297f0760c746d">More...</a><br/></td></tr>
+<tr class="memdesc:ac717c8a330cd5248882297f0760c746d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ac717c8a330cd5248882297f0760c746d">More...</a><br/></td></tr>
 <tr class="separator:ac717c8a330cd5248882297f0760c746d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0be172f6d27d02adab6d2084bc95e6e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a0be172f6d27d02adab6d2084bc95e6e3">Policy</a> (const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; size_t &gt; &amp;p)</td></tr>
 <tr class="memdesc:a0be172f6d27d02adab6d2084bc95e6e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a0be172f6d27d02adab6d2084bc95e6e3">More...</a><br/></td></tr>
@@ -182,7 +182,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html" title="This class represents an MDP Policy. ">Policy</a>. </p>
-<p>Building this object is expensive, so it should be done mostly when it is known that the final solution won't change again. Otherwise you may want to build a wrapper around some data to extract the policy dynamically. </p>
+<p>This class is one of the many ways to represent an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html" title="This class represents an MDP Policy. ">Policy</a>. In particular, it maintains a 2 dimensional table of probabilities determining the probability of choosing an action in a given state.</p>
+<p>The class offers facilities to sample from these distributions, so that you can directly embed it into a decision-making process.</p>
+<p>Building this object is somewhat expensive, so it should be done mostly when it is known that the final solution won't change again. Otherwise you may want to build a wrapper around some data to extract the policy dynamically. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="ac6d21312a1e4dcdcdb5b37e4bb5fcc74"></a>
 <div class="memitem">
@@ -221,8 +223,8 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Basic constrctor. </p>
-<p>This constructor initializes the internal policy table so that each action in each state has the same probability of being chosen (random policy). This class guarantees that at any point the internal policy is a true probability distribution, i.e. for each state the sum of the probabilities of chosing an action sums up to 1.</p>
+<p>Basic constructor. </p>
+<p>This constructor initializes the internal policy table so that each action in each state has the same probability of being chosen (random policy). This class guarantees that at any point the internal policy is a true probability distribution, i.e. for each state the sum of the probabilities of choosing an action sums up to 1.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The number of states of the world. </td></tr>
@@ -482,7 +484,7 @@ template&lt;typename T &gt; </div>
 
 <p>This function sets the policy for a particular state. </p>
 <p>This function copies correctly sized container into the policy, normalizing it so that it sums to 1. If the size of the container is incorrect, an std::invalid_argument is thrown.</p>
-<p>The container needs to support size() and begin/end iterators. The elements of the container must be convertible to double, and the results of the convertions MUST BE positive.</p>
+<p>The container needs to support size() and begin/end iterators. The elements of the container must be convertible to double, and the results of these conversions MUST BE positive.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of the input container. </td></tr>
@@ -589,7 +591,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

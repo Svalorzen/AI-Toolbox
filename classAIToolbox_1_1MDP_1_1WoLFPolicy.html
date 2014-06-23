@@ -96,6 +96,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This class models the WoLF learning algorithm.  
+ <a href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="WoLFPolicy_8hpp_source.html">WoLFPolicy.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for AIToolbox::MDP::WoLFPolicy:</div>
@@ -152,7 +155,11 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a41ac8e3da01431e6b5265b3e812a89ce inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">std::default_random_engine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a41ac8e3da01431e6b5265b3e812a89ce">rand_</a></td></tr>
 <tr class="separator:a41ac8e3da01431e6b5265b3e812a89ce inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class models the WoLF learning algorithm. </p>
+<p>What this algorithm does is it progressively modifies the policy given changes in the underlying QFunction. In particular, it modifies it rapidly if the agent is "losing" (getting less reward than expected), and more slowly when "winning", since there's little reason to change behaviour when things go right.</p>
+<p>An advantage of this algorithm is that it can allow the policy to converge to non-deterministic solutions: for example two players trying to outmatch each other in rock-paper-scissor. At the same time, this particular version of the algorithm can take quite some time to converge to a good solution. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aa406c321277b9159793236a21238ecdb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -282,6 +289,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function updates the WoLF policy based on changes in the QFunction. </p>
+<p>This function should be called between agent's actions, using the agent's current state.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The state that needs to be updated. </td></tr>
@@ -297,7 +305,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 12:53:29 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 04:39:28 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
