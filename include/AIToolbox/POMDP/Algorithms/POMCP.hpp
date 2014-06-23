@@ -18,7 +18,51 @@ namespace AIToolbox {
 #endif
 
         /**
-         * @brief This class represents the POMCP online planner.
+         * @brief This class represents the POMCP online planner using UCB1.
+         *
+         * This algorithm is an online planner for POMDPs. As an online
+         * planner, it needs to have a generative model of the problem. This
+         * means that it only needs a way to sample transitions and
+         * observations from the model, but it does not need to know directly
+         * the distribution probabilities for it.
+         *
+         * POMCP plans for a single belief at a time. It follows the logic of
+         * Monte Carlo Tree Sampling, where a tree structure is build
+         * progressively and action values are deduced as averages of the
+         * obtained rewards over rollouts. If the number of sample episodes is
+         * high enough, it is guaranteed to converge to the optimal solution.
+         *
+         * At each rollout, we follow each action and observation within the
+         * tree from root to leaves. During this path we chose actions using an
+         * algorithm using UCT. What this does is privilege the most promising
+         * actions, while guaranteeing that in the limit every action will still
+         * be tried an infinite amount of times.
+         *
+         * Once we arrive to a leaf in the tree, we then expand it with a
+         * single new node, representing a new observation we just collected.
+         * We then proceed outside the tree following a random policy, but this
+         * time we do not track which actions and observations we actually
+         * take/obtain. The final reward obtained by this random rollout policy
+         * is used to approximate the values for all nodes visited in this
+         * rollout inside the tree, before leaving it.
+         *
+         * Since POMCP expands a tree, it can reuse work it has done if
+         * multiple action requests are done in order. To do so, it simply asks
+         * for the action that has been performed and its respective obtained
+         * observation. Then it simply makes that root branch the new root, and
+         * starts again.
+         *
+         * In order to avoid performing belief updates between each
+         * action/observation pair, which can be expensive, POMCP uses particle
+         * beliefs. These approximate the beliefs at every step, and are used
+         * to select states in the rollouts.
+         *
+         * A weakness of this implementation is that, as every particle
+         * approximation of continuous values, it will lose particles in time.
+         * To fight this a possibility is to implement a particle
+         * reinvigoration method, which would introduce noise in the particle
+         * beliefs in order to keep them "fresh" (possibly using domain
+         * knowledge).
          */
         template <typename M>
         class POMCP<M> {
@@ -119,7 +163,7 @@ namespace AIToolbox {
                  * see which one performs best. Tune this parameter, it really
                  * matters!
                  *
-                 * @param exp The new exploration contant.
+                 * @param exp The new exploration constant.
                  */
                 void setExploration(double exp);
 

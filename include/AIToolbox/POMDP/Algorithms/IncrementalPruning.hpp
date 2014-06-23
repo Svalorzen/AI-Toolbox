@@ -14,6 +14,33 @@ namespace AIToolbox {
     namespace POMDP {
         /**
          * @brief This class implements the Incremental Pruning algorithm.
+         * 
+         * This algorithm solves a POMDP Model perfectly. It computes solutions
+         * for each horizon incrementally, every new solution building upon the
+         * previous one.
+         * 
+         * From each solution, it computes the full set of possible
+         * projections. It then computes all possible cross-sums of such
+         * projections, in order to compute all possible vectors that can be
+         * included in the final solution.
+         * 
+         * What makes this method unique is its pruning strategy. Instead of
+         * generating every possible vector, combining them and pruning, it
+         * tries to prune at every possible occasion in order to minimize the
+         * number of possible vectors at any given time. Thus it will prune
+         * after creating the projections, after every single cross-sum, and
+         * in the end when combining all projections for each action.
+         * 
+         * The performances of this method are *heavily* dependent on the linear
+         * programming methods used. In particular, this code currently
+         * utilizes the lp_solve55 library. However, this library is not the
+         * most efficient implementation, as it defaults to a somewhat slow
+         * solver, and its problem-building API also tends to be slow due to
+         * lots of bounds checking (which are cool, but sometimes people know
+         * what they are doing). Still, to avoid replicating infinite amounts
+         * of code and managing memory by ourselves, we use its API. It would
+         * be nice if one day we could port directly into the code a fast lp
+         * implementation; for now we do what we can.
          */
         class IncrementalPruning {
             public:
@@ -43,13 +70,14 @@ namespace AIToolbox {
                 /**
                  * @brief This function solves a POMDP::Model completely.
                  *
-                 * This function is pretty expensive (as are possibly all POMDP solvers).
-                 * It generates for each new solved timestep the whole set of possible ValueFunctions,
-                 * and prunes it incrementally, trying to reduce as much as possible the linear
-                 * programming solves required.
+                 * This function is pretty expensive (as are possibly all POMDP
+                 * solvers).  It generates for each new solved timestep the
+                 * whole set of possible ValueFunctions, and prunes it
+                 * incrementally, trying to reduce as much as possible the
+                 * linear programming solves required.
                  *
-                 * This function returns a tuple to be consistent with MDP solving methods, but
-                 * it should always succeed.
+                 * This function returns a tuple to be consistent with MDP
+                 * solving methods, but it should always succeed.
                  *
                  * @tparam M The type of POMDP model that needs to be solved.
                  *
@@ -64,12 +92,14 @@ namespace AIToolbox {
                 /**
                  * @brief This function computes a VList composed of all possible combinations of sums of the VLists provided.
                  *
-                 * This function is in addition peculiar as it performs the job of accumulating
-                 * the information required to obtain the final policy. It assumes that the
-                 * rhs List is being cross-summed to the lhs one, and not vice-versa. This is
-                 * because the final result List will need to know which where the original VEntries
-                 * that made up its particular sum. To do so, each cross-sum adds a single new
-                 * parent. This function assumes that the new parent arrives from the rhs.
+                 * This function performs the job of accumulating the
+                 * information required to obtain the final policy. It assumes
+                 * that the rhs List is being cross-summed to the lhs one, and
+                 * not vice-versa. This is because the final result List will
+                 * need to know which where the original VEntries that made up
+                 * its particular sum. To do so, each cross-sum adds a single
+                 * new parent. This function assumes that the new parent
+                 * arrives from the rhs.
                  *
                  * @param l1 The "main" parent list.
                  * @param l2 The list being cross-summed to l1.

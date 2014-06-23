@@ -8,6 +8,8 @@ namespace AIToolbox {
         /**
          * @brief This class models a greedy policy through a QFunction.
          * 
+         * This class allows you to select effortlessly the best greedy actions
+         * from a given QFunction.
          */
         class QGreedyPolicy : public QPolicyInterface {
             public:

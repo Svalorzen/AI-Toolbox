@@ -11,7 +11,6 @@ if (MAKE_MDP)
         MDP/Model.cpp
         MDP/RLModel.cpp
         MDP/IO.cpp
-        MDP/Algorithms/QLearning.cpp
         MDP/Algorithms/ValueIteration.cpp
         MDP/Policies/Policy.cpp
         MDP/Policies/QPolicyInterface.cpp

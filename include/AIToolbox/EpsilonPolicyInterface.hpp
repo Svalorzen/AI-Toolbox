@@ -12,6 +12,11 @@ namespace AIToolbox {
      * This class is used to wrap already existing policies to implement
      * automatic exploratory behaviour (e.g. epsilon-greedy policies).
      *
+     * An epsilon-greedy policy is a policy that takes a greedy action a
+     * certain percentage of the time, and otherwise takes a random action.
+     * They are useful to force the agent to explore an unknown model, in order
+     * to gain new information to refine it and thus gain more reward.
+     *
      * Please note that to obtain an epsilon-greedy policy the wrapped
      * policy needs to already be greedy with respect to the model.
      */
@@ -60,6 +65,12 @@ namespace AIToolbox {
 
             /**
              * @brief This function sets the epsilon parameter.
+             *
+             * The epsilon parameter determines the amount of exploration this
+             * policy will enforce when selecting actions. In particular
+             * actions are going to selected randomly with probability
+             * (1-epsilon), and are going to be selected following the
+             * underlying policy with probability epsilon.
              *
              * The epsilon parameter must be >= 0.0 and <= 1.0,
              * otherwise the function will do throw std::invalid_argument.

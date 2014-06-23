@@ -12,6 +12,58 @@ namespace AIToolbox {
     namespace MDP {
         /**
          * @brief This class represents a Markov Decision Process.
+         *
+         * A Markov Decision Process (MDP) is a way to model decision making.
+         * The idea is that there is an agent situated in a stochastic
+         * environment which changes in discrete "timesteps". The agent can
+         * influence the way the environment changes via "actions". For each
+         * action the agent can perform, the environment will transition from a
+         * state "s" to a state "s1" following a certain transition function.
+         * The transition function specifies, for each triple SxAxS' the
+         * probability that such a transition will happen.
+         *
+         * In addition, associated with transitions, the agent is able to
+         * obtain rewards. Thus, if it does good, the agent will obtain a
+         * higher reward than if it performed badly. The reward obtained by the
+         * agent is in addition associated with a "discount" factor: at every
+         * step, the possible reward that the agent can collect is multiplied
+         * by this factor, which is a number between 0 and 1. The discount
+         * factor is used to model the fact that often it is preferable to
+         * obtain something sooner, rather than later.
+         *
+         * Since all of this is governed by probabilities, it is possible to
+         * solve an MDP model in order to obtain an "optimal policy", which is
+         * a way to select an action from a state which will maximize the
+         * expected reward that the agent is going to collect during its life.
+         * The expected reward is computed as the sum of every reward the agent
+         * collects at every timestep, keeping in mind that at every timestep
+         * the reward is further and further discounted.
+         *
+         * Solving an MDP in such a way is called "planning". Planning
+         * solutions often include an "horizon", which is the number of
+         * timesteps that are included in an episode. They can be finite or
+         * infinite. The optimal policy changes with respect to the horizon,
+         * since a higher horizon may offer access to reward-gaining
+         * opportunities farther in the future.
+         *
+         * An MDP policy (be it the optimal one or another), is associated with
+         * two functions: a ValueFunction and a QFunction. The ValueFunction
+         * represents the expected return for the agent from any initial state,
+         * given that actions are going to be selected according to the policy.
+         * The QFunction is similar: it gives the expected return for a
+         * specific state-action pair, given that after the specified action
+         * one will act according to the policy.
+         *
+         * Given that we are usually interested about the optimal policy, there
+         * are a couple of properties that are associated with the optimal
+         * policies functions.  First, the optimal policy can be derived from
+         * the optimal QFunction. The optimal policy simply selects, in a given
+         * state "s", the action that maximizes the value of the QFunction.  In
+         * the same way, the optimal ValueFunction can be computed from the
+         * optimal QFunction by selecting the max with respect to the action.
+         *
+         * Since so much information can be extracted from the QFunction, lots
+         * of methods (mostly in Reinforcement Learning) try to learn it.
          */
         class Model {
             public:
@@ -25,7 +77,8 @@ namespace AIToolbox {
                  * transitions happen with probability 0 but for transitions
                  * that bring back to the same state, no matter the action.
                  *
-                 * All rewards are set to 0. The discount parameter is set to 1.
+                 * All rewards are set to 0. The discount parameter is set to
+                 * 1.
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
@@ -41,24 +94,24 @@ namespace AIToolbox {
                  * transitions and rewards tables respectively.
                  *
                  * The containers need to support data access through
-                 * operator[]. In addition, the dimensions of the
-                 * containers must match the ones provided as arguments
-                 * (for three dimensions: s,a,s).
+                 * operator[]. In addition, the dimensions of the containers
+                 * must match the ones provided as arguments (for three
+                 * dimensions: s,a,s).
                  *
-                 * This is important, as this constructor DOES NOT perform
-                 * any size checks on the external containers.
+                 * This is important, as this constructor DOES NOT perform any
+                 * size checks on the external containers.
                  *
-                 * Internal values of the containers will be converted to double,
-                 * so these convertions must be possible.
+                 * Internal values of the containers will be converted to
+                 * double, so these conversions must be possible.
                  *
-                 * In addition, the transition container must contain a
-                 * valid transition function.
-                 * \sa transitionCheck()
+                 * In addition, the transition container must contain a valid
+                 * transition function.  \sa transitionCheck()
                  *
                  * \sa copyTable3D()
                  *
-                 * The discount parameter must be between 0 and 1 included, otherwise
-                 * the constructor will throw an std::invalid_argument.
+                 * The discount parameter must be between 0 and 1 included,
+                 * otherwise the constructor will throw an
+                 * std::invalid_argument.
                  *
                  * @tparam T The external transition container type.
                  * @tparam R The external rewards container type.
@@ -74,19 +127,20 @@ namespace AIToolbox {
                 /**
                  * @brief This function replaces the Model transition function with the one provided.
                  *
-                 * This function will throw a std::invalid_argument if the table provided
-                 * does not respect the constraints specified in the mdpCheck() function.
+                 * This function will throw a std::invalid_argument if the
+                 * table provided does not respect the constraints specified in
+                 * the mdpCheck() function.
                  *
                  * The container needs to support data access through
-                 * operator[]. In addition, the dimensions of the
-                 * container must match the ones provided as arguments
-                 * (for three dimensions: s,a,s).
+                 * operator[]. In addition, the dimensions of the container
+                 * must match the ones provided as arguments (for three
+                 * dimensions: s,a,s).
                  *
-                 * This is important, as this constructor DOES NOT perform
-                 * any size checks on the external container.
+                 * This is important, as this constructor DOES NOT perform any
+                 * size checks on the external container.
                  *
-                 * Internal values of the container will be converted to double,
-                 * so that convertion must be possible.
+                 * Internal values of the container will be converted to
+                 * double, so these conversions must be possible.
                  *
                  * @tparam T The external transition container type.
                  * @param t The external transitions container.
@@ -98,15 +152,15 @@ namespace AIToolbox {
                  * @brief This function replaces the Model reward function with the one provided.
                  *
                  * The container needs to support data access through
-                 * operator[]. In addition, the dimensions of the
-                 * containers must match the ones provided as arguments
-                 * (for three dimensions: s,a,s).
+                 * operator[]. In addition, the dimensions of the containers
+                 * must match the ones provided as arguments (for three
+                 * dimensions: s,a,s).
                  *
-                 * This is important, as this constructor DOES NOT perform
-                 * any size checks on the external containers.
+                 * This is important, as this constructor DOES NOT perform any
+                 * size checks on the external containers.
                  *
-                 * Internal values of the container will be converted to double,
-                 * so that convertion must be possible.
+                 * Internal values of the container will be converted to
+                 * double, so these conversions must be possible.
                  *
                  * @tparam T The external transition container type.
                  * @param t The external transitions container.
@@ -124,13 +178,15 @@ namespace AIToolbox {
                 /**
                  * @brief This function samples the MDP for the specified state action pair.
                  *
-                 * This function samples the model for simulated experience. The transition
-                 * and reward functions are used to produce, from the state action pair
-                 * inserted as arguments, a possible new state with respective reward.
-                 * The new state is picked from all possible states that the MDP allows
-                 * transitioning to, each with probability equal to the same probability
-                 * of the transition in the model. After a new state is picked, the reward
-                 * is the corresponding reward contained in the reward function.
+                 * This function samples the model for simulated experience.
+                 * The transition and reward functions are used to produce,
+                 * from the state action pair inserted as arguments, a possible
+                 * new state with respective reward.  The new state is picked
+                 * from all possible states that the MDP allows transitioning
+                 * to, each with probability equal to the same probability of
+                 * the transition in the model. After a new state is picked,
+                 * the reward is the corresponding reward contained in the
+                 * reward function.
                  *
                  * @param s The state that needs to be sampled.
                  * @param a The action that needs to be sampled.

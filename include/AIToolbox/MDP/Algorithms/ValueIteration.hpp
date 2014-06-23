@@ -12,6 +12,24 @@ namespace AIToolbox {
     namespace MDP {
         /**
          * @brief This class applies the value iteration algorithm on a Model.
+         *
+         * This algorithm solves an MDP model for an infinite horizon (although
+         * it is trivial to change it to work for smaller horizons).
+         *
+         * The idea of this algorithm is to iteratively compute the
+         * ValueFunction for the MDP optimal policy. On the first iteration,
+         * the ValueFunction for horizon 1 is obtained. On the second
+         * iteration, the one for horizon 2. This process is repeated until the
+         * ValueFunction has converged to a specific value within a certain
+         * accuracy. This will then represent the ValueFunction for the optimal
+         * policy in the infinite horizon.
+         *
+         * This implementation in particular is ported from the MATLAB
+         * MDPToolbox. It tries to perform as little updates as possible, as
+         * long as the resulting ValueFunction can be converted correctly into
+         * the optimal policy. Again, it is trivial to modify the loop
+         * conditions to satisfy whatever requirements for convergence you
+         * might have.
          */
         class ValueIteration {
             public:

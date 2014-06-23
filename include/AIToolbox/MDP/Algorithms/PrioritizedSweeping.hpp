@@ -23,6 +23,27 @@ namespace AIToolbox {
 
         /**
          * @brief This class represents the PrioritizedSweeping algorithm.
+         *
+         * This algorithm is a refinement of the DynaQ algorithm. Instead of
+         * randomly sampling experienced state action pairs to get more
+         * information, we order each pair based on an estimate of how much
+         * information we can still extract from them.
+         *
+         * In particular, pairs are sorted based on the amount they modified
+         * the estimated ValueFunction on their last sample. This ensures that
+         * we always try to sample from useful pairs instead of randomly,
+         * extracting knowledge much faster.
+         *
+         * At the same time, this algorithm keeps a threshold for each
+         * state-action pair, so that it does not have to internally store all
+         * the pairs and save some memory/cpu time keeping the queue updated.
+         * Only pairs which obtained an amount of change higher than this
+         * treshold are kept in the queue.
+         * 
+         * Differently from the QLearning and DynaQ algorithm, this class
+         * automatically computes the ValueFunction since it is useful to
+         * determine which state-action pairs are actually useful, so there's
+         * no need to compute it manually.
          */
         template <typename M>
         class PrioritizedSweeping<M> {

@@ -9,12 +9,30 @@
 namespace AIToolbox {
     namespace MDP {
 
+        /**
+         * @brief This class models the WoLF learning algorithm.
+         *
+         * What this algorithm does is it progressively modifies the policy
+         * given changes in the underlying QFunction. In particular, it
+         * modifies it rapidly if the agent is "losing" (getting less reward
+         * than expected), and more slowly when "winning", since there's little
+         * reason to change behaviour when things go right.
+         *
+         * An advantage of this algorithm is that it can allow the policy to
+         * converge to non-deterministic solutions: for example two players
+         * trying to outmatch each other in rock-paper-scissor. At the same
+         * time, this particular version of the algorithm can take quite some
+         * time to converge to a good solution.
+         */
         class WoLFPolicy : public QPolicyInterface {
             public:
                 WoLFPolicy(const QFunction & q, double deltaw = 0.0125, double deltal = 0.05);
 
                 /**
                  * @brief This function updates the WoLF policy based on changes in the QFunction.
+                 *
+                 * This function should be called between agent's actions,
+                 * using the agent's current state.
                  *
                  * @param s The state that needs to be updated.
                  */

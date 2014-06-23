@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
         model.sync(0,a,0);
         solver.stepUpdateQ(0,a);
         solver.batchUpdateQ();
-
+        // The argument here is technically s1, but since there's only one state is 0 anyway.
         policy.updatePolicy(0);
     }
 

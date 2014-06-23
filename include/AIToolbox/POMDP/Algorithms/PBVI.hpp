@@ -13,6 +13,34 @@ namespace AIToolbox {
     namespace POMDP {
         /**
          * @brief This class implements the Point Based Value Iteration algorithm.
+         * 
+         * The idea behind this algorithm is to solve a POMDP Model
+         * approximately. When computing a perfect solution, the main problem
+         * is pruning the resulting ValueFunction in order to contain only a
+         * parsimonious representation. What this means is that many vectors
+         * inside can be dominated by others, and so they do not add any
+         * additional information, while at the same time occupying memory and
+         * computational time.
+         *
+         * The way this method tries to fix the problem is by solving the Model
+         * in a set of specified Beliefs. Doing so results in no need for
+         * pruning at all, since every belief uniquely identifies one of the
+         * optimal solution vectors (only uniqueness in the final set is
+         * required, but it is way cheaper than linear programming).
+         *
+         * The set of Beliefs are stochastically computed as to cover as much
+         * as possible of the belief space, to ensure minimization of the final
+         * error. The final solution will thus be correct 100% in the Beliefs
+         * that have been selected, and will (possibly) overshoot in
+         * non-covered Beliefs.
+         * 
+         * In addition, the fact that we solve only for a fixed set of Beliefs
+         * guarantees that our final solution is limited in size, which is
+         * useful since even small POMDP true solutions can explode in size
+         * with high horizons, for very little gain.
+         * 
+         * There is no convergence guarantee of this method, but the error is
+         * bounded.
          */
         class PBVI {
             public:
@@ -56,15 +84,18 @@ namespace AIToolbox {
                 size_t getBeliefSize() const;
 
                 /**
-                 * @brief This function solves a POMDP::Model completely.
+                 * @brief This function solves a POMDP::Model approximately.
                  *
-                 * This function is pretty expensive (as are possibly all POMDP solvers).
-                 * It generates for each new solved timestep the whole set of possible ValueFunctions,
-                 * and prunes it incrementally, trying to reduce as much as possible the linear
-                 * programming solves required.
-                 *
-                 * This function returns a tuple to be consistent with MDP solving methods, but
-                 * it should always succeed.
+                 * This function computes a set of beliefs for which to solve
+                 * the input model. The beliefs are chosen stochastically,
+                 * trying to cover as much as possible of the belief space in
+                 * order to offer as precise a solution as possible. The final
+                 * solution will only contain ValueFunctions for those Beliefs
+                 * (so that in those points the solution will be 100% correct),
+                 * and will interpolate them for points it did not solve for.
+                 * Even though the resulting solution is approximate very often
+                 * it is good enough, and this comes with an incredible
+                 * increase in speed.
                  *
                  * @tparam M The type of POMDP model that needs to be solved.
                  *
@@ -82,21 +113,23 @@ namespace AIToolbox {
                 void expandBeliefs(const M& model, BeliefList & bl) const;
 
                 /**
-                 * @brief This function computes a VList composed of all possible combinations of sums of the VLists provided.
+                 * @brief This function computes a VList composed the maximized cross-sums with respect to the provided beliefs.
                  *
-                 * This function is in addition peculiar as it performs the job of accumulating
-                 * the information required to obtain the final policy. It assumes that the
-                 * rhs List is being cross-summed to the lhs one, and not vice-versa. This is
-                 * because the final result List will need to know which where the original VEntries
-                 * that made up its particular sum. To do so, each cross-sum adds a single new
-                 * parent. This function assumes that the new parent arrives from the rhs.
+                 * This function performs the job of accumulating the
+                 * information required to obtain the final policy. It
+                 * processes an action at a time.
                  *
-                 * @param l1 The "main" parent list.
-                 * @param l2 The list being cross-summed to l1.
+                 * For each belief contained in the argument BeliefList, it
+                 * will create the optimal VEntry by cherry picking the best
+                 * projections for each observation. Finally it prunes the
+                 * resulting VList by removing duplicates.
+                 *
+                 * @param ProjectionsRow The type containing the projections to process.
+                 * @param projs A 1d container containing O elements: each a VList of projections for the respective observation.
                  * @param a The action that this cross-sum is about.
-                 * @param o The observation that generated the l2 list.
+                 * @param bl The beliefs for which we are trying to find VEntries.
                  *
-                 * @return The cross-sum between l1 and l2.
+                 * @return The optimal cross-sum list for the given projections and BeliefList.
                  */
                 template <typename ProjectionsRow>
                 VList crossSum(const ProjectionsRow & projs, size_t a, const BeliefList & bl);

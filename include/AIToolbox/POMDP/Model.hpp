@@ -26,6 +26,42 @@ namespace AIToolbox {
          * was chosen to improve performance and keep code small, instead of
          * doing composition.
          *
+         * A POMDP is an MDP where the agent, at each timestep, does not know
+         * in which state it is. Instead, after each action is performed, it
+         * obtains an "observation", which offers some information as to which
+         * new state the agent has transitioned to. This observation is
+         * determined by an "observation function", that maps S'xAxO to a
+         * probability: the probability of obtaining observation O after taking
+         * action A and *landing* in state S'.
+         *
+         * Since now its knowledge is imperfect, in order to represent the
+         * knowledge of the state it is currently in, the agent is thus forced
+         * to use Beliefs: probability distributions over states.
+         *
+         * The way a Belief works is that, after each action and observation,
+         * the agent can reason as follows: given my previous Belief
+         * (distribution over states) that I think I was in, what is now the
+         * probability that I transitioned to any particular state? This new
+         * Belief can be computed from the Model, given that the agent knows
+         * the distributions of the transition and observation functions.
+         *
+         * Turns out that a POMDP can be viewed as an MDP with an infinite
+         * number of states, where each state is essentially a Belief. Since a
+         * Belief is a vector of real numbers, there are infinite of them, thus
+         * the infinite number of states. While POMDPs can be much more
+         * powerful than MDPs for modeling real world problems, where
+         * information is usually not perfect, it turns out that this
+         * infinite-state property makes them so much harder to solve
+         * perfectly, and their solutions much more complex.
+         *
+         * A POMDP solution is composed by several policies, which apply in
+         * different ranges of the Belief space, and suggest different actions
+         * depending on the observations received by the agent at each
+         * timestep. The values of those policies can be, in the same way,
+         * represented as a number of value vectors (called alpha vectors in
+         * the literature) that apply in those same ranges of the Belief space.
+         * Each alpha vector is somewhat similar to an MDP ValueFunction.
+         *
          * @tparam M The particular MDP type that we want to extend.
          */
         template <typename M>
@@ -62,7 +98,7 @@ namespace AIToolbox {
                  * any size checks on the external containers.
                  *
                  * Internal values of the containers will be converted to double,
-                 * so these convertions must be possible.
+                 * so these conversions must be possible.
                  *
                  * In addition, the observation container must contain a
                  * valid transition function.
@@ -90,7 +126,7 @@ namespace AIToolbox {
                  * any size checks on the external containers.
                  *
                  * Internal values of the container will be converted to double,
-                 * so that convertion must be possible.
+                 * so these conversions must be possible.
                  *
                  * @tparam ObFun The external observations container type.
                  * @param table The external observations container.
@@ -117,13 +153,13 @@ namespace AIToolbox {
                  *
                  * @return A tuple containing a new state, observation and reward.
                  */
-                std::tuple<size_t,size_t, double> sampleSOR(size_t,size_t) const;
+                std::tuple<size_t,size_t, double> sampleSOR(size_t s,size_t a) const;
 
                 /**
                  * @brief This function samples the POMDP for the specified state action pair.
                  *
-                 * This function samples the model for simulated experience. The
-                 * transition, observation and reward functions are used to
+                 * This function samples the model for simulated experience.
+                 * The transition, observation and reward functions are used to
                  * produce, from the state, action and new state inserted as
                  * arguments, a possible new observation and reward. The
                  * observation and rewards are picked so that they are
@@ -131,10 +167,11 @@ namespace AIToolbox {
                  *
                  * @param s The state that needs to be sampled.
                  * @param a The action that needs to be sampled.
+                 * @param s1 The resulting state of the s,a transition.
                  *
                  * @return A tuple containing a new observation and reward.
                  */
-                std::tuple<size_t, double> sampleOR(size_t,size_t,size_t) const;
+                std::tuple<size_t, double> sampleOR(size_t s,size_t a,size_t s1) const;
 
                 /**
                  * @brief This function returns the stored observation probability for the specified state-action pair.

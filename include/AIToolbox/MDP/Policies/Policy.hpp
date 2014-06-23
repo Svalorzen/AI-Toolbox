@@ -12,24 +12,31 @@ namespace AIToolbox {
     namespace MDP {
         /**
          * @brief This class represents an MDP Policy.
+         * 
+         * This class is one of the many ways to represent an MDP Policy. In
+         * particular, it maintains a 2 dimensional table of probabilities
+         * determining the probability of choosing an action in a given state.
+         * 
+         * The class offers facilities to sample from these distributions, so
+         * that you can directly embed it into a decision-making process.
          *
-         * Building this object is expensive, so it should be done
-         * mostly when it is known that the final solution won't
-         * change again. Otherwise you may want to build a wrapper
-         * around some data to extract the policy dynamically.
+         * Building this object is somewhat expensive, so it should be done
+         * mostly when it is known that the final solution won't change again.
+         * Otherwise you may want to build a wrapper around some data to
+         * extract the policy dynamically.
          */
         class Policy : public PolicyInterface<size_t> {
             public:
                 using PolicyTable = Table2D;
 
                 /**
-                 * @brief Basic constrctor.
+                 * @brief Basic constructor.
                  *
                  * This constructor initializes the internal policy table so that
                  * each action in each state has the same probability of being
                  * chosen (random policy). This class guarantees that at any point
                  * the internal policy is a true probability distribution, i.e.
-                 * for each state the sum of the probabilities of chosing an action
+                 * for each state the sum of the probabilities of choosing an action
                  * sums up to 1.
                  *
                  * @param s The number of states of the world.
@@ -95,7 +102,7 @@ namespace AIToolbox {
                  *
                  * The container needs to support size() and begin/end iterators.
                  * The elements of the container must be convertible to double, and the
-                 * results of the convertions MUST BE positive.
+                 * results of these conversions MUST BE positive.
                  *
                  * @tparam T The type of the input container.
                  * @param s The state where the policy is being set.

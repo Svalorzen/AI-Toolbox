@@ -11,15 +11,25 @@ namespace AIToolbox {
         /**
          * @brief This class represents a POMDP Policy.
          *
-         * This class currently represents a basic Policy adaptor
-         * for a POMDP::ValueFunction.
+         * This class currently represents a basic Policy adaptor for a
+         * POMDP::ValueFunction. What this class does is to extract the policy
+         * tree contained within a POMDP::ValueFunction. The idea is that, at
+         * each horizon, the ValueFunction contains a set of applicable
+         * solutions (alpha vectors) for the POMDP. At each Belief point, only
+         * one of those vectors applies.
+         *
+         * This class finds out at every belief which is the vector that
+         * applies, and returns the appropriate action. At the same time, it
+         * provides facilities to follow the chosen vector along the tree
+         * (since future actions depend on the observations obtained by the
+         * agent).
          */
         class Policy : public PolicyInterface<Belief> {
             public:
                 /**
                  * @brief Basic constrctor.
                  *
-                 * This constructor initializes the internal ValueFunction as 
+                 * This constructor initializes the internal ValueFunction as
                  * having only the horizon 0 no values solution. This is most
                  * useful if the Policy needs to be read from a file.
                  *
@@ -32,10 +42,10 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constrctor.
                  *
-                 * This constructor copies the implied policy contained in a ValueFunction.
-                 * Keep in mind that the policy stored within a ValueFunction is
-                 * non-stochastic in nature, since for each state it can only
-                 * save a single action.
+                 * This constructor copies the implied policy contained in a
+                 * ValueFunction.  Keep in mind that the policy stored within a
+                 * ValueFunction is non-stochastic in nature, since for each
+                 * state it can only save a single action.
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
@@ -51,7 +61,8 @@ namespace AIToolbox {
                 /**
                  * @brief This function chooses a random action for belief b, following the policy distribution.
                  *
-                 * Note that this will sample from the highest horizon that the Policy was computed for.
+                 * Note that this will sample from the highest horizon that the
+                 * Policy was computed for.
                  *
                  * @param b The sampled belief of the policy.
                  *
@@ -62,14 +73,17 @@ namespace AIToolbox {
                 /**
                  * @brief This function chooses a random action for belief b when horizon steps are missing, following the policy distribution.
                  *
-                 * There are a couple of differences between this sampling function and the
-                 * simpler version. The first one is that this function is actually able to sample from
-                 * different timesteps, since this class is able to maintain a full policy tree over time.
+                 * There are a couple of differences between this sampling
+                 * function and the simpler version. The first one is that this
+                 * function is actually able to sample from different
+                 * timesteps, since this class is able to maintain a full
+                 * policy tree over time.
                  *
-                 * The second difference is that it returns two values. The first one is the requested action.
-                 * The second return value is an id that allows the policy to compute more efficiently
-                 * the sampled action during the next timestep, if provided to the Policy together with the
-                 * obtained observation.
+                 * The second difference is that it returns two values. The
+                 * first one is the requested action.  The second return value
+                 * is an id that allows the policy to compute more efficiently
+                 * the sampled action during the next timestep, if provided to
+                 * the Policy together with the obtained observation.
                  *
                  * @param b The sampled belief of the policy.
                  * @param horizon The requested horizon, meaning the number of timesteps missing until
@@ -83,16 +97,20 @@ namespace AIToolbox {
                 /**
                  * @brief This function chooses a random action after performing a sampled action and observing observation o, for a particular horizon.
                  *
-                 * This sampling function is provided in case an already sampled action has been performed,
-                 * an observation registered, and now a new action is needed for the next timestep. Using
-                 * this function is highly recommended, as no belief update is necessary, and no lookup
-                 * in a possibly very long list of VEntries required.
+                 * This sampling function is provided in case an already
+                 * sampled action has been performed, an observation
+                 * registered, and now a new action is needed for the next
+                 * timestep. Using this function is highly recommended, as no
+                 * belief update is necessary, and no lookup in a possibly very
+                 * long list of VEntries required.
                  *
-                 * Note that this function works if and only if the horizon is going to be 1 (one) less
-                 * than the value used for the previous sampling, otherwise anything could happen.
+                 * Note that this function works if and only if the horizon is
+                 * going to be 1 (one) less than the value used for the
+                 * previous sampling, otherwise anything could happen.
                  *
-                 * To keep things simple, the id does not store internally the needed horizon value, and you
-                 * are requested to keep track of it yourself.
+                 * To keep things simple, the id does not store internally the
+                 * needed horizon value, and you are requested to keep track of
+                 * it yourself.
                  *
                  * An example of usage for this function would be:
                  *
@@ -148,14 +166,15 @@ namespace AIToolbox {
                 /**
                  * @brief This function returns the highest horizon available within this Policy.
                  *
-                 * Note that all functions that accept an horizon as a parameter DO NOT check
-                 * the bounds of that variable. In addition, note that while for S,A,O getters
-                 * you get a number that exceeds by 1 the values allowed (since counting starts
-                 * from 0), here the bound is actually included in the limit, as horizon 0 does
-                 * not really do anything.
+                 * Note that all functions that accept an horizon as a
+                 * parameter DO NOT check the bounds of that variable. In
+                 * addition, note that while for S,A,O getters you get a number
+                 * that exceeds by 1 the values allowed (since counting starts
+                 * from 0), here the bound is actually included in the limit,
+                 * as horizon 0 does not really do anything.
                  *
-                 * Example: getH() returns 5. This means that 5 is the highest allowed parameter
-                 * for an horizon in any other Policy method.
+                 * Example: getH() returns 5. This means that 5 is the highest
+                 * allowed parameter for an horizon in any other Policy method.
                  *
                  * @return The highest horizon policied.
                  */

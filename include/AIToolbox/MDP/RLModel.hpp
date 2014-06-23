@@ -12,13 +12,43 @@ namespace AIToolbox {
         /**
          * @brief This class models Experience as a Markov Decision Process.
          *
-         * This class normalizes an Experience object to produce a transition function
-         * and a reward function. The transition function is guaranteed to be a correct
-         * probability function, as in the sum of the probabilities of all transitions
-         * from a particular state and a particular action is always 1.
-         * Each instance is not directly synced with the supplied Experience object.
-         * This is to avoid possible overheads, as the user can optimize better
-         * depending on their use case. See sync().
+         * Often an MDP is not known in advance. It is known that it can assume
+         * a certain set of states, and that a certain set of actions are
+         * available to the agent, but not much more. Thus, in these cases, the
+         * goal is not only to find out the best policy for the MDP we have,
+         * but at the same time learn the actual transition and reward
+         * functions of such a model. This task is called "reinforcement
+         * learning".
+         *
+         * This class helps with this. A naive approach to reinforcement
+         * learning is to keep track, for each action, of its results, and
+         * deduce transition probabilities and rewards based on the data
+         * collected in such a way. This class does just this.
+         *
+         * This class normalizes an Experience object to produce a transition
+         * function and a reward function. The transition function is
+         * guaranteed to be a correct probability function, as in the sum of
+         * the probabilities of all transitions from a particular state and a
+         * particular action is always 1. Each instance is not directly synced
+         * with the supplied Experience object. This is to avoid possible
+         * overheads, as the user can optimize better depending on their use
+         * case. See sync().
+         *
+         * A possible way to improve the data gathered using this class, is to
+         * artificially modify the data as to skew it towards certain
+         * distributions.  This could be done if some knowledge of the model
+         * (even approximate) is known, in order to speed up the learning
+         * process. Another way is to assume that all transitions are possible,
+         * add data to support that claim, and simply wait until the averages
+         * converge to the true values. Another thing that can be done is to
+         * associate with each fake datapoint an high reward: this will skew
+         * the agent into trying out new actions, thinking it will obtained the
+         * high rewards. This is able to obtain automatically a good degree of
+         * exploration in the early stages of an episode. Such a technique is
+         * called "optimistic initialization".
+         *
+         * Whether any of these techniques work or not can definitely depend on
+         * the model you are trying to approximate. Trying out things is good!
          */
         class RLModel {
             public:

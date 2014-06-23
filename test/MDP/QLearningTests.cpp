@@ -3,11 +3,17 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
+#include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/Algorithms/QLearning.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
 BOOST_AUTO_TEST_CASE( updates ) {
-    AIToolbox::MDP::QLearning solver(5,5);
+    namespace mdp = AIToolbox::MDP;
+
+    mdp::Model model(5, 5);
+    model.setDiscount(0.9);
+
+    mdp::QLearning<decltype(model)> solver(model);
     {
         // State goes to itself, thus needs to consider
         // next-step value.

@@ -2,7 +2,7 @@
 #define AI_TOOLBOX_MDP_DYNAQ_HEADER_FILE
 
 #include <AIToolbox/MDP/Types.hpp>
-#include <AIToolbox/MDP/QLearning.hpp>
+#include <AIToolbox/MDP/Algorithms/QLearning.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
 
 #include <boost/functional/hash.hpp>
@@ -15,11 +15,26 @@ namespace AIToolbox {
 
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.
-        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
         class DynaQ;
 #endif
         /**
          * @brief This class represents the DynaQ algorithm.
+         *
+         * This algorithm is a simple extension to the QLearning algorithm.
+         * What it does is it keeps track of every experienced state-action
+         * pair. Each QFunction update is exactly equivalent to the QLearning
+         * one, however this algorithm allows for an additional learning phase
+         * that can take place, time permitting, before the agent takes another
+         * action.
+         *
+         * The state-action pairs we already explored are thus known as
+         * possible, and so we use the generative model to obtain more and more
+         * data about them. This, of course, requires that the model be sampled
+         * from, in constrast with QLearning which does not require this.
+         *
+         * The algorithm selects randomly which state action pairs to try again
+         * from.
          */
         template <typename M>
         class DynaQ<M> {
@@ -57,10 +72,14 @@ namespace AIToolbox {
                 /**
                  * @brief This function updates a QFunction based on simulated experience.
                  *
-                 * In DynaQ we sample N times from already experienced state-action pairs,
-                 * and we update the resulting QFunction as if this experience was actually
-                 * real.
+                 * In DynaQ we sample N times from already experienced
+                 * state-action pairs, and we update the resulting QFunction as
+                 * if this experience was actually real.
                  *
+                 * The idea is that since we know which state action pairs we already
+                 * explored, we know that whose pairs are actually possible. Thus we
+                 * use the generative model to sample them again, and obtain a better
+                 * estimate of the QFunction.
                  */
                 void batchUpdateQ();
 
@@ -89,20 +108,6 @@ namespace AIToolbox {
                 void setN(unsigned n);
 
                 /**
-                 * @brief This function returns the number of states of the world.
-                 *
-                 * @return The total number of states.
-                 */
-                size_t getS() const;
-
-                /**
-                 * @brief This function returns the number of available actions to the agent.
-                 *
-                 * @return The total number of actions.
-                 */
-                size_t getA() const;
-
-                /**
                  * @brief This function returns the currently set number of sampling passes during batchUpdateQ().
                  *
                  * @return The current number of updates().
@@ -126,7 +131,7 @@ namespace AIToolbox {
             protected:
                 unsigned N;
                 const M & model_;
-                QLearning qLearning_;
+                QLearning<M> qLearning_;
 
                 // We use two structures because generally S*A is not THAT big, and we can definitely use
                 // the O(1) insertion and O(1) sampling time.
@@ -138,13 +143,10 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        DynaQ<M>::DynaQ(const M & m, double alpha, unsigned n) : N(n),
-                                                                                  model_(m),
-                                                                                  qLearning_(model_.getS(), model_.getA(), alpha, model_.getDiscount()),
-                                                                                  rand_(Impl::Seeder::getSeed())
+        DynaQ<M>::DynaQ(const M & m, double alpha, unsigned n) : N(n), model_(m), qLearning_(model_, alpha), rand_(Impl::Seeder::getSeed())
         {
-            visitedStatesActionsInserter_.reserve(getS()*getA());
-            visitedStatesActionsSampler_.reserve(getS()*getA());
+            visitedStatesActionsInserter_.reserve(model_.getS()*model_.getA());
+            visitedStatesActionsSampler_.reserve(model_.getS()*model_.getA());
         }
 
         template <typename M>
@@ -170,16 +172,6 @@ namespace AIToolbox {
                 std::tie(s1, rew) = model_.sample(s, a);
                 qLearning_.stepUpdateQ(s, s1, a, rew);
             }
-        }
-
-        template <typename M>
-        size_t DynaQ<M>::getS() const {
-            return qLearning_.getS();
-        }
-
-        template <typename M>
-        size_t DynaQ<M>::getA() const {
-            return qLearning_.getA();
         }
 
         template <typename M>
