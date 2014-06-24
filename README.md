@@ -37,22 +37,23 @@ work in progress that tries to implement many DTC algorithms in one place, much
 like OpenCV is for Computer Vision algorithms.
 
 Please note that the API is not yet stable (although most things at this point
-are) since at every algorithm I add I may decide to alter it a bit, to offer a
-more consistent interface throughout the library.
+are) since at every algorithm I add I may decide to alter the API a bit, to
+offer a more consistent interface throughout the library.
 
 Goals
 =====
 
-Decision Theoretic Control is a field which is in rapid development. There exist
-incredibly many methods that solve problems, each with a huge amount of
+Decision Theoretic Control is a field which is in rapid development. There are
+incredibly many methods to solve problems, each with a huge amounts of
 variants. This framework only tries to implement the most influential methods,
-and in their vanilla form (or the form that is most widely used in the
-community), trying to keep the code as simple as possible.
+and in their vanilla form (or the form that is most widely used in the research
+community to my knowledge), trying to keep the code as simple as possible.
 
 If you need any of the variants, the code is structured so that it is easy to
 read it and modify it to your requirements, versus providing an endless list of
 parameters and include all the variants. Some toolboxes do this, but my opinion
-is that this makes the code very hard to read through.
+is that this makes the code very hard to digest, which makes it also hard to
+find out what to set to get the variant you want.
 
 Features
 ========
@@ -88,8 +89,11 @@ Suppose you have a 10x10 cell grid world, with an agent in the middle. At each
 point, the agent can decide to move up, down, left or right. At any point in
 time, you can then describe this world by simply stating where the agent is (for
 example, the agent is in cell (5,5)). This description of the world is
-absolutely complete and does not require knowing where the agent was before: it
-is called a "state".
+absolutely complete and does not require knowledge of the past: it is called a
+markovian "state". If knowledge of the past is required, for example to compute
+a speed that is then used to move the agent, you simply increase the
+dimensionality of the state (add a velocity term to it), until it is markovian
+again.
 
 The agent can then influence the environment's state in the next timestep: it
 can choose to move, and where it moves will determine the environment next
@@ -126,6 +130,10 @@ each timestep the code looks like this:
 
         solver.update( current_state, action, new_state, reward);
     }
+
+In particular, states and actions in this library are represented as `size_t`
+variables, since for example an (x,y) position can be easily encoded in a single
+number.
 
 The code currently in the `test` folder will help you understand the type of
 usage, and the documentation of each class will tell you what are they for.
