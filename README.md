@@ -36,12 +36,99 @@ competitive, cooperative, partially observable and so on. This framework is a
 work in progress that tries to implement many DTC algorithms in one place, much
 like OpenCV is for Computer Vision algorithms.
 
-Currently the available functionality is very little, and the API is not yet
-stable, as I can only work on this inbetween my thesis, and I generally only
-have time to insert algorithms that I happen to use for other projects too. My
-hope is that one day it will be big enough that I will be able to publicize it
-and hopefully obtain contribution from other scientists that want to use these
-type of methods.
+Please note that the API is not yet stable (although most things at this point
+are) since at every algorithm I add I may decide to alter it a bit, to offer a
+more consistent interface throughout the library.
+
+Goals
+=====
+
+Decision Theoretic Control is a field which is in rapid development. There exist
+incredibly many methods that solve problems, each with a huge amount of
+variants. This framework only tries to implement the most influential methods,
+and in their vanilla form (or the form that is most widely used in the
+community), trying to keep the code as simple as possible.
+
+If you need any of the variants, the code is structured so that it is easy to
+read it and modify it to your requirements, versus providing an endless list of
+parameters and include all the variants. Some toolboxes do this, but my opinion
+is that this makes the code very hard to read through.
+
+Features
+========
+
+Single Agent MDP:
+
+- Value Iteration
+- Win or Learn Fast Policy Iteration (WoLF)
+- Q-Learning
+- Dyna-Q
+- Prioritized Sweeping
+
+Single Agent POMDP:
+
+- Incremental Pruning
+- Point Based Value Iteration (PBVI)
+- POMCP with UCB1
+
+Fast Tutorial
+=============
+
+In order to use this library you need to have some idea of what a Markov
+Decision Process (MDP) is. An MDP is a mathematical framework to work with an
+environment which evolves in discrete timestep, and where an agent can influence
+its evolution through actions.
+
+A full-on explanation will likely require some math and complicated sounding
+terms, so I will explain with an example. The full documentation will include
+more details, and currently you can read each class documentation, which helps
+in understanding the whole picture.
+
+Suppose you have a 10x10 cell grid world, with an agent in the middle. At each
+point, the agent can decide to move up, down, left or right. At any point in
+time, you can then describe this world by simply stating where the agent is (for
+example, the agent is in cell (5,5)). This description of the world is
+absolutely complete and does not require knowing where the agent was before: it
+is called a "state".
+
+The agent can then influence the environment's state in the next timestep: it
+can choose to move, and where it moves will determine the environment next
+state. If it moves up, then the next state will be (5,6) with 100% probability.
+You can encode this types of movement in a transition table, that for each state
+will tell you the probability of ending in another state, given that the agent
+performs a certain action.
+
+There is another part of an MDP: reward. Since we want the agent to move in an
+intelligent way, we need to tell it what "situations" are better than others.
+For example, we may want the agent to move in the top-left corner: thus every
+movement the agent does will give him 0 reward, but ending in the top-left
+corner will give him 1 reward.
+
+This is all is needed to make this library work. Once you have encoded your
+problem in such a way, the code to solve it is generally something like:
+
+    auto model = make_my_model();
+    solver_type<decltype(model)> solver( solver_parameters );
+
+    auto solution = solver(model);
+
+Or, for methods that compute the solutions not in one swoop but incrementally at
+each timestep the code looks like this:
+
+    auto model = make_my_model();
+    solver_type<decltype(model)> solver( model, solver_parameters );
+    policy_type policy( solver.getQFunction() );
+
+    for ( unsigned timestep = 0; timestep < max_timestep; ++timestep ) {
+        size_t action = policy.sampleAction( current_state );
+
+        std::tie(new_state, reward) = act( action );
+
+        solver.update( current_state, action, new_state, reward);
+    }
+
+The code currently in the `test` folder will help you understand the type of
+usage, and the documentation of each class will tell you what are they for.
 
 Build Instructions
 ==================
