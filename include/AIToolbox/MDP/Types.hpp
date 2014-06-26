@@ -8,7 +8,7 @@ namespace AIToolbox {
     namespace MDP {
         // TODO: Port these to uBLAS.
         /**
-         * @defgroup MDPVF MDP Value Functions.
+         * @name MDP Value Types
          *
          * QFunctions and ValueFunctions are specific functions that are
          * defined in terms of policies; as in, in any particular state,
@@ -37,7 +37,8 @@ namespace AIToolbox {
          * tuples, we are going to store it as a tuple of vectors, to allow
          * for easy manipulations of the underlying values (sums, products
          * and so on).
-         *
+         * 
+         * @{
          */
 
         using Values            = std::vector<double>;

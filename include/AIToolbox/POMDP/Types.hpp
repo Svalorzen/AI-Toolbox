@@ -10,7 +10,7 @@ namespace AIToolbox {
         using Belief            = std::vector<double>;
 
         /**
-         * @defgroup POMDPVF POMDP Value Functions.
+         * @name POMDP Value Types
          *
          * POMDP ValueFunctions are complicated. In fact, they are trees. At each
          * belief, you have a particular value function, which also depends on any
