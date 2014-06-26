@@ -13,7 +13,7 @@ namespace AIToolbox {
     namespace POMDP {
         /**
          * @brief This class implements the Point Based Value Iteration algorithm.
-         * 
+         *
          * The idea behind this algorithm is to solve a POMDP Model
          * approximately. When computing a perfect solution, the main problem
          * is pruning the resulting ValueFunction in order to contain only a
@@ -33,12 +33,12 @@ namespace AIToolbox {
          * error. The final solution will thus be correct 100% in the Beliefs
          * that have been selected, and will (possibly) overshoot in
          * non-covered Beliefs.
-         * 
+         *
          * In addition, the fact that we solve only for a fixed set of Beliefs
          * guarantees that our final solution is limited in size, which is
          * useful since even small POMDP true solutions can explode in size
          * with high horizons, for very little gain.
-         * 
+         *
          * There is no convergence guarantee of this method, but the error is
          * bounded.
          */

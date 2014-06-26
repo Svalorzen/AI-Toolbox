@@ -31,6 +31,7 @@ namespace AIToolbox {
                  * multiple linear programming problems. However, this function will not return the truly
                  * parsimonious set of ValueFunctions, as its pruning powers are limited.
                  *
+                 * @param S The number of states in the Model.
                  * @param pw The list that needs to be pruned.
                  */
                 static void dominationPrune(size_t S, VList * pw);
@@ -47,7 +48,6 @@ namespace AIToolbox {
                  * where no previous bound exists. All found ValueFunctions are added between 'bound' and
                  * 'end', but only if they were not there previously.
                  *
-                 * @param S The number of corners of the simplex.
                  * @param begin The begin of the search range.
                  * @param bound The begin of the 'useful' range.
                  * @param end The end of the search range. It is NOT included in the search.

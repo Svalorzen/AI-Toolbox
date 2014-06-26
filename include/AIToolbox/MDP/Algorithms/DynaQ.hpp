@@ -42,7 +42,7 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * @param M The model to be used to update the QFunction.
+                 * @param m The model to be used to update the QFunction.
                  * @param alpha The learning rate of the QLearning method.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */

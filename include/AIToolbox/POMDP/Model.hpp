@@ -129,7 +129,7 @@ namespace AIToolbox {
                  * so these conversions must be possible.
                  *
                  * @tparam ObFun The external observations container type.
-                 * @param table The external observations container.
+                 * @param of The external observations container.
                  */
                 template <typename ObFun>
                 void setObservationFunction(const ObFun & of);

@@ -39,7 +39,7 @@ namespace AIToolbox {
          * the pairs and save some memory/cpu time keeping the queue updated.
          * Only pairs which obtained an amount of change higher than this
          * treshold are kept in the queue.
-         * 
+         *
          * Differently from the QLearning and DynaQ algorithm, this class
          * automatically computes the ValueFunction since it is useful to
          * determine which state-action pairs are actually useful, so there's
@@ -51,7 +51,7 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * @param M The model to be used to update the QFunction.
+                 * @param m The model to be used to update the QFunction.
                  * @param theta The queue threshold.
                  * @param n The number of sampling passes to do on the model upon batchUpdateQ().
                  */
@@ -87,7 +87,7 @@ namespace AIToolbox {
                  * The discount parameter must be >= 0.0.
                  * otherwise the function will throw an std::invalid_argument.
                  *
-                 * @param d The new theta parameter.
+                 * @param t The new theta parameter.
                  */
                 void setQueueThreshold(double t);
 
@@ -140,9 +140,9 @@ namespace AIToolbox {
                  * Experience/Model, which you can solve (for example with ValueIteration)
                  * and then improve the solution with new experience.
                  *
-                 * @param The QFunction that will be copied.
+                 * @param q The QFunction that will be copied.
                  */
-                void setQFunction(const QFunction &);
+                void setQFunction(const QFunction & q);
 
                 /**
                  * @brief This function returns a reference to the internal ValueFunction.

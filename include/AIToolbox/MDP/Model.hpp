@@ -82,7 +82,7 @@ namespace AIToolbox {
                  *
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
-                 * @param d The discount factor for the MDP.
+                 * @param discount The discount factor for the MDP.
                  */
                 Model(size_t s, size_t a, double discount = 1.0);
 
@@ -162,8 +162,8 @@ namespace AIToolbox {
                  * Internal values of the container will be converted to
                  * double, so these conversions must be possible.
                  *
-                 * @tparam T The external transition container type.
-                 * @param t The external transitions container.
+                 * @tparam R The external rewards container type.
+                 * @param r The external rewards container.
                  */
                 template <typename R>
                 void setRewardFunction(const R & r);

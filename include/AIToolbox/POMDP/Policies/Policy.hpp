@@ -193,7 +193,7 @@ namespace AIToolbox {
 
                 ValueFunction policy_;
 
-                friend std::istream& operator>>(std::istream &is, Policy &);
+                friend std::istream& operator>>(std::istream &is, Policy & p);
         };
 
         /**

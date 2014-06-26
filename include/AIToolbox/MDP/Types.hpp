@@ -37,7 +37,7 @@ namespace AIToolbox {
          * tuples, we are going to store it as a tuple of vectors, to allow
          * for easy manipulations of the underlying values (sums, products
          * and so on).
-         * 
+         *
          * @{
          */
 

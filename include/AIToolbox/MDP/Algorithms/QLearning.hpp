@@ -38,7 +38,7 @@ namespace AIToolbox {
          * At the same time, this algorithm can be used for non-stationary
          * MDPs, and it will try to constantly keep up with changes in the
          * environment, given that they are not huge.
-         * 
+         *
          * This algorithm does not actually need to sample from the input
          * model, and so it is a good algorithm to apply in real world
          * scenarios for example, where there is no way to reproduce the
@@ -53,10 +53,8 @@ namespace AIToolbox {
                  * The learning rate must be > 0.0 and <= 1.0, otherwise the
                  * constructor will throw an std::invalid_argument.
                  *
-                 * @param s The number of states of the world.
-                 * @param a The number of actions available to the agent.
+                 * @param model The MDP model that QLearning will use as a base.
                  * @param alpha The learning rate of the QLearning method.
-                 * @param discount The discount of the QLearning method.
                  */
                 QLearning(const M& model, double alpha = 0.5);
 

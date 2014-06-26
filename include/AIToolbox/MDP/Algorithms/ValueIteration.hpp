@@ -89,7 +89,7 @@ namespace AIToolbox {
                  * the number of states of the Model that needs to be
                  * solved. Otherwise it will be ignored.
                  *
-                 * @param m The new starting value function.
+                 * @param v The new starting value function.
                  */
                 void setValueFunction(ValueFunction v);
 

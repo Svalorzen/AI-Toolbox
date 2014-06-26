@@ -12,11 +12,11 @@ namespace AIToolbox {
     namespace MDP {
         /**
          * @brief This class represents an MDP Policy.
-         * 
+         *
          * This class is one of the many ways to represent an MDP Policy. In
          * particular, it maintains a 2 dimensional table of probabilities
          * determining the probability of choosing an action in a given state.
-         * 
+         *
          * The class offers facilities to sample from these distributions, so
          * that you can directly embed it into a decision-making process.
          *
@@ -156,7 +156,7 @@ namespace AIToolbox {
             private:
                 PolicyTable policy_;
 
-                friend std::istream& operator>>(std::istream &is, Policy &);
+                friend std::istream& operator>>(std::istream &is, Policy & p);
         };
 
         /**
