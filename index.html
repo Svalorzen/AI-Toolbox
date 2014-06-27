@@ -124,7 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    ANTEL_Y = 3</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// Returns -1 or +1 depending on the move. It is consistent with</span></div>
+<div class="line"><span class="comment">// Returns distance between coordinates. It is consistent with</span></div>
 <div class="line"><span class="comment">// the wraparound world.</span></div>
 <div class="line"><span class="keywordtype">int</span> wrapDiff( <span class="keywordtype">int</span> coord1, <span class="keywordtype">int</span> coord2 ) {</div>
 <div class="line">    <span class="keywordtype">int</span> diff = coord2 - coord1;</div>
@@ -205,8 +205,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>We want the tiger to catch the antelope. We want it to catch it no matter how far it is, and at the same time we do not want it to wait forever to catch it. To model this, a high discount value makes sense. A low discount value tends to rapidly devalue reward far in the future, and it can happen, if the tiger takes too much, that floating point errors will eat the reward before the solving method can compute the best policy. A high discount value avoids this problem; however, the time that the method takes to converge to the best solution increases as the number of timesteps it must look in the future increases.</p>
 <div class="fragment"><div class="line">constexpr <span class="keywordtype">double</span> discount = 0.9;</div>
 </div><!-- fragment --><h3>The MDP Model</h3>
-<p>The code we have wrote up until now nearly all you needed to compute the optimal policy. You need just one thing more. <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> works on model classes; it expects them to have certain methods, and to work in certain ways. What you thus need to do is to wrap the functionality we just wrote into a single class.</p>
-<p>At the same time, one more thing needs to be addressed. Since every problem ever will have a different way to describe their states, this library abstracts over this problem, and requires that states be unique integers. In order to allow for these convertions, we can write some code which will convert a state from our representation to an integer representation.</p>
+<p>The code we have wrote up until now is nearly all you need to compute the optimal policy. There's just one thing more. <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> works on model classes; it expects them to have certain methods, and to work in certain ways. What you thus need to do is to wrap the functionality we just wrote into a single class.</p>
+<p>At the same time, one more thing needs to be addressed. Every problem has in general a different type of state. This is problematic, because there's no simple way, for example, to iterate over custom states. Since states are unique, this library abstracts over this problem, and requires that states be integers. In order to allow for the conversions of our states into integers, we can write some code which will convert them.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> encodeState(<span class="keyword">const</span> CoordType &amp; coords) {</div>
 <div class="line">    <span class="keywordtype">size_t</span> state = 0; <span class="keywordtype">unsigned</span> multiplier = 1;</div>
 <div class="line">    <span class="keywordflow">for</span> ( <span class="keyword">auto</span> c : coords ) {</div>
@@ -294,14 +294,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">}</div>
 </div><!-- fragment --><p>The full code of the example can be found in the <code>examples/</code> folder, and can be build from there using <code>make</code> (given that you have already built the library in folder <code>build/</code>).</p>
 <h3>Conclusions</h3>
-<p>The code we saw was a very inefficient implementation, for a number of reasons. First, the particular method we used needs to look up often the transition probabilities of the MDP model we use. In our implementation, this needs to be recomputed almost constantly. A better way would be to save them up into a single transition matrix once, and simply return the values of the table when asked. <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> offers a pretty standard implementation for an MDP structured in this way: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">AIToolbox::MDP::Model</a>.</p>
-<p>In addition, our state space was way bigger than what we actually needed. This is because the problem is question has a very high symmetry. For once, it does not actually matter where the antelope is, since we could simply translate both the antelope and the tiger until the antelope is at coordinates 5,5. This we can do because the world is toroidal.</p>
-<p>Another thing is that the world is symmetrica, both vertically, horizontally and diagonally. Thus we could rewrite the transition function and the model so that only an eight of the states are needed. Combined with the translational symmetry, this would reduce enormously the time needed to solve it.</p>
+<p>The code we saw was a very inefficient implementation, for a number of reasons. First, the particular method we used needs to look up repeatedly the transition probabilities of the MDP model we use. In our implementation, this needs to be recomputed almost constantly. A better way would be to save them up into a single transition matrix once, and simply return the values of the table when asked. <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> offers a pretty standard implementation for an MDP structured in this way: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">AIToolbox::MDP::Model</a>.</p>
+<p>In addition, our state space was way bigger than what was actually needed. This is because the problem is question has a very high symmetry. For once, it does not actually matter where the antelope is, since we could simply translate both the antelope and the tiger until the antelope is at coordinates 5,5. This we can do because the world is toroidal.</p>
+<p>Another thing is that the world is symmetrical, both vertically, horizontally and diagonally. Thus we could rewrite the transition function and the model so that only an eight of the states are needed. Combined with the translational symmetry, this would reduce enormously the time needed to solve it.</p>
 <p>However, I hope it gave you enough on an introduction on the concepts that you can start to play around with the library by yourself. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 27 2014 01:55:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 27 2014 02:41:54 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
