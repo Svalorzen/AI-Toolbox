@@ -53,7 +53,7 @@ If you need any of the variants, the code is structured so that it is easy to
 read it and modify it to your requirements, versus providing an endless list of
 parameters and include all the variants. Some toolboxes do this, but my opinion
 is that this makes the code very hard to digest, which makes it also hard to
-find out what to set to get the variant you want.
+find out what parameters to set to get the algorithm variant you want.
 
 Features
 ========
@@ -98,7 +98,7 @@ again.
 The agent can then influence the environment's state in the next timestep: it
 can choose to move, and where it moves will determine the environment next
 state. If it moves up, then the next state will be (5,6) with 100% probability.
-You can encode this types of movement in a transition table, that for each state
+You can encode this type of movements in a transition table, that for each state
 will tell you the probability of ending in another state, given that the agent
 performs a certain action.
 

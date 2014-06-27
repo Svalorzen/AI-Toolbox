@@ -123,7 +123,7 @@ coordinates, since we will need this later.
         ANTEL_Y = 3
     };
 
-    // Returns -1 or +1 depending on the move. It is consistent with
+    // Returns distance between coordinates. It is consistent with
     // the wraparound world.
     int wrapDiff( int coord1, int coord2 ) {
         int diff = coord2 - coord1;
@@ -246,16 +246,17 @@ increases as the number of timesteps it must look in the future increases.
 
 ### The MDP Model ###
 
-The code we have wrote up until now nearly all you needed to compute the optimal
-policy. You need just one thing more. AIToolbox works on model classes; it
+The code we have wrote up until now is nearly all you need to compute the optimal
+policy. There's just one thing more. AIToolbox works on model classes; it
 expects them to have certain methods, and to work in certain ways. What you thus
 need to do is to wrap the functionality we just wrote into a single class.
 
-At the same time, one more thing needs to be addressed. Since every problem ever
-will have a different way to describe their states, this library abstracts over
-this problem, and requires that states be unique integers. In order to allow for
-these convertions, we can write some code which will convert a state from our
-representation to an integer representation.
+At the same time, one more thing needs to be addressed. Every problem has in
+general a different type of state. This is problematic, because there's no
+simple way, for example, to iterate over custom states. Since states are unique,
+this library abstracts over this problem, and requires that states be integers.
+In order to allow for the conversions of our states into integers, we can write
+some code which will convert them.
 
 ~~~cpp
     size_t encodeState(const CoordType & coords) {
@@ -360,20 +361,20 @@ folder `build/`).
 ### Conclusions ###
 
 The code we saw was a very inefficient implementation, for a number of reasons.
-First, the particular method we used needs to look up often the transition
+First, the particular method we used needs to look up repeatedly the transition
 probabilities of the MDP model we use. In our implementation, this needs to be
 recomputed almost constantly. A better way would be to save them up into a
 single transition matrix once, and simply return the values of the table when
 asked. AIToolbox offers a pretty standard implementation for an MDP structured
 in this way: AIToolbox::MDP::Model.
 
-In addition, our state space was way bigger than what we actually needed. This
+In addition, our state space was way bigger than what was actually needed. This
 is because the problem is question has a very high symmetry. For once, it does
 not actually matter where the antelope is, since we could simply translate both
 the antelope and the tiger until the antelope is at coordinates 5,5. This we can
 do because the world is toroidal.
 
-Another thing is that the world is symmetrica, both vertically, horizontally and
+Another thing is that the world is symmetrical, both vertically, horizontally and
 diagonally. Thus we could rewrite the transition function and the model so that
 only an eight of the states are needed. Combined with the translational
 symmetry, this would reduce enormously the time needed to solve it.
