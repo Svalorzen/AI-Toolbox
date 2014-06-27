@@ -1,3 +1,16 @@
+/* This file contains the code that is presented in the Tutorial.md
+ * file in the main folder of this project. The tutorial can also
+ * be viewed in the main page of the doxygen documentation.
+ *
+ * This code implements a problem where a tiger needs to plan
+ * in order to catch an antelope in a 11x11 toroidal grid world.
+ *
+ * The implementation is not efficient since all transition
+ * probabilities are computed on the fly; storing them in a
+ * matrix would make the solver work faster. Modifying the code
+ * to allow this is trivial, and I wanted to keep the example
+ * simple in order to introduce the theory behind the library.
+ */
 #include <iostream>
 #include <fstream>
 #include <array>
@@ -17,7 +30,7 @@ enum {
     ANTEL_Y = 3
 };
 
-// Returns -1 or +1 depending on the move. It is consistent with
+// Returns distance between coordinates. It is consistent with
 // the wraparound world.
 int wrapDiff( int coord1, int coord2 ) {
     int diff = coord2 - coord1;
