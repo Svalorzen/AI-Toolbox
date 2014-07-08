@@ -22,9 +22,9 @@ namespace AIToolbox {
          *
          * This algorithm is an online planner for POMDPs. As an online
          * planner, it needs to have a generative model of the problem. This
-         * means that it only needs a way to sample transitions and
-         * observations from the model, but it does not need to know directly
-         * the distribution probabilities for it.
+         * means that it only needs a way to sample transitions, observations
+         * and rewards from the model, but it does not need to know directly
+         * the distribution probabilities for them.
          *
          * POMCP plans for a single belief at a time. It follows the logic of
          * Monte Carlo Tree Sampling, where a tree structure is build
@@ -34,7 +34,7 @@ namespace AIToolbox {
          *
          * At each rollout, we follow each action and observation within the
          * tree from root to leaves. During this path we chose actions using an
-         * algorithm using UCT. What this does is privilege the most promising
+         * algorithm called UCT. What this does is privilege the most promising
          * actions, while guaranteeing that in the limit every action will still
          * be tried an infinite amount of times.
          *

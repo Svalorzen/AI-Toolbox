@@ -21,6 +21,7 @@ if (MAKE_MDP)
     AddTestMDP(QLearning)
     AddTestMDP(ValueIteration)
     AddTestMDP(WoLFPolicy)
+    AddTestMDP(MCTS)
 endif()
 
 if (MAKE_POMDP)
