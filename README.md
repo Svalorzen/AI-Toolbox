@@ -65,6 +65,7 @@ Single Agent MDP:
 - Q-Learning
 - Dyna-Q
 - Prioritized Sweeping
+- Monte Carlo Tree Search (MCTS)
 
 Single Agent POMDP:
 
