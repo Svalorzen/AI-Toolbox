@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dynaq_2ehpp',['DynaQ.hpp',['../DynaQ_8hpp.html',1,'']]]
+  ['cornerproblem_2ehpp',['CornerProblem.hpp',['../CornerProblem_8hpp.html',1,'']]]
 ];

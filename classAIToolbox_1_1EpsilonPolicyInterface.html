@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,13 +112,13 @@ Inheritance diagram for AIToolbox::EpsilonPolicyInterface&lt; State &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aded6a7ce4b011e4e1ac9311bef64ce8b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#aded6a7ce4b011e4e1ac9311bef64ce8b">EpsilonPolicyInterface</a> (const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; State &gt; &amp;p, double epsilon=0.9)</td></tr>
+<tr class="memitem:aded6a7ce4b011e4e1ac9311bef64ce8b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#aded6a7ce4b011e4e1ac9311bef64ce8b">EpsilonPolicyInterface</a> (const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt; &amp;p, double epsilon=0.9)</td></tr>
 <tr class="memdesc:aded6a7ce4b011e4e1ac9311bef64ce8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aded6a7ce4b011e4e1ac9311bef64ce8b">More...</a><br/></td></tr>
 <tr class="separator:aded6a7ce4b011e4e1ac9311bef64ce8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d46ea7165e86655c656c7d42bb712de"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a4d46ea7165e86655c656c7d42bb712de">sampleAction</a> (const State &amp;s) const override</td></tr>
+<tr class="memitem:a4d46ea7165e86655c656c7d42bb712de"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a4d46ea7165e86655c656c7d42bb712de">sampleAction</a> (const <a class="el" href="classState.html">State</a> &amp;s) const override</td></tr>
 <tr class="memdesc:a4d46ea7165e86655c656c7d42bb712de"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution and epsilon.  <a href="#a4d46ea7165e86655c656c7d42bb712de">More...</a><br/></td></tr>
 <tr class="separator:a4d46ea7165e86655c656c7d42bb712de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9bcb0b2b3864d2ff9f42a9628eca922"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ad9bcb0b2b3864d2ff9f42a9628eca922">getActionProbability</a> (const State &amp;s, size_t a) const override</td></tr>
+<tr class="memitem:ad9bcb0b2b3864d2ff9f42a9628eca922"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ad9bcb0b2b3864d2ff9f42a9628eca922">getActionProbability</a> (const <a class="el" href="classState.html">State</a> &amp;s, size_t a) const override</td></tr>
 <tr class="memdesc:ad9bcb0b2b3864d2ff9f42a9628eca922"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#ad9bcb0b2b3864d2ff9f42a9628eca922">More...</a><br/></td></tr>
 <tr class="separator:ad9bcb0b2b3864d2ff9f42a9628eca922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac940ef07c6aba68f1bbdb26d895827e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ac940ef07c6aba68f1bbdb26d895827e2">setEpsilon</a> (double e)</td></tr>
@@ -143,7 +143,7 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aa59c62aa1be08514c95a50d5e93b9a9c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; State &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#aa59c62aa1be08514c95a50d5e93b9a9c">policy_</a></td></tr>
+<tr class="memitem:aa59c62aa1be08514c95a50d5e93b9a9c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#aa59c62aa1be08514c95a50d5e93b9a9c">policy_</a></td></tr>
 <tr class="separator:aa59c62aa1be08514c95a50d5e93b9a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72319844fda18b12335e06cb22a046fd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a72319844fda18b12335e06cb22a046fd">epsilon_</a></td></tr>
 <tr class="separator:a72319844fda18b12335e06cb22a046fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,9 +177,9 @@ class AIToolbox::EpsilonPolicyInterface&lt; State &gt;</h3>
 template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::<a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">EpsilonPolicyInterface</a> </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::<a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">EpsilonPolicyInterface</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; State &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>p</em>, </td>
         </tr>
         <tr>
@@ -220,9 +220,9 @@ template&lt;typename State &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::getActionProbability </td>
+          <td class="memname">double <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::getActionProbability </td>
           <td>(</td>
-          <td class="paramtype">const State &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classState.html">State</a> &amp;&#160;</td>
           <td class="paramname"><em>s</em>, </td>
         </tr>
         <tr>
@@ -266,7 +266,7 @@ template&lt;typename State &gt; </div>
 template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::getEpsilon </td>
+          <td class="memname">double <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::getEpsilon </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -289,9 +289,9 @@ template&lt;typename State &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::sampleAction </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::sampleAction </td>
           <td>(</td>
-          <td class="paramtype">const State &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classState.html">State</a> &amp;&#160;</td>
           <td class="paramname"><em>s</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -324,7 +324,7 @@ template&lt;typename State &gt; </div>
 template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::setEpsilon </td>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::setEpsilon </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>e</em></td><td>)</td>
@@ -356,7 +356,7 @@ template&lt;typename State &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::epsilon_</td>
+          <td class="memname">double <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::epsilon_</td>
         </tr>
       </table>
   </td>
@@ -378,7 +378,7 @@ template&lt;typename State &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt;State&gt;&amp; <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::policy_</td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt;<a class="el" href="classState.html">State</a>&gt;&amp; <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::policy_</td>
         </tr>
       </table>
   </td>
@@ -400,7 +400,7 @@ template&lt;typename State &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::uniform_int_distribution&lt;size_t&gt; <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::randomDistribution_</td>
+          <td class="memname">std::uniform_int_distribution&lt;size_t&gt; <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::randomDistribution_</td>
         </tr>
       </table>
   </td>
@@ -422,7 +422,7 @@ template&lt;typename State &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::uniform_real_distribution&lt;double&gt; <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; State &gt;::sampleDistribution_</td>
+          <td class="memname">std::uniform_real_distribution&lt;double&gt; <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::sampleDistribution_</td>
         </tr>
       </table>
   </td>
@@ -440,7 +440,7 @@ template&lt;typename State &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 27 2014 02:41:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 8 2014 18:05:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

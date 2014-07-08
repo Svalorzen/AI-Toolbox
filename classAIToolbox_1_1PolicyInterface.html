@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -118,10 +118,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a28be8dac8ef25246f7704968a3bd3a79"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a28be8dac8ef25246f7704968a3bd3a79">~PolicyInterface</a> ()</td></tr>
 <tr class="memdesc:a28be8dac8ef25246f7704968a3bd3a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic virtual destructor.  <a href="#a28be8dac8ef25246f7704968a3bd3a79">More...</a><br/></td></tr>
 <tr class="separator:a28be8dac8ef25246f7704968a3bd3a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af57a8d643518f7e5b0f5834f0975ff34"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#af57a8d643518f7e5b0f5834f0975ff34">sampleAction</a> (const State &amp;s) const =0</td></tr>
+<tr class="memitem:af57a8d643518f7e5b0f5834f0975ff34"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#af57a8d643518f7e5b0f5834f0975ff34">sampleAction</a> (const <a class="el" href="classState.html">State</a> &amp;s) const =0</td></tr>
 <tr class="memdesc:af57a8d643518f7e5b0f5834f0975ff34"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="#af57a8d643518f7e5b0f5834f0975ff34">More...</a><br/></td></tr>
 <tr class="separator:af57a8d643518f7e5b0f5834f0975ff34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a762cadffb5a7901f1cd10d3716afea"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a7a762cadffb5a7901f1cd10d3716afea">getActionProbability</a> (const State &amp;s, size_t a) const =0</td></tr>
+<tr class="memitem:a7a762cadffb5a7901f1cd10d3716afea"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a7a762cadffb5a7901f1cd10d3716afea">getActionProbability</a> (const <a class="el" href="classState.html">State</a> &amp;s, size_t a) const =0</td></tr>
 <tr class="memdesc:a7a762cadffb5a7901f1cd10d3716afea"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a7a762cadffb5a7901f1cd10d3716afea">More...</a><br/></td></tr>
 <tr class="separator:a7a762cadffb5a7901f1cd10d3716afea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee84f129e998a1538eb884c3a58ad67b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#aee84f129e998a1538eb884c3a58ad67b">getS</a> () const </td></tr>
@@ -146,10 +146,10 @@ class AIToolbox::PolicyInterface&lt; State &gt;</h3>
 
 <p>This class represents the base interface for policies. </p>
 <p>This class represents an interface that all policies must conform to. The interface is generic as different methods may have very different ways to store and compute policies, and this interface simply asks for a way to sample them.</p>
-<p>This class is templatized since it works as an interface for both <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> and <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> policies. In the case of MDPs, the template parameter State is of type size_t, which represents the states from which we are sampling. In case of POMDPs, the template parameter is of type Belief, which allows us to sample the policy from different beliefs.</p>
+<p>This class is templatized since it works as an interface for both <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> and <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> policies. In the case of MDPs, the template parameter <a class="el" href="classState.html">State</a> is of type size_t, which represents the states from which we are sampling. In case of POMDPs, the template parameter is of type Belief, which allows us to sample the policy from different beliefs.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">State</td><td>This defines the type that is used to sample from the policy. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classState.html">State</a></td><td>This defines the type that is used to sample from the policy. </td></tr>
   </table>
   </dd>
 </dl>
@@ -161,7 +161,7 @@ class AIToolbox::PolicyInterface&lt; State &gt;</h3>
 template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::<a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::<a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>s</em>, </td>
@@ -201,7 +201,7 @@ template&lt;typename State &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::~<a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::~<a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -226,7 +226,7 @@ template&lt;typename State &gt; </div>
 template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getA </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::getA </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -249,9 +249,9 @@ template&lt;typename State&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getActionProbability </td>
+          <td class="memname">virtual double <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::getActionProbability </td>
           <td>(</td>
-          <td class="paramtype">const State &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classState.html">State</a> &amp;&#160;</td>
           <td class="paramname"><em>s</em>, </td>
         </tr>
         <tr>
@@ -294,7 +294,7 @@ template&lt;typename State&gt; </div>
 template&lt;typename State &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::getS </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::getS </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -317,9 +317,9 @@ template&lt;typename State&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::sampleAction </td>
+          <td class="memname">virtual size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::sampleAction </td>
           <td>(</td>
-          <td class="paramtype">const State &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classState.html">State</a> &amp;&#160;</td>
           <td class="paramname"><em>s</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -355,7 +355,7 @@ template&lt;typename State&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::A</td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::A</td>
         </tr>
       </table>
   </td>
@@ -377,7 +377,7 @@ template&lt;typename State&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::default_random_engine <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::rand_</td>
+          <td class="memname">std::default_random_engine <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::rand_</td>
         </tr>
       </table>
   </td>
@@ -399,7 +399,7 @@ template&lt;typename State&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; State &gt;::S</td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; <a class="el" href="classState.html">State</a> &gt;::S</td>
         </tr>
       </table>
   </td>
@@ -418,7 +418,7 @@ template&lt;typename State&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 27 2014 02:41:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 8 2014 18:05:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
