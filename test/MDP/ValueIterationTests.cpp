@@ -15,10 +15,13 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     auto model = makeCornerProblem();
     size_t S = model.getS(), A = model.getA();
 
-    ValueIteration solver;
+    // We set the horizon to a very high value so that
+    // the epsilon bound will prevail, solving the problem
+    // until convergence (infinite horizon).
+    ValueIteration solver(1000000, 0.001);
 
     auto solution = solver(model);
-    // Check that problem has been solved
+    // Check that the solution is bounded by epsilon and not the horizon
     BOOST_CHECK( std::get<0>(solution) );
     // Get best policy from QFunction
     auto & qfun = std::get<2>(solution);

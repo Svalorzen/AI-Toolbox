@@ -56,15 +56,11 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function precomputes which observations are possible from specific actions.
-                 *
-                 * @return A boolean table.
                  */
                 void computePossibleObservations();
 
                 /**
                  * @brief This function precomputes immediate rewards for the POMDP state-action pairs.
-                 *
-                 * @return A reward table.
                  */
                 void computeImmediateRewards();
 

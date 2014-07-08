@@ -13,23 +13,18 @@ namespace AIToolbox {
         /**
          * @brief This class applies the value iteration algorithm on a Model.
          *
-         * This algorithm solves an MDP model for an infinite horizon (although
-         * it is trivial to change it to work for smaller horizons).
+         * This algorithm solves an MDP model for the specified horizon, or less
+         * if convergence is encountered.
          *
          * The idea of this algorithm is to iteratively compute the
          * ValueFunction for the MDP optimal policy. On the first iteration,
          * the ValueFunction for horizon 1 is obtained. On the second
          * iteration, the one for horizon 2. This process is repeated until the
          * ValueFunction has converged to a specific value within a certain
-         * accuracy. This will then represent the ValueFunction for the optimal
-         * policy in the infinite horizon.
+         * accuracy, or the horizon requested is reached.
          *
          * This implementation in particular is ported from the MATLAB
-         * MDPToolbox. It tries to perform as little updates as possible, as
-         * long as the resulting ValueFunction can be converted correctly into
-         * the optimal policy. Again, it is trivial to modify the loop
-         * conditions to satisfy whatever requirements for convergence you
-         * might have.
+         * MDPToolbox (although it is simplified).
          */
         class ValueIteration {
             public:
@@ -44,11 +39,11 @@ namespace AIToolbox {
                  * be ignored. An empty value function will be defaulted
                  * to all zeroes.
                  *
+                 * @param horizon The maximum number of iterations to perform.
                  * @param epsilon The epsilon factor to stop the value iteration loop.
-                 * @param maxIter The maximum number of iterations to perform.
                  * @param v The initial value function from which to start the loop.
                  */
-                ValueIteration(double epsilon = 0.0001, unsigned maxIter = 0, ValueFunction v = ValueFunction(Values(0), Actions(0)));
+                ValueIteration(unsigned horizon, double epsilon = 0.001, ValueFunction v = ValueFunction(Values(0), Actions(0)));
 
                 /**
                  * @brief This function applies value iteration on an MDP to solve it.
@@ -57,8 +52,8 @@ namespace AIToolbox {
                  *
                  * @tparam M The type of the solvable MDP.
                  * @param m The MDP that needs to be solved.
-                 * @return A tuple containing a boolean value specifying the
-                 *         return status of the solution problem, the
+                 * @return A tuple containing a boolean value specifying whether
+                 *         the specified epsilon bound was reached and the
                  *         ValueFunction and the QFunction for the Model.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
@@ -75,11 +70,11 @@ namespace AIToolbox {
                 void setEpsilon(double e);
 
                 /**
-                 * @brief This function sets the max iteration parameter.
+                 * @brief This function sets the horizon parameter.
                  *
-                 * @param m The new max iteration parameter.
+                 * @param h The new horizon parameter.
                  */
-                void setMaxIter(unsigned m);
+                void setHorizon(unsigned h);
 
                 /**
                  * @brief This function sets the starting value function.
@@ -101,11 +96,11 @@ namespace AIToolbox {
                 double getEpsilon() const;
 
                 /**
-                 * @brief This function will return the current set max iteration parameter.
+                 * @brief This function will return the current horizon parameter.
                  *
-                 * @return The currently set max iteration parameter.
+                 * @return The currently set horizon parameter.
                  */
-                unsigned getMaxIter() const;
+                unsigned getHorizon() const;
 
                 /**
                  * @brief This function will return the current set default value function.
@@ -115,19 +110,9 @@ namespace AIToolbox {
                 const ValueFunction & getValueFunction() const;
 
             private:
-                /**
-                 * @brief This type represents the trivial part of a ValueFunction.
-                 *
-                 * This type contains, for each state-action pair, the expected
-                 * one-step reward that can be gained. This does not include the
-                 * non-trivial part, which is the inclusion of the future expected
-                 * discounted value.
-                 */
-                using PRType = Table2D;
-
                 // Parameters
                 double discount_, epsilon_;
-                unsigned maxIter_;
+                unsigned horizon_;
                 ValueFunction vParameter_;
 
                 // Internals
@@ -144,20 +129,7 @@ namespace AIToolbox {
                  * @return The Models's PRType.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                PRType computePR(const M & model) const;
-
-                /**
-                 * @brief This function computes an upper bound on the number of iteration needed to solve the Model.
-                 *
-                 * @tparam M The type of the solvable MDP.
-                 *
-                 * @param m The MDP that needs to be solved.
-                 * @param pr The Model's PRType.
-                 *
-                 * @return The estimated upper iteration bound.
-                 */
-                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                unsigned valueIterationBoundIter(const M & model, const PRType & pr) const;
+                Table2D computeImmediateRewards(const M & model) const;
 
                 /**
                  * @brief This function creates the Model's most up-to-date QFunction.
@@ -165,12 +137,12 @@ namespace AIToolbox {
                  * @tparam M The type of the solvable MDP.
                  *
                  * @param m The MDP that needs to be solved.
-                 * @param pr The Model's PRType.
+                 * @param ir The immediate rewards of the model.
                  *
                  * @return A new QFunction.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                QFunction computeQFunction(const M & model, const PRType & pr) const;
+                QFunction computeQFunction(const M & model, const Table2D & ir) const;
 
                 /**
                  * @brief This function applies a single pass Bellman operator, improving the current ValueFunction estimate.
@@ -204,57 +176,39 @@ namespace AIToolbox {
                     v1_ = vParameter_;
             }
 
-            auto pr = computePR(model);
-            {   // maxIter setup
-                unsigned computedMaxIter = valueIterationBoundIter(model, pr);
-                if ( !maxIter_ ) {
-                    maxIter_ = discount_ != 1.0 ? computedMaxIter : 1000;
-                }
-                else {
-                    maxIter_ = ( discount_ != 1.0 && maxIter_ > computedMaxIter ) ? computedMaxIter : maxIter_;
-                }
-            }
-            // threshold setup
-            double epsilon = ( discount_ != 1.0 ) ? ( epsilon_ * ( 1.0 - discount_ ) / discount_ ) : epsilon_;
+            auto ir = computeImmediateRewards(model);
 
-            unsigned iter = 0;
-            bool done = false, completed = false;
+            unsigned timestep = 0;
+            double variation;
 
             Values val0;
             QFunction q = makeQFunction(S, A);
 
-            while ( !done ) {
-                ++iter;
+            do {
+                ++timestep;
 
                 auto & val1 = std::get<VALUES>(v1_);
                 val0 = val1;
 
-                q = computeQFunction(model, pr);
+                q = computeQFunction(model, ir);
                 bellmanOperator(q, &v1_);
 
                 // We compute the difference and store it into v0 for comparison.
                 std::transform(std::begin(val1), std::end(val1), std::begin(val0), std::begin(val0), std::minus<double>() );
 
-                double variation;
                 {
                     auto minmax = std::minmax_element(std::begin(val0), std::end(val0));
                     variation = *(minmax.second) - *(minmax.first);
                 }
-                if ( variation < epsilon ) {
-                    completed = true;
-                    done = true;
-                }
-                else if ( iter > maxIter_ ) {
-                    done = true;
-                }
-            }
+            } while ( variation > epsilon_ && timestep < horizon_ );
+
             // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
-            return std::make_tuple(completed, v1_, q);
+            return std::make_tuple(variation <= epsilon_, v1_, q);
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        ValueIteration::PRType ValueIteration::computePR(const M & model) const {
-            PRType pr(boost::extents[S][A]);
+        Table2D ValueIteration::computeImmediateRewards(const M & model) const {
+            Table2D pr(boost::extents[S][A]);
 
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
@@ -265,45 +219,14 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        QFunction ValueIteration::computeQFunction(const M & model, const PRType & pr) const {
-            QFunction q = pr;
+        QFunction ValueIteration::computeQFunction(const M & model, const Table2D & ir) const {
+            QFunction q = ir;
 
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
                         q[s][a] += model.getTransitionProbability(s,a,s1) * discount_ * std::get<VALUES>(v1_)[s1];
             return q;
-        }
-
-        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        unsigned ValueIteration::valueIterationBoundIter(const M & model, const PRType & pr) const {
-            std::vector<double> h(S, 0.0);
-
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    for ( size_t s1 = 0; s1 < S; ++s1 )
-                        h[s1] = std::min(h[s1], model.getTransitionProbability(s,a,s1));
-
-            double k = 1.0 - std::accumulate(std::begin(h), std::end(h), 0.0);
-
-            ValueFunction v = makeValueFunction(S);
-
-            QFunction q = computeQFunction(model, pr);
-            bellmanOperator(q, &v);
-
-            auto & val0 = std::get<VALUES>(v);
-            auto & val1 = std::get<VALUES>(v1_);
-
-            std::transform(std::begin(val0), std::end(val0), std::begin(val1), std::begin(val0), std::minus<double>() );
-
-            double variation;
-            {
-                auto minmax = std::minmax_element(std::begin(val0), std::end(val0));
-                variation = *(minmax.second) - *(minmax.first);
-            }
-
-            return std::ceil (
-                    std::log( (epsilon_*(1.0-discount_)/discount_) / variation ) / std::log(discount_*k));
         }
 
         void ValueIteration::bellmanOperator(const QFunction & q, ValueFunction * v) const {
