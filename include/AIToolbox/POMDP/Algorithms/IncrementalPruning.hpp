@@ -14,23 +14,23 @@ namespace AIToolbox {
     namespace POMDP {
         /**
          * @brief This class implements the Incremental Pruning algorithm.
-         * 
+         *
          * This algorithm solves a POMDP Model perfectly. It computes solutions
          * for each horizon incrementally, every new solution building upon the
          * previous one.
-         * 
+         *
          * From each solution, it computes the full set of possible
          * projections. It then computes all possible cross-sums of such
          * projections, in order to compute all possible vectors that can be
          * included in the final solution.
-         * 
+         *
          * What makes this method unique is its pruning strategy. Instead of
          * generating every possible vector, combining them and pruning, it
          * tries to prune at every possible occasion in order to minimize the
          * number of possible vectors at any given time. Thus it will prune
          * after creating the projections, after every single cross-sum, and
          * in the end when combining all projections for each action.
-         * 
+         *
          * The performances of this method are *heavily* dependent on the linear
          * programming methods used. In particular, this code currently
          * utilizes the lp_solve55 library. However, this library is not the
@@ -49,16 +49,33 @@ namespace AIToolbox {
                  *
                  * This constructor sets the default horizon used to solve a POMDP::Model.
                  *
+                 * The epsilon parameter must be >= 0.0, otherwise the
+                 * constructor will throw an std::runtime_error. The epsilon
+                 * parameter sets the convergence criterion. An epsilon of 0.0
+                 * forces IncrementalPruning to perform a number of iterations
+                 * equal to the horizon specified. Otherwise, IncrementalPruning
+                 * will stop as soon as the difference between two iterations
+                 * is less than the epsilon specified.
+                 *
                  * @param h The horizon chosen.
+                 * @param epsilon The epsilon factor to stop the value iteration loop.
                  */
-                IncrementalPruning(unsigned h);
+                IncrementalPruning(unsigned h, double epsilon);
 
                 /**
-                 * @brief This function returns the currently set horizon parameter.
+                 * @brief This function sets the epsilon parameter.
                  *
-                 * @return The current horizon.
+                 * The epsilon parameter must be >= 0.0, otherwise the
+                 * constructor will throw an std::runtime_error. The epsilon
+                 * parameter sets the convergence criterion. An epsilon of 0.0
+                 * forces IncrementalPruning to perform a number of iterations
+                 * equal to the horizon specified. Otherwise, IncrementalPruning
+                 * will stop as soon as the difference between two iterations
+                 * is less than the epsilon specified.
+                 *
+                 * @param e The new epsilon parameter.
                  */
-                unsigned getHorizon() const;
+                void setEpsilon(double e);
 
                 /**
                  * @brief This function allows setting the horizon parameter.
@@ -66,6 +83,20 @@ namespace AIToolbox {
                  * @param h The new horizon parameter.
                  */
                 void setHorizon(unsigned h);
+
+                /**
+                 * @brief This function will return the currently set epsilon parameter.
+                 *
+                 * @return The currently set epsilon parameter.
+                 */
+                double getEpsilon() const;
+
+                /**
+                 * @brief This function returns the currently set horizon parameter.
+                 *
+                 * @return The current horizon.
+                 */
+                unsigned getHorizon() const;
 
                 /**
                  * @brief This function solves a POMDP::Model completely.
@@ -83,7 +114,9 @@ namespace AIToolbox {
                  *
                  * @param model The POMDP model that needs to be solved.
                  *
-                 * @return True, and the computed ValueFunction up to the requested horizon.
+                 * @return A tuple containing a boolean value specifying whether
+                 *         the specified epsilon bound was reached and the computed
+                 *         ValueFunction.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 std::tuple<bool, ValueFunction> operator()(const M & model);
@@ -112,6 +145,7 @@ namespace AIToolbox {
 
                 size_t S, A, O;
                 unsigned horizon_;
+                double epsilon_;
         };
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
@@ -123,13 +157,17 @@ namespace AIToolbox {
 
             ValueFunction v(1, VList(1, makeVEntry(S))); // TODO: May take user input
 
-            unsigned timestep = 1;
+            unsigned timestep = 0;
 
             Pruner prune(S);
             Projecter<M> projecter(model);
 
-            // And off we go
-            while ( timestep <= horizon_ ) {
+            double variation = epsilon_ * 2; // Make it bigger
+
+            bool useEpsilon = checkDifferent(epsilon_, 0.0);
+            while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
+                ++timestep;
+
                 // Compute all possible outcomes, from our previous results.
                 // This means that for each action-observation pair, we are going
                 // to obtain the same number of possible outcomes as the number
@@ -163,10 +201,46 @@ namespace AIToolbox {
 
                 v.emplace_back(std::move(w));
 
-                ++timestep;
+                // Check convergence
+                if ( useEpsilon ) {
+                    // Here we implement a weak bound (can also be seen in Cassandra's code)
+                    // This is mostly because a strong bound is more costly (it requires performing
+                    // multiple LPs) and also the code at the moment does not support it cleanly, so
+                    // I prefer waiting until I have a good implementation of an LP class that hides
+                    // complexity from here.
+                    //
+                    // The logic of the weak bound is the following: the variation between the old
+                    // VList and the new one is equal to the maximum distance between a ValueFunction
+                    // in the old VList with its closest match in the new VList. So the farthest from
+                    // closest.
+                    //
+                    // We define distance between two ValueFunctions as the maximum between their
+                    // element-wise difference.
+
+                    MDP::Values helper(S); // We use this to compute differences.
+                    auto hBegin = std::begin(helper), hEnd = std::end(helper);
+
+                    variation = 0.0;
+                    for ( auto & newVE : v[timestep] ) {
+                        auto nBegin = std::begin(std::get<0>(newVE)), nEnd = std::end(std::get<0>(newVE));
+
+                        double closestDistance = HUGE_VAL;
+                        for ( auto & oldVE : v[timestep-1] ) {
+                            auto computeVariation = [](double lhs, double rhs) { return std::fabs(lhs - rhs); };
+                            std::transform(nBegin, nEnd, std::begin(std::get<0>(oldVE)), hBegin, computeVariation );
+
+                            // Compute the distance, we pick the max
+                            double distance = *std::max_element(hBegin, hEnd);
+
+                            // Keep the closest, we pick the min
+                            closestDistance = std::min(closestDistance, distance);
+                        }
+                        variation = std::max(variation, closestDistance);
+                    }
+                }
             }
 
-            return std::make_tuple(true, v);
+            return std::make_tuple(variation <= epsilon_, v);
         }
 
     }

@@ -7,6 +7,7 @@
 
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
+#include <AIToolbox/ProbabilityUtils.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -31,8 +32,13 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * The epsilon parameter must be > 0.0,
-                 * otherwise the constructor will throw an std::runtime_error.
+                 * The epsilon parameter must be >= 0.0, otherwise the
+                 * constructor will throw an std::runtime_error. The epsilon
+                 * parameter sets the convergence criterion. An epsilon of 0.0
+                 * forces ValueIteration to perform a number of iterations
+                 * equal to the horizon specified. Otherwise, ValueIteration
+                 * will stop as soon as the difference between two iterations
+                 * is less than the epsilon specified.
                  *
                  * Note that the default value function size needs to match
                  * the number of states of the Model. Otherwise it will
@@ -62,8 +68,13 @@ namespace AIToolbox {
                 /**
                  * @brief This function sets the epsilon parameter.
                  *
-                 * The epsilon parameter must be > 0.0,
-                 * otherwise the function will do throw std::invalid_argument.
+                 * The epsilon parameter must be >= 0.0, otherwise the
+                 * constructor will throw an std::runtime_error. The epsilon
+                 * parameter sets the convergence criterion. An epsilon of 0.0
+                 * forces ValueIteration to perform a number of iterations
+                 * equal to the horizon specified. Otherwise, ValueIteration
+                 * will stop as soon as the difference between two iterations
+                 * is less than the epsilon specified.
                  *
                  * @param e The new epsilon parameter.
                  */
@@ -179,12 +190,13 @@ namespace AIToolbox {
             auto ir = computeImmediateRewards(model);
 
             unsigned timestep = 0;
-            double variation;
+            double variation = epsilon_ * 2; // Make it bigger
 
             Values val0;
             QFunction q = makeQFunction(S, A);
 
-            do {
+            bool useEpsilon = checkDifferent(epsilon_, 0.0);
+            while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
                 ++timestep;
 
                 auto & val1 = std::get<VALUES>(v1_);
@@ -193,14 +205,16 @@ namespace AIToolbox {
                 q = computeQFunction(model, ir);
                 bellmanOperator(q, &v1_);
 
-                // We compute the difference and store it into v0 for comparison.
-                std::transform(std::begin(val1), std::end(val1), std::begin(val0), std::begin(val0), std::minus<double>() );
+                // We do this only if the epsilon specified is positive, otherwise we
+                // continue for all the timesteps.
+                if ( useEpsilon ) {
+                    auto computeVariation = [](double lhs, double rhs) { return std::fabs(lhs - rhs); };
+                    // We compute the difference and store it into v0 for comparison.
+                    std::transform(std::begin(val1), std::end(val1), std::begin(val0), std::begin(val0), computeVariation);
 
-                {
-                    auto minmax = std::minmax_element(std::begin(val0), std::end(val0));
-                    variation = *(minmax.second) - *(minmax.first);
+                    variation = *std::max_element(std::begin(val0), std::end(val0));
                 }
-            } while ( variation > epsilon_ && timestep < horizon_ );
+            }
 
             // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
             return std::make_tuple(variation <= epsilon_, v1_, q);

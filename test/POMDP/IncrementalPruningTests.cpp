@@ -22,10 +22,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // is probably due to this library using a higher
     // precision floating point error.
     unsigned horizon = 15;
-    POMDP::IncrementalPruning solver(horizon);
+    POMDP::IncrementalPruning solver(horizon, 0.0);
     auto solution = solver(model);
-
-    BOOST_CHECK_EQUAL(std::get<0>(solution), true);
 
     auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];
@@ -111,10 +109,8 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     model.setDiscount(1.0);
 
     unsigned horizon = 2;
-    POMDP::IncrementalPruning solver(horizon);
+    POMDP::IncrementalPruning solver(horizon, 0.0);
     auto solution = solver(model);
-
-    BOOST_CHECK_EQUAL(std::get<0>(solution), true);
 
     auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];

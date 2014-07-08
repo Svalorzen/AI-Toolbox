@@ -9,7 +9,7 @@ namespace AIToolbox {
         }
 
         void ValueIteration::setEpsilon(double e) {
-            if ( e <= 0.0 ) throw std::invalid_argument("Epsilon must be > 0");
+            if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
             epsilon_ = e;
         }
         void ValueIteration::setHorizon(unsigned h) {

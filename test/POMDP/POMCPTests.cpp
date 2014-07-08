@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // solved in multiple ways with certain discounts, I chose a discount factor
     // that seems to work, although this is in no way substantiated with theory.
     // If there's a better way to test POMCP please let me know.
-    POMDP::IncrementalPruning groundTruth(maxHorizon);
+    POMDP::IncrementalPruning groundTruth(maxHorizon, 0.0);
     auto solution = groundTruth(model);
     auto & vf = std::get<1>(solution);
     POMDP::Policy p(model.getS(), model.getA(), model.getO(), vf);
