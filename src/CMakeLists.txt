@@ -27,6 +27,7 @@ if (MAKE_POMDP)
         POMDP/Utils.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
         POMDP/Algorithms/PBVI.cpp
+        POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Pruner.cpp
         POMDP/Policies/Policy.cpp)
 
