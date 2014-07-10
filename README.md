@@ -72,6 +72,7 @@ Single Agent POMDP:
 - Incremental Pruning
 - Point Based Value Iteration (PBVI)
 - POMCP with UCB1
+- QMDP
 
 Fast Tutorial
 =============
