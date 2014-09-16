@@ -7,7 +7,10 @@ var searchData=
   ['rewardsumtable',['RewardSumTable',['../classAIToolbox_1_1MDP_1_1Experience.html#a32422d4b3fb2dd46d845376aee67e5a1',1,'AIToolbox::MDP::Experience']]],
   ['rewardtable',['RewardTable',['../classAIToolbox_1_1MDP_1_1Experience.html#afebd8a62e2ae2b769744a471ae05a961',1,'AIToolbox::MDP::Experience::RewardTable()'],['../classAIToolbox_1_1MDP_1_1Model.html#aa4bbe23cc672cfd0097f113001c78883',1,'AIToolbox::MDP::Model::RewardTable()'],['../classAIToolbox_1_1MDP_1_1RLModel.html#ab2d8ab1bad71739ae4753b24f02ff949',1,'AIToolbox::MDP::RLModel::RewardTable()']]],
   ['right',['RIGHT',['../classState.html#a0127f3817e35f1d12cf6a44d4da4fa59ac1f32feec2506c27a871311866895e2a',1,'State']]],
-  ['rlmodel',['RLModel',['../classAIToolbox_1_1MDP_1_1RLModel.html#a4ce07a49150f2cb8f3bd88c63e0a48aa',1,'AIToolbox::MDP::RLModel']]],
   ['rlmodel',['RLModel',['../classAIToolbox_1_1MDP_1_1RLModel.html',1,'AIToolbox::MDP']]],
-  ['rlmodel_2ehpp',['RLModel.hpp',['../RLModel_8hpp.html',1,'']]]
+  ['rlmodel',['RLModel',['../classAIToolbox_1_1MDP_1_1RLModel.html#a4ce07a49150f2cb8f3bd88c63e0a48aa',1,'AIToolbox::MDP::RLModel']]],
+  ['rlmodel_2ehpp',['RLModel.hpp',['../RLModel_8hpp.html',1,'']]],
+  ['rtbss',['RTBSS',['../classAIToolbox_1_1POMDP_1_1RTBSS_3_01M_01_4.html#ae15b68111d98ff8643c791ed315ea3ee',1,'AIToolbox::POMDP::RTBSS&lt; M &gt;']]],
+  ['rtbss_2ehpp',['RTBSS.hpp',['../RTBSS_8hpp.html',1,'']]],
+  ['rtbss_3c_20m_20_3e',['RTBSS&lt; M &gt;',['../classAIToolbox_1_1POMDP_1_1RTBSS_3_01M_01_4.html',1,'AIToolbox::POMDP']]]
 ];

@@ -102,9 +102,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1314784373a465f6e29d368af1fbe1e8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a1314784373a465f6e29d368af1fbe1e8">ValueIteration</a> (double epsilon=0.0001, unsigned maxIter=0, <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a> v=<a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a>(<a class="el" href="namespaceAIToolbox_1_1MDP.html#ae5041527f88219a674e0f26ba63d2e50">Values</a>(0), <a class="el" href="namespaceAIToolbox_1_1MDP.html#a42a6ee8b9f55d5503151441128736d14">Actions</a>(0)))</td></tr>
-<tr class="memdesc:a1314784373a465f6e29d368af1fbe1e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a1314784373a465f6e29d368af1fbe1e8">More...</a><br/></td></tr>
-<tr class="separator:a1314784373a465f6e29d368af1fbe1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3abd09b3140a935a2c1c1e05692145f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a3abd09b3140a935a2c1c1e05692145f9">ValueIteration</a> (unsigned horizon, double epsilon=0.001, <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a> v=<a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a>(<a class="el" href="namespaceAIToolbox_1_1MDP.html#ae5041527f88219a674e0f26ba63d2e50">Values</a>(0), <a class="el" href="namespaceAIToolbox_1_1MDP.html#a42a6ee8b9f55d5503151441128736d14">Actions</a>(0)))</td></tr>
+<tr class="memdesc:a3abd09b3140a935a2c1c1e05692145f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a3abd09b3140a935a2c1c1e05692145f9">More...</a><br/></td></tr>
+<tr class="separator:a3abd09b3140a935a2c1c1e05692145f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5a8dec0fba3b733939d99dea86c5078"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </td></tr>
 <tr class="memitem:ac5a8dec0fba3b733939d99dea86c5078"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <br class="typebreak"/>
 <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a6da6a00e92920d5b68bd3a840ec85836">QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#ac5a8dec0fba3b733939d99dea86c5078">operator()</a> (const M &amp;m)</td></tr>
@@ -113,43 +113,43 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a90f358a15ded0dd36729096dc8adb0c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a90f358a15ded0dd36729096dc8adb0c6">setEpsilon</a> (double e)</td></tr>
 <tr class="memdesc:a90f358a15ded0dd36729096dc8adb0c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the epsilon parameter.  <a href="#a90f358a15ded0dd36729096dc8adb0c6">More...</a><br/></td></tr>
 <tr class="separator:a90f358a15ded0dd36729096dc8adb0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a635c34d87f847ad0e374fd1d27fba024"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a635c34d87f847ad0e374fd1d27fba024">setMaxIter</a> (unsigned m)</td></tr>
-<tr class="memdesc:a635c34d87f847ad0e374fd1d27fba024"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the max iteration parameter.  <a href="#a635c34d87f847ad0e374fd1d27fba024">More...</a><br/></td></tr>
-<tr class="separator:a635c34d87f847ad0e374fd1d27fba024"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e0f73f6c219bfbb5abca8732453ba70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a6e0f73f6c219bfbb5abca8732453ba70">setHorizon</a> (unsigned h)</td></tr>
+<tr class="memdesc:a6e0f73f6c219bfbb5abca8732453ba70"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the horizon parameter.  <a href="#a6e0f73f6c219bfbb5abca8732453ba70">More...</a><br/></td></tr>
+<tr class="separator:a6e0f73f6c219bfbb5abca8732453ba70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4de0a8cd4ed20ab88a0b4e8b4ce5191a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a4de0a8cd4ed20ab88a0b4e8b4ce5191a">setValueFunction</a> (<a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a> v)</td></tr>
 <tr class="memdesc:a4de0a8cd4ed20ab88a0b4e8b4ce5191a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the starting value function.  <a href="#a4de0a8cd4ed20ab88a0b4e8b4ce5191a">More...</a><br/></td></tr>
 <tr class="separator:a4de0a8cd4ed20ab88a0b4e8b4ce5191a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2706b33222eeea7a151437e5cb56c5b2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a2706b33222eeea7a151437e5cb56c5b2">getEpsilon</a> () const </td></tr>
 <tr class="memdesc:a2706b33222eeea7a151437e5cb56c5b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function will return the currently set epsilon parameter.  <a href="#a2706b33222eeea7a151437e5cb56c5b2">More...</a><br/></td></tr>
 <tr class="separator:a2706b33222eeea7a151437e5cb56c5b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff2bdc36ce410a3a0decc934197aa70b"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#aff2bdc36ce410a3a0decc934197aa70b">getMaxIter</a> () const </td></tr>
-<tr class="memdesc:aff2bdc36ce410a3a0decc934197aa70b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function will return the current set max iteration parameter.  <a href="#aff2bdc36ce410a3a0decc934197aa70b">More...</a><br/></td></tr>
-<tr class="separator:aff2bdc36ce410a3a0decc934197aa70b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f77b058e6598ce96de05cbd48f47112"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a6f77b058e6598ce96de05cbd48f47112">getHorizon</a> () const </td></tr>
+<tr class="memdesc:a6f77b058e6598ce96de05cbd48f47112"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function will return the current horizon parameter.  <a href="#a6f77b058e6598ce96de05cbd48f47112">More...</a><br/></td></tr>
+<tr class="separator:a6f77b058e6598ce96de05cbd48f47112"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a399080020a4dea0e6cb07ba63f7eb2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a8a399080020a4dea0e6cb07ba63f7eb2">getValueFunction</a> () const </td></tr>
 <tr class="memdesc:a8a399080020a4dea0e6cb07ba63f7eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function will return the current set default value function.  <a href="#a8a399080020a4dea0e6cb07ba63f7eb2">More...</a><br/></td></tr>
 <tr class="separator:a8a399080020a4dea0e6cb07ba63f7eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class applies the value iteration algorithm on a <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>. </p>
-<p>This algorithm solves an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model for an infinite horizon (although it is trivial to change it to work for smaller horizons).</p>
-<p>The idea of this algorithm is to iteratively compute the ValueFunction for the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> optimal policy. On the first iteration, the ValueFunction for horizon 1 is obtained. On the second iteration, the one for horizon 2. This process is repeated until the ValueFunction has converged to a specific value within a certain accuracy. This will then represent the ValueFunction for the optimal policy in the infinite horizon.</p>
-<p>This implementation in particular is ported from the MATLAB MDPToolbox. It tries to perform as little updates as possible, as long as the resulting ValueFunction can be converted correctly into the optimal policy. Again, it is trivial to modify the loop conditions to satisfy whatever requirements for convergence you might have. </p>
+<p>This algorithm solves an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model for the specified horizon, or less if convergence is encountered.</p>
+<p>The idea of this algorithm is to iteratively compute the ValueFunction for the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> optimal policy. On the first iteration, the ValueFunction for horizon 1 is obtained. On the second iteration, the one for horizon 2. This process is repeated until the ValueFunction has converged to a specific value within a certain accuracy, or the horizon requested is reached.</p>
+<p>This implementation in particular is ported from the MATLAB MDPToolbox (although it is simplified). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a1314784373a465f6e29d368af1fbe1e8"></a>
+<a class="anchor" id="a3abd09b3140a935a2c1c1e05692145f9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">AIToolbox::MDP::ValueIteration::ValueIteration </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>epsilon</em> = <code>0.0001</code>, </td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>horizon</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>maxIter</em> = <code>0</code>, </td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>epsilon</em> = <code>0.001</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -166,12 +166,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>The epsilon parameter must be &gt; 0.0, otherwise the constructor will throw an std::runtime_error.</p>
+<p>The epsilon parameter must be &gt;= 0.0, otherwise the constructor will throw an std::runtime_error. The epsilon parameter sets the convergence criterion. An epsilon of 0.0 forces <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html" title="This class applies the value iteration algorithm on a Model. ">ValueIteration</a> to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html" title="This class applies the value iteration algorithm on a Model. ">ValueIteration</a> will stop as soon as the difference between two iterations is less than the epsilon specified.</p>
 <p>Note that the default value function size needs to match the number of states of the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>. Otherwise it will be ignored. An empty value function will be defaulted to all zeroes.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">horizon</td><td>The maximum number of iterations to perform. </td></tr>
     <tr><td class="paramname">epsilon</td><td>The epsilon factor to stop the value iteration loop. </td></tr>
-    <tr><td class="paramname">maxIter</td><td>The maximum number of iterations to perform. </td></tr>
     <tr><td class="paramname">v</td><td>The initial value function from which to start the loop. </td></tr>
   </table>
   </dd>
@@ -198,12 +198,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aff2bdc36ce410a3a0decc934197aa70b"></a>
+<a class="anchor" id="a6f77b058e6598ce96de05cbd48f47112"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned AIToolbox::MDP::ValueIteration::getMaxIter </td>
+          <td class="memname">unsigned AIToolbox::MDP::ValueIteration::getHorizon </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -211,8 +211,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function will return the current set max iteration parameter. </p>
-<dl class="section return"><dt>Returns</dt><dd>The currently set max iteration parameter. </dd></dl>
+<p>This function will return the current horizon parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set horizon parameter. </dd></dl>
 
 </div>
 </div>
@@ -264,7 +264,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A tuple containing a boolean value specifying the return status of the solution problem, the ValueFunction and the QFunction for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A tuple containing a boolean value specifying whether the specified epsilon bound was reached and the ValueFunction and the QFunction for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>. </dd></dl>
 
 </div>
 </div>
@@ -283,7 +283,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><div class="memdoc">
 
 <p>This function sets the epsilon parameter. </p>
-<p>The epsilon parameter must be &gt; 0.0, otherwise the function will do throw std::invalid_argument.</p>
+<p>The epsilon parameter must be &gt;= 0.0, otherwise the constructor will throw an std::runtime_error. The epsilon parameter sets the convergence criterion. An epsilon of 0.0 forces <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html" title="This class applies the value iteration algorithm on a Model. ">ValueIteration</a> to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html" title="This class applies the value iteration algorithm on a Model. ">ValueIteration</a> will stop as soon as the difference between two iterations is less than the epsilon specified.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>The new epsilon parameter. </td></tr>
@@ -293,24 +293,24 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 
 </div>
 </div>
-<a class="anchor" id="a635c34d87f847ad0e374fd1d27fba024"></a>
+<a class="anchor" id="a6e0f73f6c219bfbb5abca8732453ba70"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::MDP::ValueIteration::setMaxIter </td>
+          <td class="memname">void AIToolbox::MDP::ValueIteration::setHorizon </td>
           <td>(</td>
           <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>m</em></td><td>)</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function sets the max iteration parameter. </p>
+<p>This function sets the horizon parameter. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">m</td><td>The new max iteration parameter. </td></tr>
+    <tr><td class="paramname">h</td><td>The new horizon parameter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -348,7 +348,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 8 2014 18:05:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 16 2014 16:32:19 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

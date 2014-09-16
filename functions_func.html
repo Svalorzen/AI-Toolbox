@@ -192,6 +192,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getEpsilon()
 : <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3afdcec47677feb6acace83fad51a361">AIToolbox::EpsilonPolicyInterface&lt; State &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a2706b33222eeea7a151437e5cb56c5b2">AIToolbox::MDP::ValueIteration</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a5849b93e9aa05a265a21f690367ed489">AIToolbox::POMDP::IncrementalPruning</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a4b31369b165fa20949dff99b443f2b75">AIToolbox::POMDP::QMDP</a>
 </li>
 <li>getExpectedReward()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a8f998bf560d3727ce481043e941faa92">AIToolbox::MDP::Model</a>
@@ -212,8 +214,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#aa164b6fe75fabd5827fc0bcdf8016ec5">AIToolbox::POMDP::Policy</a>
 </li>
 <li>getHorizon()
-: <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a5122aa20b68c206c4f6967e8b627aa2b">AIToolbox::POMDP::IncrementalPruning</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a6f77b058e6598ce96de05cbd48f47112">AIToolbox::MDP::ValueIteration</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a5122aa20b68c206c4f6967e8b627aa2b">AIToolbox::POMDP::IncrementalPruning</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#a06825403b8837b9796127133846cd117">AIToolbox::POMDP::PBVI</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#ad1e097ebc0ca9843dfda0971e76982be">AIToolbox::POMDP::QMDP</a>
 </li>
 <li>getIterations()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS_3_01M_01_4.html#ac4329a497c9837f07bb5352275afc986">AIToolbox::MDP::MCTS&lt; M &gt;</a>
@@ -223,15 +227,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5c38d35c44e4ab68868736c550a09cdb">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#a3d8644a026fc8f7c1f919956efc5c4aa">AIToolbox::MDP::QLearning&lt; M &gt;</a>
 </li>
-<li>getMaxIter()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#aff2bdc36ce410a3a0decc934197aa70b">AIToolbox::MDP::ValueIteration</a>
-</li>
 <li>getModel()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a2692a479c7a2689b09a3477252203c17">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS_3_01M_01_4.html#ad08e58123caf3c10c6d6d792040066d5">AIToolbox::MDP::MCTS&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1PrioritizedSweeping_3_01M_01_4.html#a5c3b420dd31c3eb87a10011237c33639">AIToolbox::MDP::PrioritizedSweeping&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#a83ba649b23687b53535da55bc3055632">AIToolbox::MDP::QLearning&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#abbb931dfbbadf0262efd334d6df432a8">AIToolbox::POMDP::POMCP&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1RTBSS_3_01M_01_4.html#a4cfa347be9b6aa17be152a54833656dc">AIToolbox::POMDP::RTBSS&lt; M &gt;</a>
 </li>
 <li>getN()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a8f18bc049854157e2a59662fdbf3cc64">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
@@ -319,7 +321,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>IncrementalPruning()
-: <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a9a959c766cb9486586defdcbc5aaf579">AIToolbox::POMDP::IncrementalPruning</a>
+: <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#aa9699db6c0e644599fc561dfb13de53f">AIToolbox::POMDP::IncrementalPruning</a>
 </li>
 <li>isTerminal()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aff6f9df4c9ff84752411aa2e536e47ce">AIToolbox::MDP::Model</a>
@@ -349,6 +351,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#afba5259060af28012ff4cfce63b8faa7">AIToolbox::POMDP::PBVI</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1Projecter_3_01M_01_4.html#a3930e66a6688b3520253ef6278564e57">AIToolbox::POMDP::Projecter&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1Pruner.html#a5c735033e2892f4ba16396f6a9c77e61">AIToolbox::POMDP::Pruner</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a24bec66177d9b757e2353bb139930c60">AIToolbox::POMDP::QMDP</a>
 </li>
 </ul>
 
@@ -389,6 +392,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>QLearning()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#adbf65eafb4e7778bfe91c36649d0f21b">AIToolbox::MDP::QLearning&lt; M &gt;</a>
 </li>
+<li>QMDP()
+: <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#abfe2ceb315b32d8670f52fc500a3dacb">AIToolbox::POMDP::QMDP</a>
+</li>
 <li>QPolicyInterface()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#adfab9bef8960e29735bcdaa2c8aa286f">AIToolbox::MDP::QPolicyInterface</a>
 </li>
@@ -405,6 +411,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>RLModel()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a4ce07a49150f2cb8f3bd88c63e0a48aa">AIToolbox::MDP::RLModel</a>
 </li>
+<li>RTBSS()
+: <a class="el" href="classAIToolbox_1_1POMDP_1_1RTBSS_3_01M_01_4.html#ae15b68111d98ff8643c791ed315ea3ee">AIToolbox::POMDP::RTBSS&lt; M &gt;</a>
+</li>
 </ul>
 
 
@@ -419,6 +428,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classAIToolbox_1_1PolicyInterface.html#af57a8d643518f7e5b0f5834f0975ff34">AIToolbox::PolicyInterface&lt; State &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#afc70f63e9f02280efa2d6236c6574b28">AIToolbox::POMDP::Policy</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#adb369bb6ae6ba62e152e52fad12e2514">AIToolbox::POMDP::POMCP&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1RTBSS_3_01M_01_4.html#a17dbd4c66f73fda2d91effd89f8e1de7">AIToolbox::POMDP::RTBSS&lt; M &gt;</a>
 </li>
 <li>sampleOR()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model_3_01M_01_4.html#a033d301450a414229875830903f72059">AIToolbox::POMDP::Model&lt; M &gt;</a>
@@ -441,14 +451,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setEpsilon()
 : <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ac940ef07c6aba68f1bbdb26d895827e2">AIToolbox::EpsilonPolicyInterface&lt; State &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a90f358a15ded0dd36729096dc8adb0c6">AIToolbox::MDP::ValueIteration</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a17758431d1ff696e75810093eb8a66a4">AIToolbox::POMDP::IncrementalPruning</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a5ba46ee5c9c2ec5fa3e4c82439e8205d">AIToolbox::POMDP::QMDP</a>
 </li>
 <li>setExploration()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS_3_01M_01_4.html#a5cb9e22381c8ba914633445eedd19e05">AIToolbox::MDP::MCTS&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP_3_01M_01_4.html#a18d941fd2758329f72f146bdca0ae715">AIToolbox::POMDP::POMCP&lt; M &gt;</a>
 </li>
 <li>setHorizon()
-: <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#aa59cb719622355d9f25d936de609132d">AIToolbox::POMDP::IncrementalPruning</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a6e0f73f6c219bfbb5abca8732453ba70">AIToolbox::MDP::ValueIteration</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#aa59cb719622355d9f25d936de609132d">AIToolbox::POMDP::IncrementalPruning</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#a37721bf2d6ebe420e9db46eef62bae9e">AIToolbox::POMDP::PBVI</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a83ffe704b393af67c3d4f43aabc516f0">AIToolbox::POMDP::QMDP</a>
 </li>
 <li>setIterations()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS_3_01M_01_4.html#a32147c368e584c1f3dd6996716db1715">AIToolbox::MDP::MCTS&lt; M &gt;</a>
@@ -457,9 +471,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setLearningRate()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a5e955f1ffae5c4d99f5205a822d491b9">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#a73a521598ca98478287109592325e033">AIToolbox::MDP::QLearning&lt; M &gt;</a>
-</li>
-<li>setMaxIter()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a635c34d87f847ad0e374fd1d27fba024">AIToolbox::MDP::ValueIteration</a>
 </li>
 <li>setN()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a4579273054261d7f2b574cb63734c366">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
@@ -499,7 +510,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classState.html#abe77154d1ebd1e05c04ea34ea5b56429">State</a>
 </li>
 <li>State()
-: <a class="el" href="classState.html#a200e450f63a590ee3a777b60684963ee">State</a>
+: <a class="el" href="classState.html#af87b28e1c2608a3953839b243cb1ba4d">State</a>
 </li>
 <li>StateNode()
 : <a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_3_01M_01_4_1_1StateNode.html#a2c2da26258fdc83a15804a4b53ddfa54">AIToolbox::MDP::MCTS&lt; M &gt;::StateNode</a>
@@ -510,7 +521,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#aa3ceb53d815628a35d597f87f095d96d">AIToolbox::MDP::QLearning&lt; M &gt;</a>
 </li>
 <li>sync()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#aeb24cfbe03abce48f69af22005d1e544">AIToolbox::MDP::RLModel</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a04567aef1073cc3efe89001a8ca40ba1">AIToolbox::MDP::RLModel</a>
 </li>
 </ul>
 
@@ -524,7 +535,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
 <li>ValueIteration()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a1314784373a465f6e29d368af1fbe1e8">AIToolbox::MDP::ValueIteration</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a3abd09b3140a935a2c1c1e05692145f9">AIToolbox::MDP::ValueIteration</a>
 </li>
 </ul>
 
@@ -544,7 +555,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 8 2014 18:05:12 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 16 2014 16:32:20 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
