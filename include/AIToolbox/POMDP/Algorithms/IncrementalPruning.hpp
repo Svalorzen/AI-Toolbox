@@ -8,7 +8,7 @@
 
 #include <AIToolbox/ProbabilityUtils.hpp>
 
-#include <iostream>
+#include <limits>
 
 namespace AIToolbox {
     namespace POMDP {
@@ -224,7 +224,7 @@ namespace AIToolbox {
                     for ( auto & newVE : v[timestep] ) {
                         auto nBegin = std::begin(std::get<0>(newVE)), nEnd = std::end(std::get<0>(newVE));
 
-                        double closestDistance = HUGE_VAL;
+                        double closestDistance = std::numeric_limits<double>::infinity();
                         for ( auto & oldVE : v[timestep-1] ) {
                             auto computeVariation = [](double lhs, double rhs) { return std::fabs(lhs - rhs); };
                             std::transform(nBegin, nEnd, std::begin(std::get<0>(oldVE)), hBegin, computeVariation );
