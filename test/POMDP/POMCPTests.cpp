@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto & vf = std::get<1>(solution);
     POMDP::Policy p(model.getS(), model.getA(), model.getO(), vf);
 
-    for ( unsigned horizon = 1; horizon < maxHorizon; ++horizon ) {
+    for ( unsigned horizon = 1; horizon <= maxHorizon; ++horizon ) {
         // Again, the exploration constant has been chosen to let the solver agree with
         // the ground truth rather than not. A lower constant results in LISTEN actions
         // being swapped for OPEN actions. This still could be due to the fact that in some
