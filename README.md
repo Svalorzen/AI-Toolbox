@@ -73,6 +73,7 @@ Single Agent POMDP:
 - Point Based Value Iteration (PBVI)
 - POMCP with UCB1
 - QMDP
+- Real-Time Belief State Search (RTBSS)
 
 Fast Tutorial
 =============
