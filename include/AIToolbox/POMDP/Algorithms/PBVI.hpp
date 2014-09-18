@@ -232,13 +232,13 @@ namespace AIToolbox {
                     // Compute distance (here we compare also against elements we just added!)
                     distances[a] = computeDistance(newBeliefs[a], bl[0], S);
                     for ( size_t j = 1; j < bl.size(); ++j ) {
-                        if ( checkEqual(distances[a], 0.0) ) break; // We already have it!
+                        if ( checkEqualSmall(distances[a], 0.0) ) break; // We already have it!
                         distances[a] = std::min(distances[a], computeDistance(newBeliefs[a], bl[j], S));
                     }
                 }
                 // Find furthest away, add only if it is new.
                 size_t id = std::distance( dBegin, std::max_element(dBegin, dEnd) );
-                if ( checkDifferent(distances[id], 0.0) )
+                if ( checkDifferentSmall(distances[id], 0.0) )
                     bl.emplace_back(std::move(newBeliefs[id]));
             }
         }

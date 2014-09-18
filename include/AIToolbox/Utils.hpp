@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_UTILS_HEADER_FILE
 #define AI_TOOLBOX_UTILS_HEADER_FILE
 
-#include <cstddef>
+#include <AIToolbox/ProbabilityUtils.hpp>
 
 namespace AIToolbox {
     /**
@@ -28,6 +28,35 @@ namespace AIToolbox {
             for ( size_t j = 0; j < d2; ++j )
                 for ( size_t x = 0; x < d3; ++x )
                     out[i][j][x] = in[i][j][x];
+    }
+
+    /**
+     * @brief This function checks if two doubles near [0,1] are reasonably equal.
+     *
+     * The order of the parameter is not important.
+     *
+     * @param a The first number to compare.
+     * @param b The second number to compare.
+     *
+     * @return True if the two numbers are close enough, false otherwise.
+     */
+    inline bool checkEqualNumber(double a, double b) {
+        if ( checkEqualSmall(a,b) ) return true;
+        return ( std::fabs(a - b) / std::min(std::fabs(a), std::fabs(b)) < std::numeric_limits<double>::epsilon() );
+    }
+
+    /**
+     * @brief This function checks if two doubles near [0,1] are reasonably different.
+     *
+     * The order of the parameter is not important.
+     *
+     * @param a The first number to compare.
+     * @param b The second number to compare.
+     *
+     * @return True if the two numbers are far away enough, false otherwise.
+     */
+    inline bool checkDifferentNumber(double a, double b) {
+        return !checkEqualNumber(a,b);
     }
 }
 

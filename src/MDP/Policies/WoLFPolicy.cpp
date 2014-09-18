@@ -1,6 +1,6 @@
 #include <AIToolbox/MDP/Policies/WoLFPolicy.hpp>
 
-#include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Utils.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -41,7 +41,7 @@ namespace AIToolbox {
                         bestActionCount = 1;
                         bestQValue = qsa;
                     }
-                    else if ( checkEqual(qsa, bestQValue) ) {
+                    else if ( checkEqualNumber(qsa, bestQValue) ) {
                         bestActions[bestActionCount] = a;
                         ++bestActionCount;
                     }

@@ -151,7 +151,7 @@ namespace AIToolbox {
             for ( size_t a = 0; a < A; ++a )
                 for ( size_t o = 0; o < O; ++o )
                     for ( size_t s = 0; s < S; ++s ) // This NEEDS to be last!
-                        if ( checkDifferent(model_.getObservationProbability(s,a,o), 0.0) ) { possibleObservations_[a][o] = true; break; } // We only break the S loop!
+                        if ( checkDifferentSmall(model_.getObservationProbability(s,a,o), 0.0) ) { possibleObservations_[a][o] = true; break; } // We only break the S loop!
         }
     }
 }

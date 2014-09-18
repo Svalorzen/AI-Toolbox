@@ -201,7 +201,7 @@ namespace AIToolbox {
                 double newQValue = 0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     double probability = model_.getTransitionProbability(s,a,s1);
-                    if ( checkDifferent( probability, 0.0 ) )
+                    if ( checkDifferentSmall( probability, 0.0 ) )
                         newQValue += probability * ( model_.getExpectedReward(s,a,s1) + model_.getDiscount() * values[s1] );
                 }
                 qfun_[s][a] = newQValue;
@@ -245,7 +245,7 @@ namespace AIToolbox {
 
                 for ( size_t s = 0; s < S; ++s )
                     for ( size_t a = 0; a < A; ++a )
-                        if ( checkDifferent(model_.getTransitionProbability(s,a,s1), 0.0) )
+                        if ( checkDifferentSmall(model_.getTransitionProbability(s,a,s1), 0.0) )
                             stepUpdateQ(s, a);
             }
         }

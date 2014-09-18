@@ -63,6 +63,7 @@ Single Agent MDP:
 - Value Iteration
 - Win or Learn Fast Policy Iteration (WoLF)
 - Q-Learning
+- SARSA
 - Dyna-Q
 - Prioritized Sweeping
 - Monte Carlo Tree Search (MCTS)

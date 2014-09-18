@@ -164,7 +164,7 @@ namespace AIToolbox {
 
             double variation = epsilon_ * 2; // Make it bigger
 
-            bool useEpsilon = checkDifferent(epsilon_, 0.0);
+            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
 

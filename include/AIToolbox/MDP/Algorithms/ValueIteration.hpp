@@ -195,7 +195,7 @@ namespace AIToolbox {
             Values val0;
             QFunction q = makeQFunction(S, A);
 
-            bool useEpsilon = checkDifferent(epsilon_, 0.0);
+            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
                 ++timestep;
 

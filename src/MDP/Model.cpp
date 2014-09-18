@@ -36,7 +36,7 @@ namespace AIToolbox {
         bool Model::isTerminal(size_t s) const {
             bool answer = true;
             for ( size_t a = 0; a < A; ++a ) {
-                if ( !checkEqual(1.0, transitions_[s][a][s]) ) {
+                if ( !checkEqualSmall(1.0, transitions_[s][a][s]) ) {
                     answer = false;
                     break;
                 }

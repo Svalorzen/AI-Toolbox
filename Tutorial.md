@@ -112,7 +112,7 @@ coordinate is unique and encodes completely all the information the tiger needs 
 We might as well add some code in order to determine the distance between two
 coordinates, since we will need this later.
 
-~~~cpp
+~~~{.cpp}
     constexpr int SQUARE_SIZE = 11;
 
     using CoordType = std::array<int, 4>;
@@ -137,7 +137,7 @@ coordinates, since we will need this later.
 #### A ####
 The tiger can move, and possibly stand still. Thus, it has 5 actions.
 
-~~~cpp
+~~~{.cpp}
     size_t A = 5;
     enum {
         UP    = 0,
@@ -161,7 +161,7 @@ In this function we specify the probability of ending up in a certain
 tiger-antelope state, given that the tiger has taken a certain action from a
 certain initial state.
 
-~~~cpp
+~~~{.cpp}
     double getTransitionProbability( const CoordType & c1, size_t action, const CoordType & c2 ) {
         // We compute the distances traveled by both the antelope and the tiger.
         int tigerMovementX = wrapDiff( c1[TIGER_X], c2[TIGER_X] );
@@ -240,7 +240,7 @@ method can compute the best policy. A high discount value avoids this problem;
 however, the time that the method takes to converge to the best solution
 increases as the number of timesteps it must look in the future increases.
 
-~~~cpp
+~~~{.cpp}
     constexpr double discount = 0.9;
 ~~~
 
@@ -258,7 +258,7 @@ this library abstracts over this problem, and requires that states be integers.
 In order to allow for the conversions of our states into integers, we can write
 some code which will convert them.
 
-~~~cpp
+~~~{.cpp}
     size_t encodeState(const CoordType & coords) {
         size_t state = 0; unsigned multiplier = 1;
         for ( auto c : coords ) {
@@ -280,7 +280,7 @@ some code which will convert them.
 
 And finally, our wrapper:
 
-~~~cpp
+~~~{.cpp}
     class GridWorld {
         public:
             // The number of possible states of our model is equal to all the
@@ -313,7 +313,7 @@ And finally, our wrapper:
 
 Voilà! All is needed now is simply some AIToolbox magic!
 
-~~~.cpp
+~~~{.cpp}
     int main() {
         GridWorld world;
 

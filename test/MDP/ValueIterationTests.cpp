@@ -9,10 +9,15 @@
 
 #include "CornerProblem.hpp"
 
+#include <iostream>
+#include <iomanip>
+
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
 
-    auto model = makeCornerProblem();
+    GridWorld grid(4, 4);
+
+    auto model = makeCornerProblem(grid);
     size_t S = model.getS(), A = model.getA();
 
     // We set the horizon to a very high value so that
@@ -59,36 +64,36 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     }
 
     // Middle top cells want to go left to the absorbing state:
-    BOOST_CHECK_EQUAL( policy.getActionProbability(1, State::LEFT), 1.0);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(2, State::LEFT), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(1, LEFT), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(2, LEFT), 1.0);
 
     // Last cell of first row wants to either go down or left
-    BOOST_CHECK_EQUAL( policy.getActionProbability(3, State::LEFT), 0.5);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(3, State::DOWN), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(3, LEFT), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(3, DOWN), 0.5);
 
     // Middle cells of first column want to go up
-    BOOST_CHECK_EQUAL( policy.getActionProbability(4, State::UP), 1.0);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(8, State::UP), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(4, UP), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(8, UP), 1.0);
 
     // Cell in 1,1 wants left + up
-    BOOST_CHECK_EQUAL( policy.getActionProbability(5, State::LEFT), 0.5);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(5, State::UP), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(5, LEFT), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(5, UP),   0.5);
 
     // Middle cells of last column want to go down
-    BOOST_CHECK_EQUAL( policy.getActionProbability(7,  State::DOWN), 1.0);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(11, State::DOWN), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(7,  DOWN), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(11, DOWN), 1.0);
 
     // Cell in 2,2 wants right + down
-    BOOST_CHECK_EQUAL( policy.getActionProbability(10, State::RIGHT), 0.5);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(10, State::DOWN), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(10, RIGHT), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(10, DOWN),  0.5);
 
     // Bottom cell in first column wants up + right
-    BOOST_CHECK_EQUAL( policy.getActionProbability(12, State::RIGHT), 0.5);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(12, State::UP), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(12, RIGHT), 0.5);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(12, UP),    0.5);
 
     // Finally, bottom middle cells want just right
-    BOOST_CHECK_EQUAL( policy.getActionProbability(13, State::RIGHT), 1.0);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(14, State::RIGHT), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(13, RIGHT), 1.0);
+    BOOST_CHECK_EQUAL( policy.getActionProbability(14, RIGHT), 1.0);
 
     // Verify that ValueFunction holds the correct actions.
     auto & vfun = std::get<1>(solution);

@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_MDP_QLEARNING_HEADER_FILE
-#define AI_TOOLBOX_MDP_QLEARNING_HEADER_FILE
+#ifndef AI_TOOLBOX_MDP_SARSA_HEADER_FILE
+#define AI_TOOLBOX_MDP_SARSA_HEADER_FILE
 
 #include <stddef.h>
 
@@ -12,17 +12,15 @@ namespace AIToolbox {
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.
         template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
-        class QLearning;
+        class SARSA;
 #endif
         /**
-         * @brief This class represents the QLearning algorithm.
+         * @brief This class represents the SARSA algorithm.
          *
-         * This algorithm is a very simple but powerful way to learn the
-         * optimal QFunction for an MDP model, where the transition and reward
-         * functions are unknown. It works in an offline fashion, meaning that
-         * it can be used even if the policy that the agent is currently using
-         * is not the optimal one, or is different by the one currently
-         * specified by the QLearning QFunction.
+         * This algorithm is a very simple but powerful way to learn a
+         * QFunction for an MDP model, where the transition and reward
+         * functions are unknown. It works in an online fashion, meaning that
+         * the QFunction learned is the one of the currently used policy.
          *
          * The idea is to progressively update the QFunction averaging all
          * obtained datapoints. This can be done by generating data via the
@@ -36,10 +34,6 @@ namespace AIToolbox {
          *
          * \sa setLearningRate(double)
          *
-         * At the same time, this algorithm can be used for non-stationary
-         * MDPs, and it will try to constantly keep up with changes in the
-         * environment, given that they are not huge.
-         *
          * This algorithm does not actually need to sample from the input
          * model, and so it is a good algorithm to apply in real world
          * scenarios for example, where there is no way to reproduce the
@@ -48,7 +42,7 @@ namespace AIToolbox {
          * space and the discount factor of the problem.
          */
         template <typename M>
-        class QLearning<M> {
+        class SARSA<M> {
             public:
                 /**
                  * @brief Basic constructor.
@@ -56,10 +50,10 @@ namespace AIToolbox {
                  * The learning rate must be > 0.0 and <= 1.0, otherwise the
                  * constructor will throw an std::invalid_argument.
                  *
-                 * @param model The MDP model that QLearning will use as a base.
+                 * @param model The MDP model that SARSA will use as a base.
                  * @param alpha The learning rate of the QLearning method.
                  */
-                QLearning(const M& model, double alpha = 0.1);
+                SARSA(const M& model, double alpha = 0.1);
 
                 /**
                  * @brief This function sets the learning rate parameter.
@@ -100,12 +94,18 @@ namespace AIToolbox {
                  * update the QFunction. This is a very efficient method to
                  * keep the QFunction up to date with the latest experience.
                  *
+                 * Keep in mind that, since SARSA needs to compute the
+                 * QFunction for the currently used policy, it needs to know
+                 * two consecutive state-action pairs, in order to correctly
+                 * relate how the policy acts from state to state.
+                 *
                  * @param s The previous state.
                  * @param a The action performed.
                  * @param s1 The new state.
+                 * @param a1 The action performed in the new state.
                  * @param rew The reward obtained.
                  */
-                void stepUpdateQ(size_t s, size_t a, size_t s1, double rew);
+                void stepUpdateQ(size_t s, size_t a, size_t s1, size_t a1, double rew);
 
                 /**
                  * @brief This function returns a reference to the internal QFunction.
@@ -135,29 +135,29 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        QLearning<M>::QLearning(const M& model, double alpha) : model_(model), S(model_.getS()), A(model_.getA()), alpha_(alpha), discount_(model_.getDiscount()), q_(makeQFunction(S,A)) {
+        SARSA<M>::SARSA(const M& model, double alpha) : model_(model), S(model_.getS()), A(model_.getA()), alpha_(alpha), discount_(model_.getDiscount()), q_(makeQFunction(S,A)) {
             if ( alpha_ <= 0.0 || alpha_ > 1.0 )        throw std::invalid_argument("Learning rate parameter must be in (0,1]");
         }
 
         template <typename M>
-        void QLearning<M>::stepUpdateQ(size_t s, size_t a, size_t s1, double rew) {
-            q_[s][a] += alpha_ * ( rew + discount_ * (*std::max_element(std::begin(q_[s1]),std::end(q_[s1]))) - q_[s][a] );
+        void SARSA<M>::stepUpdateQ(size_t s, size_t a, size_t s1, size_t a1, double rew) {
+            q_[s][a] += alpha_ * ( rew + discount_ * q_[s1][a1] - q_[s][a] );
         }
 
         template <typename M>
-        void QLearning<M>::setLearningRate(double a) {
+        void SARSA<M>::setLearningRate(double a) {
             if ( a <= 0.0 || a > 1.0 ) throw std::invalid_argument("Learning rate parameter must be in (0,1]");
             alpha_ = a;
         }
 
         template <typename M>
-        double QLearning<M>::getLearningRate() const { return alpha_; }
+        double SARSA<M>::getLearningRate() const { return alpha_; }
 
         template <typename M>
-        const QFunction & QLearning<M>::getQFunction() const { return q_; }
+        const QFunction & SARSA<M>::getQFunction() const { return q_; }
 
         template <typename M>
-        const M& QLearning<M>::getModel() const { return model_; }
+        const M& SARSA<M>::getModel() const { return model_; }
     }
 }
 #endif
