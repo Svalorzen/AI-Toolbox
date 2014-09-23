@@ -16,6 +16,7 @@ if (MAKE_MDP)
     find_package(Boost 1.53 COMPONENTS unit_test_framework REQUIRED)
     include_directories(${Boost_INCLUDE_DIRS})
 
+    AddTestMDP(Model)
     AddTestMDP(Experience)
     AddTestMDP(RLModel)
     AddTestMDP(QLearning)

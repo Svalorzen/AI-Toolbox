@@ -269,6 +269,8 @@ namespace AIToolbox {
                 RewardTable rewards_;
 
                 mutable std::default_random_engine rand_;
+
+                friend std::istream& operator>>(std::istream &is, Model &);
         };
 
         template <typename T, typename R>
@@ -292,6 +294,7 @@ namespace AIToolbox {
             copyTable3D(r, rewards_, S, A, S);
         }
 
+        std::istream& operator>>(std::istream &is, Model &);
     } // MDP
 } // AIToolbox
 

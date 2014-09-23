@@ -3,6 +3,8 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
 
+#include <iostream>
+
 namespace AIToolbox {
     namespace MDP {
         Model::Model(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
@@ -50,5 +52,31 @@ namespace AIToolbox {
 
         const Model::TransitionTable & Model::getTransitionFunction() const { return transitions_; }
         const Model::RewardTable &     Model::getRewardFunction()     const { return rewards_; }
+
+        std::istream& operator>>(std::istream &is, Model & m) {
+            size_t S = m.getS();
+            size_t A = m.getA();
+
+            Model in(S,A);
+
+            for ( size_t s = 0; s < S; ++s ) {
+                for ( size_t a = 0; a < A; ++a ) {
+                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                        if ( !(is >> in.transitions_[s][a][s1] >> in.rewards_[s][a][s1] )) {
+                            std::cerr << "AIToolbox: Could not read Model data.\n";
+                            is.setstate(std::ios::failbit);
+                            return is;
+                        }
+                    }
+                    // Verification/Sanitization
+                    decltype(in.transitions_[s])::reference ref = in.transitions_[s][a];
+                    normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
+                }
+            }
+            // This guarantees that if input is invalid we still keep the old Exp.
+            m = in;
+
+            return is;
+        }
     }
 }
