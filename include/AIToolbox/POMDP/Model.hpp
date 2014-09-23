@@ -18,6 +18,10 @@ namespace AIToolbox {
         class Model;
 #endif
 
+        // Declarationo to warn the compiler that this is a template function
+        template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
+        std::istream& operator>>(std::istream &is, Model<M> & m);
+
         /**
          * @brief This class represents a Partially Observable Markov Decision Process.
          *
@@ -111,8 +115,9 @@ namespace AIToolbox {
                  * @param of The observation probability table.
                  * @param parameters All arguments needed to build the parent Model.
                  */
-                template <typename ObFun, typename... Args>
-                Model(size_t o, const ObFun & of, Args&&... parameters);
+                // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
+                template <typename ObFun, typename... Args, typename = typename std::enable_if<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>::type>
+                Model(size_t o, ObFun && of, Args&&... parameters);
 
                 /**
                  * @brief This function replaces the Model observation function with the one provided.
@@ -215,19 +220,23 @@ namespace AIToolbox {
                 // We need this because we don't know if our parent already has one,
                 // and we wouldn't know how to access it!
                 mutable std::default_random_engine rand_;
+
+                friend std::istream& operator>> <M>(std::istream &is, Model<M> &);
         };
 
         template <typename M>
         template <typename... Args>
-        Model<M>::Model(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]) {
+        Model<M>::Model(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+                                                      rand_(Impl::Seeder::getSeed())
+        {
             for ( size_t s = 0; s < this->getS(); ++s )
                 for ( size_t a = 0; a < this->getA(); ++a )
                     observations_[s][a][0] = 1.0;
         }
 
         template <typename M>
-        template <typename ObFun, typename... Args>
-        Model<M>::Model(size_t o, const ObFun & of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+        template <typename ObFun, typename... Args, typename>
+        Model<M>::Model(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
                                                                         rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);

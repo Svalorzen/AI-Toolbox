@@ -160,9 +160,6 @@ namespace AIToolbox {
                 friend std::istream& operator>>(std::istream &is, Experience &);
         };
 
-        std::ostream& operator<<(std::ostream &os, const Experience &);
-        std::istream& operator>>(std::istream &is, Experience &);
-
         template <typename V>
         void Experience::setVisits(V v) {
             copyTable3D(v, visits_, S, A, S);

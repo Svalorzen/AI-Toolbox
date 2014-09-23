@@ -293,8 +293,6 @@ namespace AIToolbox {
         void Model::setRewardFunction( const R & r ) {
             copyTable3D(r, rewards_, S, A, S);
         }
-
-        std::istream& operator>>(std::istream &is, Model &);
     } // MDP
 } // AIToolbox
 

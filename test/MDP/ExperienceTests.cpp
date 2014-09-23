@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
+#include <AIToolbox/MDP/IO.hpp>
 
 #include <array>
 #include <algorithm>

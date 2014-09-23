@@ -11,6 +11,15 @@ namespace AIToolbox {
     template<typename State> class PolicyInterface;
 
     namespace MDP {
+        /**
+         * @brief This function prints any MDP model to a file.
+         *
+         * @tparam M The type of the model.
+         * @param os The output stream.
+         * @param model The model to print.
+         *
+         * @return The resulting output stream.
+         */
         template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
         std::ostream& operator<<(std::ostream &os, const M & model) {
             size_t S = model.getS();
@@ -48,6 +57,59 @@ namespace AIToolbox {
          * @return The original stream.
          */
         std::ostream& operator<<(std::ostream &os, const PolicyInterface<size_t> & p);
+
+        class Experience;
+
+        /**
+         * @brief This function prints an Experience to a stream.
+         *
+         * @param os The output stream.
+         * @param e The Experience to be printed.
+         *
+         * @return The original stream.
+         */
+        std::ostream& operator<<(std::ostream &os, const Experience & e);
+
+        /**
+         * @brief This function implements input from stream for the MDP::Experience class.
+         *
+         * Note that as all other input function, it does not actually change the
+         * input model if the reading fails.
+         *
+         * @param is The input stream.
+         * @param e The Experience to be read.
+         *
+         * @return The original stream.
+         */
+        std::istream& operator>>(std::istream &is, Experience & e);
+
+        class Model;
+        /**
+         * @brief This function implements input from stream for the MDP::Model class.
+         *
+         * Note that as all other input function, it does not actually change the
+         * input model if the reading fails.
+         *
+         * @param is The input stream.
+         * @param m The model to write into.
+         *
+         * @return The input stream.
+         */
+        std::istream& operator>>(std::istream &is, Model &);
+
+        class Policy;
+        /**
+         * @brief This function implements input from stream for the MDP::Model class.
+         *
+         * Note that as all other input function, it does not actually change the
+         * input model if the reading fails.
+         *
+         * @param is The input stream.
+         * @param m The model to write into.
+         *
+         * @return The input stream.
+         */
+        std::istream& operator>>(std::istream &is, Policy &);
     }
 }
 #endif

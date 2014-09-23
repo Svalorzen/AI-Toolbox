@@ -60,43 +60,5 @@ namespace AIToolbox {
                 }
             }
         }
-
-        std::istream& operator>>(std::istream &is, Policy &p) {
-            size_t S = p.getS();
-            size_t A = p.getA();
-
-            Policy policy(S, A);
-
-            size_t scheck, acheck;
-
-            bool fail = false;
-            for ( size_t s = 0; s < S; ++s ) {
-                for ( size_t a = 0; a < A; ++a ) {
-                    if ( ! ( is >> scheck >> acheck >> policy.policy_[s][a] ) ) {
-                        std::cerr << "AIToolbox: Could not read policy data.\n";
-                        fail = true;
-                    }
-                    else if ( policy.policy_[s][a] < 0.0 || policy.policy_[s][a] > 1.0 ) {
-                        std::cerr << "AIToolbox: Input policy data contains non-probability values.\n";
-                        fail = true;
-                    }
-                    else if ( scheck != s || acheck != a ) {
-                        std::cerr << "AIToolbox: Input policy data is not sorted by state and action.\n";
-                        fail = true;
-                    }
-                    if ( fail ) {
-                        is.setstate(std::ios::failbit);
-                        return is;
-                    }
-                }
-            }
-            // Read succeeded
-            for ( size_t s = 0; s < S; ++s ) {
-                // Sanitization: Assign and normalize everything.
-                p.setStatePolicy(s, policy.policy_[s]);
-            }
-
-            return is;
-        }
     }
 }
