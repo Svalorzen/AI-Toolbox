@@ -10,6 +10,11 @@
  * matrix would make the solver work faster. Modifying the code
  * to allow this is trivial, and I wanted to keep the example
  * simple in order to introduce the theory behind the library.
+ *
+ * For more examples be sure to check out the "tests" folder!
+ * The code there is very simple and it contains most usages
+ * of this library ever, and it will probably give you an
+ * even better introduction than this code does.
  */
 #include <iostream>
 #include <fstream>
@@ -149,9 +154,17 @@ int main() {
     GridWorld world;
 
     // This is a method that solves MDPs completely. It has a couple of
-    // parameters available, but in our case the defaults are perfectly
-    // fine.
-    AIToolbox::MDP::ValueIteration solver;
+    // parameters available.
+    // The only non-optional parameter is the horizon of the solution; as in
+    // how many steps should the solution look ahead in order to decide which
+    // move to take. If we chose 1, for example, the tiger would only consider
+    // cells next to it to decide where to move; this wouldn't probably be
+    // what we want.
+    // We want the tiger to think for infinite steps: this can be
+    // approximated with a very high horizon, since in theory the final solution
+    // will converge to a single policy anyway. Thus we put a very high number
+    // as the horizon here.
+    AIToolbox::MDP::ValueIteration solver(1000000);
 
     std::cout << "Starting solver!\n";
     // This is where the magic happen. This could take around 10-20 minutes,
