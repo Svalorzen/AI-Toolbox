@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_POMDP_POMCP_HEADER_FILE
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/ProbabilityUtils.hpp>
 
 #include <limits>
 
@@ -163,7 +164,7 @@ namespace AIToolbox {
                     for ( size_t o = 0; o < O; ++o ) {
                         double p = beliefObservationProbability(b, a, o);
                         // Only work if it makes sense
-                        if ( p ) rew += model_.getDiscount() * p * simulate(updateBelief(model_, b, a, o), horizon - 1);
+                        if ( checkDifferentSmall(p, 0.0) ) rew += model_.getDiscount() * p * simulate(updateBelief(model_, b, a, o), horizon - 1);
                     }
                 }
                 if ( rew > max ) {
