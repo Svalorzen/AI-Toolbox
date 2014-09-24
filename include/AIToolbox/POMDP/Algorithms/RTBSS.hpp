@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_POMDP_POMCP_HEADER_FILE
-#define AI_TOOLBOX_POMDP_POMCP_HEADER_FILE
+#ifndef AI_TOOLBOX_POMDP_RTBSS_HEADER_FILE
+#define AI_TOOLBOX_POMDP_RTBSS_HEADER_FILE
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
