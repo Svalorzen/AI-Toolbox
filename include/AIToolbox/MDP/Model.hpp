@@ -5,8 +5,10 @@
 #include <random>
 
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/Utils.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -123,6 +125,21 @@ namespace AIToolbox {
                  */
                 template <typename T, typename R>
                 Model(size_t s, size_t a, const T & t, const R & r, double d = 1.0);
+
+                /**
+                 * @brief Copy constructor from any valid MDP model.
+                 *
+                 * This allows to copy from any other model. A nice use for this is to
+                 * convert any model which computes probabilities on the fly into an
+                 * MDP::Model where probabilities are all stored for fast access. Of
+                 * course such a solution can be done only when the number of states
+                 * and actions is not too big.
+                 *
+                 * @tparam M The type of the other model.
+                 * @param model The model that needs to be copied.
+                 */
+                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+                Model(const M& model);
 
                 /**
                  * @brief This function replaces the Model transition function with the one provided.
@@ -274,10 +291,26 @@ namespace AIToolbox {
         };
 
         template <typename T, typename R>
-        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]) {
+        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+                                                                               rand_(Impl::Seeder::getSeed())
+        {
             setDiscount(d);
             setTransitionFunction(t);
             setRewardFunction(r);
+        }
+
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+        Model::Model(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+                                       rand_(Impl::Seeder::getSeed())
+        {
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a ) {
+                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                        transitions_[s][a][s1] = model.getTransitionProbability(s, a, s1);
+                        rewards_    [s][a][s1] = model.getExpectedReward       (s, a, s1);
+                    }
+                    if ( ! isProbability(S, transitions_[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                }
         }
 
         template <typename T>

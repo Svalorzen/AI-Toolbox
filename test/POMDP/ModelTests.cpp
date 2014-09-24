@@ -7,32 +7,31 @@
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 
-#include <iostream>
-#include <typeinfo>
+#include "TigerProblem.hpp"
 
 #include <fstream>
 
 BOOST_AUTO_TEST_CASE( construction ) {
-//    using namespace AIToolbox;
-//    const size_t S = 5, A = 6, O = 2;
-//
-//    POMDP::Model<MDP::Model> m(O, S, A);
-//
-//    BOOST_CHECK_EQUAL(m.getS(), S);
-//    BOOST_CHECK_EQUAL(m.getA(), A);
-//    BOOST_CHECK_EQUAL(m.getO(), O);
-//
-//    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,0,0), 1.0);
-//    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,1,0), 1.0);
-//    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,0,1), 0.0);
-//    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,1,1), 0.0);
-//
-//    BOOST_CHECK_EQUAL(m.getExpectedReward(0,0,0), 0.0);
-//
-//    BOOST_CHECK_EQUAL(m.getObservationProbability(0,0,0), 1.0);
-//    BOOST_CHECK_EQUAL(m.getObservationProbability(0,1,0), 1.0);
-//    BOOST_CHECK_EQUAL(m.getObservationProbability(0,0,1), 0.0);
-//    BOOST_CHECK_EQUAL(m.getObservationProbability(0,1,1), 0.0);
+    using namespace AIToolbox;
+    const size_t S = 5, A = 6, O = 2;
+
+    POMDP::Model<MDP::Model> m(O, S, A);
+
+    BOOST_CHECK_EQUAL(m.getS(), S);
+    BOOST_CHECK_EQUAL(m.getA(), A);
+    BOOST_CHECK_EQUAL(m.getO(), O);
+
+    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,0,0), 1.0);
+    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,1,0), 1.0);
+    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,0,1), 0.0);
+    BOOST_CHECK_EQUAL(m.getTransitionProbability(0,1,1), 0.0);
+
+    BOOST_CHECK_EQUAL(m.getExpectedReward(0,0,0), 0.0);
+
+    BOOST_CHECK_EQUAL(m.getObservationProbability(0,0,0), 1.0);
+    BOOST_CHECK_EQUAL(m.getObservationProbability(0,1,0), 1.0);
+    BOOST_CHECK_EQUAL(m.getObservationProbability(0,0,1), 0.0);
+    BOOST_CHECK_EQUAL(m.getObservationProbability(0,1,1), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE( other_construction ) {
@@ -52,6 +51,33 @@ BOOST_AUTO_TEST_CASE( other_construction ) {
             observations[s1][a][0] = 1.0;
 
     POMDP::Model<MDP::Model> m(O, observations, S, A, transitions, rewards);
+}
+
+BOOST_AUTO_TEST_CASE( copy_construction ) {
+    using namespace AIToolbox;
+
+    auto model = makeTigerProblem();
+
+    POMDP::Model<MDP::Model> copy(model);
+
+    size_t S = model.getS(), A = model.getA(), O = model.getO();
+
+    BOOST_CHECK_EQUAL(model.getDiscount(), copy.getDiscount());
+    BOOST_CHECK_EQUAL(S, copy.getS());
+    BOOST_CHECK_EQUAL(A, copy.getA());
+    BOOST_CHECK_EQUAL(O, copy.getO());
+
+    for ( size_t s = 0; s < S; ++s ) {
+        for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                BOOST_CHECK_EQUAL(model.getTransitionProbability(s, a, s1), copy.getTransitionProbability(s, a, s1));
+                BOOST_CHECK_EQUAL(model.getExpectedReward(s, a, s1), copy.getExpectedReward(s, a, s1));
+            }
+            for ( size_t o = 0; o < O; ++o ) {
+                BOOST_CHECK_EQUAL(model.getObservationProbability(s, a, o), copy.getObservationProbability(s, a, o));
+            }
+        }
+    }
 }
 
 int generator() {

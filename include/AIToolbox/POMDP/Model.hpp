@@ -120,6 +120,24 @@ namespace AIToolbox {
                 Model(size_t o, ObFun && of, Args&&... parameters);
 
                 /**
+                 * @brief Copy constructor from any valid POMDP model.
+                 *
+                 * This allows to copy from any other model. A nice use for this is to
+                 * convert any model which computes probabilities on the fly into an
+                 * POMDP::Model where probabilities are all stored for fast access. Of
+                 * course such a solution can be done only when the number of states,
+                 * actions and observations is not too big.
+                 *
+                 * Of course this constructor is available only if the underlying Model
+                 * allows to be constructed too.
+                 *
+                 * @tparam PM The type of the other model.
+                 * @param model The model that needs to be copied.
+                 */
+                template <typename PM, typename = typename std::enable_if<is_model<PM>::value && std::is_constructible<M,PM>::value, int>::type>
+                Model(const PM& model);
+
+                /**
                  * @brief This function replaces the Model observation function with the one provided.
                  *
                  * The container needs to support data access through
@@ -243,11 +261,25 @@ namespace AIToolbox {
         }
 
         template <typename M>
+        template <typename PM, typename>
+        Model<M>::Model(const PM& model) : M(model), O(model.getO()), observations_(boost::extents[this->getS()][this->getA()][O]),
+                                           rand_(Impl::Seeder::getSeed())
+        {
+            for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
+                for ( size_t a = 0; a < this->getA(); ++a ) {
+                    for ( size_t o = 0; o < O; ++o ) {
+                        observations_[s1][a][o] = model.getObservationProbability(s1, a, o);
+                    }
+                    if ( ! isProbability(O, observations_[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                }
+        }
+
+        template <typename M>
         template <typename ObFun>
         void Model<M>::setObservationFunction(const ObFun & of) {
-            for ( size_t s = 0; s < this->getS(); ++s )
+            for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
                 for ( size_t a = 0; a < this->getA(); ++a )
-                    if ( ! isProbability(O, of[s][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    if ( ! isProbability(O, of[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
             copyTable3D(of, observations_, this->getS(), this->getA(), O);
         }
