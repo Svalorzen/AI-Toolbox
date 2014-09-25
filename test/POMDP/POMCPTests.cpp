@@ -51,3 +51,37 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         }
     }
 }
+
+BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
+    using namespace AIToolbox;
+
+    auto model = makeTigerProblem();
+    model.setDiscount(0.85);
+
+    // This indicates where the tiger is.
+    std::vector<POMDP::Belief> beliefs{{0.5, 0.5}, {1.0, 0.0}, {0.25, 0.75}, {0.98, 0.02}, {0.33, 0.66}};
+
+    unsigned horizon = 1;
+    unsigned count = 10000;
+
+    POMDP::POMCP<decltype(model)> solver(model, 1000, count, 10000.0);
+
+    // We want to check that when there is an horizon of 1
+    // the particle belief still gets updated so that it
+    // can be used when sampling actions using an action
+    // and observation.
+    for ( auto & b : beliefs ) {
+        solver.sampleAction(b, horizon);
+
+        auto & graph = solver.getGraph();
+
+        unsigned particleCount = 0;
+        for ( auto & a : graph.children ) {
+            for ( auto & b : a.children ) {
+                particleCount += b.second.belief.size();
+            }
+        }
+
+        BOOST_CHECK_EQUAL( particleCount, count );
+    }
+}

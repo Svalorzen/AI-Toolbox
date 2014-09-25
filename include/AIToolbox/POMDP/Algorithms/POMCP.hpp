@@ -245,8 +245,10 @@ namespace AIToolbox {
             auto & obs = graph_.children[a].children;
 
             auto it = obs.find(o);
-            if ( it == obs.end() )
+            if ( it == obs.end() ) {
+                std::cerr << "Observation " << o << " never experienced in simulation, restarting with uniform belief..\n";
                 return sampleAction(Belief(S, 1.0 / S), horizon);
+            }
 
             // Here we need an additional step, because *it is contained by graph_.
             // If we just move assign, graph_ is first going to delete everything it
@@ -279,8 +281,6 @@ namespace AIToolbox {
 
         template <typename M>
         double POMCP<M>::simulate(BeliefNode & b, size_t s, unsigned depth) {
-            // Head update
-            if ( depth > 0 ) b.belief.push_back(s);
             b.N++;
 
             auto begin = std::begin(b.children);
@@ -291,20 +291,23 @@ namespace AIToolbox {
 
             auto & aNode = b.children[a];
 
-            // We only go deeper if needed (maxDepth_ is always at least 1).
-            if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) ) {
-                auto end = std::end(aNode.children);
+            {
+                double futureRew = 0.0;
+                // We need to append the node anyway to perform the belief
+                // update for the next timestep.
                 auto ot = aNode.children.find(o);
-
-                double futureRew;
-                if ( ot == end ) {
+                if ( ot == std::end(aNode.children) ) {
                     aNode.children.emplace(std::piecewise_construct,
                                            std::forward_as_tuple(o),
                                            std::forward_as_tuple(s1, A));
+                    // This stops automatically if we go out of depth
                     futureRew = rollout(s1, depth + 1);
                 }
                 else {
-                    futureRew = simulate( ot->second, s1, depth + 1 );
+                    ot->second.belief.push_back(s1);
+                    // We only go deeper if needed (maxDepth_ is always at least 1).
+                    if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) )
+                        futureRew = simulate( ot->second, s1, depth + 1 );
                 }
 
                 rew += model_.getDiscount() * futureRew;
