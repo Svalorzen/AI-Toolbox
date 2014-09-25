@@ -5,7 +5,7 @@
 namespace AIToolbox {
     namespace POMDP {
         // Row is initialized to cols+1 since lp_solve reads element from 1 onwards
-        WitnessLP::WitnessLP(size_t s) : S(s), cols(s+2), lp(make_lp(0,cols), delete_lp), row(new REAL[cols+1]) {
+        WitnessLP_lpsolve::WitnessLP_lpsolve(size_t s) : S(s), cols(s+2), lp(make_lp(0,cols), delete_lp), row(new REAL[cols+1]) {
             set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
             // set_BFP(lp.get(), "../libbfp_etaPFI.so"); Not included in Debian package, speeds around 3x, but also crashes
 
@@ -69,12 +69,19 @@ namespace AIToolbox {
             row[cols]   = +1.0;
         }
 
-        std::tuple<bool, POMDP::Belief> WitnessLP::solve() {
+        void WitnessLP_lpsolve::addOptimalRow(const std::vector<double> & v) {
+            // Temporarily set the delta constraint
+            row[cols] = +1.0;
+            pushRow(v, LE);
+            row[cols] = 0.0;
+        }
+
+        std::tuple<bool, POMDP::Belief> WitnessLP_lpsolve::findWitness(const std::vector<double> & v) {
+            // Add witness constraint
+            pushRow(v, EQ);
+
             // print_lp(lp.get());
             auto result = ::solve(lp.get());
-
-            // Save this as we're about to delete it
-            double deltaCoeff = row[cols];
 
             // TODO: There's a function that gets a pointer to the solution
             // stored within the LP, maybe use that? (get_ptr_primal_solution)
@@ -83,7 +90,7 @@ namespace AIToolbox {
 
             // Reset K and delta coefficients to original values.
             row[cols-1] = -1.0;
-            row[cols]   = deltaCoeff;
+            popRow();
 
             // We have found a witness point if we have found a belief for which the value
             // of the supplied ValueFunction is greater than ALL others. Thus we just need
@@ -98,30 +105,22 @@ namespace AIToolbox {
             return std::make_pair(true, solution);
         }
 
-        void WitnessLP::setRowNr(size_t rows) {
+        void WitnessLP_lpsolve::resetAndAllocate(size_t rows) {
             // Here we simply remove all constraints that are not the simplex
             // one in order to reset the lp without reallocations.
             resize_lp(lp.get(), 1, cols);
             resize_lp(lp.get(), rows, cols);
         }
 
-        void WitnessLP::addRow(const std::vector<double> & v, int constrType) {
+        void WitnessLP_lpsolve::pushRow(const std::vector<double> & v, int constrType) {
             for ( size_t s = 0; s < S; ++s )
                 row[s+1] = v[s];
 
             add_constraintex(lp.get(), cols, row.get(), NULL, constrType, 0.0);
         }
 
-        void WitnessLP::popRow() {
+        void WitnessLP_lpsolve::popRow() {
             del_constraint(lp.get(), get_Nrows(lp.get()));
-        }
-
-        void WitnessLP::setDeltaCoefficient(REAL value) {
-            row[cols] = value;
-        }
-
-        REAL WitnessLP::getDeltaCoefficient() const {
-            return row[cols];
         }
     }
 }

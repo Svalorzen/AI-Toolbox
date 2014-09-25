@@ -55,20 +55,10 @@ namespace AIToolbox {
                  */
                 VList::iterator extractBestAtSimplexCorners(VList::iterator begin, VList::iterator bound, VList::iterator end);
 
-                /**
-                 * @brief This function finds a witness point where the ValueFunction provided is better than any ValueFunction in the VList.
-                 *
-                 * @param v The ValueFunction that may have a witness point.
-                 * @param best The set of ValueFunctions that may or may not be optimal with respect to v.
-                 *
-                 * @return A pair containing true and the found witness point if such a witness exists, and false and empty vector otherwise.
-                 */
-                std::tuple<bool, Belief> findWitnessPoint(const MDP::Values & v, const VList & best);
-
             private:
                 size_t S;
 
-                WitnessLP lp;
+                WitnessLP_lpsolve lp;
         };
     }
 }

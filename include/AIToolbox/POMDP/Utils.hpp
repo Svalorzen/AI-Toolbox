@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <iterator>
 #include <iostream>
+#include <numeric>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
@@ -21,16 +22,6 @@ namespace AIToolbox {
          */
         VEntry makeVEntry(size_t S, size_t a = 0, size_t O = 0);
 
-        /// THIS IS A TEMPORARY FUNCTION UNTIL WE SWITCH TO UBLAS
-        inline double dotProd(size_t S, const MDP::Values & a, const MDP::Values & b) {
-            double result = 0.0;
-
-            for ( size_t i = 0; i < S; ++i )
-                result += a[i] * b[i];
-
-            return result;
-        }
-
         /**
          * @brief This function returns an iterator pointing to the best value for the specified belief.
          *
@@ -45,14 +36,15 @@ namespace AIToolbox {
          *
          * @return An iterator pointing to the best choice in range.
          */
-        template <typename Iterator>
-        Iterator findBestAtBelief(size_t S, const Belief & belief, Iterator begin, Iterator end) {
+        template <typename BeliefIterator, typename Iterator>
+        Iterator findBestAtBelief(BeliefIterator bbegin, BeliefIterator bend, Iterator begin, Iterator end) {
             auto bestMatch = begin;
-            double bestValue = dotProd(S, belief, std::get<VALUES>(*bestMatch));
+            double bestValue = std::inner_product(bbegin, bend, std::begin(std::get<VALUES>(*bestMatch)), 0.0);
 
             while ( (++begin) < end ) {
-                double currValue = dotProd(S, belief, std::get<VALUES>(*begin));
-                if ( currValue > bestValue || ( currValue == bestValue && ( std::get<VALUES>(*begin) > std::get<VALUES>(*bestMatch) ) ) ) {
+                auto & v = std::get<VALUES>(*begin);
+                double currValue = std::inner_product(bbegin, bend, std::begin(v), 0.0);
+                if ( currValue > bestValue || ( currValue == bestValue && ( v > std::get<VALUES>(*bestMatch) ) ) ) {
                     bestMatch = begin;
                     bestValue = currValue;
                 }
@@ -78,10 +70,10 @@ namespace AIToolbox {
          *
          * @return The iterator pointing to the element with the highest dot product with the input belief.
          */
-        template <typename Iterator>
-        Iterator extractBestAtBelief(size_t S, const Belief & belief, Iterator begin, Iterator bound, Iterator end) {
+        template <typename BeliefIterator, typename Iterator>
+        Iterator extractBestAtBelief(BeliefIterator bbegin, BeliefIterator bbend, Iterator begin, Iterator bound, Iterator end) {
             // It makes more sense to look from end to start, since the best are there already
-            auto bestMatch = findBestAtBelief(S, belief, std::reverse_iterator<Iterator>(end), std::reverse_iterator<Iterator>(begin));
+            auto bestMatch = findBestAtBelief(bbegin, bbend, std::reverse_iterator<Iterator>(end), std::reverse_iterator<Iterator>(begin));
 
             // Note that we can do the +1 thing because we know that bestMatch is NOT rend
             if ( (bestMatch+1).base() < bound )

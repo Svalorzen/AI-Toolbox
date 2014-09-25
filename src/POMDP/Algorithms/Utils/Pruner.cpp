@@ -18,22 +18,25 @@ namespace AIToolbox {
 
             size_t size = w.size();
             if ( size < 2 ) return;
+
             // We setup the lp preparing for a max of size rows.
-            lp.setRowNr(size);
+            lp.resetAndAllocate(size);
 
             // Initialize the new best list with some easy finds, and remove them from
             // the old list.
             VList::iterator begin = std::begin(w), end = std::end(w), bound = end;
 
             bound = extractBestAtSimplexCorners(begin, bound, end);
+
             // Here we could do some random belief lookups..
 
             // Initialize best list with what we have found so far.
             VList best(std::make_move_iterator(bound), std::make_move_iterator(end));
 
-            // Setup initial LP rows.
+            // Setup initial LP rows. Note that best can't be empty, since we have
+            // at least one best for the simplex corners.
             for ( auto & bv : best )
-                lp.addRow(std::get<VALUES>(bv), LE);
+                lp.addOptimalRow(std::get<VALUES>(bv));
 
             // For each of the remaining points now we try to find a witness
             // point with respect to the best ones. If there is, there is
@@ -45,13 +48,15 @@ namespace AIToolbox {
             //
             // That we do in the findWitnessPoint function.
             while ( begin < bound ) {
-                auto result = findWitnessPoint( std::get<VALUES>(*begin), best );
+                auto result = lp.findWitness( std::get<VALUES>(*begin) );
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
                 if ( std::get<0>(result) ) {
-                    bound = extractBestAtBelief(S, std::get<1>(result), begin, bound, bound);  // Moves the best at the "end"
+                    auto & witness = std::get<1>(result);
+                    bound = extractBestAtBelief(std::begin(witness),
+                                                std::end(witness), begin, bound, bound);       // Moves the best at the "end"
                     best.emplace_back(std::move(*bound));                                      // We don't care about what we leave here..
-                    lp.addRow(std::get<VALUES>(best.back()), LE);                              // Add the newly found vector to our lp.
+                    lp.addOptimalRow(std::get<VALUES>(best.back()));                           // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a
                 // witness point for the current value, but since we are not guaranteed to have
@@ -112,32 +117,17 @@ namespace AIToolbox {
             Belief corner(S+1, 0.0);
             corner[0] = 1.0;
 
+            auto cbegin = std::begin(corner), cend = std::end(corner);
+
             // For each corner
             for ( size_t s = 1; s <= S; ++s ) {
                 // FIXME: This incrementally adds corners. Since a corner comparison
                 // simply checks a single ValueFunction value, this can be implemented way faster.
-                bound = extractBestAtBelief(S, corner, begin, bound, end);
+                bound = extractBestAtBelief(cbegin, cend, begin, bound, end);
                 std::swap(corner[s-1], corner[s]); // change corner
             }
 
             return bound;
-        }
-
-        std::tuple<bool, Belief> Pruner::findWitnessPoint(const MDP::Values & v, const VList & best) {
-            // If there's nothing to compare to, any belief point is a witness.
-            if ( best.size() == 0 ) return std::make_pair(true, Belief(S, 1.0/S));
-
-            // We push the v constraint on to the "stack"
-            lp.setDeltaCoefficient(0.0);
-            lp.addRow(v, EQ);
-
-            auto result = lp.solve();
-
-            // Remove tested constraint and set delta back
-            lp.setDeltaCoefficient(+1.0);
-            lp.popRow();
-
-            return result;
         }
     }
 }

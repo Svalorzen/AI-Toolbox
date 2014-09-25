@@ -38,9 +38,9 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
             auto & vlist = vf[horizon];
 
             auto begin     = std::begin(vlist);
-            auto bestMatch = POMDP::findBestAtBelief(model.getS(), b, begin, std::end(vlist));
+            auto bestMatch = POMDP::findBestAtBelief(std::begin(b), std::end(b), begin, std::end(vlist));
 
-            double trueValue = POMDP::dotProd(model.getS(), b, std::get<POMDP::VALUES>(*bestMatch));
+            double trueValue = std::inner_product(std::begin(b), std::end(b), std::begin(std::get<POMDP::VALUES>(*bestMatch)), 0.0);
             double trueAction = std::get<POMDP::ACTION>(*bestMatch);
 
             BOOST_CHECK_EQUAL(trueAction, std::get<0>(a));

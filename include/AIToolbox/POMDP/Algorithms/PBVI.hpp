@@ -255,7 +255,7 @@ namespace AIToolbox {
                 // We compute the crossSum between each best vector for the belief.
                 for ( size_t o = 0; o < O; ++o ) {
                     const VList & projsO = projs[o];
-                    auto bestMatch = findBestAtBelief(S, b, std::begin(projsO), std::end(projsO));
+                    auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(projsO), std::end(projsO));
 
                     for ( size_t s = 0; s < S; ++s )
                         v[s] += std::get<VALUES>(*bestMatch)[s];

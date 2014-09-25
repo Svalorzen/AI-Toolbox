@@ -16,7 +16,7 @@ namespace AIToolbox {
             // We use the latest horizon here.
             auto & vlist = policy_.back();
 
-            auto bestMatch = findBestAtBelief(S, b, std::begin(vlist), std::end(vlist));
+            auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(vlist), std::end(vlist));
 
             return std::get<ACTION>(*bestMatch);
         }
@@ -25,7 +25,7 @@ namespace AIToolbox {
             auto & vlist = policy_[horizon];
 
             auto begin     = std::begin(vlist);
-            auto bestMatch = findBestAtBelief(S, b, begin, std::end(vlist));
+            auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), begin, std::end(vlist));
 
             size_t action = std::get<ACTION>(*bestMatch);
             size_t id     = std::distance(begin, bestMatch);
