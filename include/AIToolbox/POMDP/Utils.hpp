@@ -1,7 +1,10 @@
 #ifndef AI_TOOLBOX_POMDP_UTILS_HEADER_FILE
 #define AI_TOOLBOX_POMDP_UTILS_HEADER_FILE
 
-#include <stddef.h>
+#include <cstddef>
+#include <iterator>
+#include <iostream>
+
 #include <AIToolbox/ProbabilityUtils.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
@@ -77,9 +80,11 @@ namespace AIToolbox {
          */
         template <typename Iterator>
         Iterator extractBestAtBelief(size_t S, const Belief & belief, Iterator begin, Iterator bound, Iterator end) {
-            auto bestMatch = findBestAtBelief(S, belief, begin, end);
+            // It makes more sense to look from end to start, since the best are there already
+            auto bestMatch = findBestAtBelief(S, belief, std::reverse_iterator<Iterator>(end), std::reverse_iterator<Iterator>(begin));
 
-            if ( bestMatch < bound )
+            // Note that we can do the +1 thing because we know that bestMatch is NOT rend
+            if ( (bestMatch+1).base() < bound )
                 std::swap(*bestMatch, *(--bound));
 
             return bound;

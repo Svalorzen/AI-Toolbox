@@ -4,8 +4,7 @@
 #include <utility>
 
 #include <AIToolbox/POMDP/Types.hpp>
-
-#include <lpsolve/lp_types.h>
+#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
 
 namespace AIToolbox {
     namespace POMDP {
@@ -64,19 +63,12 @@ namespace AIToolbox {
                  *
                  * @return A pair containing true and the found witness point if such a witness exists, and false and empty vector otherwise.
                  */
-                std::pair<bool, Belief> findWitnessPoint(const MDP::Values & v, const VList & best);
+                std::tuple<bool, Belief> findWitnessPoint(const MDP::Values & v, const VList & best);
 
             private:
                 size_t S;
 
-                // LP_SOLVE DATA
-                int cols;
-                std::unique_ptr<lprec, void(*)(lprec*)> lp;
-                std::unique_ptr<REAL[]> row;
-
-                void setLP(size_t rows);
-                void addRow(const MDP::Values & v, int constrType);
-                void popRow();
+                WitnessLP lp;
         };
     }
 }

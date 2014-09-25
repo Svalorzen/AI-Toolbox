@@ -3,8 +3,8 @@
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
-#include <AIToolbox/POMDP/Algorithms/Pruner.hpp>
-#include <AIToolbox/POMDP/Algorithms/Projecter.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
 
 #include <iostream>

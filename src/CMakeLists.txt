@@ -28,7 +28,8 @@ if (MAKE_POMDP)
         POMDP/Algorithms/IncrementalPruning.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/QMDP.cpp
-        POMDP/Algorithms/Pruner.cpp
+        POMDP/Algorithms/Utils/Pruner.cpp
+        POMDP/Algorithms/Utils/WitnessLP.cpp
         POMDP/Policies/Policy.cpp)
 
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
