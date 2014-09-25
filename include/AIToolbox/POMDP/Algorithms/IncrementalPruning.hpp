@@ -4,7 +4,7 @@
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
@@ -119,7 +119,7 @@ namespace AIToolbox {
                  *         the specified epsilon bound was reached and the computed
                  *         ValueFunction.
                  */
-                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+                template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
                 std::tuple<bool, ValueFunction> operator()(const M & model);
 
             private:
@@ -149,7 +149,7 @@ namespace AIToolbox {
                 double epsilon_;
         };
 
-        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+        template <typename M, typename>
         std::tuple<bool, ValueFunction> IncrementalPruning::operator()(const M & model) {
             // Initialize "global" variables
             S = model.getS();

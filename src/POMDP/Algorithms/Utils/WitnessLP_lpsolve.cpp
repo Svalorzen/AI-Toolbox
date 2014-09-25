@@ -1,4 +1,4 @@
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
 
 #include <lpsolve/lp_lib.h>
 
