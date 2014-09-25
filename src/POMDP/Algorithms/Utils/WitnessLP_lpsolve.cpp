@@ -66,7 +66,7 @@ namespace AIToolbox {
             set_unbounded(lp.get(), cols-1);
 
             row[cols-1] = -1.0;
-            row[cols]   = +1.0;
+            row[cols]   = +0.0;
         }
 
         void WitnessLP_lpsolve::addOptimalRow(const std::vector<double> & v) {
