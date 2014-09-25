@@ -4,6 +4,7 @@
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
@@ -159,7 +160,7 @@ namespace AIToolbox {
 
             unsigned timestep = 0;
 
-            Pruner prune(S);
+            Pruner<WitnessLP_lpsolve> prune(S);
             Projecter<M> projecter(model);
 
             double variation = epsilon_ * 2; // Make it bigger

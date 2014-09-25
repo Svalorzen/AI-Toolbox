@@ -23,14 +23,45 @@ namespace AIToolbox {
         VEntry makeVEntry(size_t S, size_t a = 0, size_t O = 0);
 
         /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function needs to create a new belief since modifying a belief
+         * in place is not possible. This is because each cell update for the
+         * new belief requires all values from the previous belief.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         */
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+        Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
+            size_t S = model.getS();
+            Belief br(S, 0.0);
+
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                double sum = 0.0;
+                for ( size_t s = 0; s < S; ++s )
+                    sum += model.getTransitionProbability(s,a,s1) * b[s];
+
+                br[s1] = model.getObservationProbability(s1,a,o) * sum;
+            }
+
+            normalizeProbability(std::begin(br), std::end(br), std::begin(br));
+
+            return br;
+        }
+
+        /**
          * @brief This function returns an iterator pointing to the best value for the specified belief.
          *
          * Ideally I would like to SFINAE that the iterator type is from VList, but at the moment
          * it would take too much time. Just remember that!
          *
          * @tparam Iterator An iterator, can be const or not, from VList.
-         * @param S The number of states for the Belief/Values.
-         * @param belief The belief to test against.
+         * @param bbegin The begin of the belief.
+         * @param bend The end of the belief.
          * @param begin The start of the range to look in.
          * @param end The end of the range to look in (excluded).
          *
@@ -62,8 +93,8 @@ namespace AIToolbox {
          * 'end', but only if it was not there previously.
          *
          * @tparam Iterator An iterator, can be const or not, from VList.
-         * @param S The number of states for the Belief/Values.
-         * @param belief The belief to be used with the ValueFunctions.
+         * @param bbegin The begin of the belief.
+         * @param bend   The end of the belief.
          * @param begin The begin of the search range.
          * @param bound The begin of the 'useful' range.
          * @param end The range end to be checked. It is NOT included in the search.
@@ -83,34 +114,97 @@ namespace AIToolbox {
         }
 
         /**
-         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         * @brief This function finds and moves all best ValueFunctions in the simplex corners at the end of the specified range.
          *
-         * This function needs to create a new belief since modifying a belief
-         * in place is not possible. This is because each cell update for the
-         * new belief requires all values from the previous belief.
+         * What this function does is to find out which ValueFunctions give the highest value in
+         * corner beliefs. Since multiple corners may use the same ValueFunction, the number of
+         * found ValueFunctions may not be the same as the number of corners.
          *
-         * @tparam M The type of the POMDP Model.
-         * @param model The model used to update the belief.
-         * @param b The old belief.
-         * @param a The action taken during the transition.
-         * @param o The observation registered.
+         * This function uses an already existing bound containing previously marked useful
+         * ValueFunctions. The order is 'begin'->'bound'->'end', where bound may be equal to end
+         * where no previous bound exists. All found ValueFunctions are added between 'bound' and
+         * 'end', but only if they were not there previously.
+         *
+         * @param S The number of corners of the simplex.
+         * @param begin The begin of the search range.
+         * @param bound The begin of the 'useful' range.
+         * @param end The end of the search range. It is NOT included in the search.
+         *
+         * @return The new bound iterator.
          */
-        template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-        Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
-            size_t S = model.getS();
-            Belief br(S, 0.0);
+        template <typename Iterator>
+        Iterator extractBestAtSimplexCorners(size_t S, Iterator begin, Iterator bound, Iterator end) {
+            if ( begin == bound ) return bound;
+            // Setup the corners. The additional space is to avoid
+            // writing in unallocated space in the last loop iteration.
+            Belief corner(S+1, 0.0);
+            corner[0] = 1.0;
 
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                double sum = 0.0;
-                for ( size_t s = 0; s < S; ++s )
-                    sum += model.getTransitionProbability(s,a,s1) * b[s];
+            auto cbegin = std::begin(corner), cend = std::end(corner);
 
-                br[s1] = model.getObservationProbability(s1,a,o) * sum;
+            // For each corner
+            for ( size_t s = 1; s <= S; ++s ) {
+                // FIXME: This incrementally adds corners. Since a corner comparison
+                // simply checks a single ValueFunction value, this can be implemented way faster.
+                bound = extractBestAtBelief(cbegin, cend, begin, bound, end);
+                std::swap(corner[s-1], corner[s]); // change corner
             }
 
-            normalizeProbability(std::begin(br), std::end(br), std::begin(br));
+            return bound;
+        }
 
-            return br;
+        /**
+         * @brief This function finds and movess all ValueFunctions in the VList that are dominated by others.
+         *
+         * This function performs simple comparisons between all ValueFunctions in the VList,
+         * and is thus much more performant than a full-fledged prune, since that would need to solve
+         * multiple linear programming problems. However, this function will not return the truly
+         * parsimonious set of ValueFunctions, as its pruning powers are limited.
+         *
+         * Dominated elements will be moved at the end of the range for safe removal.
+         *
+         * @param S The number of states in the Model.
+         * @param begin The begin of the list that needs to be pruned.
+         * @param begin The end of the list that needs to be pruned.
+         *
+         * @return The iterator that separates dominated elements with non-pruned.
+         */
+        template <typename Iterator>
+        Iterator extractDominated(size_t S, Iterator begin, Iterator end) {
+            if ( std::distance(begin, end) < 2 ) return end;
+
+            // We use this comparison operator to filter all dominated vectors.
+            // We define a vector to be dominated by an equal vector, so that
+            // we can remove duplicates in a single swoop. However, we avoid
+            // removing everything by returning false for comparison of the vector with itself.
+            struct {
+                const MDP::Values * rhs;
+                size_t S;
+                bool operator()(const VEntry & lhs) {
+                    auto & lhsV = std::get<VALUES>(lhs);
+                    if ( &(lhsV) == rhs ) return false;
+                    for ( size_t i = 0; i < S; ++i )
+                        if ( (*rhs)[i] > lhsV[i] ) return false;
+                    return true;
+                }
+            } dominates;
+
+            dominates.S = S;
+
+            // For each vector, if we find a vector that dominates it, then we remove it.
+            // Otherwise we continue, comparing every vector with every other non-dominated
+            // vector.
+            Iterator iter = begin, helper;
+            while ( iter < end ) {
+                dominates.rhs = &(std::get<VALUES>(*iter));
+                helper = std::find_if(begin, end, dominates);
+                if ( helper != end )
+                    std::swap( *iter, *(--end) );
+                else
+                    ++iter;
+            }
+
+            return end;
         }
     }
 }

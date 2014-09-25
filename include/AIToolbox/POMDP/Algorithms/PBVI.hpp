@@ -264,8 +264,7 @@ namespace AIToolbox {
                 }
                 result.emplace_back(v, a, obs);
             }
-            // We could probably do better than this but what the hell.
-            Pruner::dominationPrune( S, &result );
+            result.erase(extractDominated(S, std::begin(result), std::end(result)), std::end(result));
 
             return result;
         }

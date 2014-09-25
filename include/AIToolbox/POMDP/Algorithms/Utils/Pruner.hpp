@@ -4,13 +4,14 @@
 #include <utility>
 
 #include <AIToolbox/POMDP/Types.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
+#include <AIToolbox/POMDP/Utils.hpp>
 
 namespace AIToolbox {
     namespace POMDP {
         /**
          * @brief This class offers pruning facilities for non-parsimonious ValueFunction sets.
          */
+        template <typename WitnessLP>
         class Pruner {
             public:
                 Pruner(size_t S);
@@ -22,44 +23,77 @@ namespace AIToolbox {
                  */
                 void operator()(VList * w);
 
-                /**
-                 * @brief This function prunes all ValueFunctions in the VList that are dominated by others.
-                 *
-                 * This function performs simple comparisons between all ValueFunctions in the VList,
-                 * and is thus much more performant than the prune() function, since that needs to solve
-                 * multiple linear programming problems. However, this function will not return the truly
-                 * parsimonious set of ValueFunctions, as its pruning powers are limited.
-                 *
-                 * @param S The number of states in the Model.
-                 * @param pw The list that needs to be pruned.
-                 */
-                static void dominationPrune(size_t S, VList * pw);
-
-                /**
-                 * @brief This function finds and moves all best ValueFunctions in the simplex corners at the end of the specified range.
-                 *
-                 * What this function does is to find out which ValueFunctions give the highest value in
-                 * corner beliefs. Since multiple corners may use the same ValueFunction, the number of
-                 * found ValueFunctions may not be the same as the number of corners.
-                 *
-                 * This function uses an already existing bound containing previously marked useful
-                 * ValueFunctions. The order is 'begin'->'bound'->'end', where bound may be equal to end
-                 * where no previous bound exists. All found ValueFunctions are added between 'bound' and
-                 * 'end', but only if they were not there previously.
-                 *
-                 * @param begin The begin of the search range.
-                 * @param bound The begin of the 'useful' range.
-                 * @param end The end of the search range. It is NOT included in the search.
-                 *
-                 * @return The new bound iterator.
-                 */
-                VList::iterator extractBestAtSimplexCorners(VList::iterator begin, VList::iterator bound, VList::iterator end);
-
             private:
                 size_t S;
 
-                WitnessLP_lpsolve lp;
+                WitnessLP lp;
         };
+
+        template <typename WitnessLP>
+        Pruner<WitnessLP>::Pruner(size_t s) : S(s), lp(s) {}
+
+        // The idea is that the input thing already has all the best vectors,
+        // thus we only need to find them and discard the others.
+        template <typename WitnessLP>
+        void Pruner<WitnessLP>::operator()(VList * pw) {
+            auto & w = *pw;
+
+            // Remove easy ValueFunctions to avoid doing more work later.
+            w.erase(extractDominated(S, std::begin(w), std::end(w)), std::end(w));
+
+            size_t size = w.size();
+            if ( size < 2 ) return;
+
+            // We setup the lp preparing for a max of size rows.
+            lp.resetAndAllocate(size);
+
+            // Initialize the new best list with some easy finds, and remove them from
+            // the old list.
+            VList::iterator begin = std::begin(w), end = std::end(w), bound = end;
+
+            bound = extractBestAtSimplexCorners(S, begin, bound, end);
+
+            // Here we could do some random belief lookups..
+
+            // Initialize best list with what we have found so far.
+            VList best(std::make_move_iterator(bound), std::make_move_iterator(end));
+
+            // Setup initial LP rows. Note that best can't be empty, since we have
+            // at least one best for the simplex corners.
+            for ( auto & bv : best )
+                lp.addOptimalRow(std::get<VALUES>(bv));
+
+            // For each of the remaining points now we try to find a witness
+            // point with respect to the best ones. If there is, there is
+            // something we need to extract to best.
+            //
+            // What we are going to do is to push each 'best' constraint into
+            // the lp, and then push/pop the 'v' constraint every time we need
+            // to try out a new one.
+            //
+            // That we do in the findWitnessPoint function.
+            while ( begin < bound ) {
+                auto result = lp.findWitness( std::get<VALUES>(*begin) );
+                // If we get a belief point, we search for the actual vector that provides
+                // the best value on the belief point, we move it into the best vector.
+                if ( std::get<0>(result) ) {
+                    auto & witness = std::get<1>(result);
+                    bound = extractBestAtBelief(std::begin(witness),
+                                                std::end(witness), begin, bound, bound);       // Moves the best at the "end"
+                    best.emplace_back(std::move(*bound));                                      // We don't care about what we leave here..
+                    lp.addOptimalRow(std::get<VALUES>(best.back()));                           // Add the newly found vector to our lp.
+                }
+                // We only advance if we did not find anything. Otherwise, we may have found a
+                // witness point for the current value, but since we are not guaranteed to have
+                // put into best that value, it may still keep witness to other belief points!
+                else
+                    ++begin;
+            }
+
+            // Finally, we discard all bad vectors (and remains of moved ones) and
+            // we return just the best list.
+            std::swap(w, best);
+        }
     }
 }
 

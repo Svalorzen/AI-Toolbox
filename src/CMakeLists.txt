@@ -28,7 +28,6 @@ if (MAKE_POMDP)
         POMDP/Algorithms/IncrementalPruning.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/QMDP.cpp
-        POMDP/Algorithms/Utils/Pruner.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
         POMDP/Policies/Policy.cpp)
 
