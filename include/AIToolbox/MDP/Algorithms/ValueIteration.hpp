@@ -132,12 +132,12 @@ namespace AIToolbox {
 
                 // Internal methods
                 /**
-                 * @brief This function computes the single PRType of the MDP once for improved speed.
+                 * @brief This function computes all immediate rewards (state and action) of the MDP once for improved speed.
                  *
                  * @tparam M The type of the solvable MDP.
                  * @param m The MDP that needs to be solved.
                  *
-                 * @return The Models's PRType.
+                 * @return The Models's immediate rewards.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 Table2D computeImmediateRewards(const M & model) const;
