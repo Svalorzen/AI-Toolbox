@@ -85,6 +85,36 @@ namespace AIToolbox {
         }
 
         /**
+         * @brief This function returns an iterator pointing to the best value for the specified corner of the simplex space.
+         *
+         * Ideally I would like to SFINAE that the iterator type is from VList, but at the moment
+         * it would take too much time. Just remember that!
+         *
+         * @tparam Iterator An iterator, can be const or not, from VList.
+         * @param corner The corner of the belief space we are checking.
+         * @param begin The start of the range to look in.
+         * @param end The end of the range to look in (excluded).
+         *
+         * @return An iterator pointing to the best choice in range.
+         */
+        template <typename Iterator>
+        Iterator findBestAtSimplexCorner(size_t corner, Iterator begin, Iterator end) {
+            auto bestMatch = begin;
+            double bestValue = std::get<VALUES>(*bestMatch)[corner];
+
+            while ( (++begin) < end ) {
+                auto & v = std::get<VALUES>(*begin);
+                double currValue = v[corner];
+                if ( currValue > bestValue || ( currValue == bestValue && ( v > std::get<VALUES>(*bestMatch) ) ) ) {
+                    bestMatch = begin;
+                    bestValue = currValue;
+                }
+            }
+
+            return bestMatch;
+        }
+
+        /**
          * @brief This function finds and moves the ValueFunction with the highest value for the given belief at the end of the specified range.
          *
          * This function uses an already existing bound containing previously marked useful
@@ -135,19 +165,14 @@ namespace AIToolbox {
         template <typename Iterator>
         Iterator extractBestAtSimplexCorners(size_t S, Iterator begin, Iterator bound, Iterator end) {
             if ( begin == bound ) return bound;
-            // Setup the corners. The additional space is to avoid
-            // writing in unallocated space in the last loop iteration.
-            Belief corner(S+1, 0.0);
-            corner[0] = 1.0;
-
-            auto cbegin = std::begin(corner), cend = std::end(corner);
 
             // For each corner
-            for ( size_t s = 1; s <= S; ++s ) {
-                // FIXME: This incrementally adds corners. Since a corner comparison
-                // simply checks a single ValueFunction value, this can be implemented way faster.
-                bound = extractBestAtBelief(cbegin, cend, begin, bound, end);
-                std::swap(corner[s-1], corner[s]); // change corner
+            for ( size_t s = 0; s < S; ++s ) {
+                auto bestMatch = findBestAtSimplexCorner(s, std::reverse_iterator<Iterator>(end), std::reverse_iterator<Iterator>(begin));
+
+                // Note that we can do the +1 thing because we know that bestMatch is NOT rend
+                if ( (bestMatch+1).base() < bound )
+                    std::swap(*bestMatch, *(--bound));
             }
 
             return bound;
