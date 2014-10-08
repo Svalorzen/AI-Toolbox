@@ -138,7 +138,7 @@ namespace AIToolbox {
 
             // Note that we can do the +1 thing because we know that bestMatch is NOT rend
             if ( (bestMatch+1).base() < bound )
-                std::swap(*bestMatch, *(--bound));
+                std::iter_swap(bestMatch, --bound);
 
             return bound;
         }
@@ -172,7 +172,7 @@ namespace AIToolbox {
 
                 // Note that we can do the +1 thing because we know that bestMatch is NOT rend
                 if ( (bestMatch+1).base() < bound )
-                    std::swap(*bestMatch, *(--bound));
+                    std::iter_swap(bestMatch, --bound);
             }
 
             return bound;
@@ -224,7 +224,7 @@ namespace AIToolbox {
                 dominates.rhs = &(std::get<VALUES>(*iter));
                 helper = std::find_if(begin, end, dominates);
                 if ( helper != end )
-                    std::swap( *iter, *(--end) );
+                    std::iter_swap( iter, --end );
                 else
                     ++iter;
             }
