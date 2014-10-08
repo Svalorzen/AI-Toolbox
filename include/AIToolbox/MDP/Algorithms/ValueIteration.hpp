@@ -244,6 +244,7 @@ namespace AIToolbox {
         }
 
         void ValueIteration::bellmanOperator(const QFunction & q, ValueFunction * v) const {
+            assert(v);
             auto & values  = std::get<VALUES> (*v);
             auto & actions = std::get<ACTIONS>(*v);
 
