@@ -80,8 +80,8 @@ namespace AIToolbox {
                 using ActionNodes = std::vector<ActionNode>;
 
                 struct BeliefNode {
-                    BeliefNode(size_t A) : N(0) { children.resize(A); }
-                    BeliefNode(size_t s, size_t A) : belief(1, s), N(0) { children.resize(A); }
+                    BeliefNode() : N(0) {}
+                    BeliefNode(size_t s) : belief(1, s), N(0) {}
                     ActionNodes children;
                     SampleBelief belief;
                     unsigned N;
@@ -229,12 +229,13 @@ namespace AIToolbox {
 
         template <typename M>
         POMCP<M>::POMCP(const M& m, size_t beliefSize, unsigned iter, double exp) : model_(m), S(model_.getS()), A(model_.getA()), beliefSize_(beliefSize), iterations_(iter),
-                                                                              graph_(A), exploration_(exp), rand_(Impl::Seeder::getSeed()) {}
+                                                                              exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
         template <typename M>
         size_t POMCP<M>::sampleAction(const Belief& b, unsigned horizon) {
             // Reset graph
             graph_ = BeliefNode(A);
+            graph_.children.resize(A);
             graph_.belief = makeSampledBelief(b);
 
             return runSimulation(horizon);
@@ -299,15 +300,22 @@ namespace AIToolbox {
                 if ( ot == std::end(aNode.children) ) {
                     aNode.children.emplace(std::piecewise_construct,
                                            std::forward_as_tuple(o),
-                                           std::forward_as_tuple(s1, A));
+                                           std::forward_as_tuple(s1));
                     // This stops automatically if we go out of depth
                     futureRew = rollout(s1, depth + 1);
                 }
                 else {
                     ot->second.belief.push_back(s1);
                     // We only go deeper if needed (maxDepth_ is always at least 1).
-                    if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) )
+                    if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) ) {
+                        // Since most memory is allocated on the leaves,
+                        // we do not allocate on node creation but only when
+                        // we are actually descending into a node. If the node
+                        // already has memory this should not do anything in
+                        // any case.
+                        ot->second.children.resize(A);
                         futureRew = simulate( ot->second, s1, depth + 1 );
+                    }
                 }
 
                 rew += model_.getDiscount() * futureRew;

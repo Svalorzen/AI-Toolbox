@@ -66,7 +66,7 @@ namespace AIToolbox {
                 using ActionNodes = std::vector<ActionNode>;
 
                 struct StateNode {
-                    StateNode(size_t A) : N(0) { children.resize(A); }
+                    StateNode() : N(0) {}
                     ActionNodes children;
                     unsigned N;
                 };
@@ -182,12 +182,13 @@ namespace AIToolbox {
 
         template <typename M>
         MCTS<M>::MCTS(const M& m, unsigned iter, double exp) : model_(m), S(model_.getS()), A(model_.getA()), iterations_(iter),
-                                                               exploration_(exp), graph_(A), rand_(Impl::Seeder::getSeed()) {}
+                                                               exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
         template <typename M>
         size_t MCTS<M>::sampleAction(size_t s, unsigned horizon) {
             // Reset graph
-            graph_ = StateNode(A);
+            graph_ = StateNode();
+            graph_.children.resize(A);
 
             return runSimulation(s, horizon);
         }
@@ -243,12 +244,17 @@ namespace AIToolbox {
 
                 double futureRew;
                 if ( it == end ) {
-                    aNode.children.emplace(std::piecewise_construct,
-                                           std::forward_as_tuple(s1),
-                                           std::forward_as_tuple(A));
+                    // Touch node to create it
+                    aNode.children[s1];
                     futureRew = rollout(s1, depth + 1);
                 }
                 else {
+                    // Since most memory is allocated on the leaves,
+                    // we do not allocate on node creation but only when
+                    // we are actually descending into a node. If the node
+                    // already has memory this should not do anything in
+                    // any case.
+                    it->second.children.resize(A);
                     futureRew = simulate( it->second, s1, depth + 1 );
                 }
 
