@@ -182,7 +182,7 @@ namespace AIToolbox {
 
         template <typename M>
         MCTS<M>::MCTS(const M& m, unsigned iter, double exp) : model_(m), S(model_.getS()), A(model_.getA()), iterations_(iter),
-                                                               graph_(A), exploration_(exp), rand_(Impl::Seeder::getSeed()) {}
+                                                               exploration_(exp), graph_(A), rand_(Impl::Seeder::getSeed()) {}
 
         template <typename M>
         size_t MCTS<M>::sampleAction(size_t s, unsigned horizon) {

@@ -14,7 +14,6 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     GridWorld grid(4,4);
 
     auto model = makeCornerProblem(grid);
-    size_t S = model.getS(), A = model.getA();
 
     MCTS<decltype(model)> solver(model, 10000, 5.0);
 

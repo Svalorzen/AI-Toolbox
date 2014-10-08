@@ -4,6 +4,8 @@ project (AIToolbox)
 
 ADD_DEFINITIONS(
     -std=c++11 # Or -std=c++0x
+    -Wall
+    -Wextra
     # Other flags
 )
 
