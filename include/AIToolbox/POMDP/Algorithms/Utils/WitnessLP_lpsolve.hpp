@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_POMDP_LP_HEADER_FILE
-#define AI_TOOLBOX_POMDP_LP_HEADER_FILE
+#ifndef AI_TOOLBOX_POMDP_WITNESS_LP_LPSOLVE_HEADER_FILE
+#define AI_TOOLBOX_POMDP_WITNESS_LP_LPSOLVE_HEADER_FILE
 
 #include <cstddef>
 #include <memory>
@@ -85,7 +85,7 @@ namespace AIToolbox {
                 void popRow();
 
                 size_t S;
-                int cols;
+                int cols_;
                 std::unique_ptr<lprec, void(*)(lprec*)> lp;
                 std::unique_ptr<REAL[]> row;
         };
