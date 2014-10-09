@@ -6,8 +6,7 @@
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
-
-#include <iostream>
+#include <list>
 
 namespace AIToolbox {
     namespace POMDP {
@@ -107,10 +106,10 @@ namespace AIToolbox {
                 std::tuple<bool, ValueFunction> operator()(const M & model);
 
             private:
-                using BeliefList                = std::vector<Belief>;
+                using BeliefList = std::list<Belief>;
 
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                void expandBeliefs(const M& model, BeliefList & bl) const;
+                void expandBeliefs(const M& model, BeliefList * bl) const;
 
                 /**
                  * @brief This function computes a VList composed the maximized cross-sums with respect to the provided beliefs.
@@ -154,7 +153,13 @@ namespace AIToolbox {
             // computes beliefs itself respects the interface defined in the
             // original PBVI paper (it tries to double the belief list given to
             // it).
-            BeliefList beliefs(1, Belief(S, 0.0)); beliefs[0][0] = 1.0; // TODO: May take user input
+            //
+            // We add all simplex corners and the middle belief.
+            BeliefList beliefs{Belief(S, 1.0/S)};
+            for ( size_t s = 0; s < S; ++s ) {
+                Belief b(S, 0.0); b[s] = 1.0;
+                beliefs.emplace_back(std::move(b));
+            }
 
             // Since the original method of obtaining beliefs is stochastic,
             // we keep trying for a while in case we don't find any new beliefs.
@@ -163,7 +168,7 @@ namespace AIToolbox {
             // a new belief (via action LISTEN) is pretty low.
             size_t currentSize = beliefs.size(); unsigned counter = 0;
             while ( currentSize < beliefSize_ && counter < 30 ) {
-                expandBeliefs(model, beliefs);
+                expandBeliefs(model, &beliefs);
                 if ( currentSize == beliefs.size() ) ++counter;
                 currentSize = beliefs.size();
             }
@@ -195,6 +200,7 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < model.getA(); ++a )
                     std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
 
+                w.erase(extractDominated(S, std::begin(w), std::end(w)), std::end(w));
                 v.emplace_back(std::move(w));
 
                 ++timestep;
@@ -204,13 +210,13 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        void PBVI::expandBeliefs(const M& model, BeliefList & bl) const {
-            BeliefList newBeliefs(A);
+        void PBVI::expandBeliefs(const M& model, BeliefList * blp) const {
+            assert(blp);
+            auto & bl = *blp;
+
+            std::vector<Belief> newBeliefs(A);
             std::vector<double> distances(A);
             auto dBegin = std::begin(distances), dEnd = std::end(distances);
-
-            size_t size = bl.size();
-            bl.reserve(size * 2);
 
             // L1 distance
             auto computeDistance = [](const Belief & lhs, const Belief & rhs, size_t S) {
@@ -220,20 +226,31 @@ namespace AIToolbox {
                 return distance;
             };
 
-            for ( size_t i = 0; i < size; ++i ) {
+            Belief helper; double distance;
+            // We apply the discovery process also to all beliefs we discover
+            // along the way.
+            for ( auto it = std::begin(bl); it != std::end(bl); ++it ) {
                 // Compute all new beliefs
                 for ( size_t a = 0; a < A; ++a ) {
-                    size_t s = sampleProbability(S, bl[i], rand_);
+                    distances[a] = 0.0;
+                    for ( int j = 0; j < 20; ++j ) {
+                        size_t s = sampleProbability(S, *it, rand_);
 
-                    size_t o;
-                    std::tie(std::ignore, o, std::ignore) = model.sampleSOR(s, a);
-                    newBeliefs[a] = updateBelief(model, bl[i], a, o);
+                        size_t o;
+                        std::tie(std::ignore, o, std::ignore) = model.sampleSOR(s, a);
+                        helper = updateBelief(model, *it, a, o);
 
-                    // Compute distance (here we compare also against elements we just added!)
-                    distances[a] = computeDistance(newBeliefs[a], bl[0], S);
-                    for ( size_t j = 1; j < bl.size(); ++j ) {
-                        if ( checkEqualSmall(distances[a], 0.0) ) break; // We already have it!
-                        distances[a] = std::min(distances[a], computeDistance(newBeliefs[a], bl[j], S));
+                        // Compute distance (here we compare also against elements we just added!)
+                        distance = computeDistance(helper, bl.front(), S);
+                        for ( auto jt = ++std::begin(bl); jt != std::end(bl); ++jt ) {
+                            if ( checkEqualSmall(distance, 0.0) ) break; // We already have it!
+                            distance = std::min(distance, computeDistance(helper, *jt, S));
+                        }
+                        // Select the best found over 20 times
+                        if ( distance > distances[a] ) {
+                            distances[a] = distance;
+                            newBeliefs[a] = helper;
+                        }
                     }
                 }
                 // Find furthest away, add only if it is new.
@@ -262,7 +279,7 @@ namespace AIToolbox {
 
                     obs[o] = std::get<OBS>(*bestMatch)[0];
                 }
-                result.emplace_back(v, a, obs);
+                result.emplace_back(std::move(v), a, std::move(obs));
             }
             result.erase(extractDominated(S, std::begin(result), std::end(result)), std::end(result));
 
