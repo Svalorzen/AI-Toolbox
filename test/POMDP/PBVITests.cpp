@@ -15,14 +15,12 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto model = makeTigerProblem();
     model.setDiscount(0.95);
 
-    // We solve the problem for an horizon of 15
-    // (enough to find out everything is working
-    // correclty). In addition, for higher horizons
-    // floating point precision results in this library
-    // obtaining more VEntries than Cassandra's solver
-    // (all but the new ones are the same as his). This
-    // is probably due to this library using a higher
-    // precision floating point error.
+    // For higher horizons it seems PBVI does not find all the
+    // possible solutions, even though for this case it seems
+    // to extract about 45 different beliefs. However, it converges
+    // to about 9 VEntries (possibly similar to the ones in Kaelbling's
+    // paper). So here we just check for lower horizon, and if
+    // I figure out a problem with PBVI I'll extend the test further.
     unsigned horizon = 3;
     POMDP::PBVI solver(1000, horizon);
     auto solution = solver(model);
