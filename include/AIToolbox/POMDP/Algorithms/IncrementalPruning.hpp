@@ -5,6 +5,7 @@
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
+// #include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_clp.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
@@ -142,7 +143,7 @@ namespace AIToolbox {
                  *
                  * @return The cross-sum between l1 and l2.
                  */
-                VList crossSum(const VList & l1, const VList & l2, size_t a, size_t o);
+                VList crossSum(const VList & l1, const VList & l2, size_t a, bool order);
 
                 size_t S, A, O;
                 unsigned horizon_;
@@ -184,15 +185,43 @@ namespace AIToolbox {
                     for ( size_t o = 0; o < O; ++o )
                         prune( &projs[a][o] );
 
-                    for ( size_t o = 1; o < O; ++o ) {
-                        projs[a][0] = crossSum( projs[a][0], projs[a][o], a, o );
-                        prune( &projs[a][0] );
+                    // Here we reduce at the minimum the cross-summing, by alternating
+                    // merges. We pick matches like a reverse binary tree, so that
+                    // we always pick lists that have been merged the least.
+                    //
+                    // Example for O==6:
+                    //
+                    //  0 <- 1    2 <- 3    4 <- 5    6
+                    //  0 ------> 2         4 ------> 6
+                    //            2 <---------------- 6
+
+                    bool oddOld = O % 2;
+                    int i, front = 0, back = O - oddOld, stepsize = 2, diff = 1, elements = O;
+                    while ( elements > 1 ) {
+                        for ( i = front; i != back; i += stepsize ) {
+                            projs[a][i] = crossSum(projs[a][i], projs[a][i + diff], a, stepsize > 0);
+                            prune(&projs[a][i]);
+                            --elements;
+                        }
+
+                        bool oddNew = elements % 2;
+
+                        int tmp   = back;
+                        back      = front - ( oddNew ? 0 : stepsize );
+                        front     = tmp   - ( oddOld ? 0 : stepsize );
+                        stepsize *= -2;
+                        diff     *= -2;
+
+                        oddOld = oddNew;
                     }
+                    // Put the result where we can find it
+                    std::swap(projs[a][0], projs[a][front]);
                     finalWSize += projs[a][0].size();
                 }
                 VList w;
                 w.reserve(finalWSize);
 
+                // Here we don't have to do fancy merging since no cross-summing is involved
                 for ( size_t a = 0; a < A; ++a )
                     std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
 

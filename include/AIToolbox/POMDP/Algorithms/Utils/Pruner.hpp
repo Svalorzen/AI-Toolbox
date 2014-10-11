@@ -66,6 +66,7 @@ namespace AIToolbox {
         // thus we only need to find them and discard the others.
         template <typename WitnessLP>
         void Pruner<WitnessLP>::operator()(VList * pw) {
+            if ( !pw ) return;
             auto & w = *pw;
 
             // Remove easy ValueFunctions to avoid doing more work later.
