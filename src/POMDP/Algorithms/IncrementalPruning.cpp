@@ -27,14 +27,17 @@ namespace AIToolbox {
 
             if ( ! ( l1.size() && l2.size() ) ) return c;
 
+            // We can get the sizes of the observation vectors
+            // outside since all VEntries for our input VLists
+            // are guaranteed to be sized equally.
+            const auto O1size  = std::get<OBS>(l1[0]).size();
+            const auto O2size  = std::get<OBS>(l2[0]).size();
             for ( const auto & v1 : l1 ) {
                 auto O1begin = std::begin(std::get<OBS>(v1));
                 auto O1end   = std::end  (std::get<OBS>(v1));
-                auto O1size  = std::get<OBS>(v1).size();
                 for ( const auto & v2 : l2 ) {
                     auto O2begin = std::begin(std::get<OBS>(v2));
                     auto O2end   = std::end  (std::get<OBS>(v2));
-                    auto O2size  =            std::get<OBS>(v2).size();
                     // Cross sum
                     MDP::Values v(S, 0.0);
                     for ( size_t i = 0; i < S; ++i )

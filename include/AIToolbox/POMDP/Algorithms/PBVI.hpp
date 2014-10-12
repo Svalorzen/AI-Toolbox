@@ -219,7 +219,7 @@ namespace AIToolbox {
             auto dBegin = std::begin(distances), dEnd = std::end(distances);
 
             // L1 distance
-            auto computeDistance = [](const Belief & lhs, const Belief & rhs, size_t S) {
+            auto computeDistance = [this](const Belief & lhs, const Belief & rhs) {
                 double distance = 0.0;
                 for ( size_t i = 0; i < S; ++i )
                     distance += std::abs(lhs[i] - rhs[i]);
@@ -241,10 +241,10 @@ namespace AIToolbox {
                         helper = updateBelief(model, *it, a, o);
 
                         // Compute distance (here we compare also against elements we just added!)
-                        distance = computeDistance(helper, bl.front(), S);
+                        distance = computeDistance(helper, bl.front());
                         for ( auto jt = ++std::begin(bl); jt != std::end(bl); ++jt ) {
                             if ( checkEqualSmall(distance, 0.0) ) break; // We already have it!
-                            distance = std::min(distance, computeDistance(helper, *jt, S));
+                            distance = std::min(distance, computeDistance(helper, *jt));
                         }
                         // Select the best found over 20 times
                         if ( distance > distances[a] ) {
