@@ -8,8 +8,6 @@
 #include <AIToolbox/ProbabilityUtils.hpp>
 #include <list>
 
-#include <iomanip>
-
 namespace AIToolbox {
     namespace POMDP {
         /**
