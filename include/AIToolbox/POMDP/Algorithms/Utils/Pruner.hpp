@@ -80,19 +80,16 @@ namespace AIToolbox {
 
             // Initialize the new best list with some easy finds, and remove them from
             // the old list.
-            VList::iterator begin = std::begin(w), end = std::end(w), bound = end;
+            VList::iterator begin = std::begin(w), end = std::end(w), bound = begin;
 
-            bound = extractBestAtSimplexCorners(S, begin, bound, end);
+            bound = extractWorstAtSimplexCorners(S, begin, bound, end);
 
             // Here we could do some random belief lookups..
 
-            // Initialize best list with what we have found so far.
-            VList best(std::make_move_iterator(bound), std::make_move_iterator(end));
-
             // Setup initial LP rows. Note that best can't be empty, since we have
             // at least one best for the simplex corners.
-            for ( auto & bv : best )
-                lp.addOptimalRow(std::get<VALUES>(bv));
+            for ( auto it = begin; it != bound; ++it )
+                lp.addOptimalRow(std::get<VALUES>(*it));
 
             // For each of the remaining points now we try to find a witness
             // point with respect to the best ones. If there is, there is
@@ -103,27 +100,25 @@ namespace AIToolbox {
             // to try out a new one.
             //
             // That we do in the findWitnessPoint function.
-            while ( begin < bound ) {
-                auto result = lp.findWitness( std::get<VALUES>(*begin) );
+            while ( bound < end ) {
+                auto result = lp.findWitness( std::get<VALUES>(*(end-1)) );
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
                 if ( std::get<0>(result) ) {
                     auto & witness = std::get<1>(result);
-                    bound = extractBestAtBelief(std::begin(witness),
-                                                std::end(witness), begin, bound, bound);       // Moves the best at the "end"
-                    best.emplace_back(std::move(*bound));                                      // We don't care about what we leave here..
-                    lp.addOptimalRow(std::get<VALUES>(best.back()));                           // Add the newly found vector to our lp.
+                    bound = extractWorstAtBelief(std::begin(witness),
+                                                 std::end(witness), bound, bound, end);   // Advance bound with the next best
+                    lp.addOptimalRow(std::get<VALUES>(*(bound-1)));                       // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a
                 // witness point for the current value, but since we are not guaranteed to have
                 // put into best that value, it may still keep witness to other belief points!
                 else
-                    ++begin;
+                    --end;
             }
 
-            // Finally, we discard all bad vectors (and remains of moved ones) and
-            // we return just the best list.
-            std::swap(w, best);
+            // Finally, we discard all bad vectors and we return just the best list.
+            w.erase(bound, std::end(w));
         }
     }
 }

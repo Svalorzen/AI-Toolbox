@@ -8,6 +8,8 @@
 #include <AIToolbox/ProbabilityUtils.hpp>
 #include <list>
 
+#include <iomanip>
+
 namespace AIToolbox {
     namespace POMDP {
         /**
@@ -106,10 +108,18 @@ namespace AIToolbox {
                 std::tuple<bool, ValueFunction> operator()(const M & model);
 
             private:
-                using BeliefList = std::list<Belief>;
+                using BeliefList = std::vector<Belief>;
 
+                /**
+                 * @brief This function uses the model to generate new beliefs, and adds them to the provided list.
+                 *
+                 * @tparam M The type of the model.
+                 * @param model The POMDP model.
+                 * @param max The maximum number of elements that the list should have.
+                 * @param bl The list to expand.
+                 */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                void expandBeliefs(const M& model, BeliefList * bl) const;
+                void expandBeliefs(const M& model, size_t max, BeliefList * bl) const;
 
                 /**
                  * @brief This function computes a VList composed the maximized cross-sums with respect to the provided beliefs.
@@ -155,7 +165,7 @@ namespace AIToolbox {
             // it).
             //
             // We add all simplex corners and the middle belief.
-            BeliefList beliefs{Belief(S, 1.0/S)};
+            BeliefList beliefs{Belief(S, 1.0/S)}; beliefs.reserve(beliefSize_);
             for ( size_t s = 0; s < S; ++s ) {
                 Belief b(S, 0.0); b[s] = 1.0;
                 beliefs.emplace_back(std::move(b));
@@ -166,11 +176,19 @@ namespace AIToolbox {
             // However, for some problems (for example the Tiger problem) still
             // this does not perform too well since the probability of finding
             // a new belief (via action LISTEN) is pretty low.
-            size_t currentSize = beliefs.size(); unsigned counter = 0;
-            while ( currentSize < beliefSize_ && counter < 30 ) {
-                expandBeliefs(model, &beliefs);
-                if ( currentSize == beliefs.size() ) ++counter;
-                currentSize = beliefs.size();
+            size_t currentSize = beliefs.size();
+            while ( currentSize < beliefSize_ ) {
+                unsigned counter = 0;
+                while ( counter < 5 ) {
+                    expandBeliefs(model, beliefSize_, &beliefs);
+                    if ( currentSize == beliefs.size() ) ++counter;
+                    else {
+                        currentSize = beliefs.size();
+                        if ( currentSize == beliefSize_ ) break;
+                    }
+                }
+                for ( size_t i = 0; currentSize < beliefSize_ && i < (beliefSize_/20); ++i, ++currentSize )
+                    beliefs.emplace_back(makeRandomBelief(S, rand_));
             }
 
             ValueFunction v(1, VList(1, makeVEntry(S)));
@@ -190,17 +208,27 @@ namespace AIToolbox {
                 size_t finalWSize = 0;
                 // In this method we split the work by action, which will then
                 // be joined again at the end of the loop.
-                for ( size_t a = 0; a < model.getA(); ++a ) {
+                for ( size_t a = 0; a < A; ++a ) {
                     projs[a][0] = crossSum( projs[a], a, beliefs );
                     finalWSize += projs[a][0].size();
                 }
                 VList w;
                 w.reserve(finalWSize);
 
-                for ( size_t a = 0; a < model.getA(); ++a )
+                for ( size_t a = 0; a < A; ++a )
                     std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
 
-                w.erase(extractDominated(S, std::begin(w), std::end(w)), std::end(w));
+                auto begin = std::begin(w), bound = begin, end = std::end(w);
+                for ( auto & belief : beliefs )
+                    bound = extractWorstAtBelief(std::begin(belief), std::end(belief), begin, bound, end);
+
+                w.erase(bound, end);
+
+                // If you want to save as much memory as possible, do this.
+                // It make take some time more though since it needs to reallocate
+                // and copy stuff around.
+                // w.shrink_to_fit();
+
                 v.emplace_back(std::move(w));
 
                 ++timestep;
@@ -210,9 +238,10 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        void PBVI::expandBeliefs(const M& model, BeliefList * blp) const {
+        void PBVI::expandBeliefs(const M& model, size_t max, BeliefList * blp) const {
             assert(blp);
             auto & bl = *blp;
+            size_t size = bl.size();
 
             std::vector<Belief> newBeliefs(A);
             std::vector<double> distances(A);
@@ -255,8 +284,11 @@ namespace AIToolbox {
                 }
                 // Find furthest away, add only if it is new.
                 size_t id = std::distance( dBegin, std::max_element(dBegin, dEnd) );
-                if ( checkDifferentSmall(distances[id], 0.0) )
+                if ( checkDifferentSmall(distances[id], 0.0) ) {
                     bl.emplace_back(std::move(newBeliefs[id]));
+                    ++size;
+                    if ( size == max ) break;
+                }
             }
         }
 

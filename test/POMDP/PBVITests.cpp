@@ -15,20 +15,17 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto model = makeTigerProblem();
     model.setDiscount(0.95);
 
-    // For higher horizons it seems PBVI does not find all the
-    // possible solutions, even though for this case it seems
-    // to extract about 45 different beliefs. However, it converges
-    // to about 9 VEntries (possibly similar to the ones in Kaelbling's
-    // paper). So here we just check for lower horizon, and if
-    // I figure out a problem with PBVI I'll extend the test further.
-    unsigned horizon = 3;
+    // For higher horizons PBVI may not find all the possible solutions, but
+    // generally gets close. The solution also depends on which beliefs were
+    // randomly sampled.
+    unsigned horizon = 5;
     POMDP::PBVI solver(1000, horizon);
     auto solution = solver(model);
 
     // Yeah not really truth, but as long as the
     // IP tests all pass I guess it's truth enough.
     POMDP::IncrementalPruning ipsolver(horizon, 0.0);
-    auto truth = solver(model);
+    auto truth = ipsolver(model);
 
     auto vf = std::get<1>(solution);
     auto vt = std::get<1>(truth);
@@ -36,15 +33,15 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     for ( auto & vl : vt ) std::sort(std::begin(vl), std::end(vl));
     for ( auto & vl : vf ) std::sort(std::begin(vl), std::end(vl));
 
-    bool sizeEqual;
-    sizeEqual = vf.size() == vt.size();
+    bool sizeEqual1, sizeEqual2;
+    sizeEqual1 = vf.size() == vt.size();
 
-    BOOST_CHECK(sizeEqual);
-    if ( !sizeEqual ) return;
+    BOOST_CHECK(sizeEqual1);
+    if ( !sizeEqual1 ) return;
     for ( size_t i = 0; i < vf.size(); ++i ) {
-        sizeEqual = vf[i].size() == vt[i].size();
-        BOOST_CHECK(sizeEqual);
-        if ( !sizeEqual ) continue;
+        sizeEqual2 = vf[i].size() == vt[i].size();
+        BOOST_CHECK(sizeEqual2);
+        if ( !sizeEqual2 ) continue;
         for ( size_t j = 0; j < vf[i].size(); ++j ) {
             BOOST_CHECK(std::get<POMDP::VALUES>(vf[i][j]) == std::get<POMDP::VALUES>(vt[i][j]));
             BOOST_CHECK(std::get<POMDP::ACTION>(vf[i][j]) == std::get<POMDP::ACTION>(vt[i][j]));

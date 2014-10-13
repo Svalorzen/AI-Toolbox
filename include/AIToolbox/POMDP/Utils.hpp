@@ -22,6 +22,17 @@ namespace AIToolbox {
          */
         VEntry makeVEntry(size_t S, size_t a = 0, size_t O = 0);
 
+        template <typename G>
+        Belief makeRandomBelief(size_t S, G & generator) {
+            static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
+            Belief b(S);
+            for ( size_t s = 0; s < S; ++s )
+                b[s] = sampleDistribution(generator);
+
+            normalizeProbability(std::begin(b), std::end(b), std::begin(b));
+            return b;
+        }
+
         /**
          * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
          *
@@ -115,12 +126,12 @@ namespace AIToolbox {
         }
 
         /**
-         * @brief This function finds and moves the ValueFunction with the highest value for the given belief at the end of the specified range.
+         * @brief This function finds and moves the ValueFunction with the highest value for the given belief at the beginning of the specified range.
          *
          * This function uses an already existing bound containing previously marked useful
          * ValueFunctions. The order is 'begin'->'bound'->'end', where bound may be equal to end
-         * where no previous bound exists. The found ValueFunction is moved between 'bound' and
-         * 'end', but only if it was not there previously.
+         * where no previous bound exists. The found ValueFunction is moved between 'begin' and
+         * 'bound', but only if it was not there previously.
          *
          * @tparam Iterator An iterator, can be const or not, from VList.
          * @param bbegin The begin of the belief.
@@ -132,19 +143,17 @@ namespace AIToolbox {
          * @return The iterator pointing to the element with the highest dot product with the input belief.
          */
         template <typename BeliefIterator, typename Iterator>
-        Iterator extractBestAtBelief(BeliefIterator bbegin, BeliefIterator bbend, Iterator begin, Iterator bound, Iterator end) {
-            // It makes more sense to look from end to start, since the best are there already
-            auto bestMatch = findBestAtBelief(bbegin, bbend, std::reverse_iterator<Iterator>(end), std::reverse_iterator<Iterator>(begin));
+        Iterator extractWorstAtBelief(BeliefIterator bbegin, BeliefIterator bbend, Iterator begin, Iterator bound, Iterator end) {
+            auto bestMatch = findBestAtBelief(bbegin, bbend, begin, end);
 
-            // Note that we can do the +1 thing because we know that bestMatch is NOT rend
-            if ( (bestMatch+1).base() < bound )
-                std::iter_swap(bestMatch, --bound);
+            if ( bestMatch >= bound )
+                std::iter_swap(bestMatch, bound++);
 
             return bound;
         }
 
         /**
-         * @brief This function finds and moves all best ValueFunctions in the simplex corners at the end of the specified range.
+         * @brief This function finds and moves all best ValueFunctions in the simplex corners at the beginning of the specified range.
          *
          * What this function does is to find out which ValueFunctions give the highest value in
          * corner beliefs. Since multiple corners may use the same ValueFunction, the number of
@@ -152,8 +161,8 @@ namespace AIToolbox {
          *
          * This function uses an already existing bound containing previously marked useful
          * ValueFunctions. The order is 'begin'->'bound'->'end', where bound may be equal to end
-         * where no previous bound exists. All found ValueFunctions are added between 'bound' and
-         * 'end', but only if they were not there previously.
+         * where no previous bound exists. All found ValueFunctions are added between 'begin' and
+         * 'bound', but only if they were not there previously.
          *
          * @param S The number of corners of the simplex.
          * @param begin The begin of the search range.
@@ -163,16 +172,15 @@ namespace AIToolbox {
          * @return The new bound iterator.
          */
         template <typename Iterator>
-        Iterator extractBestAtSimplexCorners(size_t S, Iterator begin, Iterator bound, Iterator end) {
-            if ( begin == bound ) return bound;
+        Iterator extractWorstAtSimplexCorners(size_t S, Iterator begin, Iterator bound, Iterator end) {
+            if ( end == bound ) return bound;
 
             // For each corner
             for ( size_t s = 0; s < S; ++s ) {
-                auto bestMatch = findBestAtSimplexCorner(s, std::reverse_iterator<Iterator>(end), std::reverse_iterator<Iterator>(begin));
+                auto bestMatch = findBestAtSimplexCorner(s, begin, end);
 
-                // Note that we can do the +1 thing because we know that bestMatch is NOT rend
-                if ( (bestMatch+1).base() < bound )
-                    std::iter_swap(bestMatch, --bound);
+                if ( bestMatch >= bound )
+                    std::iter_swap(bestMatch, bound++);
             }
 
             return bound;
