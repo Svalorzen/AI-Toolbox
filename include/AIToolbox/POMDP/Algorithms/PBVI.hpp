@@ -5,6 +5,7 @@
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/BeliefGenerator.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
 #include <list>
 
@@ -106,18 +107,6 @@ namespace AIToolbox {
                 std::tuple<bool, ValueFunction> operator()(const M & model);
 
             private:
-                using BeliefList = std::vector<Belief>;
-
-                /**
-                 * @brief This function uses the model to generate new beliefs, and adds them to the provided list.
-                 *
-                 * @tparam M The type of the model.
-                 * @param model The POMDP model.
-                 * @param max The maximum number of elements that the list should have.
-                 * @param bl The list to expand.
-                 */
-                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                void expandBeliefs(const M& model, size_t max, BeliefList * bl) const;
 
                 /**
                  * @brief This function computes a VList composed the maximized cross-sums with respect to the provided beliefs.
@@ -139,7 +128,7 @@ namespace AIToolbox {
                  * @return The optimal cross-sum list for the given projections and BeliefList.
                  */
                 template <typename ProjectionsRow>
-                VList crossSum(const ProjectionsRow & projs, size_t a, const BeliefList & bl);
+                VList crossSum(const ProjectionsRow & projs, size_t a, const std::vector<Belief> & bl);
 
                 size_t S, A, O, beliefSize_;
                 unsigned horizon_;
@@ -157,37 +146,11 @@ namespace AIToolbox {
             // In this implementation we compute all beliefs in advance. This
             // is mostly due to the fact that I prefer counter parameters (how
             // many beliefs do you want?) versus timers (loop until time is
-            // up). However, this is easily changeable, since the function that
-            // computes beliefs itself respects the interface defined in the
-            // original PBVI paper (it tries to double the belief list given to
-            // it).
-            //
-            // We add all simplex corners and the middle belief.
-            BeliefList beliefs{Belief(S, 1.0/S)}; beliefs.reserve(beliefSize_);
-            for ( size_t s = 0; s < S; ++s ) {
-                Belief b(S, 0.0); b[s] = 1.0;
-                beliefs.emplace_back(std::move(b));
-            }
-
-            // Since the original method of obtaining beliefs is stochastic,
-            // we keep trying for a while in case we don't find any new beliefs.
-            // However, for some problems (for example the Tiger problem) still
-            // this does not perform too well since the probability of finding
-            // a new belief (via action LISTEN) is pretty low.
-            size_t currentSize = beliefs.size();
-            while ( currentSize < beliefSize_ ) {
-                unsigned counter = 0;
-                while ( counter < 5 ) {
-                    expandBeliefs(model, beliefSize_, &beliefs);
-                    if ( currentSize == beliefs.size() ) ++counter;
-                    else {
-                        currentSize = beliefs.size();
-                        if ( currentSize == beliefSize_ ) break;
-                    }
-                }
-                for ( size_t i = 0; currentSize < beliefSize_ && i < (beliefSize_/20); ++i, ++currentSize )
-                    beliefs.emplace_back(makeRandomBelief(S, rand_));
-            }
+            // up). However, this is easily changeable, since the belief generator
+            // can be called multiple times to increase the size of the belief
+            // vector.
+            BeliefGenerator<M> bGen(model);
+            auto beliefs = bGen(beliefSize_);
 
             ValueFunction v(1, VList(1, makeVEntry(S)));
 
@@ -235,63 +198,8 @@ namespace AIToolbox {
             return std::make_tuple(true, v);
         }
 
-        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        void PBVI::expandBeliefs(const M& model, size_t max, BeliefList * blp) const {
-            assert(blp);
-            auto & bl = *blp;
-            size_t size = bl.size();
-
-            std::vector<Belief> newBeliefs(A);
-            std::vector<double> distances(A);
-            auto dBegin = std::begin(distances), dEnd = std::end(distances);
-
-            // L1 distance
-            auto computeDistance = [this](const Belief & lhs, const Belief & rhs) {
-                double distance = 0.0;
-                for ( size_t i = 0; i < S; ++i )
-                    distance += std::abs(lhs[i] - rhs[i]);
-                return distance;
-            };
-
-            Belief helper; double distance;
-            // We apply the discovery process also to all beliefs we discover
-            // along the way.
-            for ( auto it = std::begin(bl); it != std::end(bl); ++it ) {
-                // Compute all new beliefs
-                for ( size_t a = 0; a < A; ++a ) {
-                    distances[a] = 0.0;
-                    for ( int j = 0; j < 20; ++j ) {
-                        size_t s = sampleProbability(S, *it, rand_);
-
-                        size_t o;
-                        std::tie(std::ignore, o, std::ignore) = model.sampleSOR(s, a);
-                        helper = updateBelief(model, *it, a, o);
-
-                        // Compute distance (here we compare also against elements we just added!)
-                        distance = computeDistance(helper, bl.front());
-                        for ( auto jt = ++std::begin(bl); jt != std::end(bl); ++jt ) {
-                            if ( checkEqualSmall(distance, 0.0) ) break; // We already have it!
-                            distance = std::min(distance, computeDistance(helper, *jt));
-                        }
-                        // Select the best found over 20 times
-                        if ( distance > distances[a] ) {
-                            distances[a] = distance;
-                            newBeliefs[a] = helper;
-                        }
-                    }
-                }
-                // Find furthest away, add only if it is new.
-                size_t id = std::distance( dBegin, std::max_element(dBegin, dEnd) );
-                if ( checkDifferentSmall(distances[id], 0.0) ) {
-                    bl.emplace_back(std::move(newBeliefs[id]));
-                    ++size;
-                    if ( size == max ) break;
-                }
-            }
-        }
-
         template <typename ProjectionsRow>
-        VList PBVI::crossSum(const ProjectionsRow & projs, size_t a, const BeliefList & bl) {
+        VList PBVI::crossSum(const ProjectionsRow & projs, size_t a, const std::vector<Belief> & bl) {
             VList result;
             result.reserve(bl.size());
 
