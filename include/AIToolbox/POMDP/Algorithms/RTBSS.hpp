@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_POMDP_RTBSS_HEADER_FILE
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
 
 #include <limits>
@@ -108,28 +109,6 @@ namespace AIToolbox {
                  * @return An overestimate of the reward that is possible to gain.
                  */
                 double upperBound(const Belief & b, size_t a, unsigned horizon) const;
-
-
-                /**
-                 * @brief This function computes an immediate reward based on a belief rather than a state.
-                 *
-                 * @param b The belief to use.
-                 * @param a The action performed from the belief.
-                 *
-                 * @return The immediate reward.
-                 */
-                double beliefReward(const Belief & b, size_t a) const;
-
-                /**
-                 * @brief This function computes the probability of obtaining an observation from a belief and action.
-                 *
-                 * @param b The belief to start from.
-                 * @param a The action performed.
-                 * @param o The observation that should be received.
-                 *
-                 * @return The probability of getting the observation from that belief and action.
-                 */
-                double beliefObservationProbability(const Belief & b, size_t a, size_t o) const;
         };
 
         template <typename M>
@@ -157,12 +136,12 @@ namespace AIToolbox {
             double max = -std::numeric_limits<double>::infinity();
 
             for ( auto a : actionList ) {
-                double rew = beliefReward(b, a);
+                double rew = beliefExpectedReward(model_, b, a);
 
                 double uBound = rew + upperBound(b, a, horizon - 1);
                 if ( uBound > max ) {
                     for ( size_t o = 0; o < O; ++o ) {
-                        double p = beliefObservationProbability(b, a, o);
+                        double p = beliefObservationProbability(model_, b, a, o);
                         // Only work if it makes sense
                         if ( checkDifferentSmall(p, 0.0) ) rew += model_.getDiscount() * p * simulate(updateBelief(model_, b, a, o), horizon - 1);
                     }
@@ -178,32 +157,6 @@ namespace AIToolbox {
         template <typename M>
         double RTBSS<M>::upperBound(const Belief &, size_t, unsigned horizon) const {
             return model_.getDiscount() * maxR_ * horizon;
-        }
-
-        template <typename M>
-        double RTBSS<M>::beliefReward(const Belief & b, size_t a) const {
-            double rew = 0.0;
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t s1 = 0; s1 < S; ++s1 )
-                    rew += model_.getTransitionProbability(s, a, s1) * model_.getExpectedReward(s, a, s1) * b[s];
-
-            return rew;
-        }
-
-        template <typename M>
-        double RTBSS<M>::beliefObservationProbability(const Belief & b, size_t a, size_t o) const {
-            double p = 0.0;
-            // This is basically the same as a belief update, but unnormalized
-            // and we sum all elements together..
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                double sum = 0.0;
-                for ( size_t s = 0; s < S; ++s )
-                    sum += model_.getTransitionProbability(s, a, s1) * b[s];
-
-                p += model_.getObservationProbability(s1, a, o) * sum;
-            }
-
-            return p;
         }
 
         template <typename M>

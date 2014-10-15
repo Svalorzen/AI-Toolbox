@@ -22,6 +22,14 @@ namespace AIToolbox {
          */
         VEntry makeVEntry(size_t S, size_t a = 0, size_t O = 0);
 
+        /**
+         * @brief This function generates a random belief uniformly in the space of beliefs.
+         *
+         * @param S The number of states of the resulting belief.
+         * @param generator A random number generator.
+         *
+         * @return A new random belief.
+         */
         template <typename G>
         Belief makeRandomBelief(size_t S, G & generator) {
             static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
@@ -46,7 +54,7 @@ namespace AIToolbox {
          * @param a The action taken during the transition.
          * @param o The observation registered.
          */
-        template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
         Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
             size_t S = model.getS();
             Belief br(S, 0.0);
@@ -62,6 +70,50 @@ namespace AIToolbox {
             normalizeProbability(std::begin(br), std::end(br), std::begin(br));
 
             return br;
+        }
+
+        /**
+         * @brief This function computes an immediate reward based on a belief rather than a state.
+         *
+         * @param model The POMDP model to use.
+         * @param b The belief to use.
+         * @param a The action performed from the belief.
+         *
+         * @return The immediate reward.
+         */
+        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        double beliefExpectedReward(const M& model, const Belief & b, size_t a) {
+            double rew = 0.0; size_t S = model.getS();
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t s1 = 0; s1 < S; ++s1 )
+                    rew += model.getTransitionProbability(s, a, s1) * model.getExpectedReward(s, a, s1) * b[s];
+
+            return rew;
+        }
+
+        /**
+         * @brief This function computes the probability of obtaining an observation from a belief and action.
+         *
+         * @param model The POMDP model to use.
+         * @param b The belief to start from.
+         * @param a The action performed.
+         * @param o The observation that should be received.
+         *
+         * @return The probability of getting the observation from that belief and action.
+         */
+        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        double beliefObservationProbability(const M& model, const Belief & b, size_t a, size_t o) {
+            double p = 0.0; size_t S = model.getS();
+            // This is basically the same as a belief update, but unnormalized
+            // and we sum all elements together..
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                double sum = 0.0;
+                for ( size_t s = 0; s < S; ++s )
+                    sum += model.getTransitionProbability(s, a, s1) * b[s];
+
+                p += model.getObservationProbability(s1, a, o) * sum;
+            }
+            return p;
         }
 
         /**
@@ -91,7 +143,6 @@ namespace AIToolbox {
                     bestValue = currValue;
                 }
             }
-
             return bestMatch;
         }
 
@@ -121,7 +172,6 @@ namespace AIToolbox {
                     bestValue = currValue;
                 }
             }
-
             return bestMatch;
         }
 
@@ -182,7 +232,6 @@ namespace AIToolbox {
                 if ( bestMatch >= bound )
                     std::iter_swap(bestMatch, bound++);
             }
-
             return bound;
         }
 
@@ -236,7 +285,6 @@ namespace AIToolbox {
                 else
                     ++iter;
             }
-
             return end;
         }
     }
