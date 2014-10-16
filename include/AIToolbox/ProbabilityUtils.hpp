@@ -12,7 +12,8 @@ namespace AIToolbox {
     /**
      * @brief This function checks if two doubles near [0,1] are reasonably equal.
      *
-     * The order of the parameter is not important.
+     * If the numbers are not near [0,1], the result is not guaranteed to be
+     * what may be expected. The order of the parameter is not important.
      *
      * @param a The first number to compare.
      * @param b The second number to compare.
@@ -20,13 +21,14 @@ namespace AIToolbox {
      * @return True if the two numbers are close enough, false otherwise.
      */
     inline bool checkEqualSmall(double a, double b) {
-        return ( std::fabs(a - b) < std::numeric_limits<double>::epsilon() );
+        return ( std::fabs(a - b) <= 5 * std::numeric_limits<double>::epsilon() );
     }
 
     /**
      * @brief This function checks if two doubles near [0,1] are reasonably different.
      *
-     * The order of the parameter is not important.
+     * If the numbers are not near [0,1], the result is not guaranteed to be
+     * what may be expected. The order of the parameter is not important.
      *
      * @param a The first number to compare.
      * @param b The second number to compare.
@@ -110,10 +112,22 @@ namespace AIToolbox {
         return d-1;
     }
 
+    /**
+     * @brief This function normalizes a container so that it sums to 1.0.
+     * 
+     * If the provided container sums to 0.0, then the first element
+     * in the output range becomes 1.0.
+     *
+     * @param begin The beginning of the range to normalize.
+     * @param end The end of the range to normalize.
+     * @param out The beginning of the output range (can be the same as begin).
+     */
     template <typename InputIterator, typename OutputIterator>
     void normalizeProbability(InputIterator begin, InputIterator end, OutputIterator out) {
-        double norm = static_cast<double>(std::accumulate(begin, end, 0.0));
-        std::transform(begin, end, out, [norm](decltype(*begin) t){ return t/norm; });
+        if ( begin == end ) return;
+        double norm = std::accumulate(begin, end, 0.0);
+        if ( !norm ) *out = 1.0;
+        else std::transform(begin, end, out, [norm](decltype(*begin) t){ return t/norm; });
     }
 }
 

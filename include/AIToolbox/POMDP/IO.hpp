@@ -68,7 +68,7 @@ namespace AIToolbox {
                         is >> in.observations_[s1][a][o];
                     }
                     // Verification/Sanitization
-                    typename decltype(in.observations_[s1])::reference ref = in.observations_[s1][a];
+                    auto ref = in.observations_[s1][a];
                     normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
                 }
             }

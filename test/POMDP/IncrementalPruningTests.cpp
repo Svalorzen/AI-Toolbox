@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
 
     // We solve the problem for an horizon of 15
     // (enough to find out everything is working
-    // correclty). In addition, for higher horizons
+    // correctly). In addition, for higher horizons
     // floating point precision results in this library
     // obtaining more VEntries than Cassandra's solver
     // (all but the new ones are the same as his). This

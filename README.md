@@ -75,6 +75,7 @@ Single Agent POMDP:
 - POMCP with UCB1
 - QMDP
 - Real-Time Belief State Search (RTBSS)
+- Augmented MDP (AMDP)
 
 Fast Tutorial
 =============

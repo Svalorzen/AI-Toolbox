@@ -81,7 +81,7 @@ namespace AIToolbox {
                         }
                     }
                     // Verification/Sanitization
-                    decltype(in.transitions_[s])::reference ref = in.transitions_[s][a];
+                    auto ref = in.transitions_[s][a];
                     normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
                 }
             }

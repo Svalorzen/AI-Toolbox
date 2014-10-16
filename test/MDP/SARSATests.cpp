@@ -33,12 +33,14 @@ BOOST_AUTO_TEST_CASE( cliff ) {
         // Ok, so this is because I basically couldn't find
         // any other way to make this thing converge to the
         // solution pointed out in the Sutton & Barto book.
-        // Aside from the fact that they say that the best 
+        // Aside from the fact that they say that the best
         // path is discovered in ~50 episodes, while here it's
         // not even remotely close, even then no way to keep
         // it stable unless the learning parameter is made
         // to converge.
         // No offense, but this to me screams "YAY QLEARNING"
+        // Or it may be a bug in my implementation - if so
+        // please let me know!
         solver.setLearningRate(1.0 / (episode/3 + 1));
         s = start;
         a = ePolicy.sampleAction( s );

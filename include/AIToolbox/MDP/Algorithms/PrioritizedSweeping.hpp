@@ -209,7 +209,7 @@ namespace AIToolbox {
 
             double p = values[s];
             {
-                typename QFunction::reference ref = qfun_[s];
+                auto ref = qfun_[s];
                 auto begin = std::begin(ref);
                 auto it = std::max_element(begin, std::end(ref));
                 // Update value and action

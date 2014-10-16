@@ -187,7 +187,7 @@ namespace AIToolbox {
         void Policy::setStatePolicy(size_t s, const T & container) {
             if ( container.size() != getA() ) throw std::invalid_argument("Container to copy has the wrong size.");
 
-            decltype(policy_)::reference ref = policy_[s]; // This is needed because policy_[s] by itself is a temporary. We don't want begin and end to be of different things.
+            auto ref = policy_[s]; // This is needed because policy_[s] by itself is a temporary. We don't want begin and end to be of different things.
             normalizeProbability(std::begin(container), std::end(container), std::begin(ref));
         }
     }
