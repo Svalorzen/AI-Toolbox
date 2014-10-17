@@ -57,11 +57,18 @@ namespace AIToolbox {
                 std::tuple<bool, POMDP::Belief> findWitness(const std::vector<double> & v);
 
                 /**
-                 * @brief This function resets the LP and reserves space for a certain amount of rows to avoid reallocations.
+                 * @brief This function resets the internal LP to only the simplex constraint.
+                 *
+                 * This function does not mess with the already allocated memory.
+                 */
+                void reset();
+
+                /**
+                 * @brief This function reserves space for a certain amount of rows (not counting the simplex) to avoid reallocations.
                  *
                  * @param rows The max number of constraints for the LP.
                  */
-                void resetAndAllocate(size_t rows);
+                void allocate(size_t rows);
 
             private:
                 /**

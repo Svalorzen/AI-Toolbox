@@ -112,12 +112,11 @@ namespace AIToolbox {
             return std::make_pair(true, solution);
         }
 
-        void WitnessLP_clp::resetAndAllocate(size_t rows) {
-            // Here we simply remove all constraints that are not the simplex
-            // one in order to reset the lp without reallocations.
-            // lp.resize( rows, cols_ );
+        void WitnessLP_clp::reset() {
             lp.resize( 1, cols_ );
         }
+
+        void WitnessLP_clp::allocate(size_t) {}
 
         void WitnessLP_clp::pushRow(const std::vector<double> & v, double min, double max) {
             for ( size_t s = 0; s < S; ++s )

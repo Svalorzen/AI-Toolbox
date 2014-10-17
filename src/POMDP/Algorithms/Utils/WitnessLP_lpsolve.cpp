@@ -7,7 +7,8 @@ namespace AIToolbox {
         // Row is initialized to cols+1 since lp_solve reads element from 1 onwards
         WitnessLP_lpsolve::WitnessLP_lpsolve(size_t s) : S(s), cols_(s+2), lp(make_lp(0,cols_), delete_lp), row(new REAL[cols_+1]) {
             set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
-            // set_BFP(lp.get(), "../libbfp_etaPFI.so"); Not included in Debian package, speeds around 3x, but also crashes
+            set_simplextype(lp.get(), SIMPLEX_DUAL_DUAL);
+            // set_BFP(lp.get(), "../../libbfp_etaPFI.so"); // Not included in Debian package, speeds around 3x, but also crashes
 
             /*
              * Here we setup the part of the lp that never changes (at least with this number of states)
@@ -82,36 +83,41 @@ namespace AIToolbox {
             // Add witness constraint
             pushRow(v, EQ);
 
+            // lp_solve uses the result of the previous runs to bootstrap
+            // the new solution. Sometimes this breaks down for some reason,
+            // so we just avoid it - it does not really even give a performance
+            // boost..
+            default_basis(lp.get());
+
             // print_lp(lp.get());
             auto result = ::solve(lp.get());
 
-            // TODO: There's a function that gets a pointer to the solution
-            // stored within the LP, maybe use that? (get_ptr_primal_solution)
-            get_variables(lp.get(), row.get());
+            // Note: do not popRow here, or the pointer to the
+            // solution will be lost!
+            REAL * vp;
+            get_ptr_variables(lp.get(), &vp);
             REAL value = get_objective(lp.get());
-
-            // Reset K and delta coefficients to original values.
-            row[cols_-1] = -1.0;
-            popRow();
 
             // We have found a witness point if we have found a belief for which the value
             // of the supplied ValueFunction is greater than ALL others. Thus we just need
             // to verify that the variable we have minimized is actually less than 0.
-            if ( result || value <= 0.0 ) {
-                return std::make_pair(false, POMDP::Belief());
-            }
+            bool isSolved = !( result > 1 || value <= 0.0 );
 
-            // For some reason when lp_solve returns the variables it puts them from
-            // 0 to S-1, so here we read accordingly.
-            POMDP::Belief solution(row.get(), row.get() + S);
-            return std::make_pair(true, solution);
+            POMDP::Belief solution;
+
+            if ( isSolved )
+                solution.insert(std::begin(solution), vp, vp + S);
+
+            popRow();
+            return std::make_pair(isSolved, solution);
         }
 
-        void WitnessLP_lpsolve::resetAndAllocate(size_t rows) {
-            // Here we simply remove all constraints that are not the simplex
-            // one in order to reset the lp without reallocations.
+        void WitnessLP_lpsolve::reset() {
             resize_lp(lp.get(), 1, cols_);
-            resize_lp(lp.get(), rows, cols_);
+        }
+
+        void WitnessLP_lpsolve::allocate(size_t rows) {
+            resize_lp(lp.get(), rows+1, cols_);
         }
 
         void WitnessLP_lpsolve::pushRow(const std::vector<double> & v, int constrType) {

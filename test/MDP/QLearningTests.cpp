@@ -12,8 +12,6 @@
 
 #include "CliffProblem.hpp"
 
-#include <iostream>
-
 BOOST_AUTO_TEST_CASE( updates ) {
     namespace mdp = AIToolbox::MDP;
 

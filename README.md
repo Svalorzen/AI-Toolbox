@@ -70,6 +70,7 @@ Single Agent MDP:
 
 Single Agent POMDP:
 
+- Witness
 - Incremental Pruning
 - Point Based Value Iteration (PBVI)
 - POMCP with UCB1

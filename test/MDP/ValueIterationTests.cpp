@@ -9,9 +9,6 @@
 
 #include "CornerProblem.hpp"
 
-#include <iostream>
-#include <iomanip>
-
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
 

@@ -233,40 +233,7 @@ namespace AIToolbox {
 
                 // Check convergence
                 if ( useEpsilon ) {
-                    // Here we implement a weak bound (can also be seen in Cassandra's code)
-                    // This is mostly because a strong bound is more costly (it requires performing
-                    // multiple LPs) and also the code at the moment does not support it cleanly, so
-                    // I prefer waiting until I have a good implementation of an LP class that hides
-                    // complexity from here.
-                    //
-                    // The logic of the weak bound is the following: the variation between the old
-                    // VList and the new one is equal to the maximum distance between a ValueFunction
-                    // in the old VList with its closest match in the new VList. So the farthest from
-                    // closest.
-                    //
-                    // We define distance between two ValueFunctions as the maximum between their
-                    // element-wise difference.
-
-                    MDP::Values helper(S); // We use this to compute differences.
-                    auto hBegin = std::begin(helper), hEnd = std::end(helper);
-
-                    variation = 0.0;
-                    for ( auto & newVE : v[timestep] ) {
-                        auto nBegin = std::begin(std::get<0>(newVE)), nEnd = std::end(std::get<0>(newVE));
-
-                        double closestDistance = std::numeric_limits<double>::infinity();
-                        for ( auto & oldVE : v[timestep-1] ) {
-                            auto computeVariation = [](double lhs, double rhs) { return std::fabs(lhs - rhs); };
-                            std::transform(nBegin, nEnd, std::begin(std::get<0>(oldVE)), hBegin, computeVariation );
-
-                            // Compute the distance, we pick the max
-                            double distance = *std::max_element(hBegin, hEnd);
-
-                            // Keep the closest, we pick the min
-                            closestDistance = std::min(closestDistance, distance);
-                        }
-                        variation = std::max(variation, closestDistance);
-                    }
+                    variation = weakBoundDistance(v[timestep-1], v[timestep]);
                 }
             }
 

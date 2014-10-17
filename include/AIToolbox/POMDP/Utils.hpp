@@ -3,7 +3,6 @@
 
 #include <cstddef>
 #include <iterator>
-#include <iostream>
 #include <numeric>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
@@ -21,6 +20,24 @@ namespace AIToolbox {
          * @return A new VEntry.
          */
         VEntry makeVEntry(size_t S, size_t a = 0, size_t O = 0);
+
+        /**
+         * @brief This function returns a weak measure of distance between two VLists.
+         * 
+         * The logic of the weak bound is the following: the variation between the old
+         * VList and the new one is equal to the maximum distance between a ValueFunction
+         * in the old VList with its closest match in the new VList. So the farthest from
+         * closest.
+         *
+         * We define distance between two ValueFunctions as the maximum between their
+         * element-wise difference.
+         *
+         * @param oldV The fist VList to compare.
+         * @param newV The second VList to compare.
+         *
+         * @return The weak bound distance between the two arguments.
+         */
+        double weakBoundDistance(const VList & oldV, const VList & newV);
 
         /**
          * @brief This function generates a random belief uniformly in the space of beliefs.
@@ -287,6 +304,7 @@ namespace AIToolbox {
             }
             return end;
         }
+
     }
 }
 

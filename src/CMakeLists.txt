@@ -28,6 +28,7 @@ if (MAKE_POMDP)
     add_library(AIToolboxPOMDP
         POMDP/Utils.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
+        POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/AMDP.cpp
