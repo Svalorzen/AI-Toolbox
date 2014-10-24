@@ -1,4 +1,4 @@
-.ycm*
+.ycm_extra_conf.pyc
 *.swp
 build/
 html/
