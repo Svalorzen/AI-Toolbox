@@ -263,6 +263,11 @@ namespace AIToolbox {
                 return sampleAction(Belief(S, 1.0 / S), horizon);
             }
 
+            // We resize here in case we didn't have time to sample the new
+            // head node. In this case, the new head may not have children.
+            // This would break the UCT call.
+            graph_.children.resize(A);
+
             return runSimulation(horizon);
         }
 

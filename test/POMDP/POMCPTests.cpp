@@ -85,3 +85,34 @@ BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
         BOOST_CHECK_EQUAL( particleCount, count );
     }
 }
+
+BOOST_AUTO_TEST_CASE( sampleOneTime ) {
+    using namespace AIToolbox;
+
+    auto model = makeTigerProblem();
+    model.setDiscount(0.85);
+
+    // This indicates where the tiger is.
+    POMDP::Belief belief(2, 0.5);
+
+    unsigned horizon = 100;
+    unsigned count = 1;
+
+    POMDP::POMCP<decltype(model)> solver(model, 1000, count, 10000.0);
+
+    // We assure POMCP does not crash when pruning a tree
+    // and the new head was a leaf (and thus did not have
+    // children).
+
+    // UCT here samples action 0, since it's
+    // the first in line.
+    solver.sampleAction(belief, horizon);
+
+    auto & graph_ = solver.getGraph();
+    // We find the leaf we just produced
+    auto it = graph_.children[0].children.begin();
+    auto o = it->first;
+
+    // We make a,o the new head
+    solver.sampleAction( 0, o, horizon-1);
+}

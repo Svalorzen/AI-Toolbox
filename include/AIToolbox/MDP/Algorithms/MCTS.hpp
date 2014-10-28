@@ -208,6 +208,11 @@ namespace AIToolbox {
             // we can then assign safely.
             { auto tmp = std::move(it->second); graph_ = std::move(tmp); }
 
+            // We resize here in case we didn't have time to sample the new
+            // head node. In this case, the new head may not have children.
+            // This would break the UCT call.
+            graph_.children.resize(A);
+
             return runSimulation(s1, horizon);
         }
 

@@ -74,3 +74,31 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     BOOST_CHECK_EQUAL( solver.sampleAction(13,10), RIGHT);
     BOOST_CHECK_EQUAL( solver.sampleAction(14,10), RIGHT);
 }
+
+BOOST_AUTO_TEST_CASE( sampleOneTime ) {
+    using namespace AIToolbox::MDP;
+
+    GridWorld grid(4,4);
+
+    auto model = makeCornerProblem(grid);
+
+    MCTS<decltype(model)> solver(model, 1, 5.0);
+
+    // We assure POMCP does not crash when pruning a tree
+    // and the new head was a leaf (and thus did not have
+    // children).
+
+    unsigned horizon = 2;
+
+    // UCT here samples action 0, since it's
+    // the first in line.
+    solver.sampleAction(6, horizon);
+
+    auto & graph_ = solver.getGraph();
+    // We find the leaf we just produced
+    auto it = graph_.children[0].children.begin();
+    auto s1 = it->first;
+
+    // We make a,o the new head
+    solver.sampleAction( 0, s1, horizon - 1);
+}
