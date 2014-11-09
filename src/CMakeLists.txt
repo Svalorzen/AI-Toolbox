@@ -30,6 +30,7 @@ if (MAKE_POMDP)
         POMDP/Algorithms/IncrementalPruning.cpp
         POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/PBVI.cpp
+        POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/AMDP.cpp
         POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp

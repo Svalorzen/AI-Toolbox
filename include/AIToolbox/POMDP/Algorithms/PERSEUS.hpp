@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_POMDP_PBVI_HEADER_FILE
-#define AI_TOOLBOX_POMDP_PBVI_HEADER_FILE
+#ifndef AI_TOOLBOX_POMDP_PERSEUS_HEADER_FILE
+#define AI_TOOLBOX_POMDP_PERSEUS_HEADER_FILE
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
@@ -8,38 +8,8 @@
 
 namespace AIToolbox {
     namespace POMDP {
-        /**
-         * @brief This class implements the Point Based Value Iteration algorithm.
-         *
-         * The idea behind this algorithm is to solve a POMDP Model
-         * approximately. When computing a perfect solution, the main problem
-         * is pruning the resulting ValueFunction in order to contain only a
-         * parsimonious representation. What this means is that many vectors
-         * inside can be dominated by others, and so they do not add any
-         * additional information, while at the same time occupying memory and
-         * computational time.
-         *
-         * The way this method tries to fix the problem is by solving the Model
-         * in a set of specified Beliefs. Doing so results in no need for
-         * pruning at all, since every belief uniquely identifies one of the
-         * optimal solution vectors (only uniqueness in the final set is
-         * required, but it is way cheaper than linear programming).
-         *
-         * The set of Beliefs are stochastically computed as to cover as much
-         * as possible of the belief space, to ensure minimization of the final
-         * error. The final solution will thus be correct 100% in the Beliefs
-         * that have been selected, and will (possibly) overshoot in
-         * non-covered Beliefs.
-         *
-         * In addition, the fact that we solve only for a fixed set of Beliefs
-         * guarantees that our final solution is limited in size, which is
-         * useful since even small POMDP true solutions can explode in size
-         * with high horizons, for very little gain.
-         *
-         * There is no convergence guarantee of this method, but the error is
-         * bounded.
-         */
-        class PBVI {
+
+        class PERSEUS {
             public:
                 /**
                  * @brief Basic constructor.
@@ -50,7 +20,7 @@ namespace AIToolbox {
                  * @param nBeliefs The number of support beliefs to use.
                  * @param h The horizon chosen.
                  */
-                PBVI(size_t nBeliefs, unsigned h);
+                PERSEUS(size_t nBeliefs, unsigned h);
 
                 /**
                  * @brief This function sets a new horizon parameter.
@@ -124,8 +94,8 @@ namespace AIToolbox {
                  *
                  * @return The optimal cross-sum list for the given projections and BeliefList.
                  */
-                template <typename ProjectionsRow>
-                VList crossSum(const ProjectionsRow & projs, size_t a, const std::vector<Belief> & bl);
+                template <typename ProjectionsTable>
+                VList crossSum(const ProjectionsTable & projs, const std::vector<Belief> & bl, const VList & oldV);
 
                 size_t S, A, O, beliefSize_;
                 unsigned horizon_;
@@ -134,7 +104,7 @@ namespace AIToolbox {
         };
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        std::tuple<bool, ValueFunction> PBVI::operator()(const M & model) {
+        std::tuple<bool, ValueFunction> PERSEUS::operator()(const M & model) {
             // Initialize "global" variables
             S = model.getS();
             A = model.getA();
@@ -163,31 +133,7 @@ namespace AIToolbox {
                 // of entries in our initial vector w.
                 auto projs = projecter(v[timestep-1]);
 
-                size_t finalWSize = 0;
-                // In this method we split the work by action, which will then
-                // be joined again at the end of the loop.
-                for ( size_t a = 0; a < A; ++a ) {
-                    projs[a][0] = crossSum( projs[a], a, beliefs );
-                    finalWSize += projs[a][0].size();
-                }
-                VList w;
-                w.reserve(finalWSize);
-
-                for ( size_t a = 0; a < A; ++a )
-                    std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
-
-                auto begin = std::begin(w), bound = begin, end = std::end(w);
-                for ( auto & belief : beliefs )
-                    bound = extractWorstAtBelief(std::begin(belief), std::end(belief), begin, bound, end);
-
-                w.erase(bound, end);
-
-                // If you want to save as much memory as possible, do this.
-                // It make take some time more though since it needs to reallocate
-                // and copy stuff around.
-                // w.shrink_to_fit();
-
-                v.emplace_back(std::move(w));
+                v.emplace_back( crossSum( projs, beliefs, v[timestep-1] ) );
 
                 ++timestep;
             }
@@ -195,26 +141,43 @@ namespace AIToolbox {
             return std::make_tuple(true, v);
         }
 
-        template <typename ProjectionsRow>
-        VList PBVI::crossSum(const ProjectionsRow & projs, size_t a, const std::vector<Belief> & bl) {
-            VList result;
+        template <typename ProjectionsTable>
+        VList PERSEUS::crossSum(const ProjectionsTable & projs, const std::vector<Belief> & bl, const VList & oldV) {
+            VList result, helper;
             result.reserve(bl.size());
+            helper.reserve(A);
+            bool start = true;
+            double currentValue, oldValue;
 
             for ( auto & b : bl ) {
-                MDP::Values v(S, 0.0);
-                VObs obs(O);
+                auto bbegin = std::begin(b), bend = std::end(b);
 
-                // We compute the crossSum between each best vector for the belief.
-                for ( size_t o = 0; o < O; ++o ) {
-                    const VList & projsO = projs[o];
-                    auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(projsO), std::end(projsO));
-
-                    for ( size_t s = 0; s < S; ++s )
-                        v[s] += std::get<VALUES>(*bestMatch)[s];
-
-                    obs[o] = std::get<OBS>(*bestMatch)[0];
+                if ( !start ) {
+                    // If we have already improved this belief, skip it
+                    findBestAtBelief( bbegin, bend, std::begin(result), std::end(result), &currentValue );
+                    findBestAtBelief( bbegin, bend, std::begin(oldV),   std::end(oldV),   &oldValue     );
+                    if ( currentValue >= oldValue ) continue;
                 }
-                result.emplace_back(std::move(v), a, std::move(obs));
+                helper.clear();
+                for ( size_t a = 0; a < A; ++a ) {
+                    MDP::Values v(S, 0.0);
+                    VObs obs(O);
+
+                    // We compute the crossSum between each best vector for the belief.
+                    for ( size_t o = 0; o < O; ++o ) {
+                        const VList & projsO = projs[a][o];
+                        auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(projsO), std::end(projsO));
+
+                        for ( size_t s = 0; s < S; ++s )
+                            v[s] += std::get<VALUES>(*bestMatch)[s];
+
+                        obs[o] = std::get<OBS>(*bestMatch)[0];
+                    }
+                    helper.emplace_back(std::move(v), a, std::move(obs));
+                }
+                extractWorstAtBelief(bbegin, bend, std::begin(helper), std::begin(helper), std::end(helper));
+                result.emplace_back(std::move(helper[0]));
+                start = false;
             }
             result.erase(extractDominated(S, std::begin(result), std::end(result)), std::end(result));
 

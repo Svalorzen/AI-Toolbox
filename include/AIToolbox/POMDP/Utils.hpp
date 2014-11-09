@@ -23,7 +23,7 @@ namespace AIToolbox {
 
         /**
          * @brief This function returns a weak measure of distance between two VLists.
-         * 
+         *
          * The logic of the weak bound is the following: the variation between the old
          * VList and the new one is equal to the maximum distance between a ValueFunction
          * in the old VList with its closest match in the new VList. So the farthest from
@@ -144,11 +144,12 @@ namespace AIToolbox {
          * @param bend The end of the belief.
          * @param begin The start of the range to look in.
          * @param end The end of the range to look in (excluded).
+         * @param value A pointer to double, which gets set to the value of the given belief with the found VEntry.
          *
          * @return An iterator pointing to the best choice in range.
          */
         template <typename BeliefIterator, typename Iterator>
-        Iterator findBestAtBelief(BeliefIterator bbegin, BeliefIterator bend, Iterator begin, Iterator end) {
+        Iterator findBestAtBelief(BeliefIterator bbegin, BeliefIterator bend, Iterator begin, Iterator end, double * value = nullptr) {
             auto bestMatch = begin;
             double bestValue = std::inner_product(bbegin, bend, std::begin(std::get<VALUES>(*bestMatch)), 0.0);
 
@@ -160,6 +161,7 @@ namespace AIToolbox {
                     bestValue = currValue;
                 }
             }
+            if ( value ) *value = bestValue;
             return bestMatch;
         }
 
@@ -177,7 +179,7 @@ namespace AIToolbox {
          * @return An iterator pointing to the best choice in range.
          */
         template <typename Iterator>
-        Iterator findBestAtSimplexCorner(size_t corner, Iterator begin, Iterator end) {
+        Iterator findBestAtSimplexCorner(size_t corner, Iterator begin, Iterator end, double * value = nullptr) {
             auto bestMatch = begin;
             double bestValue = std::get<VALUES>(*bestMatch)[corner];
 
@@ -189,6 +191,7 @@ namespace AIToolbox {
                     bestValue = currValue;
                 }
             }
+            if ( value ) *value = bestValue;
             return bestMatch;
         }
 
