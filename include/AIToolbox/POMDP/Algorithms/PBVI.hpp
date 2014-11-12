@@ -88,11 +88,17 @@ namespace AIToolbox {
                  * trying to cover as much as possible of the belief space in
                  * order to offer as precise a solution as possible. The final
                  * solution will only contain ValueFunctions for those Beliefs
-                 * (so that in those points the solution will be 100% correct),
                  * and will interpolate them for points it did not solve for.
                  * Even though the resulting solution is approximate very often
                  * it is good enough, and this comes with an incredible
                  * increase in speed.
+                 *
+                 * Note that even in the beliefs sampled the solution is not
+                 * guaranteed to be optimal. This is because a solution for
+                 * horizon h can only be computed with the true solution from
+                 * horizon h-1. If such a solution is approximate (and it is
+                 * here), then the solution for h will not be optimal by
+                 * definition.
                  *
                  * @tparam M The type of POMDP model that needs to be solved.
                  *
@@ -104,7 +110,6 @@ namespace AIToolbox {
                 std::tuple<bool, ValueFunction> operator()(const M & model);
 
             private:
-
                 /**
                  * @brief This function computes a VList composed the maximized cross-sums with respect to the provided beliefs.
                  *
@@ -165,7 +170,9 @@ namespace AIToolbox {
 
                 size_t finalWSize = 0;
                 // In this method we split the work by action, which will then
-                // be joined again at the end of the loop.
+                // be joined again at the end of the loop. This is not required,
+                // but there does not seem to be a speed boost by not doing
+                // so (not that I found one, if there is one I'd like to know!)
                 for ( size_t a = 0; a < A; ++a ) {
                     projs[a][0] = crossSum( projs[a], a, beliefs );
                     finalWSize += projs[a][0].size();
