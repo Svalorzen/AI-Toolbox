@@ -77,6 +77,7 @@ Single Agent POMDP:
 - QMDP
 - Real-Time Belief State Search (RTBSS)
 - Augmented MDP (AMDP)
+- PERSEUS
 
 Fast Tutorial
 =============
