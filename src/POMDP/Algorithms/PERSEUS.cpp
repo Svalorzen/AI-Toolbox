@@ -5,7 +5,8 @@
 namespace AIToolbox {
     namespace POMDP {
 
-        PERSEUS::PERSEUS(size_t nBeliefs, unsigned h) : beliefSize_(nBeliefs), horizon_(h), rand_(Impl::Seeder::getSeed()) {}
+        PERSEUS::PERSEUS(size_t nBeliefs, unsigned h, double e) : beliefSize_(nBeliefs), horizon_(h),
+                                                                  epsilon_(e), rand_(Impl::Seeder::getSeed()) {}
 
         void PERSEUS::setHorizon(unsigned h) {
             horizon_ = h;

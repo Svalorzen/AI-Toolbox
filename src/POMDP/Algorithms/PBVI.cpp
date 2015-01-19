@@ -5,7 +5,7 @@
 namespace AIToolbox {
     namespace POMDP {
 
-        PBVI::PBVI(size_t nBeliefs, unsigned h) : beliefSize_(nBeliefs), horizon_(h), rand_(Impl::Seeder::getSeed()) {}
+        PBVI::PBVI(size_t nBeliefs, unsigned h, double e) : beliefSize_(nBeliefs), horizon_(h), epsilon_(e), rand_(Impl::Seeder::getSeed()) {}
 
         void PBVI::setHorizon(unsigned h) {
             horizon_ = h;

@@ -9,18 +9,41 @@
 namespace AIToolbox {
     namespace POMDP {
 
+        /**
+         * @brief This class implements the PERSEUS algorithm.
+         *
+         * The idea behind this algorithm is very similar to PBVI. The thing
+         * that changes is how beliefs are considered; in PERSEUS we only try
+         * to find as little VEntries as possible as to ensure that all beliefs
+         * considered are improved. This allows to skip generating VEntry for
+         * most beliefs considered, since usually few VEntry are responsible
+         * for supporting most of the beliefs.
+         *
+         * At the same time, this means that solutions found by PERSEUS may be
+         * *extremely* approximate with respect to the true Value Functions. This
+         * is because as long as the values for all the particle beliefs are
+         * increased, no matter how slightly, the algorithm stops looking - in
+         * effect simply guaranteeing that the worst action is never taken.
+         * However for many problems the solution found is actually very good,
+         * also given that due to the increased performance PERSEUS can do
+         * many more iterations than, for example, PBVI.
+         *
+         * This method is works best when it is allowed to iterate until convergence,
+         * and thus shouldn't be used on problems with finite horizons.
+         */
         class PERSEUS {
             public:
                 /**
                  * @brief Basic constructor.
                  *
-                 * This constructor sets the default horizon used to solve a POMDP::Model
-                 * and the number of beliefs used to approximate the ValueFunction.
+                 * This constructor sets the default horizon/epsilon used to
+                 * solve a POMDP::Model and the number of beliefs used to
+                 * approximate the ValueFunction.
                  *
                  * @param nBeliefs The number of support beliefs to use.
                  * @param h The horizon chosen.
                  */
-                PERSEUS(size_t nBeliefs, unsigned h);
+                PERSEUS(size_t nBeliefs, unsigned h, double epsilon);
 
                 /**
                  * @brief This function sets a new horizon parameter.
@@ -56,22 +79,25 @@ namespace AIToolbox {
                  * This function computes a set of beliefs for which to solve
                  * the input model. The beliefs are chosen stochastically,
                  * trying to cover as much as possible of the belief space in
-                 * order to offer as precise a solution as possible. The final
-                 * solution will only contain ValueFunctions for those Beliefs
-                 * (so that in those points the solution will be 100% correct),
-                 * and will interpolate them for points it did not solve for.
-                 * Even though the resulting solution is approximate very often
-                 * it is good enough, and this comes with an incredible
-                 * increase in speed.
+                 * order to offer as precise a solution as possible.
+                 *
+                 * The final solution will try to be as small as possible, in
+                 * order to drastically improve performances, while at the same
+                 * time provide a reasonably good result.
+                 *
+                 * Note that the model input cannot have a discount of 1, due to
+                 * how PERSEUS initializes the value function internally; if
+                 * the model provided has a discount of 1 we throw.
                  *
                  * @tparam M The type of POMDP model that needs to be solved.
                  *
                  * @param model The POMDP model that needs to be solved.
+                 * @param minReward The minimum reward obtainable from this model.
                  *
                  * @return True, and the computed ValueFunction up to the requested horizon.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                std::tuple<bool, ValueFunction> operator()(const M & model);
+                std::tuple<bool, ValueFunction> operator()(const M & model, double minReward);
 
             private:
 
@@ -80,17 +106,18 @@ namespace AIToolbox {
                  *
                  * This function performs the job of accumulating the
                  * information required to obtain the final policy. It
-                 * processes an action at a time.
+                 * processes all actions at once.
                  *
-                 * For each belief contained in the argument BeliefList, it
-                 * will create the optimal VEntry by cherry picking the best
-                 * projections for each observation. Finally it prunes the
-                 * resulting VList by removing duplicates.
+                 * For each belief it will check whether a VEntry which
+                 * improves it from the previous timestep has already been
+                 * found. If not, will create the optimal VEntry by cherry
+                 * picking the best projections for each observation. Finally
+                 * it prunes the resulting VList by removing duplicates.
                  *
                  * @param ProjectionsRow The type containing the projections to process.
-                 * @param projs A 1d container containing O elements: each a VList of projections for the respective observation.
-                 * @param a The action that this cross-sum is about.
+                 * @param projs A 2d container containing AxO elements: each a VList of projections for the respective action-observation pair.
                  * @param bl The beliefs for which we are trying to find VEntries.
+                 * @param oldV The previous timestep VList.
                  *
                  * @return The optimal cross-sum list for the given projections and BeliefList.
                  */
@@ -99,12 +126,14 @@ namespace AIToolbox {
 
                 size_t S, A, O, beliefSize_;
                 unsigned horizon_;
+                double epsilon_;
 
                 mutable std::default_random_engine rand_;
         };
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        std::tuple<bool, ValueFunction> PERSEUS::operator()(const M & model) {
+        std::tuple<bool, ValueFunction> PERSEUS::operator()(const M & model, double minReward) {
+            if ( model.getDiscount() == 1 ) throw std::invalid_argument("The model cannot have a discount of 1 in PERSEUS!");
             // Initialize "global" variables
             S = model.getS();
             A = model.getA();
@@ -119,23 +148,31 @@ namespace AIToolbox {
             BeliefGenerator<M> bGen(model);
             auto beliefs = bGen(beliefSize_);
 
-            ValueFunction v(1, VList(1, makeVEntry(S)));
+            // We initialize the ValueFunction to the "worst" case scenario.
+            ValueFunction v(1, VList(1, std::make_tuple(MDP::Values(S, minReward / (1.0 - model.getDiscount())), 0, VObs(0))));
 
-            unsigned timestep = 1;
+            unsigned timestep = 0;
 
             Projecter<M> projecter(model);
 
             // And off we go
-            while ( timestep <= horizon_ ) {
+            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            double variation = epsilon_ * 2; // Make it bigger
+            while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
+                ++timestep;
                 // Compute all possible outcomes, from our previous results.
                 // This means that for each action-observation pair, we are going
                 // to obtain the same number of possible outcomes as the number
                 // of entries in our initial vector w.
                 auto projs = projecter(v[timestep-1]);
-
+                // Here we find the minimum number of VEntries that we need to improve
+                // v on all beliefs from v[timestep-1].
                 v.emplace_back( crossSum( projs, beliefs, v[timestep-1] ) );
 
-                ++timestep;
+                // Check convergence
+                if ( useEpsilon ) {
+                    variation = weakBoundDistance(v[timestep-1], v[timestep]);
+                }
             }
 
             return std::make_tuple(true, v);

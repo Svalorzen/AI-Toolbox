@@ -164,9 +164,8 @@ namespace AIToolbox {
             Pruner<WitnessLP_lpsolve> prune(S);
             Projecter<M> projecter(model);
 
-            double variation = epsilon_ * 2; // Make it bigger
-
             bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            double variation = epsilon_ * 2; // Make it bigger
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
 
@@ -239,7 +238,6 @@ namespace AIToolbox {
 
             return std::make_tuple(variation <= epsilon_, v);
         }
-
     }
 }
 

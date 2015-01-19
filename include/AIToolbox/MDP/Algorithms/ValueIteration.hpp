@@ -21,8 +21,8 @@ namespace AIToolbox {
          * ValueFunction for the MDP optimal policy. On the first iteration,
          * the ValueFunction for horizon 1 is obtained. On the second
          * iteration, the one for horizon 2. This process is repeated until the
-         * ValueFunction has converged to a specific value within a certain
-         * accuracy, or the horizon requested is reached.
+         * ValueFunction has converged within a certain accuracy, or the
+         * horizon requested is reached.
          *
          * This implementation in particular is ported from the MATLAB
          * MDPToolbox (although it is simplified).

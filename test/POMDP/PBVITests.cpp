@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // generally gets close. The solution also depends on which beliefs were
     // randomly sampled.
     unsigned horizon = 5;
-    POMDP::PBVI solver(1000, horizon);
+    POMDP::PBVI solver(1000, horizon, 0.01);
     auto solution = solver(model);
 
     // Yeah not really truth, but as long as the
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     model.setDiscount(1.0);
 
     unsigned horizon = 2;
-    POMDP::PBVI solver(1000, horizon);
+    POMDP::PBVI solver(1000, horizon, 0.01);
     auto solution = solver(model);
 
     BOOST_CHECK_EQUAL(std::get<0>(solution), true);

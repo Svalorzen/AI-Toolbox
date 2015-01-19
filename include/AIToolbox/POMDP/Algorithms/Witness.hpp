@@ -173,8 +173,6 @@ namespace AIToolbox {
 
             unsigned timestep = 0;
 
-            double variation = epsilon_ * 2; // Make it bigger
-
             // This variable we use to manually control the allocations
             // for the LP solver. This is because this algorithm cannot
             // know in advance just how many constraints the LP is going
@@ -187,11 +185,16 @@ namespace AIToolbox {
             WitnessLP_lpsolve lp(S);
 
             bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            double variation = epsilon_ * 2; // Make it bigger
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
 
                 // As default, we allocate double the numbers of VEntries for last step.
                 reserveSize = std::max(reserveSize, 2 * v[timestep-1].size());
+                // Compute all possible outcomes, from our previous results.
+                // This means that for each action-observation pair, we are going
+                // to obtain the same number of possible outcomes as the number
+                // of entries in our initial vector w.
                 auto projections = project(v[timestep-1]);
 
                 size_t finalWSize = 0;
@@ -234,7 +237,7 @@ namespace AIToolbox {
                 VList w;
                 w.reserve(finalWSize);
 
-                // Here we don't have to do fancy merging since no cross-summing is involved
+                // We put together all VEntries we found.
                 for ( size_t a = 0; a < A; ++a )
                     std::move(std::begin(U[a]), std::end(U[a]), std::back_inserter(w));
 
@@ -246,7 +249,6 @@ namespace AIToolbox {
                 // Check convergence
                 if ( useEpsilon ) {
                     variation = weakBoundDistance(v[timestep-1], v[timestep]);
-                    std::cout << "VAR: " << variation << "\n";
                 }
             }
 

@@ -44,6 +44,9 @@ namespace AIToolbox {
          * automatically computes the ValueFunction since it is useful to
          * determine which state-action pairs are actually useful, so there's
          * no need to compute it manually.
+         * 
+         * Given how this algorithm updates the QFunction, the only problems
+         * supported by this approach are ones with an infinite horizon.
          */
         template <typename M>
         class PrioritizedSweeping<M> {

@@ -50,7 +50,7 @@ namespace AIToolbox {
                  * @param nBeliefs The number of support beliefs to use.
                  * @param h The horizon chosen.
                  */
-                PBVI(size_t nBeliefs, unsigned h);
+                PBVI(size_t nBeliefs, unsigned h, double epsilon);
 
                 /**
                  * @brief This function sets a new horizon parameter.
@@ -134,6 +134,7 @@ namespace AIToolbox {
 
                 size_t S, A, O, beliefSize_;
                 unsigned horizon_;
+                double epsilon_;
 
                 mutable std::default_random_engine rand_;
         };
@@ -156,12 +157,16 @@ namespace AIToolbox {
 
             ValueFunction v(1, VList(1, makeVEntry(S)));
 
-            unsigned timestep = 1;
+            unsigned timestep = 0;
 
             Projecter<M> projecter(model);
 
             // And off we go
-            while ( timestep <= horizon_ ) {
+            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            double variation = epsilon_ * 2; // Make it bigger
+            while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
+                ++timestep;
+
                 // Compute all possible outcomes, from our previous results.
                 // This means that for each action-observation pair, we are going
                 // to obtain the same number of possible outcomes as the number
@@ -196,7 +201,10 @@ namespace AIToolbox {
 
                 v.emplace_back(std::move(w));
 
-                ++timestep;
+                // Check convergence
+                if ( useEpsilon ) {
+                    variation = weakBoundDistance(v[timestep-1], v[timestep]);
+                }
             }
 
             return std::make_tuple(true, v);

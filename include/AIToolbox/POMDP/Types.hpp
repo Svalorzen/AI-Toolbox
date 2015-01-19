@@ -31,7 +31,8 @@ namespace AIToolbox {
          * indeces into the previous VList. There are going to be |O| entries in this
          * vector. Some observations are however impossible from certain beliefs. In
          * theory, those should never be accessed, and those entries will just keep
-         * the value of zero to keep things simple.
+         * the value of zero to keep things simple. This is also called an alpha
+         * vector in the literature, though here it contains more data than just that.
          *
          * A VList is a slice of the final tree with respect to depth, as in all
          * ValueFunctions for a certain timestep t.
