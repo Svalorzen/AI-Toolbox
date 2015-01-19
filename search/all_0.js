@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['a',['A',['../classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#ac9293f74dec42548585448572408edce',1,'AIToolbox::MDP::QLearning&lt; M &gt;::A()'],['../classAIToolbox_1_1MDP_1_1SARSA_3_01M_01_4.html#a02553392f2fd631789274981e20c8520',1,'AIToolbox::MDP::SARSA&lt; M &gt;::A()'],['../classAIToolbox_1_1PolicyInterface.html#a02fadd3579094be6ad15967ecb185295',1,'AIToolbox::PolicyInterface::A()']]],
+  ['a',['A',['../classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#ac9293f74dec42548585448572408edce',1,'AIToolbox::MDP::QLearning&lt; M &gt;::A()'],['../classAIToolbox_1_1MDP_1_1SARSA_3_01M_01_4.html#a02553392f2fd631789274981e20c8520',1,'AIToolbox::MDP::SARSA&lt; M &gt;::A()'],['../singletonAIToolbox_1_1PolicyInterface.html#a02fadd3579094be6ad15967ecb185295',1,'AIToolbox::PolicyInterface::A()']]],
   ['a_5fleft',['A_LEFT',['../TigerProblem_8hpp.html#abed82baf7f470b522273a3e37c24c600adc9b7c1ae50f3ebac052bb14e6f5724f',1,'TigerProblem.hpp']]],
   ['a_5flisten',['A_LISTEN',['../TigerProblem_8hpp.html#abed82baf7f470b522273a3e37c24c600a106019d070af235b1225932124742ea0',1,'TigerProblem.hpp']]],
   ['a_5fright',['A_RIGHT',['../TigerProblem_8hpp.html#abed82baf7f470b522273a3e37c24c600a4b50bcc122a7fdaf412374c1fe2fff5f',1,'TigerProblem.hpp']]],
