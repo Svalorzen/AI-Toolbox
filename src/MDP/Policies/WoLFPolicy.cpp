@@ -41,7 +41,7 @@ namespace AIToolbox {
                         bestActionCount = 1;
                         bestQValue = qsa;
                     }
-                    else if ( checkEqualNumber(qsa, bestQValue) ) {
+                    else if ( checkEqualGeneral(qsa, bestQValue) ) {
                         bestActions[bestActionCount] = a;
                         ++bestActionCount;
                     }

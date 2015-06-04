@@ -9,6 +9,7 @@ if (MAKE_MDP)
         MDP/Experience.cpp
         MDP/Utils.cpp
         MDP/Model.cpp
+        MDP/SparseModel.cpp
         MDP/RLModel.cpp
         MDP/IO.cpp
         MDP/Algorithms/ValueIteration.cpp

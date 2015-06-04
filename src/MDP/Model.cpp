@@ -1,9 +1,5 @@
 #include <AIToolbox/MDP/Model.hpp>
 
-#include <AIToolbox/ProbabilityUtils.hpp>
-
-#include <iostream>
-
 namespace AIToolbox {
     namespace MDP {
         Model::Model(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),

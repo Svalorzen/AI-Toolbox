@@ -19,6 +19,7 @@ if (MAKE_MDP)
     include_directories(${Boost_INCLUDE_DIRS})
 
     AddTestMDP(Model)
+    AddTestMDP(SparseModel)
     AddTestMDP(Experience)
     AddTestMDP(RLModel)
     AddTestMDP(QLearning)

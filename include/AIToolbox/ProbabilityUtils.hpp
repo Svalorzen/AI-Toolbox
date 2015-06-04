@@ -7,38 +7,9 @@
 #include <random>
 #include <algorithm>
 
+#include <AIToolbox/Utils.hpp>
+
 namespace AIToolbox {
-
-    /**
-     * @brief This function checks if two doubles near [0,1] are reasonably equal.
-     *
-     * If the numbers are not near [0,1], the result is not guaranteed to be
-     * what may be expected. The order of the parameter is not important.
-     *
-     * @param a The first number to compare.
-     * @param b The second number to compare.
-     *
-     * @return True if the two numbers are close enough, false otherwise.
-     */
-    inline bool checkEqualSmall(double a, double b) {
-        return ( std::fabs(a - b) <= 5 * std::numeric_limits<double>::epsilon() );
-    }
-
-    /**
-     * @brief This function checks if two doubles near [0,1] are reasonably different.
-     *
-     * If the numbers are not near [0,1], the result is not guaranteed to be
-     * what may be expected. The order of the parameter is not important.
-     *
-     * @param a The first number to compare.
-     * @param b The second number to compare.
-     *
-     * @return True if the two numbers are far away enough, false otherwise.
-     */
-    inline bool checkDifferentSmall(double a, double b) {
-        return !checkEqualSmall(a,b);
-    }
-
     /**
      * @brief This function checks whether the supplied vector is a correct probability vector.
      *
@@ -114,7 +85,7 @@ namespace AIToolbox {
 
     /**
      * @brief This function normalizes a container so that it sums to 1.0.
-     * 
+     *
      * If the provided container sums to 0.0, then the first element
      * in the output range becomes 1.0.
      *

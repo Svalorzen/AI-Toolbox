@@ -18,7 +18,7 @@ namespace AIToolbox {
                     bestActionCount = 1;
                     bestQValue = q_[s][a];
                 }
-                else if ( checkEqualNumber(q_[s][a], bestQValue) ) {
+                else if ( checkEqualGeneral(q_[s][a], bestQValue) ) {
                     bestActions[bestActionCount] = a;
                     ++bestActionCount;
                 }
@@ -33,13 +33,13 @@ namespace AIToolbox {
         double QGreedyPolicy::getActionProbability(const size_t & s, size_t a) const {
             double max = q_[s][0]; unsigned count = 1;
             for ( size_t aa = 1; aa < A; ++aa ) {
-                if ( checkEqualNumber(q_[s][aa], max) ) ++count;
+                if ( checkEqualGeneral(q_[s][aa], max) ) ++count;
                 else if ( q_[s][aa] > max ) {
                     max = q_[s][aa];
                     count = 1;
                 }
             }
-            if ( checkDifferentNumber(q_[s][a], max) ) return 0.0;
+            if ( checkDifferentGeneral(q_[s][a], max) ) return 0.0;
 
             return 1.0 / count;
         }

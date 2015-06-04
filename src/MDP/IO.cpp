@@ -3,6 +3,7 @@
 #include <AIToolbox/PolicyInterface.hpp>
 #include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/Model.hpp>
+#include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 
 namespace AIToolbox {
@@ -59,7 +60,7 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Exp.
-            exp = e;
+            std::swap(exp, e);
 
             return is;
         }
@@ -86,7 +87,41 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.
-            m = in;
+            std::swap(m, in);
+
+            return is;
+        }
+
+        // MDP::SparseModel reader
+        std::istream& operator>>(std::istream &is, SparseModel & m) {
+            size_t S = m.getS();
+            size_t A = m.getA();
+
+            SparseModel in(S,A);
+            double p, r;
+
+            for ( size_t s = 0; s < S; ++s ) {
+                for ( size_t a = 0; a < A; ++a ) {
+                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                        if ( !(is >> p >> r )) {
+                            std::cerr << "AIToolbox: Could not read Model data.\n";
+                            is.setstate(std::ios::failbit);
+                            return is;
+                        }
+                        else {
+                            if ( checkDifferentSmall(0.0, p) ) in.transitions_.set(p, s, a, s1);
+                            if ( checkDifferentSmall(0.0, r) ) in.rewards_.set(r, s, a, s1);
+                        }
+                    }
+                    // Verification/Sanitization
+                    auto ref = in.transitions_.getRow(S, s, a);
+                    normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        in.transitions_.set(ref[s1], s, a, s1);
+                }
+            }
+            // This guarantees that if input is invalid we still keep the old Model.
+            std::swap(m, in);
 
             return is;
         }

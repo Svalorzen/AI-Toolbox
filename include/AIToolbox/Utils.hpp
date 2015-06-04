@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_UTILS_HEADER_FILE
 #define AI_TOOLBOX_UTILS_HEADER_FILE
 
-#include <AIToolbox/ProbabilityUtils.hpp>
+#include <cstddef>
 
 namespace AIToolbox {
     /**
@@ -33,30 +33,60 @@ namespace AIToolbox {
     /**
      * @brief This function checks if two doubles near [0,1] are reasonably equal.
      *
-     * The order of the parameter is not important.
+     * If the numbers are not near [0,1], the result is not guaranteed to be
+     * what may be expected. The order of the parameters is not important.
      *
      * @param a The first number to compare.
      * @param b The second number to compare.
      *
      * @return True if the two numbers are close enough, false otherwise.
      */
-    inline bool checkEqualNumber(double a, double b) {
-        if ( checkEqualSmall(a,b) ) return true;
-        return ( std::fabs(a - b) / std::min(std::fabs(a), std::fabs(b)) < std::numeric_limits<double>::epsilon() );
+    inline bool checkEqualSmall(double a, double b) {
+        return ( std::fabs(a - b) <= 5 * std::numeric_limits<double>::epsilon() );
     }
 
     /**
      * @brief This function checks if two doubles near [0,1] are reasonably different.
      *
-     * The order of the parameter is not important.
+     * If the numbers are not near [0,1], the result is not guaranteed to be
+     * what may be expected. The order of the parameters is not important.
      *
      * @param a The first number to compare.
      * @param b The second number to compare.
      *
      * @return True if the two numbers are far away enough, false otherwise.
      */
-    inline bool checkDifferentNumber(double a, double b) {
-        return !checkEqualNumber(a,b);
+    inline bool checkDifferentSmall(double a, double b) {
+        return !checkEqualSmall(a,b);
+    }
+
+    /**
+     * @brief This function checks if two doubles are reasonably equal.
+     *
+     * The order of the parameters is not important.
+     *
+     * @param a The first number to compare.
+     * @param b The second number to compare.
+     *
+     * @return True if the two numbers are close enough, false otherwise.
+     */
+    inline bool checkEqualGeneral(double a, double b) {
+        if ( checkEqualSmall(a,b) ) return true;
+        return ( std::fabs(a - b) / std::min(std::fabs(a), std::fabs(b)) < std::numeric_limits<double>::epsilon() );
+    }
+
+    /**
+     * @brief This function checks if two doubles are reasonably different.
+     *
+     * The order of the parameters is not important.
+     *
+     * @param a The first number to compare.
+     * @param b The second number to compare.
+     *
+     * @return True if the two numbers are far away enough, false otherwise.
+     */
+    inline bool checkDifferentGeneral(double a, double b) {
+        return !checkEqualGeneral(a,b);
     }
 }
 
