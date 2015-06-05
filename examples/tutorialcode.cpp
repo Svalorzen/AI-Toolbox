@@ -70,6 +70,19 @@ double getTransitionProbability( const CoordType & c1, size_t action, const Coor
     if ( std::abs( antelMovementX ) +
          std::abs( antelMovementY ) > 1 ) return 0.0;
 
+    // Now we check whether the tiger was next to the antelope or not
+    int diffX = wrapDiff( c1[TIGER_X], c1[ANTEL_X] );
+    int diffY = wrapDiff( c1[TIGER_Y], c1[ANTEL_Y] );
+
+    // We check whether they were both in the same cell before.
+    // In that case the game would have ended, and nothing would happen anymore.
+    // We model this as a self-absorbing state, or a state that always transitions
+    // to itself. This is valid no matter the action taken.
+    if ( diffX + diffY == 0 ) {
+        if ( c1 == c2 ) return 1.0;
+        else return 0.0;
+    }
+
     // The tiger can move only in the direction specified by its action. If
     // it is not the case, the transition is impossible.
     if ( action == STAND && ( tigerMovementX || tigerMovementY ) ) return 0.0;
@@ -78,26 +91,13 @@ double getTransitionProbability( const CoordType & c1, size_t action, const Coor
     if ( action == LEFT  && tigerMovementX != -1 ) return 0.0;
     if ( action == RIGHT && tigerMovementX != 1  ) return 0.0;
 
-    // Now we check whether the tiger was next to the antelope or not
-    int diffX = wrapDiff( c1[TIGER_X], c1[ANTEL_X] );
-    int diffY = wrapDiff( c1[TIGER_Y], c1[ANTEL_Y] );
-
-    // If thew were not adjacent, then the probability for any move of the
+    // If they were not adjacent, then the probability for any move of the
     // antelope is simply 1/5: it behaves randomly.
     if ( std::abs( diffX ) + std::abs( diffY ) > 1 ) return 1.0 / 5.0;
 
     // Otherwise, first we check that the move was allowed, as
     // the antelope cannot move where the tiger was before.
     if ( c1[TIGER_X] == c2[ANTEL_X] && c1[TIGER_Y] == c2[ANTEL_Y] ) return 0.0;
-
-    // As a last check, we check whether they were both in the same cell before.
-    // In that case the game would have ended, and nothing would happen anymore.
-    // We model this as a self-absorbing state, or a state that always transitions
-    // to itself.
-    if ( diffX + diffY == 0 ) {
-        if ( c1 == c2 ) return 1.0;
-        else return 0.0;
-    }
 
     // Else the probability of this transition is 1 / 4, still random but without
     // a possible antelope action.
