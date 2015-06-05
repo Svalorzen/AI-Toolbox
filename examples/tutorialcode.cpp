@@ -78,7 +78,7 @@ double getTransitionProbability( const CoordType & c1, size_t action, const Coor
     // In that case the game would have ended, and nothing would happen anymore.
     // We model this as a self-absorbing state, or a state that always transitions
     // to itself. This is valid no matter the action taken.
-    if ( diffX + diffY == 0 ) {
+    if ( diffX == 0 && diffY == 0 ) {
         if ( c1 == c2 ) return 1.0;
         else return 0.0;
     }
