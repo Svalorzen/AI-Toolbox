@@ -1,18 +1,25 @@
 language: cpp
 compiler:
-    #    - gcc
+    - gcc
     - clang
+env:
+    - CMAKE_BUILD_TYPE=Debug
+    - CMAKE_BUILD_TYPE=Release
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo add-apt-repository ppa:apokluda/boost1.53 -y
-  - sudo apt-get update -qq
-  - sudo apt-get install libboost1.53-dev libboost-test1.53-dev liblpsolve55-dev
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.9; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+    - sudo add-apt-repository ppa:apokluda/boost1.53 -y
+    - if [ "$CC" = "clang" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
+    - sudo apt-get update -qq
+install:
+    - sudo apt-get install libboost1.53-dev libboost-test1.53-dev liblpsolve55-dev
+    - sudo apt-get install -qq g++-4.9
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+    - if [ "$CC" = "clang" ]; sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
+    - if [ "$CC" = "clang" ]; then export CXX="clang++-3.4" CC="clang-3.4"; fi
 script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
   - make -j
   - ctest -v
 branches:
