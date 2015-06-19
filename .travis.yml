@@ -14,7 +14,7 @@ install:
     - sudo apt-get install libboost1.53-dev libboost-test1.53-dev liblpsolve55-dev
     - sudo apt-get install -qq g++-4.9
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
-    - if [ "$CC" = "clang" ]; sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
+    - if [ "$CC" = "clang" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
     - if [ "$CC" = "clang" ]; then export CXX="clang++-3.4" CC="clang-3.4"; fi
 script:
   - mkdir build
