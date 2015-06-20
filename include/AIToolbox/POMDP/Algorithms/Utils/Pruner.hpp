@@ -84,9 +84,8 @@ namespace AIToolbox {
                 // the best value on the belief point, we move it into the best vector.
                 if ( std::get<0>(result) ) {
                     auto & witness = std::get<1>(result);
-                    bound = extractWorstAtBelief(std::begin(witness),
-                                                 std::end(witness), bound, bound, end);   // Advance bound with the next best
-                    lp.addOptimalRow(std::get<VALUES>(*(bound-1)));                       // Add the newly found vector to our lp.
+                    bound = extractWorstAtBelief(witness, bound, bound, end);   // Advance bound with the next best
+                    lp.addOptimalRow(std::get<VALUES>(*(bound-1)));             // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a
                 // witness point for the current value, but since we are not guaranteed to have

@@ -18,8 +18,8 @@ namespace AIToolbox {
                         Z(0), // Check we can build it from a size_t
                         static_cast<void (Z::*)()>                                                  (&Z::reset),
                         static_cast<void (Z::*)(size_t size)>                                       (&Z::allocate),
-                        static_cast<void (Z::*)(const std::vector<double>&)>                        (&Z::addOptimalRow),
-                        static_cast<std::tuple<bool, Belief> (Z::*)(const std::vector<double>&)>    (&Z::findWitness),
+                        static_cast<void (Z::*)(const MDP::Values &)>                               (&Z::addOptimalRow),
+                        static_cast<std::tuple<bool, Belief> (Z::*)(const MDP::Values &)>           (&Z::findWitness),
 
                         std::true_type()
                 );

@@ -72,14 +72,14 @@ namespace AIToolbox {
             row[cols_]   = +0.0;
         }
 
-        void WitnessLP_lpsolve::addOptimalRow(const std::vector<double> & v) {
+        void WitnessLP_lpsolve::addOptimalRow(const MDP::Values & v) {
             // Temporarily set the delta constraint
             row[cols_] = +1.0;
             pushRow(v, LE);
             row[cols_] = 0.0;
         }
 
-        std::tuple<bool, POMDP::Belief> WitnessLP_lpsolve::findWitness(const std::vector<double> & v) {
+        std::tuple<bool, POMDP::Belief> WitnessLP_lpsolve::findWitness(const MDP::Values & v) {
             // Add witness constraint
             pushRow(v, EQ);
 
@@ -106,7 +106,7 @@ namespace AIToolbox {
             POMDP::Belief solution;
 
             if ( isSolved )
-                solution.insert(std::begin(solution), vp, vp + S);
+                solution = Eigen::Map<POMDP::Belief>(vp, S);
 
             popRow();
             return std::make_pair(isSolved, solution);
@@ -120,7 +120,7 @@ namespace AIToolbox {
             resize_lp(lp.get(), rows+1, cols_);
         }
 
-        void WitnessLP_lpsolve::pushRow(const std::vector<double> & v, int constrType) {
+        void WitnessLP_lpsolve::pushRow(const MDP::Values & v, int constrType) {
             for ( size_t s = 0; s < S; ++s )
                 row[s+1] = v[s];
 

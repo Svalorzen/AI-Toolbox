@@ -48,11 +48,14 @@ namespace AIToolbox {
         template <typename M>
         typename BeliefGenerator<M>::BeliefList BeliefGenerator<M>::operator()(size_t beliefNumber) const {
             // We add all simplex corners and the middle belief.
-            BeliefList beliefs{Belief(S, 1.0/S)}; beliefs.reserve(beliefNumber);
+            BeliefList beliefs; beliefs.reserve(beliefNumber);
 
-            for ( size_t s = 0; s < S; ++s ) {
-                Belief b(S, 0.0); b[s] = 1.0;
-                beliefs.emplace_back(std::move(b));
+            beliefs.emplace_back(S);
+            beliefs.back().fill(1.0/S);
+
+            for ( size_t s = 0; s < S && s < beliefNumber; ++s ) {
+                beliefs.emplace_back(S);
+                beliefs.back().fill(0.0); beliefs.back()(s) = 1.0;
             }
 
             this->operator()(beliefNumber, &beliefs);

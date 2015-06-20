@@ -190,7 +190,7 @@ namespace AIToolbox {
 
                 auto begin = std::begin(w), bound = begin, end = std::end(w);
                 for ( auto & belief : beliefs )
-                    bound = extractWorstAtBelief(std::begin(belief), std::end(belief), begin, bound, end);
+                    bound = extractWorstAtBelief(belief, begin, bound, end);
 
                 w.erase(bound, end);
 
@@ -216,13 +216,13 @@ namespace AIToolbox {
             result.reserve(bl.size());
 
             for ( auto & b : bl ) {
-                MDP::Values v(S, 0.0);
+                MDP::Values v(S); v.fill(0.0);
                 VObs obs(O);
 
                 // We compute the crossSum between each best vector for the belief.
                 for ( size_t o = 0; o < O; ++o ) {
                     const VList & projsO = projs[o];
-                    auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(projsO), std::end(projsO));
+                    auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
                     for ( size_t s = 0; s < S; ++s )
                         v[s] += std::get<VALUES>(*bestMatch)[s];

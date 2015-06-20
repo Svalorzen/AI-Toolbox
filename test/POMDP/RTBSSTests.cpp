@@ -15,7 +15,12 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     model.setDiscount(0.85);
 
     // This indicates where the tiger is.
-    std::vector<POMDP::Belief> beliefs{{0.5, 0.5}, {1.0, 0.0}, {0.25, 0.75}, {0.98, 0.02}, {0.33, 0.66}};
+    Matrix2D beliefs(5, 2);
+    beliefs << 0.5,     0.5, 
+               1.0,     0.0, 
+               0.25,    0.75, 
+               0.98,    0.02, 
+               0.33,    0.66;
 
     unsigned maxHorizon = 7;
 
@@ -30,7 +35,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     for ( unsigned horizon = 1; horizon <= maxHorizon; ++horizon ) {
         POMDP::RTBSS<decltype(model)> solver(model, 10.0);
 
-        for ( auto & b : beliefs ) {
+        for ( auto i = 0; i < beliefs.rows(); ++i ) {
+            auto b = beliefs.row(i);
             auto a = solver.sampleAction(b, horizon);
 
             // We avoid using a policy so that we can also check that computed internal
@@ -38,9 +44,9 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
             auto & vlist = vf[horizon];
 
             auto begin     = std::begin(vlist);
-            auto bestMatch = POMDP::findBestAtBelief(std::begin(b), std::end(b), begin, std::end(vlist));
+            auto bestMatch = POMDP::findBestAtBelief(b, begin, std::end(vlist));
 
-            double trueValue = std::inner_product(std::begin(b), std::end(b), std::begin(std::get<POMDP::VALUES>(*bestMatch)), 0.0);
+            double trueValue = b.dot(std::get<POMDP::VALUES>(*bestMatch));
             double trueAction = std::get<POMDP::ACTION>(*bestMatch);
 
             BOOST_CHECK_EQUAL(trueAction, std::get<0>(a));

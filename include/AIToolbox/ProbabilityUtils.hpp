@@ -2,8 +2,6 @@
 #define AI_TOOLBOX_PROBABILITY_UTILS_HEADER_FILE
 
 #include <cstddef>
-#include <cmath>
-#include <limits>
 #include <random>
 #include <algorithm>
 

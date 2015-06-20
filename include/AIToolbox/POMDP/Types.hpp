@@ -7,7 +7,10 @@
 
 namespace AIToolbox {
     namespace POMDP {
-        using Belief            = std::vector<double>;
+        /**
+         * @brief This represents a belief, which is a probability distribution over states.
+         */
+        using Belief            = Vector;
 
         /**
          * @name POMDP Value Types

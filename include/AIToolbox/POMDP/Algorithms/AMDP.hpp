@@ -100,9 +100,8 @@ namespace AIToolbox {
             BeliefGenerator<M> bGen(model);
             auto beliefs = bGen(beliefSize_);
 
-            auto ext = boost::extents[S1][A][S1];
-            auto T = MDP::Model::TransitionTable   (ext);
-            auto R = MDP::Model::RewardTable       (ext);
+            auto T = MDP::Model::TransitionTable   (A, Matrix2D::Zero(S1, S1));
+            auto R = MDP::Model::RewardTable       (A, Matrix2D::Zero(S1, S1));
 
             // This is because lambdas are stupid and can't
             // capture member variables..
@@ -114,8 +113,10 @@ namespace AIToolbox {
                 size_t maxS = 0;
                 double entropy = 0.0;
                 for ( size_t s = 0; s < S; ++s ) {
-                    if ( b[s] > b[maxS] ) maxS = s;
-                    if ( b[s] ) entropy += b[s] * std::log(b[s]);
+                    if ( b[s] ) {
+                        entropy += b[s] * std::log(b[s]);
+                        if ( b[s] > b[maxS] ) maxS = s;
+                    }
                 }
                 maxS += S * std::min(static_cast<size_t>(entropy / stepSize), buckets);
                 return maxS;
@@ -132,18 +133,19 @@ namespace AIToolbox {
                         auto b1 = updateBelief(model, b, a, o);
                         size_t s1 = discretizer(b1);
 
-                        T[s][a][s1] += p;
-                        R[s][a][s1] += p * r;
+                        T[a](s, s1) += p;
+                        R[a](s, s1) += p * r;
                     }
                 }
             }
 
-            for ( size_t s = 0; s < S1; ++s )
-                for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t a = 0; a < A; ++a )
+                for ( size_t s = 0; s < S1; ++s ) {
                     for ( size_t s1 = 0; s1 < S1; ++s1 )
-                        if ( T[s][a][s1] ) R[s][a][s1] /= T[s][a][s1];
-                    auto ref = T[s][a];
-                    normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
+                        if ( T[a](s, s1) ) R[a](s, s1) /= T[a](s, s1);
+                    double sum = T[a].row(s).sum();
+                    if ( checkEqualSmall(sum, 0.0) ) T[a](s, s) = 1.0;
+                    else T[a].row(s) /= sum;
                 }
 
             return std::make_tuple(MDP::Model(S1, A, T, R, model.getDiscount()), discretizer);

@@ -6,6 +6,7 @@
 #include <numeric>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Utils.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox {
@@ -39,6 +40,9 @@ namespace AIToolbox {
          */
         double weakBoundDistance(const VList & oldV, const VList & newV);
 
+        bool operator<(const VEntry & lhs, const VEntry & rhs);
+        bool operator>(const VEntry & lhs, const VEntry & rhs);
+
         /**
          * @brief This function generates a random belief uniformly in the space of beliefs.
          *
@@ -54,7 +58,11 @@ namespace AIToolbox {
             for ( size_t s = 0; s < S; ++s )
                 b[s] = sampleDistribution(generator);
 
-            normalizeProbability(std::begin(b), std::end(b), std::begin(b));
+            auto sum = b.sum();
+
+            if ( checkEqualSmall(sum, 0.0) ) b[0] = 1.0;
+            else b /= sum;
+
             return b;
         }
 
@@ -74,17 +82,20 @@ namespace AIToolbox {
         template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
         Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
             size_t S = model.getS();
-            Belief br(S, 0.0);
+            Belief br(S);
 
+            double totalSum = 0.0;
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
                 double sum = 0.0;
                 for ( size_t s = 0; s < S; ++s )
                     sum += model.getTransitionProbability(s,a,s1) * b[s];
 
                 br[s1] = model.getObservationProbability(s1,a,o) * sum;
+                totalSum += br[s1];
             }
 
-            normalizeProbability(std::begin(br), std::end(br), std::begin(br));
+            if ( checkEqualSmall(totalSum, 0.0) ) br[0] = 1.0;
+            else br /= totalSum;
 
             return br;
         }
@@ -148,15 +159,15 @@ namespace AIToolbox {
          *
          * @return An iterator pointing to the best choice in range.
          */
-        template <typename BeliefIterator, typename Iterator>
-        Iterator findBestAtBelief(BeliefIterator bbegin, BeliefIterator bend, Iterator begin, Iterator end, double * value = nullptr) {
+        template <typename Iterator>
+        Iterator findBestAtBelief(const Belief & b, Iterator begin, Iterator end, double * value = nullptr) {
             auto bestMatch = begin;
-            double bestValue = std::inner_product(bbegin, bend, std::begin(std::get<VALUES>(*bestMatch)), 0.0);
+            double bestValue = b.dot(std::get<VALUES>(*bestMatch));
 
             while ( (++begin) < end ) {
                 auto & v = std::get<VALUES>(*begin);
-                double currValue = std::inner_product(bbegin, bend, std::begin(v), 0.0);
-                if ( currValue > bestValue || ( currValue == bestValue && ( v > std::get<VALUES>(*bestMatch) ) ) ) {
+                double currValue = b.dot(v);
+                if ( currValue > bestValue || ( currValue == bestValue && ( AIToolbox::operator>(v, std::get<VALUES>(*bestMatch) )) ) ) {
                     bestMatch = begin;
                     bestValue = currValue;
                 }
@@ -186,7 +197,7 @@ namespace AIToolbox {
             while ( (++begin) < end ) {
                 auto & v = std::get<VALUES>(*begin);
                 double currValue = v[corner];
-                if ( currValue > bestValue || ( currValue == bestValue && ( v > std::get<VALUES>(*bestMatch) ) ) ) {
+                if ( currValue > bestValue || ( currValue == bestValue && ( AIToolbox::operator>(v, std::get<VALUES>(*bestMatch)) ) ) ) {
                     bestMatch = begin;
                     bestValue = currValue;
                 }
@@ -212,9 +223,9 @@ namespace AIToolbox {
          *
          * @return The iterator pointing to the element with the highest dot product with the input belief.
          */
-        template <typename BeliefIterator, typename Iterator>
-        Iterator extractWorstAtBelief(BeliefIterator bbegin, BeliefIterator bbend, Iterator begin, Iterator bound, Iterator end) {
-            auto bestMatch = findBestAtBelief(bbegin, bbend, begin, end);
+        template <typename Iterator>
+        Iterator extractWorstAtBelief(const Belief & b, Iterator begin, Iterator bound, Iterator end) {
+            auto bestMatch = findBestAtBelief(b, begin, end);
 
             if ( bestMatch >= bound )
                 std::iter_swap(bestMatch, bound++);

@@ -187,12 +187,10 @@ namespace AIToolbox {
             double currentValue, oldValue;
 
             for ( auto & b : bl ) {
-                auto bbegin = std::begin(b), bend = std::end(b);
-
                 if ( !start ) {
                     // If we have already improved this belief, skip it
-                    findBestAtBelief( bbegin, bend, std::begin(result), std::end(result), &currentValue );
-                    findBestAtBelief( bbegin, bend, std::begin(oldV),   std::end(oldV),   &oldValue     );
+                    findBestAtBelief( b, std::begin(result), std::end(result), &currentValue );
+                    findBestAtBelief( b, std::begin(oldV),   std::end(oldV),   &oldValue     );
                     if ( currentValue >= oldValue ) continue;
                 }
                 helper.clear();
@@ -203,7 +201,7 @@ namespace AIToolbox {
                     // We compute the crossSum between each best vector for the belief.
                     for ( size_t o = 0; o < O; ++o ) {
                         const VList & projsO = projs[a][o];
-                        auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(projsO), std::end(projsO));
+                        auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
                         for ( size_t s = 0; s < S; ++s )
                             v[s] += std::get<VALUES>(*bestMatch)[s];
@@ -212,7 +210,7 @@ namespace AIToolbox {
                     }
                     helper.emplace_back(std::move(v), a, std::move(obs));
                 }
-                extractWorstAtBelief(bbegin, bend, std::begin(helper), std::begin(helper), std::end(helper));
+                extractWorstAtBelief(b, std::begin(helper), std::begin(helper), std::end(helper));
                 result.emplace_back(std::move(helper[0]));
                 start = false;
             }

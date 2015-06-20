@@ -68,13 +68,13 @@ namespace AIToolbox {
                 size_t S, A, O;
                 double discount_;
 
-                Table2D immediateRewards_;
+                Matrix2D immediateRewards_;
                 PossibleObservationsTable possibleObservations_;
         };
 
         template <typename M>
         Projecter<M>::Projecter(const M& model) : model_(model), S(model_.getS()), A(model_.getA()), O(model_.getO()), discount_(model_.getDiscount()),
-                                                  immediateRewards_(boost::extents[A][S]), possibleObservations_(boost::extents[A][O])
+                                                  immediateRewards_(A, S), possibleObservations_(boost::extents[A][O])
         {
             computePossibleObservations();
             computeImmediateRewards();
@@ -99,33 +99,27 @@ namespace AIToolbox {
                 // function works correctly. However we communicate via the boolean that pruning should
                 // not be done at this step (since adding constants shouldn't do anything anyway).
                 if ( !possibleObservations_[a][o] ) {
-                    MDP::Values vproj(S, 0.0);
-                    for ( size_t s = 0; s < S; ++s )
-                        vproj[s] += immediateRewards_[a][s];
                     // We add a parent id anyway in order to keep the code that cross-sums simple. However
                     // note that this fake ID of 0 should never be used, so it should be safe to avoid
                     // setting it to a special value like -1. If one really wants to check, he/she can
                     // just look at the observation table and the belief and see if it makes sense.
-                    projections[o].emplace_back(std::move(vproj), a, VObs(1,0));
+                    projections[o].emplace_back(immediateRewards_.row(a), a, VObs(1,0));
                     continue;
                 }
 
                 // Otherwise we compute a projection for each ValueFunction supplied to us.
                 for ( size_t i = 0; i < w.size(); ++i ) {
                     auto & v = std::get<VALUES>(w[i]);
-                    MDP::Values vproj(S, 0.0);
+                    MDP::Values vproj(S); vproj.fill(0.0);
                     // For each value function in the previous timestep, we compute the new value
                     // if we performed action a and obtained observation o.
-                    for ( size_t s = 0; s < S; ++s ) {
+                    for ( size_t s = 0; s < S; ++s )
                         // vproj_{a,o}[s] = R(s,a) / |O| + discount * sum_{s'} ( T(s,a,s') * O(s',a,o) * v_{t-1}(s') )
                         for ( size_t s1 = 0; s1 < S; ++s1 )
                             vproj[s] += model_.getTransitionProbability(s,a,s1) * model_.getObservationProbability(s1,a,o) * v[s1];
-
-                        vproj[s] *= discount_;
-                        vproj[s] += immediateRewards_[a][s];
-                    }
                     // Set new projection with found value and previous V id.
-                    projections[o].emplace_back(std::move(vproj), a, VObs(1,i));
+                    // projections[o].emplace_back(vproj, a, VObs(1,i));
+                    projections[o].emplace_back(vproj * discount_ + immediateRewards_.row(a).transpose(), a, VObs(1,i));
                 }
             }
 
@@ -134,16 +128,15 @@ namespace AIToolbox {
 
         template <typename M>
         void Projecter<M>::computeImmediateRewards() {
-            for ( size_t a = 0; a < A; ++a ) {
-                for ( size_t s = 0; s < S; ++s ) {
+            immediateRewards_.fill(0.0);
+            for ( size_t a = 0; a < A; ++a )
+                for ( size_t s = 0; s < S; ++s )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
-                        immediateRewards_[a][s] += model_.getTransitionProbability(s,a,s1) * model_.getExpectedReward(s,a,s1);
+                        immediateRewards_(a, s) += model_.getTransitionProbability(s,a,s1) * model_.getExpectedReward(s,a,s1);
 
-                    // You can find out why this is divided in the incremental pruning paper =)
-                    // The idea is that at the end of all the cross sums it's going to add up to the correct value.
-                    immediateRewards_[a][s] /= static_cast<double>(O);
-                }
-            }
+            // You can find out why this is divided in the incremental pruning paper =)
+            // The idea is that at the end of all the cross sums it's going to add up to the correct value.
+            immediateRewards_ /= static_cast<double>(O);
         }
 
         template <typename M>

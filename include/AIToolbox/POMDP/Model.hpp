@@ -18,7 +18,7 @@ namespace AIToolbox {
         class Model;
 #endif
 
-        // Declarationo to warn the compiler that this is a template function
+        // Declaration to warn the compiler that this is a template function
         template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
         std::istream& operator>>(std::istream &is, Model<M> & m);
 
@@ -71,7 +71,7 @@ namespace AIToolbox {
         template <typename M>
         class Model<M> : public M {
             public:
-                using ObservationTable = Table3D;
+                using ObservationTable = Matrix3D;
 
                 /**
                  * @brief Basic constructor.
@@ -90,13 +90,14 @@ namespace AIToolbox {
                  * @brief Basic constructor.
                  *
                  * This constructor takes an arbitrary three dimensional
-                 * containers and tries to copy its contents into the
+                 * container and tries to copy its contents into the
                  * observations table.
                  *
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
                  * container must match the ones provided as arguments
-                 * both directly (o) and indirectly (s,a).
+                 * both directly (o) and indirectly (s,a), in the order
+                 * s, a, o.
                  *
                  * This is important, as this constructor DOES NOT perform
                  * any size checks on the external containers.
@@ -143,9 +144,9 @@ namespace AIToolbox {
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
                  * containers must match the ones provided as arguments
-                 * (for three dimensions: s,a,o).
+                 * (for three dimensions: s,a,o, in this order).
                  *
-                 * This is important, as this constructor DOES NOT perform
+                 * This is important, as this function DOES NOT perform
                  * any size checks on the external containers.
                  *
                  * Internal values of the container will be converted to double,
@@ -219,6 +220,15 @@ namespace AIToolbox {
                 double getObservationProbability(const Belief & b, size_t o, size_t a) const;
 
                 /**
+                 * @brief This function returns the observation function for a given action.
+                 *
+                 * @param a The action requested.
+                 *
+                 * @return The observation function for the input action.
+                 */
+                const Matrix2D & getObservationFunction(size_t a) const;
+
+                /**
                  * @brief This function returns the number of observations possible.
                  *
                  * @return The total number of observations.
@@ -244,33 +254,34 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename... Args>
-        Model<M>::Model(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
+        Model<M>::Model(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), {this->getS(), O}),
                                                       rand_(Impl::Seeder::getSeed())
         {
-            for ( size_t s = 0; s < this->getS(); ++s )
-                for ( size_t a = 0; a < this->getA(); ++a )
-                    observations_[s][a][0] = 1.0;
+            for ( size_t a = 0; a < this->getA(); ++a ) {
+                observations_[a].fill(0.0);
+                observations_[a].col(0).fill(1.0);
+            }
         }
 
         template <typename M>
         template <typename ObFun, typename... Args, typename>
-        Model<M>::Model(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
-                                                                        rand_(Impl::Seeder::getSeed())
+        Model<M>::Model(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), {this->getS(), O}),
+                                                                   rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);
         }
 
         template <typename M>
         template <typename PM, typename>
-        Model<M>::Model(const PM& model) : M(model), O(model.getO()), observations_(boost::extents[this->getS()][this->getA()][O]),
+        Model<M>::Model(const PM& model) : M(model), O(model.getO()), observations_(this->getA(), {this->getS(), O}),
                                            rand_(Impl::Seeder::getSeed())
         {
-            for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
-                for ( size_t a = 0; a < this->getA(); ++a ) {
+            for ( size_t a = 0; a < this->getA(); ++a )
+                for ( size_t s1 = 0; s1 < this->getS(); ++s1 ) {
                     for ( size_t o = 0; o < O; ++o ) {
-                        observations_[s1][a][o] = model.getObservationProbability(s1, a, o);
+                        observations_[a](s1, o) = model.getObservationProbability(s1, a, o);
                     }
-                    if ( ! isProbability(O, observations_[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    if ( ! isProbability(O, observations_[a].row(s1)) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
                 }
         }
 
@@ -281,12 +292,20 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < this->getA(); ++a )
                     if ( ! isProbability(O, of[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
-            copyTable3D(of, observations_, this->getS(), this->getA(), O);
+            for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
+                for ( size_t a = 0; a < this->getA(); ++a )
+                    for ( size_t o = 0; o < O; ++o )
+                        observations_[a](s1, o) = of[s1][a][o];
         }
 
         template <typename M>
         double Model<M>::getObservationProbability(size_t s1, size_t a, size_t o) const {
-            return observations_[s1][a][o];
+            return observations_[a](s1, o);
+        }
+
+        template <typename M>
+        const Matrix2D & Model<M>::getObservationFunction(size_t a) const {
+            return observations_[a];
         }
 
         template <typename M>
@@ -305,14 +324,14 @@ namespace AIToolbox {
             double r;
 
             std::tie(s1, r) = this->sampleSR(s, a);
-            o = sampleProbability(O, observations_[s1][a], rand_);
+            o = sampleProbability(O, observations_[a].row(s1), rand_);
 
             return std::make_tuple(s1, o, r);
         }
 
         template <typename M>
         std::tuple<size_t, double> Model<M>::sampleOR(size_t s, size_t a, size_t s1) const {
-            size_t o = sampleProbability(O, observations_[s1][a], rand_);
+            size_t o = sampleProbability(O, observations_[a].row(s1), rand_);
             double r = this->getExpectedReward(s, a, s1);
             return std::make_tuple(o, r);
         }

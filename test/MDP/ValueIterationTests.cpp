@@ -98,11 +98,9 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     auto & actions = std::get<ACTIONS>(vfun);
     for ( size_t s = 0; s < S; ++s ) {
         // We check that values correspond between Q and V
-        BOOST_CHECK_EQUAL( qfun[s][actions[s]], values[s] );
+        BOOST_CHECK_EQUAL( qfun(s, actions[s]), values[s] );
 
         // And that the action truly points to (one of) the best.
-        auto ref = qfun[s];
-        auto maxIt = std::max_element(std::begin(ref), std::end(ref));
-        BOOST_CHECK_EQUAL( *maxIt, values[s] );
+        BOOST_CHECK_EQUAL( qfun.row(s).maxCoeff(), values[s] );
     }
 }

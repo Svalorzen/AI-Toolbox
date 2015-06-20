@@ -141,7 +141,7 @@ namespace AIToolbox {
 
         template <typename M>
         void SARSA<M>::stepUpdateQ(size_t s, size_t a, size_t s1, size_t a1, double rew) {
-            q_[s][a] += alpha_ * ( rew + discount_ * q_[s1][a1] - q_[s][a] );
+            q_(s, a) += alpha_ * ( rew + discount_ * q_(s1, a1) - q_(s, a) );
         }
 
         template <typename M>

@@ -51,8 +51,8 @@ inline AIToolbox::MDP::Model makeCliffProblem(const GridWorld & grid) {
 
     size_t S = grid.getSizeX() * grid.getSizeY() + 2, A = 4;
 
-    Model::TransitionTable transitions(boost::extents[S][A][S]);
-    Model::RewardTable rewards(boost::extents[S][A][S]);
+    AIToolbox::Table3D transitions(boost::extents[S][A][S]);
+    AIToolbox::Table3D rewards(boost::extents[S][A][S]);
 
     double failReward = -100.0, stepReward = -1.0, winReward = 0.0;
 

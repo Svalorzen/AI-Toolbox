@@ -42,7 +42,7 @@ namespace AIToolbox {
                  *
                  * @param v The optimal constraint to add.
                  */
-                void addOptimalRow(const std::vector<double> & v);
+                void addOptimalRow(const MDP::Values & v);
 
                 /**
                  * @brief This function solves the currently set LP.
@@ -54,7 +54,7 @@ namespace AIToolbox {
                  *
                  * @return A pair of whether a solution has been found, and an eventual Belief with the solution.
                  */
-                std::tuple<bool, POMDP::Belief> findWitness(const std::vector<double> & v);
+                std::tuple<bool, POMDP::Belief> findWitness(const MDP::Values & v);
 
                 /**
                  * @brief This function resets the internal LP to only the simplex constraint.
@@ -84,7 +84,7 @@ namespace AIToolbox {
                  * @param v The constraint coefficients.
                  * @param constrType The constraint type.
                  */
-                void pushRow(const std::vector<double> & v, int constrType);
+                void pushRow(const MDP::Values & v, int constrType);
 
                 /**
                  * @brief This function removes a single constraint from the LP in a LIFO fashion.

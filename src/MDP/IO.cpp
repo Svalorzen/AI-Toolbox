@@ -74,16 +74,21 @@ namespace AIToolbox {
 
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t a = 0; a < A; ++a ) {
+                    double sum = 0.0;
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                        if ( !(is >> in.transitions_[s][a][s1] >> in.rewards_[s][a][s1] )) {
+                        if ( !(is >> in.transitions_[a](s, s1) >> in.rewards_[a](s, s1) )) {
                             std::cerr << "AIToolbox: Could not read Model data.\n";
                             is.setstate(std::ios::failbit);
                             return is;
                         }
+                        sum += in.transitions_[a](s, s1);
                     }
+
                     // Verification/Sanitization
-                    auto ref = in.transitions_[s][a];
-                    normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
+                    if ( checkDifferentSmall(sum, 0.0) )
+                        in.transitions_[a].row(s) /= sum;
+                    else
+                        in.transitions_[a](s, s) = 1.0;
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.

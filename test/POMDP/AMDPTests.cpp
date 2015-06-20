@@ -42,8 +42,13 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // of random beliefs works in the majority of cases but for some
     // particular beliefs tends to fail (possibly near the edges of an
     // entropy bucket), so that's not really doable.
-    std::vector<POMDP::Belief> beliefs{{0.5, 0.5}, {1.0, 0.0}, {0.25, 0.75}, {0.98, 0.02}, {0.33, 0.66}};
+    Matrix2D beliefs(5, 2);
+    beliefs << 0.5,     0.5, 
+               1.0,     0.0, 
+               0.25,    0.75, 
+               0.98,    0.02, 
+               0.33,    0.66;
 
-    for ( auto & b : beliefs )
-        BOOST_CHECK_EQUAL( truthPolicy.sampleAction(b), policy.sampleAction( beliefConverter(b) ) );
+    for ( auto i = 0; i < beliefs.rows(); ++i )
+        BOOST_CHECK_EQUAL( truthPolicy.sampleAction(beliefs.row(i)), policy.sampleAction( beliefConverter(beliefs.row(i)) ) );
 }

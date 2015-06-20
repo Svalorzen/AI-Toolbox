@@ -75,14 +75,14 @@ namespace AIToolbox {
             row[cols_-1] = +0.0;
         }
 
-        void WitnessLP_clp::addOptimalRow(const std::vector<double> & v) {
+        void WitnessLP_clp::addOptimalRow(const MDP::Values & v) {
             // Temporarily set the delta constraint
             row[cols_-1] = +1.0;
             pushRow(v, -COIN_DBL_MAX, 0.0); // Less equal than zero
             row[cols_-1] = 0.0;
         }
 
-        std::tuple<bool, POMDP::Belief> WitnessLP_clp::findWitness(const std::vector<double> & v) {
+        std::tuple<bool, POMDP::Belief> WitnessLP_clp::findWitness(const MDP::Values & v) {
             // Add witness constraint
             pushRow(v, 0.0, 0.0); // Equal to zero
 
@@ -118,7 +118,7 @@ namespace AIToolbox {
 
         void WitnessLP_clp::allocate(size_t) {}
 
-        void WitnessLP_clp::pushRow(const std::vector<double> & v, double min, double max) {
+        void WitnessLP_clp::pushRow(const MDP::Values & v, double min, double max) {
             for ( size_t s = 0; s < S; ++s )
                 row[s] = v[s];
 

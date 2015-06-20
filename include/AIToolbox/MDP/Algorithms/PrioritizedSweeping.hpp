@@ -207,17 +207,13 @@ namespace AIToolbox {
                     if ( checkDifferentSmall( probability, 0.0 ) )
                         newQValue += probability * ( model_.getExpectedReward(s,a,s1) + model_.getDiscount() * values[s1] );
                 }
-                qfun_[s][a] = newQValue;
+                qfun_(s, a) = newQValue;
             }
 
             double p = values[s];
             {
-                auto ref = qfun_[s];
-                auto begin = std::begin(ref);
-                auto it = std::max_element(begin, std::end(ref));
                 // Update value and action
-                values[s] = *it;
-                std::get<ACTIONS>(vfun_)[s] = std::distance(begin, it);
+                values[s] = qfun_.row(s).maxCoeff(&std::get<ACTIONS>(vfun_)[s]);
             }
 
             p = std::fabs(values[s] - p);
@@ -291,9 +287,7 @@ namespace AIToolbox {
 
         template <typename M>
         void PrioritizedSweeping<M>::setQFunction(const QFunction & qfun) {
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    qfun_[s][a] = qfun[s][a];
+            qfun_ = qfun;
         }
 
         template <typename M>

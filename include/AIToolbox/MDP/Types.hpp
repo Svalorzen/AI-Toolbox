@@ -2,11 +2,11 @@
 #define AI_TOOLBOX_MDP_TYPES_HEADER_FILE
 
 #include <vector>
+
 #include <AIToolbox/Types.hpp>
 
 namespace AIToolbox {
     namespace MDP {
-        // TODO: Port these to uBLAS.
         /**
          * @name MDP Value Types
          *
@@ -41,14 +41,15 @@ namespace AIToolbox {
          * @{
          */
 
-        using Values            = std::vector<double>;
+        using Values            = Vector;
         using Actions           = std::vector<size_t>;
         using ValueFunction     = std::tuple<Values, Actions>;
         enum {
             VALUES = 0,
             ACTIONS = 1,
         };
-        using QFunction         = Table2D;
+
+        using QFunction = Matrix2D;
 
         /** @}  */
 

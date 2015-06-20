@@ -339,7 +339,8 @@ namespace AIToolbox {
             auto it = obs.find(o);
             if ( it == obs.end() ) {
                 std::cerr << "Observation " << o << " never experienced in simulation, restarting with uniform belief..\n";
-                return sampleAction(Belief(S, 1.0 / S), horizon);
+                auto b = Belief(S); b.fill(1.0/S);
+                return sampleAction(b, horizon);
             }
 
             // Here we need an additional step, because *it is contained by graph_.
@@ -351,7 +352,8 @@ namespace AIToolbox {
 
             if ( ! graph_.belief.size() ) {
                 std::cerr << "POMCP Lost track of the belief, restarting with uniform..\n";
-                return sampleAction(Belief(S, 1.0 / S), horizon);
+                auto b = Belief(S); b.fill(1.0/S);
+                return sampleAction(b, horizon);
             }
 
             // We resize here in case we didn't have time to sample the new

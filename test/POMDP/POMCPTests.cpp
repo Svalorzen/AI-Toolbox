@@ -20,7 +20,12 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     model.setDiscount(0.85);
 
     // This indicates where the tiger is.
-    std::vector<POMDP::Belief> beliefs{{0.5, 0.5}, {1.0, 0.0}, {0.25, 0.75}, {0.98, 0.02}, {0.33, 0.66}};
+    Matrix2D beliefs(5, 2);
+    beliefs << 0.5,     0.5, 
+               1.0,     0.0, 
+               0.25,    0.75, 
+               0.98,    0.02, 
+               0.33,    0.66;
 
     unsigned maxHorizon = 7;
 
@@ -43,9 +48,9 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         // end up being way better, since POMCP averages across actions (not very smart).
         POMDP::POMCP<decltype(model)> solver(model, 1000, 10000, horizon * 10000.0);
 
-        for ( auto & b : beliefs ) {
-            auto a = solver.sampleAction(b, horizon);
-            auto trueA = p.sampleAction(b, horizon);
+        for ( auto i = 0; i < beliefs.rows(); ++i ) {
+            auto a = solver.sampleAction(beliefs.row(i), horizon);
+            auto trueA = p.sampleAction(beliefs.row(i), horizon);
 
             BOOST_CHECK_EQUAL( std::get<0>(trueA), a);
         }
@@ -59,7 +64,12 @@ BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
     model.setDiscount(0.85);
 
     // This indicates where the tiger is.
-    std::vector<POMDP::Belief> beliefs{{0.5, 0.5}, {1.0, 0.0}, {0.25, 0.75}, {0.98, 0.02}, {0.33, 0.66}};
+    Matrix2D beliefs(5, 2);
+    beliefs << 0.5,     0.5, 
+               1.0,     0.0, 
+               0.25,    0.75, 
+               0.98,    0.02, 
+               0.33,    0.66;
 
     unsigned horizon = 1;
     unsigned count = 10000;
@@ -70,7 +80,8 @@ BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
     // the particle belief still gets updated so that it
     // can be used when sampling actions using an action
     // and observation.
-    for ( auto & b : beliefs ) {
+    for ( auto i = 0; i < beliefs.rows(); ++i ) {
+        auto b = beliefs.row(i);
         solver.sampleAction(b, horizon);
 
         auto & graph = solver.getGraph();
@@ -93,7 +104,7 @@ BOOST_AUTO_TEST_CASE( sampleOneTime ) {
     model.setDiscount(0.85);
 
     // This indicates where the tiger is.
-    POMDP::Belief belief(2, 0.5);
+    POMDP::Belief belief(2); belief.fill(0.5);
 
     unsigned horizon = 100;
     unsigned count = 1;

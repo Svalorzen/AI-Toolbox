@@ -257,13 +257,13 @@ namespace AIToolbox {
 
         template <typename ProjectionsRow>
         POMDP::VEntry Witness::crossSumBestAtBelief(const ProjectionsRow & projs, size_t a, const Belief & b) {
-            MDP::Values v(S, 0.0);
+            MDP::Values v(S); v.fill(0.0);
             VObs obs(O);
 
             // We compute the crossSum between each best vector for the belief.
             for ( size_t o = 0; o < O; ++o ) {
                 const VList & projsO = projs[o];
-                auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(projsO), std::end(projsO));
+                auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
                 for ( size_t s = 0; s < S; ++s )
                     v[s] += std::get<VALUES>(*bestMatch)[s];
@@ -276,7 +276,7 @@ namespace AIToolbox {
 
         template <typename ProjectionsRow>
         void Witness::addDefaultEntry(const ProjectionsRow & projs, size_t a) {
-            MDP::Values v(S, 0.0);
+            MDP::Values v(S); v.fill(0.0);
             VObs obs(O, 0);
 
             // We compute the crossSum between each best vector for the belief.

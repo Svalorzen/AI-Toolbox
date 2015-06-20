@@ -4,7 +4,22 @@ namespace AIToolbox {
     namespace POMDP {
 
         VEntry makeVEntry(size_t S, size_t a, size_t O) {
-            return std::make_tuple(MDP::Values(S, 0.0), a, VObs(O, 0));
+            auto values = MDP::Values(S);
+            values.fill(0.0);
+            return std::make_tuple(values, a, VObs(O, 0));
+        }
+
+        bool operator<(const VEntry & lhs, const VEntry & rhs) {
+            if (AIToolbox::operator<(std::get<0>(lhs), std::get<0>(rhs))) return true;
+            if (AIToolbox::operator<(std::get<0>(rhs), std::get<0>(lhs))) return false;
+            if (std::get<1>(lhs) < std::get<1>(rhs)) return true;
+            if (std::get<1>(rhs) < std::get<1>(lhs)) return false;
+            if (std::get<2>(lhs) < std::get<2>(rhs)) return true;
+            return false;
+        }
+
+        bool operator>(const VEntry & lhs, const VEntry & rhs) {
+            return !(rhs < lhs);
         }
 
         double weakBoundDistance(const VList & oldV, const VList & newV) {
@@ -22,20 +37,14 @@ namespace AIToolbox {
             // We define distance between two ValueFunctions as the maximum between their
             // element-wise difference.
             if ( !oldV.size() ) return 0.0;
-            MDP::Values helper(std::get<VALUES>(oldV[0]).size()); // We use this to compute differences.
-            auto hBegin = std::begin(helper), hEnd = std::end(helper);
 
             double distance = 0.0;
-            for ( auto & newVE : newV ) {
-                auto nBegin = std::begin(std::get<0>(newVE)), nEnd = std::end(std::get<0>(newVE));
-
+            for ( const auto & newVE : newV ) {
+                // Initialize closest distance for newVE as infinity
                 double closestDistance = std::numeric_limits<double>::infinity();
-                for ( auto & oldVE : oldV ) {
-                    auto computeVariation = [](double lhs, double rhs) { return std::fabs(lhs - rhs); };
-                    std::transform(nBegin, nEnd, std::begin(std::get<0>(oldVE)), hBegin, computeVariation );
-
+                for ( const auto & oldVE : oldV ) {
                     // Compute the distance, we pick the max
-                    double distance = *std::max_element(hBegin, hEnd);
+                    double distance = (std::get<VALUES>(newVE) - std::get<VALUES>(oldVE)).cwiseAbs().maxCoeff();
 
                     // Keep the closest, we pick the min
                     closestDistance = std::min(closestDistance, distance);

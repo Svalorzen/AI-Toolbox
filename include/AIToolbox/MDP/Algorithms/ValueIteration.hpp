@@ -49,7 +49,7 @@ namespace AIToolbox {
                  * @param epsilon The epsilon factor to stop the value iteration loop.
                  * @param v The initial value function from which to start the loop.
                  */
-                ValueIteration(unsigned horizon, double epsilon = 0.001, ValueFunction v = ValueFunction(Values(0), Actions(0)));
+                ValueIteration(unsigned horizon, double epsilon = 0.001, ValueFunction v = ValueFunction(Values(), Actions(0)));
 
                 /**
                  * @brief This function applies value iteration on an MDP to solve it.
@@ -140,7 +140,7 @@ namespace AIToolbox {
                  * @return The Models's immediate rewards.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                Table2D computeImmediateRewards(const M & model) const;
+                QFunction computeImmediateRewards(const M & model) const;
 
                 /**
                  * @brief This function creates the Model's most up-to-date QFunction.
@@ -153,7 +153,7 @@ namespace AIToolbox {
                  * @return A new QFunction.
                  */
                 template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-                QFunction computeQFunction(const M & model, const Table2D & ir) const;
+                QFunction computeQFunction(const M & model, const QFunction & ir) const;
 
                 /**
                  * @brief This function applies a single pass Bellman operator, improving the current ValueFunction estimate.
@@ -207,13 +207,8 @@ namespace AIToolbox {
 
                 // We do this only if the epsilon specified is positive, otherwise we
                 // continue for all the timesteps.
-                if ( useEpsilon ) {
-                    auto computeVariation = [](double lhs, double rhs) { return std::fabs(lhs - rhs); };
-                    // We compute the difference and store it into v0 for comparison.
-                    std::transform(std::begin(val1), std::end(val1), std::begin(val0), std::begin(val0), computeVariation);
-
-                    variation = *std::max_element(std::begin(val0), std::end(val0));
-                }
+                if ( useEpsilon )
+                    variation = (val1 - val0).cwiseAbs().maxCoeff();
             }
 
             // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
@@ -221,25 +216,25 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        Table2D ValueIteration::computeImmediateRewards(const M & model) const {
-            Table2D pr(boost::extents[S][A]);
+        QFunction ValueIteration::computeImmediateRewards(const M & model) const {
+            QFunction pr = makeQFunction(S, A);
 
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
-                        pr[s][a] += model.getTransitionProbability(s,a,s1) * model.getExpectedReward(s,a,s1);
+                        pr(s, a) += model.getTransitionProbability(s,a,s1) * model.getExpectedReward(s,a,s1);
 
             return pr;
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        QFunction ValueIteration::computeQFunction(const M & model, const Table2D & ir) const {
+        QFunction ValueIteration::computeQFunction(const M & model, const QFunction & ir) const {
             QFunction q = ir;
 
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
-                        q[s][a] += model.getTransitionProbability(s,a,s1) * discount_ * std::get<VALUES>(v1_)[s1];
+                        q(s, a) += model.getTransitionProbability(s,a,s1) * discount_ * std::get<VALUES>(v1_)[s1];
             return q;
         }
 
@@ -248,15 +243,8 @@ namespace AIToolbox {
             auto & values  = std::get<VALUES> (*v);
             auto & actions = std::get<ACTIONS>(*v);
 
-            for ( size_t s = 0; s < S; ++s ) {
-                // Accessing an element like this creates a temporary. Thus we need to bind it.
-                QFunction::const_reference ref = q[s];
-                auto begin = std::begin(ref);
-                auto it = std::max_element(begin, std::end(ref));
-
-                values[s] = *it;
-                actions[s] = std::distance(begin, it);
-            }
+            for ( size_t s = 0; s < S; ++s )
+                values(s) = q.row(s).maxCoeff(&actions[s]);
         }
     }
 }

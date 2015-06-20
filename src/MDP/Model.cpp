@@ -2,27 +2,28 @@
 
 namespace AIToolbox {
     namespace MDP {
-        Model::Model(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+        Model::Model(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(A, {S, S}), rewards_(A, {S, S}),
                                                        rand_(Impl::Seeder::getSeed())
         {
             // Make transition table true probability
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    transitions_[s][a][s] = 1.0;
+            for ( size_t a = 0; a < A; ++a ) {
+                transitions_[a].setIdentity();
+                rewards_[a].fill(0.0);
+            }
         }
 
         std::tuple<size_t, double> Model::sampleSR(size_t s, size_t a) const {
-            size_t s1 = sampleProbability(S, transitions_[s][a], rand_);
+            size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
-            return std::make_tuple(s1, rewards_[s][a][s1]);
+            return std::make_tuple(s1, rewards_[a](s, s1));
         }
 
         double Model::getTransitionProbability(size_t s, size_t a, size_t s1) const {
-            return transitions_[s][a][s1];
+            return transitions_[a](s, s1);
         }
 
         double Model::getExpectedReward(size_t s, size_t a, size_t s1) const {
-            return rewards_[s][a][s1];
+            return rewards_[a](s, s1);
         }
 
         void Model::setDiscount(double d) {
@@ -33,7 +34,7 @@ namespace AIToolbox {
         bool Model::isTerminal(size_t s) const {
             bool answer = true;
             for ( size_t a = 0; a < A; ++a ) {
-                if ( !checkEqualSmall(1.0, transitions_[s][a][s]) ) {
+                if ( !checkEqualSmall(1.0, transitions_[a](s, s)) ) {
                     answer = false;
                     break;
                 }

@@ -16,7 +16,7 @@ namespace AIToolbox {
             // We use the latest horizon here.
             auto & vlist = policy_.back();
 
-            auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), std::begin(vlist), std::end(vlist));
+            auto bestMatch = findBestAtBelief(b, std::begin(vlist), std::end(vlist));
 
             return std::get<ACTION>(*bestMatch);
         }
@@ -25,7 +25,7 @@ namespace AIToolbox {
             auto & vlist = policy_[horizon];
 
             auto begin     = std::begin(vlist);
-            auto bestMatch = findBestAtBelief(std::begin(b), std::end(b), begin, std::end(vlist));
+            auto bestMatch = findBestAtBelief(b, begin, std::end(vlist));
 
             size_t action = std::get<ACTION>(*bestMatch);
             size_t id     = std::distance(begin, bestMatch);
@@ -80,8 +80,7 @@ namespace AIToolbox {
                 // VEntries
                 for ( auto & vv : vl ) {
                     // Values
-                    for ( auto & v : std::get<VALUES>(vv) )
-                        os << v << ' ';
+                    os << std::get<VALUES>(vv).transpose() << ' ';
                     // Action
                     os << std::get<ACTION>(vv) << ' ';
                     // Obs
@@ -132,13 +131,13 @@ namespace AIToolbox {
                     newHorizon = false;
                 }
 
-                MDP::Values values(S, 0.0);
+                MDP::Values values(S);
                 size_t action;
                 POMDP::VObs obs(O, 0);
 
                 // Values
-                for ( auto & v : values )
-                    if ( !(is >> v) )
+                for ( size_t i = 0; i < S; ++i )
+                    if ( !(is >> values(i)) )
                         goto failure;
                 // Action
                 if ( !(is >> action) || action >= A ) {

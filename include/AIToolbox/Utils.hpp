@@ -2,6 +2,11 @@
 #define AI_TOOLBOX_UTILS_HEADER_FILE
 
 #include <cstddef>
+#include <cmath>
+#include <limits>
+#include <algorithm>
+
+#include <AIToolbox/Types.hpp>
 
 namespace AIToolbox {
     /**
@@ -87,6 +92,16 @@ namespace AIToolbox {
      */
     inline bool checkDifferentGeneral(double a, double b) {
         return !checkEqualGeneral(a,b);
+    }
+
+    inline bool operator<(const Vector & lhs, const Vector & rhs) {
+        return std::lexicographical_compare(
+          lhs.data(),lhs.data()+lhs.size(),
+          rhs.data(),rhs.data()+rhs.size());
+    }
+
+    inline bool operator>(const Vector & lhs, const Vector & rhs) {
+        return !(lhs < rhs);
     }
 }
 

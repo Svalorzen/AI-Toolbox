@@ -141,7 +141,7 @@ namespace AIToolbox {
 
         template <typename M>
         void QLearning<M>::stepUpdateQ(size_t s, size_t a, size_t s1, double rew) {
-            q_[s][a] += alpha_ * ( rew + discount_ * (*std::max_element(std::begin(q_[s1]),std::end(q_[s1]))) - q_[s][a] );
+            q_(s, a) += alpha_ * ( rew + discount_ * q_.row(s1).maxCoeff() - q_(s, a) );
         }
 
         template <typename M>

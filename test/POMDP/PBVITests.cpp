@@ -30,8 +30,12 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto vf = std::get<1>(solution);
     auto vt = std::get<1>(truth);
 
-    for ( auto & vl : vt ) std::sort(std::begin(vl), std::end(vl));
-    for ( auto & vl : vf ) std::sort(std::begin(vl), std::end(vl));
+    auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
+        return POMDP::operator<(lhs, rhs);
+    };
+
+    for ( auto & vl : vt ) std::sort(std::begin(vl), std::end(vl), comparer);
+    for ( auto & vl : vf ) std::sort(std::begin(vl), std::end(vl), comparer);
 
     bool sizeEqual1, sizeEqual2;
     sizeEqual1 = vf.size() == vt.size();
@@ -78,11 +82,11 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     POMDP::VList truth = {
         // Action 10 here (which does not exist) is used to mark the values for which both listening or acting is a correct
         // action. We will not test those.
-        std::make_tuple(MDP::Values({-101.0000000000000000000000000, 9.0000000000000000000000000   }), 10u, POMDP::VObs(0)),
-        std::make_tuple(MDP::Values({-16.8500000000000014210854715 , 7.3499999999999996447286321   }), 0u, POMDP::VObs(0)),
-        std::make_tuple(MDP::Values({-2.0000000000000000000000000  , -2.0000000000000000000000000  }), 0u, POMDP::VObs(0)),
-        std::make_tuple(MDP::Values({7.3499999999999996447286321   , -16.8500000000000014210854715 }), 0u, POMDP::VObs(0)),
-        std::make_tuple(MDP::Values({9.0000000000000000000000000   , -101.0000000000000000000000000}), 10u, POMDP::VObs(0)),
+        std::make_tuple((MDP::Values(2) << -101.0000000000000000000000000, 9.0000000000000000000000000   ).finished(), 10u, POMDP::VObs(0)),
+        std::make_tuple((MDP::Values(2) << -16.8500000000000014210854715 , 7.3499999999999996447286321   ).finished(), 0u, POMDP::VObs(0)),
+        std::make_tuple((MDP::Values(2) << -2.0000000000000000000000000  , -2.0000000000000000000000000  ).finished(), 0u, POMDP::VObs(0)),
+        std::make_tuple((MDP::Values(2) << 7.3499999999999996447286321   , -16.8500000000000014210854715 ).finished(), 0u, POMDP::VObs(0)),
+        std::make_tuple((MDP::Values(2) << 9.0000000000000000000000000   , -101.0000000000000000000000000).finished(), 10u, POMDP::VObs(0)),
     };
 
     // We check that all entries PBVI found exist in the ground truth.

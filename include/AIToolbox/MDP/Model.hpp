@@ -69,8 +69,8 @@ namespace AIToolbox {
          */
         class Model {
             public:
-                using TransitionTable   = Table3D;
-                using RewardTable       = Table3D;
+                using TransitionTable   = Matrix3D;
+                using RewardTable       = Matrix3D;
 
                 /**
                  * @brief Basic constructor.
@@ -263,11 +263,29 @@ namespace AIToolbox {
                 const TransitionTable & getTransitionFunction() const;
 
                 /**
+                 * @brief This function returns the transition function for a given action.
+                 *
+                 * @param a The action requested.
+                 *
+                 * @return The transition function for the input action.
+                 */
+                const Matrix2D & getTransitionFunction(size_t a) const;
+
+                /**
                  * @brief This function returns the rewards table for inspection.
                  *
                  * @return The rewards table.
                  */
                 const RewardTable &     getRewardFunction()     const;
+
+                /**
+                 * @brief This function returns the reward function for a given action.
+                 *
+                 * @param a The action requested.
+                 *
+                 * @return The reward function for the input action.
+                 */
+                const Matrix2D & getRewardFunction(size_t a) const;
 
                 /**
                  * @brief This function returns whether a given state is a terminal.
@@ -291,7 +309,7 @@ namespace AIToolbox {
         };
 
         template <typename T, typename R>
-        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(A, {S, S}), rewards_(A, {S, S}),
                                                                                rand_(Impl::Seeder::getSeed())
         {
             setDiscount(d);
@@ -299,17 +317,24 @@ namespace AIToolbox {
             setRewardFunction(r);
         }
 
+        template <>
+        inline Model::Model(size_t s, size_t a, const TransitionTable & t, const RewardTable & r, double d) : S(s), A(a), transitions_(t), rewards_(r),
+                                                                                                rand_(Impl::Seeder::getSeed())
+        {
+            setDiscount(d);
+        }
+
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        Model::Model(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+        Model::Model(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(A, {S, S}), rewards_(A, {S, S}),
                                        rand_(Impl::Seeder::getSeed())
         {
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t a = 0; a < A; ++a )
+                for ( size_t s = 0; s < S; ++s ) {
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                        transitions_[s][a][s1] = model.getTransitionProbability(s, a, s1);
-                        rewards_    [s][a][s1] = model.getExpectedReward       (s, a, s1);
+                        transitions_[a](s, s1) = model.getTransitionProbability(s, a, s1);
+                        rewards_    [a](s, s1) = model.getExpectedReward       (s, a, s1);
                     }
-                    if ( ! isProbability(S, transitions_[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    if ( ! isProbability(S, transitions_[a].row(s)) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
                 }
         }
 
@@ -319,12 +344,18 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < A; ++a )
                     if ( ! isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
 
-            copyTable3D(t, transitions_, S, A, S);
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a )
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        transitions_[a](s, s1) = t[s][a][s1];
         }
 
         template <typename R>
         void Model::setRewardFunction( const R & r ) {
-            copyTable3D(r, rewards_, S, A, S);
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a )
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        rewards_[a](s, s1) = r[s][a][s1];
         }
     } // MDP
 } // AIToolbox

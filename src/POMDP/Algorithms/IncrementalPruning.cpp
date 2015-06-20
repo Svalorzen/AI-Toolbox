@@ -39,9 +39,8 @@ namespace AIToolbox {
                     auto O2begin = std::begin(std::get<OBS>(v2));
                     auto O2end   = std::end  (std::get<OBS>(v2));
                     // Cross sum
-                    MDP::Values v(S, 0.0);
-                    for ( size_t i = 0; i < S; ++i )
-                        v[i] = std::get<VALUES>(v1)[i] + std::get<VALUES>(v2)[i];
+                    auto v = std::get<VALUES>(v1) + std::get<VALUES>(v2);
+
                     // This step now depends on which order the two lists
                     // are. This function is only used in this class, so we
                     // know that the two lists are "adjacent"; however one

@@ -25,14 +25,14 @@ namespace AIToolbox {
 
             size_t bestAction; double finalDelta;
             {
-                unsigned bestActionCount = 1; double bestQValue = q_[s][0];
+                unsigned bestActionCount = 1; double bestQValue = q_(s, 0);
                 double avgValue    = avgstate[0]    * bestQValue;
                 double actualValue = actualstate[0] * bestQValue;
                 // Automatically sets initial best action as bestAction[0] = 0
                 std::vector<size_t> bestActions(A,0);
 
                 for ( size_t a = 1; a < A; ++a ) {
-                    double qsa = q_[s][a];
+                    double qsa = q_(s, a);
                     avgValue        += avgstate[a]    * qsa;
                     actualValue     += actualstate[a] * qsa;
 

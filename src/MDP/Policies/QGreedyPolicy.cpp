@@ -11,14 +11,14 @@ namespace AIToolbox {
             std::vector<unsigned> bestActions(A, 0);
 
             // This work is due to multiple max-valued actions
-            double bestQValue = q_[s][0]; unsigned bestActionCount = 1;
+            double bestQValue = q_(s, 0); unsigned bestActionCount = 1;
             for ( size_t a = 1; a < A; ++a ) {
-                if ( q_[s][a] > bestQValue ) {
+                if ( q_(s, a) > bestQValue ) {
                     bestActions[0] = a;
                     bestActionCount = 1;
-                    bestQValue = q_[s][a];
+                    bestQValue = q_(s, a);
                 }
-                else if ( checkEqualGeneral(q_[s][a], bestQValue) ) {
+                else if ( checkEqualGeneral(q_(s, a), bestQValue) ) {
                     bestActions[bestActionCount] = a;
                     ++bestActionCount;
                 }
@@ -31,15 +31,15 @@ namespace AIToolbox {
         }
 
         double QGreedyPolicy::getActionProbability(const size_t & s, size_t a) const {
-            double max = q_[s][0]; unsigned count = 1;
+            double max = q_(s, 0); unsigned count = 1;
             for ( size_t aa = 1; aa < A; ++aa ) {
-                if ( checkEqualGeneral(q_[s][aa], max) ) ++count;
-                else if ( q_[s][aa] > max ) {
-                    max = q_[s][aa];
+                if ( checkEqualGeneral(q_(s, aa), max) ) ++count;
+                else if ( q_(s, aa) > max ) {
+                    max = q_(s, aa);
                     count = 1;
                 }
             }
-            if ( checkDifferentGeneral(q_[s][a], max) ) return 0.0;
+            if ( checkDifferentGeneral(q_(s, a), max) ) return 0.0;
 
             return 1.0 / count;
         }

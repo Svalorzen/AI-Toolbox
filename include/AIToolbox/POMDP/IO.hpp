@@ -28,8 +28,8 @@ namespace AIToolbox {
             size_t A = model.getA();
             size_t O = model.getO();
 
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     for ( size_t o = 0; o < O; ++o ) {
                         // The +2 is for first digit and the dot, since we know that here the max value possible is 1.0
                         os << std::setw(os.precision()+2) << std::left << model.getObservationProbability(s1, a, o) << '\t';
@@ -43,7 +43,7 @@ namespace AIToolbox {
 
         /**
          * @brief This function implements input from stream for the POMDP::Model class.
-         * 
+         *
          * Note that as all other input function, it does not actually change the
          * input model if the reading fails.
          *
@@ -62,14 +62,18 @@ namespace AIToolbox {
             Model<M> in(O,S,A);
             MDP::operator>>(is, in);
 
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    double sum = 0.0;
                     for ( size_t o = 0; o < O; ++o ) {
-                        is >> in.observations_[s1][a][o];
+                        is >> in.observations_[a](s1, o);
+                        sum += in.observations_[a](s1, o);
                     }
-                    // Verification/Sanitization
-                    auto ref = in.observations_[s1][a];
-                    normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
+
+                    if ( checkDifferentSmall(sum, 0.0) )
+                        in.observations_[a].row(s1) /= sum;
+                    else
+                        in.observations_[a](s1, 0) = 1.0;
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.
