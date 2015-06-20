@@ -11,13 +11,6 @@ can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/), and from the
 `pomdp-solve` software written by A. R. Cassandra, which you can find
 [here](http://www.pomdp.org/code/index.shtml).
 
-**NOTE:** With regard the travis build failing, I must point out that it's due to
-travis, not me. The gcc build fails due to a bug in g++-4.8, but compiles
-correctly with g++-4.9. The clang build fails because clang uses libgcc, and the
-versions that are available in Ubuntu 12.04 (the environment travis offers) do
-not provide certain C++11 functions. Once travis updates its build machines to
-Ubuntu 14.04 everything will definitely start working out again.
-
 Brief
 =====
 
@@ -29,7 +22,8 @@ use to do so.
 The field divides itself into planning and reinforcement learning: planning
 focuses into solving problems that we know how to model: think chess, or 2048.
 Reinforcement learning focuses into creating a model for an environment we do
-not know in advance, and while learning the best policy for it.
+not know in advance, and while learning the best policy for it. An excellent
+introduction to the basics can be found freely online in [this book](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/the-book.html).
 
 There are many variants of these problems, with single agent worlds, multi agent,
 competitive, cooperative, partially observable and so on. This framework is a
@@ -60,24 +54,24 @@ Features
 
 Single Agent MDP:
 
-- Value Iteration
-- Win or Learn Fast Policy Iteration (WoLF)
-- Q-Learning
-- SARSA
-- Dyna-Q
-- Prioritized Sweeping
-- Monte Carlo Tree Search (MCTS)
+- [Value Iteration](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node44.html)
+- [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
+- [Q-Learning](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node65.html)
+- [SARSA](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node64.html)
+- [Dyna-Q](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node96.html)
+- [Prioritized Sweeping](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node98.html)
+- [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf)
 
 Single Agent POMDP:
 
-- Witness
-- Incremental Pruning
-- Point Based Value Iteration (PBVI)
-- POMCP with UCB1
-- QMDP
-- Real-Time Belief State Search (RTBSS)
-- Augmented MDP (AMDP)
-- PERSEUS
+- [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf)
+- [Incremental Pruning](http://arxiv.org/pdf/1302.1525.pdf)
+- [Point Based Value Iteration (PBVI)](http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf)
+- [POMCP with UCB1](http://www0.cs.ucl.ac.uk/staff/d.silver/web/Applications_files/pomcp.pdf)
+- [QMDP](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
+- [Real-Time Belief State Search (RTBSS)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf)
+- [Augmented MDP (AMDP)](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
+- [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf)
 
 Fast Tutorial
 =============
@@ -142,8 +136,9 @@ In particular, states and actions in this library are represented as `size_t`
 variables, since for example an (x,y) position can be easily encoded in a single
 number.
 
-The code currently in the `test` folder will help you understand the type of
-usage, and the documentation of each class will tell you what are they for.
+The code currently in the `example` folder will help you understand the type of
+usage (and possibly the `test` folder), and the documentation of each class will
+tell you what it is for.
 
 Build Instructions
 ==================
