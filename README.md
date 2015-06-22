@@ -145,7 +145,9 @@ Build Instructions
 
 To build the library you need to install [cmake](http://www.cmake.org/) and
 the [boost library](http://www.boost.org/) >= 1.53. In addition, C++11 support
-is required. If you want to build the POMDP part of the library, the
+is required (note: gcc 4.8 will not work as it has a bug which prevents it from
+successfully compiling the library, 4.9 will compile everything correctly). If 
+you want to build the POMDP part of the library, the
 [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required.
 
 After that, you can simply execute the following commands from the project's
