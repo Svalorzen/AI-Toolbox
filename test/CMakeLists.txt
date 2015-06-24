@@ -31,6 +31,7 @@ endif()
 
 if (MAKE_POMDP)
     AddTestPOMDP(Model)
+    AddTestPOMDP(SparseModel)
     AddTestPOMDP(IncrementalPruning)
     AddTestPOMDP(Witness)
     AddTestPOMDP(POMCP)

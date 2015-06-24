@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_POMDP_MODEL_HEADER_FILE
-#define AI_TOOLBOX_POMDP_MODEL_HEADER_FILE
+#ifndef AI_TOOLBOX_POMDP_SPARSE_MODEL_HEADER_FILE
+#define AI_TOOLBOX_POMDP_SPARSE_MODEL_HEADER_FILE
 
 #include <AIToolbox/Utils.hpp>
 #include <AIToolbox/MDP/Types.hpp>
@@ -15,12 +15,12 @@ namespace AIToolbox {
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.
         template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
-        class Model;
+        class SparseModel;
 #endif
 
         // Declaration to warn the compiler that this is a template function
         template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
-        std::istream& operator>>(std::istream &is, Model<M> & m);
+        std::istream& operator>>(std::istream &is, SparseModel<M> & m);
 
         /**
          * @brief This class represents a Partially Observable Markov Decision Process.
@@ -69,9 +69,9 @@ namespace AIToolbox {
          * @tparam M The particular MDP type that we want to extend.
          */
         template <typename M>
-        class Model<M> : public M {
+        class SparseModel<M> : public M {
             public:
-                using ObservationTable = Matrix3D;
+                using ObservationTable = SparseMatrix3D;
 
                 /**
                  * @brief Basic constructor.
@@ -84,7 +84,7 @@ namespace AIToolbox {
                  * @param parameters All arguments needed to build the parent Model.
                  */
                 template <typename... Args>
-                Model(size_t o, Args&&... parameters);
+                SparseModel(size_t o, Args&&... parameters);
 
                 /**
                  * @brief Basic constructor.
@@ -118,7 +118,7 @@ namespace AIToolbox {
                  */
                 // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
                 template <typename ObFun, typename... Args, typename = typename std::enable_if<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>::type>
-                Model(size_t o, ObFun && of, Args&&... parameters);
+                SparseModel(size_t o, ObFun && of, Args&&... parameters);
 
                 /**
                  * @brief Copy constructor from any valid POMDP model.
@@ -136,7 +136,7 @@ namespace AIToolbox {
                  * @param model The model that needs to be copied.
                  */
                 template <typename PM, typename = typename std::enable_if<is_model<PM>::value && std::is_constructible<M,PM>::value, int>::type>
-                Model(const PM& model);
+                SparseModel(const PM& model);
 
                 /**
                  * @brief This function replaces the Model observation function with the one provided.
@@ -226,7 +226,7 @@ namespace AIToolbox {
                  *
                  * @return The observation function for the input action.
                  */
-                const Matrix2D & getObservationFunction(size_t a) const;
+                const SparseMatrix2D & getObservationFunction(size_t a) const;
 
                 /**
                  * @brief This function returns the number of observations possible.
@@ -249,23 +249,22 @@ namespace AIToolbox {
                 // and we wouldn't know how to access it!
                 mutable std::default_random_engine rand_;
 
-                friend std::istream& operator>> <M>(std::istream &is, Model<M> &);
+                friend std::istream& operator>> <M>(std::istream &is, SparseModel<M> &);
         };
 
         template <typename M>
         template <typename... Args>
-        Model<M>::Model(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), Matrix2D(this->getS(), O)),
-                                                      rand_(Impl::Seeder::getSeed())
+        SparseModel<M>::SparseModel(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
+                                                                  rand_(Impl::Seeder::getSeed())
         {
-            for ( size_t a = 0; a < this->getA(); ++a ) {
-                observations_[a].fill(0.0);
-                observations_[a].col(0).fill(1.0);
-            }
+            for ( size_t a = 0; a < this->getA(); ++a )
+                for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
+                    observations_[a].insert(s1, 0) = 1.0;
         }
 
         template <typename M>
         template <typename ObFun, typename... Args, typename>
-        Model<M>::Model(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), Matrix2D(this->getS(), O)),
+        SparseModel<M>::SparseModel(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
                                                                    rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);
@@ -273,13 +272,14 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename PM, typename>
-        Model<M>::Model(const PM& model) : M(model), O(model.getO()), observations_(this->getA(), Matrix2D(this->getS(), O)),
+        SparseModel<M>::SparseModel(const PM& model) : M(model), O(model.getO()), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
                                            rand_(Impl::Seeder::getSeed())
         {
             for ( size_t a = 0; a < this->getA(); ++a )
                 for ( size_t s1 = 0; s1 < this->getS(); ++s1 ) {
                     for ( size_t o = 0; o < O; ++o ) {
-                        observations_[a](s1, o) = model.getObservationProbability(s1, a, o);
+                        double p = model.getObservationProbability(s1, a, o);
+                        if ( checkDifferentSmall( p, 0.0 ) ) observations_[a].insert(s1, o) = p;
                     }
                     if ( ! isProbability(O, observations_[a].row(s1)) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
                 }
@@ -287,39 +287,41 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename ObFun>
-        void Model<M>::setObservationFunction(const ObFun & of) {
+        void SparseModel<M>::setObservationFunction(const ObFun & of) {
             for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
                 for ( size_t a = 0; a < this->getA(); ++a )
                     if ( ! isProbability(O, of[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
             for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
                 for ( size_t a = 0; a < this->getA(); ++a )
-                    for ( size_t o = 0; o < O; ++o )
-                        observations_[a](s1, o) = of[s1][a][o];
+                    for ( size_t o = 0; o < O; ++o ) {
+                        double p = of[s1][a][o];
+                        if ( checkDifferentSmall( p, 0.0 ) ) observations_[a].insert(s1, o) = p;
+                    }
         }
 
         template <typename M>
-        double Model<M>::getObservationProbability(size_t s1, size_t a, size_t o) const {
-            return observations_[a](s1, o);
+        double SparseModel<M>::getObservationProbability(size_t s1, size_t a, size_t o) const {
+            return observations_[a].coeff(s1, o);
         }
 
         template <typename M>
-        const Matrix2D & Model<M>::getObservationFunction(size_t a) const {
+        const SparseMatrix2D & SparseModel<M>::getObservationFunction(size_t a) const {
             return observations_[a];
         }
 
         template <typename M>
-        size_t Model<M>::getO() const {
+        size_t SparseModel<M>::getO() const {
             return O;
         }
 
         template <typename M>
-        const typename Model<M>::ObservationTable & Model<M>::getObservationFunction() const {
+        const typename SparseModel<M>::ObservationTable & SparseModel<M>::getObservationFunction() const {
             return observations_;
         }
 
         template <typename M>
-        std::tuple<size_t,size_t, double> Model<M>::sampleSOR(size_t s, size_t a) const {
+        std::tuple<size_t,size_t, double> SparseModel<M>::sampleSOR(size_t s, size_t a) const {
             size_t s1, o;
             double r;
 
@@ -330,7 +332,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        std::tuple<size_t, double> Model<M>::sampleOR(size_t s, size_t a, size_t s1) const {
+        std::tuple<size_t, double> SparseModel<M>::sampleOR(size_t s, size_t a, size_t s1) const {
             size_t o = sampleProbability(O, observations_[a].row(s1), rand_);
             double r = this->getExpectedReward(s, a, s1);
             return std::make_tuple(o, r);

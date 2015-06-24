@@ -7,6 +7,7 @@
 #include <AIToolbox/MDP/IO.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
+#include <AIToolbox/POMDP/SparseModel.hpp>
 
 namespace AIToolbox {
     namespace POMDP {
@@ -66,7 +67,11 @@ namespace AIToolbox {
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     double sum = 0.0;
                     for ( size_t o = 0; o < O; ++o ) {
-                        is >> in.observations_[a](s1, o);
+                        if ( !(is >> in.observations_[a](s1, o))) {
+                            std::cerr << "AIToolbox: Could not read Model data.\n";
+                            is.setstate(std::ios::failbit);
+                            return is;
+                        }
                         sum += in.observations_[a](s1, o);
                     }
 
@@ -74,6 +79,55 @@ namespace AIToolbox {
                         in.observations_[a].row(s1) /= sum;
                     else
                         in.observations_[a](s1, 0) = 1.0;
+                }
+            }
+            // This guarantees that if input is invalid we still keep the old Model.
+            m = in;
+
+            return is;
+        }
+
+        /**
+         * @brief This function implements input from stream for the POMDP::SparseModel class.
+         *
+         * Note that as all other input function, it does not actually change the
+         * input model if the reading fails.
+         *
+         * @tparam M The underlying MDP model. Needs to have operator<< implemented.
+         * @param is The input stream.
+         * @param m The model to write into.
+         *
+         * @return The input stream.
+         */
+        template <typename M, typename>
+        std::istream& operator>>(std::istream &is, SparseModel<M> & m) {
+            size_t S = m.getS();
+            size_t A = m.getA();
+            size_t O = m.getO();
+
+            SparseModel<M> in(O,S,A);
+            MDP::operator>>(is, in);
+
+            for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    double sum = 0.0;
+                    for ( size_t o = 0; o < O; ++o ) {
+                        double p;
+                        if ( !(is >> p) ) {
+                            std::cerr << "AIToolbox: Could not read Model data.\n";
+                            is.setstate(std::ios::failbit);
+                            return is;
+                        }
+                        if ( checkDifferentSmall(p, 0.0) ) {
+                            in.observations_[a].coeffRef(s1, o) = p;
+                            sum += p;
+                        }
+                    }
+
+                    if ( checkDifferentSmall(sum, 0.0) )
+                        in.observations_[a].row(s1) /= sum;
+                    else
+                        in.observations_[a].coeffRef(s1, 0) = 1.0;
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.
