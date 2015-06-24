@@ -107,6 +107,7 @@ namespace AIToolbox {
 
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t a = 0; a < A; ++a ) {
+                    double sum = 0.0;
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
                         if ( !(is >> p >> r )) {
                             std::cerr << "AIToolbox: Could not read Model data.\n";
@@ -114,15 +115,18 @@ namespace AIToolbox {
                             return is;
                         }
                         else {
-                            if ( checkDifferentSmall(0.0, p) ) in.transitions_.set(p, s, a, s1);
-                            if ( checkDifferentSmall(0.0, r) ) in.rewards_.set(r, s, a, s1);
+                            if ( checkDifferentSmall(0.0, p) ) {
+                                sum += p;
+                                in.transitions_[a].coeffRef(s, s1) = p;
+                            }
+                            if ( checkDifferentSmall(0.0, r) ) 
+                                in.rewards_[a].coeffRef(s, s1) = r;
                         }
                     }
-                    // Verification/Sanitization
-                    auto ref = in.transitions_.getRow(S, s, a);
-                    normalizeProbability(std::begin(ref), std::end(ref), std::begin(ref));
-                    for ( size_t s1 = 0; s1 < S; ++s1 )
-                        in.transitions_.set(ref[s1], s, a, s1);
+                    if ( checkDifferentSmall(sum, 0.0) )
+                        in.transitions_[a].row(s) /= sum;
+                    else
+                        in.transitions_[a].coeffRef(s, s) = 1.0;
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.

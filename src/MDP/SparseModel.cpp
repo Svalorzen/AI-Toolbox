@@ -2,26 +2,27 @@
 
 namespace AIToolbox {
     namespace MDP {
-        SparseModel::SparseModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), rand_(Impl::Seeder::getSeed())
+        SparseModel::SparseModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(A, SparseMatrix2D(S, S)), rewards_(A, SparseMatrix2D(S, S)),
+                                                                        rand_(Impl::Seeder::getSeed())
         {
             // Make transition table true probability
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    transitions_.set(1.0, s, a, s);
+            for ( size_t a = 0; a < A; ++a )
+                for ( size_t s = 0; s < S; ++s )
+                    transitions_[a].insert(s, s) = 1.0;
         }
 
         std::tuple<size_t, double> SparseModel::sampleSR(size_t s, size_t a) const {
-            size_t s1 = sampleProbability(S, transitions_.getRow(S, s, a), rand_);
+            size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
-            return std::make_tuple(s1, rewards_(s, a, s1));
+            return std::make_tuple(s1, getExpectedReward(s, a, s1));
         }
 
         double SparseModel::getTransitionProbability(size_t s, size_t a, size_t s1) const {
-            return transitions_(s, a, s1);
+            return transitions_[a].coeff(s, s1);
         }
 
         double SparseModel::getExpectedReward(size_t s, size_t a, size_t s1) const {
-            return rewards_(s, a, s1);
+            return rewards_[a].coeff(s, s1);
         }
 
         void SparseModel::setDiscount(double d) {
@@ -32,7 +33,7 @@ namespace AIToolbox {
         bool SparseModel::isTerminal(size_t s) const {
             bool answer = true;
             for ( size_t a = 0; a < A; ++a ) {
-                if ( !checkEqualSmall(1.0, transitions_(s, a, s)) ) {
+                if ( !checkEqualSmall(1.0, getTransitionProbability(s, a, s)) ) {
                     answer = false;
                     break;
                 }

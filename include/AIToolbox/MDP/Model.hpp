@@ -309,7 +309,7 @@ namespace AIToolbox {
         };
 
         template <typename T, typename R>
-        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(A, {S, S}), rewards_(A, {S, S}),
+        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
                                                                                rand_(Impl::Seeder::getSeed())
         {
             setDiscount(d);
@@ -325,7 +325,7 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        Model::Model(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(A, {S, S}), rewards_(A, {S, S}),
+        Model::Model(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
                                        rand_(Impl::Seeder::getSeed())
         {
             for ( size_t a = 0; a < A; ++a )

@@ -4,7 +4,6 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 
 #include <AIToolbox/MDP/Types.hpp>
-#include <AIToolbox/SparseMatrix.hpp>
 
 #include <AIToolbox/ProbabilityUtils.hpp>
 
@@ -12,8 +11,8 @@ namespace AIToolbox {
     namespace MDP {
         class SparseModel {
             public:
-                using TransitionTable   = SparseMatrix<3>;
-                using RewardTable       = SparseMatrix<3>;
+                using TransitionTable   = SparseMatrix3D;
+                using RewardTable       = SparseMatrix3D;
 
                 /**
                  * @brief Basic constructor.
@@ -234,7 +233,8 @@ namespace AIToolbox {
         };
 
         template <typename T, typename R>
-        SparseModel::SparseModel(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), rand_(Impl::Seeder::getSeed())
+        SparseModel::SparseModel(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(A, SparseMatrix2D(S, S)), rewards_(A, SparseMatrix2D(S, S)),
+                                                                                           rand_(Impl::Seeder::getSeed())
         {
             setDiscount(d);
             setTransitionFunction(t);
@@ -242,18 +242,19 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        SparseModel::SparseModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()),
+        SparseModel::SparseModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(A, SparseMatrix2D(S, S)), rewards_(A, SparseMatrix2D(S, S)),
                                        rand_(Impl::Seeder::getSeed())
         {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a ) {
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
                         double p = model.getTransitionProbability(s, a, s1);
-                        if ( checkDifferentSmall(0.0, p) ) transitions_.set(p, s, a, s1);
+                        if ( p < 0.0 || p > 1.0 ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                        if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
                         double r = model.getExpectedReward(s, a, s1);
-                        if ( checkDifferentSmall(0.0, r) ) rewards_.set(r, s, a, s1);
+                        if ( checkDifferentSmall(0.0, r) ) rewards_[a].insert(s, s1) = r;
                     }
-                    if ( ! isProbability(S, transitions_.getRow(S, s, a)) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
                 }
         }
 
@@ -268,7 +269,7 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
                         double p = t[s][a][s1];
-                        if ( checkDifferentSmall(0.0, p) ) transitions_.set(p, s, a, s1);
+                        if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
                     }
         }
 
@@ -278,7 +279,7 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
                         double w = r[s][a][s1];
-                        if ( checkDifferentSmall(0.0, w) ) rewards_.set(w, s, a, s1);
+                        if ( checkDifferentSmall(0.0, w) ) rewards_[a].insert(s, s1) = w;
                     }
         }
     }

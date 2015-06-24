@@ -5,6 +5,7 @@
 #include <random>
 #include <algorithm>
 
+#include <AIToolbox/Types.hpp>
 #include <AIToolbox/Utils.hpp>
 
 namespace AIToolbox {
@@ -77,6 +78,30 @@ namespace AIToolbox {
         for ( size_t i = 0; i < d; ++i ) {
             if ( in[i] > p ) return i;
             p -= in[i];
+        }
+        return d-1;
+    }
+
+    template <typename G>
+    size_t sampleProbability(size_t d, const SparseMatrix2D::RowXpr& in, G& generator) {
+        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
+        double p = sampleDistribution(generator);
+
+        for ( SparseMatrix2D::RowXpr::InnerIterator i(in, 0); ; ++i ) {
+            if ( i.value() > p ) return i.col();
+            p -= i.value();
+        }
+        return d-1;
+    }
+
+    template <typename G>
+    size_t sampleProbability(size_t d, const SparseMatrix2D::ConstRowXpr& in, G& generator) {
+        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
+        double p = sampleDistribution(generator);
+
+        for ( SparseMatrix2D::ConstRowXpr::InnerIterator i(in, 0); ; ++i ) {
+            if ( i.value() > p ) return i.col();
+            p -= i.value();
         }
         return d-1;
     }
