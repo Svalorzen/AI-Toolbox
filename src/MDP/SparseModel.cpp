@@ -47,5 +47,8 @@ namespace AIToolbox {
 
         const SparseModel::TransitionTable & SparseModel::getTransitionFunction() const { return transitions_; }
         const SparseModel::RewardTable &     SparseModel::getRewardFunction()     const { return rewards_; }
+
+        const SparseMatrix2D & SparseModel::getTransitionFunction(size_t a) const { return transitions_[a]; }
+        const SparseMatrix2D & SparseModel::getRewardFunction(size_t a)     const { return rewards_[a]; }
     }
 }

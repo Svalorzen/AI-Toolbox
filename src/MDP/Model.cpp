@@ -48,5 +48,8 @@ namespace AIToolbox {
 
         const Model::TransitionTable & Model::getTransitionFunction() const { return transitions_; }
         const Model::RewardTable &     Model::getRewardFunction()     const { return rewards_; }
+
+        const Matrix2D & Model::getTransitionFunction(size_t a) const { return transitions_[a]; }
+        const Matrix2D & Model::getRewardFunction(size_t a)     const { return rewards_[a]; }
     }
 }

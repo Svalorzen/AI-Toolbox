@@ -52,8 +52,8 @@ namespace AIToolbox {
          */
         class RLModel {
             public:
-                using TransitionTable   = Table3D;
-                using RewardTable       = Table3D;
+                using TransitionTable   = Matrix3D;
+                using RewardTable       = Matrix3D;
                 /**
                  * @brief Constructor using previous Experience.
                  *
@@ -216,11 +216,29 @@ namespace AIToolbox {
                 const TransitionTable & getTransitionFunction() const;
 
                 /**
+                 * @brief This function returns the transition function for a given action.
+                 *
+                 * @param a The action requested.
+                 *
+                 * @return The transition function for the input action.
+                 */
+                const Matrix2D & getTransitionFunction(size_t a) const;
+
+                /**
                  * @brief This function returns the rewards table for inspection.
                  *
                  * @return The rewards table.
                  */
                 const RewardTable &     getRewardFunction()     const;
+
+                /**
+                 * @brief This function returns the reward function for a given action.
+                 *
+                 * @param a The action requested.
+                 *
+                 * @return The reward function for the input action.
+                 */
+                const Matrix2D & getRewardFunction(size_t a) const;
 
                 /**
                  * @brief This function returns whether a given state is a terminal.
