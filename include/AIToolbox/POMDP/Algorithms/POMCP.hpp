@@ -213,17 +213,108 @@ namespace AIToolbox {
 
                 mutable std::default_random_engine rand_;
 
-                // Private Methods
+                /**
+                 * @brief This function starts the simulation process.
+                 *
+                 * This function simply calls simulate() for the number of
+                 * times specified by POMCP's parameters. While doing so it
+                 * builds a tree of explored outcomes, from which POMCP will
+                 * then extract the best expected action for the current
+                 * belief.
+                 *
+                 * @param horizon The horizon for which to plan.
+                 *
+                 * @return The best action to take given the final built tree.
+                 */
                 size_t runSimulation(unsigned horizon);
+
+                /**
+                 * @brief This function recursively simulates the model while building the tree.
+                 *
+                 * From the given belief node, state and horizon, this function
+                 * selects an action based on UCT (so that estimated good
+                 * actions are taken more often than estimated bad actions) and
+                 * samples a new state, observation and reward. Based on the
+                 * observation, the function detects whether it is at the end
+                 * of the tree or not. If it is, it adds a new node to the tree
+                 * and rollouts the rest of the episode. Otherwise it
+                 * recursively traverses the tree.
+                 *
+                 * The states and rewards obtained on the way are used to
+                 * update particle beliefs within the tree and the value
+                 * estimations for those beliefs.
+                 *
+                 * @param b The tree node to simulate from.
+                 * @param s The state from which we are simulating, possibly a particle of a previous particle belief.
+                 * @param horizon The depth within the tree already reached.
+                 *
+                 * @return The discounted reward obtained from the simulation performed from here to the end.
+                 */
                 double simulate(BeliefNode & b, size_t s, unsigned horizon);
+
+                /**
+                 * @brief This function implements the rollout policy for POMCP.
+                 *
+                 * This function extracts some cumulative reward from a
+                 * particular state, given that we have reached a particular
+                 * horizon. The idea behind this function is to approximate the
+                 * true value of the state; since this function is called when
+                 * we are at the leaves of our tree, the only way for us to
+                 * extract more information is to simply simulate the rest of
+                 * the episode directly.
+                 *
+                 * However, in order to speed up the process and store only
+                 * useful data, we avoid inserting every single state that we
+                 * see here into the tree, preferring to add a single state at
+                 * a time. This avoids wasting lots of computation and memory
+                 * on states far from our root that we will probably never see
+                 * again, while at the same time still getting an estimate for
+                 * the rest of the simulation.
+                 *
+                 * @param s The state from which to start the rollout.
+                 * @param horizon The horizon already reached while simulating inside the tree.
+                 *
+                 * @return An estimate return computed from simulating until max depth.
+                 */
                 double rollout(size_t s, unsigned horizon);
 
+
+                /**
+                 * @brief This function finds the best action based on value.
+                 *
+                 * @tparam Iterator An iterator to an ActionNode.
+                 * @param begin The beginning of a list of ActionNodes.
+                 * @param end The end of the list.
+                 *
+                 * @return The iterator to the ActionNode with the best value.
+                 */
                 template <typename Iterator>
                 Iterator findBestA(Iterator begin, Iterator end);
 
+                /**
+                 * @brief This function finds the best action based on UCT.
+                 *
+                 * UCT gives a bonus to actions that have been tried very few
+                 * times, in order to void thinking that a bad action is bad
+                 * just because it got unlucky the few times that it tried it.
+                 *
+                 * @tparam Iterator An iterator to an ActionNode.
+                 * @param begin The beginning of a list of ActionNodes.
+                 * @param end The end of the list.
+                 * @param count The sum of all action counts.
+                 *
+                 * @return The iterator to the ActionNode to be selected based on UCT.
+                 */
                 template <typename Iterator>
                 Iterator findBestBonusA(Iterator begin, Iterator end, unsigned count);
 
+                /**
+                 * @brief This function samples a given belief in order to produce a particle approximation of it.
+                 *
+                 * @param b The belief to be approximated.
+                 *
+                 * @return A particle belief approximating the input belief.
+                 */
                 SampleBelief makeSampledBelief(const Belief & b);
         };
 
