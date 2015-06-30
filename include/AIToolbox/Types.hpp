@@ -6,8 +6,8 @@
 
 #include <boost/multi_array.hpp>
 
-#include <eigen3/Eigen/Core>
-#include <eigen3/Eigen/SparseCore>
+#include <Eigen/Core>
+#include <Eigen/SparseCore>
 
 namespace AIToolbox {
     using Table3D = boost::multi_array<double, 3>;

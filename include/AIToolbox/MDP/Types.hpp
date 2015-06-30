@@ -100,8 +100,8 @@ namespace AIToolbox {
          * The interface must be implemented and be public in the parameter
          * class. The interface is the following:
          *
-         * - double getTransitionProbability(size_t s, size_t a, size_t s1) : Returns the transition probability given (s,a) to s1
-         * - double getExpectedReward(size_t s, size_t a, size_t s1) : Returns the expected reward for transition (s,a) to s1
+         * - double getTransitionProbability(size_t s, size_t a, size_t s1) const : Returns the transition probability given (s,a) to s1
+         * - double getExpectedReward(size_t s, size_t a, size_t s1) const : Returns the expected reward for transition (s,a) to s1
          *
          * In addition the MDP needs to respect the interface for the MDP generative model.
          *
@@ -129,6 +129,27 @@ namespace AIToolbox {
                 enum { value = std::is_same<decltype(test<M>(0)),std::true_type>::value && is_generative_model<M>::value };
         };
 
+        /**
+         * @brief This struct represents the required interface that allows MDP algorithms to leverage Eigen.
+         *
+         * This struct is used to check interfaces of classes in templates.
+         * In particular, this struct tests for the interface of an MDP model
+         * which uses Eigen matrices internally.
+         * The interface must be implemented and be public in the parameter
+         * class. The interface is the following:
+         *
+         * - T getTransitionFunction(size_t a) const : Returns the transition function for a given action as a matrix SxS', where T is some Eigen matrix type.
+         * - R getRewardFunction(size_t a) const : Returns the reward function for a given action as a matrix SxS', where R is some Eigen matrix type.
+         *
+         * In addition the MDP needs to respect the interface for the MDP model.
+         *
+         * \sa MDP::is_model
+         *
+         * is_model_eigen<M>::value will be equal to true is M implements the interface,
+         * and false otherwise.
+         *
+         * @tparam M The class to test for the interface.
+         */
         template <typename M>
         struct is_model_eigen {
             private:

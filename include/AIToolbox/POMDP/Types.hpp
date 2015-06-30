@@ -106,7 +106,7 @@ namespace AIToolbox {
          * class. The interface is the following:
          *
          * - size_t getO() const : Returns the number of observations of the Model.
-         * - double getObservationProbability(size_t s1, size_t a, size_t o) : Returns the probability for observation o after action a and final state s1.
+         * - double getObservationProbability(size_t s1, size_t a, size_t o) const : Returns the probability for observation o after action a and final state s1.
          *
          * In addition the POMDP needs to respect the interface for the POMDP generative
          * model and the MDP Model.

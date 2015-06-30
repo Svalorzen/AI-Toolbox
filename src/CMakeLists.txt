@@ -3,6 +3,9 @@ cmake_minimum_required (VERSION 2.6)
 find_package(Boost 1.53 REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+
 if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
@@ -36,7 +39,7 @@ if (MAKE_POMDP)
 #        POMDP/Algorithms/Utils/WitnessLP_clp.cpp
         POMDP/Policies/Policy.cpp)
 
-    target_link_libraries(AIToolboxPOMDP AIToolboxMDP 
-#           ${COIN_CLP_LIBRARY} ${COIN_COIN_UTILS_LIBRARY} 
+    target_link_libraries(AIToolboxPOMDP AIToolboxMDP
+#           ${COIN_CLP_LIBRARY} ${COIN_COIN_UTILS_LIBRARY}
             ${LPSOLVE_LIBRARIES})
 endif()
