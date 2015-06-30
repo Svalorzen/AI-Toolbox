@@ -5,7 +5,9 @@
 
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
-#include <AIToolbox/MDP/Model.hpp>
+#include <AIToolbox/MDP/SparseModel.hpp>
+
+#include <AIToolbox/MDP/IO.hpp>
 
 #include "CornerProblem.hpp"
 
@@ -14,13 +16,13 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
 
     GridWorld grid(4, 4);
 
-    auto model = makeCornerProblem(grid);
+    Model model = makeCornerProblem(grid);
     size_t S = model.getS(), A = model.getA();
 
     // We set the horizon to a very high value so that
     // the epsilon bound will prevail, solving the problem
     // until convergence (infinite horizon).
-    ValueIteration solver(1000000, 0.001);
+    ValueIteration<decltype(model)> solver(1000000, 0.001);
 
     auto solution = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon

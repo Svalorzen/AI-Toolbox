@@ -12,7 +12,6 @@ if (MAKE_MDP)
         MDP/SparseModel.cpp
         MDP/RLModel.cpp
         MDP/IO.cpp
-        MDP/Algorithms/ValueIteration.cpp
         MDP/Policies/Policy.cpp
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
@@ -32,7 +31,6 @@ if (MAKE_POMDP)
         POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
-        POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/AMDP.cpp
         POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
 #        POMDP/Algorithms/Utils/WitnessLP_clp.cpp

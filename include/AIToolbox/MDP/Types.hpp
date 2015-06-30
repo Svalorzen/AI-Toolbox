@@ -128,6 +128,47 @@ namespace AIToolbox {
             public:
                 enum { value = std::is_same<decltype(test<M>(0)),std::true_type>::value && is_generative_model<M>::value };
         };
+
+        template <typename M>
+        struct is_model_eigen {
+            private:
+                template <typename T>
+                struct remove_cv_ref { using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type; };
+
+                // With this macro we can find out the return type of a given member function; we use it
+                // so that we can check whether the class offers methods which return Eigen types, so we
+                // can enable the high-performance algorithm variants.
+                #define RETVAL_EXTRACTOR(fun_name)                                                                                                  \
+                                                                                                                                                    \
+                template <typename Z, typename ...Args> static auto fun_name##RetType(Z* z) ->                                                      \
+                                                                    typename remove_cv_ref<decltype(z->fun_name(std::declval<Args>()...))>::type;   \
+                                                                                                                                                    \
+                template <typename Z, typename ...Args> static auto fun_name##RetType(...) -> int
+
+                RETVAL_EXTRACTOR(getTransitionFunction);
+                RETVAL_EXTRACTOR(getRewardFunction);
+
+                // The template parameters here must match the ones used in the test function!
+                // So const M if the function is const, and then the parameter types.
+                using F = decltype(getTransitionFunctionRetType<const M, size_t>(0));
+                using R = decltype(getRewardFunctionRetType<const M, size_t>(0));
+
+                template <typename Z> static auto test(int) -> decltype(
+
+                        static_cast<const F & (Z::*)(size_t) const>         (&Z::getTransitionFunction),
+                        static_cast<const R & (Z::*)(size_t) const>         (&Z::getRewardFunction),
+
+                        std::true_type()
+                );
+
+                template <typename Z> static auto test(...) -> std::false_type;
+
+                #undef RETVAL_EXTRACTOR
+
+            public:
+                enum { value = is_model<M>::value && std::is_same<decltype(test<M>(0)),std::true_type>::value &&
+                               std::is_base_of<Eigen::EigenBase<F>, F>::value && std::is_base_of<Eigen::EigenBase<R>, R>::value };
+        };
     }
 }
 

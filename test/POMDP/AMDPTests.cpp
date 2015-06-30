@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto & simplerModel = std::get<0>(convertedModel);
     auto & beliefConverter = std::get<1>(convertedModel);
 
-    MDP::ValueIteration solver(horizon);
+    MDP::ValueIteration<std::remove_reference<decltype(simplerModel)>::type> solver(horizon);
 
     auto solution = solver(simplerModel);
     MDP::QGreedyPolicy policy(std::get<2>(solution));
@@ -43,10 +43,10 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // particular beliefs tends to fail (possibly near the edges of an
     // entropy bucket), so that's not really doable.
     Matrix2D beliefs(5, 2);
-    beliefs << 0.5,     0.5, 
-               1.0,     0.0, 
-               0.25,    0.75, 
-               0.98,    0.02, 
+    beliefs << 0.5,     0.5,
+               1.0,     0.0,
+               0.25,    0.75,
+               0.98,    0.02,
                0.33,    0.66;
 
     for ( auto i = 0; i < beliefs.rows(); ++i )

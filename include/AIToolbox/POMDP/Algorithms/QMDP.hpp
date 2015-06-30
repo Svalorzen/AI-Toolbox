@@ -8,6 +8,13 @@
 
 namespace AIToolbox {
     namespace POMDP {
+
+#ifndef DOXYGEN_SKIP
+        // This is done to avoid bringing around the enable_if everywhere.
+        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        class QMDP;
+#endif
+
         /**
          * @brief This class implements the QMDP algorithm.
          *
@@ -36,8 +43,11 @@ namespace AIToolbox {
          * The solution returned by QMDP will thus have only horizon 1, since
          * the horizon requested is implicitly encoded in the MDP part of the
          * solution.
+         * 
+         * @tparam M The type of model that is solved by the algorithm.
          */
-        class QMDP {
+        template <typename M>
+        class QMDP<M> {
             public:
                 /**
                  * @brief Basic constructor.
@@ -67,7 +77,6 @@ namespace AIToolbox {
                  *         whether the specified epsilon bound was reached, a
                  *         POMDP::ValueFunction and the equivalent MDP::ValueFunction.
                  */
-                template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
                 std::tuple<bool, ValueFunction, MDP::ValueFunction> operator()(const M & m);
 
                 /**
@@ -107,11 +116,14 @@ namespace AIToolbox {
                 unsigned getHorizon() const;
 
             private:
-                MDP::ValueIteration solver_;
+                MDP::ValueIteration<M> solver_;
         };
 
-        template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        std::tuple<bool, ValueFunction, MDP::ValueFunction> QMDP::operator()(const M & m) {
+        template <typename M>
+        QMDP<M>::QMDP(unsigned horizon, double epsilon) : solver_(horizon, epsilon) {}
+
+        template <typename M>
+        std::tuple<bool, ValueFunction, MDP::ValueFunction> QMDP<M>::operator()(const M & m) {
             auto solution = solver_(m);
             auto & mdpValueFunction = std::get<1>(solution);
             auto & mdpValues  = std::get<MDP::VALUES >(mdpValueFunction);
@@ -138,6 +150,26 @@ namespace AIToolbox {
             vf.emplace_back(std::move(w));
 
             return std::make_tuple(std::get<0>(solution), vf, mdpValueFunction);
+        }
+
+        template <typename M>
+        void QMDP<M>::setEpsilon(double e) {
+            solver_.setEpsilon(e);
+        }
+
+        template <typename M>
+        void QMDP<M>::setHorizon(unsigned h) {
+            solver_.setHorizon(h);
+        }
+
+        template <typename M>
+        double QMDP<M>::getEpsilon() const {
+            return solver_.getEpsilon();
+        }
+
+        template <typename M>
+        unsigned QMDP<M>::getHorizon() const {
+            return solver_.getHorizon();
         }
     }
 }
