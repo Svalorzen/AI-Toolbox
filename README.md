@@ -144,7 +144,7 @@ Build Instructions
 ==================
 
 To build the library you need to install [cmake](http://www.cmake.org/), the
-[boost library](http://www.boost.org/) >= 1.53, and the [Eigen 3
+[boost library](http://www.boost.org/) >= 1.53, and the [Eigen 3.2
 library](http://eigen.tuxfamily.org/index.php?title=Main_Page). In addition,
 C++11 support is required (note: gcc 4.8 will not work as it has a bug which
 prevents it from successfully compiling the library, 4.9 will compile everything
