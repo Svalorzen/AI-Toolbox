@@ -6,7 +6,7 @@
 #include <AIToolbox/MDP/IO.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
-#include "CornerProblem.hpp"
+#include "Utils/CornerProblem.hpp"
 
 #include <fstream>
 

@@ -6,7 +6,7 @@
 #include <AIToolbox/MDP/Algorithms/MCTS.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
-#include "CornerProblem.hpp"
+#include "Utils/CornerProblem.hpp"
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
