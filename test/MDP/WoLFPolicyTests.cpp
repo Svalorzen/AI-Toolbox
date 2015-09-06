@@ -28,9 +28,6 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
 
     MDP::WoLFPolicy policy(solver.getQFunction());
 
-    std::default_random_engine engine(12345);
-    std::uniform_int_distribution<unsigned> dist(0,2);
-
     for ( unsigned i = 0; i < 100000; ++i ) {
         size_t a = policy.sampleAction(0);
         size_t b = policy.sampleAction(0);
@@ -45,11 +42,11 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
         policy.updatePolicy(0);
     }
 
-    BOOST_CHECK(policy.getActionProbability(0,0) < 0.43);
-    BOOST_CHECK(policy.getActionProbability(0,0) > 0.23);
+    BOOST_CHECK(policy.getActionProbability(0,0) < 0.4333);
+    BOOST_CHECK(policy.getActionProbability(0,0) > 0.2333);
 
-    BOOST_CHECK(policy.getActionProbability(0,1) < 0.43);
-    BOOST_CHECK(policy.getActionProbability(0,1) > 0.23);
+    BOOST_CHECK(policy.getActionProbability(0,1) < 0.4333);
+    BOOST_CHECK(policy.getActionProbability(0,1) > 0.2333);
 }
 
 BOOST_AUTO_TEST_CASE( matching_pennies ) {

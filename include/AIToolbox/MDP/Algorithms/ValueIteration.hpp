@@ -18,6 +18,8 @@ namespace AIToolbox {
          * in the exact same way.
          *
          * This class in itself cannot be instantiated.
+         *
+         * Check each of the implementations' documentations to know more.
          */
         template <typename T, typename U = void>
         class ValueIteration {
