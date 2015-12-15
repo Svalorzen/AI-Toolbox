@@ -14,6 +14,7 @@ if (MAKE_MDP)
         MDP/Model.cpp
         MDP/SparseModel.cpp
         MDP/RLModel.cpp
+        MDP/SparseRLModel.cpp
         MDP/IO.cpp
         MDP/Policies/Policy.cpp
         MDP/Policies/QPolicyInterface.cpp
