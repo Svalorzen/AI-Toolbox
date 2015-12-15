@@ -6,7 +6,8 @@
 #include <AIToolbox/POMDP/Algorithms/Witness.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
-#include "TigerProblem.hpp"
+
+#include "Utils/TigerProblem.hpp"
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;

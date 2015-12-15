@@ -79,7 +79,7 @@ namespace AIToolbox {
          * @param a The action taken during the transition.
          * @param o The observation registered.
          */
-        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
         Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
             size_t S = model.getS();
             Belief br(S);
@@ -101,6 +101,34 @@ namespace AIToolbox {
         }
 
         /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function needs to create a new belief since modifying a belief
+         * in place is not possible. This is because each cell update for the
+         * new belief requires all values from the previous belief.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         */
+        template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
+        Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
+            size_t S = model.getS();
+            Belief br(S);
+
+            // col suffers from a bug atm, so we can't use col; we fallback on block.
+            br = model.getObservationFunction(a).block(0,o,S,1).transpose().cwiseProduct(Vector::Ones(S).transpose() * model.getTransitionFunction(a).cwiseProduct(b.replicate(1, S))).transpose();
+            double totalSum = br.sum();
+
+            if ( checkEqualSmall(totalSum, 0.0) ) br[0] = 1.0;
+            else br /= totalSum;
+
+            return br;
+        }
+
+        /**
          * @brief This function computes an immediate reward based on a belief rather than a state.
          *
          * @param model The POMDP model to use.
@@ -109,7 +137,7 @@ namespace AIToolbox {
          *
          * @return The immediate reward.
          */
-        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
         double beliefExpectedReward(const M& model, const Belief & b, size_t a) {
             double rew = 0.0; size_t S = model.getS();
             for ( size_t s = 0; s < S; ++s )
@@ -117,6 +145,20 @@ namespace AIToolbox {
                     rew += model.getTransitionProbability(s, a, s1) * model.getExpectedReward(s, a, s1) * b[s];
 
             return rew;
+        }
+
+        /**
+         * @brief This function computes an immediate reward based on a belief rather than a state.
+         *
+         * @param model The POMDP model to use.
+         * @param b The belief to use.
+         * @param a The action performed from the belief.
+         *
+         * @return The immediate reward.
+         */
+        template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
+        double beliefExpectedReward(const M& model, const Belief & b, size_t a) {
+            return (model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(model.getS())).dot(b);
         }
 
         /**
@@ -129,7 +171,7 @@ namespace AIToolbox {
          *
          * @return The probability of getting the observation from that belief and action.
          */
-        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
         double beliefObservationProbability(const M& model, const Belief & b, size_t a, size_t o) {
             double p = 0.0; size_t S = model.getS();
             // This is basically the same as a belief update, but unnormalized
@@ -142,6 +184,21 @@ namespace AIToolbox {
                 p += model.getObservationProbability(s1, a, o) * sum;
             }
             return p;
+        }
+
+        /**
+         * @brief This function computes the probability of obtaining an observation from a belief and action.
+         *
+         * @param model The POMDP model to use.
+         * @param b The belief to start from.
+         * @param a The action performed.
+         * @param o The observation that should be received.
+         *
+         * @return The probability of getting the observation from that belief and action.
+         */
+        template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
+        double beliefObservationProbability(const M& model, const Belief & b, size_t a, size_t o) {
+            return (b.transpose() * model.getTransitionFunction(a) * model.getObservationFunction(a).col(o))(0);
         }
 
         /**

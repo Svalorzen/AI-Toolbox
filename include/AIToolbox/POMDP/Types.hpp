@@ -109,7 +109,7 @@ namespace AIToolbox {
          * - double getObservationProbability(size_t s1, size_t a, size_t o) const : Returns the probability for observation o after action a and final state s1.
          *
          * In addition the POMDP needs to respect the interface for the POMDP generative
-         * model and the MDP Model.
+         * model and the MDP model.
          *
          * \sa is_generative_model
          * \sa MDP::is_model
@@ -134,6 +134,65 @@ namespace AIToolbox {
 
             public:
                 enum { value = std::is_same<decltype(test<T>(0)),std::true_type>::value && is_generative_model<T>::value && MDP::is_model<T>::value };
+        };
+
+        /**
+         * @brief This struct represents the required interface that allows POMDP algorithms to leverage Eigen.
+         *
+         * This struct is used to check interfaces of classes in templates.
+         * In particular, this struct tests for the interface of an MDP model
+         * which uses Eigen matrices internally.
+         * The interface must be implemented and be public in the parameter
+         * class. The interface is the following:
+         *
+         * - O getObservationFunction(size_t a) const : Returns the observation function for a given action as a matrix S'xO, where O is some Eigen matrix type.
+         *
+         * In addition the POMDP needs to respect the interface for the POMDP model
+         * and the Eigen MDP model.
+         *
+         * \sa MDP::is_model
+         *
+         * is_model_eigen<M>::value will be equal to true is M implements the interface,
+         * and false otherwise.
+         *
+         * @tparam M The class to test for the interface.
+         */
+        template <typename M>
+        struct is_model_eigen {
+            private:
+                template <typename T>
+                struct remove_cv_ref { using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type; };
+
+                // With this macro we can find out the return type of a given member function; we use it
+                // so that we can check whether the class offers methods which return Eigen types, so we
+                // can enable the high-performance algorithm variants.
+                #define RETVAL_EXTRACTOR(fun_name)                                                                                                  \
+                                                                                                                                                    \
+                template <typename Z, typename ...Args> static auto fun_name##RetType(Z* z) ->                                                      \
+                                                                    typename remove_cv_ref<decltype(z->fun_name(std::declval<Args>()...))>::type;   \
+                                                                                                                                                    \
+                template <typename Z, typename ...Args> static auto fun_name##RetType(...) -> int
+
+                RETVAL_EXTRACTOR(getObservationFunction);
+
+                // The template parameters here must match the ones used in the test function!
+                // So const M if the function is const, and then the parameter types.
+                using O = decltype(getObservationFunctionRetType<const M, size_t>(0));
+
+                template <typename Z> static auto test(int) -> decltype(
+
+                        static_cast<const O & (Z::*)(size_t) const>         (&Z::getObservationFunction),
+
+                        std::true_type()
+                );
+
+                template <typename Z> static auto test(...) -> std::false_type;
+
+                #undef RETVAL_EXTRACTOR
+
+            public:
+                enum { value = is_model<M>::value && MDP::is_model_eigen<M>::value && std::is_same<decltype(test<M>(0)),std::true_type>::value &&
+                               std::is_base_of<Eigen::EigenBase<O>, O>::value };
         };
     }
 }

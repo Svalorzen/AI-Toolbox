@@ -70,7 +70,7 @@
  * Since so much information can be extracted from the QFunction, lots
  * of methods (mostly in Reinforcement Learning) try to learn it.
  */
-class OldModel {
+class OldMDPModel {
     public:
         using TransitionTable   = AIToolbox::Table3D;
         using RewardTable       = AIToolbox::Table3D;
@@ -78,7 +78,7 @@ class OldModel {
         /**
          * @brief Basic constructor.
          *
-         * This constructor initializes the OldModel so that all
+         * This constructor initializes the OldMDPModel so that all
          * transitions happen with probability 0 but for transitions
          * that bring back to the same state, no matter the action.
          *
@@ -89,7 +89,7 @@ class OldModel {
          * @param a The number of actions available to the agent.
          * @param discount The discount factor for the MDP.
          */
-        OldModel(size_t s, size_t a, double discount = 1.0);
+        OldMDPModel(size_t s, size_t a, double discount = 1.0);
 
         /**
          * @brief Basic constructor.
@@ -127,14 +127,14 @@ class OldModel {
          * @param d The discount factor for the MDP.
          */
         template <typename T, typename R>
-        OldModel(size_t s, size_t a, const T & t, const R & r, double d = 1.0);
+        OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d = 1.0);
 
         /**
          * @brief Copy constructor from any valid MDP model.
          *
          * This allows to copy from any other model. A nice use for this is to
          * convert any model which computes probabilities on the fly into an
-         * OldModel where probabilities are all stored for fast access. Of
+         * OldMDPModel where probabilities are all stored for fast access. Of
          * course such a solution can be done only when the number of states
          * and actions is not too big.
          *
@@ -142,10 +142,10 @@ class OldModel {
          * @param model The model that needs to be copied.
          */
         template <typename M, typename std::enable_if<AIToolbox::MDP::is_model<M>::value, int>::type = 0>
-        OldModel(const M& model);
+        OldMDPModel(const M& model);
 
         /**
-         * @brief This function replaces the OldModel transition function with the one provided.
+         * @brief This function replaces the OldMDPModel transition function with the one provided.
          *
          * This function will throw a std::invalid_argument if the
          * table provided does not respect the constraints specified in
@@ -169,7 +169,7 @@ class OldModel {
         void setTransitionFunction(const T & t);
 
         /**
-         * @brief This function replaces the OldModel reward function with the one provided.
+         * @brief This function replaces the OldMDPModel reward function with the one provided.
          *
          * The container needs to support data access through
          * operator[]. In addition, the dimensions of the containers
@@ -189,9 +189,9 @@ class OldModel {
         void setRewardFunction(const R & r);
 
         /**
-         * @brief This function sets a new discount factor for the OldModel.
+         * @brief This function sets a new discount factor for the OldMDPModel.
          *
-         * @param d The new discount factor for the OldModel.
+         * @param d The new discount factor for the OldMDPModel.
          */
         void setDiscount(double d);
 
@@ -290,11 +290,11 @@ class OldModel {
 
         mutable std::default_random_engine rand_;
 
-        friend std::istream& operator>>(std::istream &is, OldModel &);
+        friend std::istream& operator>>(std::istream &is, OldMDPModel &);
 };
 
 template <typename T, typename R>
-OldModel::OldModel(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+OldMDPModel::OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
     rand_(AIToolbox::Impl::Seeder::getSeed())
 {
     setDiscount(d);
@@ -303,7 +303,7 @@ OldModel::OldModel(size_t s, size_t a, const T & t, const R & r, double d) : S(s
 }
 
 template <typename M, typename std::enable_if<AIToolbox::MDP::is_model<M>::value, int>::type>
-OldModel::OldModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+OldMDPModel::OldMDPModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
     rand_(AIToolbox::Impl::Seeder::getSeed())
 {
     for ( size_t s = 0; s < S; ++s )
@@ -317,7 +317,7 @@ OldModel::OldModel(const M& model) : S(model.getS()), A(model.getA()), discount_
 }
 
 template <typename T>
-void OldModel::setTransitionFunction(const T & t) {
+void OldMDPModel::setTransitionFunction(const T & t) {
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
             if ( ! AIToolbox::isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
@@ -326,11 +326,11 @@ void OldModel::setTransitionFunction(const T & t) {
 }
 
 template <typename R>
-void OldModel::setRewardFunction( const R & r ) {
+void OldMDPModel::setRewardFunction( const R & r ) {
     copyTable3D(r, rewards_, S, A, S);
 }
 
-OldModel::OldModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
+OldMDPModel::OldMDPModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
     rand_(AIToolbox::Impl::Seeder::getSeed())
 {
     // Make transition table true probability
@@ -339,26 +339,26 @@ OldModel::OldModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(
             transitions_[s][a][s] = 1.0;
 }
 
-inline std::tuple<size_t, double> OldModel::sampleSR(size_t s, size_t a) const {
+inline std::tuple<size_t, double> OldMDPModel::sampleSR(size_t s, size_t a) const {
     size_t s1 = AIToolbox::sampleProbability(S, transitions_[s][a], rand_);
 
     return std::make_tuple(s1, rewards_[s][a][s1]);
 }
 
-inline double OldModel::getTransitionProbability(size_t s, size_t a, size_t s1) const {
+inline double OldMDPModel::getTransitionProbability(size_t s, size_t a, size_t s1) const {
     return transitions_[s][a][s1];
 }
 
-inline double OldModel::getExpectedReward(size_t s, size_t a, size_t s1) const {
+inline double OldMDPModel::getExpectedReward(size_t s, size_t a, size_t s1) const {
     return rewards_[s][a][s1];
 }
 
-inline void OldModel::setDiscount(double d) {
+inline void OldMDPModel::setDiscount(double d) {
     if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
     discount_ = d;
 }
 
-inline bool OldModel::isTerminal(size_t s) const {
+inline bool OldMDPModel::isTerminal(size_t s) const {
     bool answer = true;
     for ( size_t a = 0; a < A; ++a ) {
         if ( !AIToolbox::checkEqualSmall(1.0, transitions_[s][a][s]) ) {
@@ -369,11 +369,11 @@ inline bool OldModel::isTerminal(size_t s) const {
     return answer;
 }
 
-inline size_t OldModel::getS() const { return S; }
-inline size_t OldModel::getA() const { return A; }
-inline double OldModel::getDiscount() const { return discount_; }
+inline size_t OldMDPModel::getS() const { return S; }
+inline size_t OldMDPModel::getA() const { return A; }
+inline double OldMDPModel::getDiscount() const { return discount_; }
 
-inline const OldModel::TransitionTable & OldModel::getTransitionFunction() const { return transitions_; }
-inline const OldModel::RewardTable &     OldModel::getRewardFunction()     const { return rewards_; }
+inline const OldMDPModel::TransitionTable & OldMDPModel::getTransitionFunction() const { return transitions_; }
+inline const OldMDPModel::RewardTable &     OldMDPModel::getRewardFunction()     const { return rewards_; }
 
 #endif

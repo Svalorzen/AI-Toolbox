@@ -10,7 +10,7 @@
 #include <AIToolbox/MDP/IO.hpp>
 
 #include "Utils/CornerProblem.hpp"
-#include "Utils/OldModel.hpp"
+#include "Utils/OldMDPModel.hpp"
 
 #include <type_traits>
 
@@ -213,7 +213,7 @@ BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
 
     GridWorld grid(4, 4);
 
-    OldModel model = makeCornerProblem(grid);
+    OldMDPModel model = makeCornerProblem(grid);
     size_t S = model.getS(), A = model.getA();
 
     // We set the horizon to a very high value so that

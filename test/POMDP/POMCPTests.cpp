@@ -11,7 +11,7 @@
 
 #include <AIToolbox/ProbabilityUtils.hpp>
 
-#include "TigerProblem.hpp"
+#include "Utils/TigerProblem.hpp"
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;

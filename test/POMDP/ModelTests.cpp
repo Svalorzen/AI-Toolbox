@@ -7,7 +7,7 @@
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 
-#include "TigerProblem.hpp"
+#include "Utils/TigerProblem.hpp"
 
 #include <fstream>
 

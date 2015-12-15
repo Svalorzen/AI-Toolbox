@@ -7,7 +7,8 @@
 #include <AIToolbox/POMDP/Algorithms/IncrementalPruning.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/Utils.hpp>
-#include "TigerProblem.hpp"
+
+#include "Utils/TigerProblem.hpp"
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
