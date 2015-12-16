@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     mdp::Model model = makeCliffProblem(grid);
 
     mdp::Experience exp(model.getS(), model.getA());
-    mdp::RLModel learnedModel(exp, 1.0, false);
+    mdp::RLModel<mdp::Experience> learnedModel(exp, 1.0, false);
 
     mdp::PrioritizedSweeping<decltype(learnedModel)> solver(learnedModel);
 

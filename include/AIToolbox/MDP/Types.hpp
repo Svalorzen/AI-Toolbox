@@ -190,6 +190,44 @@ namespace AIToolbox {
                 enum { value = is_model<M>::value && std::is_same<decltype(test<M>(0)),std::true_type>::value &&
                                std::is_base_of<Eigen::EigenBase<F>, F>::value && std::is_base_of<Eigen::EigenBase<R>, R>::value };
         };
+
+        /**
+         * @brief This struct represents the required interface for an experience recorder.
+         *
+         * This struct is used to check interfaces of classes in templates.
+         * In particular, this struct tests for the interface of an experience
+         * recorder that can be used to create Reinforcement Learning MDP models.
+         * The interface must be implemented and be public in the parameter
+         * class. The interface is the following:
+         *
+         * - long unsigned getVisits(size_t, size_t, size_t) const : Returns the number of times a particular transition has been experienced.
+         * - long unsigned getVisitsSum(size_t, size_t) const : Returns the number of times a transition starting with the parameters has been experienced.
+         * - double getReward(size_t, size_t, size_t) const : Returns the cumulative rewards obtained from a specific transition.
+         * - double getRewardSum(size_t, size_t) const : Returns the cumulative rewards obtained from transitions starting with the parameters.
+         *
+         * is_experience<M>::value will be equal to true is M implements the interface,
+         * and false otherwise.
+         *
+         * @tparam M The class to test for the interface.
+         */
+        template <typename M>
+        struct is_experience {
+            private:
+                template <typename Z> static auto test(int) -> decltype(
+
+                        static_cast<long unsigned   (Z::*)(size_t,size_t,size_t) const>  (&Z::getVisits),
+                        static_cast<long unsigned   (Z::*)(size_t,size_t) const>         (&Z::getVisitsSum),
+                        static_cast<double          (Z::*)(size_t,size_t,size_t) const>  (&Z::getReward),
+                        static_cast<double          (Z::*)(size_t,size_t) const>         (&Z::getRewardSum),
+
+                        std::true_type()
+                );
+
+                template <typename> static auto test(...) -> std::false_type;
+
+            public:
+                enum { value = std::is_same<decltype(test<M>(0)),std::true_type>::value };
+        };
     }
 }
 

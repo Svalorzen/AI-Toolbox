@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     const int S = 10, A = 8;
 
     AIToolbox::MDP::Experience exp(S,A);
-    AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
+    AIToolbox::MDP::SparseRLModel<decltype(exp)> model(exp, 1.0, false);
 
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     AIToolbox::MDP::Experience exp(S,A);
     // Single state sync
     {
-        AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
+        AIToolbox::MDP::SparseRLModel<decltype(exp)> model(exp, 1.0, false);
 
         exp.record(0,0,1,10);
         exp.record(0,0,2,10);
@@ -62,10 +62,10 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     }
     // Full sync, manual or on construction
     {
-        AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
+        AIToolbox::MDP::SparseRLModel<decltype(exp)>  model(exp, 1.0, false);
         model.sync();
 
-        AIToolbox::MDP::SparseRLModel model2(exp, 1.0, true);
+        AIToolbox::MDP::SparseRLModel<decltype(exp)>  model2(exp, 1.0, true);
 
         BOOST_CHECK_EQUAL( model.getTransitionProbability (0,0,1), 1.0/3.0 );
         BOOST_CHECK_EQUAL( model2.getTransitionProbability(0,0,1), 1.0/3.0 );
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     const int S = 10, A = 8;
 
     AIToolbox::MDP::Experience exp(S,A);
-    AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
+    AIToolbox::MDP::SparseRLModel<decltype(exp)>  model(exp, 1.0, false);
 
     exp.record(0,0,0,0);
     exp.record(0,0,1,0);
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE( IO ) {
         BOOST_CHECK( inputExpFile >> exp );
     }
 
-    AIToolbox::MDP::RLModel model(exp, 1.0, true);
+    AIToolbox::MDP::RLModel<decltype(exp)>  model(exp, 1.0, true);
     {
         std::ofstream outputFile(outputFilename);
 

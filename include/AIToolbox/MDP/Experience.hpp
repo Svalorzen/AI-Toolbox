@@ -62,7 +62,7 @@ namespace AIToolbox {
                  * @brief Compatibility setter.
                  *
                  * This function takes an arbitrary three dimensional
-                 * containers and tries to copy its contents into the
+                 * container and tries to copy its contents into the
                  * rewards table.
                  *
                  * The container needs to support data access through
@@ -108,10 +108,18 @@ namespace AIToolbox {
                  */
                 unsigned long getVisits(size_t s, size_t a, size_t s1) const;
 
+                /**
+                 * @brief This function returns the number of transitions recorded that start with the specified state and action.
+                 *
+                 * @param s     The initial state.
+                 * @param a     Performed action.
+                 *
+                 * @return The total number of transitions that start with the specified state-action pair.
+                 */
                 unsigned long getVisitsSum(size_t s, size_t a) const;
 
                 /**
-                 * @brief This function returns the current recorded visits for a transitions.
+                 * @brief This function returns the cumulative rewards obtained from a specific transition.
                  *
                  * @param s     Old state.
                  * @param a     Performed action.
@@ -119,6 +127,14 @@ namespace AIToolbox {
                  */
                 double getReward(size_t s, size_t a, size_t s1) const;
 
+                /**
+                 * @brief This function returns the total reward obtained from transitions that start with the specified state and action.
+                 *
+                 * @param s     The initial state.
+                 * @param a     Performed action.
+                 *
+                 * @return The total number of transitions that start with the specified state-action pair.
+                 */
                 double getRewardSum(size_t s, size_t a) const;
 
                 /**
@@ -148,6 +164,7 @@ namespace AIToolbox {
                  * @return The total number of actions.
                  */
                 size_t getA() const;
+
             private:
                 size_t S, A;
 
