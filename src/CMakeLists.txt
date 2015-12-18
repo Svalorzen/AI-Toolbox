@@ -12,6 +12,7 @@ if (MAKE_MDP)
         MDP/Experience.cpp
         MDP/Utils.cpp
         MDP/Model.cpp
+        MDP/SparseExperience.cpp
         MDP/SparseModel.cpp
         MDP/IO.cpp
         MDP/Policies/Policy.cpp

@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE MDP_Model
+#define BOOST_TEST_MODULE MDP_SparseModel
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>

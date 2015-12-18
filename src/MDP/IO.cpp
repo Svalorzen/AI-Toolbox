@@ -2,6 +2,7 @@
 
 #include <AIToolbox/PolicyInterface.hpp>
 #include <AIToolbox/MDP/Experience.hpp>
+#include <AIToolbox/MDP/SparseExperience.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
@@ -21,22 +22,6 @@ namespace AIToolbox {
             return os;
         }
 
-        // Experience writer
-        std::ostream& operator<<(std::ostream& os, const Experience & exp) {
-            size_t S = exp.getS();
-            size_t A = exp.getA();
-
-            for ( size_t s = 0; s < S; ++s ) {
-                for ( size_t a = 0; a < A; ++a ) {
-                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                        os << exp.getVisits(s, a, s1) << '\t' << exp.getReward(s, a, s1) << '\t';
-                    }
-                }
-                os << '\n';
-            }
-            return os;
-        }
-
         // Experience reader
         std::istream& operator>>(std::istream &is, Experience & exp) {
             size_t S = exp.getS();
@@ -46,6 +31,8 @@ namespace AIToolbox {
 
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t a = 0; a < A; ++a ) {
+                    long vSum = 0;
+                    double rSum = 0.0;
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
                         if ( !(is >> e.visits_[s][a][s1] >> e.rewards_[s][a][s1] )) {
                             std::cerr << "AIToolbox: Could not read Experience data.\n";
@@ -56,6 +43,53 @@ namespace AIToolbox {
                         // Ignoring input reward if no visits.
                         if ( e.visits_[s][a][s1] == 0 )
                             e.rewards_[s][a][s1] = 0.0;
+
+                        vSum += e.visits_[s][a][s1];
+                        rSum += e.rewards_[s][a][s1];
+                    }
+                    e.visitsSum_[s][a] = vSum;
+                    e.rewardsSum_[s][a] = rSum;
+                }
+            }
+            // This guarantees that if input is invalid we still keep the old Exp.
+            std::swap(exp, e);
+
+            return is;
+        }
+
+        // SparseExperience reader
+        std::istream& operator>>(std::istream &is, SparseExperience & exp) {
+            size_t S = exp.getS();
+            size_t A = exp.getA();
+
+            long l;
+            double d;
+
+            SparseExperience e(S,A);
+
+            for ( size_t s = 0; s < S; ++s ) {
+                for ( size_t a = 0; a < A; ++a ) {
+                    long vSum = 0;
+                    double rSum = 0.0;
+                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                        if ( !(is >> l >> d) ) {
+                            std::cerr << "AIToolbox: Could not read Experience data.\n";
+                            is.setstate(std::ios::failbit);
+                            return is;
+                        }
+                        e.visits_[a].insert(s, s1) = l;
+                        vSum += l;
+
+                        // Verification/Sanitization
+                        // Ignoring input reward if no visits.
+                        if ( l > 0 && checkDifferentSmall(0.0, d) ) {
+                            e.rewards_[a].insert(s, s1) = d;
+                            rSum += d;
+                        }
+                    }
+                    if ( vSum > 0 ) {
+                        e.visitsSum_.insert(s, a) = vSum;
+                        if ( checkDifferentSmall(0.0, rSum) ) e.rewardsSum_.insert(s, a) = rSum;
                     }
                 }
             }
@@ -119,7 +153,7 @@ namespace AIToolbox {
                                 sum += p;
                                 in.transitions_[a].coeffRef(s, s1) = p;
                             }
-                            if ( checkDifferentSmall(0.0, r) ) 
+                            if ( checkDifferentSmall(0.0, r) )
                                 in.rewards_[a].coeffRef(s, s1) = r;
                         }
                     }

@@ -20,7 +20,8 @@ namespace AIToolbox {
          *
          * @return The resulting output stream.
          */
-        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        // Here we use the =0 default template to avoid redefinition problems with other template ostream definitions.
+        template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
         std::ostream& operator<<(std::ostream &os, const M & model) {
             size_t S = model.getS();
             size_t A = model.getA();
@@ -58,18 +59,35 @@ namespace AIToolbox {
          */
         std::ostream& operator<<(std::ostream &os, const PolicyInterface<size_t> & p);
 
-        class Experience;
-
         /**
          * @brief This function prints an Experience to a stream.
          *
-         * @param os The output stream.
-         * @param e The Experience to be printed.
+         * This function is able to print an Experience as long as it conforms
+         * to the Experience interface, described in the is_experience struct.
          *
-         * @return The original stream.
+         * @tparam E The type of the Experience.
+         * @param os The output stream.
+         * @param model The Experience to print.
+         *
+         * @return The resulting output stream.
          */
-        std::ostream& operator<<(std::ostream &os, const Experience & e);
+        template <typename E, typename std::enable_if<is_experience<E>::value, int>::type = 0>
+        std::ostream& operator<<(std::ostream &os, const E & exp) {
+            size_t S = exp.getS();
+            size_t A = exp.getA();
 
+            for ( size_t s = 0; s < S; ++s ) {
+                for ( size_t a = 0; a < A; ++a ) {
+                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                        os << exp.getVisits(s, a, s1) << '\t' << exp.getReward(s, a, s1) << '\t';
+                    }
+                }
+                os << '\n';
+            }
+            return os;
+        }
+
+        class Experience;
         /**
          * @brief This function implements input from stream for the MDP::Experience class.
          *
@@ -82,6 +100,20 @@ namespace AIToolbox {
          * @return The original stream.
          */
         std::istream& operator>>(std::istream &is, Experience & e);
+
+        class SparseExperience;
+        /**
+         * @brief This function implements input from stream for the MDP::SparseExperience class.
+         *
+         * Note that as all other input function, it does not actually change the
+         * input model if the reading fails.
+         *
+         * @param is The input stream.
+         * @param e The SparseExperience to be read.
+         *
+         * @return The original stream.
+         */
+        std::istream& operator>>(std::istream &is, SparseExperience & e);
 
         class Model;
         /**

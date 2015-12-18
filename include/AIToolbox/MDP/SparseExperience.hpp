@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_MDP_EXPERIENCE_HEADER_FILE
-#define AI_TOOLBOX_MDP_EXPERIENCE_HEADER_FILE
+#ifndef AI_TOOLBOX_MDP_SPARSE_EXPERIENCE_HEADER_FILE
+#define AI_TOOLBOX_MDP_SPARSE_EXPERIENCE_HEADER_FILE
 
 #include <iosfwd>
 
@@ -17,12 +17,12 @@ namespace AIToolbox {
          * does not record each event separately (i.e. you can't extract
          * the results of a particular transition in the past).
          */
-        class Experience {
+        class SparseExperience {
             public:
-                using VisitTable = boost::multi_array<unsigned long,3>;
-                using VisitSumTable = boost::multi_array<unsigned long,2>;
-                using RewardTable = Table3D;
-                using RewardSumTable = Table2D;
+                using VisitTable = SparseMatrix3DLong;
+                using VisitSumTable = SparseMatrix2DLong;
+                using RewardTable = SparseMatrix3D;
+                using RewardSumTable = SparseMatrix2D;
 
                 /**
                  * @brief Basic constructor.
@@ -30,7 +30,7 @@ namespace AIToolbox {
                  * @param s The number of states of the world.
                  * @param a The number of actions available to the agent.
                  */
-                Experience(size_t s, size_t a);
+                SparseExperience(size_t s, size_t a);
 
                 /**
                  * @brief Compatibility setter.
@@ -42,10 +42,18 @@ namespace AIToolbox {
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
                  * container must match the ones specified during the
-                 * Experience construction (for three dimensions: S,A,S).
+                 * SparseExperience construction (for three dimensions: S,A,S).
                  *
                  * This is important, as this function DOES NOT perform
                  * any size checks on the external containers.
+                 *
+                 * Note that if you are using a sparse container due
+                 * to the size of the state space, using this function
+                 * (which needs a dense container as an input) may
+                 * not be the optimal solution. If you have a sparse
+                 * container as a start you may look into converting
+                 * it into an Eigen Sparse container and feeding that
+                 * to this class.
                  *
                  * This function is provided so that it is easy to plug
                  * this library into existing code-bases.
@@ -68,10 +76,18 @@ namespace AIToolbox {
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
                  * container must match the ones specified during the
-                 * Experience construction (for three dimensions: S,A,S).
+                 * SparseExperience construction (for three dimensions: S,A,S).
                  *
                  * This is important, as this function DOES NOT perform
                  * any size checks on the external containers.
+                 *
+                 * Note that if you are using a sparse container due
+                 * to the size of the state space, using this function
+                 * (which needs a dense container as an input) may
+                 * not be the optimal solution. If you have a sparse
+                 * container as a start you may look into converting
+                 * it into an Eigen Sparse container and feeding that
+                 * to this class.
                  *
                  * This function is provided so that it is easy to plug
                  * this library into existing code-bases.
@@ -174,27 +190,39 @@ namespace AIToolbox {
                 RewardTable rewards_;
                 RewardSumTable rewardsSum_;
 
-                friend std::istream& operator>>(std::istream &is, Experience &);
+                friend std::istream& operator>>(std::istream &is, SparseExperience &);
         };
 
         template <typename V>
-        void Experience::setVisits(V v) {
-            copyTable3D(v, visits_, S, A, S);
+        void SparseExperience::setVisits(V v) {
+            for ( size_t a = 0; a < A; ++a )
+                visits_[a].setZero();
+            visitsSum_.setZero();
 
             for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    for ( size_t s1 = 0; s1 < S; ++s1 )
-                        visitsSum_[s][a] += visits_[s][a][s1];
+            for ( size_t a = 0; a < A; ++a )
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                if ( v[s][a][s1] > 0 ) {
+                    visits_[a].insert(s, s1) = v[s][a][s1];
+                    visitsSum_.coeffRef(s,a) += v[s][a][s1];
+                }
+            }
         }
 
         template <typename R>
-        void Experience::setRewards(R r) {
-            copyTable3D(r, rewards_, S, A, S);
+        void SparseExperience::setRewards(R r) {
+            for ( size_t a = 0; a < A; ++a )
+                rewards_[a].setZero();
+            rewardsSum_.setZero();
 
             for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    for ( size_t s1 = 0; s1 < S; ++s1 )
-                        rewardsSum_[s][a] += rewards_[s][a][s1];
+            for ( size_t a = 0; a < A; ++a )
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                if ( checkDifferentSmall(0.0, r[s][a][s1]) ) {
+                    rewards_[a].insert(s, s1) = r[s][a][s1];
+                    rewardsSum_.coeffRef(s,a) += r[s][a][s1];
+                }
+            }
         }
     }
 }

@@ -40,7 +40,7 @@ namespace AIToolbox {
                  * The containers need to support data access through
                  * operator[]. In addition, the dimensions of the containers
                  * must match the ones provided as arguments (for three
-                 * dimensions: s,a,s).
+                 * dimensions: S,A,S).
                  *
                  * This is important, as this constructor DOES NOT perform any
                  * size checks on the external containers.
@@ -50,6 +50,14 @@ namespace AIToolbox {
                  *
                  * In addition, the transition container must contain a valid
                  * transition function.  \sa transitionCheck()
+                 *
+                 * Note that if you are using a sparse container due
+                 * to the size of the state space, using this function
+                 * (which needs a dense container as an input) may
+                 * not be the optimal solution. If you have a sparse
+                 * container as a start you may look into converting
+                 * it into an Eigen Sparse container and feeding that
+                 * to this class.
                  *
                  * \sa copyTable3D()
                  *
@@ -93,13 +101,21 @@ namespace AIToolbox {
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the container
                  * must match the ones provided as arguments (for three
-                 * dimensions: s,a,s).
+                 * dimensions: S,A,S).
                  *
                  * This is important, as this constructor DOES NOT perform any
                  * size checks on the external container.
                  *
                  * Internal values of the container will be converted to
                  * double, so these conversions must be possible.
+                 *
+                 * Note that if you are using a sparse container due
+                 * to the size of the state space, using this function
+                 * (which needs a dense container as an input) may
+                 * not be the optimal solution. If you have a sparse
+                 * container as a start you may look into converting
+                 * it into an Eigen Sparse container and feeding that
+                 * to this class.
                  *
                  * @tparam T The external transition container type.
                  * @param t The external transitions container.
@@ -113,13 +129,21 @@ namespace AIToolbox {
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the containers
                  * must match the ones provided as arguments (for three
-                 * dimensions: s,a,s).
+                 * dimensions: S,A,S).
                  *
                  * This is important, as this constructor DOES NOT perform any
                  * size checks on the external containers.
                  *
                  * Internal values of the container will be converted to
                  * double, so these conversions must be possible.
+                 *
+                 * Note that if you are using a sparse container due
+                 * to the size of the state space, using this function
+                 * (which needs a dense container as an input) may
+                 * not be the optimal solution. If you have a sparse
+                 * container as a start you may look into converting
+                 * it into an Eigen Sparse container and feeding that
+                 * to this class.
                  *
                  * @tparam R The external rewards container type.
                  * @param r The external rewards container.
@@ -264,41 +288,48 @@ namespace AIToolbox {
                                        rand_(Impl::Seeder::getSeed())
         {
             for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a ) {
-                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                        double p = model.getTransitionProbability(s, a, s1);
-                        if ( p < 0.0 || p > 1.0 ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
-                        if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
-                        double r = model.getExpectedReward(s, a, s1);
-                        if ( checkDifferentSmall(0.0, r) ) rewards_[a].insert(s, s1) = r;
-                    }
-                    if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+            for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    double p = model.getTransitionProbability(s, a, s1);
+                    if ( p < 0.0 || p > 1.0 ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
+                    double r = model.getExpectedReward(s, a, s1);
+                    if ( checkDifferentSmall(0.0, r) ) rewards_[a].insert(s, s1) = r;
                 }
+                if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+            }
         }
 
         template <typename T>
         void SparseModel::setTransitionFunction(const T & t) {
             // First we verify data, without modifying anything...
             for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    if ( ! isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+            for ( size_t a = 0; a < A; ++a )
+                if ( ! isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+
             // Then we copy.
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                        double p = t[s][a][s1];
-                        if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
-                    }
+            for ( size_t a = 0; a < A; ++a ) {
+                transitions_[a].setZero();
+
+                for ( size_t s = 0; s < S; ++s )
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    double p = t[s][a][s1];
+                    if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
+                }
+            }
         }
 
         template <typename R>
         void SparseModel::setRewardFunction( const R & r ) {
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                        double w = r[s][a][s1];
-                        if ( checkDifferentSmall(0.0, w) ) rewards_[a].insert(s, s1) = w;
-                    }
+            for ( size_t a = 0; a < A; ++a ) {
+                rewards_[a].setZero();
+
+                for ( size_t s = 0; s < S; ++s )
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    double w = r[s][a][s1];
+                    if ( checkDifferentSmall(0.0, w) ) rewards_[a].insert(s, s1) = w;
+                }
+            }
         }
     }
 }

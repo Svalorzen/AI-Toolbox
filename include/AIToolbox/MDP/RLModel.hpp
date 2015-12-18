@@ -306,8 +306,8 @@ namespace AIToolbox {
         template <typename E>
         void RLModel<E>::sync() {
             for ( size_t a = 0; a < A; ++a )
-                for ( size_t s = 0; s < S; ++s )
-                    sync(s,a);
+            for ( size_t s = 0; s < S; ++s )
+                sync(s,a);
         }
 
         template <typename E>

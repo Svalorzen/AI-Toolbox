@@ -15,11 +15,13 @@ namespace AIToolbox {
 
     using Matrix2D = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor | Eigen::AutoAlign>;
     using SparseMatrix2D = Eigen::SparseMatrix<double, Eigen::RowMajor>;
+    using SparseMatrix2DLong = Eigen::SparseMatrix<long, Eigen::RowMajor>;
 
     using Vector   = Eigen::Matrix<double, Eigen::Dynamic, 1>;
 
     using Matrix3D = std::vector<Matrix2D>;
     using SparseMatrix3D = std::vector<SparseMatrix2D>;
+    using SparseMatrix3DLong = std::vector<SparseMatrix2DLong>;
 }
 
 #endif

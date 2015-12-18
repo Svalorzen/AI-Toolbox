@@ -1,9 +1,9 @@
-#define BOOST_TEST_MODULE MDP_Experience
+#define BOOST_TEST_MODULE MDP_SparseExperience
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/MDP/Experience.hpp>
+#include <AIToolbox/MDP/SparseExperience.hpp>
 #include <AIToolbox/MDP/IO.hpp>
 
 #include <array>
@@ -14,7 +14,7 @@
 BOOST_AUTO_TEST_CASE( construction ) {
     const int S = 5, A = 6;
 
-    AIToolbox::MDP::Experience exp(S, A);
+    AIToolbox::MDP::SparseExperience exp(S, A);
 
     BOOST_CHECK_EQUAL(exp.getS(), S);
     BOOST_CHECK_EQUAL(exp.getA(), A);
@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
 BOOST_AUTO_TEST_CASE( recording ) {
     const int S = 5, A = 6;
 
-    AIToolbox::MDP::Experience exp(S, A);
+    AIToolbox::MDP::SparseExperience exp(S, A);
 
     const int s = 3, s1 = 4, a = 5;
     const double rew = 7.4, negrew = -4.2, zerorew = 0.0;
@@ -65,7 +65,7 @@ int generator() {
 
 BOOST_AUTO_TEST_CASE( compatibility ) {
     const int S = 4, A = 3;
-    AIToolbox::MDP::Experience exp(S,A);
+    AIToolbox::MDP::SparseExperience exp(S,A);
 
     std::array<std::array<std::array<int, S>, A>, S> visits;
     std::array<std::array<std::array<int, S>, A>, S> rewards;
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
 
 BOOST_AUTO_TEST_CASE( files ) {
     const int S = 96, A = 2;
-    AIToolbox::MDP::Experience exp(S,A);
+    AIToolbox::MDP::SparseExperience exp(S,A);
 
     std::string inputFilename  = "./data/experience.txt";
     std::string outputFilename = "./loadedExperience.txt";
