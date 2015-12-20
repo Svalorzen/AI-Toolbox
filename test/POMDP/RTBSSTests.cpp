@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // Compute theoretical solution. Since the tiger problem can be actually
     // solved in multiple ways with certain discounts, I chose a discount factor
     // that seems to work, although this is in no way substantiated with theory.
-    // If there's a better way to test POMCP please let me know.
+    // If there's a better way to test RTBSS please let me know.
     POMDP::IncrementalPruning groundTruth(maxHorizon, 0.0);
     auto solution = groundTruth(model);
     auto & vf = std::get<1>(solution);
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     // Compute theoretical solution. Since the tiger problem can be actually
     // solved in multiple ways with certain discounts, I chose a discount factor
     // that seems to work, although this is in no way substantiated with theory.
-    // If there's a better way to test POMCP please let me know.
+    // If there's a better way to test RTBSS please let me know.
     POMDP::IncrementalPruning groundTruth(maxHorizon, 0.0);
     auto solution = groundTruth(model);
     auto & vf = std::get<1>(solution);
