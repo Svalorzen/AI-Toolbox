@@ -6,6 +6,12 @@ include_directories(${Boost_INCLUDE_DIRS})
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
+if (MAKE_PYTHON)
+    find_package(Boost 1.53 COMPONENTS python REQUIRED)
+    find_package(PythonLibs REQUIRED)
+    include_directories(${PYTHON_INCLUDE_DIRS})
+endif()
+
 if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
@@ -19,6 +25,15 @@ if (MAKE_MDP)
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp)
+
+    if (MAKE_PYTHON)
+        add_library(MDP SHARED
+            Impl/Seeder.cpp
+            MDP/Experience.cpp
+            Python/MDPWrappers.cpp)
+        target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
+        set_target_properties(MDP PROPERTIES PREFIX "")
+    endif()
 endif()
 
 if (MAKE_POMDP)
