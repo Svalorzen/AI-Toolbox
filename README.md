@@ -73,6 +73,8 @@ Single Agent POMDP:
 - [Augmented MDP (AMDP)](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
 - [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf)
 
+Python bindings!
+
 Fast Tutorial
 =============
 

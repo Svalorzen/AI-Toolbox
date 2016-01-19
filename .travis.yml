@@ -11,7 +11,7 @@ before_install:
     - sudo add-apt-repository ppa:kubuntu-ppa/backports -y
     - sudo apt-get update -qq
 install:
-    - sudo apt-get install -qq libboost1.54-dev libboost-test1.54-dev liblpsolve55-dev
+    - sudo apt-get install -qq libboost-python1.54-dev libboost1.54-dev libboost-test1.54-dev liblpsolve55-dev
     - sudo apt-get install -qq libeigen3-dev
     - sudo apt-get install -qq g++-4.9
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
