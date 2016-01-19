@@ -1,6 +1,3 @@
-#ifndef AI_TOOLBOX_PYTHON_MDP_EXPERIENCE_HEADER_FILE
-#define AI_TOOLBOX_PYTHON_MDP_EXPERIENCE_HEADER_FILE
-
 #include <AIToolbox/MDP/Experience.hpp>
 
 #include <boost/python.hpp>
@@ -19,5 +16,3 @@ void exportExperience() {
         .def("getReward",       &Experience::getReward)
         .def("getRewardSum",    &Experience::getRewardSum);
 }
-
-#endif

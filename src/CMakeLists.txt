@@ -29,7 +29,19 @@ if (MAKE_MDP)
     if (MAKE_PYTHON)
         add_library(MDP SHARED
             Impl/Seeder.cpp
+            MDP/Utils.cpp
             MDP/Experience.cpp
+            MDP/SparseExperience.cpp
+            MDP/Model.cpp
+            MDP/SparseModel.cpp
+            Python/Utils.cpp
+            Python/MDP/Experience.cpp
+            Python/MDP/RLModel.cpp
+            Python/MDP/SparseExperience.cpp
+            Python/MDP/SparseRLModel.cpp
+            Python/MDP/Model.cpp
+            Python/MDP/SparseModel.cpp
+            Python/MDP/Algorithms/QLearning.cpp
             Python/MDPWrappers.cpp)
         target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")

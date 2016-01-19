@@ -1,6 +1,3 @@
-#ifndef AI_TOOLBOX_PYTHON_MDP_RLMODEL_HEADER_FILE
-#define AI_TOOLBOX_PYTHON_MDP_RLMODEL_HEADER_FILE
-
 #include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
 
@@ -26,5 +23,3 @@ void exportRLModel() {
         .def("getExpectedReward",           &RLModelBinded::getExpectedReward)
         .def("isTerminal",                  &RLModelBinded::isTerminal);
 }
-
-#endif

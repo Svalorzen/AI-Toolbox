@@ -9,6 +9,71 @@
 
 namespace AIToolbox {
     namespace MDP {
+        /**
+         * @brief This class represents a Markov Decision Process.
+         *
+         * A Markov Decision Process (MDP) is a way to model decision making.
+         * The idea is that there is an agent situated in a stochastic
+         * environment which changes in discrete "timesteps". The agent can
+         * influence the way the environment changes via "actions". For each
+         * action the agent can perform, the environment will transition from a
+         * state "s" to a state "s1" following a certain transition function.
+         * The transition function specifies, for each triple SxAxS' the
+         * probability that such a transition will happen.
+         *
+         * In addition, associated with transitions, the agent is able to
+         * obtain rewards. Thus, if it does good, the agent will obtain a
+         * higher reward than if it performed badly. The reward obtained by the
+         * agent is in addition associated with a "discount" factor: at every
+         * step, the possible reward that the agent can collect is multiplied
+         * by this factor, which is a number between 0 and 1. The discount
+         * factor is used to model the fact that often it is preferable to
+         * obtain something sooner, rather than later.
+         *
+         * Since all of this is governed by probabilities, it is possible to
+         * solve an MDP model in order to obtain an "optimal policy", which is
+         * a way to select an action from a state which will maximize the
+         * expected reward that the agent is going to collect during its life.
+         * The expected reward is computed as the sum of every reward the agent
+         * collects at every timestep, keeping in mind that at every timestep
+         * the reward is further and further discounted.
+         *
+         * Solving an MDP in such a way is called "planning". Planning
+         * solutions often include an "horizon", which is the number of
+         * timesteps that are included in an episode. They can be finite or
+         * infinite. The optimal policy changes with respect to the horizon,
+         * since a higher horizon may offer access to reward-gaining
+         * opportunities farther in the future.
+         *
+         * An MDP policy (be it the optimal one or another), is associated with
+         * two functions: a ValueFunction and a QFunction. The ValueFunction
+         * represents the expected return for the agent from any initial state,
+         * given that actions are going to be selected according to the policy.
+         * The QFunction is similar: it gives the expected return for a
+         * specific state-action pair, given that after the specified action
+         * one will act according to the policy.
+         *
+         * Given that we are usually interested about the optimal policy, there
+         * are a couple of properties that are associated with the optimal
+         * policies functions.  First, the optimal policy can be derived from
+         * the optimal QFunction. The optimal policy simply selects, in a given
+         * state "s", the action that maximizes the value of the QFunction.  In
+         * the same way, the optimal ValueFunction can be computed from the
+         * optimal QFunction by selecting the max with respect to the action.
+         *
+         * Since so much information can be extracted from the QFunction, lots
+         * of methods (mostly in Reinforcement Learning) try to learn it.
+         *
+         * The difference between this class and the MDP::RLModel class is that
+         * this class stores transitions and rewards in sparse matrices. This
+         * results in a possibly slower access to individual probabilities and
+         * rewards, but immeasurably speeds up computation with some classes of
+         * planning algorithms in case the number of useful transitions is very
+         * little with respect to the total theoretic state action space of
+         * SxAxS. It also of course incredibly reduces memory consumption in
+         * such cases, which may also improve speed by effect of improved
+         * caching.
+         */
         class SparseModel {
             public:
                 using TransitionTable   = SparseMatrix3D;
@@ -17,7 +82,7 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * This constructor initializes the Model so that all
+                 * This constructor initializes the SparseModel so that all
                  * transitions happen with probability 0 but for transitions
                  * that bring back to the same state, no matter the action.
                  *
@@ -81,7 +146,7 @@ namespace AIToolbox {
                  *
                  * This allows to copy from any other model. A nice use for this is to
                  * convert any model which computes probabilities on the fly into an
-                 * MDP::Model where probabilities are all stored for fast access. Of
+                 * MDP::SparseModel where probabilities are all stored for fast access. Of
                  * course such a solution can be done only when the number of states
                  * and actions is not too big.
                  *
@@ -92,7 +157,7 @@ namespace AIToolbox {
                 SparseModel(const M& model);
 
                 /**
-                 * @brief This function replaces the Model transition function with the one provided.
+                 * @brief This function replaces the SparseModel transition function with the one provided.
                  *
                  * This function will throw a std::invalid_argument if the
                  * table provided does not respect the constraints specified in
@@ -124,7 +189,7 @@ namespace AIToolbox {
                 void setTransitionFunction(const T & t);
 
                 /**
-                 * @brief This function replaces the Model reward function with the one provided.
+                 * @brief This function replaces the SparseModel reward function with the one provided.
                  *
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the containers
@@ -152,9 +217,9 @@ namespace AIToolbox {
                 void setRewardFunction(const R & r);
 
                 /**
-                 * @brief This function sets a new discount factor for the Model.
+                 * @brief This function sets a new discount factor for the SparseModel.
                  *
-                 * @param d The new discount factor for the Model.
+                 * @param d The new discount factor for the SparseModel.
                  */
                 void setDiscount(double d);
 
