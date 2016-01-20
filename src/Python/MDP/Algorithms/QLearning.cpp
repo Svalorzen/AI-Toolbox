@@ -22,7 +22,6 @@ void exportQLearningByModel(std::string className) {
         .def("stepUpdateQ",                 &Q::stepUpdateQ)
         .def("getQFunction",                &Q::getQFunction, return_internal_reference<>())
         .def("getModel",                    &Q::getModel, return_value_policy<reference_existing_object>());
-;
 }
 
 

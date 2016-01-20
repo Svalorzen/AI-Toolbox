@@ -13,6 +13,7 @@
 #include "Utils/OldMDPModel.hpp"
 
 #include <type_traits>
+#include <iostream>
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
@@ -21,6 +22,8 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
 
     Model model = makeCornerProblem(grid);
     size_t S = model.getS(), A = model.getA();
+
+    std::cout << "My model is:\n" << model << "\n\n\n\n\n";
 
     // We set the horizon to a very high value so that
     // the epsilon bound will prevail, solving the problem

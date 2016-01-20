@@ -42,6 +42,8 @@ if (MAKE_MDP)
             Python/MDP/Model.cpp
             Python/MDP/SparseModel.cpp
             Python/MDP/Algorithms/QLearning.cpp
+            Python/MDP/Algorithms/SARSA.cpp
+            Python/MDP/Algorithms/ValueIteration.cpp
             Python/MDPWrappers.cpp)
         target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")

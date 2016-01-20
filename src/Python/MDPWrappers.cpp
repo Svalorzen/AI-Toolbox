@@ -9,6 +9,8 @@ void exportModel();
 void exportSparseModel();
 
 void exportQLearning();
+void exportSARSA();
+void exportValueIteration();
 
 BOOST_PYTHON_MODULE(MDP)
 {
@@ -22,4 +24,6 @@ BOOST_PYTHON_MODULE(MDP)
     exportSparseModel();
 
     exportQLearning();
+    exportSARSA();
+    exportValueIteration();
 }
