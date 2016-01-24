@@ -34,6 +34,8 @@ if (MAKE_MDP)
             MDP/SparseExperience.cpp
             MDP/Model.cpp
             MDP/SparseModel.cpp
+            MDP/Policies/QPolicyInterface.cpp
+            MDP/Policies/QGreedyPolicy.cpp
             Python/Utils.cpp
             Python/MDP/Experience.cpp
             Python/MDP/RLModel.cpp
@@ -44,6 +46,7 @@ if (MAKE_MDP)
             Python/MDP/Algorithms/QLearning.cpp
             Python/MDP/Algorithms/SARSA.cpp
             Python/MDP/Algorithms/ValueIteration.cpp
+            Python/MDP/Policies/QGreedyPolicy.cpp
             Python/MDPWrappers.cpp)
         target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")

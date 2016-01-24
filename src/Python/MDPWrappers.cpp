@@ -12,6 +12,8 @@ void exportQLearning();
 void exportSARSA();
 void exportValueIteration();
 
+void exportQGreedyPolicy();
+
 BOOST_PYTHON_MODULE(MDP)
 {
     exportUtils();
@@ -26,4 +28,6 @@ BOOST_PYTHON_MODULE(MDP)
     exportQLearning();
     exportSARSA();
     exportValueIteration();
+
+    exportQGreedyPolicy();
 }
