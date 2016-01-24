@@ -12,7 +12,10 @@ void exportQLearning();
 void exportSARSA();
 void exportValueIteration();
 
+void exportPolicyInterface();
+void exportQPolicyInterface();
 void exportQGreedyPolicy();
+void exportEpsilonPolicy();
 
 BOOST_PYTHON_MODULE(MDP)
 {
@@ -29,5 +32,8 @@ BOOST_PYTHON_MODULE(MDP)
     exportSARSA();
     exportValueIteration();
 
+    exportPolicyInterface();
+    exportQPolicyInterface();
     exportQGreedyPolicy();
+    exportEpsilonPolicy();
 }

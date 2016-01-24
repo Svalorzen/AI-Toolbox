@@ -46,7 +46,10 @@ if (MAKE_MDP)
             Python/MDP/Algorithms/QLearning.cpp
             Python/MDP/Algorithms/SARSA.cpp
             Python/MDP/Algorithms/ValueIteration.cpp
+            Python/MDP/PolicyInterface.cpp
+            Python/MDP/Policies/QPolicyInterface.cpp
             Python/MDP/Policies/QGreedyPolicy.cpp
+            Python/MDP/Policies/EpsilonPolicy.cpp
             Python/MDPWrappers.cpp)
         target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")
