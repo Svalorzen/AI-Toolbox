@@ -198,11 +198,15 @@ namespace AIToolbox {
 
         template <typename M>
         void PrioritizedSweepingEigen<M>::stepUpdateQ(size_t s, size_t a) {
+            // We use this to avoid continuous reallocations during the update
+            // of q[s][a]
+            static Values vector(S); 
+
             auto & values = std::get<VALUES>(vfun_);
             { // Update q[s][a]
-                qfun_(s,a) = model_.getTransitionFunction(a).row(s).dot(
-                        model_.getRewardFunction(a).row(s) + values.transpose() * model_.getDiscount()
-                );
+                vector.noalias() = values * model_.getDiscount();
+                vector += model_.getRewardFunction(a).row(s).transpose();
+                qfun_(s,a) = model_.getTransitionFunction(a).row(s).dot(vector);
             }
 
             double p = values[s];
