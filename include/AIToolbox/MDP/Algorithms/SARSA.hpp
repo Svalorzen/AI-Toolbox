@@ -126,8 +126,6 @@ namespace AIToolbox {
 
             protected:
                 const M & model_;
-                // We cache values for max performance.
-                size_t S, A;
                 double alpha_;
                 double discount_;
 
@@ -135,7 +133,7 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        SARSA<M>::SARSA(const M& model, double alpha) : model_(model), S(model_.getS()), A(model_.getA()), alpha_(alpha), discount_(model_.getDiscount()), q_(makeQFunction(S,A)) {
+        SARSA<M>::SARSA(const M& model, double alpha) : model_(model), alpha_(alpha), discount_(model_.getDiscount()), q_(makeQFunction(model_.getS(),model_.getA())) {
             if ( alpha_ <= 0.0 || alpha_ > 1.0 )        throw std::invalid_argument("Learning rate parameter must be in (0,1]");
         }
 
