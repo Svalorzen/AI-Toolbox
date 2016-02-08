@@ -5,6 +5,7 @@
 
 #include <AIToolbox/MDP/Policies/QPolicyInterface.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
+#include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -26,7 +27,16 @@ namespace AIToolbox {
          */
         class WoLFPolicy : public QPolicyInterface {
             public:
-                WoLFPolicy(const QFunction & q, double deltaw = 0.0125, double deltal = 0.05);
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * See the setter functions to see what the parameters do.
+                 *
+                 * @param q The QFunction from which to extract policy updates.
+                 * @param deltaw The learning rate if this policy is currently winning.
+                 * @param deltal The learning rate if this policy is currently losing.
+                 */
+                WoLFPolicy(const QFunction & q, double deltaw = 0.0125, double deltal = 0.05, double scaling = 5000.0);
 
                 /**
                  * @brief This function updates the WoLF policy based on changes in the QFunction.
@@ -40,6 +50,9 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function chooses an action for state s, following the policy distribution.
+                 *
+                 * Note that to improve learning it may be useful to wrap this policy into an EpsilonPolicy
+                 * in order to provide some exploration.
                  *
                  * @param s The sampled state of the policy.
                  *
@@ -57,8 +70,66 @@ namespace AIToolbox {
                  */
                 virtual double getActionProbability(const size_t & s, size_t a) const override;
 
+                /**
+                 * @brief This function sets the new learning rate if winning.
+                 *
+                 * This is the amount that the policy is modified when the updatePolicy() function is called
+                 * when WoLFPolicy determines that it is currently winning based on the current QFunction.
+                 *
+                 * @param deltaW The new learning rate during wins.
+                 */
+                void setDeltaW(double deltaW);
+
+                /**
+                 * @brief This function returns the current learning rate during winning.
+                 *
+                 * @return The learning rate during winning.
+                 */
+                double getDeltaW() const;
+
+                /**
+                 * @brief This function sets the new learning rate if losing.
+                 *
+                 * This is the amount that the policy is modified when the updatePolicy() function is called
+                 * when WoLFPolicy determines that it is currently losing based on the current QFunction.
+                 *
+                 * @param deltaL The new learning rate during loss.
+                 */
+                void setDeltaL(double deltaL);
+
+                /**
+                 * @brief This function returns the current learning rate during loss.
+                 *
+                 * @return The learning rate during loss.
+                 */
+                double getDeltaL() const;
+
+                /**
+                 * @brief This function modifies the scaling parameter.
+                 *
+                 * In order to be able to converge WoLFPolicy needs to progressively reduce the learning rates
+                 * over time. It does so automatically to avoid needing to call both learning rate setters
+                 * constantly. This is also because in theory the learning rate should change per state, so
+                 * it would be even harder to do outside.
+                 *
+                 * Once determined if the policy is winning or losing, the selected learning rate is scaled
+                 * with the following formula:
+                 *
+                 *     newLearningRate = originalLearningRate / ( c_[s] / scaling + 1 );
+                 *
+                 * @param scaling The new scaling factor.
+                 */
+                void setScaling(double scaling);
+
+                /**
+                 * @brief This function returns the current scaling parameter.
+                 *
+                 * @return The current scaling parameter.
+                 */
+                double getScaling() const;
+
             private:
-                double deltaW_, deltaL_;
+                double deltaW_, deltaL_, scaling_;
 
                 std::vector<unsigned> c_;
                 Policy avgPolicy_, actualPolicy_;

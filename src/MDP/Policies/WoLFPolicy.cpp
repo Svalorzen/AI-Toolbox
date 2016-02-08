@@ -5,8 +5,8 @@
 namespace AIToolbox {
     namespace MDP {
 
-        WoLFPolicy::WoLFPolicy(const QFunction & q, double deltaw, double deltal) : QPolicyInterface(q),
-                                                                                    deltaW_(deltaw), deltaL_(deltal),
+        WoLFPolicy::WoLFPolicy(const QFunction & q, double deltaw, double deltal, double scaling) : QPolicyInterface(q),
+                                                                                    deltaW_(deltaw), deltaL_(deltal), scaling_(scaling),
                                                                                     c_(S, 0),
                                                                                     avgPolicy_(S,A), actualPolicy_(S,A) {}
 
@@ -36,14 +36,14 @@ namespace AIToolbox {
                     avgValue        += avgstate[a]    * qsa;
                     actualValue     += actualstate[a] * qsa;
 
-                    if ( qsa > bestQValue ) {
+                    if ( checkEqualGeneral(qsa, bestQValue) ) {
+                        bestActions[bestActionCount] = a;
+                        ++bestActionCount;
+                    }
+                    else if ( qsa > bestQValue ) {
                         bestActions[0] = a;
                         bestActionCount = 1;
                         bestQValue = qsa;
-                    }
-                    else if ( checkEqualGeneral(qsa, bestQValue) ) {
-                        bestActions[bestActionCount] = a;
-                        ++bestActionCount;
                     }
                 }
 
@@ -54,10 +54,9 @@ namespace AIToolbox {
                 finalDelta = actualValue > avgValue ? deltaW_ : deltaL_;
             }
 
-            finalDelta /= c_[s];
+            finalDelta /= ( c_[s] / scaling_ + 1.0 );
 
             actualstate[bestAction] = std::min(1.0, actualstate[bestAction] + finalDelta);
-
             for ( size_t a = 0; a < A; ++a ) {
                 if ( a == bestAction ) continue;
                 actualstate[a] = std::max(0.0, actualstate[a] - finalDelta / ( A - 1 ) );
@@ -67,28 +66,36 @@ namespace AIToolbox {
             actualPolicy_.setStatePolicy(s, actualstate);
         }
 
-        /**
-         * @brief This function chooses an action for state s, following the policy distribution.
-         *
-         * @param s The sampled state of the policy.
-         *
-         * @return The chosen action.
-         */
         size_t WoLFPolicy::sampleAction(const size_t & s) const {
             return actualPolicy_.sampleAction(s);
         }
 
-        /**
-         * @brief This function returns the probability of taking the specified action in the specified state.
-         *
-         * @param s The selected state.
-         * @param a The selected action.
-         *
-         * @return The probability of taking the selected action in the specified state.
-         */
         double WoLFPolicy::getActionProbability(const size_t & s, size_t a) const {
             return actualPolicy_.getActionProbability(s,a);
         }
 
+        void WoLFPolicy::setDeltaW(double deltaW) {
+            deltaW_ = deltaW;
+        }
+
+        double WoLFPolicy::getDeltaW() const {
+            return deltaW_;
+        }
+
+        void WoLFPolicy::setDeltaL(double deltaL) {
+            deltaL_ = deltaL;
+        }
+
+        double WoLFPolicy::getDeltaL() const {
+            return deltaL_;
+        }
+
+        void WoLFPolicy::setScaling(double scaling) {
+            scaling_ = scaling;
+        }
+
+        double WoLFPolicy::getScaling() const {
+            return scaling_;
+        }
     }
 }

@@ -4,13 +4,9 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/MDP/Policies/WoLFPolicy.hpp>
+#include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 
-#include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
-#include <AIToolbox/MDP/Algorithms/PrioritizedSweeping.hpp>
-
-#include <random>
-#include <fstream>
+#include <AIToolbox/MDP/Algorithms/QLearning.hpp>
 
 int testRockPaperScissors(unsigned a, unsigned b) {
     if ( a == b ) return 0;
@@ -22,24 +18,36 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
     using namespace AIToolbox;
     size_t S = 1, A = 3;
 
-    MDP::Experience exp(S,A);
-    MDP::RLModel<decltype(exp)> model(exp, 1.0, false);
-    MDP::PrioritizedSweeping<decltype(model)> solver(model);
-
+    MDP::QLearning solver(S, A, 1.0, 1.0);
+    MDP::QLearning solver2(S, A, 1.0, 1.0);
+    // This is important: the two policies must be different somehow (maybe
+    // even starting from a different initial policy would suffice, although I
+    // have no idea), otherwise it seems that learning does not converge at
+    // all; this is because the two policies seem to change completely in
+    // unison, so they never get to converge. Weird..
     MDP::WoLFPolicy policy(solver.getQFunction());
+    MDP::WoLFPolicy policy2(solver2.getQFunction(), 0.1, 0.5);
 
-    for ( unsigned i = 0; i < 100000; ++i ) {
-        size_t a = policy.sampleAction(0);
-        size_t b = policy.sampleAction(0);
+    // Other important thing: without exploration, the policies cannot
+    // explore enough and won't end up converging. So we need to wrap
+    // the policies in EpsilonPolicy in order to get good exploration.
+    MDP::EpsilonPolicy p(policy);
+    MDP::EpsilonPolicy p2(policy2);
+
+    for ( unsigned i = 0; i < 1000000; ++i ) {
+        size_t a = p.sampleAction(0);
+        size_t b = p2.sampleAction(0);
 
         int result = testRockPaperScissors(a,b);
 
-        exp.record(0,a,0,result);
-        model.sync(0,a,0);
-        solver.stepUpdateQ(0,a);
-        solver.batchUpdateQ();
-        // The argument here is technically s1, but since there's only one state is 0 anyway.
+        solver.stepUpdateQ(0, a, 0, result);
+        solver2.stepUpdateQ(0, b, 0, -result);
+
         policy.updatePolicy(0);
+        policy2.updatePolicy(0);
+        // Some values for which it seems to work.
+        solver.setLearningRate( 0.4 / ( i / 1000000.0 + 1.0 ) );
+        solver2.setLearningRate( 0.4 / ( i / 1000000.0 + 1.0 ) );
     }
 
     BOOST_CHECK(policy.getActionProbability(0,0) < 0.4333);
@@ -53,26 +61,28 @@ BOOST_AUTO_TEST_CASE( matching_pennies ) {
     using namespace AIToolbox;
     size_t S = 1, A = 2;
 
-    MDP::Experience exp(S,A);
-    MDP::RLModel<decltype(exp)> model(exp, 1.0, false);
-    MDP::PrioritizedSweeping<decltype(model)> solver(model);
+    MDP::QLearning solver(S, A);
+    MDP::QLearning solver2(S, A);
 
     MDP::WoLFPolicy policy(solver.getQFunction());
+    MDP::WoLFPolicy policy2(solver2.getQFunction());
+    // Here they're not really needed since there's only
+    // two actions, but just to do things properly.
+    MDP::EpsilonPolicy p(policy);
+    MDP::EpsilonPolicy p2(policy2);
 
-    std::default_random_engine engine(12345);
-    std::uniform_int_distribution<unsigned> dist(0,1);
+    for ( unsigned i = 0; i < 1000000; ++i ) {
+        size_t a = p.sampleAction(0);
+        // Self-play, b is opponent
+        size_t b = p2.sampleAction(0);
 
-    for ( unsigned i = 0; i < 100000; ++i ) {
-        size_t a = policy.sampleAction(0);
+        int result = ( a == b ) ? 1 : -1;
 
-        int result = ( a == dist(engine) ) ? 1 : -1;
-
-        exp.record(0,a,0,result);
-        model.sync(0,a,0);
-        solver.stepUpdateQ(0,a);
-        solver.batchUpdateQ();
+        solver.stepUpdateQ(0, a, 0, result);
+        solver2.stepUpdateQ(0, b, 0, -result);
 
         policy.updatePolicy(0);
+        policy2.updatePolicy(0);
     }
 
     BOOST_CHECK(policy.getActionProbability(0,0) < 0.6);
