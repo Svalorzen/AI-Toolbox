@@ -9,27 +9,21 @@
 
 #include <boost/python.hpp>
 
-template <typename M>
-void exportSARSAByModel(std::string className) {
-    using namespace AIToolbox::MDP;
-    using namespace boost::python;
-
-    using S = SARSA<M>;
-
-    class_<S>{("SARSA" + className).c_str(), init<const M&, optional<double>>()}
-        .def("setLearningRate",             &S::setLearningRate)
-        .def("getLearningRate",             &S::getLearningRate)
-        .def("stepUpdateQ",                 &S::stepUpdateQ)
-        .def("getQFunction",                &S::getQFunction, return_internal_reference<>())
-        .def("getModel",                    &S::getModel, return_value_policy<reference_existing_object>());
-}
-
-
 void exportSARSA() {
+    using namespace boost::python;
     using namespace AIToolbox::MDP;
 
-    exportSARSAByModel<RLModel<Experience>>("RLModel");
-    exportSARSAByModel<SparseRLModel<SparseExperience>>("SparseRLModel");
-    exportSARSAByModel<Model>("Model");
-    exportSARSAByModel<SparseModel>("SparseModel");
+    class_<SARSA>{"SARSA", init<size_t, size_t, optional<double, double>>()}
+        .def(init<const RLModel<Experience>&, optional<double>>())
+        .def(init<const SparseRLModel<SparseExperience>&, optional<double>>())
+        .def(init<const Model&, optional<double>>())
+        .def(init<const SparseModel&, optional<double>>())
+        .def("setLearningRate",             &SARSA::setLearningRate)
+        .def("getLearningRate",             &SARSA::getLearningRate)
+        .def("setDiscount",                 &SARSA::setDiscount)
+        .def("getDiscount",                 &SARSA::getDiscount)
+        .def("getS",                        &SARSA::getS)
+        .def("getA",                        &SARSA::getA)
+        .def("stepUpdateQ",                 &SARSA::stepUpdateQ)
+        .def("getQFunction",                &SARSA::getQFunction, return_internal_reference<>());
 }

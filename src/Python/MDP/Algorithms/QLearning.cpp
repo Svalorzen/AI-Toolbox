@@ -9,27 +9,21 @@
 
 #include <boost/python.hpp>
 
-template <typename M>
-void exportQLearningByModel(std::string className) {
-    using namespace AIToolbox::MDP;
-    using namespace boost::python;
-
-    using Q = QLearning<M>;
-
-    class_<Q>{("QLearning" + className).c_str(), init<const M&, optional<double>>()}
-        .def("setLearningRate",             &Q::setLearningRate)
-        .def("getLearningRate",             &Q::getLearningRate)
-        .def("stepUpdateQ",                 &Q::stepUpdateQ)
-        .def("getQFunction",                &Q::getQFunction, return_internal_reference<>())
-        .def("getModel",                    &Q::getModel, return_value_policy<reference_existing_object>());
-}
-
-
 void exportQLearning() {
+    using namespace boost::python;
     using namespace AIToolbox::MDP;
 
-    exportQLearningByModel<RLModel<Experience>>("RLModel");
-    exportQLearningByModel<SparseRLModel<SparseExperience>>("SparseRLModel");
-    exportQLearningByModel<Model>("Model");
-    exportQLearningByModel<SparseModel>("SparseModel");
+    class_<QLearning>{"QLearning", init<size_t, size_t, optional<double, double>>()}
+        .def(init<const RLModel<Experience>&, optional<double>>())
+        .def(init<const SparseRLModel<SparseExperience>&, optional<double>>())
+        .def(init<const Model&, optional<double>>())
+        .def(init<const SparseModel&, optional<double>>())
+        .def("setLearningRate",             &QLearning::setLearningRate)
+        .def("getLearningRate",             &QLearning::getLearningRate)
+        .def("setDiscount",                 &QLearning::setDiscount)
+        .def("getDiscount",                 &QLearning::getDiscount)
+        .def("getS",                        &QLearning::getS)
+        .def("getA",                        &QLearning::getA)
+        .def("stepUpdateQ",                 &QLearning::stepUpdateQ)
+        .def("getQFunction",                &QLearning::getQFunction, return_internal_reference<>());
 }
