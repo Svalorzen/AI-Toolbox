@@ -200,7 +200,7 @@ namespace AIToolbox {
         void PrioritizedSweepingEigen<M>::stepUpdateQ(size_t s, size_t a) {
             // We use this to avoid continuous reallocations during the update
             // of q[s][a]
-            static Values vector(S); 
+            static Values vector(S);
 
             auto & values = std::get<VALUES>(vfun_);
             { // Update q[s][a]
