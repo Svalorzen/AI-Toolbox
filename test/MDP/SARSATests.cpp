@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     auto model = makeCliffProblem(grid);
 
-    mdp::SARSA<decltype(model)> solver(model, 0.1);
+    mdp::SARSA solver(model, 0.1);
 
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
     mdp::EpsilonPolicy ePolicy(gPolicy, 0.5);

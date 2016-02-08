@@ -15,10 +15,7 @@
 BOOST_AUTO_TEST_CASE( updates ) {
     namespace mdp = AIToolbox::MDP;
 
-    mdp::Model model(5, 5);
-    model.setDiscount(0.9);
-
-    mdp::QLearning<decltype(model)> solver(model, 0.5);
+    mdp::QLearning solver(5, 5, 0.9, 0.5);
     {
         // State goes to itself, thus needs to consider
         // next-step value.
@@ -52,7 +49,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     auto model = makeCliffProblem(grid);
 
-    mdp::QLearning<decltype(model)> solver(model);
+    mdp::QLearning solver(model);
 
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
     mdp::EpsilonPolicy ePolicy(gPolicy, 0.9);
