@@ -53,6 +53,7 @@ if (MAKE_MDP)
             Python/MDP/Algorithms/SARSA.cpp
             Python/MDP/Algorithms/ValueIteration.cpp
             Python/MDP/Algorithms/PrioritizedSweeping.cpp
+            Python/MDP/Algorithms/MCTS.cpp
             Python/MDP/PolicyInterface.cpp
             Python/MDP/Policies/QPolicyInterface.cpp
             Python/MDP/Policies/Policy.cpp

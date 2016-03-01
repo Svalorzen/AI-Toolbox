@@ -12,6 +12,7 @@ void exportQLearning();
 void exportSARSA();
 void exportValueIteration();
 void exportPrioritizedSweeping();
+void exportMCTS();
 
 void exportPolicyInterface();
 void exportQPolicyInterface();
@@ -22,6 +23,8 @@ void exportPolicy();
 
 BOOST_PYTHON_MODULE(MDP)
 {
+    boost::python::docstring_options localDocstringOptions(true, true, false);
+
     exportUtils();
 
     exportExperience();
@@ -35,6 +38,7 @@ BOOST_PYTHON_MODULE(MDP)
     exportSARSA();
     exportValueIteration();
     exportPrioritizedSweeping();
+    exportMCTS();
 
     exportPolicyInterface();
     exportQPolicyInterface();
