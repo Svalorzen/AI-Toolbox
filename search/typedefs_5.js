@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['policytable',['PolicyTable',['../classAIToolbox_1_1MDP_1_1Policy.html#ac6d21312a1e4dcdcdb5b37e4bb5fcc74',1,'AIToolbox::MDP::Policy']]],
-  ['projectionsrow',['ProjectionsRow',['../classAIToolbox_1_1POMDP_1_1Projecter_3_01M_01_4.html#a56a25d788da6a6db2d9c2bb9fe65cba7',1,'AIToolbox::POMDP::Projecter&lt; M &gt;']]],
-  ['projectionstable',['ProjectionsTable',['../classAIToolbox_1_1POMDP_1_1Projecter_3_01M_01_4.html#a933bbb7ed4c426975739b5b2c0b679b4',1,'AIToolbox::POMDP::Projecter&lt; M &gt;']]]
+  ['observationtable',['ObservationTable',['../classAIToolbox_1_1POMDP_1_1Model_3_01M_01_4.html#abe80a9bd07ff46557f7e009d6c0ff16d',1,'AIToolbox::POMDP::Model&lt; M &gt;::ObservationTable()'],['../classAIToolbox_1_1POMDP_1_1SparseModel_3_01M_01_4.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a',1,'AIToolbox::POMDP::SparseModel&lt; M &gt;::ObservationTable()'],['../classOldPOMDPModel_3_01M_01_4.html#a028db05de3f596c94f810bced8358bf4',1,'OldPOMDPModel&lt; M &gt;::ObservationTable()']]]
 ];

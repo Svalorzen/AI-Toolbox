@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['observationtable',['ObservationTable',['../classAIToolbox_1_1POMDP_1_1Model_3_01M_01_4.html#a90d9555d9cb5eacffdc6e0c2b9be7d00',1,'AIToolbox::POMDP::Model&lt; M &gt;']]]
+  ['matrix2d',['Matrix2D',['../namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a',1,'AIToolbox']]],
+  ['matrix3d',['Matrix3D',['../namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94',1,'AIToolbox']]]
 ];

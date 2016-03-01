@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['sarsa_3c_20m_20_3e',['SARSA&lt; M &gt;',['../classAIToolbox_1_1MDP_1_1SARSA_3_01M_01_4.html',1,'AIToolbox::MDP']]],
-  ['seeder',['Seeder',['../classAIToolbox_1_1Impl_1_1Seeder.html',1,'AIToolbox::Impl']]],
-  ['statenode',['StateNode',['../structAIToolbox_1_1MDP_1_1MCTS_3_01M_01_4_1_1StateNode.html',1,'AIToolbox::MDP::MCTS&lt; M &gt;']]]
+  ['rlmodel_3c_20e_20_3e',['RLModel&lt; E &gt;',['../classAIToolbox_1_1MDP_1_1RLModel_3_01E_01_4.html',1,'AIToolbox::MDP']]],
+  ['rtbss_3c_20m_20_3e',['RTBSS&lt; M &gt;',['../classAIToolbox_1_1POMDP_1_1RTBSS_3_01M_01_4.html',1,'AIToolbox::POMDP']]]
 ];

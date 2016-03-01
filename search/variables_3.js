@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['discount_5f',['discount_',['../classAIToolbox_1_1MDP_1_1QLearning_3_01M_01_4.html#af6925a7df94e6274a0acae374eafb9d5',1,'AIToolbox::MDP::QLearning&lt; M &gt;::discount_()'],['../classAIToolbox_1_1MDP_1_1SARSA_3_01M_01_4.html#a0f642337d5209c39daaa058912dff21e',1,'AIToolbox::MDP::SARSA&lt; M &gt;::discount_()']]]
+  ['discount_5f',['discount_',['../classAIToolbox_1_1MDP_1_1QLearning.html#a50ea57f923019fc430826ae0a9507178',1,'AIToolbox::MDP::QLearning::discount_()'],['../classAIToolbox_1_1MDP_1_1SARSA.html#aea792bc5802a13825ccb31810cb5f8e0',1,'AIToolbox::MDP::SARSA::discount_()']]]
 ];

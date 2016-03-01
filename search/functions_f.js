@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['updatebelief',['updateBelief',['../namespaceAIToolbox_1_1POMDP.html#ac207e87c65b261e89e5c3d81150c0588',1,'AIToolbox::POMDP']]],
-  ['updatepolicy',['updatePolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ad428806fd6034c9acd435b2320e15e81',1,'AIToolbox::MDP::WoLFPolicy']]]
+  ['tupletopython',['TupleToPython',['../structTupleToPython.html#a5f0ff244aa06aecaf1a0ab3d66b0e5ec',1,'TupleToPython']]]
 ];

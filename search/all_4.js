@@ -10,6 +10,6 @@ var searchData=
   ['experience',['Experience',['../classAIToolbox_1_1MDP_1_1Experience.html',1,'AIToolbox::MDP']]],
   ['experience_2ehpp',['Experience.hpp',['../Experience_8hpp.html',1,'']]],
   ['extractdominated',['extractDominated',['../namespaceAIToolbox_1_1POMDP.html#ad2b6e4619e57f93e0af6059a322fbcca',1,'AIToolbox::POMDP']]],
-  ['extractworstatbelief',['extractWorstAtBelief',['../namespaceAIToolbox_1_1POMDP.html#a2d98da3b6250df31ea2167518dbd2cdf',1,'AIToolbox::POMDP']]],
+  ['extractworstatbelief',['extractWorstAtBelief',['../namespaceAIToolbox_1_1POMDP.html#a3b462d4a6cc715e8184407f744aa1452',1,'AIToolbox::POMDP']]],
   ['extractworstatsimplexcorners',['extractWorstAtSimplexCorners',['../namespaceAIToolbox_1_1POMDP.html#a6f010690025844ae5167c3feeac67a93',1,'AIToolbox::POMDP']]]
 ];

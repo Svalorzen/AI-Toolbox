@@ -11,6 +11,6 @@ var searchData=
   ['witnesslp_5flpsolve',['WitnessLP_lpsolve',['../classAIToolbox_1_1POMDP_1_1WitnessLP__lpsolve.html#a75ed68b2281eaabf408a3a50e25a24fc',1,'AIToolbox::POMDP::WitnessLP_lpsolve']]],
   ['witnesslp_5flpsolve_2ehpp',['WitnessLP_lpsolve.hpp',['../WitnessLP__lpsolve_8hpp.html',1,'']]],
   ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html',1,'AIToolbox::MDP']]],
-  ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#aa406c321277b9159793236a21238ecdb',1,'AIToolbox::MDP::WoLFPolicy']]],
+  ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a5da7647741afda3a435534a1a423c5b2',1,'AIToolbox::MDP::WoLFPolicy']]],
   ['wolfpolicy_2ehpp',['WoLFPolicy.hpp',['../WoLFPolicy_8hpp.html',1,'']]]
 ];
