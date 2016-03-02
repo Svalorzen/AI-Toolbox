@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8.8)
 
 find_package(Boost 1.53 REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -7,8 +7,10 @@ find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 if (MAKE_PYTHON)
+    find_package(PythonLibs 2.7 EXACT REQUIRED)
     find_package(Boost 1.53 COMPONENTS python REQUIRED)
-    find_package(PythonLibs REQUIRED)
+    # Save version of python libs loaded to run tests later.
+    set(PYTHONLIBS_VERSION_STRING ${PYTHONLIBS_VERSION_STRING} PARENT_SCOPE)
     include_directories(${PYTHON_INCLUDE_DIRS})
 endif()
 

@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8.8)
 
 function (AddTestMDP name)
     set(exename MDP_${name})
@@ -40,7 +40,10 @@ if (MAKE_MDP)
     AddTestMDP(WoLFPolicy)
 
     if (MAKE_PYTHON)
-        find_package(PythonInterp)
+        # Normally one loads PythonInterp first, but since
+        # here the interpreter is only optional then libs
+        # come first. The version must be the same though.
+        find_package(PythonInterp ${PYTHONLIBS_VERSION_STRING})
         if (PYTHONINTERP_FOUND)
             AddTestMDPPython(Experience)
             AddTestMDPPython(QLearning)
