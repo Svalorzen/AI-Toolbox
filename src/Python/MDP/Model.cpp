@@ -80,7 +80,7 @@ void exportModel() {
                  "@param s The number of states of the world.\n"
                  "@param a The number of actions available to the agent.\n"
                  "@param discount The discount factor for the MDP."
-        ))
+        , (arg("self"), "s", "a", "discount")))
 
         .def(init<const Model &>(
                  "This allows to copy from any other model. A nice use for this is to\n"
@@ -88,7 +88,7 @@ void exportModel() {
                  "MDP::Model where probabilities are all stored for fast access. Of\n"
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
-        ))
+        , (arg("self"), "model")))
 
         .def(init<const SparseModel &>(
                  "This allows to copy from any other model. A nice use for this is to\n"
@@ -96,22 +96,25 @@ void exportModel() {
                  "MDP::Model where probabilities are all stored for fast access. Of\n"
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
-        ))
+        , (arg("self"), "sparseModel")))
+
         .def(init<const RLModel<Experience> &>(
                  "This allows to copy from any other model. A nice use for this is to\n"
                  "convert any model which computes probabilities on the fly into an\n"
                  "MDP::Model where probabilities are all stored for fast access. Of\n"
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
-        ))
+        , (arg("self"), "rlModel")))
         .def(init<const SparseRLModel<SparseExperience> &>(
                  "This allows to copy from any other model. A nice use for this is to\n"
                  "convert any model which computes probabilities on the fly into an\n"
                  "MDP::Model where probabilities are all stored for fast access. Of\n"
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
-        ))
-        .def("setDiscount",                 &Model::setDiscount, "This function sets a new discount factor for the Model.")
+        , (arg("self"), "sparseRLModel")))
+        .def("setDiscount",                 &Model::setDiscount,
+                "This function sets a new discount factor for the Model."
+        , (arg("self"), "discount"))
         .def("setTransitionFunction",       &Model::setTransitionFunction<std::vector<std::vector<std::vector<double>>>>,
                 "This function replaces the Model transition function with the one provided.\n"
                 "\n"
@@ -119,7 +122,7 @@ void exportModel() {
                 "arrays (so [][][]). As long as the dimensions are correct and they contain\n"
                 "correct probabilities everything should be fine. The code should reject\n"
                 "them otherwise."
-        )
+        , (arg("self"), "transitionFunction3D"))
         .def("setRewardFunction",           &Model::setRewardFunction<std::vector<std::vector<std::vector<double>>>>,
                 "This function replaces the Model reward function with the one provided.\n"
                 "\n"
@@ -127,10 +130,16 @@ void exportModel() {
                 "arrays (so [][][]). As long as the dimensions are correct and they contain\n"
                 "correct probabilities everything should be fine. The code should reject\n"
                 "them otherwise."
-        )
-        .def("getS",                        &Model::getS, "This function returns the number of states of the world.")
-        .def("getA",                        &Model::getA, "This function returns the number of available actions to the agent.")
-        .def("getDiscount",                 &Model::getDiscount, "This function returns the currently set discount factor.")
+        , (arg("self"), "rewardFunction3D"))
+        .def("getS",                        &Model::getS,
+                "This function returns the number of states of the world."
+        , (arg("self")))
+        .def("getA",                        &Model::getA,
+                "This function returns the number of available actions to the agent."
+        , (arg("self")))
+        .def("getDiscount",                 &Model::getDiscount,
+                "This function returns the currently set discount factor."
+        , (arg("self")))
         .def("sampleSR",                    &Model::sampleSR,
                  "This function samples the MDP for the specified state action pair.\n"
                  "\n"
@@ -148,8 +157,14 @@ void exportModel() {
                  "@param a The action that needs to be sampled.\n"
                  "\n"
                  "@return A tuple containing a new state and a reward."
-        )
-        .def("getTransitionProbability",    &Model::getTransitionProbability, "This function returns the stored transition probability for the specified transition.")
-        .def("getExpectedReward",           &Model::getExpectedReward, "This function returns the stored expected reward for the specified transition.")
-        .def("isTerminal",                  &Model::isTerminal, "This function returns whether a given state is a terminal.");
+        , (arg("self"), "s", "a"))
+        .def("getTransitionProbability",    &Model::getTransitionProbability,
+                "This function returns the stored transition probability for the specified transition."
+        , (arg("self"), "s", "a", "s1"))
+        .def("getExpectedReward",           &Model::getExpectedReward,
+                "This function returns the stored expected reward for the specified transition."
+        , (arg("self"), "s", "a", "s1"))
+        .def("isTerminal",                  &Model::isTerminal,
+                "This function returns whether a given state is a terminal."
+        , (arg("self"), "s"));
 }
