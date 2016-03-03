@@ -152,7 +152,7 @@ namespace AIToolbox {
                  * must match the ones provided as arguments (for three
                  * dimensions: S,A,S).
                  *
-                 * This is important, as this constructor DOES NOT perform any
+                 * This is important, as this function DOES NOT perform any
                  * size checks on the external container.
                  *
                  * Internal values of the container will be converted to
@@ -165,6 +165,24 @@ namespace AIToolbox {
                 void setTransitionFunction(const T & t);
 
                 /**
+                 * @brief This function sets the transition function using a Eigen dense matrices.
+                 *
+                 * This function will throw a std::invalid_argument if the
+                 * table provided does not contain valid probabilities.
+                 *
+                 * The dimensions of the container must match the ones provided
+                 * as arguments (for three dimensions: S, S, A). BE CAREFUL.
+                 * The sparse matrices MUST be SxS, while the std::vector
+                 * containing them MUST represent A.
+                 *
+                 * This function does DOES NOT perform any size checks on the
+                 * input.
+                 *
+                 * @param t The external transitions container.
+                 */
+                void setTransitionFunction(const Matrix3D & t);
+
+                /**
                  * @brief This function replaces the Model reward function with the one provided.
                  *
                  * The container needs to support data access through
@@ -172,7 +190,7 @@ namespace AIToolbox {
                  * must match the ones provided as arguments (for three
                  * dimensions: S,A,S).
                  *
-                 * This is important, as this constructor DOES NOT perform any
+                 * This is important, as this function DOES NOT perform any
                  * size checks on the external containers.
                  *
                  * Internal values of the container will be converted to
@@ -183,6 +201,21 @@ namespace AIToolbox {
                  */
                 template <typename R>
                 void setRewardFunction(const R & r);
+
+                /**
+                 * @brief This function replaces the reward function with the one provided.
+                 *
+                 * The dimensions of the container must match the ones provided
+                 * as arguments (for three dimensions: S, S, A). BE CAREFUL.
+                 * The sparse matrices MUST be SxS, while the std::vector
+                 * containing them MUST represent A.
+                 *
+                 * This function does DOES NOT perform any size checks on the
+                 * input.
+                 *
+                 * @param r The external rewards container.
+                 */
+                void setRewardFunction(const Matrix3D & r);
 
                 /**
                  * @brief This function sets a new discount factor for the Model.
@@ -316,24 +349,18 @@ namespace AIToolbox {
             setRewardFunction(r);
         }
 
-        template <>
-        inline Model::Model(size_t s, size_t a, const TransitionTable & t, const RewardTable & r, double d) : S(s), A(a), transitions_(t), rewards_(r),
-                                                                                                rand_(Impl::Seeder::getSeed())
-        {
-            setDiscount(d);
-        }
-
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        Model::Model(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
+        Model::Model(const M& model) : S(model.getS()), A(model.getA()), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
                                        rand_(Impl::Seeder::getSeed())
         {
+            setDiscount(model.getDiscount());
             for ( size_t a = 0; a < A; ++a )
                 for ( size_t s = 0; s < S; ++s ) {
                     for ( size_t s1 = 0; s1 < S; ++s1 ) {
                         transitions_[a](s, s1) = model.getTransitionProbability(s, a, s1);
                         rewards_    [a](s, s1) = model.getExpectedReward       (s, a, s1);
                     }
-                    if ( ! isProbability(S, transitions_[a].row(s)) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    if ( !checkEqualSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
                 }
         }
 
