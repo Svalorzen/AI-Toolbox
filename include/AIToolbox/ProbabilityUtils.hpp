@@ -38,7 +38,7 @@ namespace AIToolbox {
         double p = 0.0;
         for ( size_t i = 0; i < d; ++i ) {
             double value = static_cast<double>(in[i]);
-            if ( value < 0.0 || value > 1.0 ) return false;
+            if ( value < 0.0 ) return false;
             p += value;
         }
         if ( checkDifferentSmall(p, 1.0) )
