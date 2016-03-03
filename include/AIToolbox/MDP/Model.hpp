@@ -145,8 +145,7 @@ namespace AIToolbox {
                  * @brief This function replaces the Model transition function with the one provided.
                  *
                  * This function will throw a std::invalid_argument if the
-                 * table provided does not respect the constraints specified in
-                 * the mdpCheck() function.
+                 * table provided does not contain valid probabilities.
                  *
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the container
