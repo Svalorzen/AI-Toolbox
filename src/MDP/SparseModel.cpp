@@ -11,6 +11,29 @@ namespace AIToolbox {
                     transitions_[a].insert(s, s) = 1.0;
         }
 
+        void SparseModel::setTransitionFunction(const SparseMatrix3D & t) {
+            SparseMatrix3D tmp;
+            tmp.reserve(t.size());
+            // First we verify data, without modifying anything...
+            for ( size_t a = 0; a < A; ++a ) {
+                // Eigen sparse does not implement coeffMin so we can't check for negatives.
+                // So we force the matrix to its abs, and if then the sum goes haywire then
+                // we found an error.
+                tmp.push_back(tmp[a].cwiseAbs());
+                for ( size_t s = 0; s < S; ++s ) {
+                    if ( !checkEqualSmall(1.0, tmp[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    if ( !checkEqualSmall(1.0, t[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                }
+            }
+
+            // Then we copy.
+            transitions_ = tmp;
+        }
+
+        void SparseModel::setRewardFunction( const SparseMatrix3D & r ) {
+            rewards_ = r;
+        }
+
         std::tuple<size_t, double> SparseModel::sampleSR(size_t s, size_t a) const {
             size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 

@@ -64,7 +64,7 @@ namespace AIToolbox {
          * Since so much information can be extracted from the QFunction, lots
          * of methods (mostly in Reinforcement Learning) try to learn it.
          *
-         * The difference between this class and the MDP::RLModel class is that
+         * The difference between this class and the MDP::Model class is that
          * this class stores transitions and rewards in sparse matrices. This
          * results in a possibly slower access to individual probabilities and
          * rewards, but immeasurably speeds up computation with some classes of
@@ -157,18 +157,17 @@ namespace AIToolbox {
                 SparseModel(const M& model);
 
                 /**
-                 * @brief This function replaces the SparseModel transition function with the one provided.
+                 * @brief This function replaces the transition function with the one provided.
                  *
                  * This function will throw a std::invalid_argument if the
-                 * table provided does not respect the constraints specified in
-                 * the mdpCheck() function.
+                 * table provided does not contain valid probabilities.
                  *
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the container
                  * must match the ones provided as arguments (for three
                  * dimensions: S,A,S).
                  *
-                 * This is important, as this constructor DOES NOT perform any
+                 * This is important, as this function DOES NOT perform any
                  * size checks on the external container.
                  *
                  * Internal values of the container will be converted to
@@ -189,14 +188,32 @@ namespace AIToolbox {
                 void setTransitionFunction(const T & t);
 
                 /**
-                 * @brief This function replaces the SparseModel reward function with the one provided.
+                 * @brief This function sets the transition function using a Eigen sparse matrices.
+                 *
+                 * This function will throw a std::invalid_argument if the
+                 * table provided does not contain valid probabilities.
+                 *
+                 * The dimensions of the container must match the ones provided
+                 * as arguments (for three dimensions: S, S, A). BE CAREFUL.
+                 * The sparse matrices MUST be SxS, while the std::vector
+                 * containing them MUST represent A.
+                 *
+                 * This function does DOES NOT perform any size checks on the
+                 * input.
+                 *
+                 * @param t The external transitions container.
+                 */
+                void setTransitionFunction(const SparseMatrix3D & t);
+
+                /**
+                 * @brief This function replaces the reward function with the one provided.
                  *
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the containers
                  * must match the ones provided as arguments (for three
                  * dimensions: S,A,S).
                  *
-                 * This is important, as this constructor DOES NOT perform any
+                 * This is important, as this function DOES NOT perform any
                  * size checks on the external containers.
                  *
                  * Internal values of the container will be converted to
@@ -215,6 +232,21 @@ namespace AIToolbox {
                  */
                 template <typename R>
                 void setRewardFunction(const R & r);
+
+                /**
+                 * @brief This function replaces the reward function with the one provided.
+                 *
+                 * The dimensions of the container must match the ones provided
+                 * as arguments (for three dimensions: S, S, A). BE CAREFUL.
+                 * The sparse matrices MUST be SxS, while the std::vector
+                 * containing them MUST represent A.
+                 *
+                 * This function does DOES NOT perform any size checks on the
+                 * input.
+                 *
+                 * @param r The external rewards container.
+                 */
+                void setRewardFunction(const SparseMatrix3D & r);
 
                 /**
                  * @brief This function sets a new discount factor for the SparseModel.
@@ -349,9 +381,10 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        SparseModel::SparseModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(A, SparseMatrix2D(S, S)), rewards_(A, SparseMatrix2D(S, S)),
+        SparseModel::SparseModel(const M& model) : S(model.getS()), A(model.getA()), transitions_(A, SparseMatrix2D(S, S)), rewards_(A, SparseMatrix2D(S, S)),
                                        rand_(Impl::Seeder::getSeed())
         {
+            setDiscount(model.getDiscount());
             for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a ) {
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
