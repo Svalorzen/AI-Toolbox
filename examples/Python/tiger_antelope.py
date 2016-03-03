@@ -1,15 +1,37 @@
-import numpy as np
+# This example shows how to perform Value Iteration for a simple single
+# agent game, modeled as MDP. It computes the value and Q-value, and shows for
+# the optimal policy for sample states.
+#
+# Suppose you have a grid shaped world, of N x N cells by. The world loops
+# on itself like a torus, so that the top and bottom borders are connected
+# with each other, and the same is true for the left and right borders.
+# Two creatures walk this world: a tiger, and an antelope. Both creatures
+# can move in the following way: up, down, left or right or stand still.
+# When they decide to move, their movement is deterministic. The two
+# creatures have different goals.
+#
+# The goal of the antelope is to not get eaten by the tiger. However it is
+# pretty clueless in doing so; in fact, it always moves or stands randomly,
+# aside from when the tiger is directly next to it. In that case, it will
+# move randomly anywhere, but towards the tiger.
+#
+# The tiger has the goal of catching the antelope. Once it catches it,
+# the game ends. What would be the best way for it to move?
+#
+
+import argparse
+import itertools
 import os
 import sys
-import numpy
 
-import itertools
+build_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'build')
+if build_dir not in sys.path:
+    sys.path.append(build_dir)
 
-sys.path.append(os.getcwd())
-import MDP
-
-
-SQUARE_SIZE = 4
+try:
+    import MDP
+except ImportError:
+    raise ImportError("cannot find MDP, has it been built?")
 
 
 def wrapDiff(coord1, coord2):
@@ -199,28 +221,39 @@ def draw_coord(coord):
         print "|"
 
 
-if __name__ == "__main__":
-    # Perform value iteration on a 4 x 4 gridworld.
+def solve_mdp(horizon, epsilon):
+    """
+    Construct the gridworld MDP, and solve it using value iteration. Print the
+    best found policy for sample states.
+
+    Returns
+    -------
+    solution: tuple
+    """
+    print "Constructing MDP"
 
     # S = [(t_x, t_y, a_x, a_y), .. ]
     S = list(itertools.product(range(SQUARE_SIZE), repeat=4))
+
     # A = tiger actions
     A = ['stand', 'up', 'down', 'left', 'right']
 
-    # Set up 3D reward and transition arrays
-    R = []
+    # T gives the transition probability for every s, a, s' triple.
     T = []
     for state in range(len(S)):
         # note that R can actually be constructed more efficiently, as it only
         # depends on the NEXT state
         coord = decodeState(state)
-        R.append([[getReward(decodeState(next_state))
-                   for next_state in range(len(S))] for action in A])
         T.append([[getTransitionProbability(coord, action,
                                             decodeState(next_state))
                    for next_state in range(len(S))] for action in A])
 
-    assert np.all(np.sum(np.array(T), axis=2) == 1.)
+    # R gives the reward associated with every s, a, s' triple. In the current
+    # example, we only specify reward for s', but we still need to give the
+    # entire array.
+    reward_row = [getReward(decodeState(next_state))
+                  for next_state in range(len(S))]
+    R = [[reward_row for _ in A] for _ in S]
 
     # set up the model
     model = MDP.Model(len(S), len(A))
@@ -228,8 +261,9 @@ if __name__ == "__main__":
     model.setRewardFunction(R)
 
     # Perform value iteration
-    horizon = 10000
-    epsilon = 0.01
+    print "Solving MDP using ValueIteration(horizon={}, epsilon={})".format(
+        horizon, epsilon)
+
     solver = MDP.ValueIterationModel(horizon, epsilon)
     solution = solver(model)
 
@@ -243,10 +277,26 @@ if __name__ == "__main__":
                           (1, 1, 1, 2)]
     for coord in coords_of_interest:
         state = encodeState(coord)
-        print "\nPolicy for coord {}".format(coord, state)
-        print "============================="
+        print "\nCoord {}, state {}".format(coord, state)
+        print "===============================\n"
         draw_coord(coord)
 
-        for a_idx, a in enumerate(A):
+        print "\nPolicy:"
+        for a_idx, action in enumerate(A):
             p_a_given_s = policy.getActionProbability(state, a_idx)
-            print "  ACTION '{}' , policy(a | s)={}".format(a, p_a_given_s)
+            print "  p({:>6} | s)={}".format(action, p_a_given_s)
+    return solution
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--square-size', default=6, type=int,
+                        help="Size of the square gridworld.")
+    parser.add_argument('-ho', '--horizon', default=1e5, type=int,
+                        help="Horizon parameter for value iteration")
+    parser.add_argument('-e', '--epsilon', default=0.01, type=float,
+                        help="Epsilon parameter for value iteration")
+
+    args = parser.parse_args()
+    SQUARE_SIZE = args.square_size
+    solve_mdp(horizon=args.horizon, epsilon=args.epsilon)
