@@ -13,6 +13,7 @@ void exportModel() {
     using namespace boost::python;
 
     class_<Model>{"Model",
+
          "This class represents a Markov Decision Process.\n"
          "\n"
          "A Markov Decision Process (MDP) is a way to model decision making.\n"
@@ -105,6 +106,7 @@ void exportModel() {
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
         , (arg("self"), "rlModel")))
+
         .def(init<const SparseRLModel<SparseExperience> &>(
                  "This allows to copy from any other model. A nice use for this is to\n"
                  "convert any model which computes probabilities on the fly into an\n"
@@ -112,9 +114,11 @@ void exportModel() {
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
         , (arg("self"), "sparseRLModel")))
+
         .def("setDiscount",                 &Model::setDiscount,
                 "This function sets a new discount factor for the Model."
         , (arg("self"), "discount"))
+
         .def("setTransitionFunction",       &Model::setTransitionFunction<std::vector<std::vector<std::vector<double>>>>,
                 "This function replaces the Model transition function with the one provided.\n"
                 "\n"
@@ -123,6 +127,7 @@ void exportModel() {
                 "correct probabilities everything should be fine. The code should reject\n"
                 "them otherwise."
         , (arg("self"), "transitionFunction3D"))
+
         .def("setRewardFunction",           &Model::setRewardFunction<std::vector<std::vector<std::vector<double>>>>,
                 "This function replaces the Model reward function with the one provided.\n"
                 "\n"
@@ -131,15 +136,19 @@ void exportModel() {
                 "correct probabilities everything should be fine. The code should reject\n"
                 "them otherwise."
         , (arg("self"), "rewardFunction3D"))
+
         .def("getS",                        &Model::getS,
                 "This function returns the number of states of the world."
         , (arg("self")))
+
         .def("getA",                        &Model::getA,
                 "This function returns the number of available actions to the agent."
         , (arg("self")))
+
         .def("getDiscount",                 &Model::getDiscount,
                 "This function returns the currently set discount factor."
         , (arg("self")))
+
         .def("sampleSR",                    &Model::sampleSR,
                  "This function samples the MDP for the specified state action pair.\n"
                  "\n"
@@ -158,12 +167,15 @@ void exportModel() {
                  "\n"
                  "@return A tuple containing a new state and a reward."
         , (arg("self"), "s", "a"))
+
         .def("getTransitionProbability",    &Model::getTransitionProbability,
                 "This function returns the stored transition probability for the specified transition."
         , (arg("self"), "s", "a", "s1"))
+
         .def("getExpectedReward",           &Model::getExpectedReward,
                 "This function returns the stored expected reward for the specified transition."
         , (arg("self"), "s", "a", "s1"))
+
         .def("isTerminal",                  &Model::isTerminal,
                 "This function returns whether a given state is a terminal."
         , (arg("self"), "s"));
