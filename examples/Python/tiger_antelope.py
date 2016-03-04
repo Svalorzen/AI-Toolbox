@@ -17,7 +17,6 @@
 #
 # The tiger has the goal of catching the antelope. Once it catches it,
 # the game ends. What would be the best way for it to move?
-#
 
 import argparse
 import itertools
@@ -103,9 +102,9 @@ def getTransitionProbability(coord1, action, coord2):
     # it is not the case, the transition is impossible.
     if action == 'stand' and (tigerMovementX or tigerMovementY):
         return 0.0
-    if action == 'up' and tigerMovementY != -1:
+    if action == 'up' and tigerMovementY != 1:
         return 0.0
-    if action == 'down' and tigerMovementY != 1:
+    if action == 'down' and tigerMovementY != -1:
         return 0.0
     if action == 'left' and tigerMovementX != -1:
         return 0.0
@@ -206,9 +205,9 @@ def draw_coord(coord):
 
     print "y \ x",
     for x in range(SQUARE_SIZE):
-          print " {}  ".format(x),
+        print " {}  ".format(x),
     print ""
-    for y in range(SQUARE_SIZE):
+    for y in range(SQUARE_SIZE-1, -1, -1):
         print " {}  ".format(y),
         for x in range(SQUARE_SIZE):
             agent = ' '
@@ -216,7 +215,6 @@ def draw_coord(coord):
                 agent = 'T'
             elif (a_x, a_y) == (x, y):
                 agent = 'A'
-
             print "| {} ".format(agent),
         print "|"
 
@@ -232,6 +230,9 @@ def solve_mdp(horizon, epsilon):
     """
     print "Constructing MDP"
 
+    # Statespace contains the tiger (x, y) and antelope (x, y). Note that
+    # this is a very naive state representation: many of these states can be
+    # aggregated! We leave this as an exercise to the reader :)
     # S = [(t_x, t_y, a_x, a_y), .. ]
     S = list(itertools.product(range(SQUARE_SIZE), repeat=4))
 
@@ -272,7 +273,7 @@ def solve_mdp(horizon, epsilon):
 
     policy = MDP.QGreedyPolicy(q_function)
 
-    # print policy for some coordinates
+    # print the game state and policy for some interesting coordinates
     coords_of_interest = [(0, 0, 1, 1), (0, 0, 2, 2), (0, 0, 3, 3),
                           (1, 1, 1, 2)]
     for coord in coords_of_interest:
