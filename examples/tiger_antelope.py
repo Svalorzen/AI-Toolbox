@@ -23,7 +23,8 @@ import itertools
 import os
 import sys
 
-build_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'build')
+build_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                         '..', 'build')
 if build_dir not in sys.path:
     sys.path.append(build_dir)
 
@@ -293,7 +294,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--square-size', default=6, type=int,
                         help="Size of the square gridworld.")
-    parser.add_argument('-ho', '--horizon', default=1e5, type=int,
+    parser.add_argument('-ho', '--horizon', default=100000, type=int,
                         help="Horizon parameter for value iteration")
     parser.add_argument('-e', '--epsilon', default=0.01, type=float,
                         help="Epsilon parameter for value iteration")
