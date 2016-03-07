@@ -53,7 +53,7 @@ void exportUtils() {
     class_<Matrix2D>{"Matrix2D", init<int, int>()}
         .def("__getitem__", &getMatrix2DItem)
         .def("__setitem__", &setMatrix2DItem)
-        .def("shape",       &getMatrix2DShape);
+        .add_property("shape",       &getMatrix2DShape);
 
     // Enable passing starting value functions from Python
     VectorFromPython<double>();
