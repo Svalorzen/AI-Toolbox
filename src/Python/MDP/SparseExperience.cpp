@@ -8,7 +8,7 @@ void exportSparseExperience() {
 
     class_<SparseExperience>{"SparseExperience",
 
-         "@brief This class keeps track of registered events and rewards.\n"
+         "This class keeps track of registered events and rewards.\n"
          "\n"
          "This class is a simple logger of events. It keeps track of both\n"
          "the number of times a particular transition has happened, and the\n"
@@ -24,14 +24,14 @@ void exportSparseExperience() {
          "(possibly offset by cache savings).", no_init}
 
         .def(init<size_t, size_t>(
-                 "@brief Basic constructor.\n"
+                 "Basic constructor.\n"
                  "\n"
                  "@param s The number of states of the world.\n"
                  "@param a The number of actions available to the agent."
         , (arg("self"), "s", "a")))
 
         .def("record",          &SparseExperience::record,
-                 "@brief This function adds a new event to the recordings.\n"
+                 "This function adds a new event to the recordings.\n"
                  "\n"
                  "@param s     Old state.\n"
                  "@param a     Performed action.\n"
@@ -40,11 +40,11 @@ void exportSparseExperience() {
         , (arg("self"), "s", "a", "s1", "rew"))
 
         .def("reset",           &SparseExperience::reset,
-                 "@brief This function resets all experienced rewards and transitions."
+                 "This function resets all experienced rewards and transitions."
         , (arg("self")))
 
         .def("getVisits",       &SparseExperience::getVisits,
-                 "@brief This function returns the current recorded visits for a transitions.\n"
+                 "This function returns the current recorded visits for a transitions.\n"
                  "\n"
                  "@param s     Old state.\n"
                  "@param a     Performed action.\n"
@@ -52,7 +52,7 @@ void exportSparseExperience() {
         , (arg("self"), "s", "a", "s1"))
 
         .def("getVisitsSum",    &SparseExperience::getVisitsSum,
-                 "@brief This function returns the number of transitions recorded that start with the specified state and action.\n"
+                 "This function returns the number of transitions recorded that start with the specified state and action.\n"
                  "\n"
                  "@param s     The initial state.\n"
                  "@param a     Performed action.\n"
@@ -61,7 +61,7 @@ void exportSparseExperience() {
         , (arg("self"), "s", "a"))
 
         .def("getReward",       &SparseExperience::getReward,
-                 "@brief This function returns the cumulative rewards obtained from a specific transition.\n"
+                 "This function returns the cumulative rewards obtained from a specific transition.\n"
                  "\n"
                  "@param s     Old state.\n"
                  "@param a     Performed action.\n"
@@ -69,7 +69,7 @@ void exportSparseExperience() {
         , (arg("self"), "s", "a", "s1"))
 
         .def("getRewardSum",    &SparseExperience::getRewardSum,
-                 "@brief This function returns the total reward obtained from transitions that start with the specified state and action.\n"
+                 "This function returns the total reward obtained from transitions that start with the specified state and action.\n"
                  "\n"
                  "@param s     The initial state.\n"
                  "@param a     Performed action.\n"
@@ -78,10 +78,10 @@ void exportSparseExperience() {
         , (arg("self"), "s", "a"))
 
         .def("getS",            &SparseExperience::getS,
-                 "@brief This function returns the number of states of the world."
+                 "This function returns the number of states of the world."
         , (arg("self")))
 
         .def("getA",            &SparseExperience::getA,
-                 "@brief This function returns the number of available actions to the agent."
+                 "This function returns the number of available actions to the agent."
         , (arg("self")));
 }
