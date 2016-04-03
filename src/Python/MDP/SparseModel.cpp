@@ -68,7 +68,7 @@ void exportSparseModel() {
          "Since so much information can be extracted from the QFunction, lots\n"
          "of methods (mostly in Reinforcement Learning) try to learn it.\n"
          "\n"
-         "The difference between this class and the MDP::Model class is that\n"
+         "The difference between this class and the MDP.Model class is that\n"
          "this class stores transitions and rewards in sparse matrices. This\n"
          "results in a possibly slower access to individual probabilities and\n"
          "rewards, but immeasurably speeds up computation with some classes of\n"
