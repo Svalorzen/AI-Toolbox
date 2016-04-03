@@ -16,6 +16,13 @@ namespace AIToolbox {
          * total reward gained in any particular transition. However, it
          * does not record each event separately (i.e. you can't extract
          * the results of a particular transition in the past).
+         *
+         * The difference between this class and the MDP::Experience class is
+         * that this class stores recorded events in sparse matrices. This
+         * results in very high space savings when the state space of the
+         * environment being logged is very high but only a small subset of
+         * the states are really possible, at the cost of some efficiency
+         * (possibly offset by cache savings).
          */
         class SparseExperience {
             public:
