@@ -19,7 +19,7 @@ void exportPrioritizedSweepingByModel(std::string className) {
 
     using V = PrioritizedSweeping<M>;
 
-    class_<V>{("PrioritizedSweeping" + className).c_str(),
+    class_<V>{("PrioritizedSweeping" + className).c_str(), (
 
          "This class represents the PrioritizedSweeping algorithm for " + className + ".\n"
          "\n"
@@ -45,7 +45,7 @@ void exportPrioritizedSweepingByModel(std::string className) {
          "no need to compute it manually.\n"
          "\n"
          "Given how this algorithm updates the QFunction, the only problems\n"
-         "supported by this approach are ones with an infinite horizon.".c_str(), no_init}
+         "supported by this approach are ones with an infinite horizon." ).c_str(), no_init}
 
         .def(init<const M&, optional<double, unsigned>>(
                  "Basic constructor.\n"
