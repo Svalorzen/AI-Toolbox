@@ -41,9 +41,9 @@ void exportQLearning() {
          "environment, given that they are not huge.\n"
          "\n"
          "This algorithm does not actually need to sample from the input\n"
-         "model, and so it is a good algorithm to apply in real world\n"
-         "scenarios for example, where there is no way to reproduce the\n"
-         "world's behavior aside from actually try out actions. However it is\n"
+         "model, and so it can be a good algorithm to apply in real world\n"
+         "scenarios, where there would be no way to reproduce the world's\n"
+         "behavior aside from actually trying out actions. However it is\n"
          "needed to know the size of the state space, the size of the action\n"
          "space and the discount factor of the problem.", no_init}
 

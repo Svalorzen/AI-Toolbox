@@ -35,9 +35,9 @@ namespace AIToolbox {
          * environment, given that they are not huge.
          *
          * This algorithm does not actually need to sample from the input
-         * model, and so it is a good algorithm to apply in real world
-         * scenarios for example, where there is no way to reproduce the
-         * world's behavior aside from actually try out actions. However it is
+         * model, and so it can be a good algorithm to apply in real world
+         * scenarios, where there would be no way to reproduce the world's
+         * behavior aside from actually trying out actions. However it is
          * needed to know the size of the state space, the size of the action
          * space and the discount factor of the problem.
          */
