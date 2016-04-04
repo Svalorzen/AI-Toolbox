@@ -28,10 +28,20 @@ namespace AIToolbox {
          *
          * \sa setLearningRate(double)
          *
+         * The main difference between this algorithm and QLearning is that
+         * QLearning always tries to learn the optimal policy, regardless of
+         * the one that is currently being executed. Instead, SARSA tries to
+         * find a policy which can perform decently given exploration tradeoffs
+         * that must be done when learning the QFunction of a new environment.
+         * A possible use for this would be to run SARSA together with
+         * QLearning; during the training phase one would use SARSA actions in
+         * order to perform decently during the training. Afterwards, one could
+         * switch to the optimal policy learnt offline by QLearning.
+         *
          * This algorithm does not actually need to sample from the input
-         * model, and so it is a good algorithm to apply in real world
-         * scenarios for example, where there is no way to reproduce the
-         * world's behavior aside from actually try out actions. However it is
+         * model, and so it can be a good algorithm to apply in real world
+         * scenarios, where there would be no way to reproduce the world's
+         * behavior aside from actually trying out actions. However it is
          * needed to know the size of the state space, the size of the action
          * space and the discount factor of the problem.
          */
