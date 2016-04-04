@@ -79,7 +79,6 @@ namespace AIToolbox {
                  * the QFunction and recursively check whether this produces new changes
                  * worth updating. If so, they are inserted in the queue_ and the function
                  * proceeds to the next most urgent iteration.
-                 *
                  */
                 void batchUpdateQ();
 
