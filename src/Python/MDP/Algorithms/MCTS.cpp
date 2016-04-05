@@ -22,7 +22,7 @@ void exportMCTSByModel(std::string className) {
     size_t (V::*sampleAction1)(size_t, unsigned) = &V::sampleAction;
     size_t (V::*sampleAction2)(size_t, size_t, unsigned) = &V::sampleAction;
 
-    class_<V>{("PrioritizedSweeping" + className).c_str(), (
+    class_<V>{("MCTS" + className).c_str(), (
 
          "This class represents the MCTS online planner using UCB1 for " + className + ".\n"
          "\n"
@@ -102,7 +102,7 @@ void exportMCTSByModel(std::string className) {
 
         .def("setIterations",           &V::setIterations,
                  "This function sets the number of performed rollouts in MCTS."
-        , (arg("self")))
+        , (arg("self"), "iterations"))
 
         .def("setExploration",          &V::setExploration,
                  "This function sets the new exploration constant for MCTS.\n"

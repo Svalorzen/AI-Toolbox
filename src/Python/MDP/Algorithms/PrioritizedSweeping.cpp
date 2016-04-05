@@ -53,7 +53,7 @@ void exportPrioritizedSweepingByModel(std::string className) {
                  "@param m The model to be used to update the QFunction.\n"
                  "@param theta The queue threshold.\n"
                  "@param n The number of sampling passes to do on the model upon batchUpdateQ()."
-        , (arg("self"), "m", "theta", "n"))
+        , (arg("self"), "m", "theta", "n")))
 
         .def("stepUpdateQ",             &V::stepUpdateQ,
                  "This function updates the PrioritizedSweepingEigen internal update queue.\n"

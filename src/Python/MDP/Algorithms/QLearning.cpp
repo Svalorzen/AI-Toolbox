@@ -34,7 +34,7 @@ void exportQLearning() {
          "that do not change their transition and reward functions over time),\n"
          "given that the learning parameter converges to 0 over time.\n"
          "\n"
-         "\sa setLearningRate(double)\n"
+         "\\sa setLearningRate(double)\n"
          "\n"
          "At the same time, this algorithm can be used for non-stationary\n"
          "MDPs, and it will try to constantly keep up with changes in the\n"
@@ -55,9 +55,9 @@ void exportQLearning() {
                  "\n"
                  "@param model The MDP model that QLearning will use as a base.\n"
                  "@param alpha The learning rate of the QLearning method."
-        , (arg("self"), "model", "alpha")))
+        , (arg("self"), "S", "A", "model", "alpha")))
 
-        .def(init<const RLModel<Experience>&, optional<double>>(),
+        .def(init<const RLModel<Experience>&, optional<double>>(
                  "Basic constructor from RLModel\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
@@ -68,9 +68,9 @@ void exportQLearning() {
                  "\n"
                  "@param model The MDP model that QLearning will use as a base.\n"
                  "@param alpha The learning rate of the QLearning method."
-        , (arg("self"), "model", "alpha"))
+        , (arg("self"), "model", "alpha")))
 
-        .def(init<const SparseRLModel<SparseExperience>&, optional<double>>(),
+        .def(init<const SparseRLModel<SparseExperience>&, optional<double>>(
                  "Basic constructor from SparseRLModel\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
@@ -81,9 +81,9 @@ void exportQLearning() {
                  "\n"
                  "@param model The MDP model that QLearning will use as a base.\n"
                  "@param alpha The learning rate of the QLearning method."
-        , (arg("self"), "model", "alpha"))
+        , (arg("self"), "model", "alpha")))
 
-        .def(init<const Model&, optional<double>>(),
+        .def(init<const Model&, optional<double>>(
                  "Basic constructor from Model\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
@@ -94,9 +94,9 @@ void exportQLearning() {
                  "\n"
                  "@param model The MDP model that QLearning will use as a base.\n"
                  "@param alpha The learning rate of the QLearning method."
-        , (arg("self"), "model", "alpha"))
+        , (arg("self"), "model", "alpha")))
 
-        .def(init<const SparseModel&, optional<double>>(),
+        .def(init<const SparseModel&, optional<double>>(
                  "Basic constructor from SparseModel\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
@@ -107,7 +107,7 @@ void exportQLearning() {
                  "\n"
                  "@param model The MDP model that QLearning will use as a base.\n"
                  "@param alpha The learning rate of the QLearning method."
-        , (arg("self"), "model", "alpha"))
+        , (arg("self"), "model", "alpha")))
 
         .def("setLearningRate",             &QLearning::setLearningRate,
                  "This function sets the learning rate parameter.\n"

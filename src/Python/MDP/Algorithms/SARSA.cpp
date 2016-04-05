@@ -32,7 +32,7 @@ void exportSARSA() {
          "that do not change their transition and reward functions over time),\n"
          "given that the learning parameter converges to 0 over time.\n"
          "\n"
-         "\sa setLearningRate(double)\n"
+         "\\sa setLearningRate(double)\n"
          "\n"
          "The main difference between this algorithm and QLearning is that\n"
          "QLearning always tries to learn the optimal policy, regardless of\n"
@@ -59,7 +59,7 @@ void exportSARSA() {
                  "\n"
                  "@param model The MDP model that SARSA will use as a base.\n"
                  "@param alpha The learning rate of the SARSA method."
-        , (arg("self"), "model", "alpha")))
+        , (arg("self"), "S", "A", "model", "alpha")))
 
         .def(init<const RLModel<Experience>&, optional<double>>(
                  "Basic constructor for RLModel.\n"
