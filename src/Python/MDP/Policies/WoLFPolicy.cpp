@@ -83,6 +83,17 @@ void exportWoLFPolicy() {
                  "@param scaling The new scaling factor."
         , (arg("self"), "scaling"))
 
+        .def("sampleAction", &WoLFPolicy::sampleAction,
+                 "This function chooses an action for state s, following the policy distribution.\n"
+                 "\n"
+                 "Note that to improve learning it may be useful to wrap this policy into an EpsilonPolicy\n"
+                 "in order to provide some exploration.\n"
+                 "\n"
+                 "@param s The sampled state of the policy.\n"
+                 "\n"
+                 "@return The chosen action."
+        , (arg("self"), "s"))
+
         .def("getScaling",      &WoLFPolicy::getScaling,
                  "This function returns the current scaling parameter."
         , (arg("self")));
