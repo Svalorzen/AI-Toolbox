@@ -28,6 +28,7 @@ if (MAKE_MDP)
         MDP/Policies/Policy.cpp
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
+        MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp)
 
     if (MAKE_PYTHON)
@@ -43,6 +44,7 @@ if (MAKE_MDP)
             MDP/Policies/Policy.cpp
             MDP/Policies/QPolicyInterface.cpp
             MDP/Policies/QGreedyPolicy.cpp
+            MDP/Policies/QSoftmaxPolicy.cpp
             MDP/Policies/WoLFPolicy.cpp
             Python/Utils.cpp
             Python/MDP/Experience.cpp
@@ -60,6 +62,7 @@ if (MAKE_MDP)
             Python/MDP/Policies/QPolicyInterface.cpp
             Python/MDP/Policies/Policy.cpp
             Python/MDP/Policies/QGreedyPolicy.cpp
+            Python/MDP/Policies/QSoftmaxPolicy.cpp
             Python/MDP/Policies/EpsilonPolicy.cpp
             Python/MDP/Policies/WoLFPolicy.cpp
             Python/MDPWrappers.cpp)

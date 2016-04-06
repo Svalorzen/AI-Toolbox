@@ -52,7 +52,18 @@ find out what parameters to set to get the algorithm variant you want.
 Features
 ========
 
-Single Agent MDP:
+### Python bindings! ###
+
+Since Python does not allow templates, the classes are binded with as many
+as possible instantiations. This toolbox does lose quite a bit of power in
+terms of efficient customization when used from Python, but definitely acquires
+an incredible easy of use and efficiency in finding out what works and what
+doesn't. Porting is a work in progress, MDP stuff should all be there at the
+moment. POMDP things are coming.
+
+### Single Agent MDP: ###
+
+Algorithms:
 
 - [Value Iteration](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node44.html)
 - [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
@@ -62,7 +73,17 @@ Single Agent MDP:
 - [Prioritized Sweeping](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node98.html)
 - [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf)
 
-Single Agent POMDP:
+Policies:
+
+- Normal Policy
+- Epsilon-Greedy Policy
+- Softmax Policy
+- Q-Greedy Policy
+- [WoLF Policy](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
+
+### Single Agent POMDP: ###
+
+Algorithms:
 
 - [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf)
 - [Incremental Pruning](http://arxiv.org/pdf/1302.1525.pdf)
@@ -73,7 +94,9 @@ Single Agent POMDP:
 - [Augmented MDP (AMDP)](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
 - [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf)
 
-Python bindings!
+Policies:
+
+- Normal Policy
 
 Fast Tutorial
 =============

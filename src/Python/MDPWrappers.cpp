@@ -17,6 +17,7 @@ void exportMCTS();
 void exportPolicyInterface();
 void exportQPolicyInterface();
 void exportQGreedyPolicy();
+void exportQSoftmaxPolicy();
 void exportEpsilonPolicy();
 void exportWoLFPolicy();
 void exportPolicy();
@@ -43,6 +44,7 @@ BOOST_PYTHON_MODULE(MDP)
     exportPolicyInterface();
     exportQPolicyInterface();
     exportQGreedyPolicy();
+    exportQSoftmaxPolicy();
     exportEpsilonPolicy();
     exportWoLFPolicy();
     exportPolicy();
