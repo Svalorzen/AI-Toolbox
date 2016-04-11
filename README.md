@@ -56,10 +56,9 @@ Features
 
 Since Python does not allow templates, the classes are binded with as many
 as possible instantiations. This toolbox does lose quite a bit of power in
-terms of efficient customization when used from Python, but definitely acquires
-an incredible easy of use and efficiency in finding out what works and what
-doesn't. Porting is a work in progress, MDP stuff should all be there at the
-moment. POMDP things are coming.
+terms of efficient customization when used from Python, but it allows to rapidly
+iterate in order to find out what works and what doesn't. Porting is a work 
+in progress, MDP stuff should all be there at the moment. POMDP things are coming.
 
 ### Single Agent MDP: ###
 
