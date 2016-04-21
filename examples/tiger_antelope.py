@@ -24,7 +24,7 @@ import os
 import sys
 
 build_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                         '..', 'build')
+                         '..', 'build')
 if build_dir not in sys.path:
     sys.path.append(build_dir)
 
@@ -77,20 +77,11 @@ def getTransitionProbability(coord1, action, coord2):
     tiger_x1, tiger_y1, antelope_x1, antelope_y1 = coord1
     tiger_x2, tiger_y2, antelope_x2, antelope_y2 = coord2
 
-    # First check whether they were both in the same cell before.
-    # In that case the game would have ended, and nothing would happen anymore.
-    # We model this as a self-absorbing state, or a state that always
-    # transitions to itself.
-    if (tiger_x1, tiger_y1) == (antelope_x1, antelope_y1) == \
-            (tiger_x2, tiger_y2) == (antelope_x2, antelope_y2):
-        return 1.0
-
+    # We compute the distances traveled by both the antelope and the tiger.
     tigerMovementX = wrapDiff(tiger_x1, tiger_x2)
     tigerMovementY = wrapDiff(tiger_y1, tiger_y2)
     antelMovementX = wrapDiff(antelope_x1, antelope_x2)
     antelMovementY = wrapDiff(antelope_y1, antelope_y2)
-    diffX = wrapDiff(tiger_x1, antelope_x1)
-    diffY = wrapDiff(tiger_y1, antelope_y1)
 
     # Both the tiger and the antelope can only move by 1 cell max at each
     # timestep. Thus, if this is not the case, the transition is
@@ -99,6 +90,20 @@ def getTransitionProbability(coord1, action, coord2):
         return 0.0
     if abs(antelMovementX) + abs(antelMovementY) > 1:
         return 0.0
+
+    # Now we check whether the tiger was next to the antelope or not
+    diffX = wrapDiff(tiger_x1, antelope_x1)
+    diffY = wrapDiff(tiger_y1, antelope_y1)
+
+    # We check whether they were both in the same cell before.
+    # In that case the game would have ended, and nothing would happen anymore.
+    # We model this as a self-absorbing state, or a state that always transitions
+    # to itself. This is valid no matter the action taken.
+    if diffX == 0 and diffY == 0:
+        if coord1 == coord2:
+            return 1.0
+        return 0.0
+
     # The tiger can move only in the direction specified by its action. If
     # it is not the case, the transition is impossible.
     if action == 'stand' and (tigerMovementX or tigerMovementY):
@@ -120,12 +125,6 @@ def getTransitionProbability(coord1, action, coord2):
     # Otherwise, first we check that the move was allowed, as
     # the antelope cannot move where the tiger was before.
     if tiger_x1 == antelope_x2 and tiger_y1 == antelope_y2:
-        return 0.0
-
-    # Then check whether they were somehow in the same cell?
-    if diffX + diffY == 0:
-        if coord1 == coord2:
-            return 1.0
         return 0.0
 
     # Else the probability of this transition is 1 / 4, still random but
@@ -220,7 +219,7 @@ def draw_coord(coord):
         print "|"
 
 
-def solve_mdp(horizon, epsilon):
+def solve_mdp(horizon, epsilon, discount=0.9):
     """
     Construct the gridworld MDP, and solve it using value iteration. Print the
     best found policy for sample states.
@@ -261,6 +260,7 @@ def solve_mdp(horizon, epsilon):
     model = MDP.Model(len(S), len(A))
     model.setTransitionFunction(T)
     model.setRewardFunction(R)
+    model.setDiscount(discount)
 
     # Perform value iteration
     print "Solving MDP using ValueIteration(horizon={}, epsilon={})".format(
@@ -292,12 +292,14 @@ def solve_mdp(horizon, epsilon):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--square-size', default=6, type=int,
+    parser.add_argument('-s', '--square-size', default=11, type=int,
                         help="Size of the square gridworld.")
     parser.add_argument('-ho', '--horizon', default=100000, type=int,
                         help="Horizon parameter for value iteration")
     parser.add_argument('-e', '--epsilon', default=0.01, type=float,
                         help="Epsilon parameter for value iteration")
+    parser.add_argument('-d', '--discount', default=0.9, type=float,
+                        help="Discount parameter for value iteration")
 
     args = parser.parse_args()
     SQUARE_SIZE = args.square_size
