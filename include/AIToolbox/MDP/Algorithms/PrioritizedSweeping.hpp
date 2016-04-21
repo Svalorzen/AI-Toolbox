@@ -27,6 +27,7 @@ namespace AIToolbox {
             static_assert(!std::is_same<U,U>::value, "Type T is not valid for this template");
         };
 
+#ifndef DOXYGEN_SKIP
         template <typename T>
         class PrioritizedSweeping<T, typename std::enable_if<is_model<T>::value && !is_model_eigen<T>::value>::type> : public PrioritizedSweepingGeneral<T> {
             using PrioritizedSweepingGeneral<T>::PrioritizedSweepingGeneral;
@@ -36,6 +37,7 @@ namespace AIToolbox {
         class PrioritizedSweeping<T, typename std::enable_if<is_model_eigen<T>::value>::type> : public PrioritizedSweepingEigen<T> {
             using PrioritizedSweepingEigen<T>::PrioritizedSweepingEigen;
         };
+#endif
     }
 }
 #endif

@@ -27,6 +27,7 @@ namespace AIToolbox {
             static_assert(!std::is_same<U,U>::value, "Type T is not valid for this template");
         };
 
+#ifndef DOXYGEN_SKIP
         template <typename T>
         class ValueIteration<T, typename std::enable_if<is_model<T>::value && !is_model_eigen<T>::value>::type> : public ValueIterationGeneral<T> {
             using ValueIterationGeneral<T>::ValueIterationGeneral;
@@ -36,6 +37,7 @@ namespace AIToolbox {
         class ValueIteration<T, typename std::enable_if<is_model_eigen<T>::value>::type> : public ValueIterationEigen<T> {
             using ValueIterationEigen<T>::ValueIterationEigen;
         };
+#endif
     }
 }
 
