@@ -13,7 +13,10 @@ var searchData=
   ['qmdp',['QMDP',['../classAIToolbox_1_1POMDP_1_1QMDP_3_01M_01_4.html#a8cb958af2b3c4f5cf7f3f57d1e958652',1,'AIToolbox::POMDP::QMDP&lt; M &gt;']]],
   ['qmdp_2ehpp',['QMDP.hpp',['../QMDP_8hpp.html',1,'']]],
   ['qmdp_3c_20m_20_3e',['QMDP&lt; M &gt;',['../classAIToolbox_1_1POMDP_1_1QMDP_3_01M_01_4.html',1,'AIToolbox::POMDP']]],
-  ['qpolicyinterface',['QPolicyInterface',['../classAIToolbox_1_1MDP_1_1QPolicyInterface.html#adfab9bef8960e29735bcdaa2c8aa286f',1,'AIToolbox::MDP::QPolicyInterface']]],
   ['qpolicyinterface',['QPolicyInterface',['../classAIToolbox_1_1MDP_1_1QPolicyInterface.html',1,'AIToolbox::MDP']]],
-  ['qpolicyinterface_2ehpp',['QPolicyInterface.hpp',['../QPolicyInterface_8hpp.html',1,'']]]
+  ['qpolicyinterface',['QPolicyInterface',['../classAIToolbox_1_1MDP_1_1QPolicyInterface.html#adfab9bef8960e29735bcdaa2c8aa286f',1,'AIToolbox::MDP::QPolicyInterface']]],
+  ['qpolicyinterface_2ehpp',['QPolicyInterface.hpp',['../QPolicyInterface_8hpp.html',1,'']]],
+  ['qsoftmaxpolicy',['QSoftmaxPolicy',['../classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#abcde0c27be2ddb184946b372c4fc8fe6',1,'AIToolbox::MDP::QSoftmaxPolicy']]],
+  ['qsoftmaxpolicy',['QSoftmaxPolicy',['../classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html',1,'AIToolbox::MDP']]],
+  ['qsoftmaxpolicy_2ehpp',['QSoftmaxPolicy.hpp',['../QSoftmaxPolicy_8hpp.html',1,'']]]
 ];
