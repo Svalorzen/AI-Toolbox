@@ -69,7 +69,7 @@ def getTransitionProbability(coord1, action, coord2):
     action: str
         String representing the tiger action, options are i
         'stand', 'up', 'down', 'left', 'right'.
-    coord1: tuple of int
+    coord2: tuple of int
         Four element tuple containing the next coordinates of the tiger and
         antelope.
     """
@@ -97,8 +97,8 @@ def getTransitionProbability(coord1, action, coord2):
 
     # We check whether they were both in the same cell before.
     # In that case the game would have ended, and nothing would happen anymore.
-    # We model this as a self-absorbing state, or a state that always transitions
-    # to itself. This is valid no matter the action taken.
+    # We model this as a self-absorbing state, or a state that always
+    # transitions to itself. This is valid no matter the action taken.
     if diffX == 0 and diffY == 0:
         if coord1 == coord2:
             return 1.0
@@ -140,6 +140,11 @@ def getReward(coord):
     ----------
     coord: tuple of int
         Four element tuple containing the position of the tiger and antelope.
+
+    Returns
+    -------
+    reward: float
+        If the tiger catches the antelope, reward is +10. If not, reward is 0.0
     """
     tiger_x, tiger_y, antelope_x, antelope_y = coord
     if tiger_x == antelope_x and tiger_y == antelope_y:
@@ -196,6 +201,9 @@ def draw_coord(coord):
     """
     Draw the grid world.
 
+    - T represents the tiger.
+    - A represents the antelope.
+
     Parameters
     ----------
     coord: tuple of int
@@ -227,14 +235,18 @@ def solve_mdp(horizon, epsilon, discount=0.9):
     Returns
     -------
     solution: tuple
+        First element is a boolean that indicates whether the method has
+        converged. The second element is the value function. The third
+        element is the Q-value function, from which a policy can be derived.
     """
-    print "Constructing MDP"
+    print "Constructing MDP:"
 
     # Statespace contains the tiger (x, y) and antelope (x, y). Note that
     # this is a very naive state representation: many of these states can be
     # aggregated! We leave this as an exercise to the reader :)
     # S = [(t_x, t_y, a_x, a_y), .. ]
     S = list(itertools.product(range(SQUARE_SIZE), repeat=4))
+    print "  constructed statespace S, size {},".format(len(S))
 
     # A = tiger actions
     A = ['stand', 'up', 'down', 'left', 'right']
@@ -242,19 +254,21 @@ def solve_mdp(horizon, epsilon, discount=0.9):
     # T gives the transition probability for every s, a, s' triple.
     T = []
     for state in range(len(S)):
-        # note that R can actually be constructed more efficiently, as it only
-        # depends on the NEXT state
         coord = decodeState(state)
         T.append([[getTransitionProbability(coord, action,
                                             decodeState(next_state))
                    for next_state in range(len(S))] for action in A])
+    print "  constructed transition function T, size {}x{}x{},".format(
+        len(S), len(A), len(S))
 
     # R gives the reward associated with every s, a, s' triple. In the current
     # example, we only specify reward for s', but we still need to give the
-    # entire array.
+    # entire |S|x|A|x|S| array.
     reward_row = [getReward(decodeState(next_state))
                   for next_state in range(len(S))]
     R = [[reward_row for _ in A] for _ in S]
+    print "  constructed reward function R, size {}x{}x{}.".format(
+        len(S), len(A), len(S))
 
     # set up the model
     model = MDP.Model(len(S), len(A))
@@ -275,8 +289,8 @@ def solve_mdp(horizon, epsilon, discount=0.9):
     policy = MDP.QGreedyPolicy(q_function)
 
     # print the game state and policy for some interesting coordinates
-    coords_of_interest = [(0, 0, 1, 1), (0, 0, 2, 2), (0, 0, 3, 3),
-                          (1, 1, 1, 2)]
+    coords_of_interest = \
+        [(0, 0, 1, 1), (0, 0, 2, 2), (0, 0, 3, 3), (1, 1, 1, 2)]
     for coord in coords_of_interest:
         state = encodeState(coord)
         print "\nCoord {}, state {}".format(coord, state)
@@ -294,9 +308,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--square-size', default=11, type=int,
                         help="Size of the square gridworld.")
-    parser.add_argument('-ho', '--horizon', default=100000, type=int,
+    parser.add_argument('-ho', '--horizon', default=1000000, type=int,
                         help="Horizon parameter for value iteration")
-    parser.add_argument('-e', '--epsilon', default=0.01, type=float,
+    parser.add_argument('-e', '--epsilon', default=0.001, type=float,
                         help="Epsilon parameter for value iteration")
     parser.add_argument('-d', '--discount', default=0.9, type=float,
                         help="Discount parameter for value iteration")
