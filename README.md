@@ -197,7 +197,7 @@ actually want to build, like so:
 ```bash
 cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 ..   # Will only build the MDP algorithms
 cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP=1 .. # Will build both MDP and POMDP algorithms
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 -DMAKE_PYTHON=1 # Will build MDP and Python libraries
+cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 -DMAKE_PYTHON=1 .. # Will build MDP and Python libraries
 ```
 
 A number of small tests are included which you can find in the `test/` folder.
