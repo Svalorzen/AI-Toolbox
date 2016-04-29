@@ -340,26 +340,28 @@ namespace AIToolbox {
         template <typename E>
         void SparseRLModel<E>::sync(size_t s, size_t a, size_t s1) {
             unsigned long visitSum = experience_.getVisitsSum(s, a);
-            // This function will not work on the first sync due to a division
-            // by zero (and possibly because the vector will not be empty, and
-            // even then then the computed new sum would be wrong). The second
-            // condition is related to numerical errors. Once in a while we reset
-            // those by forcing a true update using real data.
-            if ( visitSum < 2ul || !(visitSum % 10000ul) ) return sync(s, a);
+            // The second condition is related to numerical errors. Once in a
+            // while we reset those by forcing a true update using real data.
+            if ( !(visitSum % 10000ul) ) return sync(s, a);
+            if ( visitSum == 1ul ) {
+                transitions_[a].coeffRef(s, s) = 0.0;
+                transitions_[a].coeffRef(s, s1) = 1.0;
+                rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1);
+            } else {
+                double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
 
-            double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
+                // Update reward for this transition (all others stay the same).
+                rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1) / newVisits;
 
-            // Update reward for this transition (all others stay the same).
-            rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1) / newVisits;
-
-            double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
-            double newVectorSum = 1.0 + (newTransitionValue - transitions_[a].coeff(s, s1));
-            // This works because as long as all the values in the transition have the same denominator
-            // (in this case visitSum-1), then the numerators do not matter, as we can simply normalize.
-            // In the end of the process the new values will be the same as if we updated directly using
-            // an increased denominator, and thus we will be able to call this function again correctly.
-            transitions_[a].coeffRef(s, s1) = newTransitionValue;
-            transitions_[a].row(s) /= newVectorSum;
+                double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
+                double newVectorSum = 1.0 + (newTransitionValue - transitions_[a].coeff(s, s1));
+                // This works because as long as all the values in the transition have the same denominator
+                // (in this case visitSum-1), then the numerators do not matter, as we can simply normalize.
+                // In the end of the process the new values will be the same as if we updated directly using
+                // an increased denominator, and thus we will be able to call this function again correctly.
+                transitions_[a].coeffRef(s, s1) = newTransitionValue;
+                transitions_[a].row(s) /= newVectorSum;
+            }
         }
 
         template <typename E>
