@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_PYTHON_UTILS_HEADER_FILE
 
 #include <cstddef>
+#include <vector>
 
 #include <boost/python.hpp>
 
