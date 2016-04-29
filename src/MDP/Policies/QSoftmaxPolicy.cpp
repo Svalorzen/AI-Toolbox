@@ -7,9 +7,14 @@
 
 namespace AIToolbox {
     namespace MDP {
-        QSoftmaxPolicy::QSoftmaxPolicy(const QFunction & q, double t) : QPolicyInterface(q), temperature_(t) {}
+        QSoftmaxPolicy::QSoftmaxPolicy(const QFunction & q, double t) : QPolicyInterface(q), temperature_(t), greedy_(q) {
+            if ( temperature_ < 0.0 ) throw std::invalid_argument("Temperature must be >= 0");
+        }
 
         size_t QSoftmaxPolicy::sampleAction(const size_t & s) const {
+            if ( temperature_ == 0 )
+                return greedy_.sampleAction(s);
+
             Vector actionValues(A);
 
             for ( size_t a = 0; a < A; ++a )
@@ -21,6 +26,9 @@ namespace AIToolbox {
         }
 
         double QSoftmaxPolicy::getActionProbability(const size_t & s, size_t a) const {
+            if ( temperature_ == 0.0 )
+                return greedy_.getActionProbability(s, a);
+
             Vector actionValues(A);
 
             for ( size_t aa = 0; aa < A; ++aa )
@@ -30,6 +38,7 @@ namespace AIToolbox {
         }
 
         void QSoftmaxPolicy::setTemperature(double t) {
+            if ( t < 0.0 ) throw std::invalid_argument("Temperature must be >= 0");
             temperature_ = t;
         }
 

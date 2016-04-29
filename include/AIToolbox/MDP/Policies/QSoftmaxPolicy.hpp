@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_MDP_Q_SOFTMAX_POLICY_HEADER_FILE
 
 #include <AIToolbox/MDP/Policies/QPolicyInterface.hpp>
+#include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -88,6 +89,7 @@ namespace AIToolbox {
 
             private:
                 double temperature_;
+                QGreedyPolicy greedy_;
         };
     }
 }
