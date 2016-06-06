@@ -7,6 +7,13 @@ function (AddTestMDP name)
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
 endfunction (AddTestMDP)
 
+function (AddTestFactoredMDP name)
+    set(exename FactoredMDP_${name})
+    add_executable(${exename}Tests FactoredMDP/${name}Tests.cpp)
+    target_link_libraries(${exename}Tests AIToolboxMDP ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
+endfunction (AddTestFactoredMDP)
+
 function (AddTestMDPPython name)
     set(exename MDP_Python_${name})
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/MDP/${name}Tests.py)
@@ -38,6 +45,8 @@ if (MAKE_MDP)
     AddTestMDP(SparseRLModel)
     AddTestMDP(ValueIteration)
     AddTestMDP(WoLFPolicy)
+
+    AddTestFactoredMDP(FactoredContainer)
 
     if (MAKE_PYTHON)
         # Normally one loads PythonInterp first, but since

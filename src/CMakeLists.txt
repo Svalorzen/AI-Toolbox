@@ -29,7 +29,8 @@ if (MAKE_MDP)
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
         MDP/Policies/QSoftmaxPolicy.cpp
-        MDP/Policies/WoLFPolicy.cpp)
+        MDP/Policies/WoLFPolicy.cpp
+        FactoredMDP/FactoredContainer.cpp)
 
     if (MAKE_PYTHON)
         add_library(MDP SHARED
@@ -73,10 +74,10 @@ endif()
 
 if (MAKE_POMDP)
     find_package(LpSolve REQUIRED)
-#    find_package(COIN REQUIRED)
+#   find_package(COIN REQUIRED)
 
     include_directories(${LPSOLVE_INCLUDE_DIR})
-#    include_directories(${COIN_INCLUDE_DIR})
+#   include_directories(${COIN_INCLUDE_DIR})
 
     add_library(AIToolboxPOMDP
         POMDP/Utils.cpp
@@ -86,7 +87,7 @@ if (MAKE_POMDP)
         POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/AMDP.cpp
         POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
-#        POMDP/Algorithms/Utils/WitnessLP_clp.cpp
+#       POMDP/Algorithms/Utils/WitnessLP_clp.cpp
         POMDP/Policies/Policy.cpp)
 
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP
