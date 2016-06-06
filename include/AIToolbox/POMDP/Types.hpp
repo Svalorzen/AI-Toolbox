@@ -140,7 +140,7 @@ namespace AIToolbox {
          * @brief This struct represents the required interface that allows POMDP algorithms to leverage Eigen.
          *
          * This struct is used to check interfaces of classes in templates.
-         * In particular, this struct tests for the interface of an MDP model
+         * In particular, this struct tests for the interface of a POMDP model
          * which uses Eigen matrices internally.
          * The interface must be implemented and be public in the parameter
          * class. The interface is the following:
@@ -150,7 +150,8 @@ namespace AIToolbox {
          * In addition the POMDP needs to respect the interface for the POMDP model
          * and the Eigen MDP model.
          *
-         * \sa MDP::is_model
+         * \sa POMDP::is_model
+         * \sa MDP::is_model_eigen
          *
          * is_model_eigen<M>::value will be equal to true is M implements the interface,
          * and false otherwise.
