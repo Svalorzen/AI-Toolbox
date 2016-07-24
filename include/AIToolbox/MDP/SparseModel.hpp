@@ -80,6 +80,24 @@ namespace AIToolbox {
                 using RewardTable       = SparseMatrix3D;
 
                 /**
+                 * @brief This function creates a new SparseModel without any checks on the input values.
+                 *
+                 * This factory function takes ownership of the data that it is
+                 * passed to it to avoid any sorts of copies and additional
+                 * work, in order to speed up as much as possible the process
+                 * of building a new SparseModel.
+                 *
+                 * @param s The state space of the SparseModel.
+                 * @param a The action space of the SparseModel.
+                 * @param t The transition function to be used in the SparseModel.
+                 * @param r The reward function to be used in the SparseModel.
+                 * @param d The discount factor for the SparseModel.
+                 *
+                 * @return The resulting SparseModel.
+                 */
+                static SparseModel makeFromTrustedData(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d = 1.0);
+
+                /**
                  * @brief Basic constructor.
                  *
                  * This constructor initializes the SparseModel so that all
@@ -360,6 +378,21 @@ namespace AIToolbox {
                 bool isTerminal(size_t s) const;
 
             private:
+                /**
+                 * @brief Unchecked constructor.
+                 *
+                 * This is the constructor used in the factory function makeFromTrustedData.
+                 * It is private since we want the user to be aware when it is building a
+                 * SparseModel with no checks at all.
+                 *
+                 * @param s The state space of the SparseModel.
+                 * @param a The action space of the SparseModel.
+                 * @param t The transition function to be used in the SparseModel.
+                 * @param r The reward function to be used in the SparseModel.
+                 * @param d The discount factor for the SparseModel.
+                 */
+                SparseModel(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d);
+
                 size_t S, A;
                 double discount_;
 

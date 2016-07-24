@@ -203,8 +203,7 @@ namespace AIToolbox {
                         const VList & projsO = projs[a][o];
                         auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
-                        for ( size_t s = 0; s < S; ++s )
-                            v[s] += std::get<VALUES>(*bestMatch)[s];
+                        v += std::get<VALUES>(*bestMatch);
 
                         obs[o] = std::get<OBS>(*bestMatch)[0];
                     }

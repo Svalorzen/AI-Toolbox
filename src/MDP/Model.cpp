@@ -2,6 +2,13 @@
 
 namespace AIToolbox {
     namespace MDP {
+        Model Model::makeFromTrustedData(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d) {
+            return Model(s, a, std::move(t), std::move(r), d);
+        }
+
+        Model::Model(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d) :
+            S(s), A(a), discount_(d), transitions_(t), rewards_(r), rand_(Impl::Seeder::getSeed()) {}
+
         Model::Model(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
                                                        rand_(Impl::Seeder::getSeed())
         {

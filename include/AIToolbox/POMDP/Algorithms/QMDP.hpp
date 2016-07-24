@@ -43,7 +43,7 @@ namespace AIToolbox {
          * The solution returned by QMDP will thus have only horizon 1, since
          * the horizon requested is implicitly encoded in the MDP part of the
          * solution.
-         * 
+         *
          * @tparam M The type of model that is solved by the algorithm.
          */
         template <typename M>

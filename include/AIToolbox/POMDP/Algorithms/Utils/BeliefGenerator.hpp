@@ -14,16 +14,49 @@ namespace AIToolbox {
         class BeliefGenerator;
 #endif
         /**
-         * @brief This class offers pruning facilities for non-parsimonious ValueFunction sets.
+         * @brief This class generates reachable beliefs from a given Model.
          */
         template <typename M>
         class BeliefGenerator<M> {
             public:
                 using BeliefList = std::vector<Belief>;
 
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * @param model The Model used to generate beliefs.
+                 */
                 BeliefGenerator(const M& model);
 
+                /**
+                 * @brief This function tries to generate at least the specified input number of Beliefs.
+                 *
+                 * This function generates beliefs starting from the simplex
+                 * corners of the Belief space, and goes from there.
+                 *
+                 * \sa operator()(size_t, BeliefList*) const;
+                 *
+                 * @param beliefNumber The number of beliefs to generate.
+                 *
+                 * @return A list containing the generated beliefs.
+                 */
                 BeliefList operator()(size_t beliefNumber) const;
+
+                /**
+                 * @brief This function tries to generate beliefs so that the input list has at least the specified number of elements.
+                 *
+                 * This function generates beliefs by simulating actions onto
+                 * already generated beliefs, and sampling from the Model to
+                 * try to obtain new Beliefs.
+                 *
+                 * Since the generation process is inherently stochastic, this
+                 * function is not guaranteed to generate the specified number
+                 * of Beliefs, depending on the probability to actually obtain
+                 * a new Belief from the ones that have already been generated.
+                 *
+                 * @param beliefNumber The numbers of beliefs the input list should at least have.
+                 * @param bl The list to add beliefs to.
+                 */
                 void operator()(size_t beliefNumber, BeliefList * bl) const;
 
             private:
@@ -48,7 +81,7 @@ namespace AIToolbox {
         template <typename M>
         typename BeliefGenerator<M>::BeliefList BeliefGenerator<M>::operator()(size_t beliefNumber) const {
             // We add all simplex corners and the middle belief.
-            BeliefList beliefs; beliefs.reserve(beliefNumber);
+            BeliefList beliefs; beliefs.reserve(std::max(beliefNumber, S));
 
             beliefs.emplace_back(S);
             beliefs.back().fill(1.0/S);
@@ -81,7 +114,7 @@ namespace AIToolbox {
                     if ( currentSize == beliefs.size() ) ++counter;
                     else {
                         currentSize = beliefs.size();
-                        if ( currentSize == beliefNumber ) break;
+                        if ( currentSize >= beliefNumber ) break;
                     }
                 }
                 for ( size_t i = 0; currentSize < beliefNumber && i < (beliefNumber/20); ++i, ++currentSize )
@@ -101,13 +134,10 @@ namespace AIToolbox {
 
             // L1 distance
             auto computeDistance = [this](const Belief & lhs, const Belief & rhs) {
-                double distance = 0.0;
-                for ( size_t i = 0; i < S; ++i )
-                    distance += std::abs(lhs[i] - rhs[i]);
-                return distance;
+                return (lhs - rhs).cwiseAbs().sum();
             };
 
-            Belief helper; double distance;
+            Belief helper(S); double distance;
             // We apply the discovery process also to all beliefs we discover
             // along the way.
             for ( auto it = std::begin(bl); it != std::end(bl); ++it ) {
@@ -119,7 +149,7 @@ namespace AIToolbox {
 
                         size_t o;
                         std::tie(std::ignore, o, std::ignore) = model_.sampleSOR(s, a);
-                        helper = updateBelief(model_, *it, a, o);
+                        updateBelief(model_, *it, a, o, &helper);
 
                         // Compute distance (here we compare also against elements we just added!)
                         distance = computeDistance(helper, bl.front());
@@ -139,7 +169,7 @@ namespace AIToolbox {
                 if ( checkDifferentSmall(distances[id], 0.0) ) {
                     bl.emplace_back(std::move(newBeliefs[id]));
                     ++size;
-                    if ( size == max ) break;
+                    if ( size >= max ) break;
                 }
             }
         }

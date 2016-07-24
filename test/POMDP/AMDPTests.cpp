@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     POMDP::Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
 
     POMDP::AMDP converter(6000, 70);
-    auto convertedModel = converter(model);
+    auto convertedModel = converter.discretizeDense(model);
     auto & simplerModel = std::get<0>(convertedModel);
     auto & beliefConverter = std::get<1>(convertedModel);
 
@@ -73,8 +73,9 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     POMDP::Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
 
     POMDP::AMDP converter(6000, 70);
-    auto convertedModel = converter(sparseModel);
+    auto convertedModel = converter.discretizeSparse(sparseModel);
     auto & simplerModel = std::get<0>(convertedModel);
+
     auto & beliefConverter = std::get<1>(convertedModel);
 
     MDP::ValueIteration<std::remove_reference<decltype(simplerModel)>::type> solver(horizon);

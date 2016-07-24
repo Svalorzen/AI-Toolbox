@@ -81,8 +81,31 @@ namespace AIToolbox {
          */
         template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
         Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
+            Belief br(model.getS());
+            updateBelief(model, b, a, o, &br);
+            return br;
+        }
+
+        /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function writes directly into the provided Belief pointer. It assumes
+         * that the pointer points to a correctly sized Belief. It does a basic nullptr
+         * check.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         * @param bRet The output belief.
+         */
+        template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
+        void updateBelief(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+            if (!bRet) return;
+
             size_t S = model.getS();
-            Belief br(S);
+            auto & br = *bRet;
 
             double totalSum = 0.0;
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
@@ -96,8 +119,6 @@ namespace AIToolbox {
 
             if ( checkEqualSmall(totalSum, 0.0) ) br[0] = 1.0;
             else br /= totalSum;
-
-            return br;
         }
 
         /**
@@ -115,17 +136,145 @@ namespace AIToolbox {
          */
         template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
         Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
+            Belief br(model.getS());
+            updateBelief(model, b, a, o, &br);
+            return br;
+        }
+
+        /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function writes directly into the provided Belief pointer. It assumes
+         * that the pointer points to a correctly sized Belief. It does a basic nullptr
+         * check.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         * @param bRet The output belief.
+         */
+        template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
+        void updateBelief(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+            if (!bRet) return;
+
             size_t S = model.getS();
-            Belief br(S);
+            auto & br = *bRet;
 
             // col suffers from a bug atm, so we can't use col; we fallback on block.
-            br = model.getObservationFunction(a).block(0,o,S,1).transpose().cwiseProduct(Vector::Ones(S).transpose() * model.getTransitionFunction(a).cwiseProduct(b.replicate(1, S))).transpose();
+            br = model.getObservationFunction(a).block(0,o,S,1).cwiseProduct((b.transpose() * model.getTransitionFunction(a)).transpose());
             double totalSum = br.sum();
 
             if ( checkEqualSmall(totalSum, 0.0) ) br[0] = 1.0;
             else br /= totalSum;
+        }
 
+        /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function needs to create a new belief since modifying a belief
+         * in place is not possible. This is because each cell update for the
+         * new belief requires all values from the previous belief.
+         *
+         * This function will not normalize the output, nor is guaranteed
+         * to return a non-completely-zero vector.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         */
+        template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
+        Belief updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o) {
+            Belief br(model.getS());
+            updateBeliefUnnormalized(model, b, a, o, &br);
             return br;
+        }
+
+        /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function writes directly into the provided Belief pointer. It assumes
+         * that the pointer points to a correctly sized Belief. It does a basic nullptr
+         * check.
+         *
+         * This function will not normalize the output, nor is guaranteed
+         * to return a non-completely-zero vector.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         * @param bRet The output belief.
+         */
+        template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
+        void updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+            if (!bRet) return;
+
+            size_t S = model.getS();
+            auto & br = *bRet;
+
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                double sum = 0.0;
+                for ( size_t s = 0; s < S; ++s )
+                    sum += model.getTransitionProbability(s,a,s1) * b[s];
+
+                br[s1] = model.getObservationProbability(s1,a,o) * sum;
+            }
+        }
+
+        /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function needs to create a new belief since modifying a belief
+         * in place is not possible. This is because each cell update for the
+         * new belief requires all values from the previous belief.
+         *
+         * This function will not normalize the output, nor is guaranteed
+         * to return a non-completely-zero vector.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         */
+        template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
+        Belief updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o) {
+            Belief br(model.getS());
+            updateBeliefUnnormalized(model, b, a, o, &br);
+            return br;
+        }
+
+        /**
+         * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+         *
+         * This function writes directly into the provided Belief pointer. It assumes
+         * that the pointer points to a correctly sized Belief. It does a basic nullptr
+         * check.
+         *
+         * This function will not normalize the output, nor is guaranteed
+         * to return a non-completely-zero vector.
+         *
+         * @tparam M The type of the POMDP Model.
+         * @param model The model used to update the belief.
+         * @param b The old belief.
+         * @param a The action taken during the transition.
+         * @param o The observation registered.
+         * @param bRet The output belief.
+         */
+        template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
+        void updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+            if (!bRet) return;
+
+            size_t S = model.getS();
+            auto & br = *bRet;
+
+            // col suffers from a bug atm, so we can't use col; we fallback on block.
+            br = model.getObservationFunction(a).block(0,o,S,1).cwiseProduct((b.transpose() * model.getTransitionFunction(a)).transpose());
         }
 
         /**
@@ -375,7 +524,6 @@ namespace AIToolbox {
             }
             return end;
         }
-
     }
 }
 

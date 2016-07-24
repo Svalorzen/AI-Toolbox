@@ -2,6 +2,13 @@
 
 namespace AIToolbox {
     namespace MDP {
+        SparseModel SparseModel::makeFromTrustedData(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d) {
+            return SparseModel(s, a, std::move(t), std::move(r), d);
+        }
+
+        SparseModel::SparseModel(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d) :
+            S(s), A(a), discount_(d), transitions_(t), rewards_(r), rand_(Impl::Seeder::getSeed()) {}
+
         SparseModel::SparseModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(A, SparseMatrix2D(S, S)), rewards_(A, SparseMatrix2D(S, S)),
                                                                         rand_(Impl::Seeder::getSeed())
         {
