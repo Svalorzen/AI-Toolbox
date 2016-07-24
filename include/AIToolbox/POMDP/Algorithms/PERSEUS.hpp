@@ -195,7 +195,7 @@ namespace AIToolbox {
                 }
                 helper.clear();
                 for ( size_t a = 0; a < A; ++a ) {
-                    MDP::Values v(S, 0.0);
+                    MDP::Values v(S); v.fill(0.0);
                     VObs obs(O);
 
                     // We compute the crossSum between each best vector for the belief.

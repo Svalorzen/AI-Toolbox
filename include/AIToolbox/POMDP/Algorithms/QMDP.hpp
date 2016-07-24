@@ -140,7 +140,7 @@ namespace AIToolbox {
             // corners of the belief space). The MDP::ValueFunction is simply a condensed form of
             // the solution, since in an MDP the only "beliefs" we have are the corners.
             for ( size_t s = 0; s < S; ++s ) {
-                MDP::Values v(S, 0.0);
+                MDP::Values v(S); v.fill(0.0);
                 v[s] = mdpValues[s];
                 // All observations are 0 since we go back to the horizon 0 entry, which is nil.
                 w.emplace_back(v, mdpActions[s], VObs(m.getO(), 0u));
