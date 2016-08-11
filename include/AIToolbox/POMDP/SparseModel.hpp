@@ -66,6 +66,15 @@ namespace AIToolbox {
          * the literature) that apply in those same ranges of the Belief space.
          * Each alpha vector is somewhat similar to an MDP ValueFunction.
          *
+         * The difference between this class and the POMDP::Model class is that
+         * this class stores observations in a sparce matrix. This results in a
+         * possibly slower access to individual probabilities, but immeasurably
+         * speeds up computation with some classes of planning algorithms in
+         * case the number of possible observations is very small with respect
+         * to the total theoretic observation space of SxAxO. It also of course
+         * incredibly reduces memory consumption in such cases, which may also
+         * improve speed by effect of improved caching.
+         *
          * @tparam M The particular MDP type that we want to extend.
          */
         template <typename M>
@@ -125,7 +134,7 @@ namespace AIToolbox {
                  *
                  * This allows to copy from any other model. A nice use for this is to
                  * convert any model which computes probabilities on the fly into an
-                 * POMDP::Model where probabilities are all stored for fast access. Of
+                 * POMDP::SparseModel where probabilities are all stored for fast access. Of
                  * course such a solution can be done only when the number of states,
                  * actions and observations is not too big.
                  *
@@ -139,7 +148,7 @@ namespace AIToolbox {
                 SparseModel(const PM& model);
 
                 /**
-                 * @brief This function replaces the Model observation function with the one provided.
+                 * @brief This function replaces the SparseModel observation function with the one provided.
                  *
                  * The container needs to support data access through
                  * operator[]. In addition, the dimensions of the
