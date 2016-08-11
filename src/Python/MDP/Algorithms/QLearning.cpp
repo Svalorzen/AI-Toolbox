@@ -53,9 +53,11 @@ void exportMDPQLearning() {
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
                  "constructor will throw an std::invalid_argument.\n"
                  "\n"
-                 "@param model The MDP model that QLearning will use as a base.\n"
+                 "@param S The size of the state space.\n"
+                 "@param A The size of the action space.\n"
+                 "@param discount The discount to use when learning.\n"
                  "@param alpha The learning rate of the QLearning method."
-        , (arg("self"), "S", "A", "model", "alpha")))
+        , (arg("self"), "S", "A", "discount", "alpha")))
 
         .def(init<const RLModel<Experience>&, optional<double>>(
                  "Basic constructor from RLModel\n"

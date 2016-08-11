@@ -49,7 +49,9 @@ namespace AIToolbox {
                  * The learning rate must be > 0.0 and <= 1.0, otherwise the
                  * constructor will throw an std::invalid_argument.
                  *
-                 * @param model The MDP model that QLearning will use as a base.
+                 * @param S The size of the state space.
+                 * @param A The size of the action space.
+                 * @param discount The discount to use when learning.
                  * @param alpha The learning rate of the QLearning method.
                  */
                 QLearning(size_t S, size_t A, double discount = 1.0, double alpha = 0.1);
