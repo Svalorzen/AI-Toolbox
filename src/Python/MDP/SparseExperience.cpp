@@ -2,7 +2,7 @@
 
 #include <boost/python.hpp>
 
-void exportSparseExperience() {
+void exportMDPSparseExperience() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 

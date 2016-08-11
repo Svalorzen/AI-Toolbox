@@ -93,4 +93,13 @@ if (MAKE_POMDP)
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP
 #           ${COIN_CLP_LIBRARY} ${COIN_COIN_UTILS_LIBRARY}
             ${LPSOLVE_LIBRARIES})
+
+    if (MAKE_PYTHON)
+        add_library(POMDP SHARED
+            Python/POMDP/Model.cpp
+            Python/POMDP/SparseModel.cpp
+            Python/POMDPWrappers.cpp)
+        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP)
+        set_target_properties(POMDP PROPERTIES PREFIX "")
+    endif()
 endif()

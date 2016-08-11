@@ -9,7 +9,7 @@
 
 #include <boost/python.hpp>
 
-void exportSARSA() {
+void exportMDPSARSA() {
     using namespace boost::python;
     using namespace AIToolbox::MDP;
 

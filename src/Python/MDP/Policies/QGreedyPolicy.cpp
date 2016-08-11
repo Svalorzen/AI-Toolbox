@@ -2,7 +2,7 @@
 
 #include <boost/python.hpp>
 
-void exportQGreedyPolicy() {
+void exportMDPQGreedyPolicy() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 

@@ -2,7 +2,7 @@
 
 #include <boost/python.hpp>
 
-void exportQSoftmaxPolicy() {
+void exportMDPQSoftmaxPolicy() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 

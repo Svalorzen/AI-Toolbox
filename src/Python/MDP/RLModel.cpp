@@ -5,7 +5,7 @@
 
 using RLModelBinded = AIToolbox::MDP::RLModel<AIToolbox::MDP::Experience>;
 
-void exportRLModel() {
+void exportMDPRLModel() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 

@@ -129,7 +129,7 @@ void exportMCTSByModel(std::string className) {
         , (arg("self")));
 }
 
-void exportMCTS() {
+void exportMDPMCTS() {
     using namespace AIToolbox::MDP;
 
     exportMCTSByModel<RLModel<Experience>>("RLModel");

@@ -8,7 +8,7 @@
 
 #include <boost/python.hpp>
 
-void exportModel() {
+void exportMDPModel() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 

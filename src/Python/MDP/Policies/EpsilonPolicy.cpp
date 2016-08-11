@@ -2,7 +2,7 @@
 
 #include <boost/python.hpp>
 
-void exportEpsilonPolicy() {
+void exportMDPEpsilonPolicy() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 

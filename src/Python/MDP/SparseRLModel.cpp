@@ -5,12 +5,12 @@
 
 using SparseRLModelBinded = AIToolbox::MDP::SparseRLModel<AIToolbox::MDP::SparseExperience>;
 
-void exportSparseRLModel() {
+void exportMDPSparseRLModel() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
-    class_<SparseRLModelBinded>{"SparseRLModel", 
-        
+    class_<SparseRLModelBinded>{"SparseRLModel",
+
          "This class models Experience as a Markov Decision Process.\n"
            "\n"
          "Often an MDP is not known in advance. It is known that it can assume\n"
@@ -56,11 +56,11 @@ void exportSparseRLModel() {
          "results in a possibly slower access to individual probabilities and\n"
          "rewards, but immeasurably speeds up computation with some classes of\n"
          "planning algorithms in case the number of useful transitions is very\n"
-         "little with respect to the total theoretic state action space of\n"
+         "small with respect to the total theoretic state action space of\n"
          "SxAxS. It also of course incredibly reduces memory consumption in\n"
          "such cases, which may also improve speed by effect of improved\n"
          "caching.\n", no_init}
-        
+
         .def(init<const SparseExperience &, optional<double, bool>>(
                  "Constructor using previous Experience.\n"
                    "\n"

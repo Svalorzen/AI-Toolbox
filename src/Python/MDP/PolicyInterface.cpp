@@ -2,7 +2,7 @@
 
 #include <boost/python.hpp>
 
-void exportPolicyInterface() {
+void exportMDPPolicyInterface() {
     using namespace AIToolbox;
     using namespace boost::python;
 

@@ -9,7 +9,7 @@
 
 #include <boost/python.hpp>
 
-void exportQLearning() {
+void exportMDPQLearning() {
     using namespace boost::python;
     using namespace AIToolbox::MDP;
 

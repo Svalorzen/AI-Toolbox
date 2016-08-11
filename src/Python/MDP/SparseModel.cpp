@@ -8,7 +8,7 @@
 
 #include <boost/python.hpp>
 
-void exportSparseModel() {
+void exportMDPSparseModel() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
@@ -73,7 +73,7 @@ void exportSparseModel() {
          "results in a possibly slower access to individual probabilities and\n"
          "rewards, but immeasurably speeds up computation with some classes of\n"
          "planning algorithms in case the number of useful transitions is very\n"
-         "little with respect to the total theoretic state action space of\n"
+         "small with respect to the total theoretic state action space of\n"
          "SxAxS. It also of course incredibly reduces memory consumption in\n"
          "such cases, which may also improve speed by effect of improved\n"
          "caching.", no_init}

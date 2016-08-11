@@ -1,26 +1,26 @@
 #include <boost/python.hpp>
 
 void exportUtils();
-void exportExperience();
-void exportRLModel();
-void exportSparseExperience();
-void exportSparseRLModel();
-void exportModel();
-void exportSparseModel();
+void exportMDPExperience();
+void exportMDPRLModel();
+void exportMDPSparseExperience();
+void exportMDPSparseRLModel();
+void exportMDPModel();
+void exportMDPSparseModel();
 
-void exportQLearning();
-void exportSARSA();
-void exportValueIteration();
-void exportPrioritizedSweeping();
-void exportMCTS();
+void exportMDPQLearning();
+void exportMDPSARSA();
+void exportMDPValueIteration();
+void exportMDPPrioritizedSweeping();
+void exportMDPMCTS();
 
-void exportPolicyInterface();
-void exportQPolicyInterface();
-void exportQGreedyPolicy();
-void exportQSoftmaxPolicy();
-void exportEpsilonPolicy();
-void exportWoLFPolicy();
-void exportPolicy();
+void exportMDPPolicyInterface();
+void exportMDPQPolicyInterface();
+void exportMDPQGreedyPolicy();
+void exportMDPQSoftmaxPolicy();
+void exportMDPEpsilonPolicy();
+void exportMDPWoLFPolicy();
+void exportMDPPolicy();
 
 BOOST_PYTHON_MODULE(MDP)
 {
@@ -28,24 +28,24 @@ BOOST_PYTHON_MODULE(MDP)
 
     exportUtils();
 
-    exportExperience();
-    exportSparseExperience();
-    exportRLModel();
-    exportSparseRLModel();
-    exportModel();
-    exportSparseModel();
+    exportMDPExperience();
+    exportMDPSparseExperience();
+    exportMDPRLModel();
+    exportMDPSparseRLModel();
+    exportMDPModel();
+    exportMDPSparseModel();
 
-    exportQLearning();
-    exportSARSA();
-    exportValueIteration();
-    exportPrioritizedSweeping();
-    exportMCTS();
+    exportMDPQLearning();
+    exportMDPSARSA();
+    exportMDPValueIteration();
+    exportMDPPrioritizedSweeping();
+    exportMDPMCTS();
 
-    exportPolicyInterface();
-    exportQPolicyInterface();
-    exportQGreedyPolicy();
-    exportQSoftmaxPolicy();
-    exportEpsilonPolicy();
-    exportWoLFPolicy();
-    exportPolicy();
+    exportMDPPolicyInterface();
+    exportMDPQPolicyInterface();
+    exportMDPQGreedyPolicy();
+    exportMDPQSoftmaxPolicy();
+    exportMDPEpsilonPolicy();
+    exportMDPWoLFPolicy();
+    exportMDPPolicy();
 }

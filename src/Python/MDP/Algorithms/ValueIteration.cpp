@@ -89,7 +89,7 @@ void exportValueIterationByModel(std::string className) {
         , (arg("self")));
 }
 
-void exportValueIteration() {
+void exportMDPValueIteration() {
     using namespace AIToolbox::MDP;
 
     exportValueIterationByModel<RLModel<Experience>>("RLModel");

@@ -124,7 +124,7 @@ void exportPrioritizedSweepingByModel(std::string className) {
         , (arg("self")));
 }
 
-void exportPrioritizedSweeping() {
+void exportMDPPrioritizedSweeping() {
     using namespace AIToolbox::MDP;
 
     exportPrioritizedSweepingByModel<RLModel<Experience>>("RLModel");
