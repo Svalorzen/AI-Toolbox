@@ -69,7 +69,7 @@ namespace AIToolbox {
          * results in a possibly slower access to individual probabilities and
          * rewards, but immeasurably speeds up computation with some classes of
          * planning algorithms in case the number of useful transitions is very
-         * little with respect to the total theoretic state action space of
+         * small with respect to the total theoretic state action space of
          * SxAxS. It also of course incredibly reduces memory consumption in
          * such cases, which may also improve speed by effect of improved
          * caching.
