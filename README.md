@@ -167,16 +167,30 @@ tell you what it is for.
 Build Instructions
 ==================
 
-To build the library you need to install [cmake](http://www.cmake.org/), the
-[boost library](http://www.boost.org/) >= 1.53, and the [Eigen 3.2
-library](http://eigen.tuxfamily.org/index.php?title=Main_Page). In addition,
-C++11 support is required (note: gcc 4.8 will not work as it has a bug which
-prevents it from successfully compiling the library, 4.9 will compile everything
-correctly). If you want to build the POMDP part of the library, the
-[lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required.
+Dependencies
+------------
 
-After that, you can simply execute the following commands from the project's
-main folder:
+To build the library you need:
+
+- [cmake](http://www.cmake.org/)
+- the [boost library](http://www.boost.org/) >= 1.53
+- the [Eigen 3.3 library](http://eigen.tuxfamily.org/index.php?title=Main_Page).
+
+In addition, C++11 support is required (note: **g++ 4.8 will not work as it has a
+bug which prevents it from successfully compiling the library, 4.9 will compile
+everything correctly**).
+
+If you want to build the POMDP part of the library you will also need:
+
+- the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required.
+- Alternatively, an implementation using [COIN-OR](http://www.coin-or.org/) is
+  available, but must be activate in the CMake files and source files.
+
+Building
+--------
+
+Once you have all required dependencies, you can simply execute the following
+commands from the project's main folder:
 
 ```bash
 mkdir build
