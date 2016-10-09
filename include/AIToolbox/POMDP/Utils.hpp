@@ -159,11 +159,9 @@ namespace AIToolbox {
         void updateBelief(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
             if (!bRet) return;
 
-            size_t S = model.getS();
-            auto & br = *bRet;
+            updateBeliefUnnormalized(model, b, a, o, bRet);
 
-            // col suffers from a bug atm, so we can't use col; we fallback on block.
-            br = model.getObservationFunction(a).block(0,o,S,1).cwiseProduct((b.transpose() * model.getTransitionFunction(a)).transpose());
+            auto & br = *bRet;
             double totalSum = br.sum();
 
             if ( checkEqualSmall(totalSum, 0.0) ) br[0] = 1.0;
@@ -270,11 +268,9 @@ namespace AIToolbox {
         void updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
             if (!bRet) return;
 
-            size_t S = model.getS();
             auto & br = *bRet;
 
-            // col suffers from a bug atm, so we can't use col; we fallback on block.
-            br = model.getObservationFunction(a).block(0,o,S,1).cwiseProduct((b.transpose() * model.getTransitionFunction(a)).transpose());
+            br = model.getObservationFunction(a).col(o).cwiseProduct((b.transpose() * model.getTransitionFunction(a)).transpose());
         }
 
         /**
