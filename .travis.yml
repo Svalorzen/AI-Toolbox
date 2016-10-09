@@ -10,7 +10,7 @@ before_install:
     - export PATH=$(echo $PATH | tr ':' "\n" | sed '/\/opt\/python/d' | tr "\n" ":" | sed "s|::|:|g")
     - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
     - sudo add-apt-repository ppa:kubuntu-ppa/backports -y
-    - sudo add-apt-repository ppa:nschloe/eigen-backports
+    - sudo add-apt-repository ppa:nschloe/eigen-backports -y
     - sudo apt-get update -qq
 install:
     - sudo apt-get install -qq libboost-python1.54-dev libboost1.54-dev libboost-test1.54-dev liblpsolve55-dev
