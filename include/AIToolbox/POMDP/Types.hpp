@@ -195,6 +195,17 @@ namespace AIToolbox {
                 enum { value = is_model<M>::value && MDP::is_model_eigen<M>::value && std::is_same<decltype(test<M>(0)),std::true_type>::value &&
                                std::is_base_of<Eigen::EigenBase<O>, O>::value };
         };
+
+        /**
+         * @brief This struct verifies that a class satisfies the is_model interface but not the is_model_eigen interface.
+         *
+         * @tparam M The class to test for the interface.
+         */
+        template <typename M>
+        struct is_model_not_eigen {
+            public:
+                enum { value = is_model<M>::value && !is_model_eigen<M>::value };
+        };
     }
 }
 

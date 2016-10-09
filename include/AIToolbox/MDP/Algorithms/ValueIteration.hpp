@@ -1,6 +1,7 @@
 #ifndef AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 #define AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 
+#include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/Algorithms/ValueIterationImpl/ValueIterationGeneral.hpp>
 #include <AIToolbox/MDP/Algorithms/ValueIterationImpl/ValueIterationEigen.hpp>
 
@@ -29,7 +30,7 @@ namespace AIToolbox {
 
 #ifndef DOXYGEN_SKIP
         template <typename T>
-        class ValueIteration<T, typename std::enable_if<is_model<T>::value && !is_model_eigen<T>::value>::type> : public ValueIterationGeneral<T> {
+        class ValueIteration<T, typename std::enable_if<is_model_not_eigen<T>::value>::type> : public ValueIterationGeneral<T> {
             using ValueIterationGeneral<T>::ValueIterationGeneral;
         };
 

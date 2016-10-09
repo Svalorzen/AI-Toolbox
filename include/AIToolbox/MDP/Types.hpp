@@ -192,6 +192,17 @@ namespace AIToolbox {
         };
 
         /**
+         * @brief This struct verifies that a class satisfies the is_model interface but not the is_model_eigen interface.
+         *
+         * @tparam M The class to test for the interface.
+         */
+        template <typename M>
+        struct is_model_not_eigen {
+            public:
+                enum { value = is_model<M>::value && !is_model_eigen<M>::value };
+        };
+
+        /**
          * @brief This struct represents the required interface for an experience recorder.
          *
          * This struct is used to check interfaces of classes in templates.
