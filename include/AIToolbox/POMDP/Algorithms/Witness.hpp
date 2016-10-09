@@ -9,8 +9,6 @@
 #include <boost/functional/hash.hpp>
 #include <unordered_set>
 
-#include <iostream>
-
 namespace AIToolbox {
     namespace POMDP {
 
@@ -265,8 +263,7 @@ namespace AIToolbox {
                 const VList & projsO = projs[o];
                 auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
-                for ( size_t s = 0; s < S; ++s )
-                    v[s] += std::get<VALUES>(*bestMatch)[s];
+                v.noalias() += std::get<VALUES>(*bestMatch);
 
                 obs[o] = std::get<OBS>(*bestMatch)[0];
             }
@@ -280,10 +277,8 @@ namespace AIToolbox {
             VObs obs(O, 0);
 
             // We compute the crossSum between each best vector for the belief.
-            for ( size_t o = 0; o < O; ++o ) {
-                for ( size_t s = 0; s < S; ++s )
-                    v[s] += std::get<VALUES>(projs[o][0])[s];
-            }
+            for ( size_t o = 0; o < O; ++o )
+                v.noalias() += std::get<VALUES>(projs[o][0]);
 
             triedVectors_.insert(obs);
             agenda_.emplace_back(std::move(v), a, std::move(obs));
@@ -306,12 +301,8 @@ namespace AIToolbox {
 
                     // Allocate only when needed
                     auto obs = vObs;
-                    auto v = vValues;
+                    auto v = vValues - std::get<VALUES>(projs[o][skip]) + std::get<VALUES>(projs[o][i]);
 
-                    for ( size_t s = 0; s < S; ++s ) {
-                        v[s] -= std::get<VALUES>(projs[o][skip])[s];
-                        v[s] += std::get<VALUES>(projs[o][i])[s];
-                    }
                     triedVectors_.insert(obs);
                     agenda_.emplace_back(std::move(v), a, std::move(obs));
                 }
