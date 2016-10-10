@@ -63,6 +63,7 @@ if (MAKE_MDP)
 endif()
 
 if (MAKE_POMDP)
+    AddTestPOMDP(Types)
     AddTestPOMDP(AMDP)
     AddTestPOMDP(IncrementalPruning)
     AddTestPOMDP(Model)

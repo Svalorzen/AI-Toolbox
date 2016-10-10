@@ -84,17 +84,18 @@ namespace AIToolbox {
         template <typename M>
         struct is_generative_model {
             private:
-                template <typename Z> static auto test(int) -> decltype(
+                template <typename Z> static constexpr auto test(int) -> decltype(
 
                         static_cast<std::tuple<size_t,size_t,double> (Z::*)(size_t,size_t) const>      (&Z::sampleSOR),
 
-                        std::true_type()
-                );
+                        bool()
+                ) { return true; }
 
-                template <typename Z> static auto test(...) -> std::false_type;
+                template <typename Z> static constexpr auto test(...) -> bool
+                { return false; }
 
             public:
-                enum { value = std::is_same<decltype(test<M>(0)),std::true_type>::value };
+                enum { value = test<M>(0) };
         };
 
         /**
@@ -122,18 +123,19 @@ namespace AIToolbox {
         template <typename T>
         struct is_model {
             private:
-                template <typename Z> static auto test(int) -> decltype(
+                template <typename Z> static constexpr auto test(int) -> decltype(
 
                         static_cast<size_t (Z::*)() const>                      (&Z::getO),
                         static_cast<double (Z::*)(size_t,size_t,size_t) const>  (&Z::getObservationProbability),
 
-                        std::true_type()
-                );
+                        bool()
+                ) { return true; }
 
-                template <typename> static auto test(...) -> std::false_type;
+                template <typename> static constexpr auto test(...) -> bool
+                { return false; }
 
             public:
-                enum { value = std::is_same<decltype(test<T>(0)),std::true_type>::value && is_generative_model<T>::value && MDP::is_model<T>::value };
+                enum { value = test<T>(0) && is_generative_model<T>::value && MDP::is_model<T>::value };
         };
 
         /**
@@ -180,19 +182,20 @@ namespace AIToolbox {
                 // So const M if the function is const, and then the parameter types.
                 using O = decltype(getObservationFunctionRetType<const M, size_t>(0));
 
-                template <typename Z> static auto test(int) -> decltype(
+                template <typename Z> static constexpr auto test(int) -> decltype(
 
                         static_cast<const O & (Z::*)(size_t) const>         (&Z::getObservationFunction),
 
-                        std::true_type()
-                );
+                        bool()
+                ) { return true; }
 
-                template <typename Z> static auto test(...) -> std::false_type;
+                template <typename Z> static constexpr auto test(...) -> bool
+                { return false; }
 
                 #undef RETVAL_EXTRACTOR
 
             public:
-                enum { value = is_model<M>::value && MDP::is_model_eigen<M>::value && std::is_same<decltype(test<M>(0)),std::true_type>::value &&
+                enum { value = is_model<M>::value && MDP::is_model_eigen<M>::value && test<M>(0) &&
                                std::is_base_of<Eigen::EigenBase<O>, O>::value };
         };
 
