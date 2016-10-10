@@ -75,7 +75,7 @@ namespace AIToolbox {
         template <typename M>
         struct is_generative_model {
             private:
-                template <typename Z> static auto test(int) -> decltype(
+                template <typename Z> static constexpr auto test(int) -> decltype(
 
                         static_cast<size_t (Z::*)() const>                                      (&Z::getS),
                         static_cast<size_t (Z::*)() const>                                      (&Z::getA),
@@ -83,13 +83,14 @@ namespace AIToolbox {
                         static_cast<std::tuple<size_t, double> (Z::*)(size_t,size_t) const>     (&Z::sampleSR),
                         static_cast<bool (Z::*)(size_t) const>                                  (&Z::isTerminal),
 
-                        std::true_type()
-                );
+                        bool()
+                ) { return true; }
 
-                template <typename Z> static auto test(...) -> std::false_type;
+                template <typename Z> static constexpr auto test(...) -> bool
+                { return false; }
 
             public:
-                enum { value = std::is_same<decltype(test<M>(0)),std::true_type>::value };
+                enum { value = test<M>(0) };
         };
 
         /**
@@ -115,18 +116,19 @@ namespace AIToolbox {
         template <typename M>
         struct is_model {
             private:
-                template <typename Z> static auto test(int) -> decltype(
+                template <typename Z> static constexpr auto test(int) -> decltype(
 
                         static_cast<double (Z::*)(size_t,size_t,size_t) const>  (&Z::getTransitionProbability),
                         static_cast<double (Z::*)(size_t,size_t,size_t) const>  (&Z::getExpectedReward),
 
-                        std::true_type()
-                );
+                        bool()
+                ) { return true; }
 
-                template <typename> static auto test(...) -> std::false_type;
+                template <typename> static constexpr auto test(...) -> bool
+                { return false; }
 
             public:
-                enum { value = std::is_same<decltype(test<M>(0)),std::true_type>::value && is_generative_model<M>::value };
+                enum { value = test<M>(0) && is_generative_model<M>::value };
         };
 
         /**
@@ -174,21 +176,25 @@ namespace AIToolbox {
                 using F = decltype(getTransitionFunctionRetType<const M, size_t>(0));
                 using R = decltype(getRewardFunctionRetType<const M, size_t>(0));
 
-                template <typename Z> static auto test(int) -> decltype(
+                template <typename Z> static constexpr auto test(int) -> decltype(
 
                         static_cast<const F & (Z::*)(size_t) const>         (&Z::getTransitionFunction),
                         static_cast<const R & (Z::*)(size_t) const>         (&Z::getRewardFunction),
 
-                        std::true_type()
-                );
+                        bool()
+                ) { return true; }
 
-                template <typename Z> static auto test(...) -> std::false_type;
+                template <typename Z> static constexpr auto test(...) -> bool
+                { return false; }
 
                 #undef RETVAL_EXTRACTOR
 
             public:
-                enum { value = is_model<M>::value && std::is_same<decltype(test<M>(0)),std::true_type>::value &&
-                               std::is_base_of<Eigen::EigenBase<F>, F>::value && std::is_base_of<Eigen::EigenBase<R>, R>::value };
+                enum {
+                    value = is_model<M>::value && test<M>(0) &&
+                            std::is_base_of<Eigen::EigenBase<F>, F>::value &&
+                            std::is_base_of<Eigen::EigenBase<R>, R>::value
+                };
         };
 
         /**
@@ -224,20 +230,21 @@ namespace AIToolbox {
         template <typename M>
         struct is_experience {
             private:
-                template <typename Z> static auto test(int) -> decltype(
+                template <typename Z> static constexpr auto test(int) -> decltype(
 
                         static_cast<long unsigned   (Z::*)(size_t,size_t,size_t) const>  (&Z::getVisits),
                         static_cast<long unsigned   (Z::*)(size_t,size_t) const>         (&Z::getVisitsSum),
                         static_cast<double          (Z::*)(size_t,size_t,size_t) const>  (&Z::getReward),
                         static_cast<double          (Z::*)(size_t,size_t) const>         (&Z::getRewardSum),
 
-                        std::true_type()
-                );
+                        bool()
+                ) { return true; }
 
-                template <typename> static auto test(...) -> std::false_type;
+                template <typename> static constexpr auto test(...) -> bool
+                { return false; }
 
             public:
-                enum { value = std::is_same<decltype(test<M>(0)),std::true_type>::value };
+                enum { value = test<M>(0) };
         };
     }
 }
