@@ -98,6 +98,7 @@ if (MAKE_POMDP)
         add_library(POMDP SHARED
             Python/POMDP/Model.cpp
             Python/POMDP/SparseModel.cpp
+            Python/POMDP/Algorithms/POMCP.cpp
             Python/POMDPWrappers.cpp)
         target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP)
         set_target_properties(POMDP PROPERTIES PREFIX "")
