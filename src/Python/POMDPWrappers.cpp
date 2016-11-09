@@ -2,7 +2,9 @@
 
 void exportPOMDPModel();
 void exportPOMDPSparseModel();
+
 void exportPOMDPPOMCP();
+void exportPOMDPWitness();
 
 BOOST_PYTHON_MODULE(POMDP)
 {
@@ -12,4 +14,5 @@ BOOST_PYTHON_MODULE(POMDP)
     exportPOMDPSparseModel();
 
     exportPOMDPPOMCP();
+    exportPOMDPWitness();
 }
