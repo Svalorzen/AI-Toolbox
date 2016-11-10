@@ -79,16 +79,24 @@ namespace AIToolbox {
                 size_t getEntropyBuckets() const;
 
                 /**
-                 * @brief This function constructs and approximation of the provided POMDP model.
+                 * @brief This function constructs an approximate *dense* MDP of the provided POMDP model.
                  *
                  * @tparam M The type of the POMDP model.
                  * @param model The POMDP model to be approximated.
                  *
-                 * @return A tuple containing an MDP model which approximate the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
+                 * @return A tuple containing a dense MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
                  */
                 template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
                 std::tuple<MDP::Model, Discretizer> discretizeDense(const M& model);
 
+                /**
+                 * @brief This function constructs an approximate *sparse* MDP of the provided POMDP model.
+                 *
+                 * @tparam M The type of the POMDP model.
+                 * @param model The POMDP model to be approximated.
+                 *
+                 * @return A tuple containing a sparse MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
+                 */
                 template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
                 std::tuple<MDP::SparseModel, Discretizer> discretizeSparse(const M& model);
 
