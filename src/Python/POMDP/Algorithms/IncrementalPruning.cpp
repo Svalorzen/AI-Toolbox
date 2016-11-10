@@ -19,7 +19,7 @@ void exportPOMDPIncrementalPruning() {
 
     class_<IncrementalPruning>{"IncrementalPruning",
 
-         "@brief This class implements the Incremental Pruning algorithm.\n"
+         "This class implements the Incremental Pruning algorithm.\n"
          "\n"
          "This algorithm solves a POMDP Model perfectly. It computes solutions\n"
          "for each horizon incrementally, every new solution building upon the\n"
@@ -66,7 +66,7 @@ void exportPOMDPIncrementalPruning() {
         , (arg("self"), "horizon", "epsilon")))
 
         .def("setEpsilon",                  &IncrementalPruning::setEpsilon,
-                 "@brief This function sets the epsilon parameter.\n"
+                 "This function sets the epsilon parameter.\n"
                  "\n"
                  "The epsilon parameter must be >= 0.0, otherwise the\n"
                  "constructor will throw an std::runtime_error. The epsilon\n"

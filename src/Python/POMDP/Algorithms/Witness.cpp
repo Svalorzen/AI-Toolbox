@@ -19,7 +19,7 @@ void exportPOMDPWitness() {
 
     class_<Witness>{"Witness",
 
-         "@brief This class implements the Witness algorithm.\n"
+         "This class implements the Witness algorithm.\n"
          "\n"
          "This algorithm solves a POMDP Model perfectly. It computes solutions\n"
          "for each horizon incrementally, every new solution building upon the\n"
@@ -64,7 +64,7 @@ void exportPOMDPWitness() {
         , (arg("self"), "horizon", "epsilon")))
 
         .def("setEpsilon",                  &Witness::setEpsilon,
-                 "@brief This function sets the epsilon parameter.\n"
+                 "This function sets the epsilon parameter.\n"
                  "\n"
                  "The epsilon parameter must be >= 0.0, otherwise the\n"
                  "constructor will throw an std::runtime_error. The epsilon\n"
