@@ -101,6 +101,7 @@ if (MAKE_POMDP)
             Python/POMDP/Algorithms/POMCP.cpp
             Python/POMDP/Algorithms/Witness.cpp
             Python/POMDP/Algorithms/IncrementalPruning.cpp
+            Python/POMDP/Algorithms/QMDP.cpp
             Python/POMDPWrappers.cpp)
         target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP)
         set_target_properties(POMDP PROPERTIES PREFIX "")
