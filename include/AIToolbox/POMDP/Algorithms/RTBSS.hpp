@@ -37,7 +37,7 @@ namespace AIToolbox {
          *
          * This method is able to return not only the best available action,
          * but also the (in theory) true value of that action in the current
-         * belief.  Note that values computed in different methods may differ
+         * belief. Note that values computed in different methods may differ
          * due to floating point approximation errors.
          */
         template <typename M>

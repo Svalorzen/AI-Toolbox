@@ -7,6 +7,8 @@ void exportPOMDPPOMCP();
 void exportPOMDPWitness();
 void exportPOMDPIncrementalPruning();
 void exportPOMDPQMDP();
+void exportPOMDPRTBSS();
+void exportPOMDPAMDP();
 
 BOOST_PYTHON_MODULE(POMDP)
 {
@@ -19,4 +21,6 @@ BOOST_PYTHON_MODULE(POMDP)
     exportPOMDPWitness();
     exportPOMDPIncrementalPruning();
     exportPOMDPQMDP();
+    exportPOMDPRTBSS();
+    exportPOMDPAMDP();
 }
