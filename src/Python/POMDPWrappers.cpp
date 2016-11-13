@@ -12,6 +12,8 @@ void exportPOMDPAMDP();
 void exportPOMDPPERSEUS();
 void exportPOMDPPBVI();
 
+void exportPOMDPPolicy();
+
 BOOST_PYTHON_MODULE(POMDP)
 {
     boost::python::docstring_options localDocstringOptions(true, true, false);
@@ -27,4 +29,6 @@ BOOST_PYTHON_MODULE(POMDP)
     exportPOMDPAMDP();
     exportPOMDPPERSEUS();
     exportPOMDPPBVI();
+
+    exportPOMDPPolicy();
 }
