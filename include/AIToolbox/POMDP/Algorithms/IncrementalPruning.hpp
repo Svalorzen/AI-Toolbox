@@ -60,7 +60,7 @@ namespace AIToolbox {
                  * is less than the epsilon specified.
                  *
                  * @param h The horizon chosen.
-                 * @param epsilon The epsilon factor to stop the value iteration loop.
+                 * @param epsilon The epsilon factor to stop the IncrementalPruning loop.
                  */
                 IncrementalPruning(unsigned h, double epsilon);
 
