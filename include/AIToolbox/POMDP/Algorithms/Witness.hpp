@@ -66,10 +66,10 @@ namespace AIToolbox {
                  * The epsilon parameter must be >= 0.0, otherwise the
                  * constructor will throw an std::runtime_error. The epsilon
                  * parameter sets the convergence criterion. An epsilon of 0.0
-                 * forces IncrementalPruning to perform a number of iterations
-                 * equal to the horizon specified. Otherwise, IncrementalPruning
-                 * will stop as soon as the difference between two iterations
-                 * is less than the epsilon specified.
+                 * forces Witness to perform a number of iterations equal to
+                 * the horizon specified. Otherwise, Witness will stop as soon
+                 * as the difference between two iterations is less than the
+                 * epsilon specified.
                  *
                  * @param e The new epsilon parameter.
                  */
