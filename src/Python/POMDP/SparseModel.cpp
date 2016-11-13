@@ -64,9 +64,7 @@ void exportPOMDPSparseModel() {
         "case the number of possible observations is very small with respect\n"
         "to the total theoretic observation space of SxAxO. It also of course\n"
         "incredibly reduces memory consumption in such cases, which may also\n"
-        "improve speed by effect of improved caching.\n"
-        "\n"
-        "@tparam M The particular MDP type that we want to extend.\n", no_init}
+        "improve speed by effect of improved caching.", no_init}
 
         .def(init<size_t, size_t, size_t, optional<double>>(
                 "Basic constructor.\n"

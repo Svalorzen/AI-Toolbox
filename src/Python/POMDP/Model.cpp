@@ -55,9 +55,7 @@ void exportPOMDPModel() {
         "timestep. The values of those policies can be, in the same way,\n"
         "represented as a number of value vectors (called alpha vectors in\n"
         "the literature) that apply in those same ranges of the Belief space.\n"
-        "Each alpha vector is somewhat similar to an MDP ValueFunction.\n"
-        "\n"
-        "@tparam M The particular MDP type that we want to extend.\n", no_init}
+        "Each alpha vector is somewhat similar to an MDP ValueFunction.", no_init}
 
         .def(init<size_t, size_t, size_t, optional<double>>(
                 "Basic constructor.\n"

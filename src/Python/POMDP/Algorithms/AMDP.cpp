@@ -72,7 +72,6 @@ void exportPOMDPAMDP() {
         .def("discretizeDense",             &AMDP::discretizeDense<POMDPModelBinded>,
                  "This function constructs an approximate *dense* MDP of the provided POMDP model.\n"
                  "\n"
-                 "@tparam M The type of the POMDP model.\n"
                  "@param model The POMDP model to be approximated.\n"
                  "\n"
                  "@return A tuple containing a dense MDP model which approximates\n"
@@ -83,7 +82,6 @@ void exportPOMDPAMDP() {
         .def("discretizeSparse",            &AMDP::discretizeSparse<POMDPSparseModelBinded>,
                  "This function constructs an approximate *sparse* MDP of the provided POMDP model.\n"
                  "\n"
-                 "@tparam M The type of the POMDP model.\n"
                  "@param model The POMDP model to be approximated.\n"
                  "\n"
                  "@return A tuple containing a sparse MDP model which approximates\n"
