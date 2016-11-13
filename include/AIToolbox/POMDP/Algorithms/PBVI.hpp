@@ -44,13 +44,30 @@ namespace AIToolbox {
                 /**
                  * @brief Basic constructor.
                  *
-                 * This constructor sets the default horizon used to solve a POMDP::Model
-                 * and the number of beliefs used to approximate the ValueFunction.
+                 * This constructor sets the default horizon/epsilon used to
+                 * solve a POMDP::Model and the number of beliefs used to
+                 * approximate the ValueFunction.
                  *
                  * @param nBeliefs The number of support beliefs to use.
                  * @param h The horizon chosen.
+                 * @param epsilon The epsilon factor to stop the PBVI loop.
                  */
                 PBVI(size_t nBeliefs, unsigned h, double epsilon);
+
+                /**
+                 * @brief This function sets the epsilon parameter.
+                 *
+                 * The epsilon parameter must be >= 0.0, otherwise the
+                 * constructor will throw an std::runtime_error. The epsilon
+                 * parameter sets the convergence criterion. An epsilon of 0.0
+                 * forces PBVI to perform a number of iterations equal to
+                 * the horizon specified. Otherwise, PBVI will stop as soon
+                 * as the difference between two iterations is less than the
+                 * epsilon specified.
+                 *
+                 * @param e The new epsilon parameter.
+                 */
+                void setEpsilon(double epsilon);
 
                 /**
                  * @brief This function sets a new horizon parameter.
@@ -65,6 +82,13 @@ namespace AIToolbox {
                  * @param nBeliefs The new number of support beliefs.
                  */
                 void setBeliefSize(size_t nBeliefs);
+
+                /**
+                 * @brief This function returns the currently set epsilon parameter.
+                 *
+                 * @return The current epsilon.
+                 */
+                double getEpsilon() const;
 
                 /**
                  * @brief This function returns the currently set horizon parameter.
