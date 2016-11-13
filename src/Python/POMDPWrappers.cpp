@@ -10,6 +10,7 @@ void exportPOMDPQMDP();
 void exportPOMDPRTBSS();
 void exportPOMDPAMDP();
 void exportPOMDPPERSEUS();
+void exportPOMDPPBVI();
 
 BOOST_PYTHON_MODULE(POMDP)
 {
@@ -25,4 +26,5 @@ BOOST_PYTHON_MODULE(POMDP)
     exportPOMDPRTBSS();
     exportPOMDPAMDP();
     exportPOMDPPERSEUS();
+    exportPOMDPPBVI();
 }
