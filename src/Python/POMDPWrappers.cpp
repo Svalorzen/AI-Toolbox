@@ -9,6 +9,7 @@ void exportPOMDPIncrementalPruning();
 void exportPOMDPQMDP();
 void exportPOMDPRTBSS();
 void exportPOMDPAMDP();
+void exportPOMDPPERSEUS();
 
 BOOST_PYTHON_MODULE(POMDP)
 {
@@ -23,4 +24,5 @@ BOOST_PYTHON_MODULE(POMDP)
     exportPOMDPQMDP();
     exportPOMDPRTBSS();
     exportPOMDPAMDP();
+    exportPOMDPPERSEUS();
 }

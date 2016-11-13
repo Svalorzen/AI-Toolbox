@@ -104,6 +104,7 @@ if (MAKE_POMDP)
             Python/POMDP/Algorithms/QMDP.cpp
             Python/POMDP/Algorithms/RTBSS.cpp
             Python/POMDP/Algorithms/AMDP.cpp
+            Python/POMDP/Algorithms/PERSEUS.cpp
             Python/POMDPWrappers.cpp)
         target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP)
         set_target_properties(POMDP PROPERTIES PREFIX "")
