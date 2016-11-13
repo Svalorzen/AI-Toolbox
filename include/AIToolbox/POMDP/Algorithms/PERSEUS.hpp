@@ -42,8 +42,24 @@ namespace AIToolbox {
                  *
                  * @param nBeliefs The number of support beliefs to use.
                  * @param h The horizon chosen.
+                 * @param epsilon The epsilon factor to stop the PERSEUS loop.
                  */
                 PERSEUS(size_t nBeliefs, unsigned h, double epsilon);
+
+                /**
+                 * @brief This function sets the epsilon parameter.
+                 *
+                 * The epsilon parameter must be >= 0.0, otherwise the
+                 * constructor will throw an std::runtime_error. The epsilon
+                 * parameter sets the convergence criterion. An epsilon of 0.0
+                 * forces PERSEUS to perform a number of iterations equal to
+                 * the horizon specified. Otherwise, PERSEUS will stop as soon
+                 * as the difference between two iterations is less than the
+                 * epsilon specified.
+                 *
+                 * @param e The new epsilon parameter.
+                 */
+                void setEpsilon(double epsilon);
 
                 /**
                  * @brief This function sets a new horizon parameter.
@@ -58,6 +74,13 @@ namespace AIToolbox {
                  * @param nBeliefs The new number of support beliefs.
                  */
                 void setBeliefSize(size_t nBeliefs);
+
+                /**
+                 * @brief This function returns the currently set epsilon parameter.
+                 *
+                 * @return The current epsilon.
+                 */
+                double getEpsilon() const;
 
                 /**
                  * @brief This function returns the currently set horizon parameter.
@@ -149,7 +172,8 @@ namespace AIToolbox {
             auto beliefs = bGen(beliefSize_);
 
             // We initialize the ValueFunction to the "worst" case scenario.
-            ValueFunction v(1, VList(1, std::make_tuple(MDP::Values(S, minReward / (1.0 - model.getDiscount())), 0, VObs(0))));
+            ValueFunction v(1, VList(1, std::make_tuple(MDP::Values(S), 0, VObs(0))));
+            std::get<VALUES>(v[0][0]).fill(minReward / (1.0 - model.getDiscount()));
 
             unsigned timestep = 0;
 
