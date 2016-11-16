@@ -174,8 +174,7 @@ namespace AIToolbox {
 
         template <typename M>
         ValueIterationGeneral<M>::ValueIterationGeneral(unsigned horizon, double epsilon, ValueFunction v) :
-            horizon_(horizon), vParameter_(v),
-            S(0), A(0)
+                horizon_(horizon), vParameter_(v), S(0), A(0)
         {
             setEpsilon(epsilon);
         }
@@ -189,7 +188,7 @@ namespace AIToolbox {
 
             {
                 // Verify that parameter value function is compatible.
-                size_t size = std::get<VALUES>(vParameter_).size();
+                const size_t size = std::get<VALUES>(vParameter_).size();
                 if ( size != S ) {
                     if ( size != 0 )
                         std::cerr << "AIToolbox: Size of starting value function in ValueIteration::solve() is incorrect, ignoring...\n";
@@ -200,7 +199,7 @@ namespace AIToolbox {
                     v1_ = vParameter_;
             }
 
-            auto ir = computeImmediateRewards(model);
+            const auto ir = computeImmediateRewards(model);
 
             unsigned timestep = 0;
             double variation = epsilon_ * 2; // Make it bigger
@@ -208,7 +207,7 @@ namespace AIToolbox {
             Values val0;
             QFunction q = makeQFunction(S, A);
 
-            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
                 ++timestep;
 
@@ -262,19 +261,19 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void ValueIterationGeneral<M>::setEpsilon(double e) {
+        void ValueIterationGeneral<M>::setEpsilon(const double e) {
             if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
             epsilon_ = e;
         }
 
         template <typename M>
-        void ValueIterationGeneral<M>::setHorizon(unsigned h) {
+        void ValueIterationGeneral<M>::setHorizon(const unsigned h) {
             horizon_ = h;
         }
 
         template <typename M>
         void ValueIterationGeneral<M>::setValueFunction(ValueFunction v) {
-            vParameter_ = v;
+            vParameter_ = std::move(v);
         }
 
         template <typename M>

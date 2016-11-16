@@ -186,17 +186,12 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        PrioritizedSweepingEigen<M>::PrioritizedSweepingEigen(const M & m, double theta, unsigned n) :
-                                                                                                                S(m.getS()),
-                                                                                                                A(m.getA()),
-                                                                                                                N(n),
-                                                                                                                theta_(theta),
-                                                                                                                model_(m),
-                                                                                                                qfun_(makeQFunction(S,A)),
-                                                                                                                vfun_(makeValueFunction(S)) {}
+        PrioritizedSweepingEigen<M>::PrioritizedSweepingEigen(const M & m, const double theta, const unsigned n) :
+                S(m.getS()), A(m.getA()), N(n), theta_(theta), model_(m),
+                qfun_(makeQFunction(S,A)), vfun_(makeValueFunction(S)) {}
 
         template <typename M>
-        void PrioritizedSweepingEigen<M>::stepUpdateQ(size_t s, size_t a) {
+        void PrioritizedSweepingEigen<M>::stepUpdateQ(const size_t s, const size_t a) {
             // We use this to avoid continuous reallocations during the update
             // of q[s][a]
             static Values vector(S);
@@ -248,7 +243,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void PrioritizedSweepingEigen<M>::setN(unsigned n) {
+        void PrioritizedSweepingEigen<M>::setN(const unsigned n) {
             N = n;
         }
 
@@ -258,7 +253,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void PrioritizedSweepingEigen<M>::setQueueThreshold(double t) {
+        void PrioritizedSweepingEigen<M>::setQueueThreshold(const double t) {
             if ( t < 0.0 ) throw std::invalid_argument("Theta parameter must be >= 0");
             theta_ = t;
         }

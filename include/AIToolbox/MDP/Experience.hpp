@@ -56,7 +56,7 @@ namespace AIToolbox {
                  * @param v The external visits container.
                  */
                 template <typename V>
-                void setVisits(V v);
+                void setVisits(const V & v);
 
                 /**
                  * @brief Compatibility setter.
@@ -82,7 +82,7 @@ namespace AIToolbox {
                  * @param r The external rewards container.
                  */
                 template <typename R>
-                void setRewards(R r);
+                void setRewards(const R & r);
 
                 /**
                  * @brief This function adds a new event to the recordings.
@@ -178,7 +178,7 @@ namespace AIToolbox {
         };
 
         template <typename V>
-        void Experience::setVisits(V v) {
+        void Experience::setVisits(const V & v) {
             copyTable3D(v, visits_, S, A, S);
 
             for ( size_t s = 0; s < S; ++s )
@@ -188,7 +188,7 @@ namespace AIToolbox {
         }
 
         template <typename R>
-        void Experience::setRewards(R r) {
+        void Experience::setRewards(const R & r) {
             copyTable3D(r, rewards_, S, A, S);
 
             for ( size_t s = 0; s < S; ++s )

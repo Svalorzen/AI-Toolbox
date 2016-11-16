@@ -96,14 +96,16 @@ namespace AIToolbox {
     };
 
     template <typename State>
-    EpsilonPolicyInterface<State>::EpsilonPolicyInterface(const PolicyInterface<State> & p, double e) : PolicyInterface<State>(p.getS(), p.getA()), policy_(p), epsilon_(e), randomDistribution_(0, this->A-1), sampleDistribution_(0.0,1.0)
+    EpsilonPolicyInterface<State>::EpsilonPolicyInterface(const PolicyInterface<State> & p, const double e) :
+            PolicyInterface<State>(p.getS(), p.getA()), policy_(p), epsilon_(e),
+            randomDistribution_(0, this->A-1), sampleDistribution_(0.0,1.0)
     {
         if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
     }
 
     template <typename State>
     size_t EpsilonPolicyInterface<State>::sampleAction(const State & s) const {
-        double pe = sampleDistribution_(this->rand_);
+        const double pe = sampleDistribution_(this->rand_);
         if ( pe > epsilon_ ) {
             return randomDistribution_(this->rand_);
         }
@@ -111,13 +113,13 @@ namespace AIToolbox {
     }
 
     template <typename State>
-    double EpsilonPolicyInterface<State>::getActionProbability(const State & s, size_t a) const {
+    double EpsilonPolicyInterface<State>::getActionProbability(const State & s, const size_t a) const {
         //          Probability of taking old decision          Other probability
         return epsilon_ * policy_.getActionProbability(s,a) + ( 1.0 - epsilon_ ) / this->A;
     }
 
     template <typename State>
-    void EpsilonPolicyInterface<State>::setEpsilon(double e) {
+    void EpsilonPolicyInterface<State>::setEpsilon(const double e) {
         if ( e < 0.0 || e > 1.0 ) throw std::invalid_argument("Epsilon parameter was outside specified bounds");
         epsilon_ = e;
     }

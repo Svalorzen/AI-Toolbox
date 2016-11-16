@@ -181,11 +181,12 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        MCTS<M>::MCTS(const M& m, unsigned iter, double exp) : model_(m), S(model_.getS()), A(model_.getA()), iterations_(iter),
-                                                               exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
+        MCTS<M>::MCTS(const M& m, const unsigned iter, const double exp) :
+                model_(m), S(model_.getS()), A(model_.getA()), iterations_(iter),
+                exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
         template <typename M>
-        size_t MCTS<M>::sampleAction(size_t s, unsigned horizon) {
+        size_t MCTS<M>::sampleAction(const size_t s, const unsigned horizon) {
             // Reset graph
             graph_ = StateNode();
             graph_.children.resize(A);
@@ -194,7 +195,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        size_t MCTS<M>::sampleAction(size_t a, size_t s1, unsigned horizon) {
+        size_t MCTS<M>::sampleAction(const size_t a, const size_t s1, const unsigned horizon) {
             auto & states = graph_.children[a].children;
 
             auto it = states.find(s1);
@@ -217,7 +218,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        size_t MCTS<M>::runSimulation(size_t s, unsigned horizon) {
+        size_t MCTS<M>::runSimulation(const size_t s, const unsigned horizon) {
             if ( !horizon ) return 0;
 
             maxDepth_ = horizon;
@@ -230,12 +231,12 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        double MCTS<M>::simulate(StateNode & sn, size_t s, unsigned depth) {
+        double MCTS<M>::simulate(StateNode & sn, const size_t s, const unsigned depth) {
             // Head update
             sn.N++;
 
             auto begin = std::begin(sn.children);
-            size_t a = std::distance(begin, findBestBonusA(begin, std::end(sn.children), sn.N));
+            const size_t a = std::distance(begin, findBestBonusA(begin, std::end(sn.children), sn.N));
 
             size_t s1; double rew;
             std::tie(s1, rew) = model_.sampleSR(s, a);
@@ -244,7 +245,7 @@ namespace AIToolbox {
 
             // We only go deeper if needed (maxDepth_ is always at least 1).
             if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) ) {
-                auto end = std::end(aNode.children);
+                const auto end = std::end(aNode.children);
                 auto it = aNode.children.find(s1);
 
                 double futureRew;
@@ -295,13 +296,13 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename Iterator>
-        Iterator MCTS<M>::findBestBonusA(Iterator begin, Iterator end, unsigned count) {
+        Iterator MCTS<M>::findBestBonusA(Iterator begin, Iterator end, const unsigned count) {
             // Count here can be as low as 1.
             // Since log(1) = 0, and 0/0 = error, we add 1.0.
-            double logCount = std::log(count + 1.0);
+            const double logCount = std::log(count + 1.0);
             // We use this function to produce a score for each action. This can be easily
             // substituted with something else to produce different POMCP variants.
-            auto evaluationFunction = [this, logCount](const ActionNode & an){
+            const auto evaluationFunction = [this, logCount](const ActionNode & an){
                     return an.V + exploration_ * std::sqrt( logCount / an.N );
             };
 
@@ -320,12 +321,12 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void MCTS<M>::setIterations(unsigned iter) {
+        void MCTS<M>::setIterations(const unsigned iter) {
             iterations_ = iter;
         }
 
         template <typename M>
-        void MCTS<M>::setExploration(double exp) {
+        void MCTS<M>::setExploration(const double exp) {
             exploration_ = exp;
         }
 

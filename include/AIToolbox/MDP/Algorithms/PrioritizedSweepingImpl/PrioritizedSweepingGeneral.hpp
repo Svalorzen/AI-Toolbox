@@ -189,22 +189,17 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        PrioritizedSweepingGeneral<M>::PrioritizedSweepingGeneral(const M & m, double theta, unsigned n) :
-                                                                                                                S(m.getS()),
-                                                                                                                A(m.getA()),
-                                                                                                                N(n),
-                                                                                                                theta_(theta),
-                                                                                                                model_(m),
-                                                                                                                qfun_(makeQFunction(S,A)),
-                                                                                                                vfun_(makeValueFunction(S)) {}
+        PrioritizedSweepingGeneral<M>::PrioritizedSweepingGeneral(const M & m, const double theta, const unsigned n) :
+                S(m.getS()), A(m.getA()), N(n), theta_(theta), model_(m),
+                qfun_(makeQFunction(S,A)), vfun_(makeValueFunction(S)) {}
 
         template <typename M>
-        void PrioritizedSweepingGeneral<M>::stepUpdateQ(size_t s, size_t a) {
+        void PrioritizedSweepingGeneral<M>::stepUpdateQ(const size_t s, const size_t a) {
             auto & values = std::get<VALUES>(vfun_);
             { // Update q[s][a]
                 double newQValue = 0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    double probability = model_.getTransitionProbability(s,a,s1);
+                    const double probability = model_.getTransitionProbability(s,a,s1);
                     if ( checkDifferentSmall( probability, 0.0 ) )
                         newQValue += probability * ( model_.getExpectedReward(s,a,s1) + model_.getDiscount() * values[s1] );
                 }
@@ -251,7 +246,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void PrioritizedSweepingGeneral<M>::setN(unsigned n) {
+        void PrioritizedSweepingGeneral<M>::setN(const unsigned n) {
             N = n;
         }
 
@@ -261,7 +256,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void PrioritizedSweepingGeneral<M>::setQueueThreshold(double t) {
+        void PrioritizedSweepingGeneral<M>::setQueueThreshold(const double t) {
             if ( t < 0.0 ) throw std::invalid_argument("Theta parameter must be >= 0");
             theta_ = t;
         }

@@ -143,17 +143,18 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        DynaQ<M>::DynaQ(const M & m, double alpha, unsigned n) : N(n), model_(m), qLearning_(model_, alpha), rand_(Impl::Seeder::getSeed())
+        DynaQ<M>::DynaQ(const M & m, const double alpha, const unsigned n) :
+                N(n), model_(m), qLearning_(model_, alpha), rand_(Impl::Seeder::getSeed())
         {
             visitedStatesActionsInserter_.reserve(model_.getS()*model_.getA());
             visitedStatesActionsSampler_.reserve(model_.getS()*model_.getA());
         }
 
         template <typename M>
-        void DynaQ<M>::stepUpdateQ(size_t s, size_t s1, size_t a, double rew) {
+        void DynaQ<M>::stepUpdateQ(const size_t s, const size_t s1, const size_t a, const double rew) {
             qLearning_.stepUpdateQ(s, s1, a, rew);
             // O(1) insertion...
-            auto result = visitedStatesActionsInserter_.insert(std::make_pair(s,a));
+            const auto result = visitedStatesActionsInserter_.insert(std::make_pair(s,a));
             if ( std::get<1>(result) )
                 visitedStatesActionsSampler_.push_back(*std::get<0>(result));
         }
@@ -189,7 +190,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void DynaQ<M>::setLearningRate(double a) {
+        void DynaQ<M>::setLearningRate(const double a) {
             qLearning_.setLearningRate(a);
         }
 

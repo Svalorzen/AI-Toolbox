@@ -65,13 +65,11 @@ namespace AIToolbox {
                  * This function is provided so that it is easy to plug
                  * this library into existing code-bases.
                  *
-                 * \sa copyTable3D()
-                 *
                  * @tparam V The external visits container type.
                  * @param v The external visits container.
                  */
                 template <typename V>
-                void setVisits(V v);
+                void setVisits(const V & v);
 
                 /**
                  * @brief Compatibility setter.
@@ -99,13 +97,11 @@ namespace AIToolbox {
                  * This function is provided so that it is easy to plug
                  * this library into existing code-bases.
                  *
-                 * \sa copyTable3D()
-                 *
                  * @tparam R The external rewards container type.
                  * @param r The external rewards container.
                  */
                 template <typename R>
-                void setRewards(R r);
+                void setRewards(const R & r);
 
                 /**
                  * @brief This function adds a new event to the recordings.
@@ -201,7 +197,7 @@ namespace AIToolbox {
         };
 
         template <typename V>
-        void SparseExperience::setVisits(V v) {
+        void SparseExperience::setVisits(const V & v) {
             for ( size_t a = 0; a < A; ++a )
                 visits_[a].setZero();
             visitsSum_.setZero();
@@ -217,7 +213,7 @@ namespace AIToolbox {
         }
 
         template <typename R>
-        void SparseExperience::setRewards(R r) {
+        void SparseExperience::setRewards(const R & r) {
             for ( size_t a = 0; a < A; ++a )
                 rewards_[a].setZero();
             rewardsSum_.setZero();

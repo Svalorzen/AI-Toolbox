@@ -134,7 +134,6 @@ namespace AIToolbox {
                 std::vector<unsigned> c_;
                 Policy avgPolicy_, actualPolicy_;
         };
-
     }
 }
 

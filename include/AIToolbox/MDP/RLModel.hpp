@@ -273,8 +273,9 @@ namespace AIToolbox {
         };
 
         template <typename E>
-        RLModel<E>::RLModel( const E& exp, double discount, bool toSync ) : S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
-        rand_(Impl::Seeder::getSeed())
+        RLModel<E>::RLModel(const E& exp, const double discount, const bool toSync) :
+                S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, Matrix2D(S, S)),
+                rewards_(A, Matrix2D(S, S)), rand_(Impl::Seeder::getSeed())
         {
             setDiscount(discount);
             for ( size_t a = 0; a < A; ++a )
@@ -298,7 +299,7 @@ namespace AIToolbox {
         }
 
         template <typename E>
-        void RLModel<E>::setDiscount(double d) {
+        void RLModel<E>::setDiscount(const double d) {
             if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
             discount_ = d;
         }
@@ -311,17 +312,17 @@ namespace AIToolbox {
         }
 
         template <typename E>
-        void RLModel<E>::sync(size_t s, size_t a) {
+        void RLModel<E>::sync(const size_t s, const size_t a) {
             // Nothing to do
-            unsigned long visitSum = experience_.getVisitsSum(s, a);
+            const auto visitSum = experience_.getVisitsSum(s, a);
             if ( visitSum == 0ul ) return;
 
             // Create reciprocal for fast division
-            double visitSumReciprocal = 1.0 / visitSum;
+            const double visitSumReciprocal = 1.0 / visitSum;
 
             // Normalize
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                unsigned long visits = experience_.getVisits(s, a, s1);
+                const auto visits = experience_.getVisits(s, a, s1);
                 // Normalize action reward over transition visits
                 if ( visits != 0 ) {
                     rewards_[a](s, s1) = experience_.getReward(s, a, s1) / visits;
@@ -331,8 +332,8 @@ namespace AIToolbox {
         }
 
         template <typename E>
-        void RLModel<E>::sync(size_t s, size_t a, size_t s1) {
-            unsigned long visitSum = experience_.getVisitsSum(s, a);
+        void RLModel<E>::sync(const size_t s, const size_t a, const size_t s1) {
+            const auto visitSum = experience_.getVisitsSum(s, a);
             // The second condition is related to numerical errors. Once in a
             // while we reset those by forcing a true update using real data.
             if ( !(visitSum % 10000ul) ) return sync(s, a);
@@ -341,13 +342,13 @@ namespace AIToolbox {
                 transitions_[a].coeffRef(s, s1) = 1.0;
                 rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1);
             } else {
-                double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
+                const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
 
                 // Update reward for this transition (all others stay the same).
                 rewards_[a](s, s1) = experience_.getReward(s, a, s1) / newVisits;
 
-                double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
-                double newVectorSum = 1.0 + (newTransitionValue - transitions_[a](s, s1));
+                const double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
+                const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a](s, s1));
                 // This works because as long as all the values in the transition have the same denominator
                 // (in this case visitSum-1), then the numerators do not matter, as we can simply normalize.
                 // In the end of the process the new values will be the same as if we updated directly using
@@ -358,24 +359,24 @@ namespace AIToolbox {
         }
 
         template <typename E>
-        std::tuple<size_t, double> RLModel<E>::sampleSR(size_t s, size_t a) const {
-            size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
+        std::tuple<size_t, double> RLModel<E>::sampleSR(const size_t s, const size_t a) const {
+            const size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
             return std::make_tuple(s1, rewards_[a](s, s1));
         }
 
         template <typename E>
-        double RLModel<E>::getTransitionProbability(size_t s, size_t a, size_t s1) const {
+        double RLModel<E>::getTransitionProbability(const size_t s, const size_t a, const size_t s1) const {
             return transitions_[a](s, s1);
         }
 
         template <typename E>
-        double RLModel<E>::getExpectedReward(size_t s, size_t a, size_t s1) const {
+        double RLModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t s1) const {
             return rewards_[a](s, s1);
         }
 
         template <typename E>
-        bool RLModel<E>::isTerminal(size_t s) const {
+        bool RLModel<E>::isTerminal(const size_t s) const {
             bool answer = true;
             for ( size_t a = 0; a < A; ++a ) {
                 if ( !checkEqualSmall(1.0, transitions_[a](s, s)) ) {
@@ -401,9 +402,9 @@ namespace AIToolbox {
         const typename RLModel<E>::RewardTable &     RLModel<E>::getRewardFunction()     const { return rewards_; }
 
         template <typename E>
-        const Matrix2D & RLModel<E>::getTransitionFunction(size_t a) const { return transitions_[a]; }
+        const Matrix2D & RLModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }
         template <typename E>
-        const Matrix2D & RLModel<E>::getRewardFunction(size_t a)     const { return rewards_[a]; }
+        const Matrix2D & RLModel<E>::getRewardFunction(const size_t a)     const { return rewards_[a]; }
     }
 }
 

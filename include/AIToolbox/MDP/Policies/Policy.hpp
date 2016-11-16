@@ -184,7 +184,7 @@ namespace AIToolbox {
         std::istream& operator>>(std::istream &is, Policy & p);
 
         template <typename T>
-        void Policy::setStatePolicy(size_t s, const T & container) {
+        void Policy::setStatePolicy(const size_t s, const T & container) {
             if ( container.size() != getA() ) throw std::invalid_argument("Container to copy has the wrong size.");
 
             auto ref = policy_[s]; // This is needed because policy_[s] by itself is a temporary. We don't want begin and end to be of different things.

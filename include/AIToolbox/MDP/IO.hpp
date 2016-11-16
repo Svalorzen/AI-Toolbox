@@ -23,8 +23,8 @@ namespace AIToolbox {
         // Here we use the =0 default template to avoid redefinition problems with other template ostream definitions.
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
         std::ostream& operator<<(std::ostream &os, const M & model) {
-            size_t S = model.getS();
-            size_t A = model.getA();
+            const size_t S = model.getS();
+            const size_t A = model.getA();
 
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t a = 0; a < A; ++a ) {
@@ -73,8 +73,8 @@ namespace AIToolbox {
          */
         template <typename E, typename std::enable_if<is_experience<E>::value, int>::type = 0>
         std::ostream& operator<<(std::ostream &os, const E & exp) {
-            size_t S = exp.getS();
-            size_t A = exp.getA();
+            const size_t S = exp.getS();
+            const size_t A = exp.getA();
 
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t a = 0; a < A; ++a ) {

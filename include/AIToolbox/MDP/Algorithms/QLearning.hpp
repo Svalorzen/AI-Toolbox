@@ -169,7 +169,8 @@ namespace AIToolbox {
         };
 
         template <typename M, typename>
-        QLearning::QLearning(const M& model, double alpha) : QLearning(model.getS(), model.getA(), model.getDiscount(), alpha) {}
+        QLearning::QLearning(const M& model, const double alpha) :
+                QLearning(model.getS(), model.getA(), model.getDiscount(), alpha) {}
     }
 }
 #endif

@@ -374,8 +374,9 @@ namespace AIToolbox {
         };
 
         template <typename T, typename R>
-        Model::Model(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
-                                                                               rand_(Impl::Seeder::getSeed())
+        Model::Model(const size_t s, const size_t a, const T & t, const R & r, const double d) :
+                S(s), A(a), transitions_(A, Matrix2D(S, S)),
+                rewards_(A, Matrix2D(S, S)), rand_(Impl::Seeder::getSeed())
         {
             setDiscount(d);
             setTransitionFunction(t);
@@ -383,8 +384,9 @@ namespace AIToolbox {
         }
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        Model::Model(const M& model) : S(model.getS()), A(model.getA()), transitions_(A, Matrix2D(S, S)), rewards_(A, Matrix2D(S, S)),
-                                       rand_(Impl::Seeder::getSeed())
+        Model::Model(const M& model) :
+            S(model.getS()), A(model.getA()), transitions_(A, Matrix2D(S, S)),
+            rewards_(A, Matrix2D(S, S)), rand_(Impl::Seeder::getSeed())
         {
             setDiscount(model.getDiscount());
             for ( size_t a = 0; a < A; ++a )
@@ -410,13 +412,13 @@ namespace AIToolbox {
         }
 
         template <typename R>
-        void Model::setRewardFunction( const R & r ) {
+        void Model::setRewardFunction(const R & r) {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
                         rewards_[a](s, s1) = r[s][a][s1];
         }
-    } // MDP
-} // AIToolbox
+    }
+}
 
 #endif

@@ -174,7 +174,8 @@ namespace AIToolbox {
         };
 
         template <typename M, typename>
-        SARSA::SARSA(const M& model, double alpha) : SARSA(model.getS(), model.getA(), model.getDiscount(), alpha) {}
+        SARSA::SARSA(const M& model, const double alpha) :
+                SARSA(model.getS(), model.getA(), model.getDiscount(), alpha) {}
     }
 }
 #endif
