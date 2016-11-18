@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['model_5f',['model_',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48',1,'AIToolbox::MDP::DynaQ&lt; M &gt;']]]
+  ['ids_5f',['ids_',['../classAIToolbox_1_1FactoredMDP_1_1Trie.html#a4ade1af75b802a9583bc4848c834c730',1,'AIToolbox::FactoredMDP::Trie']]]
 ];

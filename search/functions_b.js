@@ -8,6 +8,7 @@ var searchData=
   ['prettyprint',['prettyPrint',['../classAIToolbox_1_1MDP_1_1Policy.html#ab2aa929472dd2d236996b7e12fdbea21',1,'AIToolbox::MDP::Policy']]],
   ['prioritizedsweepingeigen',['PrioritizedSweepingEigen',['../classAIToolbox_1_1MDP_1_1PrioritizedSweepingEigen_3_01M_01_4.html#ad2a20ed8b04053ce7fb036feeb784e70',1,'AIToolbox::MDP::PrioritizedSweepingEigen&lt; M &gt;']]],
   ['prioritizedsweepinggeneral',['PrioritizedSweepingGeneral',['../classAIToolbox_1_1MDP_1_1PrioritizedSweepingGeneral_3_01M_01_4.html#aedd02b9a5e50a9050a17d1cdfd527f1e',1,'AIToolbox::MDP::PrioritizedSweepingGeneral&lt; M &gt;']]],
-  ['projecter',['Projecter',['../classAIToolbox_1_1POMDP_1_1Projecter_3_01M_01_4.html#a79a05125f69942bd584a6bc677525c8d',1,'AIToolbox::POMDP::Projecter&lt; M &gt;']]],
+  ['projectereigen',['ProjecterEigen',['../classAIToolbox_1_1POMDP_1_1ProjecterEigen_3_01M_01_4.html#aff8c499fe17cdfee0de382d80578ca16',1,'AIToolbox::POMDP::ProjecterEigen&lt; M &gt;']]],
+  ['projectergeneral',['ProjecterGeneral',['../classAIToolbox_1_1POMDP_1_1ProjecterGeneral_3_01M_01_4.html#a6381146b0aacf79e6fa9c8b6d51a4c87',1,'AIToolbox::POMDP::ProjecterGeneral&lt; M &gt;']]],
   ['pruner',['Pruner',['../classAIToolbox_1_1POMDP_1_1Pruner_3_01WitnessLP_01_4.html#a7d232550968138f4062d7592cb41a6a2',1,'AIToolbox::POMDP::Pruner&lt; WitnessLP &gt;']]]
 ];

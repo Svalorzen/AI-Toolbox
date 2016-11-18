@@ -2,6 +2,7 @@ var searchData=
 [
   ['makecliffproblem',['makeCliffProblem',['../CliffProblem_8hpp.html#a4c197b9b827486783b9011e0e84d0e6c',1,'CliffProblem.hpp']]],
   ['makecornerproblem',['makeCornerProblem',['../CornerProblem_8hpp.html#a959a2e9ddf1dfd27cadba0e02fe4fb5f',1,'CornerProblem.hpp']]],
+  ['makefromtrusteddata',['makeFromTrustedData',['../classAIToolbox_1_1MDP_1_1Model.html#adad8a52c0c49989e181f29b858c565d6',1,'AIToolbox::MDP::Model::makeFromTrustedData()'],['../classAIToolbox_1_1MDP_1_1SparseModel.html#a204c2ffa671208c6924e0db24e35bcda',1,'AIToolbox::MDP::SparseModel::makeFromTrustedData()']]],
   ['makeqfunction',['makeQFunction',['../namespaceAIToolbox_1_1MDP.html#ab0aa05d69430fdb1ceeaa51dbed01c4c',1,'AIToolbox::MDP']]],
   ['makerandombelief',['makeRandomBelief',['../namespaceAIToolbox_1_1POMDP.html#a669db86eba19ad6d76b7444fe0885472',1,'AIToolbox::POMDP']]],
   ['maketigerproblem',['makeTigerProblem',['../TigerProblem_8hpp.html#a5e66411a54ab65baf071e3eb34410da6',1,'TigerProblem.hpp']]],
