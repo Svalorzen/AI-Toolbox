@@ -57,8 +57,7 @@ Features
 Since Python does not allow templates, the classes are binded with as many
 as possible instantiations. This toolbox does lose quite a bit of power in
 terms of efficient customization when used from Python, but it allows to rapidly
-iterate in order to find out what works and what doesn't. Porting is a work
-in progress, MDP stuff should all be there at the moment. POMDP things are coming.
+iterate in order to find out what works and what doesn't.
 
 ### Single Agent MDP: ###
 
@@ -184,7 +183,7 @@ If you want to build the POMDP part of the library you will also need:
 
 - the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required.
 - Alternatively, an implementation using [COIN-OR](http://www.coin-or.org/) is
-  available, but must be activate in the CMake files and source files.
+  available, but must be activated in the CMake files and source files.
 
 Building
 --------
@@ -246,9 +245,14 @@ libraries. Please note that since the POMDP code relies on the MDP code, you
 __MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
 `undefined reference` errors.
 
-For Python, you just need to import the `MDP.so` module, and you'll be able to
-use everything that has been currently exported to Python (it's a WIP but I'm
-adding stuff as fast as possible).
+For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
+you'll be able to use the classes as exported to Python. All classes are
+documented, and you can run in the Python CLI
+
+    help(MDP)
+    help(POMDP)
+
+to see the documentation for each specific class.
 
 Documentation
 =============
@@ -257,7 +261,6 @@ The latest documentation is available [here](http://svalorzen.github.io/AI-Toolb
 Keep in mind that it may not always be 100% up to date with the latest
 commits, while the one you compile yourself will of course be.
 
-For Python docs you can find them by typing `help(MDP)` or `help(SomeMDPClass)`
+For Python docs you can find them by typing `help(MDP)` or `help(MDP.SomeMDPClass)`
 from the interpreter. It should show the exported API for each class, along with
-any differences in input/output. It is not perfect yet and you're welcome to signal
-any missing information.
+any differences in input/output.
