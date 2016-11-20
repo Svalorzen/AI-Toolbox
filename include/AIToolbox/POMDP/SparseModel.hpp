@@ -263,8 +263,9 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename... Args>
-        SparseModel<M>::SparseModel(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
-                                                                  rand_(Impl::Seeder::getSeed())
+        SparseModel<M>::SparseModel(const size_t o, Args&&... params) :
+                M(std::forward<Args>(params)...), O(o), observations_(this->getA(),
+                SparseMatrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
         {
             for ( size_t a = 0; a < this->getA(); ++a )
                 for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
@@ -273,24 +274,27 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename ObFun, typename... Args, typename>
-        SparseModel<M>::SparseModel(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
-                                                                   rand_(Impl::Seeder::getSeed())
+        SparseModel<M>::SparseModel(const size_t o, ObFun && of, Args&&... params) :
+                M(std::forward<Args>(params)...), O(o),
+                observations_(this->getA(), SparseMatrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);
         }
 
         template <typename M>
         template <typename PM, typename>
-        SparseModel<M>::SparseModel(const PM& model) : M(model), O(model.getO()), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
-                                           rand_(Impl::Seeder::getSeed())
+        SparseModel<M>::SparseModel(const PM& model) :
+                M(model), O(model.getO()), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
+                rand_(Impl::Seeder::getSeed())
         {
             for ( size_t a = 0; a < this->getA(); ++a )
                 for ( size_t s1 = 0; s1 < this->getS(); ++s1 ) {
                     for ( size_t o = 0; o < O; ++o ) {
-                        double p = model.getObservationProbability(s1, a, o);
+                        const double p = model.getObservationProbability(s1, a, o);
                         if ( checkDifferentSmall( p, 0.0 ) ) observations_[a].insert(s1, o) = p;
                     }
-                    if ( checkDifferentSmall(1.0, observations_[a].row(s1).sum()) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    if ( checkDifferentSmall(1.0, observations_[a].row(s1).sum()) )
+                        throw std::invalid_argument("Input observation table does not contain valid probabilities.");
                 }
         }
 
@@ -299,23 +303,24 @@ namespace AIToolbox {
         void SparseModel<M>::setObservationFunction(const ObFun & of) {
             for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
                 for ( size_t a = 0; a < this->getA(); ++a )
-                    if ( ! isProbability(O, of[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    if ( ! isProbability(O, of[s1][a]) )
+                        throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
             for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
                 for ( size_t a = 0; a < this->getA(); ++a )
                     for ( size_t o = 0; o < O; ++o ) {
-                        double p = of[s1][a][o];
+                        const double p = of[s1][a][o];
                         if ( checkDifferentSmall( p, 0.0 ) ) observations_[a].insert(s1, o) = p;
                     }
         }
 
         template <typename M>
-        double SparseModel<M>::getObservationProbability(size_t s1, size_t a, size_t o) const {
+        double SparseModel<M>::getObservationProbability(const size_t s1, const size_t a, const size_t o) const {
             return observations_[a].coeff(s1, o);
         }
 
         template <typename M>
-        const SparseMatrix2D & SparseModel<M>::getObservationFunction(size_t a) const {
+        const SparseMatrix2D & SparseModel<M>::getObservationFunction(const size_t a) const {
             return observations_[a];
         }
 
@@ -330,7 +335,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        std::tuple<size_t,size_t, double> SparseModel<M>::sampleSOR(size_t s, size_t a) const {
+        std::tuple<size_t,size_t, double> SparseModel<M>::sampleSOR(const size_t s, const size_t a) const {
             size_t s1, o;
             double r;
 
@@ -341,9 +346,9 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        std::tuple<size_t, double> SparseModel<M>::sampleOR(size_t s, size_t a, size_t s1) const {
-            size_t o = sampleProbability(O, observations_[a].row(s1), rand_);
-            double r = this->getExpectedReward(s, a, s1);
+        std::tuple<size_t, double> SparseModel<M>::sampleOR(const size_t s, const size_t a, const size_t s1) const {
+            const size_t o = sampleProbability(O, observations_[a].row(s1), rand_);
+            const double r = this->getExpectedReward(s, a, s1);
             return std::make_tuple(o, r);
         }
     }

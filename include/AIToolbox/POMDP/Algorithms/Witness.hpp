@@ -182,7 +182,7 @@ namespace AIToolbox {
             Pruner<WitnessLP_lpsolve> prune(S);
             WitnessLP_lpsolve lp(S);
 
-            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             double variation = epsilon_ * 2; // Make it bigger
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
@@ -212,9 +212,9 @@ namespace AIToolbox {
 
                     // We check whether any element in the agenda improves what we have
                     while ( !agenda_.empty() ) {
-                        auto result = lp.findWitness( std::get<VALUES>(agenda_.back()) );
+                        const auto result = lp.findWitness( std::get<VALUES>(agenda_.back()) );
                         if ( std::get<0>(result) ) {
-                            auto & witness = std::get<1>(result);
+                            const auto & witness = std::get<1>(result);
                             // If so, we generate the best vector for that particular belief point.
                             U[a].push_back(crossSumBestAtBelief(projections[a], a, witness));
                             lp.addOptimalRow(std::get<VALUES>(U[a].back()));
@@ -254,14 +254,14 @@ namespace AIToolbox {
         }
 
         template <typename ProjectionsRow>
-        POMDP::VEntry Witness::crossSumBestAtBelief(const ProjectionsRow & projs, size_t a, const Belief & b) {
+        POMDP::VEntry Witness::crossSumBestAtBelief(const ProjectionsRow & projs, const size_t a, const Belief & b) {
             MDP::Values v(S); v.fill(0.0);
             VObs obs(O);
 
             // We compute the crossSum between each best vector for the belief.
             for ( size_t o = 0; o < O; ++o ) {
                 const VList & projsO = projs[o];
-                auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
+                const auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
                 v.noalias() += std::get<VALUES>(*bestMatch);
 
@@ -272,7 +272,7 @@ namespace AIToolbox {
         }
 
         template <typename ProjectionsRow>
-        void Witness::addDefaultEntry(const ProjectionsRow & projs, size_t a) {
+        void Witness::addDefaultEntry(const ProjectionsRow & projs, const size_t a) {
             MDP::Values v(S); v.fill(0.0);
             VObs obs(O, 0);
 
@@ -285,13 +285,13 @@ namespace AIToolbox {
         }
 
         template <typename ProjectionsRow>
-        void Witness::addVariations(const ProjectionsRow & projs, size_t a, const VEntry & variated) {
+        void Witness::addVariations(const ProjectionsRow & projs, const size_t a, const VEntry & variated) {
             // We need to copy this one unfortunately
             auto   vObs    = std::get<OBS>   (variated);
-            auto & vValues = std::get<VALUES>(variated);
+            const auto & vValues = std::get<VALUES>(variated);
 
             for ( size_t o = 0; o < O; ++o ) {
-                size_t skip = vObs[o];
+                const size_t skip = vObs[o];
 
                 for ( size_t i = 0; i < projs[o].size(); ++i ) {
                     if ( i == skip ) continue;

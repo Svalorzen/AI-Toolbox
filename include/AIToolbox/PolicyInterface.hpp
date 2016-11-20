@@ -80,7 +80,8 @@ namespace AIToolbox {
     };
 
     template <typename State>
-    PolicyInterface<State>::PolicyInterface(size_t s, size_t a) : S(s), A(a), rand_(Impl::Seeder::getSeed()) {}
+    PolicyInterface<State>::PolicyInterface(const size_t s, const size_t a) :
+            S(s), A(a), rand_(Impl::Seeder::getSeed()) {}
 
     template <typename State>
     PolicyInterface<State>::~PolicyInterface() {}

@@ -108,30 +108,30 @@ namespace AIToolbox {
 
         template <typename M, typename>
         std::tuple<MDP::Model, AMDP::Discretizer> AMDP::discretizeDense(const M& model) {
-            size_t S = model.getS(), A = model.getA(), O = model.getO();
-            size_t S1 = S * buckets_;
+            const size_t S = model.getS(), A = model.getA(), O = model.getO();
+            const size_t S1 = S * buckets_;
 
             BeliefGenerator<M> bGen(model);
-            auto beliefs = bGen(beliefSize_);
+            const auto beliefs = bGen(beliefSize_);
 
             auto T = MDP::Model::TransitionTable   (A, Matrix2D::Zero(S1, S1));
             auto R = MDP::Model::RewardTable       (A, Matrix2D::Zero(S1, S1));
 
-            auto discretizer = makeDiscretizer(S);
+            const auto discretizer = makeDiscretizer(S);
 
             Belief b1(S);
-            for ( auto & b : beliefs ) {
-                size_t s = discretizer(b);
+            for ( const auto & b : beliefs ) {
+                const size_t s = discretizer(b);
 
                 for ( size_t a = 0; a < A; ++a ) {
-                    double r = beliefExpectedReward(model, b, a);
+                    const double r = beliefExpectedReward(model, b, a);
 
                     for ( size_t o = 0; o < O; ++o ) {
                         updateBeliefUnnormalized(model, b, a, o, &b1);
-                        auto p = b1.sum();
+                        const auto p = b1.sum();
                         if (checkDifferentSmall(0.0, p)) {
                             b1 /= p;
-                            size_t s1 = discretizer(b1);
+                            const size_t s1 = discretizer(b1);
 
                             T[a](s, s1) += p;
                             R[a](s, s1) += p * r;
@@ -146,21 +146,21 @@ namespace AIToolbox {
                         if ( checkDifferentSmall(0.0, T[a](s, s1)) )
                             R[a](s, s1) /= T[a](s, s1);
                     }
-                    double sum = T[a].row(s).sum();
+                    const double sum = T[a].row(s).sum();
                     if ( checkEqualSmall(sum, 0.0) ) T[a](s, s) = 1.0;
                     else T[a].row(s) /= sum;
                 }
 
-            return std::make_tuple(MDP::Model::makeFromTrustedData(S1, A, std::move(T), std::move(R), model.getDiscount()), discretizer);
+            return std::make_tuple(MDP::Model::makeFromTrustedData(S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
         }
 
         template <typename M, typename>
         std::tuple<MDP::SparseModel, AMDP::Discretizer> AMDP::discretizeSparse(const M& model) {
-            size_t S = model.getS(), A = model.getA(), O = model.getO();
-            size_t S1 = S * buckets_;
+            const size_t S = model.getS(), A = model.getA(), O = model.getO();
+            const size_t S1 = S * buckets_;
 
             BeliefGenerator<M> bGen(model);
-            auto beliefs = bGen(beliefSize_);
+            const auto beliefs = bGen(beliefSize_);
 
             auto T = MDP::SparseModel::TransitionTable   (A, SparseMatrix2D(S1, S1));
             auto R = MDP::SparseModel::RewardTable       (A, SparseMatrix2D(S1, S1));
@@ -168,18 +168,18 @@ namespace AIToolbox {
             auto discretizer = makeDiscretizer(S);
 
             Belief b1(S);
-            for ( auto & b : beliefs ) {
-                size_t s = discretizer(b);
+            for ( const auto & b : beliefs ) {
+                const size_t s = discretizer(b);
 
                 for ( size_t a = 0; a < A; ++a ) {
-                    double r = beliefExpectedReward(model, b, a);
+                    const double r = beliefExpectedReward(model, b, a);
 
                     for ( size_t o = 0; o < O; ++o ) {
                         updateBeliefUnnormalized(model, b, a, o, &b1);
-                        auto p = b1.sum();
+                        const auto p = b1.sum();
                         if (checkDifferentSmall(0.0, p)) {
                             b1 /= p;
-                            size_t s1 = discretizer(b1);
+                            const size_t s1 = discretizer(b1);
 
                             T[a].coeffRef(s, s1) += p;
                             R[a].coeffRef(s, s1) += p * r;
@@ -194,12 +194,12 @@ namespace AIToolbox {
                         if ( checkDifferentSmall(0.0, T[a].coeff(s, s1)) )
                             R[a].coeffRef(s, s1) /= T[a].coeff(s, s1);
                     }
-                    double sum = T[a].row(s).sum();
+                    const double sum = T[a].row(s).sum();
                     if ( checkEqualSmall(sum, 0.0) ) T[a].coeffRef(s, s) = 1.0;
                     else T[a].row(s) /= sum;
                 }
 
-            return std::make_tuple(MDP::SparseModel::makeFromTrustedData(S1, A, std::move(T), std::move(R), model.getDiscount()), discretizer);
+            return std::make_tuple(MDP::SparseModel::makeFromTrustedData(S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
         }
     }
 }

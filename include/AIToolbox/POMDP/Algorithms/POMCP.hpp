@@ -319,11 +319,12 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        POMCP<M>::POMCP(const M& m, size_t beliefSize, unsigned iter, double exp) : model_(m), S(model_.getS()), A(model_.getA()), beliefSize_(beliefSize), iterations_(iter),
-                                                                              exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
+        POMCP<M>::POMCP(const M& m, const size_t beliefSize, const unsigned iter, const double exp) :
+                model_(m), S(model_.getS()), A(model_.getA()), beliefSize_(beliefSize),
+                iterations_(iter), exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
         template <typename M>
-        size_t POMCP<M>::sampleAction(const Belief& b, unsigned horizon) {
+        size_t POMCP<M>::sampleAction(const Belief& b, const unsigned horizon) {
             // Reset graph
             graph_ = BeliefNode(A);
             graph_.children.resize(A);
@@ -333,8 +334,8 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        size_t POMCP<M>::sampleAction(size_t a, size_t o, unsigned horizon) {
-            auto & obs = graph_.children[a].children;
+        size_t POMCP<M>::sampleAction(const size_t a, const size_t o, const unsigned horizon) {
+            const auto & obs = graph_.children[a].children;
 
             auto it = obs.find(o);
             if ( it == obs.end() ) {
@@ -365,7 +366,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        size_t POMCP<M>::runSimulation(unsigned horizon) {
+        size_t POMCP<M>::runSimulation(const unsigned horizon) {
             if ( !horizon ) return 0;
 
             maxDepth_ = horizon;
@@ -379,11 +380,11 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        double POMCP<M>::simulate(BeliefNode & b, size_t s, unsigned depth) {
+        double POMCP<M>::simulate(BeliefNode & b, const size_t s, const unsigned depth) {
             b.N++;
 
             auto begin = std::begin(b.children);
-            size_t a = std::distance(begin, findBestBonusA(begin, std::end(b.children), b.N));
+            const size_t a = std::distance(begin, findBestBonusA(begin, std::end(b.children), b.N));
 
             size_t s1, o; double rew;
             std::tie(s1, o, rew) = model_.sampleSOR(s, a);
@@ -448,10 +449,10 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename Iterator>
-        Iterator POMCP<M>::findBestBonusA(Iterator begin, Iterator end, unsigned count) {
+        Iterator POMCP<M>::findBestBonusA(Iterator begin, Iterator end, const unsigned count) {
             // Count here can be as low as 1.
             // Since log(1) = 0, and 0/0 = error, we add 1.0.
-            double logCount = std::log(count + 1.0);
+            const double logCount = std::log(count + 1.0);
             // We use this function to produce a score for each action. This can be easily
             // substituted with something else to produce different POMCP variants.
             auto evaluationFunction = [this, logCount](const ActionNode & an){
@@ -462,7 +463,7 @@ namespace AIToolbox {
             double bestValue = evaluationFunction(*bestIterator);
 
             for ( ; begin < end; ++begin ) {
-                double actionValue = evaluationFunction(*begin);
+                const double actionValue = evaluationFunction(*begin);
                 if ( actionValue > bestValue ) {
                     bestValue = actionValue;
                     bestIterator = begin;
@@ -484,17 +485,17 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void POMCP<M>::setBeliefSize(size_t beliefSize) {
+        void POMCP<M>::setBeliefSize(const size_t beliefSize) {
             beliefSize_ = beliefSize;
         }
 
         template <typename M>
-        void POMCP<M>::setIterations(unsigned iter) {
+        void POMCP<M>::setIterations(const unsigned iter) {
             iterations_ = iter;
         }
 
         template <typename M>
-        void POMCP<M>::setExploration(double exp) {
+        void POMCP<M>::setExploration(const double exp) {
             exploration_ = exp;
         }
 

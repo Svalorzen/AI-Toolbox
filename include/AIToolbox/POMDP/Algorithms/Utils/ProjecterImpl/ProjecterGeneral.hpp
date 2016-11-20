@@ -73,8 +73,9 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        ProjecterGeneral<M>::ProjecterGeneral(const M& model) : model_(model), S(model_.getS()), A(model_.getA()), O(model_.getO()), discount_(model_.getDiscount()),
-                                                  immediateRewards_(A, S), possibleObservations_(boost::extents[A][O])
+        ProjecterGeneral<M>::ProjecterGeneral(const M& model) :
+                model_(model), S(model_.getS()), A(model_.getA()), O(model_.getO()),
+                discount_(model_.getDiscount()), immediateRewards_(A, S), possibleObservations_(boost::extents[A][O])
         {
             computePossibleObservations();
             computeImmediateRewards();
@@ -91,7 +92,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        typename ProjecterGeneral<M>::ProjectionsRow ProjecterGeneral<M>::operator()(const VList & w, size_t a) {
+        typename ProjecterGeneral<M>::ProjectionsRow ProjecterGeneral<M>::operator()(const VList & w, const size_t a) {
             ProjectionsRow projections( boost::extents[O] );
 
             for ( size_t o = 0; o < O; ++o ) {
@@ -109,7 +110,7 @@ namespace AIToolbox {
 
                 // Otherwise we compute a projection for each ValueFunction supplied to us.
                 for ( size_t i = 0; i < w.size(); ++i ) {
-                    auto & v = std::get<VALUES>(w[i]);
+                    const auto & v = std::get<VALUES>(w[i]);
                     MDP::Values vproj(S); vproj.fill(0.0);
                     // For each value function in the previous timestep, we compute the new value
                     // if we performed action a and obtained observation o.

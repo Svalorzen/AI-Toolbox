@@ -120,16 +120,17 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        QMDP<M>::QMDP(unsigned horizon, double epsilon) : solver_(horizon, epsilon) {}
+        QMDP<M>::QMDP(const unsigned horizon, const double epsilon) :
+                solver_(horizon, epsilon) {}
 
         template <typename M>
         std::tuple<bool, ValueFunction, MDP::ValueFunction> QMDP<M>::operator()(const M & m) {
             auto solution = solver_(m);
             auto & mdpValueFunction = std::get<1>(solution);
-            auto & mdpValues  = std::get<MDP::VALUES >(mdpValueFunction);
-            auto & mdpActions = std::get<MDP::ACTIONS>(mdpValueFunction);
+            const auto & mdpValues  = std::get<MDP::VALUES >(mdpValueFunction);
+            const auto & mdpActions = std::get<MDP::ACTIONS>(mdpValueFunction);
 
-            size_t S = m.getS();
+            const size_t S = m.getS();
 
             VList w;
             w.reserve(S);
@@ -149,16 +150,16 @@ namespace AIToolbox {
             ValueFunction vf(1, VList(1, makeVEntry(S)));
             vf.emplace_back(std::move(w));
 
-            return std::make_tuple(std::get<0>(solution), vf, mdpValueFunction);
+            return std::make_tuple(std::get<0>(solution), vf, std::move(mdpValueFunction));
         }
 
         template <typename M>
-        void QMDP<M>::setEpsilon(double e) {
+        void QMDP<M>::setEpsilon(const double e) {
             solver_.setEpsilon(e);
         }
 
         template <typename M>
-        void QMDP<M>::setHorizon(unsigned h) {
+        void QMDP<M>::setHorizon(const unsigned h) {
             solver_.setHorizon(h);
         }
 

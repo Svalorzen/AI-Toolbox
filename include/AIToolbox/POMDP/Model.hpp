@@ -254,8 +254,9 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename... Args>
-        Model<M>::Model(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), Matrix2D(this->getS(), O)),
-                                                      rand_(Impl::Seeder::getSeed())
+        Model<M>::Model(const size_t o, Args&&... params) :
+                M(std::forward<Args>(params)...), O(o),
+                observations_(this->getA(), Matrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
         {
             for ( size_t a = 0; a < this->getA(); ++a ) {
                 observations_[a].fill(0.0);
@@ -265,16 +266,18 @@ namespace AIToolbox {
 
         template <typename M>
         template <typename ObFun, typename... Args, typename>
-        Model<M>::Model(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(this->getA(), Matrix2D(this->getS(), O)),
-                                                                   rand_(Impl::Seeder::getSeed())
+        Model<M>::Model(const size_t o, ObFun && of, Args&&... params) :
+                M(std::forward<Args>(params)...), O(o),
+                observations_(this->getA(), Matrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
         {
             setObservationFunction(of);
         }
 
         template <typename M>
         template <typename PM, typename>
-        Model<M>::Model(const PM& model) : M(model), O(model.getO()), observations_(this->getA(), Matrix2D(this->getS(), O)),
-                                           rand_(Impl::Seeder::getSeed())
+        Model<M>::Model(const PM& model) :
+                M(model), O(model.getO()), observations_(this->getA(), Matrix2D(this->getS(), O)),
+                rand_(Impl::Seeder::getSeed())
         {
             for ( size_t a = 0; a < this->getA(); ++a )
                 for ( size_t s1 = 0; s1 < this->getS(); ++s1 ) {
@@ -299,12 +302,12 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        double Model<M>::getObservationProbability(size_t s1, size_t a, size_t o) const {
+        double Model<M>::getObservationProbability(const size_t s1, const size_t a, const size_t o) const {
             return observations_[a](s1, o);
         }
 
         template <typename M>
-        const Matrix2D & Model<M>::getObservationFunction(size_t a) const {
+        const Matrix2D & Model<M>::getObservationFunction(const size_t a) const {
             return observations_[a];
         }
 
@@ -319,7 +322,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        std::tuple<size_t,size_t, double> Model<M>::sampleSOR(size_t s, size_t a) const {
+        std::tuple<size_t,size_t, double> Model<M>::sampleSOR(const size_t s, const size_t a) const {
             size_t s1, o;
             double r;
 
@@ -330,9 +333,9 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        std::tuple<size_t, double> Model<M>::sampleOR(size_t s, size_t a, size_t s1) const {
-            size_t o = sampleProbability(O, observations_[a].row(s1), rand_);
-            double r = this->getExpectedReward(s, a, s1);
+        std::tuple<size_t, double> Model<M>::sampleOR(const size_t s, const size_t a, const size_t s1) const {
+            const size_t o = sampleProbability(O, observations_[a].row(s1), rand_);
+            const double r = this->getExpectedReward(s, a, s1);
             return std::make_tuple(o, r);
         }
     }

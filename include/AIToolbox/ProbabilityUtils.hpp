@@ -34,10 +34,10 @@ namespace AIToolbox {
      *         and false otherwise.
      */
     template <typename T>
-    bool isProbability(size_t d, const T & in) {
+    bool isProbability(const size_t d, const T & in) {
         double p = 0.0;
         for ( size_t i = 0; i < d; ++i ) {
-            double value = static_cast<double>(in[i]);
+            const double value = static_cast<double>(in[i]);
             if ( value < 0.0 ) return false;
             p += value;
         }
@@ -71,7 +71,7 @@ namespace AIToolbox {
      * @return An index in range [0,d-1].
      */
     template <typename T, typename G>
-    size_t sampleProbability(size_t d, const T& in, G& generator) {
+    size_t sampleProbability(const size_t d, const T& in, G& generator) {
         static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
         double p = sampleDistribution(generator);
 
@@ -105,7 +105,7 @@ namespace AIToolbox {
      * @return An index in range [0,d-1].
      */
     template <typename G>
-    size_t sampleProbability(size_t d, const SparseMatrix2D::RowXpr& in, G& generator) {
+    size_t sampleProbability(const size_t d, const SparseMatrix2D::RowXpr& in, G& generator) {
         static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
         double p = sampleDistribution(generator);
 
@@ -139,7 +139,7 @@ namespace AIToolbox {
      * @return An index in range [0,d-1].
      */
     template <typename G>
-    size_t sampleProbability(size_t d, const SparseMatrix2D::ConstRowXpr& in, G& generator) {
+    size_t sampleProbability(const size_t d, const SparseMatrix2D::ConstRowXpr& in, G& generator) {
         static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
         double p = sampleDistribution(generator);
 
@@ -163,7 +163,7 @@ namespace AIToolbox {
     template <typename InputIterator, typename OutputIterator>
     void normalizeProbability(InputIterator begin, InputIterator end, OutputIterator out) {
         if ( begin == end ) return;
-        double norm = std::accumulate(begin, end, 0.0);
+        const double norm = std::accumulate(begin, end, 0.0);
         if ( !norm ) *out = 1.0;
         else std::transform(begin, end, out, [norm](decltype(*begin) t){ return t/norm; });
     }

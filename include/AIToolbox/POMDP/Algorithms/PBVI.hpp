@@ -177,7 +177,7 @@ namespace AIToolbox {
             // can be called multiple times to increase the size of the belief
             // vector.
             BeliefGenerator<M> bGen(model);
-            auto beliefs = bGen(beliefSize_);
+            const auto beliefs = bGen(beliefSize_);
 
             ValueFunction v(1, VList(1, makeVEntry(S)));
 
@@ -186,7 +186,7 @@ namespace AIToolbox {
             Projecter<M> projecter(model);
 
             // And off we go
-            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             double variation = epsilon_ * 2; // Make it bigger
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
@@ -213,7 +213,7 @@ namespace AIToolbox {
                     std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
 
                 auto begin = std::begin(w), bound = begin, end = std::end(w);
-                for ( auto & belief : beliefs )
+                for ( const auto & belief : beliefs )
                     bound = extractWorstAtBelief(belief, begin, bound, end);
 
                 w.erase(bound, end);
@@ -235,7 +235,7 @@ namespace AIToolbox {
         }
 
         template <typename ProjectionsRow>
-        VList PBVI::crossSum(const ProjectionsRow & projs, size_t a, const std::vector<Belief> & bl) {
+        VList PBVI::crossSum(const ProjectionsRow & projs, const size_t a, const std::vector<Belief> & bl) {
             VList result;
             result.reserve(bl.size());
 

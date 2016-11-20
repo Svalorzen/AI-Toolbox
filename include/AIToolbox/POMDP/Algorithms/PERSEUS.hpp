@@ -155,7 +155,7 @@ namespace AIToolbox {
         };
 
         template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-        std::tuple<bool, ValueFunction> PERSEUS::operator()(const M & model, double minReward) {
+        std::tuple<bool, ValueFunction> PERSEUS::operator()(const M & model, const double minReward) {
             if ( model.getDiscount() == 1 ) throw std::invalid_argument("The model cannot have a discount of 1 in PERSEUS!");
             // Initialize "global" variables
             S = model.getS();
@@ -169,7 +169,7 @@ namespace AIToolbox {
             // can be called multiple times to increase the size of the belief
             // vector.
             BeliefGenerator<M> bGen(model);
-            auto beliefs = bGen(beliefSize_);
+            const auto beliefs = bGen(beliefSize_);
 
             // We initialize the ValueFunction to the "worst" case scenario.
             ValueFunction v(1, VList(1, std::make_tuple(MDP::Values(S), 0, VObs(0))));
@@ -180,7 +180,7 @@ namespace AIToolbox {
             Projecter<M> projecter(model);
 
             // And off we go
-            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             double variation = epsilon_ * 2; // Make it bigger
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
@@ -188,7 +188,7 @@ namespace AIToolbox {
                 // This means that for each action-observation pair, we are going
                 // to obtain the same number of possible outcomes as the number
                 // of entries in our initial vector w.
-                auto projs = projecter(v[timestep-1]);
+                const auto projs = projecter(v[timestep-1]);
                 // Here we find the minimum number of VEntries that we need to improve
                 // v on all beliefs from v[timestep-1].
                 v.emplace_back( crossSum( projs, beliefs, v[timestep-1] ) );
@@ -210,7 +210,7 @@ namespace AIToolbox {
             bool start = true;
             double currentValue, oldValue;
 
-            for ( auto & b : bl ) {
+            for ( const auto & b : bl ) {
                 if ( !start ) {
                     // If we have already improved this belief, skip it
                     findBestAtBelief( b, std::begin(result), std::end(result), &currentValue );

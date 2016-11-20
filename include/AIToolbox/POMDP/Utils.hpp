@@ -52,13 +52,13 @@ namespace AIToolbox {
          * @return A new random belief.
          */
         template <typename G>
-        Belief makeRandomBelief(size_t S, G & generator) {
+        Belief makeRandomBelief(const size_t S, G & generator) {
             static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
             Belief b(S);
             for ( size_t s = 0; s < S; ++s )
                 b[s] = sampleDistribution(generator);
 
-            auto sum = b.sum();
+            const auto sum = b.sum();
 
             if ( checkEqualSmall(sum, 0.0) ) b[0] = 1.0;
             else b /= sum;
@@ -80,7 +80,7 @@ namespace AIToolbox {
          * @param o The observation registered.
          */
         template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
-        Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
+        Belief updateBelief(const M & model, const Belief & b, const size_t a, const size_t o) {
             Belief br(model.getS());
             updateBelief(model, b, a, o, &br);
             return br;
@@ -101,10 +101,10 @@ namespace AIToolbox {
          * @param bRet The output belief.
          */
         template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
-        void updateBelief(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+        void updateBelief(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
             if (!bRet) return;
 
-            size_t S = model.getS();
+            const size_t S = model.getS();
             auto & br = *bRet;
 
             double totalSum = 0.0;
@@ -135,7 +135,7 @@ namespace AIToolbox {
          * @param o The observation registered.
          */
         template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
-        Belief updateBelief(const M & model, const Belief & b, size_t a, size_t o) {
+        Belief updateBelief(const M & model, const Belief & b, const size_t a, const size_t o) {
             Belief br(model.getS());
             updateBelief(model, b, a, o, &br);
             return br;
@@ -156,13 +156,13 @@ namespace AIToolbox {
          * @param bRet The output belief.
          */
         template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
-        void updateBelief(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+        void updateBelief(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
             if (!bRet) return;
 
             updateBeliefUnnormalized(model, b, a, o, bRet);
 
             auto & br = *bRet;
-            double totalSum = br.sum();
+            const double totalSum = br.sum();
 
             if ( checkEqualSmall(totalSum, 0.0) ) br[0] = 1.0;
             else br /= totalSum;
@@ -185,7 +185,7 @@ namespace AIToolbox {
          * @param o The observation registered.
          */
         template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
-        Belief updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o) {
+        Belief updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
             Belief br(model.getS());
             updateBeliefUnnormalized(model, b, a, o, &br);
             return br;
@@ -209,10 +209,10 @@ namespace AIToolbox {
          * @param bRet The output belief.
          */
         template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
-        void updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+        void updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
             if (!bRet) return;
 
-            size_t S = model.getS();
+            const size_t S = model.getS();
             auto & br = *bRet;
 
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
@@ -241,7 +241,7 @@ namespace AIToolbox {
          * @param o The observation registered.
          */
         template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
-        Belief updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o) {
+        Belief updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
             Belief br(model.getS());
             updateBeliefUnnormalized(model, b, a, o, &br);
             return br;
@@ -265,7 +265,7 @@ namespace AIToolbox {
          * @param bRet The output belief.
          */
         template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
-        void updateBeliefUnnormalized(const M & model, const Belief & b, size_t a, size_t o, Belief * bRet) {
+        void updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
             if (!bRet) return;
 
             auto & br = *bRet;
@@ -283,8 +283,8 @@ namespace AIToolbox {
          * @return The immediate reward.
          */
         template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
-        double beliefExpectedReward(const M& model, const Belief & b, size_t a) {
-            double rew = 0.0; size_t S = model.getS();
+        double beliefExpectedReward(const M& model, const Belief & b, const size_t a) {
+            double rew = 0.0; const size_t S = model.getS();
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t s1 = 0; s1 < S; ++s1 )
                     rew += model.getTransitionProbability(s, a, s1) * model.getExpectedReward(s, a, s1) * b[s];
@@ -302,7 +302,7 @@ namespace AIToolbox {
          * @return The immediate reward.
          */
         template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
-        double beliefExpectedReward(const M& model, const Belief & b, size_t a) {
+        double beliefExpectedReward(const M& model, const Belief & b, const size_t a) {
             return (model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(model.getS())).dot(b);
         }
 
@@ -317,8 +317,8 @@ namespace AIToolbox {
          * @return The probability of getting the observation from that belief and action.
          */
         template <typename M, typename std::enable_if<is_model<M>::value && !is_model_eigen<M>::value>::type* = nullptr>
-        double beliefObservationProbability(const M& model, const Belief & b, size_t a, size_t o) {
-            double p = 0.0; size_t S = model.getS();
+        double beliefObservationProbability(const M& model, const Belief & b, const size_t a, const size_t o) {
+            double p = 0.0; const size_t S = model.getS();
             // This is basically the same as a belief update, but unnormalized
             // and we sum all elements together..
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
@@ -342,7 +342,7 @@ namespace AIToolbox {
          * @return The probability of getting the observation from that belief and action.
          */
         template <typename M, typename std::enable_if<is_model_eigen<M>::value>::type* = nullptr>
-        double beliefObservationProbability(const M& model, const Belief & b, size_t a, size_t o) {
+        double beliefObservationProbability(const M& model, const Belief & b, const size_t a, const size_t o) {
             return (b.transpose() * model.getTransitionFunction(a) * model.getObservationFunction(a).col(o))(0);
         }
 
@@ -368,7 +368,7 @@ namespace AIToolbox {
 
             while ( (++begin) < end ) {
                 auto & v = std::get<VALUES>(*begin);
-                double currValue = b.dot(v);
+                const double currValue = b.dot(v);
                 if ( currValue > bestValue || ( currValue == bestValue && ( AIToolbox::operator>(v, std::get<VALUES>(*bestMatch) )) ) ) {
                     bestMatch = begin;
                     bestValue = currValue;
@@ -392,13 +392,13 @@ namespace AIToolbox {
          * @return An iterator pointing to the best choice in range.
          */
         template <typename Iterator>
-        Iterator findBestAtSimplexCorner(size_t corner, Iterator begin, Iterator end, double * value = nullptr) {
+        Iterator findBestAtSimplexCorner(const size_t corner, Iterator begin, Iterator end, double * value = nullptr) {
             auto bestMatch = begin;
             double bestValue = std::get<VALUES>(*bestMatch)[corner];
 
             while ( (++begin) < end ) {
                 auto & v = std::get<VALUES>(*begin);
-                double currValue = v[corner];
+                const double currValue = v[corner];
                 if ( currValue > bestValue || ( currValue == bestValue && ( AIToolbox::operator>(v, std::get<VALUES>(*bestMatch)) ) ) ) {
                     bestMatch = begin;
                     bestValue = currValue;
@@ -455,7 +455,7 @@ namespace AIToolbox {
          * @return The new bound iterator.
          */
         template <typename Iterator>
-        Iterator extractWorstAtSimplexCorners(size_t S, Iterator begin, Iterator bound, Iterator end) {
+        Iterator extractWorstAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end) {
             if ( end == bound ) return bound;
 
             // For each corner
@@ -485,7 +485,7 @@ namespace AIToolbox {
          * @return The iterator that separates dominated elements with non-pruned.
          */
         template <typename Iterator>
-        Iterator extractDominated(size_t S, Iterator begin, Iterator end) {
+        Iterator extractDominated(const size_t S, Iterator begin, Iterator end) {
             if ( std::distance(begin, end) < 2 ) return end;
 
             // We use this comparison operator to filter all dominated vectors.

@@ -112,10 +112,12 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        RTBSS<M>::RTBSS(const M& m, double maxR) : model_(m), S(model_.getS()), A(model_.getA()), O(model_.getO()), maxR_(maxR) {}
+        RTBSS<M>::RTBSS(const M& m, const double maxR) :
+                model_(m), S(model_.getS()), A(model_.getA()),
+                O(model_.getO()), maxR_(maxR) {}
 
         template <typename M>
-        std::tuple<size_t, double> RTBSS<M>::sampleAction(const Belief& b, unsigned horizon) {
+        std::tuple<size_t, double> RTBSS<M>::sampleAction(const Belief& b, const unsigned horizon) {
             maxA_ = 0; maxDepth_ = horizon;
 
             double value = simulate(b, horizon);
@@ -124,7 +126,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        double RTBSS<M>::simulate(const Belief & b, unsigned horizon) {
+        double RTBSS<M>::simulate(const Belief & b, const unsigned horizon) {
             if ( horizon == 0 ) return 0;
 
             std::vector<size_t> actionList(A);
@@ -138,10 +140,10 @@ namespace AIToolbox {
             for ( auto a : actionList ) {
                 double rew = beliefExpectedReward(model_, b, a);
 
-                double uBound = rew + upperBound(b, a, horizon - 1);
+                const double uBound = rew + upperBound(b, a, horizon - 1);
                 if ( uBound > max ) {
                     for ( size_t o = 0; o < O; ++o ) {
-                        double p = beliefObservationProbability(model_, b, a, o);
+                        const double p = beliefObservationProbability(model_, b, a, o);
                         // Only work if it makes sense
                         if ( checkDifferentSmall(p, 0.0) ) rew += model_.getDiscount() * p * simulate(updateBelief(model_, b, a, o), horizon - 1);
                     }
@@ -155,7 +157,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        double RTBSS<M>::upperBound(const Belief &, size_t, unsigned horizon) const {
+        double RTBSS<M>::upperBound(const Belief &, const size_t, const unsigned horizon) const {
             return model_.getDiscount() * maxR_ * horizon;
         }
 

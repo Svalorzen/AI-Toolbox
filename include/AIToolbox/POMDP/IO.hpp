@@ -25,9 +25,9 @@ namespace AIToolbox {
             // First print the MDP part
             MDP::operator<<(os, model);
 
-            size_t S = model.getS();
-            size_t A = model.getA();
-            size_t O = model.getO();
+            const size_t S = model.getS();
+            const size_t A = model.getA();
+            const size_t O = model.getO();
 
             for ( size_t a = 0; a < A; ++a ) {
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
@@ -56,9 +56,9 @@ namespace AIToolbox {
          */
         template <typename M, typename>
         std::istream& operator>>(std::istream &is, Model<M> & m) {
-            size_t S = m.getS();
-            size_t A = m.getA();
-            size_t O = m.getO();
+            const size_t S = m.getS();
+            const size_t A = m.getA();
+            const size_t O = m.getO();
 
             Model<M> in(O,S,A);
             MDP::operator>>(is, in);
@@ -82,7 +82,7 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.
-            m = in;
+            m = std::move(in);
 
             return is;
         }
@@ -101,9 +101,9 @@ namespace AIToolbox {
          */
         template <typename M, typename>
         std::istream& operator>>(std::istream &is, SparseModel<M> & m) {
-            size_t S = m.getS();
-            size_t A = m.getA();
-            size_t O = m.getO();
+            const size_t S = m.getS();
+            const size_t A = m.getA();
+            const size_t O = m.getO();
 
             SparseModel<M> in(O,S,A);
             MDP::operator>>(is, in);
@@ -131,10 +131,11 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.
-            m = in;
+            m = std::move(in);
 
             return is;
         }
     }
 }
+
 #endif

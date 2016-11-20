@@ -76,10 +76,11 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        BeliefGenerator<M>::BeliefGenerator(const M& model) : model_(model), S(model_.getS()), A(model_.getA()), rand_(Impl::Seeder::getSeed()) {}
+        BeliefGenerator<M>::BeliefGenerator(const M& model) :
+                model_(model), S(model_.getS()), A(model_.getA()), rand_(Impl::Seeder::getSeed()) {}
 
         template <typename M>
-        typename BeliefGenerator<M>::BeliefList BeliefGenerator<M>::operator()(size_t beliefNumber) const {
+        typename BeliefGenerator<M>::BeliefList BeliefGenerator<M>::operator()(const size_t beliefNumber) const {
             // We add all simplex corners and the middle belief.
             BeliefList beliefs; beliefs.reserve(std::max(beliefNumber, S));
 
@@ -97,7 +98,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void BeliefGenerator<M>::operator()(size_t beliefNumber, BeliefList * bl) const {
+        void BeliefGenerator<M>::operator()(const size_t beliefNumber, BeliefList * bl) const {
             if ( !bl ) return;
             auto & beliefs = *bl;
 
@@ -123,7 +124,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void BeliefGenerator<M>::expandBeliefList(size_t max, BeliefList * blp) const {
+        void BeliefGenerator<M>::expandBeliefList(const size_t max, BeliefList * blp) const {
             assert(blp);
             auto & bl = *blp;
             size_t size = bl.size();
@@ -133,7 +134,7 @@ namespace AIToolbox {
             auto dBegin = std::begin(distances), dEnd = std::end(distances);
 
             // L1 distance
-            auto computeDistance = [this](const Belief & lhs, const Belief & rhs) {
+            const auto computeDistance = [this](const Belief & lhs, const Belief & rhs) {
                 return (lhs - rhs).cwiseAbs().sum();
             };
 
@@ -145,7 +146,7 @@ namespace AIToolbox {
                 for ( size_t a = 0; a < A; ++a ) {
                     distances[a] = 0.0;
                     for ( int j = 0; j < 20; ++j ) {
-                        size_t s = sampleProbability(S, *it, rand_);
+                        const size_t s = sampleProbability(S, *it, rand_);
 
                         size_t o;
                         std::tie(std::ignore, o, std::ignore) = model_.sampleSOR(s, a);

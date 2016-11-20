@@ -28,7 +28,7 @@ namespace AIToolbox {
      * @param d3 Third dimension of the containers.
      */
     template <typename T, typename U>
-    void copyTable3D(const T & in, U & out, size_t d1, size_t d2, size_t d3) {
+    void copyTable3D(const T & in, U & out, const size_t d1, const size_t d2, const size_t d3) {
         for ( size_t i = 0; i < d1; ++i )
             for ( size_t j = 0; j < d2; ++j )
                 for ( size_t x = 0; x < d3; ++x )
@@ -46,7 +46,7 @@ namespace AIToolbox {
      *
      * @return True if the two numbers are close enough, false otherwise.
      */
-    inline bool checkEqualSmall(double a, double b) {
+    inline bool checkEqualSmall(const double a, const double b) {
         return ( std::fabs(a - b) <= 5 * std::numeric_limits<double>::epsilon() );
     }
 
@@ -61,7 +61,7 @@ namespace AIToolbox {
      *
      * @return True if the two numbers are far away enough, false otherwise.
      */
-    inline bool checkDifferentSmall(double a, double b) {
+    inline bool checkDifferentSmall(const double a, const double b) {
         return !checkEqualSmall(a,b);
     }
 
@@ -75,7 +75,7 @@ namespace AIToolbox {
      *
      * @return True if the two numbers are close enough, false otherwise.
      */
-    inline bool checkEqualGeneral(double a, double b) {
+    inline bool checkEqualGeneral(const double a, const double b) {
         if ( checkEqualSmall(a,b) ) return true;
         return ( std::fabs(a - b) / std::min(std::fabs(a), std::fabs(b)) < std::numeric_limits<double>::epsilon() );
     }
@@ -90,7 +90,7 @@ namespace AIToolbox {
      *
      * @return True if the two numbers are far away enough, false otherwise.
      */
-    inline bool checkDifferentGeneral(double a, double b) {
+    inline bool checkDifferentGeneral(const double a, const double b) {
         return !checkEqualGeneral(a,b);
     }
 

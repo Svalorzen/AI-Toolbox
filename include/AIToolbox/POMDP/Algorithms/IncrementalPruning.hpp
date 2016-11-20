@@ -164,7 +164,7 @@ namespace AIToolbox {
             Pruner<WitnessLP_lpsolve> prune(S);
             Projecter<M> projecter(model);
 
-            bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+            const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             double variation = epsilon_ * 2; // Make it bigger
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
@@ -203,9 +203,9 @@ namespace AIToolbox {
                             --elements;
                         }
 
-                        bool oddNew = elements % 2;
+                        const bool oddNew = elements % 2;
 
-                        int tmp   = back;
+                        const int tmp   = back;
                         back      = front - ( oddNew ? 0 : stepsize );
                         front     = tmp   - ( oddOld ? 0 : stepsize );
                         stepsize *= -2;

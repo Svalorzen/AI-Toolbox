@@ -37,7 +37,7 @@ namespace AIToolbox {
         };
 
         template <typename WitnessLP>
-        Pruner<WitnessLP>::Pruner(size_t s) : S(s), lp(s) {}
+        Pruner<WitnessLP>::Pruner(const size_t s) : S(s), lp(s) {}
 
         // The idea is that the input thing already has all the best vectors,
         // thus we only need to find them and discard the others.
@@ -49,7 +49,7 @@ namespace AIToolbox {
             // Remove easy ValueFunctions to avoid doing more work later.
             w.erase(extractDominated(S, std::begin(w), std::end(w)), std::end(w));
 
-            size_t size = w.size();
+            const size_t size = w.size();
             if ( size < 2 ) return;
 
             // We setup the lp preparing for a max of size rows.
@@ -79,11 +79,11 @@ namespace AIToolbox {
             //
             // That we do in the findWitnessPoint function.
             while ( bound < end ) {
-                auto result = lp.findWitness( std::get<VALUES>(*(end-1)) );
+                const auto result = lp.findWitness( std::get<VALUES>(*(end-1)) );
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
                 if ( std::get<0>(result) ) {
-                    auto & witness = std::get<1>(result);
+                    const auto & witness = std::get<1>(result);
                     bound = extractWorstAtBelief(witness, bound, bound, end);   // Advance bound with the next best
                     lp.addOptimalRow(std::get<VALUES>(*(bound-1)));             // Add the newly found vector to our lp.
                 }
