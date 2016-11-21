@@ -25,12 +25,12 @@ namespace AIToolbox {
             }
 
             auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
-            unsigned selection = pickDistribution(rand_);
+            const unsigned selection = pickDistribution(rand_);
 
             return bestActions[selection];
         }
 
-        double QGreedyPolicy::getActionProbability(const size_t & s, size_t a) const {
+        double QGreedyPolicy::getActionProbability(const size_t & s, const size_t a) const {
             double max = q_(s, 0); unsigned count = 1;
             for ( size_t aa = 1; aa < A; ++aa ) {
                 if ( checkEqualGeneral(q_(s, aa), max) ) ++count;

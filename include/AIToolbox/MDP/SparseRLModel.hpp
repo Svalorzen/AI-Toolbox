@@ -293,10 +293,13 @@ namespace AIToolbox {
                 // Sync does not touch state-action pairs which have never been
                 // seen. To keep the model consistent we set all of them as
                 // self-absorbing.
-                for ( size_t a = 0; a < A; ++a )
+                for ( size_t a = 0; a < A; ++a ) {
                     for ( size_t s = 0; s < S; ++s )
                         if ( experience_.getVisitsSum(s, a) == 0ul )
                             transitions_[a].insert(s, s) = 1.0;
+                    // We don't bother making it compressed since it is bound
+                    // to change eventually anyway
+                }
             }
             else {
                 // Make transition table true probability

@@ -128,18 +128,18 @@ namespace AIToolbox {
                  * @brief This function computes a VList composed of all possible combinations of sums of the VLists provided.
                  *
                  * This function performs the job of accumulating the
-                 * information required to obtain the final policy. It assumes
-                 * that the rhs List is being cross-summed to the lhs one, and
-                 * not vice-versa. This is because the final result List will
-                 * need to know which where the original VEntries that made up
-                 * its particular sum. To do so, each cross-sum adds a single
-                 * new parent. This function assumes that the new parent
-                 * arrives from the rhs.
+                 * information required to obtain the final policy. Cross-sums
+                 * are done between each element of each list. The resulting
+                 * observation output depend on the order parameter, which
+                 * specifies whether the first list should be put first, or the
+                 * second one. This parameter is needed due to the order in
+                 * which we cross-sum all vectors.
                  *
                  * @param l1 The "main" parent list.
                  * @param l2 The list being cross-summed to l1.
                  * @param a The action that this cross-sum is about.
-                 * @param o The observation that generated the l2 list.
+                 * @param order Which list comes before the other to merge
+                 *              observations. True for the first, false otherwise.
                  *
                  * @return The cross-sum between l1 and l2.
                  */
@@ -188,11 +188,23 @@ namespace AIToolbox {
                     // merges. We pick matches like a reverse binary tree, so that
                     // we always pick lists that have been merged the least.
                     //
-                    // Example for O==6:
+                    // Example for O==7:
                     //
                     //  0 <- 1    2 <- 3    4 <- 5    6
                     //  0 ------> 2         4 ------> 6
                     //            2 <---------------- 6
+                    //
+                    // In particular, the variables are:
+                    //
+                    // - oddOld:   Whether our starting step has an odd number of elements.
+                    //             If so, we skip the last one.
+                    // - front:    The id of the element at the "front" of our current pass.
+                    //             note that since passes can be backwards this can be high.
+                    // - back:     Opposite of front, which excludes the last element if we
+                    //             have odd elements.
+                    // - stepsize: The space between each "first" of each new merge.
+                    // - diff:     The space between each "first" and its match to merge.
+                    // - elements: The number of elements we have left to merge.
 
                     bool oddOld = O % 2;
                     int i, front = 0, back = O - oddOld, stepsize = 2, diff = 1, elements = O;
@@ -214,7 +226,8 @@ namespace AIToolbox {
                         oddOld = oddNew;
                     }
                     // Put the result where we can find it
-                    std::swap(projs[a][0], projs[a][front]);
+                    if (front != 0)
+                        projs[a][0] = std::move(projs[a][front]);
                     finalWSize += projs[a][0].size();
                 }
                 VList w;

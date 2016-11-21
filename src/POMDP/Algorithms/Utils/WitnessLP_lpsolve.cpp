@@ -5,10 +5,16 @@
 namespace AIToolbox {
     namespace POMDP {
         // Row is initialized to cols+1 since lp_solve reads element from 1 onwards
-        WitnessLP_lpsolve::WitnessLP_lpsolve(size_t s) : S(s), cols_(s+2), lp(make_lp(0,cols_), delete_lp), row(new REAL[cols_+1]) {
-            set_verbose(lp.get(), SEVERE /*or CRITICAL*/); // Make lp shut up. Could redirect stream to /dev/null if needed.
+        WitnessLP_lpsolve::WitnessLP_lpsolve(const size_t s) :
+                S(s), cols_(s+2), lp(make_lp(0,cols_), delete_lp), row(new REAL[cols_+1])
+        {
+            // Make lp shut up. Could redirect stream to /dev/null if needed.
+            set_verbose(lp.get(), SEVERE /*or CRITICAL*/);
+
             set_simplextype(lp.get(), SIMPLEX_DUAL_DUAL);
-            // set_BFP(lp.get(), "../../libbfp_etaPFI.so"); // Not included in Debian package, speeds around 3x, but also crashes
+
+            // Not included in Debian package, speeds around 3x, but also crashes
+            // set_BFP(lp.get(), "../../libbfp_etaPFI.so");
 
             /*
              * Here we setup the part of the lp that never changes (at least with this number of states)
@@ -90,7 +96,7 @@ namespace AIToolbox {
             default_basis(lp.get());
 
             // print_lp(lp.get());
-            auto result = ::solve(lp.get());
+            const auto result = ::solve(lp.get());
 
             // Note: do not popRow here, or the pointer to the
             // solution will be lost!
@@ -116,11 +122,11 @@ namespace AIToolbox {
             resize_lp(lp.get(), 1, cols_);
         }
 
-        void WitnessLP_lpsolve::allocate(size_t rows) {
+        void WitnessLP_lpsolve::allocate(const size_t rows) {
             resize_lp(lp.get(), rows+1, cols_);
         }
 
-        void WitnessLP_lpsolve::pushRow(const MDP::Values & v, int constrType) {
+        void WitnessLP_lpsolve::pushRow(const MDP::Values & v, const int constrType) {
             for ( size_t s = 0; s < S; ++s )
                 row[s+1] = v[s];
 

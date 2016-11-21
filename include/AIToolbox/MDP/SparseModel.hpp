@@ -431,6 +431,10 @@ namespace AIToolbox {
                 }
                 if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
             }
+            for ( size_t a = 0; a < A; ++a ) {
+                transitions_[a].makeCompressed();
+                rewards_[a].makeCompressed();
+            }
         }
 
         template <typename T>
@@ -449,6 +453,7 @@ namespace AIToolbox {
                     const double p = t[s][a][s1];
                     if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
                 }
+                transitions_[a].makeCompressed();
             }
         }
 
@@ -462,6 +467,7 @@ namespace AIToolbox {
                     const double w = r[s][a][s1];
                     if ( checkDifferentSmall(0.0, w) ) rewards_[a].insert(s, s1) = w;
                 }
+                rewards_[a].makeCompressed();
             }
         }
     }

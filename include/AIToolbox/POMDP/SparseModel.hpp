@@ -267,9 +267,11 @@ namespace AIToolbox {
                 M(std::forward<Args>(params)...), O(o), observations_(this->getA(),
                 SparseMatrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
         {
-            for ( size_t a = 0; a < this->getA(); ++a )
+            for ( size_t a = 0; a < this->getA(); ++a ) {
                 for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
                     observations_[a].insert(s1, 0) = 1.0;
+                observations_[a].makeCompressed();
+            }
         }
 
         template <typename M>
@@ -287,7 +289,7 @@ namespace AIToolbox {
                 M(model), O(model.getO()), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
                 rand_(Impl::Seeder::getSeed())
         {
-            for ( size_t a = 0; a < this->getA(); ++a )
+            for ( size_t a = 0; a < this->getA(); ++a ) {
                 for ( size_t s1 = 0; s1 < this->getS(); ++s1 ) {
                     for ( size_t o = 0; o < O; ++o ) {
                         const double p = model.getObservationProbability(s1, a, o);
@@ -296,6 +298,8 @@ namespace AIToolbox {
                     if ( checkDifferentSmall(1.0, observations_[a].row(s1).sum()) )
                         throw std::invalid_argument("Input observation table does not contain valid probabilities.");
                 }
+                observations_[a].makeCompressed();
+            }
         }
 
         template <typename M>
@@ -312,6 +316,9 @@ namespace AIToolbox {
                         const double p = of[s1][a][o];
                         if ( checkDifferentSmall( p, 0.0 ) ) observations_[a].insert(s1, o) = p;
                     }
+
+            for ( size_t a = 0; a < this->getA(); ++a )
+                observations_[a].makeCompressed();
         }
 
         template <typename M>

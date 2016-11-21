@@ -5,12 +5,11 @@
 namespace AIToolbox {
     namespace MDP {
 
-        WoLFPolicy::WoLFPolicy(const QFunction & q, double deltaw, double deltal, double scaling) : QPolicyInterface(q),
-                                                                                    deltaW_(deltaw), deltaL_(deltal), scaling_(scaling),
-                                                                                    c_(S, 0),
-                                                                                    avgPolicy_(S,A), actualPolicy_(S,A) {}
+        WoLFPolicy::WoLFPolicy(const QFunction & q, const double deltaw, const double deltal, const double scaling) :
+                QPolicyInterface(q), deltaW_(deltaw), deltaL_(deltal),
+                scaling_(scaling), c_(S, 0), avgPolicy_(S,A), actualPolicy_(S,A) {}
 
-        void WoLFPolicy::updatePolicy(size_t s) {
+        void WoLFPolicy::updatePolicy(const size_t s) {
             ++c_[s];
 
             // Update estimate of average policy
@@ -21,7 +20,7 @@ namespace AIToolbox {
             avgPolicy_.setStatePolicy(s, avgstate);
 
             // Obtain argmax of Q[s], check whether we are losing or winning.
-            auto actualstate  = actualPolicy_.getStatePolicy(s);
+            auto actualstate = actualPolicy_.getStatePolicy(s);
 
             size_t bestAction; double finalDelta;
             {
@@ -32,7 +31,7 @@ namespace AIToolbox {
                 std::vector<size_t> bestActions(A,0);
 
                 for ( size_t a = 1; a < A; ++a ) {
-                    double qsa = q_(s, a);
+                    const double qsa = q_(s, a);
                     avgValue        += avgstate[a]    * qsa;
                     actualValue     += actualstate[a] * qsa;
 
@@ -48,7 +47,7 @@ namespace AIToolbox {
                 }
 
                 auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
-                unsigned selection = pickDistribution(rand_);
+                const unsigned selection = pickDistribution(rand_);
 
                 bestAction = bestActions[selection];
                 finalDelta = actualValue > avgValue ? deltaW_ : deltaL_;
@@ -70,11 +69,11 @@ namespace AIToolbox {
             return actualPolicy_.sampleAction(s);
         }
 
-        double WoLFPolicy::getActionProbability(const size_t & s, size_t a) const {
+        double WoLFPolicy::getActionProbability(const size_t & s, const size_t a) const {
             return actualPolicy_.getActionProbability(s,a);
         }
 
-        void WoLFPolicy::setDeltaW(double deltaW) {
+        void WoLFPolicy::setDeltaW(const double deltaW) {
             deltaW_ = deltaW;
         }
 
@@ -82,7 +81,7 @@ namespace AIToolbox {
             return deltaW_;
         }
 
-        void WoLFPolicy::setDeltaL(double deltaL) {
+        void WoLFPolicy::setDeltaL(const double deltaL) {
             deltaL_ = deltaL;
         }
 
@@ -90,7 +89,7 @@ namespace AIToolbox {
             return deltaL_;
         }
 
-        void WoLFPolicy::setScaling(double scaling) {
+        void WoLFPolicy::setScaling(const double scaling) {
             scaling_ = scaling;
         }
 

@@ -3,17 +3,19 @@
 namespace AIToolbox {
     namespace POMDP {
 
-        VEntry makeVEntry(size_t S, size_t a, size_t O) {
+        VEntry makeVEntry(const size_t S, const size_t a, const size_t O) {
             auto values = MDP::Values(S);
             values.fill(0.0);
             return std::make_tuple(values, a, VObs(O, 0));
         }
 
         bool operator<(const VEntry & lhs, const VEntry & rhs) {
-            if (AIToolbox::operator<(std::get<0>(lhs), std::get<0>(rhs))) return true;
-            if (AIToolbox::operator<(std::get<0>(rhs), std::get<0>(lhs))) return false;
+           // if (AIToolbox::operator<(std::get<0>(lhs), std::get<0>(rhs))) return true;
+           // if (AIToolbox::operator<(std::get<0>(rhs), std::get<0>(lhs))) return false;
+            auto cmp = veccmp(std::get<0>(lhs), std::get<0>(rhs));
+            if (cmp != 0) return cmp < 0;
             if (std::get<1>(lhs) < std::get<1>(rhs)) return true;
-            if (std::get<1>(rhs) < std::get<1>(lhs)) return false;
+            if (std::get<1>(lhs) > std::get<1>(rhs)) return false;
             if (std::get<2>(lhs) < std::get<2>(rhs)) return true;
             return false;
         }

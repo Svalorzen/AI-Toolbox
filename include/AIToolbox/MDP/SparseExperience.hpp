@@ -210,6 +210,9 @@ namespace AIToolbox {
                     visitsSum_.coeffRef(s,a) += v[s][a][s1];
                 }
             }
+            for ( size_t a = 0; a < A; ++a )
+                visits_[a].makeCompressed();
+            visitsSum_.makeCompressed();
         }
 
         template <typename R>
@@ -226,6 +229,9 @@ namespace AIToolbox {
                     rewardsSum_.coeffRef(s,a) += r[s][a][s1];
                 }
             }
+            for ( size_t a = 0; a < A; ++a )
+                rewards_[a].makeCompressed();
+            rewardsSum_.makeCompressed();
         }
     }
 }

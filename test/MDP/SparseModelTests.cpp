@@ -88,3 +88,27 @@ BOOST_AUTO_TEST_CASE( files ) {
         std::remove(outputFilename.c_str());
     }
 }
+
+BOOST_AUTO_TEST_CASE( setTransitionFunction ) {
+    const int S = 5, A = 6;
+
+    AIToolbox::MDP::SparseModel m(S, A);
+
+    AIToolbox::SparseMatrix3D newT(A, AIToolbox::SparseMatrix2D(S, S));
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            newT[a].insert(s, 0) = 0.8;
+            newT[a].insert(s, 1) = 0.2;
+        }
+    }
+
+    m.setTransitionFunction(newT);
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,0), 0.8);
+            BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,1), 0.2);
+        }
+    }
+}

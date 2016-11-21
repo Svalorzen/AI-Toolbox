@@ -6,9 +6,12 @@
 
 namespace AIToolbox {
     namespace POMDP {
-        Policy::Policy(size_t s, size_t a, size_t o) : PolicyInterface<Belief>(s, a), O(o), H(0), policy_(1, VList(1, makeVEntry(S))) {}
+        Policy::Policy(const size_t s, const size_t a, const size_t o) :
+                PolicyInterface<Belief>(s, a), O(o), H(0), policy_(1, VList(1, makeVEntry(S))) {}
 
-        Policy::Policy(size_t s, size_t a, size_t o, const ValueFunction & v) : PolicyInterface<Belief>(s, a), O(o), H(v.size()-1), policy_(v) {
+        Policy::Policy(const size_t s, const size_t a, const size_t o, const ValueFunction & v) :
+                PolicyInterface<Belief>(s, a), O(o), H(v.size()-1), policy_(v)
+        {
             if ( !v.size() ) throw std::invalid_argument("The ValueFunction supplied to POMDP::Policy is empty.");
         }
 
@@ -21,38 +24,38 @@ namespace AIToolbox {
             return std::get<ACTION>(*bestMatch);
         }
 
-        std::tuple<size_t, size_t> Policy::sampleAction(const Belief & b, unsigned horizon) const {
-            auto & vlist = policy_[horizon];
+        std::tuple<size_t, size_t> Policy::sampleAction(const Belief & b, const unsigned horizon) const {
+            const auto & vlist = policy_[horizon];
 
-            auto begin     = std::begin(vlist);
-            auto bestMatch = findBestAtBelief(b, begin, std::end(vlist));
+            const auto begin     = std::begin(vlist);
+            const auto bestMatch = findBestAtBelief(b, begin, std::end(vlist));
 
-            size_t action = std::get<ACTION>(*bestMatch);
-            size_t id     = std::distance(begin, bestMatch);
+            const size_t action = std::get<ACTION>(*bestMatch);
+            const size_t id     = std::distance(begin, bestMatch);
 
             return std::make_tuple(action, id);
         }
 
-        std::tuple<size_t, size_t> Policy::sampleAction(size_t id, size_t o, unsigned horizon) const {
+        std::tuple<size_t, size_t> Policy::sampleAction(const size_t id, const size_t o, const unsigned horizon) const {
             // Horizon + 1 means one step in the past.
-            auto & vlist = policy_[horizon+1];
+            const auto & vlist = policy_[horizon+1];
 
-            size_t newId  = std::get<OBS>(vlist[id])[o];
-            size_t action = std::get<ACTION>(policy_[horizon][newId]);
+            const size_t newId  = std::get<OBS>(vlist[id])[o];
+            const size_t action = std::get<ACTION>(policy_[horizon][newId]);
 
             return std::make_tuple(action, newId);
         }
 
-        double Policy::getActionProbability(const Belief & b, size_t a) const {
+        double Policy::getActionProbability(const Belief & b, const size_t a) const {
             // At the moment we know that only one action is possible..
-            size_t trueA = sampleAction(b);
+            const size_t trueA = sampleAction(b);
 
             return ( a == trueA ? 1.0 : 0.0 );
         }
 
-        double Policy::getActionProbability(const Belief & b, size_t a, unsigned horizon) const {
+        double Policy::getActionProbability(const Belief & b, const size_t a, const unsigned horizon) const {
             // At the moment we know that only one action is possible..
-            size_t trueA = std::get<0>(sampleAction(b, horizon));
+            const size_t trueA = std::get<0>(sampleAction(b, horizon));
 
             return ( a == trueA ? 1.0 : 0.0 );
         }
@@ -72,11 +75,11 @@ namespace AIToolbox {
         // IO
 
         std::ostream& operator<<(std::ostream &os, const Policy & p) {
-            auto & vf = p.getValueFunction();
+            const auto & vf = p.getValueFunction();
 
             // VLists
             for ( size_t h = 1; h < vf.size(); ++h ) {
-                auto & vl = vf[h];
+                const auto & vl = vf[h];
                 // VEntries
                 for ( auto & vv : vl ) {
                     // Values
@@ -108,9 +111,9 @@ namespace AIToolbox {
         }
 
         std::istream& operator>>(std::istream &is, Policy & p) {
-            size_t S = p.getS();
-            size_t A = p.getA();
-            size_t O = p.getO();
+            const size_t S = p.getS();
+            const size_t A = p.getA();
+            const size_t O = p.getO();
 
             // We automatically generate the horizon 0 entry.
             ValueFunction vf(1, VList(1, makeVEntry(S)));
@@ -169,6 +172,5 @@ failure:
             is.setstate(std::ios::failbit);
             return is;
         }
-
     }
 }

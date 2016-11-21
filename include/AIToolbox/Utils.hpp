@@ -94,14 +94,29 @@ namespace AIToolbox {
         return !checkEqualGeneral(a,b);
     }
 
-    inline bool operator<(const Vector & lhs, const Vector & rhs) {
-        return std::lexicographical_compare(
-          lhs.data(),lhs.data()+lhs.size(),
-          rhs.data(),rhs.data()+rhs.size());
+    /**
+     * @brief Compares two AIToolbox::Vectors of equal size.
+     *
+     * @param lhs The left hand size of the comparison.
+     * @param rhs The right hand size of the comparison.
+     *
+     * @return 1 if the lhs is greater than the rhs, 0 if they are equal, -1 otherwise.
+     */
+    inline int veccmp(const Vector & lhs, const Vector & rhs) {
+        assert(lhs.size() == rhs.size());
+        for (decltype(lhs.size()) i = 0; i < lhs.size(); ++i) {
+            if (lhs(i) > rhs(i)) return 1;
+            if (lhs(i) < rhs(i)) return -1;
+        }
+        return 0;
     }
 
+    inline bool operator<(const Vector & lhs, const Vector & rhs) {
+        return veccmp(lhs, rhs) < 0;
+     }
+
     inline bool operator>(const Vector & lhs, const Vector & rhs) {
-        return !(lhs < rhs);
+        return veccmp(lhs, rhs) > 0;
     }
 }
 

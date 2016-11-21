@@ -5,7 +5,9 @@
 
 namespace AIToolbox {
     namespace POMDP {
-        WitnessLP_clp::WitnessLP_clp(size_t s) : S(s), cols_(s+2), indeces(new int[cols_]), row(new double[cols_]) {
+        WitnessLP_clp::WitnessLP_clp(const size_t s) :
+                S(s), cols_(s+2), indeces(new int[cols_]), row(new double[cols_])
+        {
             // Verbosity
             lp.setLogLevel(0);
             // lp.setPersistenceFlag(1);
@@ -92,9 +94,9 @@ namespace AIToolbox {
             // TODO: There's a function that gets a pointer to the solution
             // stored within the LP, maybe use that? (get_ptr_primal_solution)
             auto results = lp.primalColumnSolution();
-            auto value =   lp.objectiveValue();
+            const auto value =   lp.objectiveValue();
 
-            bool isOptimal = lp.isProvenOptimal();
+            const bool isOptimal = lp.isProvenOptimal();
 
             // Remove test row
             popRow();
@@ -116,9 +118,9 @@ namespace AIToolbox {
             lp.resize( 1, cols_ );
         }
 
-        void WitnessLP_clp::allocate(size_t) {}
+        void WitnessLP_clp::allocate(const size_t) {}
 
-        void WitnessLP_clp::pushRow(const MDP::Values & v, double min, double max) {
+        void WitnessLP_clp::pushRow(const MDP::Values & v, const double min, const double max) {
             for ( size_t s = 0; s < S; ++s )
                 row[s] = v[s];
 

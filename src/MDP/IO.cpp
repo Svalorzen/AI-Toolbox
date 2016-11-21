@@ -24,8 +24,8 @@ namespace AIToolbox {
 
         // Experience reader
         std::istream& operator>>(std::istream &is, Experience & exp) {
-            size_t S = exp.getS();
-            size_t A = exp.getA();
+            const size_t S = exp.getS();
+            const size_t A = exp.getA();
 
             Experience e(S,A);
 
@@ -52,15 +52,15 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Exp.
-            std::swap(exp, e);
+            exp = std::move(e);
 
             return is;
         }
 
         // SparseExperience reader
         std::istream& operator>>(std::istream &is, SparseExperience & exp) {
-            size_t S = exp.getS();
-            size_t A = exp.getA();
+            const size_t S = exp.getS();
+            const size_t A = exp.getA();
 
             long l;
             double d;
@@ -94,15 +94,15 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Exp.
-            std::swap(exp, e);
+            exp = std::move(e);
 
             return is;
         }
 
         // MDP::Model reader
         std::istream& operator>>(std::istream &is, Model & m) {
-            size_t S = m.getS();
-            size_t A = m.getA();
+            const size_t S = m.getS();
+            const size_t A = m.getA();
 
             Model in(S,A);
 
@@ -126,15 +126,15 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.
-            std::swap(m, in);
+            m = std::move(in);
 
             return is;
         }
 
         // MDP::SparseModel reader
         std::istream& operator>>(std::istream &is, SparseModel & m) {
-            size_t S = m.getS();
-            size_t A = m.getA();
+            const size_t S = m.getS();
+            const size_t A = m.getA();
 
             SparseModel in(S,A);
             double p, r;
@@ -164,15 +164,15 @@ namespace AIToolbox {
                 }
             }
             // This guarantees that if input is invalid we still keep the old Model.
-            std::swap(m, in);
+            m = std::move(in);
 
             return is;
         }
 
         // MDP::Policy reader
         std::istream& operator>>(std::istream &is, Policy &p) {
-            size_t S = p.getS();
-            size_t A = p.getA();
+            const size_t S = p.getS();
+            const size_t A = p.getA();
 
             Policy policy(S, A);
 

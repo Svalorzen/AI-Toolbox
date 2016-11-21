@@ -4,13 +4,13 @@
 
 namespace AIToolbox {
     namespace MDP {
-        QFunction makeQFunction(size_t S, size_t A) {
+        QFunction makeQFunction(const size_t S, const size_t A) {
             auto retval = QFunction(S, A);
             retval.fill(0.0);
             return retval;
         }
 
-        ValueFunction makeValueFunction(size_t S) {
+        ValueFunction makeValueFunction(const size_t S) {
             auto values = Values(S);
             values.fill(0.0);
             return std::make_tuple(values, Actions(S, 0));

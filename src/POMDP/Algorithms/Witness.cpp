@@ -2,14 +2,14 @@
 
 namespace AIToolbox {
     namespace POMDP {
-        Witness::Witness(unsigned h, double e) : horizon_(h) {
+        Witness::Witness(const unsigned h, const double e) : horizon_(h) {
             setEpsilon(e);
         }
 
-        void Witness::setHorizon(unsigned h) {
+        void Witness::setHorizon(const unsigned h) {
             horizon_ = h;
         }
-        void Witness::setEpsilon(double e) {
+        void Witness::setEpsilon(const double e) {
             if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
             epsilon_ = e;
         }

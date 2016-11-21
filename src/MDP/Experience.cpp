@@ -4,10 +4,11 @@
 
 namespace AIToolbox {
     namespace MDP {
-        Experience::Experience(size_t s, size_t a) : S(s), A(a), visits_(boost::extents[S][A][S]), visitsSum_(boost::extents[S][A]),
-        rewards_(boost::extents[S][A][S]), rewardsSum_(boost::extents[S][A]) {}
+        Experience::Experience(const size_t s, const size_t a) :
+                S(s), A(a), visits_(boost::extents[S][A][S]), visitsSum_(boost::extents[S][A]),
+                rewards_(boost::extents[S][A][S]), rewardsSum_(boost::extents[S][A]) {}
 
-        void Experience::record(size_t s, size_t a, size_t s1, double rew) {
+        void Experience::record(const size_t s, const size_t a, const size_t s1, const double rew) {
             visits_[s][a][s1]   += 1;
             visitsSum_[s][a]    += 1;
 
@@ -23,19 +24,19 @@ namespace AIToolbox {
             std::fill(rewardsSum_.data(), rewardsSum_.data() + rewardsSum_.num_elements(), 0.0);
         }
 
-        unsigned long Experience::getVisits(size_t s, size_t a, size_t s1) const {
+        unsigned long Experience::getVisits(const size_t s, const size_t a, const size_t s1) const {
             return visits_[s][a][s1];
         }
 
-        unsigned long Experience::getVisitsSum(size_t s, size_t a) const {
+        unsigned long Experience::getVisitsSum(const size_t s, const size_t a) const {
             return visitsSum_[s][a];
         }
 
-        double Experience::getReward(size_t s, size_t a, size_t s1) const {
+        double Experience::getReward(const size_t s, const size_t a, const size_t s1) const {
             return rewards_[s][a][s1];
         }
 
-        double Experience::getRewardSum(size_t s, size_t a) const {
+        double Experience::getRewardSum(const size_t s, const size_t a) const {
             return rewardsSum_[s][a];
         }
 
