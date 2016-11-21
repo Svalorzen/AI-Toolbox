@@ -96,6 +96,14 @@ if (MAKE_POMDP)
 
     if (MAKE_PYTHON)
         add_library(POMDP SHARED
+            POMDP/Utils.cpp
+            POMDP/Algorithms/IncrementalPruning.cpp
+            POMDP/Algorithms/Witness.cpp
+            POMDP/Algorithms/PBVI.cpp
+            POMDP/Algorithms/PERSEUS.cpp
+            POMDP/Algorithms/AMDP.cpp
+            POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
+            POMDP/Policies/Policy.cpp
             Python/POMDP/Model.cpp
             Python/POMDP/SparseModel.cpp
             Python/POMDP/Algorithms/POMCP.cpp
@@ -108,7 +116,9 @@ if (MAKE_POMDP)
             Python/POMDP/Algorithms/PBVI.cpp
             Python/POMDP/Policies/Policy.cpp
             Python/POMDPWrappers.cpp)
-        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP)
+        MESSAGE(${LPSOLVE_LIBRARIES})
+        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP
+            ${LPSOLVE_LIBRARIES})
         set_target_properties(POMDP PROPERTIES PREFIX "")
     endif()
 endif()
