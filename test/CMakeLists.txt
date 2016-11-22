@@ -1,5 +1,12 @@
 cmake_minimum_required (VERSION 3.0)
 
+function (AddTestGlobal name)
+    set(exename Global_${name})
+    add_executable(${exename}Tests ${name}Tests.cpp)
+    target_link_libraries(${exename}Tests ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
+endfunction (AddTestGlobal)
+
 function (AddTestMDP name)
     set(exename MDP_${name})
     add_executable(${exename}Tests MDP/${name}Tests.cpp)
@@ -32,6 +39,8 @@ if (MAKE_MDP)
 
     find_package(Eigen3 REQUIRED)
     include_directories(${EIGEN3_INCLUDE_DIR})
+
+    AddTestGlobal(Utils)
 
     AddTestMDP(Types)
     AddTestMDP(Experience)
