@@ -181,7 +181,8 @@ everything correctly**).
 
 If you want to build the POMDP part of the library you will also need:
 
-- the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required.
+- the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required
+  (a shared library must be available to compile the Python libraries).
 - Alternatively, an implementation using [COIN-OR](http://www.coin-or.org/) is
   available, but must be activated in the CMake files and source files.
 
@@ -246,8 +247,9 @@ __MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
 `undefined reference` errors.
 
 For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
-you'll be able to use the classes as exported to Python. All classes are
-documented, and you can run in the Python CLI
+you'll be able to use the classes as exported to Python. Note that `MDP` *MUST*
+be imported before `POMDP`. All classes are documented, and you can run in the
+Python CLI
 
     help(MDP)
     help(POMDP)
