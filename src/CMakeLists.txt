@@ -95,6 +95,9 @@ if (MAKE_POMDP)
             ${LPSOLVE_LIBRARIES})
 
     if (MAKE_PYTHON)
+        if ("${LPSOLVE_LIBRARIES}" MATCHES "\\.a")
+            message(WARNING "LpSolve libraries found could be static, linking against Python dynamic libraries may not work!")
+        endif()
         add_library(POMDP SHARED
             POMDP/Utils.cpp
             POMDP/Algorithms/IncrementalPruning.cpp
@@ -116,7 +119,6 @@ if (MAKE_POMDP)
             Python/POMDP/Algorithms/PBVI.cpp
             Python/POMDP/Policies/Policy.cpp
             Python/POMDPWrappers.cpp)
-        MESSAGE(${LPSOLVE_LIBRARIES})
         target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP
             ${LPSOLVE_LIBRARIES})
         set_target_properties(POMDP PROPERTIES PREFIX "")
