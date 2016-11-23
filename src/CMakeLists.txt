@@ -117,6 +117,7 @@ if (MAKE_POMDP)
             Python/POMDP/Algorithms/AMDP.cpp
             Python/POMDP/Algorithms/PERSEUS.cpp
             Python/POMDP/Algorithms/PBVI.cpp
+            Python/POMDP/PolicyInterface.cpp
             Python/POMDP/Policies/Policy.cpp
             Python/POMDPWrappers.cpp)
         target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP
