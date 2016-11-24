@@ -7,7 +7,7 @@ import MDP
 
 class MDPPythonValueIterationTests(unittest.TestCase):
 
-    def escapeToCorners(self):
+    def testEscapeToCorners(self):
         # This model is done manually, I'll copy the makeCornerProblem
         # C++ stuff that auto generates these tables soon enough.
         model = MDP.Model(16,4)
@@ -53,48 +53,48 @@ class MDPPythonValueIterationTests(unittest.TestCase):
         vi = MDP.ValueIterationModel(1000000, 0.001)
         solution = vi(model)
 
-        print(solution[0], "true")
+        self.assertEqual(solution[0], True)
 
         qfun = solution[2]
 
         p = MDP.QGreedyPolicy(qfun)
 
         for a in xrange(0, 4):
-            print(p.getActionProbability(0, a), 0.25)
-            print(p.getActionProbability(6, a), 0.25)
-            print(p.getActionProbability(9, a), 0.25)
-            print(p.getActionProbability(15, a), 0.25)
+            self.assertEqual(p.getActionProbability(0, a), 0.25)
+            self.assertEqual(p.getActionProbability(6, a), 0.25)
+            self.assertEqual(p.getActionProbability(9, a), 0.25)
+            self.assertEqual(p.getActionProbability(15, a), 0.25)
 
-        print(p.getActionProbability(1, 3), 1.0)
-        print(p.getActionProbability(2, 3), 1.0)
+        self.assertEqual(p.getActionProbability(1, 3), 1.0)
+        self.assertEqual(p.getActionProbability(2, 3), 1.0)
 
-        print(p.getActionProbability(3, 3), 0.5)
-        print(p.getActionProbability(3, 2), 0.5)
+        self.assertEqual(p.getActionProbability(3, 3), 0.5)
+        self.assertEqual(p.getActionProbability(3, 2), 0.5)
 
-        print(p.getActionProbability(4, 0), 1.0)
-        print(p.getActionProbability(8, 0), 1.0)
+        self.assertEqual(p.getActionProbability(4, 0), 1.0)
+        self.assertEqual(p.getActionProbability(8, 0), 1.0)
 
-        print(p.getActionProbability(5, 3), 0.5)
-        print(p.getActionProbability(5, 0), 0.5)
+        self.assertEqual(p.getActionProbability(5, 3), 0.5)
+        self.assertEqual(p.getActionProbability(5, 0), 0.5)
 
-        print(p.getActionProbability(7, 2), 1.0)
-        print(p.getActionProbability(11, 2), 1.0)
+        self.assertEqual(p.getActionProbability(7, 2), 1.0)
+        self.assertEqual(p.getActionProbability(11, 2), 1.0)
 
-        print(p.getActionProbability(10, 1), 0.5)
-        print(p.getActionProbability(10, 2), 0.5)
+        self.assertEqual(p.getActionProbability(10, 1), 0.5)
+        self.assertEqual(p.getActionProbability(10, 2), 0.5)
 
-        print(p.getActionProbability(12, 1), 0.5)
-        print(p.getActionProbability(12, 0), 0.5)
+        self.assertEqual(p.getActionProbability(12, 1), 0.5)
+        self.assertEqual(p.getActionProbability(12, 0), 0.5)
 
-        print(p.getActionProbability(13, 1), 1.0)
-        print(p.getActionProbability(14, 1), 1.0)
+        self.assertEqual(p.getActionProbability(13, 1), 1.0)
+        self.assertEqual(p.getActionProbability(14, 1), 1.0)
 
         vfun = solution[1]
         values = vfun[0]
         actions = vfun[1]
 
         for s in xrange(0, 16):
-            print( qfun[s, actions[s]], values[s] )
+            self.assertEqual( qfun[s, actions[s]], values[s] )
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -13,7 +13,7 @@ generator.counter = 0
 
 class MDPPythonExperienceTests(unittest.TestCase):
 
-    def construction(self):
+    def testConstruction(self):
         S, A = 5, 6
         exp = MDP.Experience(S, A)
 
@@ -25,7 +25,7 @@ class MDPPythonExperienceTests(unittest.TestCase):
         self.assertEqual(exp.getVisits(S-1,A-1,S-1), 0)
         self.assertEqual(exp.getReward(S-1,A-1,S-1), 0.0)
 
-    def recording(self):
+    def testRecording(self):
         S , A = 5, 6
         exp = MDP.Experience(S, A)
 
@@ -55,21 +55,21 @@ class MDPPythonExperienceTests(unittest.TestCase):
 
         self.assertEqual(exp.getVisitsSum(s, a), 2)
 
-    def compatibility(self):
+    def testCompatibility(self):
         S, A = 4, 3
         exp = MDP.Experience(S, A)
 
         visits = []
         rewards = []
         for s in xrange(0, S):
-            visits[s] = []
-            rewards[s] = []
+            visits.append([])
+            rewards.append([])
             for a in xrange(0, A):
-                visits[s][a] = []
-                rewards[s][a] = []
+                visits[s].append([])
+                rewards[s].append([])
                 for s1 in xrange(0, S):
-                    visits[s][a][s1] = generator();
-                    rewards[s][a][s1] = generator();
+                    visits[s][a].append(generator())
+                    rewards[s][a].append(generator())
 
         exp.setVisits(visits);
         exp.setRewards(rewards);

@@ -36,7 +36,7 @@ namespace AIToolbox {
                  * @brief Compatibility setter.
                  *
                  * This function takes an arbitrary three dimensional
-                 * containers and tries to copy its contents into the
+                 * container and tries to copy its contents into the
                  * visits table.
                  *
                  * The container needs to support data access through

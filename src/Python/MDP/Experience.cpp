@@ -36,6 +36,34 @@ void exportMDPExperience() {
                 "This function resets all experienced rewards and transitions."
         , (arg("self")))
 
+        .def("setVisits",       &Experience::setVisits<std::vector<std::vector<std::vector<int>>>>,
+                 "Compatibility setter.\n"
+                 "\n"
+                 "This function takes an arbitrary three dimensional\n"
+                 "containers and tries to copy its contents into the\n"
+                 "visits table.\n"
+                 "\n"
+                 "Currently the Python wrappings support reading through native\n"
+                 "3d Python arrays (so [][][]). As long as the dimensions are\n"
+                 "correct it should work.\n"
+                 "\n"
+                 "@param v The external visits container.\n"
+        , (arg("self"), "v"))
+
+        .def("setRewards",       &Experience::setRewards<std::vector<std::vector<std::vector<double>>>>,
+                 "Compatibility setter.\n"
+                 "\n"
+                 "This function takes an arbitrary three dimensional\n"
+                 "container and tries to copy its contents into the\n"
+                 "rewards table.\n"
+                 "\n"
+                 "Currently the Python wrappings support reading through native\n"
+                 "3d Python arrays (so [][][]). As long as the dimensions are\n"
+                 "correct it should work.\n"
+                 "\n"
+                 "@param v The external visits container.\n"
+        , (arg("self"), "v"))
+
         .def("getVisits",       &Experience::getVisits,
                  "This function returns the current recorded visits for a transitions.\n"
                  "\n"

@@ -59,4 +59,5 @@ void exportUtils() {
     VectorFromPython<double>();
     // Enable passing 3D transition/reward tables from Python to MDP::Model
     Vector3DFromPython<double>();
+    Vector3DFromPython<int>();
 }

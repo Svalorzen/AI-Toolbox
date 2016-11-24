@@ -7,7 +7,7 @@ import MDP
 
 class MDPPythonQLearningTests(unittest.TestCase):
 
-    def updates(self):
+    def testUpdates(self):
         solver = MDP.QLearning(5, 5, 0.9, 0.5)
 
         # State goes to itself, thus needs to consider
