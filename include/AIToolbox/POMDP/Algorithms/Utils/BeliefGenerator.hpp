@@ -62,12 +62,13 @@ namespace AIToolbox {
             private:
 
                 /**
-                 * @brief This function uses the model to generate new beliefs, and adds them to the provided list.
+                 * @brief This function uses the model to generate new Beliefs, and adds them to the provided list.
                  *
                  * @param max The maximum number of elements that the list should have.
+                 * @param firstProductiveBelief The id of the first element assumed to be able to produce new Beliefs.
                  * @param bl The list to expand.
                  */
-                void expandBeliefList(size_t max, BeliefList * bl) const;
+                void expandBeliefList(size_t max, size_t firstProductiveBelief, BeliefList * bl) const;
 
                 const M& model_;
                 size_t S, A;
@@ -108,26 +109,30 @@ namespace AIToolbox {
             // this does not perform too well since the probability of finding
             // a new belief (via action LISTEN) is pretty low.
             size_t currentSize = beliefs.size();
+            size_t firstProductiveBelief = 0;
+            size_t bonusBeliefsToAdd = std::max((size_t)1, beliefNumber / 20);
+            unsigned test = 0;
             while ( currentSize < beliefNumber ) {
                 unsigned counter = 0;
                 while ( counter < 5 ) {
-                    expandBeliefList(beliefNumber, &beliefs);
+                    expandBeliefList(beliefNumber, firstProductiveBelief, &beliefs);
                     if ( currentSize == beliefs.size() ) ++counter;
                     else {
+                        counter = 0;
                         currentSize = beliefs.size();
-                        if ( currentSize >= beliefNumber ) break;
+                        if ( currentSize >= beliefNumber ) return;
                     }
                 }
-                for ( size_t i = 0; currentSize < beliefNumber && i < (beliefNumber/20); ++i, ++currentSize )
+                firstProductiveBelief = beliefs.size();
+                for ( size_t i = 0; currentSize < beliefNumber && i < bonusBeliefsToAdd; ++i, ++currentSize )
                     beliefs.emplace_back(makeRandomBelief(S, rand_));
             }
         }
 
         template <typename M>
-        void BeliefGenerator<M>::expandBeliefList(const size_t max, BeliefList * blp) const {
+        void BeliefGenerator<M>::expandBeliefList(const size_t max, const size_t firstProductiveBelief, BeliefList * blp) const {
             assert(blp);
             auto & bl = *blp;
-            size_t size = bl.size();
 
             std::vector<Belief> newBeliefs(A);
             std::vector<double> distances(A);
@@ -140,26 +145,37 @@ namespace AIToolbox {
 
             Belief helper(S); double distance;
             // We apply the discovery process also to all beliefs we discover
-            // along the way.
-            for ( auto it = std::begin(bl); it != std::end(bl); ++it ) {
+            // along the way. We start from the first good one, since the others
+            // have already produced as much as they can.
+            for (size_t i = firstProductiveBelief; i < bl.size(); ++i) {
                 // Compute all new beliefs
                 for ( size_t a = 0; a < A; ++a ) {
                     distances[a] = 0.0;
                     for ( int j = 0; j < 20; ++j ) {
-                        const size_t s = sampleProbability(S, *it, rand_);
+                        const size_t s = sampleProbability(S, bl[i], rand_);
 
                         size_t o;
                         std::tie(std::ignore, o, std::ignore) = model_.sampleSOR(s, a);
-                        updateBelief(model_, *it, a, o, &helper);
+                        updateBelief(model_, bl[i], a, o, &helper);
 
-                        // Compute distance (here we compare also against elements we just added!)
-                        distance = computeDistance(helper, bl.front());
-                        for ( auto jt = ++std::begin(bl); jt != std::end(bl); ++jt ) {
+                        // Compute initial distance, either against the first of the
+                        // elements, or vs what we have already produced in this round
+                        // of 20.
+                        if (checkDifferentSmall(distances[a], 0.0))
+                            distance = computeDistance(helper, newBeliefs[a]);
+                        else
+                            distance = computeDistance(helper, bl.front());
+                        // Now check against all others.
+                        for (size_t j = 0; j < bl.size(); ++j) {
                             if ( checkEqualSmall(distance, 0.0) ) break; // We already have it!
-                            distance = std::min(distance, computeDistance(helper, *jt));
+                            distance = std::min(distance, computeDistance(helper, bl[j]));
+                            if (distance <= distances[a]) break;
                         }
-                        // Select the best found over 20 times
-                        if ( distance > distances[a] ) {
+                        // Select the best found over 20 times, or just set this one if
+                        // we hadn't set it before (this may speed up generation as the
+                        // one we have created gets instantly checked next round, possibly
+                        // saving us a lot of work).
+                        if ( distance > distances[a] || distances[a] == 0.0) {
                             distances[a] = distance;
                             newBeliefs[a] = helper;
                         }
@@ -169,8 +185,7 @@ namespace AIToolbox {
                 size_t id = std::distance( dBegin, std::max_element(dBegin, dEnd) );
                 if ( checkDifferentSmall(distances[id], 0.0) ) {
                     bl.emplace_back(std::move(newBeliefs[id]));
-                    ++size;
-                    if ( size >= max ) break;
+                    if ( bl.size() >= max ) break;
                 }
             }
         }
