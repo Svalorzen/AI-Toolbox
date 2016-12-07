@@ -111,7 +111,6 @@ namespace AIToolbox {
             size_t currentSize = beliefs.size();
             size_t firstProductiveBelief = 0;
             size_t bonusBeliefsToAdd = std::max((size_t)1, beliefNumber / 20);
-            unsigned test = 0;
             while ( currentSize < beliefNumber ) {
                 unsigned counter = 0;
                 while ( counter < 5 ) {
