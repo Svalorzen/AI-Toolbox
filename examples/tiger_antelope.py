@@ -306,7 +306,7 @@ def solve_mdp(horizon, epsilon, discount=0.9):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--square-size', default=11, type=int,
+    parser.add_argument('-s', '--square-size', default=4, type=int,
                         help="Size of the square gridworld.")
     parser.add_argument('-ho', '--horizon', default=1000000, type=int,
                         help="Horizon parameter for value iteration")
