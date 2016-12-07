@@ -354,7 +354,7 @@ Voilà! All is needed now is simply some AIToolbox magic!
     }
 ~~~
 
-The full code of this example can be found in the `examples/tiger_antelope.cpp`
+The full code of this example can be found in the `examples/MDP/tiger_antelope.cpp`
 file, and can be build from there using `make` (given that you have already
 built the library in folder `build/`).
 
