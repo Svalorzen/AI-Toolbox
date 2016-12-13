@@ -1,5 +1,5 @@
-#ifndef FACTORED_CONTAINER_HEADER_FILE
-#define FACTORED_CONTAINER_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_CONTAINER_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_CONTAINER_HEADER_FILE
 
 #include <AIToolbox/FactoredMDP/Types.hpp>
 
@@ -14,11 +14,11 @@ namespace AIToolbox {
          * time.
          *
          * Currently this implementation only supports adding. Adding
-         * automatically inserts and id one greater than the last as value
+         * automatically inserts an id one greater than the last as value
          * within the trie, using the specified partial state as key.
          *
-         * This data structure can then be filtered by full states, and it will
-         * match the full states against all the partial states that completely
+         * This data structure can then be filtered by Factors, and it will
+         * match the Factors against all the PartialFactors that completely
          * match it.
          */
         class Trie {
@@ -31,14 +31,14 @@ namespace AIToolbox {
                  *
                  * @param s The factored state space.
                  */
-                Trie(State S);
+                Trie(Factors S);
 
                 /**
                  * @brief This function returns the set state space for the Trie.
                  *
                  * @return The set state space.
                  */
-                State getS() const;
+                Factors getS() const;
 
                 /**
                  * @brief This function reserves memory for at least size elements.
@@ -67,7 +67,7 @@ namespace AIToolbox {
                  *
                  * @param ps The partial state used as key for the insertion.
                  */
-                void insert(const PartialState & ps);
+                void insert(const PartialFactors & ps);
 
                 /**
                  * @brief This function returns the number of insertions performed on the Trie.
@@ -77,10 +77,10 @@ namespace AIToolbox {
                 size_t size() const;
 
                 /**
-                 * @brief This function returns all ids where their key matches the input State.
+                 * @brief This function returns all ids where their key matches the input Factors.
                  *
                  * This function is the core of this data structure. For each
-                 * factor of the input State, it maintains a list of
+                 * factor of the input Factors, it maintains a list of
                  * all ids which could match it at that factor. It then
                  * performs an intersection between all these list, starting
                  * from the smaller ones to the larger ones in order to perform
@@ -89,14 +89,14 @@ namespace AIToolbox {
                  * If an id is found matching in all factors, then such a key
                  * was inserted and is added to the returned list.
                  *
-                 * @param s The State used as filter in the trie.
+                 * @param s The Factors used as filter in the trie.
                  *
                  * @return The ids of all inserted keys which match the input.
                  */
-                std::vector<size_t> filter(const State & s) const;
+                std::vector<size_t> filter(const Factors & s) const;
 
             public:
-                State S;
+                Factors S;
                 size_t counter_;
 
                 std::vector<std::vector<size_t>> partials_;
@@ -107,10 +107,10 @@ namespace AIToolbox {
         class FactoredIterable;
 
         /**
-         * @brief This class is a container which uses PartialStates as keys.
+         * @brief This class is a container which uses PartialFactors as keys.
          *
-         * This class stores values using PartialStates as keys. The values
-         * can then be reached using States. The result will be an
+         * This class stores values using PartialFactors as keys. The values
+         * can then be reached using Factors. The result will be an
          * iterable object which will iterate over all values where the
          * key matched the input.
          *
@@ -130,14 +130,14 @@ namespace AIToolbox {
                  *
                  * @param s The environment state space.
                  */
-                FactoredContainer(State s) : ids_(s) {}
+                FactoredContainer(Factors s) : ids_(s) {}
 
                 /**
                  * @brief This function returns the set state space for the FactoredContainer.
                  *
                  * @return The set state space.
                  */
-                State getS() const {
+                Factors getS() const {
                     return ids_.getS();
                 }
 
@@ -156,7 +156,7 @@ namespace AIToolbox {
                  * @param args The arguments needed to emplace the new value.
                  */
                 template <typename... Args>
-                void emplace(const PartialState & ps, Args&&... args) {
+                void emplace(const PartialFactors & ps, Args&&... args) {
                     ids_.insert(ps);
                     items_.emplace_back(std::forward<Args>(args)...);
                 }
@@ -168,7 +168,7 @@ namespace AIToolbox {
                  *
                  * @return An iterable object over all values matching the input.
                  */
-                Iterable filter(const State & s) {
+                Iterable filter(const Factors & s) {
                     return Iterable(ids_.filter(s), items_);
                 }
 
@@ -204,11 +204,13 @@ namespace AIToolbox {
         template <typename FactoredContainer>
         class FactoredIterable {
             public:
+                template <typename T>
                 class FactoredIterator;
                 using Container = typename FactoredContainer::ItemsContainer;
 
                 using value_type = typename Container::value_type;
-                using iterator = FactoredIterator;
+                using iterator = FactoredIterator<value_type>;
+                using const_iterator = FactoredIterator<const value_type>;
 
                 /**
                  * @brief Basic constructor.
@@ -228,13 +230,25 @@ namespace AIToolbox {
                  * @brief This function returns an iterator to the beginning of this filtered range.
                  */
                 iterator begin() { return iterator(this); }
+
+                /**
+                 * @brief This function returns a const_iterator to the beginning of this filtered range.
+                 */
+                const_iterator begin() const { return const_iterator(this); }
                 /**
                  * @brief This function returns an iterator to the end of this filtered range.
                  */
                 iterator end() { return iterator(); };
 
+                /**
+                 * @brief This function returns a const_iterator to the end of this filtered range.
+                 */
+                const_iterator end() const { return const_iterator(); }
+
             private:
-                friend class FactoredIterator;
+                friend iterator;
+                friend const_iterator;
+
                 const std::vector<size_t> ids_;
                 Container & items_;
         };
@@ -243,11 +257,12 @@ namespace AIToolbox {
          * @brief This class is a simple iterator to iterate over filtered values held in a FactoredIterable.
          */
         template <typename FactoredContainer>
+        template <typename T>
         class FactoredIterable<FactoredContainer>::FactoredIterator {
             private:
                 using Encloser = FactoredIterable<FactoredContainer>;
             public:
-                using value_type = typename Encloser::value_type;
+                using value_type = T;
 
                 /**
                  * @brief Basic constructor for end iterators.
@@ -259,13 +274,10 @@ namespace AIToolbox {
                  *
                  * @param parent The parent iterable object holding ids and values.
                  */
-                FactoredIterator(Encloser * parent) : currentId_(0), parent_(parent) {}
+                FactoredIterator(const Encloser * parent) : currentId_(0), parent_(parent) {}
 
-                value_type& operator*() {                return parent_->items_[parent_->ids_[currentId_]]; }
-                const value_type& operator*() const {    return parent_->items_[parent_->ids_[currentId_]]; }
-
-                value_type* operator->() {               return &(operator*()); }
-                const value_type* operator->() const {   return &(operator*()); }
+                value_type& operator*()  { return parent_->items_[parent_->ids_[currentId_]]; }
+                value_type* operator->() { return &(operator*()); }
 
                 void operator++() {
                     ++currentId_;
@@ -275,15 +287,15 @@ namespace AIToolbox {
                     }
                 }
 
-                bool operator==(const FactoredIterator & other ) {
+                bool operator==(const FactoredIterator & other) {
                     if ( parent_ == other.parent_ ) return currentId_ == other.currentId_;
                     return false;
                 }
-                bool operator!=(const FactoredIterator & other ) { return !(*this == other); }
+                bool operator!=(const FactoredIterator & other) { return !(*this == other); }
 
             private:
                 size_t currentId_;
-                Encloser * parent_;
+                const Encloser * parent_;
         };
     }
 }

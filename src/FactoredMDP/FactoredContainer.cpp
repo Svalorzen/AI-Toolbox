@@ -90,8 +90,8 @@ namespace AIToolbox {
             }
         }
 
-        Trie::Trie(State s) : S(s), counter_(0) {
-            if ( s.size() < 2 ) throw std::invalid_argument("A Factored State must have at least 2 factors!");
+        Trie::Trie(Factors s) : S(s), counter_(0) {
+            if ( s.size() < 2 ) throw std::invalid_argument("Factors must have at least 2 elements!");
 
             partials_.resize(S.size());
             for ( size_t i = 0; i < S.size(); ++i )
@@ -100,7 +100,7 @@ namespace AIToolbox {
             ids_.resize(S.size());
         }
 
-        State Trie::getS() const {
+        Factors Trie::getS() const {
             return S;
         }
 
@@ -113,17 +113,17 @@ namespace AIToolbox {
             return counter_;
         }
 
-        void Trie::insert(const PartialState & ps) {
+        void Trie::insert(const PartialFactors & ps) {
             size_t factor = 0;
 
-            for ( size_t counter = 0; counter < ps.size(); ++factor ) {
-                if ( factor < ps[counter].first ) {
+            for ( size_t counter = 0; counter < ps.first.size(); ++factor ) {
+                if ( factor < ps.first[counter]) {
                     ids_[factor].push_back(counter_);
                     continue;
                 }
 
                 size_t value = 0;
-                value = ps[counter++].second;
+                value = ps.second[counter++];
 
                 ids_[factor].insert(std::begin(ids_[factor]) + partials_[factor][value], counter_);
 
@@ -135,12 +135,16 @@ namespace AIToolbox {
             ++counter_;
         }
 
-        std::vector<size_t> Trie::filter(const State & s) const {
+        std::vector<size_t> Trie::filter(const Factors & s) const {
             std::vector<size_t> matches;
 
             std::vector<Filter> filters;
             filters.reserve(S.size());
+            // For each factor
             for ( size_t i = 0; i < S.size(); ++i ) {
+                // Create a filter, made by two ranges: the first is the one
+                // containing all factors that specified this exact factor, the
+                // other for the ones that did not specify anything.
                 Filter f(
                     std::begin(ids_[i]) + (s[i] == 0 ? 0 : partials_[i][s[i]-1]),
                     std::begin(ids_[i]) + (partials_[i][s[i]]),
@@ -156,14 +160,17 @@ namespace AIToolbox {
             size_t currentMax = filters[0].getMin();
 
             while ( true ) {
+                // If we have matched through all filters
                 if ( counter == S.size() ) {
+                    // Match the id
                     matches.push_back(currentMax);
+                    // Advance by one the top filter, and mark the id there.
                     currentMax = filters[0].stepAdvance();
                     if ( !filters[0].isValid() ) break;
                     counter = 1;
                     lastMaxFound = 0;
                 }
-
+                // Slowly advance all other filters to the max
                 auto currentId = filters[counter].advance(currentMax);
                 if ( !filters[counter].isValid() ) break;
 
