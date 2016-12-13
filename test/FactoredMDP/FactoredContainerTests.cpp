@@ -22,22 +22,22 @@ BOOST_AUTO_TEST_CASE( filtering ) {
 
     FactoredContainer<std::string> f(S);
 
-    f.emplace({{0,1}, {2,3}},        "1_3");
-    f.emplace({{2,2}},               "__2");
-    f.emplace({{1,0}, {2,0}},        "_00");
-    f.emplace({{1,1}},               "_1_");
-    f.emplace({{0,0}},               "0__");
-    f.emplace({{1,2}},               "_2_");
-    f.emplace({{1,0}, {2,1}},        "_01");
-    f.emplace({{0,1}},               "1__");
-    f.emplace({{0,0}, {1,0}},        "00_");
-    f.emplace({{0,1}, {2,1}},        "1_1");
-    f.emplace({{1,2}, {2,2}},        "_22");
-    f.emplace({{0,1}, {1,1}, {2,1}}, "111");
-    f.emplace({{1,2}, {2,0}},        "_20");
-    f.emplace({{1,0}, {2,3}},        "_03");
-    f.emplace({{0,1}, {2,2}},        "1_2");
-    f.emplace({{0,1}, {2,0}},        "1_0");
+    f.emplace({{0,2},   {1,3}},     "1_3");
+    f.emplace({{2},     {2}},       "__2");
+    f.emplace({{1,2},   {0,0}},     "_00");
+    f.emplace({{1},     {1}},       "_1_");
+    f.emplace({{0},     {0}},       "0__");
+    f.emplace({{1},     {2}},       "_2_");
+    f.emplace({{1,2},   {0,1}},     "_01");
+    f.emplace({{0},     {1}},       "1__");
+    f.emplace({{0,1},   {0,0}},     "00_");
+    f.emplace({{0,2},   {1,1}},     "1_1");
+    f.emplace({{1,2},   {2,2}},     "_22");
+    f.emplace({{0,1,2}, {1,1,1}},   "111");
+    f.emplace({{1,2},   {2,0}},     "_20");
+    f.emplace({{1,2},   {0,3}},     "_03");
+    f.emplace({{0,2},   {1,2}},     "1_2");
+    f.emplace({{0,2},   {1,0}},     "1_0");
 
     // This part will need to be upgraded to BOOST_DATA_TEST_CASE sooner or later.
     std::vector<State> filters{
