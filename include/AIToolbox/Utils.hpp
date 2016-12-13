@@ -102,11 +102,12 @@ namespace AIToolbox {
      *
      * @return 1 if the lhs is greater than the rhs, 0 if they are equal, -1 otherwise.
      */
-    inline int veccmp(const Vector & lhs, const Vector & rhs) {
+    template <typename V>
+    int veccmp(const V & lhs, const V & rhs) {
         assert(lhs.size() == rhs.size());
         for (decltype(lhs.size()) i = 0; i < lhs.size(); ++i) {
-            if (lhs(i) > rhs(i)) return 1;
-            if (lhs(i) < rhs(i)) return -1;
+            if (lhs[i] > rhs[i]) return 1;
+            if (lhs[i] < rhs[i]) return -1;
         }
         return 0;
     }
