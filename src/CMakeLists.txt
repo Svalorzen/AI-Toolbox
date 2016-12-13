@@ -30,7 +30,10 @@ if (MAKE_MDP)
         MDP/Policies/QGreedyPolicy.cpp
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
-        FactoredMDP/FactoredContainer.cpp)
+        FactoredMDP/FactoredContainer.cpp
+        FactoredMDP/Utils.cpp
+        FactoredMDP/Algorithms/VariableElimination.cpp
+    )
 
     if (MAKE_PYTHON)
         add_library(MDP SHARED

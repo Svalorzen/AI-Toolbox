@@ -56,7 +56,10 @@ if (MAKE_MDP)
     AddTestMDP(ValueIteration)
     AddTestMDP(WoLFPolicy)
 
+    AddTestFactoredMDP(Utils)
     AddTestFactoredMDP(FactoredContainer)
+    AddTestFactoredMDP(FactorGraph)
+    AddTestFactoredMDP(VariableElimination)
 
     if (MAKE_PYTHON)
         # Normally one loads PythonInterp first, but since
