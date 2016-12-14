@@ -33,6 +33,7 @@ if (MAKE_MDP)
         FactoredMDP/FactoredContainer.cpp
         FactoredMDP/Utils.cpp
         FactoredMDP/Algorithms/VariableElimination.cpp
+        FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
     )
 
     if (MAKE_PYTHON)
