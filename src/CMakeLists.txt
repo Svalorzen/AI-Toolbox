@@ -32,7 +32,7 @@ if (MAKE_MDP)
         MDP/Policies/WoLFPolicy.cpp
         FactoredMDP/FactoredContainer.cpp
         FactoredMDP/Utils.cpp
-        FactoredMDP/Algorithms/VariableElimination.cpp
+        FactoredMDP/Algorithms/Utils/VariableElimination.cpp
         FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
     )
 

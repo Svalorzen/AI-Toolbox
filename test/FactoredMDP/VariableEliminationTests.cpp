@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-#include <AIToolbox/FactoredMDP/Algorithms/VariableElimination.hpp>
+#include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
 
 namespace fm = AIToolbox::FactoredMDP;
 using ve = fm::VariableElimination;

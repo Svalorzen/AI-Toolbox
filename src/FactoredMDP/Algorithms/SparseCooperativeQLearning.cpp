@@ -1,6 +1,6 @@
 #include <AIToolbox/FactoredMDP/Algorithms/SparseCooperativeQLearning.hpp>
 #include <AIToolbox/FactoredMDP/Utils.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/VariableElimination.hpp>
+#include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
