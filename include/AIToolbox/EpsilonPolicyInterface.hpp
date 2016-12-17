@@ -99,6 +99,17 @@ namespace AIToolbox {
              */
             virtual Action sampleRandomAction() const = 0;
 
+            /**
+             * @brief This function returns the probability of picking a random action.
+             *
+             * This is simply one over the action space, but since the action
+             * space may not be a single number we leave to implementation to
+             * decide how to best compute this.
+             *
+             * @return The probability of picking an an action at random.
+             */
+            virtual double getRandomActionProbability() const = 0;
+
             const Base & policy_;
             double epsilon_;
 
@@ -108,7 +119,7 @@ namespace AIToolbox {
     template <typename State, typename Sampling, typename Action>
     EpsilonPolicyInterface<State, Sampling, Action>::EpsilonPolicyInterface(const Base & p, const double e) :
             Base(p.getS(), p.getA()), policy_(p), epsilon_(e),
-            sampleDistribution_(0.0,1.0)
+            sampleDistribution_(0.0, 1.0)
     {
         if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
     }
@@ -125,7 +136,7 @@ namespace AIToolbox {
     template <typename State, typename Sampling, typename Action>
     double EpsilonPolicyInterface<State, Sampling, Action>::getActionProbability(const Sampling & s, const Action & a) const {
         //          Probability of taking old decision          Other probability
-        return epsilon_ * policy_.getActionProbability(s,a) + ( 1.0 - epsilon_ ) / this->A;
+        return epsilon_ * policy_.getActionProbability(s,a) + ( 1.0 - epsilon_ ) * getRandomActionProbability();
     }
 
     template <typename State, typename Sampling, typename Action>

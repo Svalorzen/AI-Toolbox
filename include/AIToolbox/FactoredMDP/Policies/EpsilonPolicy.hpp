@@ -1,13 +1,14 @@
-#ifndef AI_TOOLBOX_MDP_EPSILON_POLICY_HEADER_FILE
-#define AI_TOOLBOX_MDP_EPSILON_POLICY_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_MDP_EPSILON_POLICY_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_MDP_EPSILON_POLICY_HEADER_FILE
 
+#include <AIToolbox/FactoredMDP/Types.hpp>
 #include <AIToolbox/EpsilonPolicyInterface.hpp>
 
 namespace AIToolbox {
-    namespace MDP {
-        class EpsilonPolicy : public EpsilonPolicyInterface<size_t, size_t, size_t> {
+    namespace FactoredMDP {
+        class EpsilonPolicy : public EpsilonPolicyInterface<State, State, Action> {
             public:
-                using Base = EpsilonPolicyInterface<size_t, size_t, size_t>;
+                using Base = EpsilonPolicyInterface<State, State, Action>;
 
                 /**
                  * @brief Basic constructor.
@@ -29,7 +30,7 @@ namespace AIToolbox {
                  *
                  * @return A valid random action.
                  */
-                virtual size_t sampleRandomAction() const;
+                virtual Action sampleRandomAction() const;
 
                 /**
                  * @brief This function returns the probability of picking a random action.
@@ -39,7 +40,7 @@ namespace AIToolbox {
                 virtual double getRandomActionProbability() const;
 
                 // Used to sampled random actions
-                mutable std::uniform_int_distribution<size_t> randomDistribution_;
+                mutable std::vector<std::uniform_int_distribution<size_t>> randomDistribution_;
         };
     }
 }

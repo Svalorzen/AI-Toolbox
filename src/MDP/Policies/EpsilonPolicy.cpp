@@ -8,5 +8,9 @@ namespace AIToolbox {
         size_t EpsilonPolicy::sampleRandomAction() const {
             return randomDistribution_(rand_);
         }
+
+        double EpsilonPolicy::getRandomActionProbability() const {
+            return 1.0 / A;
+        }
     }
 }

@@ -42,6 +42,17 @@ namespace AIToolbox {
             return retval;
         }
 
+        size_t factorSpace(const Factors & factors) {
+            size_t retval = 1;
+            for (auto f : factors) {
+                // Detect wraparound
+                if (std::numeric_limits<size_t>::max() / f < retval)
+                    return std::numeric_limits<size_t>::max();
+                retval *= f;
+            }
+            return retval;
+        }
+
         // PartialFactorsEnumerator below.
 
         PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors) :

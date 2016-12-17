@@ -46,6 +46,18 @@ namespace AIToolbox {
         Factors join(const Factors & lhs, const Factors & rhs);
 
         /**
+         * @brief This function returns the multiplication of all elements of the input factor.
+         *
+         * In case the factor space is too big to represent via a size_t, the
+         * maximum possible representable value is returned.
+         *
+         * @param f The factored factor space.
+         *
+         * @return The possible number of factors if representable, otherwise the max size_t.
+         */
+        size_t factorSpace(const Factors & f);
+
+        /**
          * @brief This class enumerates all possible values for a PartialFactors.
          *
          * This class is a simple enumerator that goes through all possible
