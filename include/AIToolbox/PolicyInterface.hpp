@@ -74,6 +74,7 @@ namespace AIToolbox {
              * @return The total number of actions.
              */
             const Action & getA() const;
+
         protected:
             State S;
             Action A;

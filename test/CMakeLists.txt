@@ -60,6 +60,7 @@ if (MAKE_MDP)
     AddTestFactoredMDP(FactoredContainer)
     AddTestFactoredMDP(FactorGraph)
     AddTestFactoredMDP(VariableElimination)
+    AddTestFactoredMDP(SparseCooperativeQLearning)
 
     if (MAKE_PYTHON)
         # Normally one loads PythonInterp first, but since

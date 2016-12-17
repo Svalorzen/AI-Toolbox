@@ -34,6 +34,7 @@ if (MAKE_MDP)
         FactoredMDP/FactoredContainer.cpp
         FactoredMDP/Utils.cpp
         FactoredMDP/Policies/EpsilonPolicy.cpp
+        FactoredMDP/Policies/SingleActionPolicy.cpp
         FactoredMDP/Algorithms/Utils/VariableElimination.cpp
         FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
     )
