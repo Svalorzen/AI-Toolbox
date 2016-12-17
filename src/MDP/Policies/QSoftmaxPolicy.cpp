@@ -46,7 +46,7 @@ namespace AIToolbox {
             }
         }
 
-        double QSoftmaxPolicy::getActionProbability(const size_t & s, const size_t a) const {
+        double QSoftmaxPolicy::getActionProbability(const size_t & s, const size_t & a) const {
             if ( temperature_ == 0.0 )
                 return greedy_.getActionProbability(s, a);
 

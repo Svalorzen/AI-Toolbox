@@ -7,10 +7,10 @@
 namespace AIToolbox {
     namespace POMDP {
         Policy::Policy(const size_t s, const size_t a, const size_t o) :
-                PolicyInterface<Belief>(s, a), O(o), H(0), policy_(1, VList(1, makeVEntry(S))) {}
+                Base(s, a), O(o), H(0), policy_(1, VList(1, makeVEntry(S))) {}
 
         Policy::Policy(const size_t s, const size_t a, const size_t o, const ValueFunction & v) :
-                PolicyInterface<Belief>(s, a), O(o), H(v.size()-1), policy_(v)
+                Base(s, a), O(o), H(v.size()-1), policy_(v)
         {
             if ( !v.size() ) throw std::invalid_argument("The ValueFunction supplied to POMDP::Policy is empty.");
         }
@@ -46,7 +46,7 @@ namespace AIToolbox {
             return std::make_tuple(action, newId);
         }
 
-        double Policy::getActionProbability(const Belief & b, const size_t a) const {
+        double Policy::getActionProbability(const Belief & b, const size_t & a) const {
             // At the moment we know that only one action is possible..
             const size_t trueA = sampleAction(b);
 

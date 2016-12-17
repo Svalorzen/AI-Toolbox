@@ -6,7 +6,7 @@
 
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/ProbabilityUtils.hpp>
-#include <AIToolbox/PolicyInterface.hpp>
+#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox {
     namespace MDP {
@@ -25,7 +25,7 @@ namespace AIToolbox {
          * Otherwise you may want to build a wrapper around some data to
          * extract the policy dynamically.
          */
-        class Policy : public PolicyInterface<size_t> {
+        class Policy : public PolicyInterface {
             public:
                 using PolicyTable = Table2D;
 
@@ -58,7 +58,7 @@ namespace AIToolbox {
                  *
                  * @param p The policy which is being copied.
                  */
-                Policy(const PolicyInterface<size_t> & p);
+                Policy(const PolicyInterface & p);
 
                 /**
                  * @brief Basic constructor.
@@ -91,7 +91,7 @@ namespace AIToolbox {
                  *
                  * @return The probability of taking the selected action in the specified state.
                  */
-                virtual double getActionProbability(const size_t & s, size_t a) const override;
+                virtual double getActionProbability(const size_t & s, const size_t & a) const override;
 
                 /**
                  * @brief This function sets the policy for a particular state.
@@ -153,6 +153,7 @@ namespace AIToolbox {
                  * @param os The stream where the policy is printed.
                  */
                 void prettyPrint(std::ostream & os) const;
+
             private:
                 PolicyTable policy_;
 

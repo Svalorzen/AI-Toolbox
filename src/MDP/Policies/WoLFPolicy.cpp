@@ -69,7 +69,7 @@ namespace AIToolbox {
             return actualPolicy_.sampleAction(s);
         }
 
-        double WoLFPolicy::getActionProbability(const size_t & s, const size_t a) const {
+        double WoLFPolicy::getActionProbability(const size_t & s, const size_t & a) const {
             return actualPolicy_.getActionProbability(s,a);
         }
 

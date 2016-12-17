@@ -1,6 +1,5 @@
 #include <AIToolbox/MDP/IO.hpp>
 
-#include <AIToolbox/PolicyInterface.hpp>
 #include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
 #include <AIToolbox/MDP/Model.hpp>
@@ -10,7 +9,7 @@
 namespace AIToolbox {
     namespace MDP {
         // Global discrete policy writer
-        std::ostream& operator<<(std::ostream &os, const PolicyInterface<size_t> & p) {
+        std::ostream& operator<<(std::ostream &os, const PolicyInterface & p) {
             size_t S = p.getS();
             size_t A = p.getA();
 

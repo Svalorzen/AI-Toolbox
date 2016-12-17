@@ -1,4 +1,5 @@
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
+#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 
 #include <boost/python.hpp>
 
@@ -6,8 +7,8 @@ void exportMDPEpsilonPolicy() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
-    class_<EpsilonPolicy, bases<AIToolbox::PolicyInterface<size_t>>>{"EpsilonPolicy", 
-        
+    class_<EpsilonPolicy, bases<PolicyInterface>>{"EpsilonPolicy",
+
          "This class is a policy wrapper for epsilon action choice.\n"
          "\n"
          "This class is used to wrap already existing policies to implement\n"
@@ -20,8 +21,8 @@ void exportMDPEpsilonPolicy() {
          "\n"
          "Please note that to obtain an epsilon-greedy policy the wrapped\n"
          "policy needs to already be greedy with respect to the model.", no_init}
-        
-        .def(init<const AIToolbox::PolicyInterface<size_t> &, optional<double>>(
+
+        .def(init<const PolicyInterface &, optional<double>>(
              "Basic constructor.\n"
              "\n"
              "This constructor saves the input policy and the epsilon\n"

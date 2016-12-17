@@ -4,12 +4,10 @@
 #include <iostream>
 #include <iomanip>
 
+#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox {
-
-    template<typename State> class PolicyInterface;
-
     namespace MDP {
         /**
          * @brief This function prints any MDP model to a file.
@@ -57,7 +55,7 @@ namespace AIToolbox {
          *
          * @return The original stream.
          */
-        std::ostream& operator<<(std::ostream &os, const PolicyInterface<size_t> & p);
+        std::ostream& operator<<(std::ostream &os, const PolicyInterface & p);
 
         /**
          * @brief This function prints an Experience to a stream.

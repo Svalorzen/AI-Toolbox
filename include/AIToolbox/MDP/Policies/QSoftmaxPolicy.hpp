@@ -60,7 +60,7 @@ namespace AIToolbox {
                  *
                  * @return This function returns 1 if a is equal to the greediest action, and 0 otherwise.
                  */
-                virtual double getActionProbability(const size_t & s, size_t a) const override;
+                virtual double getActionProbability(const size_t & s, const size_t & a) const override;
 
                 /**
                  * @brief This function sets the temperature parameter.

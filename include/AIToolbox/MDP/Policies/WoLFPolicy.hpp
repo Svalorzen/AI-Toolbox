@@ -68,7 +68,7 @@ namespace AIToolbox {
                  *
                  * @return The probability of taking the selected action in the specified state.
                  */
-                virtual double getActionProbability(const size_t & s, size_t a) const override;
+                virtual double getActionProbability(const size_t & s, const size_t & a) const override;
 
                 /**
                  * @brief This function sets the new learning rate if winning.

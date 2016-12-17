@@ -7,7 +7,7 @@ void exportPOMDPPolicyInterface() {
     using namespace AIToolbox;
     using namespace boost::python;
 
-    using P = PolicyInterface<POMDP::Belief>;
+    using P = PolicyInterface<size_t, POMDP::Belief, size_t>;
 
     class_<P, boost::noncopyable>{"PolicyInterface",
 

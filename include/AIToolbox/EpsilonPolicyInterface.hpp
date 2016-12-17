@@ -19,10 +19,15 @@ namespace AIToolbox {
      *
      * Please note that to obtain an epsilon-greedy policy the wrapped
      * policy needs to already be greedy with respect to the model.
+     *
+     * @tparam State This defines the type that is used to store the state space.
+     * @tparam Sampling This defines the type that is used to sample from the policy.
+     * @tparam Action This defines the type that is used to handle actions.
      */
-    template <typename State>
-    class EpsilonPolicyInterface : public PolicyInterface<State> {
+    template <typename State, typename Sampling, typename Action>
+    class EpsilonPolicyInterface : public PolicyInterface<State, Sampling, Action> {
         public:
+            using Base = PolicyInterface<State, Sampling, Action>;
             /**
              * @brief Basic constructor.
              *
@@ -35,7 +40,7 @@ namespace AIToolbox {
              * @param p The policy that is being extended.
              * @param epsilon The parameter that controls the amount of exploration.
              */
-            EpsilonPolicyInterface(const PolicyInterface<State> & p, double epsilon = 0.9);
+            EpsilonPolicyInterface(const Base & p, double epsilon = 0.9);
 
             /**
              * @brief This function chooses a random action for state s, following the policy distribution and epsilon.
@@ -48,7 +53,7 @@ namespace AIToolbox {
              *
              * @return The chosen action.
              */
-            virtual size_t sampleAction(const State & s) const override;
+            virtual Action sampleAction(const Sampling & s) const override;
 
             /**
              * @brief This function returns the probability of taking the specified action in the specified state.
@@ -61,7 +66,7 @@ namespace AIToolbox {
              *
              * @return The probability of taking the selected action in the specified state.
              */
-            virtual double getActionProbability(const State & s, size_t a) const override;
+            virtual double getActionProbability(const Sampling & s, const Action & a) const override;
 
             /**
              * @brief This function sets the epsilon parameter.
@@ -87,45 +92,50 @@ namespace AIToolbox {
             double getEpsilon() const;
 
         protected:
-            const PolicyInterface<State> & policy_;
+            /**
+             * @brief This function returns a random action in the Action space.
+             *
+             * @return A valid random action.
+             */
+            virtual Action sampleRandomAction() const = 0;
+
+            const Base & policy_;
             double epsilon_;
 
-            // Used to sampled random actions
-            mutable std::uniform_int_distribution<size_t> randomDistribution_;
             mutable std::uniform_real_distribution<double> sampleDistribution_;
     };
 
-    template <typename State>
-    EpsilonPolicyInterface<State>::EpsilonPolicyInterface(const PolicyInterface<State> & p, const double e) :
-            PolicyInterface<State>(p.getS(), p.getA()), policy_(p), epsilon_(e),
-            randomDistribution_(0, this->A-1), sampleDistribution_(0.0,1.0)
+    template <typename State, typename Sampling, typename Action>
+    EpsilonPolicyInterface<State, Sampling, Action>::EpsilonPolicyInterface(const Base & p, const double e) :
+            Base(p.getS(), p.getA()), policy_(p), epsilon_(e),
+            sampleDistribution_(0.0,1.0)
     {
         if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
     }
 
-    template <typename State>
-    size_t EpsilonPolicyInterface<State>::sampleAction(const State & s) const {
+    template <typename State, typename Sampling, typename Action>
+    Action EpsilonPolicyInterface<State, Sampling, Action>::sampleAction(const Sampling & s) const {
         const double pe = sampleDistribution_(this->rand_);
-        if ( pe > epsilon_ ) {
-            return randomDistribution_(this->rand_);
-        }
+        if ( pe > epsilon_ )
+            return sampleRandomAction();
+
         return policy_.sampleAction(s);
     }
 
-    template <typename State>
-    double EpsilonPolicyInterface<State>::getActionProbability(const State & s, const size_t a) const {
+    template <typename State, typename Sampling, typename Action>
+    double EpsilonPolicyInterface<State, Sampling, Action>::getActionProbability(const Sampling & s, const Action & a) const {
         //          Probability of taking old decision          Other probability
         return epsilon_ * policy_.getActionProbability(s,a) + ( 1.0 - epsilon_ ) / this->A;
     }
 
-    template <typename State>
-    void EpsilonPolicyInterface<State>::setEpsilon(const double e) {
+    template <typename State, typename Sampling, typename Action>
+    void EpsilonPolicyInterface<State, Sampling, Action>::setEpsilon(const double e) {
         if ( e < 0.0 || e > 1.0 ) throw std::invalid_argument("Epsilon parameter was outside specified bounds");
         epsilon_ = e;
     }
 
-    template <typename State>
-    double EpsilonPolicyInterface<State>::getEpsilon() const {
+    template <typename State, typename Sampling, typename Action>
+    double EpsilonPolicyInterface<State, Sampling, Action>::getEpsilon() const {
         return epsilon_;
     }
 }

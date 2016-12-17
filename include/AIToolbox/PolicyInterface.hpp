@@ -22,9 +22,11 @@ namespace AIToolbox {
      * sampling. In case of POMDPs, the template parameter is of type Belief,
      * which allows us to sample the policy from different beliefs.
      *
-     * @tparam State This defines the type that is used to sample from the policy.
+     * @tparam State This defines the type that is used to store the state space.
+     * @tparam Sampling This defines the type that is used to sample from the policy.
+     * @tparam Action This defines the type that is used to handle actions.
      */
-    template <typename State>
+    template <typename State, typename Sampling, typename Action>
     class PolicyInterface {
         public:
             /**
@@ -33,7 +35,7 @@ namespace AIToolbox {
              * @param s The number of states of the world.
              * @param a The number of actions available to the agent.
              */
-            PolicyInterface(size_t s, size_t a);
+            PolicyInterface(State s, Action a);
 
             /**
              * @brief Basic virtual destructor.
@@ -47,7 +49,7 @@ namespace AIToolbox {
              *
              * @return The chosen action.
              */
-            virtual size_t sampleAction(const State & s) const = 0;
+            virtual Action sampleAction(const Sampling & s) const = 0;
 
             /**
              * @brief This function returns the probability of taking the specified action in the specified state.
@@ -57,40 +59,41 @@ namespace AIToolbox {
              *
              * @return The probability of taking the selected action in the specified state.
              */
-            virtual double getActionProbability(const State & s, size_t a) const = 0;
+            virtual double getActionProbability(const Sampling & s, const Action & a) const = 0;
 
             /**
              * @brief This function returns the number of states of the world.
              *
              * @return The total number of states.
              */
-            size_t getS() const;
+            const State & getS() const;
 
             /**
              * @brief This function returns the number of available actions to the agent.
              *
              * @return The total number of actions.
              */
-            size_t getA() const;
+            const Action & getA() const;
         protected:
-            size_t S, A;
+            State S;
+            Action A;
 
             // This is mutable because sampling doesn't really change the policy
             mutable std::default_random_engine rand_;
     };
 
-    template <typename State>
-    PolicyInterface<State>::PolicyInterface(const size_t s, const size_t a) :
+    template <typename State, typename Sampling, typename Action>
+    PolicyInterface<State, Sampling, Action>::PolicyInterface(State s, Action a) :
             S(s), A(a), rand_(Impl::Seeder::getSeed()) {}
 
-    template <typename State>
-    PolicyInterface<State>::~PolicyInterface() {}
+    template <typename State, typename Sampling, typename Action>
+    PolicyInterface<State, Sampling, Action>::~PolicyInterface() {}
 
-    template <typename State>
-    size_t PolicyInterface<State>::getS() const { return S; }
+    template <typename State, typename Sampling, typename Action>
+    const State & PolicyInterface<State, Sampling, Action>::getS() const { return S; }
 
-    template <typename State>
-    size_t PolicyInterface<State>::getA() const { return A; }
+    template <typename State, typename Sampling, typename Action>
+    const Action & PolicyInterface<State, Sampling, Action>::getA() const { return A; }
 }
 
 #endif

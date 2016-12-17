@@ -6,7 +6,7 @@ void exportPOMDPPolicy() {
     using namespace AIToolbox::POMDP;
     using namespace boost::python;
 
-    class_<Policy, bases<AIToolbox::PolicyInterface<Belief>>>{"Policy",
+    class_<Policy, bases<Policy::Base>>{"Policy",
 
          "This class represents a POMDP Policy.\n"
          "\n"
