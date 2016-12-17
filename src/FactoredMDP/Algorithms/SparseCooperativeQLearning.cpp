@@ -7,6 +7,10 @@ namespace AIToolbox {
         SparseCooperativeQLearning::SparseCooperativeQLearning(State s, Action a, double discount, double alpha) :
                 S(s), A(a), discount_(discount), alpha_(alpha), rules_(join(S, A)) {}
 
+        void SparseCooperativeQLearning::reserveRules(size_t s) {
+            rules_.reserve(s);
+        }
+
         void SparseCooperativeQLearning::insertRule(QFunctionRule rule) {
             rules_.emplace(join(S.size(), rule.s_, rule.a_), std::move(rule));
         }
@@ -16,7 +20,7 @@ namespace AIToolbox {
         }
 
         Action SparseCooperativeQLearning::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & rew) {
-            VariableElimination ve(a);
+            VariableElimination ve(A);
             auto a1 = ve(rules_.filter(s1));
 
             auto beforeRules = rules_.filter(join(s, a));

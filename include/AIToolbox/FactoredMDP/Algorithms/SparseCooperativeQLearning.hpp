@@ -45,6 +45,13 @@ namespace AIToolbox {
                 SparseCooperativeQLearning(State S, Action A, double discount, double alpha);
 
                 /**
+                 * @brief This function reserves memory for at least s rules.
+                 *
+                 * @param s The number of rules to be reserved.
+                 */
+                void reserveRules(size_t s);
+
+                /**
                  * @brief This function inserts a QFunctionRule in the covered set.
                  *
                  * @param rule The new rule to cover.
@@ -124,6 +131,8 @@ namespace AIToolbox {
                  * @param a The action performed.
                  * @param s1 The new state.
                  * @param rew The reward obtained.
+                 *
+                 * @return The best action to be performed in the next timestep.
                  */
                 Action stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & rew);
 
