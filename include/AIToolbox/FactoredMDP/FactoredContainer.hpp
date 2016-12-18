@@ -278,7 +278,7 @@ namespace AIToolbox {
                 class FactoredIterator;
 
                 using value_type = typename Container::value_type;
-                using iterator = FactoredIterator<value_type>;
+                using iterator = FactoredIterator<typename copy_const<value_type, Container>::type>;
                 using const_iterator = FactoredIterator<const value_type>;
 
                 /**
@@ -315,6 +315,11 @@ namespace AIToolbox {
                  */
                 const_iterator end() const { return const_iterator(); }
 
+                /**
+                 * @brief This function returns the size of the range covered.
+                 */
+                size_t size() const { return ids_.size(); }
+
             private:
                 friend iterator;
                 friend const_iterator;
@@ -326,11 +331,11 @@ namespace AIToolbox {
         /**
          * @brief This class is a simple iterator to iterate over filtered values held in a FactoredIterable.
          */
-        template <typename FactoredContainer>
+        template <typename Container>
         template <typename T>
-        class FactoredIterable<FactoredContainer>::FactoredIterator {
+        class FactoredIterable<Container>::FactoredIterator {
             private:
-                using Encloser = FactoredIterable<FactoredContainer>;
+                using Encloser = typename copy_const<FactoredIterable<Container>, T>::type;
             public:
                 using value_type = T;
 
@@ -344,7 +349,7 @@ namespace AIToolbox {
                  *
                  * @param parent The parent iterable object holding ids and values.
                  */
-                FactoredIterator(const Encloser * parent) : currentId_(0), parent_(parent) {}
+                FactoredIterator(Encloser * parent) : currentId_(0), parent_(parent) {}
 
                 value_type& operator*()  { return parent_->items_[parent_->ids_[currentId_]]; }
                 value_type* operator->() { return &(operator*()); }
@@ -365,7 +370,7 @@ namespace AIToolbox {
 
             private:
                 size_t currentId_;
-                const Encloser * parent_;
+                Encloser * parent_;
         };
     }
 }
