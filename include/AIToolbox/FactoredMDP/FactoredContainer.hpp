@@ -131,7 +131,7 @@ namespace AIToolbox {
                 std::vector<std::vector<size_t>> ids_;
         };
 
-        template <typename FactoredContainer>
+        template <typename Container>
         class FactoredIterable;
 
         /**
@@ -148,7 +148,8 @@ namespace AIToolbox {
         class FactoredContainer {
             public:
                 using ItemsContainer = std::vector<T>;
-                using Iterable = FactoredIterable<FactoredContainer<T>>;
+                using Iterable = FactoredIterable<ItemsContainer>;
+                using ConstIterable = FactoredIterable<const ItemsContainer>;
 
                 /**
                  * @brief Basic constructor.
@@ -211,8 +212,34 @@ namespace AIToolbox {
                  *
                  * @return An iterable object over all values matching the input.
                  */
+                ConstIterable filter(const Factors & f, size_t offset = 0) const {
+                    return ConstIterable(ids_.filter(f, offset), items_);
+                }
+
+                /**
+                 * @brief This function creates an iterable object over all values matching the input key.
+                 *
+                 * \sa Trie::filter(const PartialFactors&)
+                 *
+                 * @param s The key that must be matched.
+                 *
+                 * @return An iterable object over all values matching the input.
+                 */
                 Iterable filter(const PartialFactors & pf) {
                     return Iterable(ids_.filter(pf), items_);
+                }
+
+                /**
+                 * @brief This function creates an iterable object over all values matching the input key.
+                 *
+                 * \sa Trie::filter(const PartialFactors&)
+                 *
+                 * @param s The key that must be matched.
+                 *
+                 * @return An iterable object over all values matching the input.
+                 */
+                ConstIterable filter(const PartialFactors & pf) const {
+                    return ConstIterable(ids_.filter(pf), items_);
                 }
 
                 /**
@@ -244,12 +271,11 @@ namespace AIToolbox {
          *
          * @tparam FactoredContainer The type of the parent FactoredContainer.
          */
-        template <typename FactoredContainer>
+        template <typename Container>
         class FactoredIterable {
             public:
                 template <typename T>
                 class FactoredIterator;
-                using Container = typename FactoredContainer::ItemsContainer;
 
                 using value_type = typename Container::value_type;
                 using iterator = FactoredIterator<value_type>;
