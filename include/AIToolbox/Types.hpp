@@ -22,6 +22,16 @@ namespace AIToolbox {
     using Matrix3D = std::vector<Matrix2D>;
     using SparseMatrix3D = std::vector<SparseMatrix2D>;
     using SparseMatrix3DLong = std::vector<SparseMatrix2DLong>;
+
+    /**
+     * @brief This struct is used to copy constness from one type to another.
+     */
+    template <typename CopiedType, typename ConstReference>
+    struct copy_const {
+        using type = typename std::conditional<std::is_const<ConstReference>::value,
+                                      typename std::add_const<CopiedType>::type,
+                                      typename std::remove_const<CopiedType>::type>::type;
+    };
 }
 
 #endif
