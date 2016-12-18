@@ -53,6 +53,17 @@ namespace AIToolbox {
             return retval;
         }
 
+        PartialFactors toPartialFactors(const Factors & f) {
+            PartialFactors retval;
+
+            retval.first.resize(f.size());
+            for (size_t i = 0; i < f.size(); ++i)
+                retval.first[i] = i;
+            retval.second = f;
+
+            return retval;
+        }
+
         // PartialFactorsEnumerator below.
 
         PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors) :

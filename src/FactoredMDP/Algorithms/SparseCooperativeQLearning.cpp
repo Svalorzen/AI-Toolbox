@@ -21,7 +21,9 @@ namespace AIToolbox {
 
         Action SparseCooperativeQLearning::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & rew) {
             VariableElimination ve(A);
-            auto a1 = ve(rules_.filter(s1));
+
+            auto rules = rules_.filter(s1, 0); // Partial filter using only s1
+            auto a1 = ve(rules);
 
             auto beforeRules = rules_.filter(join(s, a));
             auto afterRules = rules_.filter(join(s1, a1.first));

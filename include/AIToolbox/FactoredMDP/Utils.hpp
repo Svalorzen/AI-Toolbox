@@ -58,6 +58,15 @@ namespace AIToolbox {
         size_t factorSpace(const Factors & f);
 
         /**
+         * @brief This function converts Factors into the equivalent PartialFactors structure.
+         *
+         * @param f The Factors to be converted.
+         *
+         * @return A PartialFactors structure equivalent to the input.
+         */
+        PartialFactors toPartialFactors(const Factors & f);
+
+        /**
          * @brief This class enumerates all possible values for a PartialFactors.
          *
          * This class is a simple enumerator that goes through all possible

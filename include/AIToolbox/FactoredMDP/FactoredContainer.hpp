@@ -31,14 +31,14 @@ namespace AIToolbox {
                  *
                  * @param s The factored state space.
                  */
-                Trie(Factors S);
+                Trie(Factors F);
 
                 /**
                  * @brief This function returns the set state space for the Trie.
                  *
                  * @return The set state space.
                  */
-                Factors getS() const;
+                Factors getF() const;
 
                 /**
                  * @brief This function reserves memory for at least size elements.
@@ -67,7 +67,7 @@ namespace AIToolbox {
                  *
                  * @param ps The partial state used as key for the insertion.
                  */
-                void insert(const PartialFactors & ps);
+                void insert(const PartialFactors & pf);
 
                 /**
                  * @brief This function returns the number of insertions performed on the Trie.
@@ -89,14 +89,42 @@ namespace AIToolbox {
                  * If an id is found matching in all factors, then such a key
                  * was inserted and is added to the returned list.
                  *
-                 * @param s The Factors used as filter in the trie.
+                 * This function can also be used to filter on Factors smaller
+                 * than the real one, as long as they are all adjacent. The
+                 * offset parameter can be used to specify by how many factors
+                 * to offset the input. For example, an input of {3,5} with
+                 * offset 0 will look for all inserted PartialFactors with 3 at
+                 * position 0, and 5 at position 1. The same input with offset
+                 * 2 will look for all inserted PartialFactors with 3 at
+                 * position 2, and 5 at position 3.
+                 *
+                 * @param f The Factors used as filter in the trie.
                  *
                  * @return The ids of all inserted keys which match the input.
                  */
-                std::vector<size_t> filter(const Factors & s) const;
+                std::vector<size_t> filter(const Factors & f, size_t offset = 0) const;
 
-            public:
-                Factors S;
+                /**
+                 * @brief This function returns all ids where their key matches the input Factors.
+                 *
+                 * This function is the core of this data structure. For each
+                 * factor of the input PartialFactors, it maintains a list of
+                 * all ids which could match it at that factor. It then
+                 * performs an intersection between all these list, starting
+                 * from the smaller ones to the larger ones in order to perform
+                 * the minimum number of comparisons possible.
+                 *
+                 * If an id is found matching in all factors, then such a key
+                 * was inserted and is added to the returned list.
+                 *
+                 * @param f The Factors used as filter in the trie.
+                 *
+                 * @return The ids of all inserted keys which match the input.
+                 */
+                std::vector<size_t> filter(const PartialFactors & pf) const;
+
+            private:
+                Factors F;
                 size_t counter_;
 
                 std::vector<std::vector<size_t>> partials_;
@@ -126,19 +154,19 @@ namespace AIToolbox {
                  * @brief Basic constructor.
                  *
                  * This constructor simply initializes the underlying Trie
-                 * with the input state space.
+                 * with the input factor space.
                  *
-                 * @param s The environment state space.
+                 * @param f The desired factor space.
                  */
-                FactoredContainer(Factors s) : ids_(s) {}
+                FactoredContainer(Factors f) : ids_(f) {}
 
                 /**
-                 * @brief This function returns the set state space for the FactoredContainer.
+                 * @brief This function returns the set factor space for the FactoredContainer.
                  *
-                 * @return The set state space.
+                 * @return The set factor space.
                  */
-                Factors getS() const {
-                    return ids_.getS();
+                Factors getF() const {
+                    return ids_.getF();
                 }
 
                 /**
@@ -156,20 +184,35 @@ namespace AIToolbox {
                  * @param args The arguments needed to emplace the new value.
                  */
                 template <typename... Args>
-                void emplace(const PartialFactors & ps, Args&&... args) {
-                    ids_.insert(ps);
+                void emplace(const PartialFactors & pf, Args&&... args) {
+                    ids_.insert(pf);
                     items_.emplace_back(std::forward<Args>(args)...);
                 }
 
                 /**
                  * @brief This function creates an iterable object over all values matching the input key.
                  *
+                 * \sa Trie::filter(const Factors&, size_t)
+                 *
                  * @param s The key that must be matched.
                  *
                  * @return An iterable object over all values matching the input.
                  */
-                Iterable filter(const Factors & s) {
-                    return Iterable(ids_.filter(s), items_);
+                Iterable filter(const Factors & f, size_t offset = 0) {
+                    return Iterable(ids_.filter(f, offset), items_);
+                }
+
+                /**
+                 * @brief This function creates an iterable object over all values matching the input key.
+                 *
+                 * \sa Trie::filter(const PartialFactors&)
+                 *
+                 * @param s The key that must be matched.
+                 *
+                 * @return An iterable object over all values matching the input.
+                 */
+                Iterable filter(const PartialFactors & pf) {
+                    return Iterable(ids_.filter(pf), items_);
                 }
 
                 /**
@@ -229,12 +272,13 @@ namespace AIToolbox {
                 /**
                  * @brief This function returns an iterator to the beginning of this filtered range.
                  */
-                iterator begin() { return iterator(this); }
+                iterator begin() { return ids_.size() ? iterator(this) : iterator(); }
 
                 /**
                  * @brief This function returns a const_iterator to the beginning of this filtered range.
                  */
-                const_iterator begin() const { return const_iterator(this); }
+                const_iterator begin() const { return ids_.size() ? const_iterator(this) : const_iterator(); }
+
                 /**
                  * @brief This function returns an iterator to the end of this filtered range.
                  */
