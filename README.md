@@ -96,6 +96,18 @@ Policies:
 
 - Normal Policy
 
+### Factored/Multi-Agent MDP: ###
+
+Algorithms:
+
+- [Sparse Cooperative QLearning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf)
+
+Policies:
+
+- SingleAction Policy
+- Epsilon-Greedy Policy
+- Q-Greedy Policy
+
 Fast Tutorial
 =============
 
