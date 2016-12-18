@@ -34,16 +34,24 @@ namespace AIToolbox {
                     sum += sequential_sorted_contains(rule.a_.first, agent) ? rule.value_ / rule.a_.first.size() : 0.0;
                 return sum;
             };
-
-            for (auto & br : beforeRules) {
+            // First we compute all updates since we don't want to risk
+            // overwriting the rules before we are done.
+            std::vector<double> updates;
+            updates.reserve(beforeRules.size());
+            for (const auto & br : beforeRules) {
                 double sum = 0;
                 for (const auto agent : br.a_.first) {
                     sum += rew[agent];
                     sum += discount_ * computeQ(agent, afterRules);
                     sum -= computeQ(agent, beforeRules);
                 }
-                br.value_ += alpha_ * sum;
+                updates.push_back(alpha_ * sum);
             }
+            // Finally update the rules.
+            size_t i = 0;
+            for (auto & br : beforeRules)
+                br.value_ += updates[i++];
+
             return a1.first;
         }
 
