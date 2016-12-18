@@ -30,9 +30,9 @@ class ToroidalWorldState {
         unsigned getY() const { return y_; }
 
     private:
-        unsigned MAP_SIZE_X, MAP_SIZE_Y;
+        int MAP_SIZE_X, MAP_SIZE_Y;
 
-        unsigned x_, y_;
+        int x_, y_;
 };
 
 #endif
