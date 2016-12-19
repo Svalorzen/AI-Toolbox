@@ -11,7 +11,10 @@ namespace AIToolbox {
          * @brief This class models a greedy policy through a QFunction.
          *
          * This class allows you to select effortlessly the best greedy actions
-         * from a given QFunction.
+         * from a given list of QFunctionRules. In order to compute the best
+         * action, or a given action probability the QGreedyPolicy must run
+         * VariableElimination on the stored rules, so the process can get a
+         * bit expensive.
          */
         class QGreedyPolicy : public PolicyInterface<State, State, Action> {
             public:

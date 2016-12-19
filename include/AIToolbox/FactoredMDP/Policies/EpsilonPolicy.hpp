@@ -6,6 +6,9 @@
 
 namespace AIToolbox {
     namespace FactoredMDP {
+        /**
+         * @brief This class represents an epsilon-greedy policy for Factored MDPs
+         */
         class EpsilonPolicy : public EpsilonPolicyInterface<State, State, Action> {
             public:
                 using Base = EpsilonPolicyInterface<State, State, Action>;

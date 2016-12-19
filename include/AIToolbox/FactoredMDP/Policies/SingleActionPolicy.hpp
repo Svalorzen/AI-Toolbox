@@ -6,6 +6,17 @@
 
 namespace AIToolbox {
     namespace FactoredMDP {
+        /**
+         * @brief This class represents a policy always picking the same action.
+         *
+         * Since there are methods which in order to learn automatically
+         * compute a best action for the next time step, it is useful to be
+         * able to wrap those actions into a policy in order to be joined to
+         * other policies (like epsilon-greedy, for example).
+         *
+         * This class is a simple wrapper that always return the last action
+         * that has been set.
+         */
         class SingleActionPolicy : public PolicyInterface<State, State, Action> {
             public:
                 using Base = PolicyInterface<State, State, Action>;
