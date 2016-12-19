@@ -8,13 +8,13 @@
 namespace AIToolbox {
     namespace MDP {
         Policy::Policy(const size_t s, const size_t a) :
-                PolicyInterface<size_t>(s, a), policy_(boost::extents[S][A])
+                PolicyInterface(s, a), policy_(boost::extents[S][A])
         {
             // Random policy is default
             std::fill(policy_.data(), policy_.data() + policy_.num_elements(), 1.0/getA());
         }
 
-        Policy::Policy(const PolicyInterface<size_t> & p) :
+        Policy::Policy(const PolicyInterface & p) :
                 PolicyInterface(p.getS(), p.getA()), policy_(boost::extents[S][A])
         {
             for ( size_t s = 0; s < S; ++s )
@@ -23,7 +23,7 @@ namespace AIToolbox {
         }
 
         Policy::Policy(const size_t s, const size_t a, const ValueFunction & v) :
-                PolicyInterface<size_t>(s, a), policy_(boost::extents[S][A])
+                PolicyInterface(s, a), policy_(boost::extents[S][A])
         {
             const auto & actions = std::get<ACTIONS>(v);
             for ( size_t s = 0; s < S; ++s )
@@ -34,7 +34,7 @@ namespace AIToolbox {
             return sampleProbability(A, policy_[s], rand_);
         }
 
-        double Policy::getActionProbability(const size_t & s, const size_t a) const {
+        double Policy::getActionProbability(const size_t & s, const size_t & a) const {
             return policy_[s][a];
         }
 

@@ -10,7 +10,7 @@ class GridWorldState {
 
         GridWorldState(int sx, int sy, int x, int y) : MAP_SIZE_X(sx), MAP_SIZE_Y(sy) { setX(x); setY(y); }
         GridWorldState(int sx, int sy, size_t s) : MAP_SIZE_X(sx), MAP_SIZE_Y(sy),
-                                                   x_(std::min((int)s%MAP_SIZE_X, MAP_SIZE_X-1)), 
+                                                   x_(std::min((int)s%MAP_SIZE_X, MAP_SIZE_X-1)),
                                                    y_(std::min((int)s/MAP_SIZE_X, MAP_SIZE_Y-1)) {}
 
         operator size_t() { return x_ + y_*MAP_SIZE_X; }
@@ -47,11 +47,11 @@ class GridWorld {
         GridWorld(size_t x, size_t y) : MAP_SIZE_X(x), MAP_SIZE_Y(y) {}
 
         GridWorldState operator()(size_t x, size_t y) const {
-            return GridWorldState(MAP_SIZE_X, MAP_SIZE_Y, x, y); 
+            return GridWorldState(MAP_SIZE_X, MAP_SIZE_Y, x, y);
         }
 
         GridWorldState operator()(size_t s) const {
-            return GridWorldState(MAP_SIZE_X, MAP_SIZE_Y, s); 
+            return GridWorldState(MAP_SIZE_X, MAP_SIZE_Y, s);
         }
 
         size_t getSizeX() const { return MAP_SIZE_X; }

@@ -95,18 +95,19 @@ namespace AIToolbox {
     }
 
     /**
-     * @brief Compares two AIToolbox::Vectors of equal size.
+     * @brief This function compares two AIToolbox::Vectors of equal size.
      *
      * @param lhs The left hand size of the comparison.
      * @param rhs The right hand size of the comparison.
      *
      * @return 1 if the lhs is greater than the rhs, 0 if they are equal, -1 otherwise.
      */
-    inline int veccmp(const Vector & lhs, const Vector & rhs) {
+    template <typename V>
+    int veccmp(const V & lhs, const V & rhs) {
         assert(lhs.size() == rhs.size());
         for (decltype(lhs.size()) i = 0; i < lhs.size(); ++i) {
-            if (lhs(i) > rhs(i)) return 1;
-            if (lhs(i) < rhs(i)) return -1;
+            if (lhs[i] > rhs[i]) return 1;
+            if (lhs[i] < rhs[i]) return -1;
         }
         return 0;
     }
@@ -117,6 +118,30 @@ namespace AIToolbox {
 
     inline bool operator>(const Vector & lhs, const Vector & rhs) {
         return veccmp(lhs, rhs) > 0;
+    }
+
+    /**
+     * @brief This function returns whether a sorted range contains a given element, via sequential scan.
+     *
+     * The idea behind this function is that for small sorted vectors it is
+     * faster to do a sequential scan rather than employing the heavy handed
+     * technique of binary search.
+     *
+     * @tparam V The type of the vector to be scanned.
+     * @param v The vector to be scanned.
+     * @param elem The element to be looked for in the vector.
+     *
+     * @return True if the vector contains that element, false otherwise.
+     */
+    template <typename V>
+    bool sequential_sorted_contains(const V & v, decltype(v[0]) elem) {
+        // Maybe this could be done with iterators?
+        for (const auto & e : v) {
+            if (e < elem) continue;
+            if (e == elem) return true;
+            return false;
+        }
+        return false;
     }
 }
 

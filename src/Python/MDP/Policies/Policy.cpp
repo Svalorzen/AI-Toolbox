@@ -6,7 +6,7 @@ void exportMDPPolicy() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
-    class_<Policy, bases<AIToolbox::PolicyInterface<size_t>>>{"Policy",
+    class_<Policy, bases<PolicyInterface>>{"Policy",
 
          "This class represents an MDP Policy.\n"
          "\n"
@@ -22,7 +22,7 @@ void exportMDPPolicy() {
          "Otherwise you may want to build a wrapper around some data to\n"
          "extract the policy dynamically.", no_init}
 
-        .def(init<const AIToolbox::PolicyInterface<size_t> &>(
+        .def(init<const PolicyInterface &>(
                  "Basic constructor.\n"
                  "\n"
                  "This constructor simply copies policy probability values\n"

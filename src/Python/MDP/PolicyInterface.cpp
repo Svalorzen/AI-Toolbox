@@ -1,4 +1,4 @@
-#include <AIToolbox/PolicyInterface.hpp>
+#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 
 #include <boost/python.hpp>
 
@@ -6,9 +6,7 @@ void exportMDPPolicyInterface() {
     using namespace AIToolbox;
     using namespace boost::python;
 
-    using P = PolicyInterface<size_t>;
-
-    class_<P, boost::noncopyable>{"PolicyInterface",
+    class_<MDP::PolicyInterface, boost::noncopyable>{"PolicyInterface",
 
          "This class represents the base interface for policies in MDPs.\n"
          "\n"
@@ -20,7 +18,7 @@ void exportMDPPolicyInterface() {
          "In the case of MDPs, the class works using integer states, which\n"
          "represent the discrete states from which we are sampling.", no_init}
 
-        .def("sampleAction",            &P::sampleAction,
+        .def("sampleAction",            &MDP::PolicyInterface::sampleAction,
              "This function chooses a random action for state s, following the policy distribution.\n"
              "\n"
              "@param s The sampled state of the policy.\n"
@@ -28,7 +26,7 @@ void exportMDPPolicyInterface() {
              "@return The chosen action."
         , (arg("self"), "s"))
 
-        .def("getActionProbability",    &P::getActionProbability,
+        .def("getActionProbability",    &MDP::PolicyInterface::getActionProbability,
              "This function returns the probability of taking the specified action in the specified state.\n"
              "\n"
              "@param s The selected state.\n"

@@ -6,9 +6,7 @@ void exportMDPQPolicyInterface() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
-    using P = AIToolbox::PolicyInterface<size_t>;
-
-    class_<QPolicyInterface, bases<P>, boost::noncopyable>{"QPolicyInterface",
+    class_<QPolicyInterface, bases<PolicyInterface>, boost::noncopyable>{"QPolicyInterface",
          "This class is an interface to specify a policy through a QFunction.\n"
          "\n"
          "This class provides a way to sample actions without the\n"

@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_MDP_QPOLICY_INTERFACE_HEADER_FILE
 #define AI_TOOLBOX_MDP_QPOLICY_INTERFACE_HEADER_FILE
 
-#include <AIToolbox/PolicyInterface.hpp>
+#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox {
@@ -18,7 +18,7 @@ namespace AIToolbox {
          * The type of policy obtained from such sampling is left to the implementation,
          * since there are many ways in which such a policy may be formed.
          */
-        class QPolicyInterface : public PolicyInterface<size_t> {
+        class QPolicyInterface : public PolicyInterface {
             public:
                 /**
                  * @brief Basic constructor.
@@ -44,7 +44,7 @@ namespace AIToolbox {
                  *
                  * @return The probability of taking the selected action in the specified state.
                  */
-                virtual double getActionProbability(const size_t & s, size_t a) const override = 0;
+                virtual double getActionProbability(const size_t & s, const size_t & a) const override = 0;
 
             protected:
                 const QFunction & q_;

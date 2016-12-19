@@ -26,11 +26,19 @@ if (MAKE_MDP)
         MDP/Algorithms/QLearning.cpp
         MDP/Algorithms/SARSA.cpp
         MDP/Policies/Policy.cpp
+        MDP/Policies/EpsilonPolicy.cpp
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
-        FactoredMDP/FactoredContainer.cpp)
+        FactoredMDP/FactoredContainer.cpp
+        FactoredMDP/Utils.cpp
+        FactoredMDP/Policies/EpsilonPolicy.cpp
+        FactoredMDP/Policies/SingleActionPolicy.cpp
+        FactoredMDP/Policies/QGreedyPolicy.cpp
+        FactoredMDP/Algorithms/Utils/VariableElimination.cpp
+        FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
+    )
 
     if (MAKE_PYTHON)
         add_library(MDP SHARED
@@ -43,6 +51,7 @@ if (MAKE_MDP)
             MDP/Algorithms/QLearning.cpp
             MDP/Algorithms/SARSA.cpp
             MDP/Policies/Policy.cpp
+            MDP/Policies/EpsilonPolicy.cpp
             MDP/Policies/QPolicyInterface.cpp
             MDP/Policies/QGreedyPolicy.cpp
             MDP/Policies/QSoftmaxPolicy.cpp

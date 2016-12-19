@@ -7,7 +7,7 @@ namespace AIToolbox {
     namespace MDP {
         /**
          * @brief This class models a greedy policy through a QFunction.
-         * 
+         *
          * This class allows you to select effortlessly the best greedy actions
          * from a given QFunction.
          */
@@ -31,13 +31,13 @@ namespace AIToolbox {
 
                 /**
                  * @brief This function returns the probability of taking the specified action in the specified state.
-                 * 
+                 *
                  * @param s The selected state.
                  * @param a The selected action.
                  *
                  * @return This function returns 1 if a is equal to the greediest action, and 0 otherwise.
                  */
-                virtual double getActionProbability(const size_t & s, size_t a) const override;
+                virtual double getActionProbability(const size_t & s, const size_t & a) const override;
         };
     }
 }

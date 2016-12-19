@@ -24,8 +24,9 @@ namespace AIToolbox {
          * (since future actions depend on the observations obtained by the
          * agent).
          */
-        class Policy : public PolicyInterface<Belief> {
+        class Policy : public PolicyInterface<size_t, Belief, size_t> {
             public:
+                using Base = PolicyInterface<size_t, Belief, size_t>;
                 /**
                  * @brief Basic constrctor.
                  *
@@ -142,7 +143,7 @@ namespace AIToolbox {
                  *
                  * @return The probability of taking the selected action in the specified belief.
                  */
-                virtual double getActionProbability(const Belief & b, size_t a) const override;
+                virtual double getActionProbability(const Belief & b, const size_t & a) const override;
 
                 /**
                  * @brief This function returns the probability of taking the specified action in the specified belief.
