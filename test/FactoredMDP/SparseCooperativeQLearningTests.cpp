@@ -3,6 +3,7 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
+#include <AIToolbox/Utils.hpp>
 #include <AIToolbox/FactoredMDP/Algorithms/SparseCooperativeQLearning.hpp>
 
 namespace fm = AIToolbox::FactoredMDP;
@@ -27,22 +28,25 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     for (const auto & rule : rules)
         solver.insertRule(rule);
 
+    const auto & container = solver.getQFunctionRules().getContainer();
+    BOOST_CHECK_EQUAL(container[0].value_,  v1);
+    BOOST_CHECK_EQUAL(container[1].value_, 2.0);
+    BOOST_CHECK_EQUAL(container[2].value_,  v3);
+    BOOST_CHECK_EQUAL(container[3].value_, 4.0);
+    BOOST_CHECK_EQUAL(container[4].value_,  v5);
+    BOOST_CHECK_EQUAL(container[5].value_,  v6);
+
     double R1 = 3.7, R2 = -1.3, R3 = 7.34;
-    solver.stepUpdateQ({0}, {1, 1, 1}, {1}, {R1, R2, R3});
+    auto a1 = solver.stepUpdateQ({0}, {1, 1, 1}, {1}, {R1, R2, R3});
 
-    const auto & container = solver.getQFunctionRules();
+    // Verify action
+    BOOST_CHECK_EQUAL(AIToolbox::veccmp(a1, fm::Action{1, 0, 0}), 0);
 
-    auto r1Iterable = container.filter({0, 1, 1, 0});
-    BOOST_CHECK_EQUAL(r1Iterable.size(), 1);
-
-    auto r1 = *r1Iterable.begin();
-    // This is taken from the paper
-    BOOST_CHECK_EQUAL(r1.value_, v1 + alpha * (R1 + gamma * (v3 / 2.0) - v1));
-
-    auto r5Iterable = container.filter({0, 0, 1, 1});
-    BOOST_CHECK_EQUAL(r5Iterable.size(), 1);
-
-    auto r5 = *r5Iterable.begin();
-    // This is taken from the paper
-    BOOST_CHECK_EQUAL(r5.value_, v5 + alpha * (R2 + gamma * (v3 / 2.0) - v5 / 2.0 + R3 + gamma * v6 - v5 / 2.0));
+    // Verify rules updates (from the paper)
+    BOOST_CHECK_EQUAL(container[0].value_,  v1 + alpha * (R1 + gamma * (v3 / 2.0) - v1));
+    BOOST_CHECK_EQUAL(container[1].value_, 2.0);
+    BOOST_CHECK_EQUAL(container[2].value_,  v3);
+    BOOST_CHECK_EQUAL(container[3].value_, 4.0);
+    BOOST_CHECK_EQUAL(container[4].value_, v5 + alpha * (R2 + gamma * (v3 / 2.0) - v5 / 2.0 + R3 + gamma * v6 - v5 / 2.0));
+    BOOST_CHECK_EQUAL(container[5].value_,  v6);
 }

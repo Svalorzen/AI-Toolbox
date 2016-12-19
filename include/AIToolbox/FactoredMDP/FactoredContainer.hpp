@@ -261,6 +261,15 @@ namespace AIToolbox {
                     return items_.size();
                 }
 
+                /**
+                 * @brief This function provides a direct view on the items contained by the container.
+                 *
+                 * @return The underlying data container.
+                 */
+                const ItemsContainer & getContainer() const {
+                    return items_;
+                }
+
             private:
                 Trie ids_;
                 ItemsContainer items_;
