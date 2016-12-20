@@ -67,7 +67,7 @@ namespace AIToolbox {
         using PartialState = PartialFactors;
         using Action = Factors;
         using PartialAction = PartialFactors;
-        using Rewards = std::vector<double>;
+        using Rewards = Vector;
 
         // @}
 

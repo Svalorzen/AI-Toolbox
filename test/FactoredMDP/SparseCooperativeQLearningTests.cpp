@@ -37,7 +37,8 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     BOOST_CHECK_EQUAL(container[5].value_,  v6);
 
     double R1 = 3.7, R2 = -1.3, R3 = 7.34;
-    auto a1 = solver.stepUpdateQ({0}, {1, 1, 1}, {1}, {R1, R2, R3});
+    fm::Rewards rew(3); rew << R1, R2, R3;
+    auto a1 = solver.stepUpdateQ({0}, {1, 1, 1}, {1}, rew);
 
     // Verify action
     BOOST_CHECK_EQUAL(AIToolbox::veccmp(a1, fm::Action{1, 0, 0}), 0);
