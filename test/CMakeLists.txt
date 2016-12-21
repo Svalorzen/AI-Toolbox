@@ -74,6 +74,15 @@ if (MAKE_MDP)
             AddTestMDPPython(ValueIteration)
         endif()
     endif()
+
+    add_custom_command(
+        TARGET Global_UtilsTests
+        POST_BUILD
+        COMMAND rsync
+        ARGS -r
+                "${PROJECT_SOURCE_DIR}/test/data"
+                "${CMAKE_CURRENT_BINARY_DIR}"
+        COMMENT "Copying data to test folder...")
 endif()
 
 if (MAKE_POMDP)

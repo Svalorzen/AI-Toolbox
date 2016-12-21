@@ -35,11 +35,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-# All executables are tests
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/test/bin)
 
 enable_testing()
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 add_subdirectory (${PROJECT_SOURCE_DIR}/src)
 add_subdirectory (${PROJECT_SOURCE_DIR}/test)
+add_subdirectory (${PROJECT_SOURCE_DIR}/examples)
