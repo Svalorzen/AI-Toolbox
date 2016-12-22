@@ -1,5 +1,4 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
-#include <boost/functional/hash.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
