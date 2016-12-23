@@ -51,3 +51,21 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction_v.first), std::end(bestAction_v.first),
                                   std::begin(solution.first), std::end(solution.first));
 }
+
+BOOST_AUTO_TEST_CASE( all_connected_agents ) {
+    std::vector<fm::QFunctionRule> rules {
+        // States, Actions,                     Value
+        {    {},   {{0, 1, 2}, {1, 1, 1}},      10.0},
+    };
+
+    auto solution = std::make_pair(fm::Action{1, 1, 1}, 10.0);
+
+    fm::Action a{2, 2, 2};
+
+    ve v(a);
+    auto bestAction_v = v(rules);
+
+    BOOST_CHECK_EQUAL(bestAction_v.second, solution.second);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction_v.first), std::end(bestAction_v.first),
+                                  std::begin(solution.first), std::end(solution.first));
+}

@@ -9,6 +9,29 @@
 
 namespace fm = AIToolbox::FactoredMDP;
 
+BOOST_AUTO_TEST_CASE( partial_factor_merge ) {
+    fm::PartialFactors lhs = {{0, 3, 5, 6}, {0, 3, 5, 6}};
+    fm::PartialFactors rhs = {{1, 2, 4, 7}, {1, 2, 4, 7}};
+
+    fm::PartialFactors solution = {{0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}};
+
+    auto result1 = fm::merge(lhs, rhs);
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution.first), std::end(solution.first),
+                                  std::begin(result1.first), std::end(result1.first));
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution.second), std::end(solution.second),
+                                  std::begin(result1.second), std::end(result1.second));
+
+    auto result2 = fm::merge(rhs, lhs);
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution.first), std::end(solution.first),
+                                  std::begin(result2.first), std::end(result2.first));
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution.second), std::end(solution.second),
+                                  std::begin(result2.second), std::end(result2.second));
+}
+
 BOOST_AUTO_TEST_CASE( partial_factor_enumerator_no_skip ) {
     fm::Factors f{1,2,3,4,5};
     fm::PartialFactorsEnumerator enumerator(f, {0, 2, 3});

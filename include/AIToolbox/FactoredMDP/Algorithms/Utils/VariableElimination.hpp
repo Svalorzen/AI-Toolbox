@@ -34,7 +34,8 @@ namespace AIToolbox {
          */
         class VariableElimination {
             public:
-                using Rule = std::pair<PartialAction, double>;
+                // action for subset of agents, value of rule, tags
+                using Rule = std::tuple<PartialAction, double, PartialAction>;
                 using Rules = std::vector<Rule>;
 
                 struct Factor{
@@ -65,7 +66,7 @@ namespace AIToolbox {
                     // Should we reset the graph?
                     for (const auto & rule : rules) {
                         auto it = graph_.getFactor(rule.a_.first);
-                        it->f_.rules_.push_back(std::make_pair(rule.a_, rule.value_));
+                        it->f_.rules_.emplace_back(rule.a_, rule.value_, PartialAction());
                     }
                     return start();
                 }
@@ -118,10 +119,11 @@ namespace AIToolbox {
                  *
                  * @param factor The factor to be analyzed.
                  * @param jointAction The joint action to match each Rule against.
+                 * @param tags An optional pointer where to store all tags encountered in the sum.
                  *
                  * @return The sum of all matching Rules' values.
                  */
-                double getPayoff(const Factor & factor, const PartialAction & jointAction);
+                double getPayoff(const Factor & factor, const PartialAction & jointAction, PartialAction * tags = nullptr);
 
                 Graph graph_;
                 Action A;

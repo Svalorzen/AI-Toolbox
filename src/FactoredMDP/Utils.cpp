@@ -42,6 +42,37 @@ namespace AIToolbox {
             return retval;
         }
 
+        PartialFactors merge(const PartialFactors & lhs, const PartialFactors & rhs) {
+            PartialFactors retval;
+            retval.first.reserve(lhs.first.size() + rhs.first.size());
+            retval.second.reserve(lhs.first.size() + rhs.first.size());
+            retval = lhs;
+
+            inplace_merge(&retval, rhs);
+
+            return retval;
+        }
+
+        void inplace_merge(PartialFactors * plhs, const PartialFactors & rhs) {
+            if (!plhs) return;
+            auto & lhs = *plhs;
+
+            lhs.first.reserve(lhs.first.size() + rhs.first.size());
+            lhs.second.reserve(lhs.first.size() + rhs.first.size());
+
+            size_t i = 0, j = 0;
+            while (i < lhs.first.size() && j < rhs.first.size()) {
+                if (lhs.first[i] < rhs.first[j]) { ++i; continue; }
+                lhs.first.insert(std::begin(lhs.first) + i, rhs.first[j]);
+                lhs.second.insert(std::begin(lhs.second) + i, rhs.second[j]);
+                ++i;
+                ++j;
+            }
+            lhs.first.insert(std::end(lhs.first), std::begin(rhs.first) + j, std::end(rhs.first));
+            lhs.second.insert(std::end(lhs.second), std::begin(rhs.second) + j, std::end(rhs.second));
+        }
+
+
         size_t factorSpace(const Factors & factors) {
             size_t retval = 1;
             for (auto f : factors) {

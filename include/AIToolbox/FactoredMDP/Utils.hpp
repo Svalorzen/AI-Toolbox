@@ -46,6 +46,32 @@ namespace AIToolbox {
         Factors join(const Factors & lhs, const Factors & rhs);
 
         /**
+         * @brief This function merges two PartialFactors together.
+         *
+         * This function assumes that all elements in the factors have
+         * different keys. If they have the same keys, the behaviour is
+         * unspecified.
+         *
+         * @param lhs The left hand side.
+         * @param rhs The right hand side.
+         *
+         * @return A new PartialFactors containing all keys from both inputs and their respective values.
+         */
+        PartialFactors merge(const PartialFactors & lhs, const PartialFactors & rhs);
+
+        /**
+         * @brief This function merges the second PartialFactors into the first.
+         *
+         * This function assumes that all elements in the factors have
+         * different keys. If they have the same keys, the behaviour is
+         * unspecified.
+         *
+         * @param lhs The left hand side to be modified.
+         * @param rhs The right hand side.
+         */
+        void inplace_merge(PartialFactors * plhs, const PartialFactors & rhs);
+
+        /**
          * @brief This function returns the multiplication of all elements of the input factor.
          *
          * In case the factor space is too big to represent via a size_t, the
