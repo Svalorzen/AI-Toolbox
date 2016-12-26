@@ -2,6 +2,28 @@
 
 namespace AIToolbox {
     namespace FactoredMDP {
+        using VE = VariableElimination;
+
+        /**
+         * @brief This function finds the highest valued rule in the given rules.
+         *
+         * @param rules A vector of Rule with at least 1 element.
+         *
+         * @return The highest valued rule.
+         */
+        const VE::Rule & getBestRule(const VE::Rules & rules);
+
+        /**
+         * @brief This function returns the sum of values of all rules matching the input action.
+         *
+         * @param factor The factor to be analyzed.
+         * @param jointAction The joint action to match each Rule against.
+         * @param tags An optional pointer where to store all tags encountered in the sum.
+         *
+         * @return The sum of all matching Rules' values.
+         */
+        double getPayoff(const VE::Factor & factor, const PartialAction & jointAction, PartialAction * tags = nullptr);
+
         VariableElimination::VariableElimination(Action a) : graph_(a.size()), A(a) {}
 
         std::pair<Action, double> VariableElimination::start() {
@@ -66,6 +88,7 @@ namespace AIToolbox {
                     }
                 }
                 if (checkDifferentSmall(bestPayoff, 0.0)) {
+                    // TODO: Remove agent from jA? Make it do to the enumerator maybe.
                     newRules.emplace_back(jointAction, bestPayoff, std::move(bestTag));
                 }
                 jointActions.advance();
@@ -90,8 +113,8 @@ namespace AIToolbox {
             }
         }
 
-        const VariableElimination::Rule & VariableElimination::getBestRule(const Rules & rules) {
-            const Rule * bestRule = &rules[0];
+        const VE::Rule & getBestRule(const VE::Rules & rules) {
+            const VE::Rule * bestRule = &rules[0];
 
             for (const auto & rule : rules)
                 if (std::get<1>(rule) > std::get<1>(*bestRule))
@@ -100,7 +123,7 @@ namespace AIToolbox {
             return *bestRule;
         }
 
-        double VariableElimination::getPayoff(const Factor & factor, const PartialAction & jointAction, PartialAction * tags) {
+        double getPayoff(const VE::Factor & factor, const PartialAction & jointAction, PartialAction * tags) {
             double result = 0.0;
             for (const auto & rule : factor.rules_) {
                 if (match(jointAction, std::get<0>(rule))) {

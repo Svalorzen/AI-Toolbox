@@ -105,26 +105,6 @@ namespace AIToolbox {
                  */
                 void removeAgent(size_t agent);
 
-                /**
-                 * @brief This function finds the highest valued rule in the given rules.
-                 *
-                 * @param rules A vector of Rule with at least 1 element.
-                 *
-                 * @return The highest valued rule.
-                 */
-                const Rule & getBestRule(const Rules & rules);
-
-                /**
-                 * @brief This function returns the sum of values of all rules matching the input action.
-                 *
-                 * @param factor The factor to be analyzed.
-                 * @param jointAction The joint action to match each Rule against.
-                 * @param tags An optional pointer where to store all tags encountered in the sum.
-                 *
-                 * @return The sum of all matching Rules' values.
-                 */
-                double getPayoff(const Factor & factor, const PartialAction & jointAction, PartialAction * tags = nullptr);
-
                 Graph graph_;
                 Action A;
                 std::vector<Rules> finalFactors_;
