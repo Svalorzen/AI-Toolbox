@@ -9,6 +9,14 @@ ADD_DEFINITIONS(
     # Other flags
 )
 
+# Set default cmake build type to release
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING
+      "Choose the type of build, options are:
+          Debug Release RelWithDebInfo MinSizeRel."
+      FORCE)
+endif()
+
 # Default is to build everything
 if (NOT MAKE_ALL AND NOT MAKE_MDP AND NOT MAKE_POMDP)
     set(MAKE_ALL    1)
