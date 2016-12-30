@@ -71,12 +71,12 @@ const std::vector<std::string> openDoor {
     { R"(|/        \|)" }};
 
 const std::vector<std::string> sound {
-    { R"(  __    __  )" },
-    { R"(    /||\    )" },
-    { R"(   / || \   )" },
-    { R"(  /  ||  \  )" },
-    { R"( /   ||   \ )" },
-    { R"(     ||     )" },
+    { R"(    -..-    )" },
+    { R"(            )" },
+    { R"(  '-,__,-'  )" },
+    { R"(            )" },
+    { R"( `,_    _,` )" },
+    { R"(    `--`    )" },
     { R"(            )" }};
 
 const std::vector<std::string> nosound {
@@ -103,6 +103,9 @@ const std::vector<std::string> man {
 const std::string hspacer{"     "};
 const std::string manhspacer(hspacer.size() / 2 + prize[0].size() - man[0].size() / 2, ' ');
 const std::string numspacer((prize[0].size() - 8)/2, ' ');
+
+const std::string clockSpacer = numspacer + std::string((hspacer.size() - 1) / 2, ' ');
+const std::string strclock(R"(/|\-)");
 
 // MODEL
 
@@ -220,10 +223,12 @@ int main() {
     std::cout.precision(6);
 
     // We loop for each step we have yet to do.
+    double totalReward = 0.0;
     for (int t = horizon - 1; t >= 0; --t) {
         auto currA = std::get<0>(a_id);
         auto s1_o_r = model.sampleSOR(s, currA);
         auto currO = std::get<1>(s1_o_r);
+        totalReward += std::get<2>(s1_o_r);
         { // Rendering of the environment, depends on state, action and observation.
             auto & left  = s ? prize : tiger;
             auto & right = s ? tiger : prize;
@@ -240,26 +245,42 @@ int main() {
             for (size_t i = 0; i < prize.size(); ++i)
                 std::cout << sleft[i] << hspacer << sright[i] << '\n';
 
-            std::cout << numspacer << b[0] << numspacer << hspacer
-                      << numspacer << b[1] << '\n';
+            std::cout << numspacer << b[0] << clockSpacer
+                      << strclock[t % strclock.size()]
+                      << clockSpacer << b[1] << '\n';
 
             for (const auto & m : man)
                 std::cout << manhspacer << m << '\n';
 
             std::cout << "Timestep missing: " << t << "       \n";
+            std::cout << "Total reward:     " << totalReward << "       \n";
 
-            goup(3 * prize.size() + man.size() + 2);
+            goup(3 * prize.size() + man.size() + 3);
         }
+
+        // We explicitly update the belief just to show the user what the agent
+        // is thinking. This is necessary in some cases (depending on
+        // convergence of the solution, see below), otherwise its only for
+        // rendering purpouses. It is a pretty expensive operation so if
+        // performance is required it should be avoided.
+        b = AIToolbox::POMDP::updateBelief(model, b, currA, currO);
+
         // Now that we have rendered, we can use the observation to find out
         // what action we should do next. The new sampling depends on the
         // previous one since we're implicitly keeping track of the changing
         // belief.
-        a_id = policy.sampleAction(std::get<1>(a_id), currO, t);
+        //
+        // Depending on whether the solution converged or not, we have to use
+        // the policy differently. Suppose that we planned for an horizon of 5,
+        // but the solution converged after 3. Then the policy will only be
+        // usable with horizons of 3 or less. For higher horizons, the highest
+        // step of the policy suffices (since it converged), but it will need a
+        // manual belief update.
+        if (t > (int)policy.getH())
+            a_id = policy.sampleAction(b, policy.getH());
+        else
+            a_id = policy.sampleAction(std::get<1>(a_id), currO, t);
 
-        // We also explicitly update the belief just to show the user what the
-        // agent is thinking. This is not necessary, only for rendering
-        // purpouses.
-        b = AIToolbox::POMDP::updateBelief(model, b, currA, currO);
         // Then we update the world
         s = std::get<0>(s1_o_r);
 
@@ -267,7 +288,7 @@ int main() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     // Put the cursor back where it should be.
-    godown(3 * prize.size() + man.size() + 2);
+    godown(3 * prize.size() + man.size() + 3);
 
     return 0;
 }
