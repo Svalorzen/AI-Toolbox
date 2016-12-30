@@ -87,10 +87,8 @@ namespace AIToolbox {
                         bestTag = std::move(newTag);
                     }
                 }
-                if (checkDifferentSmall(bestPayoff, 0.0)) {
-                    // TODO: Remove agent from jA? Make it do to the enumerator maybe.
-                    newRules.emplace_back(jointAction, bestPayoff, std::move(bestTag));
-                }
+                if (checkDifferentSmall(bestPayoff, 0.0))
+                    newRules.emplace_back(removeFactor(jointAction, agent), bestPayoff, std::move(bestTag));
                 jointActions.advance();
             }
 
