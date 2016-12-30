@@ -10,6 +10,9 @@ if (MAKE_MDP)
 endif()
 
 if (MAKE_POMDP)
+    add_executable(tiger_door POMDP/tiger_door.cpp)
+    target_link_libraries(tiger_door AIToolboxMDP AIToolboxPOMDP)
+
     if (MAKE_PYTHON)
     endif()
 endif()
