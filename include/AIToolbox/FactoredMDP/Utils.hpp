@@ -5,6 +5,7 @@
 
 namespace AIToolbox {
     namespace FactoredMDP {
+        PartialFactors removeFactor(const PartialFactors & pf, size_t f);
         /**
          * @brief This function returns whether the common factors in the inputs match in value.
          *
@@ -91,6 +92,21 @@ namespace AIToolbox {
          * @return A PartialFactors structure equivalent to the input.
          */
         PartialFactors toPartialFactors(const Factors & f);
+
+        /**
+         * @brief This function converts PartialFactors into the equivalent Factors structure.
+         *
+         * If the PartialFactors are incomplete, the non-specified elements
+         * will be unspecified in the returned value as well. The
+         * PartialFactors will not contain a factor higher than what passed as
+         * input.
+         *
+         * @param F The size of the Factors to be returned.
+         * @param pf The PartialFactors to be converted.
+         *
+         * @return Factors containing all values of the input.
+         */
+        Factors toFactors(size_t F, const PartialFactors & pf);
 
         /**
          * @brief This class enumerates all possible values for a PartialFactors.

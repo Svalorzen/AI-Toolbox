@@ -83,6 +83,12 @@ namespace AIToolbox {
             PartialAction a_;
             double value_;
         };
+
+        struct MOQFunctionRule {
+            PartialState s_;
+            PartialAction a_;
+            Rewards values_;
+        };
     }
 }
 

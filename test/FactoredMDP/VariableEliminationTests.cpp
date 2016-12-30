@@ -26,9 +26,9 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
     ve v(a);
     auto bestAction_v = v(rules);
 
-    BOOST_CHECK_EQUAL(bestAction_v.second, solution.second);
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction_v.first), std::end(bestAction_v.first),
-                                  std::begin(solution.first), std::end(solution.first));
+    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
+                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
 }
 
 BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
@@ -47,9 +47,9 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
     ve v(a);
     auto bestAction_v = v(rules);
 
-    BOOST_CHECK_EQUAL(bestAction_v.second, solution.second);
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction_v.first), std::end(bestAction_v.first),
-                                  std::begin(solution.first), std::end(solution.first));
+    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
+                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
 }
 
 BOOST_AUTO_TEST_CASE( all_connected_agents ) {
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
     ve v(a);
     auto bestAction_v = v(rules);
 
-    BOOST_CHECK_EQUAL(bestAction_v.second, solution.second);
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction_v.first), std::end(bestAction_v.first),
-                                  std::begin(solution.first), std::end(solution.first));
+    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
+                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
 }

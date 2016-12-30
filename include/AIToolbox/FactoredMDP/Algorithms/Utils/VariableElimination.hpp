@@ -38,7 +38,7 @@ namespace AIToolbox {
                 using Rule = std::tuple<PartialAction, double, PartialAction>;
                 using Rules = std::vector<Rule>;
 
-                struct Factor{
+                struct Factor {
                     Rules rules_;
                 };
 
@@ -59,12 +59,12 @@ namespace AIToolbox {
                  *
                  * @param rules An iterable object over QFunctionRules.
                  *
-                 * @return The pair of best Action and its value over the input rules.
+                 * @return A tuple containing the best Action and its value over the input rules.
                  */
                 template <typename Iterable>
-                std::pair<Action, double> operator()(const Iterable & rules) {
+                std::tuple<Action, double> operator()(const Iterable & rules) {
                     // Should we reset the graph?
-                    for (const auto & rule : rules) {
+                    for (const QFunctionRule & rule : rules) {
                         auto it = graph_.getFactor(rule.a_.first);
                         it->f_.rules_.emplace_back(rule.a_, rule.value_, PartialAction());
                     }

@@ -37,6 +37,7 @@ if (MAKE_MDP)
         FactoredMDP/Policies/SingleActionPolicy.cpp
         FactoredMDP/Policies/QGreedyPolicy.cpp
         FactoredMDP/Algorithms/Utils/VariableElimination.cpp
+        FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
     )
 

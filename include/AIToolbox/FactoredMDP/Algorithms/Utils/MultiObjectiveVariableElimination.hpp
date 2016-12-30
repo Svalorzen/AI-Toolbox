@@ -5,10 +5,12 @@
 #include "AIToolbox/FactoredMDP/Utils.hpp"
 #include "AIToolbox/FactoredMDP/FactorGraph.hpp"
 
+#include <iostream>
+
 namespace AIToolbox {
     namespace FactoredMDP {
         /**
-         * @brief This class represents the Variable Elimination process.
+         * @brief This class represents the Multi Objective Variable Elimination process.
          *
          * This class performs variable elimination on a factor graph. It first
          * builds the graph starting from a list of QFunctionRules. These rules
@@ -36,10 +38,11 @@ namespace AIToolbox {
                 using Values = std::vector<std::pair<Rewards, PartialAction>>;
                 using Rule = std::tuple<PartialAction, Values>;
                 using Rules = std::vector<Rule>;
+
                 using Result = std::tuple<Action, Rewards>;
                 using Results = std::vector<Result>;
 
-                struct Factor{
+                struct Factor {
                     Rules rules_;
                 };
 
@@ -65,10 +68,12 @@ namespace AIToolbox {
                 template <typename Iterable>
                 Results operator()(const Iterable & rules) {
                     // Should we reset the graph?
-                    for (const auto & rule : rules) {
+                    for (const MOQFunctionRule & rule : rules) {
                         auto it = graph_.getFactor(rule.a_.first);
-                        it->f_.rules_.push_back(std::make_pair(rule.a_, rule.value_));
+                        it->f_.rules_.push_back(std::make_tuple(rule.a_, Values{std::make_pair(rule.values_, PartialAction())}));
+                        std::cout << "Added rule.\n";
                     }
+                    std::cout << "Graph has " << graph_.factorSize() << " factors.\n";
                     return start();
                 }
 
