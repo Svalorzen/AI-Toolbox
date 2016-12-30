@@ -225,10 +225,15 @@ int main() {
     // We loop for each step we have yet to do.
     double totalReward = 0.0;
     for (int t = horizon - 1; t >= 0; --t) {
+        // We get our current action
         auto currA = std::get<0>(a_id);
+        // We advance the world one step (the agent only sees the observation
+        // and reward).
         auto s1_o_r = model.sampleSOR(s, currA);
+        // We get the observation from the model, and update our total reward.
         auto currO = std::get<1>(s1_o_r);
         totalReward += std::get<2>(s1_o_r);
+
         { // Rendering of the environment, depends on state, action and observation.
             auto & left  = s ? prize : tiger;
             auto & right = s ? tiger : prize;
@@ -258,24 +263,29 @@ int main() {
             goup(3 * prize.size() + man.size() + 3);
         }
 
-        // We explicitly update the belief just to show the user what the agent
-        // is thinking. This is necessary in some cases (depending on
+        // We explicitly update the belief to show the user what the agent is
+        // thinking. This is also necessary in some cases (depending on
         // convergence of the solution, see below), otherwise its only for
         // rendering purpouses. It is a pretty expensive operation so if
         // performance is required it should be avoided.
         b = AIToolbox::POMDP::updateBelief(model, b, currA, currO);
 
         // Now that we have rendered, we can use the observation to find out
-        // what action we should do next. The new sampling depends on the
-        // previous one since we're implicitly keeping track of the changing
-        // belief.
+        // what action we should do next.
         //
         // Depending on whether the solution converged or not, we have to use
         // the policy differently. Suppose that we planned for an horizon of 5,
         // but the solution converged after 3. Then the policy will only be
         // usable with horizons of 3 or less. For higher horizons, the highest
         // step of the policy suffices (since it converged), but it will need a
-        // manual belief update.
+        // manual belief update to know what to do.
+        //
+        // Otherwise, the policy implicitly tracks the belief via the id it
+        // returned from the last sampling, without the need for a belief
+        // update. This is a consequence of the fact that POMDP policies are
+        // computed from a piecewise linear and convex value function, so
+        // ranges of similar beliefs actually result in needing to do the same
+        // thing (since they are similar enough for the timesteps considered).
         if (t > (int)policy.getH())
             a_id = policy.sampleAction(b, policy.getH());
         else
