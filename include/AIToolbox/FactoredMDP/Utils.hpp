@@ -5,7 +5,16 @@
 
 namespace AIToolbox {
     namespace FactoredMDP {
+        /**
+         * @brief This function removes the specified factor from the input PartialFactors.
+         *
+         * @param pf The PartialFactors to modify.
+         * @param f The factor to be removed.
+         *
+         * @return A new PartialFactors that does not contain the input factor.
+         */
         PartialFactors removeFactor(const PartialFactors & pf, size_t f);
+
         /**
          * @brief This function returns whether the common factors in the inputs match in value.
          *
