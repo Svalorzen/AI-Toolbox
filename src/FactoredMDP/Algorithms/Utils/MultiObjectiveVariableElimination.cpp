@@ -2,16 +2,62 @@
 
 #include <AIToolbox/Utils.hpp>
 
-#include <iostream>
-
 namespace AIToolbox {
     namespace FactoredMDP {
         using MOVE = MultiObjectiveVariableElimination;
 
+        /**
+         * @brief This function cross-sums the input lists.
+         *
+         * For each element of tag/value in both inputs, a new value will be
+         * returned with a value equal to the element-wise sum of the operands,
+         * and tag equal to merged tags of the operands.
+         *
+         * @param lhs The left hand side.
+         * @param rhs The right hand side.
+         *
+         * @return A new list containing all cross-sums.
+         */
         MOVE::Values crossSum(const MOVE::Values & lhs, const MOVE::Values & rhs);
+
+        /**
+         * @brief This function cross-sums the input lists.
+         *
+         * Cross-sums are performed considering the right-hand side as one
+         * single joined list.
+         *
+         * \sa crossSum(const MOVE::Values &, const MOVE::Values &);
+         *
+         * @param lhs The left hand side.
+         * @param rhs A list of pointers to valid Values lists.
+         *
+         * @return A new list containing all cross-sums.
+         */
         MOVE::Values crossSum(const MOVE::Values & lhs, const std::vector<const MOVE::Values*> rhs);
+
+        /**
+         * @brief This function returns a list of pointers to all Values from the Rules matching the input joint action.
+         *
+         * @param rules A list of Rule.
+         * @param jointAction A joint action to match Rules against.
+         *
+         * @return A list of pointers to the Values contained in the Rules matched against the input action.
+         */
         std::vector<const MOVE::Values*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction);
+
+        /**
+         * @brief This function returns cross-sums common elements between the input plus all unique Rules.
+         *
+         * The inputs must be sorted by PartialAction lexically. This function
+         * moves from its inputs.
+         *
+         * @param lhs The left hand side.
+         * @param rhs The right hand side.
+         *
+         * @return A list of cross-summed rules.
+         */
         MOVE::Rules mergePayoffs(MOVE::Rules && lhs, MOVE::Rules && rhs);
+
 
         MOVE::MultiObjectiveVariableElimination(Action a) : graph_(a.size()), A(a) {}
 
@@ -27,14 +73,13 @@ namespace AIToolbox {
                 retval = crossSum(retval, fValue);
 
             // p1.prune(&retval);
+
             return retval;
         }
 
         void MOVE::removeAgent(size_t agent) {
             auto factors = graph_.getNeighbors(agent);
             auto agents = graph_.getNeighbors(factors);
-            std::cout << "### REMOVING AGENT " << agent << '\n';
-            std::cout << "### CONSIDERING " << factors.size() << " FACTORS\n";
 
             Rules newRules;
             PartialFactorsEnumerator jointActions(A, agents, agent);
@@ -47,15 +92,12 @@ namespace AIToolbox {
                     Rule newRule;
                     auto & values = std::get<1>(newRule);
                     for (size_t agentAction = 0; agentAction < A[agent]; ++agentAction) {
-                        std::cout << "/////// New joint action\n";
                         jointAction.second[id] = agentAction;
 
                         Values newValues;
-                        for (auto p : getPayoffs(factors[0]->f_.rules_, jointAction)) {
-                            std::cout << "Inserting start?\n";
+                        for (auto p : getPayoffs(factors[0]->f_.rules_, jointAction))
                             newValues.insert(std::end(newValues), std::begin(*p), std::end(*p));
-                        }
-                        std::cout << "New value, size: " << newValues.size() << "\n";
+
                         // So the idea here is that we are computing results for
                         // this particular subset of agents. Here we are working
                         // with a single action. However, we may have eliminated
@@ -75,7 +117,6 @@ namespace AIToolbox {
                         // possibly merge them if we see equal ones.
                         for (size_t i = 1; i < factors.size(); ++i) {
                             newValues = crossSum(newValues, getPayoffs(factors[i]->f_.rules_, jointAction));
-                            std::cout << "- Crosssum, size is: " << newValues.size() << '\n';
                             // p3.prune(&newValues);
                         }
 
@@ -91,7 +132,6 @@ namespace AIToolbox {
                                 first.insert(std::begin(first) + i, agent);
                                 second.insert(std::begin(second) + i, agentAction);
                             }
-                            std::cout << "Added to values.\n";
                             values.insert(std::end(values), std::make_move_iterator(std::begin(newValues)),
                                                             std::make_move_iterator(std::end(newValues)));
                         }
@@ -144,14 +184,6 @@ namespace AIToolbox {
             }
         }
 
-        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction) {
-            std::vector<const MOVE::Values*> retval;
-            for (const auto & rule : rules)
-                if (match(jointAction, std::get<0>(rule)))
-                    retval.push_back(&std::get<1>(rule));
-            return retval;
-        }
-
         MOVE::Rules mergePayoffs(MOVE::Rules && lhs, MOVE::Rules && rhs) {
             MOVE::Rules retval;
             // We're going to have at least these rules.
@@ -180,6 +212,15 @@ namespace AIToolbox {
 
             return retval;
         }
+
+        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction) {
+            std::vector<const MOVE::Values*> retval;
+            for (const auto & rule : rules)
+                if (match(jointAction, std::get<0>(rule)))
+                    retval.push_back(&std::get<1>(rule));
+            return retval;
+        }
+
 
         MOVE::Values crossSum(const MOVE::Values & lhs, const std::vector<const MOVE::Values*> rhs) {
             if (!rhs.size()) return lhs;
