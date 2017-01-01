@@ -16,28 +16,28 @@ namespace AIToolbox {
         /**
          * @brief This function returns the sum of values of all rules matching the input action.
          *
-         * @param factor The factor to be analyzed.
+         * @param rules The rules to be searched in.
          * @param jointAction The joint action to match each Rule against.
          * @param tags An optional pointer where to store all tags encountered in the sum.
          *
          * @return The sum of all matching Rules' values.
          */
-        double getPayoff(const VE::Factor & factor, const PartialAction & jointAction, PartialAction * tags = nullptr);
+        double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags = nullptr);
 
-        VariableElimination::VariableElimination(Action a) : graph_(a.size()), A(a) {}
+        VE::VariableElimination(Action a) : graph_(a.size()), A(a) {}
 
-        std::pair<Action, double> VariableElimination::start() {
+        VE::Result VE::start() {
             // This can possibly be improved with some heuristic ordering
             while (graph_.agentSize())
                 removeAgent(graph_.agentSize() - 1);
 
             auto a_v = std::make_pair(Action(A.size()), 0.0);
             for (const auto & f : finalFactors_) {
-                const auto & pa_v_t = getBestRule(f);
+                const auto & pa_t_v = getBestRule(f);
 
-                a_v.second += std::get<1>(pa_v_t);
+                a_v.second += std::get<2>(pa_t_v);
                 // Add tags together
-                const auto & tags = std::get<2>(pa_v_t);
+                const auto & tags = std::get<1>(pa_t_v);
                 for (size_t i = 0; i < tags.first.size(); ++i)
                     a_v.first[tags.first[i]] = tags.second[i];
             }
@@ -79,7 +79,7 @@ namespace AIToolbox {
                     // would have resolved together to a single rule), we can
                     // create a tag with their action by simply writing in it.
                     for (const auto factor : factors)
-                        newPayoff += getPayoff(factor->f_, jointAction, &newTag);
+                        newPayoff += getPayoff(factor->f_.rules_, jointAction, &newTag);
 
                     // We only select the agent's best action.
                     if (newPayoff > bestPayoff) {
@@ -88,7 +88,7 @@ namespace AIToolbox {
                     }
                 }
                 if (checkDifferentSmall(bestPayoff, 0.0))
-                    newRules.emplace_back(removeFactor(jointAction, agent), bestPayoff, std::move(bestTag));
+                    newRules.emplace_back(removeFactor(jointAction, agent), std::move(bestTag), bestPayoff);
                 jointActions.advance();
             }
 
@@ -121,12 +121,12 @@ namespace AIToolbox {
             return *bestRule;
         }
 
-        double getPayoff(const VE::Factor & factor, const PartialAction & jointAction, PartialAction * tags) {
+        double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags) {
             double result = 0.0;
-            for (const auto & rule : factor.rules_) {
+            for (const auto & rule : rules) {
                 if (match(jointAction, std::get<0>(rule))) {
-                    result += std::get<1>(rule);
-                    inplace_merge(tags, std::get<2>(rule));
+                    result += std::get<2>(rule);
+                    inplace_merge(tags, std::get<1>(rule));
                 }
             }
             return result;

@@ -10,8 +10,8 @@ namespace AIToolbox {
 
         MOVE::Values crossSum(const MOVE::Values & lhs, const MOVE::Values & rhs);
         MOVE::Values crossSum(const MOVE::Values & lhs, const std::vector<const MOVE::Values*> rhs);
-        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Factor & factor, const PartialAction & jointAction);
-        MOVE::Rules mergePayoffs(const MOVE::Factor & factor, MOVE::Rules && rules);
+        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction);
+        MOVE::Rules mergePayoffs(MOVE::Rules && lhs, MOVE::Rules && rhs);
 
         MOVE::MultiObjectiveVariableElimination(Action a) : graph_(a.size()), A(a) {}
 
@@ -22,17 +22,10 @@ namespace AIToolbox {
 
             Results retval;
             if (finalFactors_.size() == 0) return retval;
-            std::cout << "We have " << finalFactors_.size() << " FFactors\n";
 
-            Values newValues;
-            for (const auto & fValue : finalFactors_) {
-                std::cout << "This ff has " << fValue.size() << " entries.\n";
-                newValues = crossSum(newValues, fValue);
-                std::cout << "After crossumming, " << newValues.size() << " entries\n";
-            }
+            for (const auto & fValue : finalFactors_)
+                retval = crossSum(retval, fValue);
 
-            for (const auto & v : newValues)
-                retval.emplace_back(toFactors(A.size(), v.second), std::move(v.first));
             // p1.prune(&retval);
             return retval;
         }
@@ -58,7 +51,7 @@ namespace AIToolbox {
                         jointAction.second[id] = agentAction;
 
                         Values newValues;
-                        for (auto p : getPayoffs(factors[0]->f_, jointAction)) {
+                        for (auto p : getPayoffs(factors[0]->f_.rules_, jointAction)) {
                             std::cout << "Inserting start?\n";
                             newValues.insert(std::end(newValues), std::begin(*p), std::end(*p));
                         }
@@ -81,54 +74,48 @@ namespace AIToolbox {
                         // even more rules, joining their tags together, and
                         // possibly merge them if we see equal ones.
                         for (size_t i = 1; i < factors.size(); ++i) {
-                            newValues = crossSum(newValues, getPayoffs(factors[i]->f_, jointAction));
+                            newValues = crossSum(newValues, getPayoffs(factors[i]->f_.rules_, jointAction));
                             std::cout << "- Crosssum, size is: " << newValues.size() << '\n';
                             // p3.prune(&newValues);
                         }
+
                         if (newValues.size() != 0) {
                             // Add tags
-                            std::cout << "Adding tags...";
                             for (auto & nv : newValues) {
-                                auto & first  = nv.second.first;
-                                auto & second = nv.second.second;
+                                auto & first  = std::get<0>(nv).first;
+                                auto & second = std::get<0>(nv).second;
 
                                 size_t i = 0;
                                 while (i < first.size() && first[i] < agent) ++i;
 
                                 first.insert(std::begin(first) + i, agent);
                                 second.insert(std::begin(second) + i, agentAction);
-                                std::cout << "tag added - ";
                             }
                             std::cout << "Added to values.\n";
                             values.insert(std::end(values), std::make_move_iterator(std::begin(newValues)),
                                                             std::make_move_iterator(std::end(newValues)));
                         }
                     }
+
                     // p2.prune(&values);
+
                     if (values.size() != 0) {
-                        std::cout << "Pushing: ";
                         // If this is a final factor we do the alternative path
                         // here, to avoid copying joint actions which we won't
                         // really need anymore.
                         if (agents.size() > 1) {
-                            std::cout << "To new rules.\n";
                             std::get<0>(newRule) = removeFactor(jointAction, agent);
 
-                            std::cout << "Joint Action: [";
-                            for (const auto x : std::get<0>(newRule).second)
-                                std::cout << x << ", ";
-                            std::cout << "] -->\n";
-                            for (const auto & aa : std::get<1>(newRule)) {
-                                std::cout << "    [";
-                                for (const auto & ll : aa.second.second)
-                                    std::cout << ll << ", ";
-                                std::cout << "] ==> [";
-                                std::cout << std::get<0>(aa).transpose() << "]\n";
-                            }
-
-                            newRules.emplace_back(std::move(newRule));
+                            // Our insertion needs to be sorted so that we can
+                            // merge efficiently later with rules in a factor.
+                            // Doing insertion sort here is hopefully faster
+                            // than quicksorting later the whole list.
+                            auto comp = [](const Rule & lhs, const Rule & rhs) {
+                                return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
+                            };
+                            auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, comp);
+                            newRules.emplace(pos, std::move(newRule));
                         } else {
-                            std::cout << "To FF\n";
                             finalFactors_.emplace_back(std::move(values));
                         }
                     }
@@ -142,10 +129,10 @@ namespace AIToolbox {
 
             if (newRules.size() == 0) return;
             if (agents.size() > 1) {
-                std::cout << "Moving to new factor\n";
                 agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
 
                 auto newFactor = graph_.getFactor(agents);
+
                 // Unfortunately here we cannot simply dump the new results in
                 // the old factor as we do in the normal VariableElimination.
                 // This is because in VariableElimination all elements are
@@ -153,36 +140,44 @@ namespace AIToolbox {
                 // they are grouped or not. Here elements are CROSS-summed,
                 // which means we cannot simply dump stuff lest losing a
                 // cross-summing step.
-                newFactor->f_.rules_ = mergePayoffs(newFactor->f_, std::move(newRules));
+                newFactor->f_.rules_ = mergePayoffs(std::move(newFactor->f_.rules_), std::move(newRules));
             }
         }
 
-        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Factor & factor, const PartialAction & jointAction) {
+        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction) {
             std::vector<const MOVE::Values*> retval;
-            for (const auto & rule : factor.rules_)
+            for (const auto & rule : rules)
                 if (match(jointAction, std::get<0>(rule)))
                     retval.push_back(&std::get<1>(rule));
-            std::cout << "GetPayoff returns " << retval.size() << " rules.\n";
             return retval;
         }
 
-        MOVE::Rules mergePayoffs(const MOVE::Factor & factor, MOVE::Rules && rules) {
+        MOVE::Rules mergePayoffs(MOVE::Rules && lhs, MOVE::Rules && rhs) {
             MOVE::Rules retval;
-            retval.reserve(rules.size());
-            for (auto & rr : rules) {
-                bool found = false;
-                for (const auto & rule : factor.rules_) {
-                    if (veccmp(std::get<0>(rr).second, std::get<0>(rule).second) == 0) {
-                        found = true;
-                        retval.emplace_back(std::get<0>(rr), crossSum(std::get<1>(rr), std::get<1>(rule)));
-                        break;
-                    }
-                }
-                if (!found)
-                    retval.emplace_back(std::move(rr));
-            }
+            // We're going to have at least these rules.
+            retval.reserve(lhs.size() + rhs.size());
 
-            std::cout << "GetPayoff returns " << retval.size() << " rules.\n";
+            // Here we merge two lists of Rules. What we want is that if any of
+            // them match, we need to crossSum them. Otherwise, just bring them
+            // over to the result list unchanged.
+            size_t i = 0, j = 0;
+            while (i < lhs.size() && j < rhs.size()) {
+                auto first = veccmp(std::get<0>(lhs[i]).second, std::get<0>(rhs[j]).second);
+                if (first < 0)
+                    retval.emplace_back(std::move(lhs[i++]));
+                else if (first > 0)
+                    retval.emplace_back(std::move(rhs[j++]));
+                else {
+                    retval.emplace_back(std::get<0>(lhs[i]), crossSum(std::get<1>(lhs[i]), std::get<1>(rhs[j])));
+                    ++i; ++j;
+                }
+            }
+            // Copy remaining ones.
+            for (; i < lhs.size(); ++i)
+                retval.emplace_back(std::move(lhs[i]));
+            for (; j < rhs.size(); ++j)
+                retval.emplace_back(std::move(rhs[j]));
+
             return retval;
         }
 
@@ -207,9 +202,9 @@ namespace AIToolbox {
             // this class usage), so hopefully we can use the cache better.
             for (const auto & rhsVal : rhs) {
                 for (const auto & lhsVal : lhs) {
-                    auto values = lhsVal.first + rhsVal.first;
-                    auto tags = merge(lhsVal.second, rhsVal.second);
-                    retval.emplace_back(std::move(values), std::move(tags));
+                    auto tags = merge(std::get<0>(lhsVal), std::get<0>(rhsVal));
+                    auto values = std::get<1>(lhsVal) + std::get<1>(rhsVal);
+                    retval.emplace_back(std::move(tags), std::move(values));
                 }
             }
             return retval;

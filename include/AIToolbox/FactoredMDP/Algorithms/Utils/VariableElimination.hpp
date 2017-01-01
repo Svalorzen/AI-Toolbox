@@ -34,9 +34,11 @@ namespace AIToolbox {
          */
         class VariableElimination {
             public:
-                // action for subset of agents, value of rule, tags
-                using Rule = std::tuple<PartialAction, double, PartialAction>;
+                // action of subset of agents, tags of processed actions, value of rule
+                using Rule = std::tuple<PartialAction, PartialAction, double>;
                 using Rules = std::vector<Rule>;
+
+                using Result = std::tuple<Action, double>;
 
                 struct Factor {
                     Rules rules_;
@@ -62,11 +64,11 @@ namespace AIToolbox {
                  * @return A tuple containing the best Action and its value over the input rules.
                  */
                 template <typename Iterable>
-                std::tuple<Action, double> operator()(const Iterable & rules) {
+                Result operator()(const Iterable & rules) {
                     // Should we reset the graph?
                     for (const QFunctionRule & rule : rules) {
                         auto it = graph_.getFactor(rule.a_.first);
-                        it->f_.rules_.emplace_back(rule.a_, rule.value_, PartialAction());
+                        it->f_.rules_.emplace_back(rule.a_, PartialAction(), rule.value_);
                     }
                     return start();
                 }
@@ -91,7 +93,7 @@ namespace AIToolbox {
                  *
                  * @return The pair for best Action and its value given the internal graph.
                  */
-                std::pair<Action, double> start();
+                Result start();
 
                 /**
                  * @brief This function performs the elimination of a single agent (and all factors next to it) from the internal graph.
