@@ -199,6 +199,7 @@ namespace AIToolbox {
                 auto & factors = agentAdjacencies_[agent].factors_;
                 std::set_union(std::begin(factors), std::end(factors), std::begin(*f1), std::end(*f1), std::back_inserter(*f2));
                 std::swap(f1, f2);
+                f2->clear();
             }
             return *f1;
         }
@@ -216,6 +217,7 @@ namespace AIToolbox {
                 auto & agents = factor->agents_;
                 std::set_union(std::begin(agents), std::end(agents), std::begin(*a1), std::end(*a1), std::back_inserter(*a2));
                 std::swap(a1, a2);
+                a2->clear();
             }
             return *a1;
         }

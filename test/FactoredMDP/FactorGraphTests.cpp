@@ -72,3 +72,24 @@ BOOST_AUTO_TEST_CASE( erase_agent ) {
     graph.erase(2);
     BOOST_CHECK_EQUAL(graph.agentSize(),  0);
 }
+
+BOOST_AUTO_TEST_CASE( neighbors ) {
+    std::vector<fm::PartialAction> rules {
+        {{0},       {0}},
+        {{0, 1}, {0, 0}},
+        {{0, 2}, {0, 0}},
+        {{0, 3}, {0, 0}},
+        {{0, 4}, {0, 0}},
+    };
+
+    const size_t agentsNum = 5;
+    fm::FactorGraph<EmptyFactor> graph(agentsNum);
+    for (const auto & rule : rules)
+        graph.getFactor(rule.first);
+
+    auto f = graph.getNeighbors(0);
+    BOOST_CHECK_EQUAL(f.size(), 5);
+
+    auto a = graph.getNeighbors(f);
+    BOOST_CHECK_EQUAL(a.size(), 5);
+}
