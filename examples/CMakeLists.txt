@@ -5,6 +5,15 @@ if (MAKE_MDP)
     add_executable(tiger_antelope MDP/tiger_antelope.cpp)
     target_link_libraries(tiger_antelope AIToolboxMDP)
 
+    add_custom_command(
+        OUTPUT  "${CMAKE_CURRENT_BINARY_DIR}/tiger_antelope.py"
+        COMMAND cp
+        ARGS    "${CMAKE_CURRENT_LIST_DIR}/MDP/tiger_antelope.py"
+                "${CMAKE_CURRENT_BINARY_DIR}"
+        COMMENT "Copying python example to example folder...")
+    add_custom_target(tiger_antelope_py ALL
+        DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/tiger_antelope.py")
+
     if (MAKE_PYTHON)
     endif()
 endif()
