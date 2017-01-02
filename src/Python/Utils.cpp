@@ -60,4 +60,16 @@ void exportUtils() {
     // Enable passing 3D transition/reward tables from Python to MDP::Model
     Vector3DFromPython<double>();
     Vector3DFromPython<int>();
+
+    EigenVectorFromPython();
+
+    // POMDP Value Function (VEntry)
+    using VEntry = std::tuple<AIToolbox::Vector, size_t, std::vector<size_t>>;
+    using VList = std::vector<VEntry>;
+    TupleToPython<VEntry>();
+    class_<std::vector<VEntry>>{"VList"}
+        .def(vector_indexing_suite<std::vector<VEntry>>());
+    class_<std::vector<VList>>{"VFun"}
+        .def(vector_indexing_suite<std::vector<VList>>());
+    TupleToPython<std::tuple<bool, std::vector<VList>>>();
 }
