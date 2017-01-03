@@ -6,7 +6,7 @@
 #include <AIToolbox/POMDP/Algorithms/PBVI.hpp>
 #include <AIToolbox/POMDP/Algorithms/IncrementalPruning.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 #include "Utils/TigerProblem.hpp"
 

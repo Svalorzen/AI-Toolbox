@@ -1,14 +1,14 @@
 #ifndef AI_TOOLBOX_OLD_POMDP_MODEL_HEADER_FILE
 #define AI_TOOLBOX_OLD_POMDP_MODEL_HEADER_FILE
 
-#include <AIToolbox/Utils.hpp>
+#include <random>
+
+#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
-
-#include <random>
-#include <AIToolbox/Impl/Seeder.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
 
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.

@@ -9,7 +9,7 @@
 #include <AIToolbox/POMDP/Policies/Policy.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 
-#include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 #include "Utils/TigerProblem.hpp"
 
