@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_POMDP_PROJECTER_GENERAL_HEADER_FILE
 #define AI_TOOLBOX_POMDP_PROJECTER_GENERAL_HEADER_FILE
 
-#include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox {

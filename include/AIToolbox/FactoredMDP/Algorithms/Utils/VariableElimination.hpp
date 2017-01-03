@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
 
-#include "AIToolbox/ProbabilityUtils.hpp"
+#include "AIToolbox/Utils/Probability.hpp"
 #include "AIToolbox/FactoredMDP/Types.hpp"
 #include "AIToolbox/FactoredMDP/Utils.hpp"
 #include "AIToolbox/FactoredMDP/FactorGraph.hpp"

@@ -5,7 +5,7 @@
 #include "AIToolbox/FactoredMDP/Utils.hpp"
 #include "AIToolbox/FactoredMDP/FactorGraph.hpp"
 
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
@@ -36,11 +36,12 @@ namespace AIToolbox {
          */
         class MultiObjectiveVariableElimination {
             public:
-                using Values = std::vector<std::tuple<PartialAction, Rewards>>;
-                using Rule = std::tuple<PartialAction, Values>;
+                using Entry = std::tuple<PartialAction, Rewards>;
+                using Entries = std::vector<Entry>;
+                using Rule = std::tuple<PartialAction, Entries>;
                 using Rules = std::vector<Rule>;
 
-                using Results = Values;
+                using Results = Entries;
 
                 struct Factor {
                     Rules rules_;
@@ -77,7 +78,7 @@ namespace AIToolbox {
                         // Here we keep everything sorted since it will turn up
                         // useful later when we have to crossSum and merge two
                         // lists. Having them sorted makes us to less work later.
-                        auto newRule = std::make_tuple(rule.a_, Values{std::make_pair(PartialAction(), rule.values_)});
+                        auto newRule = std::make_tuple(rule.a_, Entries{std::make_pair(PartialAction(), rule.values_)});
                         auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, comp);
                         rules.emplace(pos, std::move(newRule));
                     }
@@ -119,7 +120,7 @@ namespace AIToolbox {
 
                 Graph graph_;
                 Action A;
-                std::vector<Values> finalFactors_;
+                std::vector<Entries> finalFactors_;
         };
     }
 }

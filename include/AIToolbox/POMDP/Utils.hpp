@@ -5,8 +5,8 @@
 #include <iterator>
 #include <numeric>
 
-#include <AIToolbox/ProbabilityUtils.hpp>
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox {

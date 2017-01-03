@@ -1,13 +1,14 @@
 #ifndef AI_TOOLBOX_POMDP_AMDP_HEADER_FILE
 #define AI_TOOLBOX_POMDP_AMDP_HEADER_FILE
 
+#include <cmath>
+
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/BeliefGenerator.hpp>
-#include <cmath>
 
 namespace AIToolbox {
     namespace POMDP {

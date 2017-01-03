@@ -1,16 +1,15 @@
 #ifndef AI_TOOLBOX_POMDP_INCREMENTAL_PRUNING_HEADER_FILE
 #define AI_TOOLBOX_POMDP_INCREMENTAL_PRUNING_HEADER_FILE
 
+#include <limits>
+
+#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
 // #include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_clp.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
-
-#include <AIToolbox/ProbabilityUtils.hpp>
-
-#include <limits>
 
 namespace AIToolbox {
     namespace POMDP {

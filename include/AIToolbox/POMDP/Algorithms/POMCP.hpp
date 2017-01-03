@@ -1,12 +1,11 @@
 #ifndef AI_TOOLBOX_POMDP_POMCP_HEADER_FILE
 #define AI_TOOLBOX_POMDP_POMCP_HEADER_FILE
 
-#include <AIToolbox/POMDP/Types.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
-
 #include <unordered_map>
-#include <iostream>
+
+#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
+#include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox {
     namespace POMDP {
@@ -339,7 +338,6 @@ namespace AIToolbox {
 
             auto it = obs.find(o);
             if ( it == obs.end() ) {
-                std::cerr << "Observation " << o << " never experienced in simulation, restarting with uniform belief..\n";
                 auto b = Belief(S); b.fill(1.0/S);
                 return sampleAction(b, horizon);
             }
@@ -352,7 +350,6 @@ namespace AIToolbox {
             { auto tmp = std::move(it->second); graph_ = std::move(tmp); }
 
             if ( ! graph_.belief.size() ) {
-                std::cerr << "POMCP Lost track of the belief, restarting with uniform..\n";
                 auto b = Belief(S); b.fill(1.0/S);
                 return sampleAction(b, horizon);
             }

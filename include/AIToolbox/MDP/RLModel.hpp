@@ -7,7 +7,7 @@
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox {
     namespace MDP {

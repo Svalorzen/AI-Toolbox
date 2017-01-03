@@ -4,7 +4,7 @@
 #include <iosfwd>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
     namespace MDP {

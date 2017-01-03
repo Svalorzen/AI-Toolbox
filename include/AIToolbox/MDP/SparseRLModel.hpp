@@ -5,8 +5,8 @@
 #include <random>
 
 #include <AIToolbox/Impl/Seeder.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox {

@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_UTILS_HEADER_FILE
-#define AI_TOOLBOX_UTILS_HEADER_FILE
+#ifndef AI_TOOLBOX_UTILS_CORE_HEADER_FILE
+#define AI_TOOLBOX_UTILS_CORE_HEADER_FILE
 
 #include <cstddef>
 #include <cmath>
