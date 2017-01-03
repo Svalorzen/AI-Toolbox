@@ -1,6 +1,6 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.hpp>
 
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
@@ -18,7 +18,7 @@ namespace AIToolbox {
          *
          * @return A new list containing all cross-sums.
          */
-        MOVE::Values crossSum(const MOVE::Values & lhs, const MOVE::Values & rhs);
+        MOVE::Entries crossSum(const MOVE::Entries & lhs, const MOVE::Entries & rhs);
 
         /**
          * @brief This function cross-sums the input lists.
@@ -26,24 +26,24 @@ namespace AIToolbox {
          * Cross-sums are performed considering the right-hand side as one
          * single joined list.
          *
-         * \sa crossSum(const MOVE::Values &, const MOVE::Values &);
+         * \sa crossSum(const MOVE::Entries &, const MOVE::Entries &);
          *
          * @param lhs The left hand side.
-         * @param rhs A list of pointers to valid Values lists.
+         * @param rhs A list of pointers to valid Entries lists.
          *
          * @return A new list containing all cross-sums.
          */
-        MOVE::Values crossSum(const MOVE::Values & lhs, const std::vector<const MOVE::Values*> rhs);
+        MOVE::Entries crossSum(const MOVE::Entries & lhs, const std::vector<const MOVE::Entries*> rhs);
 
         /**
-         * @brief This function returns a list of pointers to all Values from the Rules matching the input joint action.
+         * @brief This function returns a list of pointers to all Entries from the Rules matching the input joint action.
          *
          * @param rules A list of Rule.
          * @param jointAction A joint action to match Rules against.
          *
-         * @return A list of pointers to the Values contained in the Rules matched against the input action.
+         * @return A list of pointers to the Entries contained in the Rules matched against the input action.
          */
-        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction);
+        std::vector<const MOVE::Entries*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction);
 
         /**
          * @brief This function returns cross-sums common elements between the input plus all unique Rules.
@@ -94,9 +94,9 @@ namespace AIToolbox {
                     for (size_t agentAction = 0; agentAction < A[agent]; ++agentAction) {
                         jointAction.second[id] = agentAction;
 
-                        Values newValues;
+                        Entries newEntries;
                         for (auto p : getPayoffs(factors[0]->f_.rules_, jointAction))
-                            newValues.insert(std::end(newValues), std::begin(*p), std::end(*p));
+                            newEntries.insert(std::end(newEntries), std::begin(*p), std::end(*p));
 
                         // So the idea here is that we are computing results for
                         // this particular subset of agents. Here we are working
@@ -116,13 +116,13 @@ namespace AIToolbox {
                         // even more rules, joining their tags together, and
                         // possibly merge them if we see equal ones.
                         for (size_t i = 1; i < factors.size(); ++i) {
-                            newValues = crossSum(newValues, getPayoffs(factors[i]->f_.rules_, jointAction));
-                            // p3.prune(&newValues);
+                            newEntries = crossSum(newEntries, getPayoffs(factors[i]->f_.rules_, jointAction));
+                            // p3.prune(&newEntries);
                         }
 
-                        if (newValues.size() != 0) {
+                        if (newEntries.size() != 0) {
                             // Add tags
-                            for (auto & nv : newValues) {
+                            for (auto & nv : newEntries) {
                                 auto & first  = std::get<0>(nv).first;
                                 auto & second = std::get<0>(nv).second;
 
@@ -132,8 +132,8 @@ namespace AIToolbox {
                                 first.insert(std::begin(first) + i, agent);
                                 second.insert(std::begin(second) + i, agentAction);
                             }
-                            values.insert(std::end(values), std::make_move_iterator(std::begin(newValues)),
-                                                            std::make_move_iterator(std::end(newValues)));
+                            values.insert(std::end(values), std::make_move_iterator(std::begin(newEntries)),
+                                                            std::make_move_iterator(std::end(newEntries)));
                         }
                     }
 
@@ -213,8 +213,8 @@ namespace AIToolbox {
             return retval;
         }
 
-        std::vector<const MOVE::Values*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction) {
-            std::vector<const MOVE::Values*> retval;
+        std::vector<const MOVE::Entries*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction) {
+            std::vector<const MOVE::Entries*> retval;
             for (const auto & rule : rules)
                 if (match(jointAction, std::get<0>(rule)))
                     retval.push_back(&std::get<1>(rule));
@@ -222,10 +222,10 @@ namespace AIToolbox {
         }
 
 
-        MOVE::Values crossSum(const MOVE::Values & lhs, const std::vector<const MOVE::Values*> rhs) {
+        MOVE::Entries crossSum(const MOVE::Entries & lhs, const std::vector<const MOVE::Entries*> rhs) {
             if (!rhs.size()) return lhs;
 
-            MOVE::Values retval;
+            MOVE::Entries retval;
             for (auto p : rhs) {
                 auto tmp = crossSum(lhs, *p);
                 retval.insert(std::end(retval), std::make_move_iterator(std::begin(tmp)),
@@ -234,10 +234,10 @@ namespace AIToolbox {
             return retval;
         }
 
-        MOVE::Values crossSum(const MOVE::Values & lhs, const MOVE::Values & rhs) {
+        MOVE::Entries crossSum(const MOVE::Entries & lhs, const MOVE::Entries & rhs) {
             if (!lhs.size()) return rhs;
             if (!rhs.size()) return lhs;
-            MOVE::Values retval;
+            MOVE::Entries retval;
             retval.reserve(lhs.size() + rhs.size());
             // We do the rhs first since they'll usually be shorter (due to
             // this class usage), so hopefully we can use the cache better.

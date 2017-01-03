@@ -2,10 +2,8 @@
 
 #include <cmath>
 
-#include <AIToolbox/Utils.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
-
-#include <iostream>
+#include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox {
     namespace MDP {

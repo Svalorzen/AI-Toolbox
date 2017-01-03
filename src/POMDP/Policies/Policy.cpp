@@ -2,8 +2,6 @@
 
 #include <AIToolbox/POMDP/Utils.hpp>
 
-#include <iostream>
-
 namespace AIToolbox {
     namespace POMDP {
         Policy::Policy(const size_t s, const size_t a, const size_t o) :
@@ -144,13 +142,11 @@ namespace AIToolbox {
                         goto failure;
                 // Action
                 if ( !(is >> action) || action >= A ) {
-                    std::cerr << "Read invalid value for actions from stream.\n";
                     goto failure;
                 }
                 // Obs
                 for ( auto & o : obs ) {
                     if ( !(is >> o) || ( o >= oldH && oldH ) ) {
-                        std::cerr << "Observation id exceeds size of previous horizon.\n";
                         goto failure;
                     }
                 }
@@ -168,7 +164,6 @@ namespace AIToolbox {
             return is;
 
 failure:
-            std::cerr << "Could not read correctly from input stream.\n";
             is.setstate(std::ios::failbit);
             return is;
         }

@@ -1,6 +1,6 @@
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
     namespace MDP {

@@ -1,9 +1,8 @@
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 
 #include <algorithm>
-#include <iostream>
 
-#include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox {
     namespace MDP {
