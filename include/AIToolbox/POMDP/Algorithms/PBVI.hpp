@@ -1,6 +1,9 @@
 #ifndef AI_TOOLBOX_POMDP_PBVI_HEADER_FILE
 #define AI_TOOLBOX_POMDP_PBVI_HEADER_FILE
 
+#include <boost/iterator/transform_iterator.hpp>
+
+#include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
@@ -255,7 +258,11 @@ namespace AIToolbox {
                 }
                 result.emplace_back(std::move(v), a, std::move(obs));
             }
-            result.erase(extractDominated(S, std::begin(result), std::end(result)), std::end(result));
+            auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+            auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
+            auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
+
+            result.erase(extractDominated(S, rbegin, rend).base(), std::end(result));
 
             return result;
         }
