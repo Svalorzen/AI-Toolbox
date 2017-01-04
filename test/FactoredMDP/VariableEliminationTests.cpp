@@ -6,7 +6,7 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
 
 namespace fm = AIToolbox::FactoredMDP;
-using ve = fm::VariableElimination;
+using VE = fm::VariableElimination;
 
 BOOST_AUTO_TEST_CASE( simple_graph ) {
     std::vector<fm::QFunctionRule> rules {
@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
 
     fm::Action a{2, 2, 2};
 
-    ve v(a);
+    VE v(a);
     auto bestAction_v = v(rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
 
     fm::Action a{3, 2, 3, 4};
 
-    ve v(a);
+    VE v(a);
     auto bestAction_v = v(rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
 
     fm::Action a{2, 2, 2};
 
-    ve v(a);
+    VE v(a);
     auto bestAction_v = v(rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
@@ -77,14 +77,14 @@ BOOST_AUTO_TEST_CASE( negative_graph ) {
         {    {},   {{0}, {1}},                   0.0},
         // Here we don't have to mention them all, since the negative rule only
         // concerned agent 0
-        {    {},   {{0, 1}, {0, 0}},             9.0},
+        {    {},   {{0, 1}, {0, 0}},            11.0},
     };
 
-    auto solution = std::make_pair(fm::Action{1, 0}, 0.0);
+    auto solution = std::make_pair(fm::Action{0, 0}, 1.0);
 
     fm::Action a{2, 2};
 
-    ve v(a);
+    VE v(a);
     auto bestAction_v = v(rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));

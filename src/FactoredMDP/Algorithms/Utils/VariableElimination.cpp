@@ -55,7 +55,7 @@ namespace AIToolbox {
 
             while (jointActions.isValid()) {
                 auto & jointAction = *jointActions;
-                double bestPayoff = 0.0;
+                double bestPayoff = std::numeric_limits<double>::lowest();
                 PartialAction bestTag;
 
                 // So here we're trying to create a single rule with a value
@@ -87,7 +87,7 @@ namespace AIToolbox {
                         bestTag = std::move(newTag);
                     }
                 }
-                if (checkDifferentSmall(bestPayoff, 0.0))
+                if (checkDifferentGeneral(bestPayoff, std::numeric_limits<double>::lowest()))
                     newRules.emplace_back(removeFactor(jointAction, agent), std::move(bestTag), bestPayoff);
                 jointActions.advance();
             }
