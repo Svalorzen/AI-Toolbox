@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
     MOVE v(a);
     auto bestActions = v(rules);
 
-    BOOST_REQUIRE(solutions.size(), bestActions.size());
+    BOOST_REQUIRE(solutions.size() == bestActions.size());
 
     for (size_t i = 0; i < solutions.size(); ++i) {
         const auto & spa1 = std::get<0>(solutions[i]).first;

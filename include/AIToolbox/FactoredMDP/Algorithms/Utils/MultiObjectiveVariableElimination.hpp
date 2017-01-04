@@ -33,6 +33,15 @@ namespace AIToolbox {
          * linked to few agents, and that this process allows avoiding
          * considering the full factored Action at any one time, it is usually
          * much faster than a brute-force approach.
+         *
+         * WARNING: This process only considers rules that have been explicitly
+         * passed to it. This may create problems if some of your values have
+         * negative values in it, since the elimination process will not
+         * consider unmentioned actions as giving 0 reward, and choose them
+         * instead of the negative values. In order to avoid this problem
+         * either all 0 rules have to be explicitly mentioned for each agent
+         * subgroup containing negative rules, or the rules have to be
+         * converted to an equivalent graph with positive values.
          */
         class MultiObjectiveVariableElimination {
             public:
