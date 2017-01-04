@@ -1,6 +1,9 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.hpp>
 
+#include <boost/iterator/transform_iterator.hpp>
+
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Prune.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
@@ -58,6 +61,7 @@ namespace AIToolbox {
          */
         MOVE::Rules mergePayoffs(MOVE::Rules && lhs, MOVE::Rules && rhs);
 
+        // -----------------------
 
         MOVE::MultiObjectiveVariableElimination(Action a) : graph_(a.size()), A(a) {}
 
@@ -72,7 +76,12 @@ namespace AIToolbox {
             for (const auto & fValue : finalFactors_)
                 retval = crossSum(retval, fValue);
 
-            // p1.prune(&retval);
+            // P1 pruning
+            auto unwrap = +[](Entry & e) -> Rewards & {return std::get<1>(e);};
+            auto rbegin = boost::make_transform_iterator(std::begin(retval), unwrap);
+            auto rend   = boost::make_transform_iterator(std::end  (retval), unwrap);
+
+            retval.erase(AIToolbox::extractDominated(2, rbegin, rend).base(), std::end(retval));
 
             return retval;
         }
