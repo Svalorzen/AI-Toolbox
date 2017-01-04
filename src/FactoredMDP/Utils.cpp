@@ -9,7 +9,7 @@ namespace AIToolbox {
             while (i < pf.first.size() && pf.first[i] < f) ++i;
             if (i == pf.first.size() || pf.first[i] != f) return pf;
 
-            PartialFactors retval; 
+            PartialFactors retval;
             retval.first.reserve(pf.first.size() - 1);
             retval.second.reserve(pf.first.size() - 1);
 
@@ -20,6 +20,7 @@ namespace AIToolbox {
             }
             return retval;
         }
+
         bool match(const PartialFactors & lhs, const PartialFactors & rhs) {
             const PartialFactors * smaller = &rhs, * bigger = &lhs;
             if (lhs.first.size() < rhs.first.size()) std::swap(smaller, bigger);
