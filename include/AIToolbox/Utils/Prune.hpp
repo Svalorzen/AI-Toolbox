@@ -1,8 +1,10 @@
 #ifndef AI_TOOLBOX_UTILS_PRUNE_HEADER_FILE
 #define AI_TOOLBOX_UTILS_PRUNE_HEADER_FILE
 
-#include <AIToolbox/Types.hpp>
 #include <algorithm>
+
+#include <AIToolbox/Types.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
     /**
@@ -18,7 +20,7 @@ namespace AIToolbox {
      *
      * @param N The number of elements in each Vector.
      * @param begin The begin of the list that needs to be pruned.
-     * @param begin The end of the list that needs to be pruned.
+     * @param end The end of the list that needs to be pruned.
      *
      * @return The iterator that separates dominated elements with non-pruned.
      */
@@ -51,7 +53,7 @@ namespace AIToolbox {
             dominates.rhs = &(*iter);
             helper = std::find_if(begin, end, dominates);
             if ( helper != end )
-                std::iter_swap( iter, --end );
+                std::iter_swap( baseIter(iter), baseIter(--end) );
             else
                 ++iter;
         }
