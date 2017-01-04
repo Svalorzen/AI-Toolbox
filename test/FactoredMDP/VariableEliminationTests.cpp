@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
                                   std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
 }
 
-BOOST_AUTO_TEST_CASE( negative_graph ) {
+BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
     std::vector<fm::QFunctionRule> rules {
         // States, Actions,                     Value
         {    {},   {{0}, {0}},                 -10.0},
@@ -81,6 +81,30 @@ BOOST_AUTO_TEST_CASE( negative_graph ) {
     };
 
     auto solution = std::make_pair(fm::Action{0, 0}, 1.0);
+
+    fm::Action a{2, 2};
+
+    VE v(a);
+    auto bestAction_v = v(rules);
+
+    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
+                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
+}
+
+BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
+    std::vector<fm::QFunctionRule> rules {
+        // States, Actions,                     Value
+        {    {},   {{0}, {0}},                 -10.0},
+        // We must explicitly mention this rule since the this agent has at
+        // least one negative rule
+        {    {},   {{0}, {1}},                   0.0},
+        // Here we don't have to mention them all, since the negative rule only
+        // concerned agent 0
+        {    {},   {{0, 1}, {0, 0}},             9.0},
+    };
+
+    auto solution = std::make_pair(fm::Action{1, 0}, 0.0);
 
     fm::Action a{2, 2};
 
