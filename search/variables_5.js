@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ids_5f',['ids_',['../classAIToolbox_1_1FactoredMDP_1_1Trie.html#a4ade1af75b802a9583bc4848c834c730',1,'AIToolbox::FactoredMDP::Trie']]]
+  ['f_5f',['f_',['../structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1FactorNode.html#af7d11cea4470dd0e179f6113c640c8e6',1,'AIToolbox::FactoredMDP::FactorGraph::FactorNode']]],
+  ['factors_5f',['factors_',['../structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1AgentNode.html#a0172a2788996ab2712ef92f11808a8a7',1,'AIToolbox::FactoredMDP::FactorGraph::AgentNode']]]
 ];

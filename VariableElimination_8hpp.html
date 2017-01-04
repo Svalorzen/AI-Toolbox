@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>AIToolbox: include/AIToolbox/MDP/Policies/QGreedyPolicy.hpp File Reference</title>
+<title>AIToolbox: include/AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_5d4dd356414a129804423ce26149d08e.html">MDP</a></li><li class="navelem"><a class="el" href="dir_3556cced2cb26751b0d96533a65d7122.html">Policies</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_901d052f63c5fe55bb7bb9bf667567ac.html">FactoredMDP</a></li><li class="navelem"><a class="el" href="dir_102c691a7777fcf29eb4263d4697d574.html">Algorithms</a></li><li class="navelem"><a class="el" href="dir_7bb1c51526ca748c990f345ac2764c66.html">Utils</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,30 +90,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
-<div class="title">QGreedyPolicy.hpp File Reference</div>  </div>
+<div class="title">VariableElimination.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="QPolicyInterface_8hpp_source.html">AIToolbox/MDP/Policies/QPolicyInterface.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="Probability_8hpp_source.html">AIToolbox/Utils/Probability.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="FactoredMDP_2Types_8hpp_source.html">AIToolbox/FactoredMDP/Types.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="include_2AIToolbox_2FactoredMDP_2Utils_8hpp_source.html">AIToolbox/FactoredMDP/Utils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="FactorGraph_8hpp_source.html">AIToolbox/FactoredMDP/FactorGraph.hpp</a>&quot;</code><br />
 </div>
-<p><a href="QGreedyPolicy_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="VariableElimination_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html">AIToolbox::MDP::QGreedyPolicy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models a greedy policy through a QFunction.  <a href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1VariableElimination.html">AIToolbox::FactoredMDP::VariableElimination</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Variable Elimination process.  <a href="classAIToolbox_1_1FactoredMDP_1_1VariableElimination.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1FactoredMDP_1_1VariableElimination_1_1Factor.html">AIToolbox::FactoredMDP::VariableElimination::Factor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceAIToolbox"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespaceAIToolbox_1_1MDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html">AIToolbox::MDP</a></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1FactoredMDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html">AIToolbox::FactoredMDP</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 18 2016 10:28:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 4 2017 15:14:44 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

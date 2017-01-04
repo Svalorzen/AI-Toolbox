@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['updatebelief',['updateBelief',['../namespaceAIToolbox_1_1POMDP.html#ac207e87c65b261e89e5c3d81150c0588',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, size_t a, size_t o)'],['../namespaceAIToolbox_1_1POMDP.html#a4b2f43e79f04ad90fc1c9ef859472410',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, size_t a, size_t o, Belief *bRet)']]],
-  ['updatebeliefunnormalized',['updateBeliefUnnormalized',['../namespaceAIToolbox_1_1POMDP.html#ae68354981f37f342416d16be2f646a11',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, size_t a, size_t o)'],['../namespaceAIToolbox_1_1POMDP.html#aed84f7604119a8a134309ecdf06e8827',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, size_t a, size_t o, Belief *bRet)']]],
-  ['updatepolicy',['updatePolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ad428806fd6034c9acd435b2320e15e81',1,'AIToolbox::MDP::WoLFPolicy']]]
+  ['tofactors',['toFactors',['../namespaceAIToolbox_1_1FactoredMDP.html#adcfd2642f9f8d21911e15276cf25a088',1,'AIToolbox::FactoredMDP']]],
+  ['topartialfactors',['toPartialFactors',['../namespaceAIToolbox_1_1FactoredMDP.html#a729a5fa9cb1feab27268567616a50ab0',1,'AIToolbox::FactoredMDP']]],
+  ['toroidalworldstate',['ToroidalWorldState',['../classToroidalWorldState.html#a6a26e7d736d2ea8fbbca8013ce067224',1,'ToroidalWorldState']]],
+  ['trie',['Trie',['../classAIToolbox_1_1FactoredMDP_1_1Trie.html#a304e68fa77e025dcfffcfabad307bcda',1,'AIToolbox::FactoredMDP::Trie']]],
+  ['tupletopython',['TupleToPython',['../structTupleToPython.html#a5f0ff244aa06aecaf1a0ab3d66b0e5ec',1,'TupleToPython']]]
 ];

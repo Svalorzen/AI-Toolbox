@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>AIToolbox: AIToolbox::FactoredMDP::FactoredIterable&lt; FactoredContainer &gt; Class Template Reference</title>
+<title>AIToolbox: AIToolbox::FactoredMDP::FactoredIterable&lt; Container &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,14 +92,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AIToolbox::FactoredMDP::FactoredIterable&lt; FactoredContainer &gt; Class Template Reference</div>  </div>
+<div class="title">AIToolbox::FactoredMDP::FactoredIterable&lt; Container &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This class is an iterable construct on the filtered results over a <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialStates as keys. ">FactoredContainer</a>.  
+<p>This class is an iterable construct on the filtered results over a <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialFactors as keys. ">FactoredContainer</a>.  
  <a href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="FactoredContainer_8hpp_source.html">FactoredContainer.hpp</a>&gt;</code></p>
@@ -112,78 +111,82 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:abd8cae44ac2630414b2eb01a480f0ef8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#abd8cae44ac2630414b2eb01a480f0ef8">Container</a> = typename <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a375b10041c925ee366ea04d294642652">FactoredContainer::ItemsContainer</a></td></tr>
-<tr class="separator:abd8cae44ac2630414b2eb01a480f0ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1381990c550c2c5fbaeae57399d3d04"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac1381990c550c2c5fbaeae57399d3d04">value_type</a> = typename Container::value_type</td></tr>
-<tr class="separator:ac1381990c550c2c5fbaeae57399d3d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e634b8804bb9057efb0ef05bc673e8b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a7e634b8804bb9057efb0ef05bc673e8b">iterator</a> = <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html">FactoredIterator</a></td></tr>
-<tr class="separator:a7e634b8804bb9057efb0ef05bc673e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0fc95cdba0f249d9f29b1acf714dc21"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac0fc95cdba0f249d9f29b1acf714dc21">value_type</a> = typename Container::value_type</td></tr>
+<tr class="separator:ac0fc95cdba0f249d9f29b1acf714dc21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b9d5a70a66173a173be64c9aad12562"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562">iterator</a> = <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html">FactoredIterator</a>&lt; typename <a class="el" href="structAIToolbox_1_1copy__const.html">copy_const</a>&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac0fc95cdba0f249d9f29b1acf714dc21">value_type</a>, Container &gt;::type &gt;</td></tr>
+<tr class="separator:a9b9d5a70a66173a173be64c9aad12562"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6038b86a10deb35182616ffa3f2492b9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6038b86a10deb35182616ffa3f2492b9">const_iterator</a> = <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html">FactoredIterator</a>&lt; const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac0fc95cdba0f249d9f29b1acf714dc21">value_type</a> &gt;</td></tr>
+<tr class="separator:a6038b86a10deb35182616ffa3f2492b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa19ef4f24481b33ce6a2f70926be8676"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#aa19ef4f24481b33ce6a2f70926be8676">FactoredIterable</a> (std::vector&lt; size_t &gt; ids, <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#abd8cae44ac2630414b2eb01a480f0ef8">Container</a> &amp;items)</td></tr>
-<tr class="memdesc:aa19ef4f24481b33ce6a2f70926be8676"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aa19ef4f24481b33ce6a2f70926be8676">More...</a><br /></td></tr>
-<tr class="separator:aa19ef4f24481b33ce6a2f70926be8676"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9d2663fc2c2ede3105498d4067fc661"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a7e634b8804bb9057efb0ef05bc673e8b">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ab9d2663fc2c2ede3105498d4067fc661">begin</a> ()</td></tr>
-<tr class="memdesc:ab9d2663fc2c2ede3105498d4067fc661"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to the beginning of this filtered range.  <a href="#ab9d2663fc2c2ede3105498d4067fc661">More...</a><br /></td></tr>
-<tr class="separator:ab9d2663fc2c2ede3105498d4067fc661"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8b4e2a066bb9a32d20b6fc9ffe2078a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a7e634b8804bb9057efb0ef05bc673e8b">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ab8b4e2a066bb9a32d20b6fc9ffe2078a">end</a> ()</td></tr>
-<tr class="memdesc:ab8b4e2a066bb9a32d20b6fc9ffe2078a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to the end of this filtered range.  <a href="#ab8b4e2a066bb9a32d20b6fc9ffe2078a">More...</a><br /></td></tr>
-<tr class="separator:ab8b4e2a066bb9a32d20b6fc9ffe2078a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a5212100f951a2654f710538f07daf07c"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a5212100f951a2654f710538f07daf07c">FactoredIterator</a></td></tr>
-<tr class="separator:a5212100f951a2654f710538f07daf07c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b6c4fd62ff083c34f0ad8461b89c905"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a3b6c4fd62ff083c34f0ad8461b89c905">FactoredIterable</a> (std::vector&lt; size_t &gt; ids, Container &amp;items)</td></tr>
+<tr class="memdesc:a3b6c4fd62ff083c34f0ad8461b89c905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a3b6c4fd62ff083c34f0ad8461b89c905">More...</a><br /></td></tr>
+<tr class="separator:a3b6c4fd62ff083c34f0ad8461b89c905"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aa0090434f9a11ed5d07418142c7d15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a5aa0090434f9a11ed5d07418142c7d15">begin</a> ()</td></tr>
+<tr class="memdesc:a5aa0090434f9a11ed5d07418142c7d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to the beginning of this filtered range.  <a href="#a5aa0090434f9a11ed5d07418142c7d15">More...</a><br /></td></tr>
+<tr class="separator:a5aa0090434f9a11ed5d07418142c7d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a439d0e8a58fef862e28133a159026fcf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6038b86a10deb35182616ffa3f2492b9">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a439d0e8a58fef862e28133a159026fcf">begin</a> () const </td></tr>
+<tr class="memdesc:a439d0e8a58fef862e28133a159026fcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a const_iterator to the beginning of this filtered range.  <a href="#a439d0e8a58fef862e28133a159026fcf">More...</a><br /></td></tr>
+<tr class="separator:a439d0e8a58fef862e28133a159026fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd88bc2a3d4df22c0f9f26f8a3439a81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#abd88bc2a3d4df22c0f9f26f8a3439a81">end</a> ()</td></tr>
+<tr class="memdesc:abd88bc2a3d4df22c0f9f26f8a3439a81"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to the end of this filtered range.  <a href="#abd88bc2a3d4df22c0f9f26f8a3439a81">More...</a><br /></td></tr>
+<tr class="separator:abd88bc2a3d4df22c0f9f26f8a3439a81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2275a119cf6bc9646cb1046c5b33274"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6038b86a10deb35182616ffa3f2492b9">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ad2275a119cf6bc9646cb1046c5b33274">end</a> () const </td></tr>
+<tr class="memdesc:ad2275a119cf6bc9646cb1046c5b33274"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a const_iterator to the end of this filtered range.  <a href="#ad2275a119cf6bc9646cb1046c5b33274">More...</a><br /></td></tr>
+<tr class="separator:ad2275a119cf6bc9646cb1046c5b33274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1c41fa6bb3077b5e8dd1a430d7e2a58"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac1c41fa6bb3077b5e8dd1a430d7e2a58">size</a> () const </td></tr>
+<tr class="memdesc:ac1c41fa6bb3077b5e8dd1a430d7e2a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the size of the range covered.  <a href="#ac1c41fa6bb3077b5e8dd1a430d7e2a58">More...</a><br /></td></tr>
+<tr class="separator:ac1c41fa6bb3077b5e8dd1a430d7e2a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename FactoredContainer&gt;<br />
-class AIToolbox::FactoredMDP::FactoredIterable&lt; FactoredContainer &gt;</h3>
+<div class="textblock"><h3>template&lt;typename Container&gt;<br />
+class AIToolbox::FactoredMDP::FactoredIterable&lt; Container &gt;</h3>
 
-<p>This class is an iterable construct on the filtered results over a <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialStates as keys. ">FactoredContainer</a>. </p>
+<p>This class is an iterable construct on the filtered results over a <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialFactors as keys. ">FactoredContainer</a>. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialStates as keys. ">FactoredContainer</a></td><td>The type of the parent <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialStates as keys. ">FactoredContainer</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialFactors as keys. ">FactoredContainer</a></td><td>The type of the parent <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html" title="This class is a container which uses PartialFactors as keys. ">FactoredContainer</a>. </td></tr>
   </table>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="abd8cae44ac2630414b2eb01a480f0ef8"></a>
+<a class="anchor" id="a6038b86a10deb35182616ffa3f2492b9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FactoredContainer &gt; </div>
+template&lt;typename Container &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html">FactoredContainer</a> &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#abd8cae44ac2630414b2eb01a480f0ef8">Container</a> =  typename <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a375b10041c925ee366ea04d294642652">FactoredContainer::ItemsContainer</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6038b86a10deb35182616ffa3f2492b9">const_iterator</a> =  <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html">FactoredIterator</a>&lt;const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac0fc95cdba0f249d9f29b1acf714dc21">value_type</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a7e634b8804bb9057efb0ef05bc673e8b"></a>
+<a class="anchor" id="a9b9d5a70a66173a173be64c9aad12562"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FactoredContainer &gt; </div>
+template&lt;typename Container &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html">FactoredContainer</a> &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a7e634b8804bb9057efb0ef05bc673e8b">iterator</a> =  <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html">FactoredIterator</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562">iterator</a> =  <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html">FactoredIterator</a>&lt;typename <a class="el" href="structAIToolbox_1_1copy__const.html">copy_const</a>&lt;<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac0fc95cdba0f249d9f29b1acf714dc21">value_type</a>, Container&gt;::type&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ac1381990c550c2c5fbaeae57399d3d04"></a>
+<a class="anchor" id="ac0fc95cdba0f249d9f29b1acf714dc21"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FactoredContainer &gt; </div>
+template&lt;typename Container &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html">FactoredContainer</a> &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac1381990c550c2c5fbaeae57399d3d04">value_type</a> =  typename Container::value_type</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac0fc95cdba0f249d9f29b1acf714dc21">value_type</a> =  typename Container::value_type</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -191,17 +194,17 @@ template&lt;typename FactoredContainer &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa19ef4f24481b33ce6a2f70926be8676"></a>
+<a class="anchor" id="a3b6c4fd62ff083c34f0ad8461b89c905"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FactoredContainer &gt; </div>
+template&lt;typename Container &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html">FactoredContainer</a> &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">FactoredIterable</a> </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">FactoredIterable</a> </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>ids</em>, </td>
@@ -209,7 +212,7 @@ template&lt;typename FactoredContainer &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#abd8cae44ac2630414b2eb01a480f0ef8">Container</a> &amp;&#160;</td>
+          <td class="paramtype">Container &amp;&#160;</td>
           <td class="paramname"><em>items</em>&#160;</td>
         </tr>
         <tr>
@@ -239,17 +242,17 @@ template&lt;typename FactoredContainer &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab9d2663fc2c2ede3105498d4067fc661"></a>
+<a class="anchor" id="a5aa0090434f9a11ed5d07418142c7d15"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FactoredContainer &gt; </div>
+template&lt;typename Container &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a7e634b8804bb9057efb0ef05bc673e8b">iterator</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html">FactoredContainer</a> &gt;::begin </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562">iterator</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -266,17 +269,44 @@ template&lt;typename FactoredContainer &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ab8b4e2a066bb9a32d20b6fc9ffe2078a"></a>
+<a class="anchor" id="a439d0e8a58fef862e28133a159026fcf"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FactoredContainer &gt; </div>
+template&lt;typename Container &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a7e634b8804bb9057efb0ef05bc673e8b">iterator</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html">FactoredContainer</a> &gt;::end </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6038b86a10deb35182616ffa3f2492b9">const_iterator</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function returns a const_iterator to the beginning of this filtered range. </p>
+
+</div>
+</div>
+<a class="anchor" id="abd88bc2a3d4df22c0f9f26f8a3439a81"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Container &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562">iterator</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -293,26 +323,57 @@ template&lt;typename FactoredContainer &gt; </div>
 
 </div>
 </div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a class="anchor" id="a5212100f951a2654f710538f07daf07c"></a>
+<a class="anchor" id="ad2275a119cf6bc9646cb1046c5b33274"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename FactoredContainer &gt; </div>
+template&lt;typename Container &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">friend class <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html">FactoredIterator</a></td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6038b86a10deb35182616ffa3f2492b9">const_iterator</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>This function returns a const_iterator to the end of this filtered range. </p>
+
+</div>
+</div>
+<a class="anchor" id="ac1c41fa6bb3077b5e8dd1a430d7e2a58"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Container &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html">AIToolbox::FactoredMDP::FactoredIterable</a>&lt; Container &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function returns the size of the range covered. </p>
 
 </div>
 </div>
@@ -322,7 +383,7 @@ template&lt;typename FactoredContainer &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 18 2016 10:28:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 4 2017 15:14:44 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

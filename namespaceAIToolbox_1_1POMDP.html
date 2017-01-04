@@ -203,54 +203,50 @@ Functions</h2></td></tr>
 <tr class="separator:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22eb22eab59355dfde0846f651e37c07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a22eb22eab59355dfde0846f651e37c07">operator&gt;</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> &amp;lhs, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> &amp;rhs)</td></tr>
 <tr class="separator:a22eb22eab59355dfde0846f651e37c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a669db86eba19ad6d76b7444fe0885472"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
-<tr class="memitem:a669db86eba19ad6d76b7444fe0885472"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a669db86eba19ad6d76b7444fe0885472">makeRandomBelief</a> (size_t S, G &amp;generator)</td></tr>
-<tr class="memdesc:a669db86eba19ad6d76b7444fe0885472"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function generates a random belief uniformly in the space of beliefs.  <a href="#a669db86eba19ad6d76b7444fe0885472">More...</a><br /></td></tr>
-<tr class="separator:a669db86eba19ad6d76b7444fe0885472"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac207e87c65b261e89e5c3d81150c0588"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
-<tr class="memitem:ac207e87c65b261e89e5c3d81150c0588"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ac207e87c65b261e89e5c3d81150c0588">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t a, size_t o)</td></tr>
-<tr class="memdesc:ac207e87c65b261e89e5c3d81150c0588"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#ac207e87c65b261e89e5c3d81150c0588">More...</a><br /></td></tr>
-<tr class="separator:ac207e87c65b261e89e5c3d81150c0588"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b2f43e79f04ad90fc1c9ef859472410"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
-<tr class="memitem:a4b2f43e79f04ad90fc1c9ef859472410"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4b2f43e79f04ad90fc1c9ef859472410">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t a, size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> *bRet)</td></tr>
-<tr class="memdesc:a4b2f43e79f04ad90fc1c9ef859472410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#a4b2f43e79f04ad90fc1c9ef859472410">More...</a><br /></td></tr>
-<tr class="separator:a4b2f43e79f04ad90fc1c9ef859472410"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae68354981f37f342416d16be2f646a11"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
-<tr class="memitem:ae68354981f37f342416d16be2f646a11"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ae68354981f37f342416d16be2f646a11">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t a, size_t o)</td></tr>
-<tr class="memdesc:ae68354981f37f342416d16be2f646a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#ae68354981f37f342416d16be2f646a11">More...</a><br /></td></tr>
-<tr class="separator:ae68354981f37f342416d16be2f646a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed84f7604119a8a134309ecdf06e8827"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
-<tr class="memitem:aed84f7604119a8a134309ecdf06e8827"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aed84f7604119a8a134309ecdf06e8827">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t a, size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> *bRet)</td></tr>
-<tr class="memdesc:aed84f7604119a8a134309ecdf06e8827"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#aed84f7604119a8a134309ecdf06e8827">More...</a><br /></td></tr>
-<tr class="separator:aed84f7604119a8a134309ecdf06e8827"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5be36e7f99afc54f48297777573a981"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
-<tr class="memitem:ad5be36e7f99afc54f48297777573a981"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad5be36e7f99afc54f48297777573a981">beliefExpectedReward</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t a)</td></tr>
-<tr class="memdesc:ad5be36e7f99afc54f48297777573a981"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an immediate reward based on a belief rather than a state.  <a href="#ad5be36e7f99afc54f48297777573a981">More...</a><br /></td></tr>
-<tr class="separator:ad5be36e7f99afc54f48297777573a981"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af325130f772c68a64ee3c9e92499ee5a"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
-<tr class="memitem:af325130f772c68a64ee3c9e92499ee5a"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#af325130f772c68a64ee3c9e92499ee5a">beliefObservationProbability</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t a, size_t o)</td></tr>
-<tr class="memdesc:af325130f772c68a64ee3c9e92499ee5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the probability of obtaining an observation from a belief and action.  <a href="#af325130f772c68a64ee3c9e92499ee5a">More...</a><br /></td></tr>
-<tr class="separator:af325130f772c68a64ee3c9e92499ee5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b7bb8217a16e3bb7956dc3722cc16d5"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
+<tr class="memitem:a4b7bb8217a16e3bb7956dc3722cc16d5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4b7bb8217a16e3bb7956dc3722cc16d5">makeRandomBelief</a> (const size_t S, G &amp;generator)</td></tr>
+<tr class="memdesc:a4b7bb8217a16e3bb7956dc3722cc16d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function generates a random belief uniformly in the space of beliefs.  <a href="#a4b7bb8217a16e3bb7956dc3722cc16d5">More...</a><br /></td></tr>
+<tr class="separator:a4b7bb8217a16e3bb7956dc3722cc16d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad19c9f085248dc19299d511194210843"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
+<tr class="memitem:ad19c9f085248dc19299d511194210843"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad19c9f085248dc19299d511194210843">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
+<tr class="memdesc:ad19c9f085248dc19299d511194210843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#ad19c9f085248dc19299d511194210843">More...</a><br /></td></tr>
+<tr class="separator:ad19c9f085248dc19299d511194210843"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33a1c23c71b6afae16da4db1863bf68d"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
+<tr class="memitem:a33a1c23c71b6afae16da4db1863bf68d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a33a1c23c71b6afae16da4db1863bf68d">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> *bRet)</td></tr>
+<tr class="memdesc:a33a1c23c71b6afae16da4db1863bf68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#a33a1c23c71b6afae16da4db1863bf68d">More...</a><br /></td></tr>
+<tr class="separator:a33a1c23c71b6afae16da4db1863bf68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeadb8ad292520175aea2ad4b9173c5cd"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
+<tr class="memitem:aeadb8ad292520175aea2ad4b9173c5cd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aeadb8ad292520175aea2ad4b9173c5cd">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
+<tr class="memdesc:aeadb8ad292520175aea2ad4b9173c5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#aeadb8ad292520175aea2ad4b9173c5cd">More...</a><br /></td></tr>
+<tr class="separator:aeadb8ad292520175aea2ad4b9173c5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
+<tr class="memitem:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> *bRet)</td></tr>
+<tr class="memdesc:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular Model.  <a href="#a6a6deb0f6f3d12bb59f0b9813604abc2">More...</a><br /></td></tr>
+<tr class="separator:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
+<tr class="memitem:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a49e94718a9c0e92e4c0da630aa5d3dc9">beliefExpectedReward</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, const size_t a)</td></tr>
+<tr class="memdesc:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an immediate reward based on a belief rather than a state.  <a href="#a49e94718a9c0e92e4c0da630aa5d3dc9">More...</a><br /></td></tr>
+<tr class="separator:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2c768da1e5d1bda2c4dbd16ef1de0be"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value &amp;&amp;!is_model_eigen&lt; M &gt;::value &gt;::type *  = nullptr&gt; </td></tr>
+<tr class="memitem:ad2c768da1e5d1bda2c4dbd16ef1de0be"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad2c768da1e5d1bda2c4dbd16ef1de0be">beliefObservationProbability</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
+<tr class="memdesc:ad2c768da1e5d1bda2c4dbd16ef1de0be"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the probability of obtaining an observation from a belief and action.  <a href="#ad2c768da1e5d1bda2c4dbd16ef1de0be">More...</a><br /></td></tr>
+<tr class="separator:ad2c768da1e5d1bda2c4dbd16ef1de0be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afeb3f38989831a3bf50703dc6a84eba3"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
 <tr class="memitem:afeb3f38989831a3bf50703dc6a84eba3"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#afeb3f38989831a3bf50703dc6a84eba3">findBestAtBelief</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, Iterator begin, Iterator end, double *value=nullptr)</td></tr>
 <tr class="memdesc:afeb3f38989831a3bf50703dc6a84eba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator pointing to the best value for the specified belief.  <a href="#afeb3f38989831a3bf50703dc6a84eba3">More...</a><br /></td></tr>
 <tr class="separator:afeb3f38989831a3bf50703dc6a84eba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94d6a33d1e593699fed3547257d6e1c7"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:a94d6a33d1e593699fed3547257d6e1c7"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a94d6a33d1e593699fed3547257d6e1c7">findBestAtSimplexCorner</a> (size_t corner, Iterator begin, Iterator end, double *value=nullptr)</td></tr>
-<tr class="memdesc:a94d6a33d1e593699fed3547257d6e1c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator pointing to the best value for the specified corner of the simplex space.  <a href="#a94d6a33d1e593699fed3547257d6e1c7">More...</a><br /></td></tr>
-<tr class="separator:a94d6a33d1e593699fed3547257d6e1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadafc4fb4f438e0e720b1d7041e43f02"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
+<tr class="memitem:aadafc4fb4f438e0e720b1d7041e43f02"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aadafc4fb4f438e0e720b1d7041e43f02">findBestAtSimplexCorner</a> (const size_t corner, Iterator begin, Iterator end, double *value=nullptr)</td></tr>
+<tr class="memdesc:aadafc4fb4f438e0e720b1d7041e43f02"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator pointing to the best value for the specified corner of the simplex space.  <a href="#aadafc4fb4f438e0e720b1d7041e43f02">More...</a><br /></td></tr>
+<tr class="separator:aadafc4fb4f438e0e720b1d7041e43f02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b462d4a6cc715e8184407f744aa1452"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
 <tr class="memitem:a3b462d4a6cc715e8184407f744aa1452"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3b462d4a6cc715e8184407f744aa1452">extractWorstAtBelief</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, Iterator begin, Iterator bound, Iterator end)</td></tr>
 <tr class="memdesc:a3b462d4a6cc715e8184407f744aa1452"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds and moves the ValueFunction with the highest value for the given belief at the beginning of the specified range.  <a href="#a3b462d4a6cc715e8184407f744aa1452">More...</a><br /></td></tr>
 <tr class="separator:a3b462d4a6cc715e8184407f744aa1452"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f010690025844ae5167c3feeac67a93"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:a6f010690025844ae5167c3feeac67a93"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6f010690025844ae5167c3feeac67a93">extractWorstAtSimplexCorners</a> (size_t S, Iterator begin, Iterator bound, Iterator end)</td></tr>
-<tr class="memdesc:a6f010690025844ae5167c3feeac67a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds and moves all best ValueFunctions in the simplex corners at the beginning of the specified range.  <a href="#a6f010690025844ae5167c3feeac67a93">More...</a><br /></td></tr>
-<tr class="separator:a6f010690025844ae5167c3feeac67a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2b6e4619e57f93e0af6059a322fbcca"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:ad2b6e4619e57f93e0af6059a322fbcca"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad2b6e4619e57f93e0af6059a322fbcca">extractDominated</a> (size_t S, Iterator begin, Iterator end)</td></tr>
-<tr class="memdesc:ad2b6e4619e57f93e0af6059a322fbcca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds and movess all ValueFunctions in the VList that are dominated by others.  <a href="#ad2b6e4619e57f93e0af6059a322fbcca">More...</a><br /></td></tr>
-<tr class="separator:ad2b6e4619e57f93e0af6059a322fbcca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62142e5eac8af594a6243656284bad94"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
+<tr class="memitem:a62142e5eac8af594a6243656284bad94"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a62142e5eac8af594a6243656284bad94">extractWorstAtSimplexCorners</a> (const size_t S, Iterator begin, Iterator bound, Iterator end)</td></tr>
+<tr class="memdesc:a62142e5eac8af594a6243656284bad94"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds and moves all best ValueFunctions in the simplex corners at the beginning of the specified range.  <a href="#a62142e5eac8af594a6243656284bad94">More...</a><br /></td></tr>
+<tr class="separator:a62142e5eac8af594a6243656284bad94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
 POMDP Value Types</h2></td></tr>
@@ -360,7 +356,7 @@ POMDP Value Types</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad5be36e7f99afc54f48297777573a981"></a>
+<a class="anchor" id="a49e94718a9c0e92e4c0da630aa5d3dc9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -381,7 +377,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>a</em>&#160;</td>
         </tr>
         <tr>
@@ -405,7 +401,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
 
 </div>
 </div>
-<a class="anchor" id="af325130f772c68a64ee3c9e92499ee5a"></a>
+<a class="anchor" id="ad2c768da1e5d1bda2c4dbd16ef1de0be"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -426,13 +422,13 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>o</em>&#160;</td>
         </tr>
         <tr>
@@ -454,53 +450,6 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The probability of getting the observation from that belief and action. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ad2b6e4619e57f93e0af6059a322fbcca"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">Iterator AIToolbox::POMDP::extractDominated </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>S</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function finds and movess all ValueFunctions in the VList that are dominated by others. </p>
-<p>This function performs simple comparisons between all ValueFunctions in the VList, and is thus much more performant than a full-fledged prune, since that would need to solve multiple linear programming problems. However, this function will not return the truly parsimonious set of ValueFunctions, as its pruning powers are limited.</p>
-<p>Dominated elements will be moved at the end of the range for safe removal.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">S</td><td>The number of states in the Model. </td></tr>
-    <tr><td class="paramname">begin</td><td>The begin of the list that needs to be pruned. </td></tr>
-    <tr><td class="paramname">begin</td><td>The end of the list that needs to be pruned.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The iterator that separates dominated elements with non-pruned. </dd></dl>
 
 </div>
 </div>
@@ -564,7 +513,7 @@ template&lt;typename Iterator &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a6f010690025844ae5167c3feeac67a93"></a>
+<a class="anchor" id="a62142e5eac8af594a6243656284bad94"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -573,7 +522,7 @@ template&lt;typename Iterator &gt; </div>
         <tr>
           <td class="memname">Iterator AIToolbox::POMDP::extractWorstAtSimplexCorners </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>S</em>, </td>
         </tr>
         <tr>
@@ -678,7 +627,7 @@ template&lt;typename Iterator &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a94d6a33d1e593699fed3547257d6e1c7"></a>
+<a class="anchor" id="aadafc4fb4f438e0e720b1d7041e43f02"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -687,7 +636,7 @@ template&lt;typename Iterator &gt; </div>
         <tr>
           <td class="memname">Iterator AIToolbox::POMDP::findBestAtSimplexCorner </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>corner</em>, </td>
         </tr>
         <tr>
@@ -736,7 +685,7 @@ template&lt;typename Iterator &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a669db86eba19ad6d76b7444fe0885472"></a>
+<a class="anchor" id="a4b7bb8217a16e3bb7956dc3722cc16d5"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -745,7 +694,7 @@ template&lt;typename G &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> AIToolbox::POMDP::makeRandomBelief </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>S</em>, </td>
         </tr>
         <tr>
@@ -1077,7 +1026,7 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ac207e87c65b261e89e5c3d81150c0588"></a>
+<a class="anchor" id="ad19c9f085248dc19299d511194210843"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1098,13 +1047,13 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>o</em>&#160;</td>
         </tr>
         <tr>
@@ -1135,7 +1084,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
 
 </div>
 </div>
-<a class="anchor" id="a4b2f43e79f04ad90fc1c9ef859472410"></a>
+<a class="anchor" id="a33a1c23c71b6afae16da4db1863bf68d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1156,13 +1105,13 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>o</em>, </td>
         </tr>
         <tr>
@@ -1200,7 +1149,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
 
 </div>
 </div>
-<a class="anchor" id="ae68354981f37f342416d16be2f646a11"></a>
+<a class="anchor" id="aeadb8ad292520175aea2ad4b9173c5cd"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1221,13 +1170,13 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>o</em>&#160;</td>
         </tr>
         <tr>
@@ -1259,7 +1208,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
 
 </div>
 </div>
-<a class="anchor" id="aed84f7604119a8a134309ecdf06e8827"></a>
+<a class="anchor" id="a6a6deb0f6f3d12bb59f0b9813604abc2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1280,13 +1229,13 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>o</em>, </td>
         </tr>
         <tr>
@@ -1366,7 +1315,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value 
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 18 2016 10:28:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 4 2017 15:14:44 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

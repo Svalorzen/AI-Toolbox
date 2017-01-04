@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['weakbounddistance',['weakBoundDistance',['../namespaceAIToolbox_1_1POMDP.html#a05e4fb4a18324709e70b42d66cf2054b',1,'AIToolbox::POMDP']]],
-  ['witness',['Witness',['../classAIToolbox_1_1POMDP_1_1Witness.html#ae245a162b17965f9cef3552fb3297ffd',1,'AIToolbox::POMDP::Witness']]],
-  ['witnesslp_5fclp',['WitnessLP_clp',['../classAIToolbox_1_1POMDP_1_1WitnessLP__clp.html#a70f6bff49fa0f4177980b3591918a4a1',1,'AIToolbox::POMDP::WitnessLP_clp']]],
-  ['witnesslp_5flpsolve',['WitnessLP_lpsolve',['../classAIToolbox_1_1POMDP_1_1WitnessLP__lpsolve.html#a75ed68b2281eaabf408a3a50e25a24fc',1,'AIToolbox::POMDP::WitnessLP_lpsolve']]],
-  ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a5da7647741afda3a435534a1a423c5b2',1,'AIToolbox::MDP::WoLFPolicy']]]
+  ['valueiterationeigen',['ValueIterationEigen',['../classAIToolbox_1_1MDP_1_1ValueIterationEigen_3_01M_01_4.html#ae2c4f78bfd7c5290050e81c3d5987c68',1,'AIToolbox::MDP::ValueIterationEigen&lt; M &gt;']]],
+  ['valueiterationgeneral',['ValueIterationGeneral',['../classAIToolbox_1_1MDP_1_1ValueIterationGeneral_3_01M_01_4.html#a9c1bef1732d65815eb3263ceb577a4fa',1,'AIToolbox::MDP::ValueIterationGeneral&lt; M &gt;']]],
+  ['variableelimination',['VariableElimination',['../classAIToolbox_1_1FactoredMDP_1_1VariableElimination.html#a2afb4c1998561a228536c8848dc4c38f',1,'AIToolbox::FactoredMDP::VariableElimination']]],
+  ['veccmp',['veccmp',['../namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58',1,'AIToolbox']]],
+  ['vector3dfrompython',['Vector3DFromPython',['../structVector3DFromPython.html#a994fdfa7572612d6831cc59390e45814',1,'Vector3DFromPython']]],
+  ['vectorfrompython',['VectorFromPython',['../structVectorFromPython.html#a48ed9da7c7fa7143ff4c8f6826cd9d45',1,'VectorFromPython']]]
 ];

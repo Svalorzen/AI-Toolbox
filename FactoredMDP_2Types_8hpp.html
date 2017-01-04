@@ -87,6 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
 <div class="title">Types.hpp File Reference</div>  </div>
@@ -98,6 +99,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <p><a href="FactoredMDP_2Types_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1FactoredMDP_1_1QFunctionRule.html">AIToolbox::FactoredMDP::QFunctionRule</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents a single state/action/value tuple.  <a href="structAIToolbox_1_1FactoredMDP_1_1QFunctionRule.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1FactoredMDP_1_1MOQFunctionRule.html">AIToolbox::FactoredMDP::MOQFunctionRule</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents a single state/action/values tuple.  <a href="structAIToolbox_1_1FactoredMDP_1_1MOQFunctionRule.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceAIToolbox"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></td></tr>
@@ -108,15 +118,34 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Factored MDP Value Types</div></td></tr>
-<tr class="memitem:a39a6113ac7b075ff3df4f7420cd2a2a9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#a39a6113ac7b075ff3df4f7420cd2a2a9">AIToolbox::FactoredMDP::State</a> = std::vector&lt; size_t &gt;</td></tr>
-<tr class="separator:a39a6113ac7b075ff3df4f7420cd2a2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5267a361a160e7824def0eb5f23218f1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#a5267a361a160e7824def0eb5f23218f1">AIToolbox::FactoredMDP::PartialState</a> = std::vector&lt; std::pair&lt; size_t, size_t &gt;&gt;</td></tr>
-<tr class="separator:a5267a361a160e7824def0eb5f23218f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Here we define alternative representations for states and actions, where they are factored. A factored state/action can be split into multiple sub-components, which are at least partially independent from each other.</p>
+<p>This allows for two advantages: the first is that we can represent in a better way worlds where the number of states could be incredibly high, but which could very well be described as composed of a limited number of specific features.</p>
+<p>The other advantage of factorization is that very often rewards depend only on a specific subset of the state or action. Instead, the a reward can be considered as a sum of multiple reward functions, each acting on a specific subset of state and actions.</p>
+<p>This potentially allows for solving problems more efficiently, as each new reward function is now defined on exponentially less state and actions, and even if we have to take into account more of them, the savings usually justify the factorization.</p>
+<p>A very useful property of this factorization is also that we can use this exact same methodology to approach cooperative MDPs with multiple agents. Each agent will then become a factor in the newly defined action space.</p>
+<p>Here we represent a Factor, which would be some number which can be represented through separate factors, as a vector where each component 'i' can take a number from 0 to N_i.</p>
+<p>Since we are also interested into subsets of these factors, as specified above, we introduce the concept of PartialFactors. This is a pair formed by two equally sized vectors, where the first contains the indeces of the original Factor which are being taken into consideration, and the second vector contains their values.</p>
+<p>An additional definition which can be useful in case of multi-objective MDPs is the Rewards one, which contains a vector of rewards, one per factored action. Multi-objective MDPs happen when there is no established priority between different reward functions at the time of planning, and so there is no way to reduce the value of a given action to a single number. In such a case, a reward is a vector, and each element in the vector will be weighted in the final action choice. Planning however results more complicated as more possible courses of action have to be considered, as there is no way to discard them in advance (not knowing the weights). </p>
+</div></td></tr>
+<tr class="memitem:ad94a79edff536157ad47d800547f44d3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#ad94a79edff536157ad47d800547f44d3">AIToolbox::FactoredMDP::Factors</a> = std::vector&lt; size_t &gt;</td></tr>
+<tr class="separator:ad94a79edff536157ad47d800547f44d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f8e71e491ab7fd52a65aa0f39bdb644"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#a0f8e71e491ab7fd52a65aa0f39bdb644">AIToolbox::FactoredMDP::PartialFactors</a> = std::pair&lt; std::vector&lt; size_t &gt;, std::vector&lt; size_t &gt;&gt;</td></tr>
+<tr class="separator:a0f8e71e491ab7fd52a65aa0f39bdb644"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a63a02e9bcfe84b74a358f4b0af350"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#a04a63a02e9bcfe84b74a358f4b0af350">AIToolbox::FactoredMDP::State</a> = Factors</td></tr>
+<tr class="separator:a04a63a02e9bcfe84b74a358f4b0af350"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2af9f6e0d1cdf22329d5bdfdc427c864"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#a2af9f6e0d1cdf22329d5bdfdc427c864">AIToolbox::FactoredMDP::PartialState</a> = PartialFactors</td></tr>
+<tr class="separator:a2af9f6e0d1cdf22329d5bdfdc427c864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa315147132241ce3f4f5f979ceb1b48"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#aaa315147132241ce3f4f5f979ceb1b48">AIToolbox::FactoredMDP::Action</a> = Factors</td></tr>
+<tr class="separator:aaa315147132241ce3f4f5f979ceb1b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f0b2b22c857b302573fca57418af952"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#a7f0b2b22c857b302573fca57418af952">AIToolbox::FactoredMDP::PartialAction</a> = PartialFactors</td></tr>
+<tr class="separator:a7f0b2b22c857b302573fca57418af952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7704ae7054a420b9fc023c76c445c6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html#a8f7704ae7054a420b9fc023c76c445c6">AIToolbox::FactoredMDP::Rewards</a> = Vector</td></tr>
+<tr class="separator:a8f7704ae7054a420b9fc023c76c445c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 18 2016 10:28:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 4 2017 15:14:44 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

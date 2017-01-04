@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['matrix2d',['Matrix2D',['../namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a',1,'AIToolbox']]],
-  ['matrix3d',['Matrix3D',['../namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94',1,'AIToolbox']]]
+  ['graph',['Graph',['../classAIToolbox_1_1FactoredMDP_1_1MultiObjectiveVariableElimination.html#a1983deb69795b463cca1f1e671d47c1a',1,'AIToolbox::FactoredMDP::MultiObjectiveVariableElimination::Graph()'],['../classAIToolbox_1_1FactoredMDP_1_1VariableElimination.html#ad9d2b137893ce5f00cd2934c542879e1',1,'AIToolbox::FactoredMDP::VariableElimination::Graph()']]]
 ];

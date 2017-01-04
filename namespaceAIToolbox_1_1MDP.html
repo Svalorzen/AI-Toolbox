@@ -100,6 +100,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html">DynaQ&lt; M &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the DynaQ algorithm.  <a href="classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html">EpsilonPolicy</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html">Experience</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class keeps track of registered events and rewards.  <a href="classAIToolbox_1_1MDP_1_1Experience.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,8 +180,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a5d715258f9433db1b18a8a344e775044"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a5d715258f9433db1b18a8a344e775044">EpsilonPolicy</a> = ::<a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt; size_t &gt;</td></tr>
-<tr class="separator:a5d715258f9433db1b18a8a344e775044"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f1d91f2aae0da1a776ed1d2f6844362"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a4f1d91f2aae0da1a776ed1d2f6844362">PolicyInterface</a> = ::<a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; size_t, size_t, size_t &gt;</td></tr>
+<tr class="memdesc:a4f1d91f2aae0da1a776ed1d2f6844362"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple typedef for most of <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>'s policy needs.  <a href="#a4f1d91f2aae0da1a776ed1d2f6844362">More...</a><br /></td></tr>
+<tr class="separator:a4f1d91f2aae0da1a776ed1d2f6844362"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -187,9 +190,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4">operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
 <tr class="memdesc:a76cf690877bec652996d9f930878c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model to a file.  <a href="#a76cf690877bec652996d9f930878c6d4">More...</a><br /></td></tr>
 <tr class="separator:a76cf690877bec652996d9f930878c6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab29f7e56e99a8a7de2fdf5feea7f24f7"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#ab29f7e56e99a8a7de2fdf5feea7f24f7">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; size_t &gt; &amp;p)</td></tr>
-<tr class="memdesc:ab29f7e56e99a8a7de2fdf5feea7f24f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="#ab29f7e56e99a8a7de2fdf5feea7f24f7">More...</a><br /></td></tr>
-<tr class="separator:ab29f7e56e99a8a7de2fdf5feea7f24f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520c34d1f4f6a6e55da9455643386f29"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a4f1d91f2aae0da1a776ed1d2f6844362">PolicyInterface</a> &amp;p)</td></tr>
+<tr class="memdesc:a520c34d1f4f6a6e55da9455643386f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="#a520c34d1f4f6a6e55da9455643386f29">More...</a><br /></td></tr>
+<tr class="separator:a520c34d1f4f6a6e55da9455643386f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , typename std::enable_if&lt; is_experience&lt; E &gt;::value, int &gt;::type  = 0&gt; </td></tr>
 <tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a848bcd05ba792e8065107b34277e83a4">operator&lt;&lt;</a> (std::ostream &amp;os, const E &amp;exp)</td></tr>
 <tr class="memdesc:a848bcd05ba792e8065107b34277e83a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints an <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> to a stream.  <a href="#a848bcd05ba792e8065107b34277e83a4">More...</a><br /></td></tr>
@@ -243,15 +246,17 @@ MDP Value Types</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5d715258f9433db1b18a8a344e775044"></a>
+<a class="anchor" id="a4f1d91f2aae0da1a776ed1d2f6844362"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespaceAIToolbox_1_1MDP.html#a5d715258f9433db1b18a8a344e775044">AIToolbox::MDP::EpsilonPolicy</a> = typedef ::<a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html">AIToolbox::EpsilonPolicyInterface</a>&lt;size_t&gt;</td>
+          <td class="memname">using <a class="el" href="namespaceAIToolbox_1_1MDP.html#a4f1d91f2aae0da1a776ed1d2f6844362">AIToolbox::MDP::PolicyInterface</a> = typedef ::<a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt;size_t, size_t, size_t&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Simple typedef for most of <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>'s policy needs. </p>
 
 </div>
 </div>
@@ -397,7 +402,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 
 </div>
 </div>
-<a class="anchor" id="ab29f7e56e99a8a7de2fdf5feea7f24f7"></a>
+<a class="anchor" id="a520c34d1f4f6a6e55da9455643386f29"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -410,7 +415,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a4f1d91f2aae0da1a776ed1d2f6844362">PolicyInterface</a> &amp;&#160;</td>
           <td class="paramname"><em>p</em>&#160;</td>
         </tr>
         <tr>
@@ -644,7 +649,7 @@ template&lt;typename E , typename std::enable_if&lt; is_experience&lt; E &gt;::v
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 18 2016 10:28:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 4 2017 15:14:44 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
