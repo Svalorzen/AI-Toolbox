@@ -23,12 +23,13 @@ The field divides itself into planning and reinforcement learning: planning
 focuses into solving problems that we know how to model: think chess, or 2048.
 Reinforcement learning focuses into creating a model for an environment we do
 not know in advance, and while learning the best policy for it. An excellent
-introduction to the basics can be found freely online in [this book](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/the-book.html).
+introduction to the basics can be found freely online in [this
+book](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/the-book.html).
 
-There are many variants of these problems, with single agent worlds, multi agent,
-competitive, cooperative, partially observable and so on. This framework is a
-work in progress that tries to implement many DTC algorithms in one place, much
-like OpenCV is for Computer Vision algorithms.
+There are many variants of these problems, with single agent worlds, multi
+agent, multi objective, competitive, cooperative, partially observable and so
+on. This framework is a work in progress that tries to implement many DTC
+algorithms in one place, much like OpenCV is for Computer Vision algorithms.
 
 Please note that the API is not yet stable (although most things at this point
 are) since at every algorithm I add I may decide to alter the API a bit, to
@@ -38,9 +39,9 @@ Goals
 =====
 
 Decision Theoretic Control is a field which is in rapid development. There are
-incredibly many methods to solve problems, each with a huge amounts of
-variants. This framework only tries to implement the most influential methods,
-and in their vanilla form (or the form that is most widely used in the research
+incredibly many methods to solve problems, each with a huge number of variants.
+This framework only tries to implement the most influential methods, and in
+their vanilla form (or the form that is most widely used in the research
 community to my knowledge), trying to keep the code as simple as possible.
 
 If you need any of the variants, the code is structured so that it is easy to
@@ -98,8 +99,12 @@ Policies:
 
 ### Factored/Multi-Agent MDP: ###
 
+Not in Python yet.
+
 Algorithms:
 
+- [Variable Elimination](http://www.select.cs.cmu.edu/publications/paperdir/nips2001-guestrin-koller-parr.pdf)
+- [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
 - [Sparse Cooperative QLearning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf)
 
 Policies:
