@@ -10,7 +10,7 @@ namespace AIToolbox {
         Action QGreedyPolicy::sampleAction(const State & s) const {
             VariableElimination ve(A);
             auto rules = q_.filter(s, 0); // Partial filter
-            return ve(rules).first;
+            return std::get<0>(ve(rules));
         }
 
         double QGreedyPolicy::getActionProbability(const State & s, const Action & a) const {

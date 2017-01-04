@@ -60,6 +60,7 @@ if (MAKE_MDP)
     AddTestFactoredMDP(FactoredContainer)
     AddTestFactoredMDP(FactorGraph)
     AddTestFactoredMDP(VariableElimination)
+    AddTestFactoredMDP(MultiObjectiveVariableElimination)
     AddTestFactoredMDP(SparseCooperativeQLearning)
 
     if (MAKE_PYTHON)

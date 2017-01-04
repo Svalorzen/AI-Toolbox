@@ -1,12 +1,12 @@
-#ifndef AI_TOOLBOX_PROBABILITY_UTILS_HEADER_FILE
-#define AI_TOOLBOX_PROBABILITY_UTILS_HEADER_FILE
+#ifndef AI_TOOLBOX_UTILS_PROBABILITY_HEADER_FILE
+#define AI_TOOLBOX_UTILS_PROBABILITY_HEADER_FILE
 
 #include <cstddef>
 #include <random>
 #include <algorithm>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
     /**

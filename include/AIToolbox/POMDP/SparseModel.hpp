@@ -1,13 +1,13 @@
 #ifndef AI_TOOLBOX_POMDP_SPARSE_MODEL_HEADER_FILE
 #define AI_TOOLBOX_POMDP_SPARSE_MODEL_HEADER_FILE
 
-#include <AIToolbox/Utils.hpp>
+#include <random>
+
+#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
-
-#include <random>
-#include <AIToolbox/Impl/Seeder.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
 
 namespace AIToolbox {
     namespace POMDP {

@@ -83,6 +83,19 @@ namespace AIToolbox {
             PartialAction a_;
             double value_;
         };
+
+        /**
+         * @brief This struct represents a single state/action/values tuple.
+         *
+         * This struct can be used in place of a full-blown QFunction table for
+         * multi-objective MDPs. Thus each state-action pair is linked with a
+         * vector of rewards, one for each possible MDP objective.
+         */
+        struct MOQFunctionRule {
+            PartialState s_;
+            PartialAction a_;
+            Rewards values_;
+        };
     }
 }
 

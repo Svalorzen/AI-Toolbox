@@ -1,11 +1,11 @@
 #ifndef AI_TOOLBOX_POMDP_RTBSS_HEADER_FILE
 #define AI_TOOLBOX_POMDP_RTBSS_HEADER_FILE
 
+#include <limits>
+
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
-
-#include <limits>
+#include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox {
     namespace POMDP {

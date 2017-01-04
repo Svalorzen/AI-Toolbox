@@ -3,6 +3,9 @@
 
 #include <utility>
 
+#include <boost/iterator/transform_iterator.hpp>
+
+#include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Types.hpp>
@@ -46,8 +49,12 @@ namespace AIToolbox {
             if ( !pw ) return;
             auto & w = *pw;
 
+            auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+            auto wbegin = boost::make_transform_iterator(std::begin(w), unwrap);
+            auto wend   = boost::make_transform_iterator(std::end  (w), unwrap);
+
             // Remove easy ValueFunctions to avoid doing more work later.
-            w.erase(extractDominated(S, std::begin(w), std::end(w)), std::end(w));
+            w.erase(extractDominated(S, wbegin, wend).base(), std::end(w));
 
             const size_t size = w.size();
             if ( size < 2 ) return;

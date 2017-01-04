@@ -7,7 +7,7 @@
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/SparseModel.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 #include "Utils/TigerProblem.hpp"
 

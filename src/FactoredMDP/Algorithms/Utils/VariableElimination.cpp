@@ -1,22 +1,43 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
-#include <boost/functional/hash.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
-        VariableElimination::VariableElimination(Action a) : graph_(a.size()), A(a) {}
+        using VE = VariableElimination;
 
-        std::pair<Action, double> VariableElimination::start() {
+        /**
+         * @brief This function finds the highest valued rule in the given rules.
+         *
+         * @param rules A vector of Rule with at least 1 element.
+         *
+         * @return The highest valued rule.
+         */
+        const VE::Rule & getBestRule(const VE::Rules & rules);
+
+        /**
+         * @brief This function returns the sum of values of all rules matching the input action.
+         *
+         * @param rules The rules to be searched in.
+         * @param jointAction The joint action to match each Rule against.
+         * @param tags An optional pointer where to store all tags encountered in the sum.
+         *
+         * @return The sum of all matching Rules' values.
+         */
+        double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags = nullptr);
+
+        VE::VariableElimination(Action a) : graph_(a.size()), A(a) {}
+
+        VE::Result VE::start() {
             // This can possibly be improved with some heuristic ordering
             while (graph_.agentSize())
                 removeAgent(graph_.agentSize() - 1);
 
             auto a_v = std::make_pair(Action(A.size()), 0.0);
             for (const auto & f : finalFactors_) {
-                const auto & pa_v_t = getBestRule(f);
+                const auto & pa_t_v = getBestRule(f);
 
-                a_v.second += std::get<1>(pa_v_t);
+                a_v.second += std::get<2>(pa_t_v);
                 // Add tags together
-                const auto & tags = std::get<2>(pa_v_t);
+                const auto & tags = std::get<1>(pa_t_v);
                 for (size_t i = 0; i < tags.first.size(); ++i)
                     a_v.first[tags.first[i]] = tags.second[i];
             }
@@ -34,7 +55,7 @@ namespace AIToolbox {
 
             while (jointActions.isValid()) {
                 auto & jointAction = *jointActions;
-                double bestPayoff = 0.0;
+                double bestPayoff = std::numeric_limits<double>::lowest();
                 PartialAction bestTag;
 
                 // So here we're trying to create a single rule with a value
@@ -58,7 +79,7 @@ namespace AIToolbox {
                     // would have resolved together to a single rule), we can
                     // create a tag with their action by simply writing in it.
                     for (const auto factor : factors)
-                        newPayoff += getPayoff(factor->f_, jointAction, &newTag);
+                        newPayoff += getPayoff(factor->f_.rules_, jointAction, &newTag);
 
                     // We only select the agent's best action.
                     if (newPayoff > bestPayoff) {
@@ -66,9 +87,8 @@ namespace AIToolbox {
                         bestTag = std::move(newTag);
                     }
                 }
-                if (checkDifferentSmall(bestPayoff, 0.0)) {
-                    newRules.emplace_back(jointAction, bestPayoff, std::move(bestTag));
-                }
+                if (checkDifferentGeneral(bestPayoff, std::numeric_limits<double>::lowest()))
+                    newRules.emplace_back(removeFactor(jointAction, agent), std::move(bestTag), bestPayoff);
                 jointActions.advance();
             }
 
@@ -91,8 +111,8 @@ namespace AIToolbox {
             }
         }
 
-        const VariableElimination::Rule & VariableElimination::getBestRule(const Rules & rules) {
-            const Rule * bestRule = &rules[0];
+        const VE::Rule & getBestRule(const VE::Rules & rules) {
+            const VE::Rule * bestRule = &rules[0];
 
             for (const auto & rule : rules)
                 if (std::get<1>(rule) > std::get<1>(*bestRule))
@@ -101,12 +121,12 @@ namespace AIToolbox {
             return *bestRule;
         }
 
-        double VariableElimination::getPayoff(const Factor & factor, const PartialAction & jointAction, PartialAction * tags) {
+        double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags) {
             double result = 0.0;
-            for (const auto & rule : factor.rules_) {
+            for (const auto & rule : rules) {
                 if (match(jointAction, std::get<0>(rule))) {
-                    result += std::get<1>(rule);
-                    inplace_merge(tags, std::get<2>(rule));
+                    result += std::get<2>(rule);
+                    inplace_merge(tags, std::get<1>(rule));
                 }
             }
             return result;

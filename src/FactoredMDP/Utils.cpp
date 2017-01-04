@@ -1,9 +1,25 @@
 #include <AIToolbox/FactoredMDP/Utils.hpp>
 
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
+        PartialFactors removeFactor(const PartialFactors & pf, size_t f) {
+            size_t i = 0;
+            while (i < pf.first.size() && pf.first[i] < f) ++i;
+            if (i == pf.first.size() || pf.first[i] != f) return pf;
+
+            PartialFactors retval; 
+            retval.first.reserve(pf.first.size() - 1);
+            retval.second.reserve(pf.first.size() - 1);
+
+            for (size_t j = 0; j < pf.first.size(); ++j) {
+                if (i == j) continue;
+                retval.first.push_back(pf.first[j]);
+                retval.second.push_back(pf.second[j]);
+            }
+            return retval;
+        }
         bool match(const PartialFactors & lhs, const PartialFactors & rhs) {
             const PartialFactors * smaller = &rhs, * bigger = &lhs;
             if (lhs.first.size() < rhs.first.size()) std::swap(smaller, bigger);
@@ -93,6 +109,14 @@ namespace AIToolbox {
             retval.second = f;
 
             return retval;
+        }
+
+        Factors toFactors(size_t F, const PartialFactors & pf) {
+            Factors f(F);
+            for (size_t i = 0; i < pf.first.size(); ++i)
+                f[pf.first[i]] = pf.second[i];
+
+            return f;
         }
 
         // PartialFactorsEnumerator below.

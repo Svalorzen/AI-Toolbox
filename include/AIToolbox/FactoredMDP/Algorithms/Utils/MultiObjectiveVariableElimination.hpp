@@ -1,28 +1,30 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_MDP_MULTI_OBJECTIVE_VARIABLE_ELIMINATION_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_MDP_MULTI_OBJECTIVE_VARIABLE_ELIMINATION_HEADER_FILE
 
-#include "AIToolbox/Utils/Probability.hpp"
 #include "AIToolbox/FactoredMDP/Types.hpp"
 #include "AIToolbox/FactoredMDP/Utils.hpp"
 #include "AIToolbox/FactoredMDP/FactorGraph.hpp"
 
+#include <AIToolbox/Utils/Core.hpp>
+
 namespace AIToolbox {
     namespace FactoredMDP {
         /**
-         * @brief This class represents the Variable Elimination process.
+         * @brief This class represents the Multi Objective Variable Elimination process.
          *
          * This class performs variable elimination on a factor graph. It first
-         * builds the graph starting from a list of QFunctionRules. These rules
-         * are sorted by the agents they affect, and each group is added to a
-         * single factor connected to those agents.
+         * builds the graph starting from a list of MOQFunctionRules. These
+         * rules are sorted by the agents they affect, and each group is added
+         * to a single factor connected to those agents.
          *
          * Each agent is then eliminated from the graph, and all rules
-         * connected to it are processed in order to find out which action the
+         * connected to it are processed in order to find out which actions the
          * agent being eliminated should take.
          *
-         * When all agents have been eliminated, only the optimal rules
-         * containing the best actions remain. The ones that provide the best
-         * reward are joined into a single Action, which is then returned.
+         * When doing multi-objective elimination, there is no real best action
+         * in general, since we do not know in advance the weights for the
+         * objectives' rewards. Thus, we keep all action-rewards pairs we found
+         * during the elimination and return them.
          *
          * This process is exponential in the maximum number of agents found
          * attached to the same factor (which could be higher than in the
@@ -41,13 +43,14 @@ namespace AIToolbox {
          * subgroup containing negative rules, or the rules have to be
          * converted to an equivalent graph with positive values.
          */
-        class VariableElimination {
+        class MultiObjectiveVariableElimination {
             public:
-                // action of subset of agents, tags of processed actions, value of rule
-                using Rule = std::tuple<PartialAction, PartialAction, double>;
+                using Entry = std::tuple<PartialAction, Rewards>;
+                using Entries = std::vector<Entry>;
+                using Rule = std::tuple<PartialAction, Entries>;
                 using Rules = std::vector<Rule>;
 
-                using Result = std::tuple<Action, double>;
+                using Results = Entries;
 
                 struct Factor {
                     Rules rules_;
@@ -63,21 +66,30 @@ namespace AIToolbox {
                  *
                  * @param a The action space.
                  */
-                VariableElimination(Action a);
+                MultiObjectiveVariableElimination(Action a);
 
                 /**
-                 * @brief This function finds the best Action-value pair for the provided QFunctionRules.
+                 * @brief This function finds the best Action-value pair for the provided MOQFunctionRules.
                  *
-                 * @param rules An iterable object over QFunctionRules.
+                 * @param rules An iterable object over MOQFunctionRules.
                  *
-                 * @return A tuple containing the best Action and its value over the input rules.
+                 * @return The pair of best Action and its value over the input rules.
                  */
                 template <typename Iterable>
-                Result operator()(const Iterable & rules) {
+                Results operator()(const Iterable & rules) {
+                    auto comp = [](const Rule & lhs, const Rule & rhs) {
+                        return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
+                    };
                     // Should we reset the graph?
-                    for (const QFunctionRule & rule : rules) {
-                        auto it = graph_.getFactor(rule.a_.first);
-                        it->f_.rules_.emplace_back(rule.a_, PartialAction(), rule.value_);
+                    for (const MOQFunctionRule & rule : rules) {
+                        auto & rules = graph_.getFactor(rule.a_.first)->f_.rules_;
+
+                        // Here we keep everything sorted since it will turn up
+                        // useful later when we have to crossSum and merge two
+                        // lists. Having them sorted makes us to less work later.
+                        auto newRule = std::make_tuple(rule.a_, Entries{std::make_pair(PartialAction(), rule.values_)});
+                        auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, comp);
+                        rules.emplace(pos, std::move(newRule));
                     }
                     return start();
                 }
@@ -92,23 +104,22 @@ namespace AIToolbox {
                  * to find the best action response be for the agent to be
                  * eliminated.
                  *
-                 * All the best responses found are added as Rules to a
-                 * (possibly new) factor adjacent to the adjacent agents.
+                 * All the responses found (possibly pruned) are added as Rules
+                 * to a (possibly new) factor adjacent to the adjacent agents.
                  *
                  * The process is repeated until all agents are eliminated.
                  *
-                 * What remains is then joined into a single Action, containing
-                 * the best possible value.
+                 * What remains is then returned.
                  *
-                 * @return The pair for best Action and its value given the internal graph.
+                 * @return All pairs of PartialAction, Rewards found during the elimination process.
                  */
-                Result start();
+                Results start();
 
                 /**
                  * @brief This function performs the elimination of a single agent (and all factors next to it) from the internal graph.
                  *
-                 * This function adds the resulting best rules which do not
-                 * depend on the eliminated action to the remaining factors.
+                 * This function adds the resulting rules which do not depend
+                 * on the eliminated action to the remaining factors.
                  *
                  * \sa start()
                  *
@@ -118,7 +129,7 @@ namespace AIToolbox {
 
                 Graph graph_;
                 Action A;
-                std::vector<Rules> finalFactors_;
+                std::vector<Entries> finalFactors_;
         };
     }
 }

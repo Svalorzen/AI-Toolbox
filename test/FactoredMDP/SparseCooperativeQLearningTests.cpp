@@ -3,7 +3,7 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/FactoredMDP/Algorithms/SparseCooperativeQLearning.hpp>
 
 namespace fm = AIToolbox::FactoredMDP;

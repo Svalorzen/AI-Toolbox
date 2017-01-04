@@ -23,12 +23,13 @@ The field divides itself into planning and reinforcement learning: planning
 focuses into solving problems that we know how to model: think chess, or 2048.
 Reinforcement learning focuses into creating a model for an environment we do
 not know in advance, and while learning the best policy for it. An excellent
-introduction to the basics can be found freely online in [this book](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/the-book.html).
+introduction to the basics can be found freely online in [this
+book](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/the-book.html).
 
-There are many variants of these problems, with single agent worlds, multi agent,
-competitive, cooperative, partially observable and so on. This framework is a
-work in progress that tries to implement many DTC algorithms in one place, much
-like OpenCV is for Computer Vision algorithms.
+There are many variants of these problems, with single agent worlds, multi
+agent, multi objective, competitive, cooperative, partially observable and so
+on. This framework is a work in progress that tries to implement many DTC
+algorithms in one place, much like OpenCV is for Computer Vision algorithms.
 
 Please note that the API is not yet stable (although most things at this point
 are) since at every algorithm I add I may decide to alter the API a bit, to
@@ -38,9 +39,9 @@ Goals
 =====
 
 Decision Theoretic Control is a field which is in rapid development. There are
-incredibly many methods to solve problems, each with a huge amounts of
-variants. This framework only tries to implement the most influential methods,
-and in their vanilla form (or the form that is most widely used in the research
+incredibly many methods to solve problems, each with a huge number of variants.
+This framework only tries to implement the most influential methods, and in
+their vanilla form (or the form that is most widely used in the research
 community to my knowledge), trying to keep the code as simple as possible.
 
 If you need any of the variants, the code is structured so that it is easy to
@@ -98,8 +99,12 @@ Policies:
 
 ### Factored/Multi-Agent MDP: ###
 
+Not in Python yet.
+
 Algorithms:
 
+- [Variable Elimination](http://www.select.cs.cmu.edu/publications/paperdir/nips2001-guestrin-koller-parr.pdf)
+- [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
 - [Sparse Cooperative QLearning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf)
 
 Policies:
@@ -107,73 +112,6 @@ Policies:
 - SingleAction Policy
 - Epsilon-Greedy Policy
 - Q-Greedy Policy
-
-Fast Tutorial
-=============
-
-In order to use this library you need to have some idea of what a Markov
-Decision Process (MDP) is. An MDP is a mathematical framework to work with an
-environment which evolves in discrete timestep, and where an agent can influence
-its evolution through actions.
-
-A full-on explanation will likely require some math and complicated sounding
-terms, so I will explain with an example. The full documentation will include
-more details, and currently you can read each class documentation, which helps
-in understanding the whole picture.
-
-Suppose you have a 10x10 cell grid world, with an agent in the middle. At each
-point, the agent can decide to move up, down, left or right. At any point in
-time, you can then describe this world by simply stating where the agent is (for
-example, the agent is in cell (5,5)). This description of the world is
-absolutely complete and does not require knowledge of the past: it is called a
-markovian "state". If knowledge of the past is required, for example to compute
-a speed that is then used to move the agent, you simply increase the
-dimensionality of the state (add a velocity term to it), until it is markovian
-again.
-
-The agent can then influence the environment's state in the next timestep: it
-can choose to move, and where it moves will determine the environment next
-state. If it moves up, then the next state will be (5,6) with 100% probability.
-You can encode this type of movements in a transition table, that for each state
-will tell you the probability of ending in another state, given that the agent
-performs a certain action.
-
-There is another part of an MDP: reward. Since we want the agent to move in an
-intelligent way, we need to tell it what "situations" are better than others.
-For example, we may want the agent to move in the top-left corner: thus every
-movement the agent does will give him 0 reward, but ending in the top-left
-corner will give him 1 reward.
-
-This is all is needed to make this library work. Once you have encoded your
-problem in such a way, the code to solve it is generally something like:
-
-    auto model = make_my_model();
-    solver_type<decltype(model)> solver( solver_parameters );
-
-    auto solution = solver(model);
-
-Or, for methods that compute the solutions not in one swoop but incrementally at
-each timestep the code looks like this:
-
-    auto model = make_my_model();
-    solver_type<decltype(model)> solver( model, solver_parameters );
-    policy_type policy( solver.getQFunction() );
-
-    for ( unsigned timestep = 0; timestep < max_timestep; ++timestep ) {
-        size_t action = policy.sampleAction( current_state );
-
-        std::tie(new_state, reward) = act( action );
-
-        solver.update( current_state, action, new_state, reward);
-    }
-
-In particular, states and actions in this library are represented as `size_t`
-variables, since for example an (x,y) position can be easily encoded in a single
-number.
-
-The code currently in the `example` folder will help you understand the type of
-usage (and possibly the `test` folder), and the documentation of each class will
-tell you what it is for.
 
 Build Instructions
 ==================
@@ -278,3 +216,70 @@ commits, while the one you compile yourself will of course be.
 For Python docs you can find them by typing `help(MDP)` or `help(MDP.SomeMDPClass)`
 from the interpreter. It should show the exported API for each class, along with
 any differences in input/output.
+
+Domain Introduction
+===================
+
+In order to use this library you need to have some idea of what a Markov
+Decision Process (MDP) is. An MDP is a mathematical framework to work with an
+environment which evolves in discrete timestep, and where an agent can influence
+its evolution through actions.
+
+A full-on explanation will likely require some math and complicated sounding
+terms, so I will explain with an example. The full documentation will include
+more details, and currently you can read each class documentation, which helps
+in understanding the whole picture.
+
+Suppose you have a 10x10 cell grid world, with an agent in the middle. At each
+point, the agent can decide to move up, down, left or right. At any point in
+time, you can then describe this world by simply stating where the agent is (for
+example, the agent is in cell (5,5)). This description of the world is
+absolutely complete and does not require knowledge of the past: it is called a
+markovian "state". If knowledge of the past is required, for example to compute
+a speed that is then used to move the agent, you simply increase the
+dimensionality of the state (add a velocity term to it), until it is markovian
+again.
+
+The agent can then influence the environment's state in the next timestep: it
+can choose to move, and where it moves will determine the environment next
+state. If it moves up, then the next state will be (5,6) with 100% probability.
+You can encode this type of movements in a transition table, that for each state
+will tell you the probability of ending in another state, given that the agent
+performs a certain action.
+
+There is another part of an MDP: reward. Since we want the agent to move in an
+intelligent way, we need to tell it what "situations" are better than others.
+For example, we may want the agent to move in the top-left corner: thus every
+movement the agent does will give him 0 reward, but ending in the top-left
+corner will give him 1 reward.
+
+This is all is needed to make this library work. Once you have encoded your
+problem in such a way, the code to solve it is generally something like:
+
+    auto model = make_my_model();
+    solver_type<decltype(model)> solver( solver_parameters );
+
+    auto solution = solver(model);
+
+Or, for methods that compute the solutions not in one swoop but incrementally at
+each timestep the code looks like this:
+
+    auto model = make_my_model();
+    solver_type<decltype(model)> solver( model, solver_parameters );
+    policy_type policy( solver.getQFunction() );
+
+    for ( unsigned timestep = 0; timestep < max_timestep; ++timestep ) {
+        size_t action = policy.sampleAction( current_state );
+
+        std::tie(new_state, reward) = act( action );
+
+        solver.update( current_state, action, new_state, reward);
+    }
+
+In particular, states and actions in this library are represented as `size_t`
+variables, since for example an (x,y) position can be easily encoded in a single
+number.
+
+The code currently in the `example` folder will help you understand the type of
+usage (and possibly the `test` folder), and the documentation of each class will
+tell you what it is for.

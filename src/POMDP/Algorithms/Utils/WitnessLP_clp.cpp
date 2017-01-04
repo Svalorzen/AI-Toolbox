@@ -1,7 +1,6 @@
 #include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_clp.hpp>
 
 #include <iterator>
-#include <iostream>
 
 namespace AIToolbox {
     namespace POMDP {

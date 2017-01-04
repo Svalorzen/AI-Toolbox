@@ -5,7 +5,7 @@
 #include <tuple>
 
 #include <AIToolbox/MDP/Types.hpp>
-#include <AIToolbox/ProbabilityUtils.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox {

@@ -1,6 +1,7 @@
 .ycm_extra_conf.pyc
 *.swp
 build/
+debugbuild/
 html/
 *Tests
 

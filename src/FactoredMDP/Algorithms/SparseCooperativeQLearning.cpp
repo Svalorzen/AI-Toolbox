@@ -26,7 +26,7 @@ namespace AIToolbox {
             auto a1 = ve(rules);
 
             auto beforeRules = rules_.filter(join(s, a));
-            auto afterRules = rules_.filter(join(s1, a1.first));
+            auto afterRules = rules_.filter(join(s1, std::get<0>(a1)));
 
             auto computeQ = [](size_t agent, const decltype(rules_)::Iterable & rules) {
                 double sum = 0.0;
@@ -52,7 +52,7 @@ namespace AIToolbox {
             for (auto & br : beforeRules)
                 br.value_ += updates[i++];
 
-            return a1.first;
+            return std::get<0>(a1);
         }
 
         void SparseCooperativeQLearning::setLearningRate(const double a) {

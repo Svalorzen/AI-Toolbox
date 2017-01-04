@@ -4,7 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Utils.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 
 BOOST_AUTO_TEST_CASE( veccmp ) {
     using namespace AIToolbox;
