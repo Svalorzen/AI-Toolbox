@@ -77,22 +77,22 @@ namespace AIToolbox {
                 retval = crossSum(retval, fValue);
 
             // P1 pruning
-            auto unwrap = +[](Entry & e) -> Rewards & {return std::get<1>(e);};
-            auto rbegin = boost::make_transform_iterator(std::begin(retval), unwrap);
-            auto rend   = boost::make_transform_iterator(std::end  (retval), unwrap);
+            const auto unwrap = +[](Entry & e) -> Rewards & {return std::get<1>(e);};
+            const auto rbegin = boost::make_transform_iterator(std::begin(retval), unwrap);
+            const auto rend   = boost::make_transform_iterator(std::end  (retval), unwrap);
 
             retval.erase(AIToolbox::extractDominated(2, rbegin, rend).base(), std::end(retval));
 
             return retval;
         }
 
-        void MOVE::removeAgent(size_t agent) {
-            auto factors = graph_.getNeighbors(agent);
+        void MOVE::removeAgent(const size_t agent) {
+            const auto factors = graph_.getNeighbors(agent);
             auto agents = graph_.getNeighbors(factors);
 
             Rules newRules;
             PartialFactorsEnumerator jointActions(A, agents, agent);
-            auto id = jointActions.getFactorToSkipId();
+            const auto id = jointActions.getFactorToSkipId();
 
             if (factors.size() > 0) {
                 while (jointActions.isValid()) {
@@ -104,7 +104,7 @@ namespace AIToolbox {
                         jointAction.second[id] = agentAction;
 
                         Entries newEntries;
-                        for (auto p : getPayoffs(factors[0]->f_.rules_, jointAction))
+                        for (const auto p : getPayoffs(factors[0]->f_.rules_, jointAction))
                             newEntries.insert(std::end(newEntries), std::begin(*p), std::end(*p));
 
                         // So the idea here is that we are computing results for
@@ -159,10 +159,10 @@ namespace AIToolbox {
                             // merge efficiently later with rules in a factor.
                             // Doing insertion sort here is hopefully faster
                             // than quicksorting later the whole list.
-                            auto comp = [](const Rule & lhs, const Rule & rhs) {
+                            const auto comp = [](const Rule & lhs, const Rule & rhs) {
                                 return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
                             };
-                            auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, comp);
+                            const auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, comp);
                             newRules.emplace(pos, std::move(newRule));
                         } else {
                             finalFactors_.emplace_back(std::move(values));

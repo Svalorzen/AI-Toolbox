@@ -10,7 +10,7 @@ namespace fm = AIToolbox::FactoredMDP;
 using MOVE = fm::MultiObjectiveVariableElimination;
 
 BOOST_AUTO_TEST_CASE( simple_graph ) {
-    std::vector<fm::MOQFunctionRule> rules {
+    const std::vector<fm::MOQFunctionRule> rules {
         // States, Actions,                     Value
         {    {},   {{0}, {0}},            (fm::Rewards(2) << 4.0, 0,0).finished()},
         {    {},   {{1}, {0}},            (fm::Rewards(2) << 5.0, 1.0).finished()},
@@ -23,10 +23,10 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
                                   std::make_tuple(fm::PartialAction{{0, 1}, {1, 0}}, (fm::Rewards(2) << 7.0, 4.0).finished())};
                                // std::make_tuple(fm::PartialAction{{0, 1}, {1, 1}}, (fm::Rewards(2) << 2.0, 2.0).finished())
 
-    fm::Action a{2, 2};
+    const fm::Action a{2, 2};
 
     MOVE v(a);
-    auto bestActions = v(rules);
+    const auto bestActions = v(rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
 
@@ -45,19 +45,19 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
 }
 
 BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
-    std::vector<fm::MOQFunctionRule> rules {
+    const std::vector<fm::MOQFunctionRule> rules {
         // States, Actions,                     Value
         {    {},   {{0}, {0}},            (fm::Rewards(2) << 4.0, 0,0).finished()},
         {    {},   {{0, 1}, {1, 0}},      (fm::Rewards(2) << 2.0, 3.0).finished()},
     };
 
-    MOVE::Results solutions{std::make_tuple(fm::PartialAction{{0}, {0}},       (fm::Rewards(2) << 4.0, 0.0).finished()),
-                            std::make_tuple(fm::PartialAction{{0, 1}, {1, 0}}, (fm::Rewards(2) << 2.0, 3.0).finished())};
+    const MOVE::Results solutions{std::make_tuple(fm::PartialAction{{0}, {0}},       (fm::Rewards(2) << 4.0, 0.0).finished()),
+                                  std::make_tuple(fm::PartialAction{{0, 1}, {1, 0}}, (fm::Rewards(2) << 2.0, 3.0).finished())};
 
-    fm::Action a{2, 2};
+    const fm::Action a{2, 2};
 
     MOVE v(a);
-    auto bestActions = v(rules);
+    const auto bestActions = v(rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
 
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
 BOOST_AUTO_TEST_CASE( radu_marinescu_graph ) {
     std::vector<fm::MOQFunctionRule> rules;
 
-    fm::Action A{2, 2, 2, 2, 2};
+    const fm::Action A{2, 2, 2, 2, 2};
 
     // g rules for single actions
     for (size_t a = 0; a < A.size(); ++a) {
@@ -116,11 +116,11 @@ BOOST_AUTO_TEST_CASE( radu_marinescu_graph ) {
     rules.emplace_back(fm::MOQFunctionRule{fm::PartialState{}, fm::PartialAction{{1, 3, 4}, {1, 1, 0}}, (fm::Rewards(2) << -5.0, 0.0).finished()});
     rules.emplace_back(fm::MOQFunctionRule{fm::PartialState{}, fm::PartialAction{{1, 3, 4}, {1, 1, 1}}, (fm::Rewards(2) << -4.0, 0.0).finished()});
 
-    MOVE::Results solutions{std::make_tuple(fm::PartialAction{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}, (fm::Rewards(2) << -7.0,  0.0).finished()),
-                            std::make_tuple(fm::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 1, 0, 0}}, (fm::Rewards(2) << -3.0, -5.0).finished()),
-                            std::make_tuple(fm::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 0, 0, 0}}, (fm::Rewards(2) << -4.0, -2.0).finished())};
+    const MOVE::Results solutions{std::make_tuple(fm::PartialAction{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}, (fm::Rewards(2) << -7.0,  0.0).finished()),
+                                  std::make_tuple(fm::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 1, 0, 0}}, (fm::Rewards(2) << -3.0, -5.0).finished()),
+                                  std::make_tuple(fm::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 0, 0, 0}}, (fm::Rewards(2) << -4.0, -2.0).finished())};
     MOVE v(A);
-    auto bestActions = v(rules);
+    const auto bestActions = v(rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
 

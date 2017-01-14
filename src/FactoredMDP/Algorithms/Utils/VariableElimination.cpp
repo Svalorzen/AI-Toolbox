@@ -45,8 +45,8 @@ namespace AIToolbox {
             return a_v;
         }
 
-        void VariableElimination::removeAgent(size_t agent) {
-            auto factors = graph_.getNeighbors(agent);
+        void VariableElimination::removeAgent(const size_t agent) {
+            const auto factors = graph_.getNeighbors(agent);
             auto agents = graph_.getNeighbors(factors);
 
             Rules newRules;
@@ -92,7 +92,7 @@ namespace AIToolbox {
                 jointActions.advance();
             }
 
-            for (auto & it : factors)
+            for (const auto & it : factors)
                 graph_.erase(it);
             graph_.erase(agent);
 

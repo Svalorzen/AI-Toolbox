@@ -258,9 +258,9 @@ namespace AIToolbox {
                 }
                 result.emplace_back(std::move(v), a, std::move(obs));
             }
-            auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
-            auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
-            auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
+            const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+            const auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
+            const auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
 
             result.erase(extractDominated(S, rbegin, rend).base(), std::end(result));
 

@@ -77,7 +77,7 @@ namespace AIToolbox {
                  */
                 template <typename Iterable>
                 Results operator()(const Iterable & rules) {
-                    auto comp = [](const Rule & lhs, const Rule & rhs) {
+                    const auto comp = [](const Rule & lhs, const Rule & rhs) {
                         return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
                     };
                     // Should we reset the graph?
@@ -88,7 +88,7 @@ namespace AIToolbox {
                         // useful later when we have to crossSum and merge two
                         // lists. Having them sorted makes us to less work later.
                         auto newRule = std::make_tuple(rule.a_, Entries{std::make_pair(PartialAction(), rule.values_)});
-                        auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, comp);
+                        const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, comp);
                         rules.emplace(pos, std::move(newRule));
                     }
                     return start();

@@ -49,9 +49,9 @@ namespace AIToolbox {
             if ( !pw ) return;
             auto & w = *pw;
 
-            auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
-            auto wbegin = boost::make_transform_iterator(std::begin(w), unwrap);
-            auto wend   = boost::make_transform_iterator(std::end  (w), unwrap);
+            const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+            const auto wbegin = boost::make_transform_iterator(std::begin(w), unwrap);
+            const auto wend   = boost::make_transform_iterator(std::end  (w), unwrap);
 
             // Remove easy ValueFunctions to avoid doing more work later.
             w.erase(extractDominated(S, wbegin, wend).base(), std::end(w));
