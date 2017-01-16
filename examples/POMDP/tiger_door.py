@@ -12,89 +12,89 @@ up = list("\033[XA")
 back = list("\33[2K\r")
 
 def goup(x):
-    while x > 9:
+    while x > 8:
         up[2] = '9'
         print "".join(up)
-        x -= 9
+        x -= 8
 
-    up[2] = str(x)
+    up[2] = str(x + 1)
     print "".join(up)
 
 def godown(x):
     while x:
-        print '\n'
+        print ""
         x -= 1
 
 prize = [
-    r"(  ________  )",
-    r"(  |       |\)",
-    r"(  |_______|/)",
-    r"( / $$$$  /| )",
-    r"(+-------+ | )",
-    r"(|       |/  )",
-    r"(+-------+   )",
+    r"  ________  ",
+    r"  |       |" + "\\",
+    r"  |_______|/",
+    r" / $$$$  /| ",
+    r"+-------+ | ",
+    r"|       |/  ",
+    r"+-------+   ",
 ]
 
 tiger = [
-    r"(            )",
-    r"(   (`/' ` | )",
-    r"(  /'`\ \   |)",
-    r"( /<7' ;  \ \)",
-    r"(/  _､-, `,-\)",
-    r"(`-`  ､/ ;   )",
-    r"(     `-'    )",
+    r"            ",
+    r"   (`/' ` | ",
+    r"  /'`\ \   |",
+    r" /<7' ;  \ " + "\\",
+    r"/  _､-, `,-" + "\\",
+    r"`-`  ､/ ;   ",
+    r"     `-'    ",
 ]
 
 closedDoor = [
-    r"(   ______   )",
-    r"(  /  ||  \  )",
-    r"( |   ||   | )",
-    r"( |   ||   | )",
-    r"( |   ||   | )",
-    r"( +===++===+ )",
-    r"(            )",
+    r"   ______   ",
+    r"  /  ||  \  ",
+    r" |   ||   | ",
+    r" |   ||   | ",
+    r" |   ||   | ",
+    r" +===++===+ ",
+    r"            ",
 ]
 
 openDoor = [
-    r"(   ______   )",
-    r"(|\/      \/|)",
-    r"(||        ||)",
-    r"(||        ||)",
-    r"(||        ||)",
-    r"(||________||)",
-    r"(|/        \|)",
+    r"   ______   ",
+    r"|\/      \/|",
+    r"||        ||",
+    r"||        ||",
+    r"||        ||",
+    r"||________||",
+    r"|/        \|",
 ]
 
 sound = [
-    r"(    -..-    )",
-    r"(            )",
-    r"(  '-,__,-'  )",
-    r"(            )",
-    r"( `,_    _,` )",
-    r"(    `--`    )",
-    r"(            )",
+    r"    -..-    ",
+    r"            ",
+    r"  '-,__,-'  ",
+    r"            ",
+    r" `,_    _,` ",
+    r"    `--`    ",
+    r"            ",
 ]
 
 nosound = [
-    r"(            )",
-    r"(            )",
-    r"(            )",
-    r"(            )",
-    r"(            )",
-    r"(            )",
-    r"(            )",
+    r"            ",
+    r"            ",
+    r"            ",
+    r"            ",
+    r"            ",
+    r"            ",
+    r"            ",
 ]
 
 # Different format for him!
 man = [
-    r"(   ___   )",
-    r"(  //|\\  )",
-    r"(  \___/  )",
-    r"( \__|__/ )",
-    r"(    |    )",
-    r"(    |    )",
-    r"(   / \   )",
-    r"(  /   \  )",
+    r"   ___   ",
+    r"  //|\\  ",
+    r"  \___/  ",
+    r" \__|__/ ",
+    r"    |    ",
+    r"    |    ",
+    r"   / \   ",
+    r"  /   \  ",
 ]
 
 # Random spaces to make the rendering look nice. Yeah this is ugly, but it's
@@ -104,7 +104,7 @@ manhspacer = ' ' * (len(hspacer) / 2 + len(prize[0]) - len(man[0]) / 2)
 numspacer  = ' ' * ((len(prize[0]) - 8) / 2)
 
 clockSpacer = numspacer + ' ' * ((len(hspacer) - 1) / 2)
-strclock = r"(/|\-)"
+strclock = r"/|\-"
 
 # MODEL
 
@@ -166,7 +166,6 @@ def makeTigerProblem():
         rewards[TIG_LEFT ][A_RIGHT][s1] = 10.0
         rewards[TIG_RIGHT][A_RIGHT][s1] = -100.0
 
-    print transitions
     model.setTransitionFunction(transitions)
     model.setRewardFunction(rewards)
     model.setObservationFunction(observations)
@@ -224,27 +223,27 @@ if __name__ == "__main__":
         left  = prize if s else tiger
         right = tiger if s else prize
         for i in xrange(len(prize)):
-            print(left[i], hspacer, right[i])
+            print("%s%s%s" % (left[i], hspacer, right[i]))
 
-        dleft  = (openDoor if a else closedDoor)
-        dright = (openDoor if a else closedDoor)
+        dleft  = (openDoor if a == A_LEFT  else closedDoor)
+        dright = (openDoor if a == A_RIGHT else closedDoor)
         for i in xrange(len(prize)):
-            print(dleft[i], hspacer, dright[i])
+            print("%s%s%s" % (dleft[i], hspacer, dright[i]))
 
         sleft  = (sound if a == A_LISTEN and o == TIG_LEFT  else nosound)
         sright = (sound if a == A_LISTEN and o == TIG_RIGHT else nosound)
         for i in xrange(len(prize)):
-            print(sleft[i], hspacer, sright[i])
+            print("%s%s%s" % (sleft[i], hspacer, sright[i]))
 
-        print(numspacer, b[0], clockSpacer,
+        print("%s%s%s%s%s%s" % (numspacer, ("%.6f" % b[0]), clockSpacer,
                   strclock[t % len(strclock)],
-                  clockSpacer, b[1])
+                  clockSpacer, ("%.6f" % b[1])))
 
         for m in man:
-            print(manhspacer, m)
+            print("%s%s" % (manhspacer, m))
 
-        print("Timestep missing: ", t)
-        print("Total reward:     ", totalReward)
+        print("Timestep missing: " + str(t))
+        print("Total reward:     " + str(totalReward))
 
         goup(3 * len(prize) + len(man) + 3)
 

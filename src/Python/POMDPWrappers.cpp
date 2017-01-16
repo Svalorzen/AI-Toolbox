@@ -3,6 +3,8 @@
 void exportPOMDPModel();
 void exportPOMDPSparseModel();
 
+void exportPOMDPUtils();
+
 void exportPOMDPPOMCP();
 void exportPOMDPWitness();
 void exportPOMDPIncrementalPruning();
@@ -21,6 +23,8 @@ BOOST_PYTHON_MODULE(POMDP)
 
     exportPOMDPModel();
     exportPOMDPSparseModel();
+
+    exportPOMDPUtils();
 
     exportPOMDPPOMCP();
     exportPOMDPWitness();
