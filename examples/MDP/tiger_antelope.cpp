@@ -3,7 +3,7 @@
  * be viewed in the main page of the doxygen documentation.
  *
  * This code implements a problem where a tiger needs to plan
- * in order to catch an antelope in a 11x11 toroidal grid world.
+ * in order to catch an antelope in a NxN toroidal grid world.
  *
  * The implementation is not efficient since all transition
  * probabilities are computed on the fly; storing them in a
@@ -21,13 +21,16 @@
 #include <array>
 #include <cmath>
 #include <chrono>
+#include <thread>
 
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 #include <AIToolbox/MDP/IO.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
-constexpr int SQUARE_SIZE = 11;
+// MODEL
+
+constexpr int SQUARE_SIZE = 8;
 
 using CoordType = std::array<int, 4>;
 enum {
@@ -158,6 +161,41 @@ std::string currentTimeString() {
     return str.substr(0, str.size() - 1);
 }
 
+// RENDERING
+
+// Special character to go back up when drawing.
+std::string up =   "\033[XA";
+// Special character to go back to the beginning of the line.
+std::string back = "\33[2K\r";
+
+void goup(unsigned x) {
+    while (x > 9) {
+        up[2] = '0' + 9;
+        std::cout << up;
+        x -= 9;
+    }
+    up[2] = '0' + x;
+    std::cout << up;
+}
+
+void godown(unsigned x) {
+    while (x) {
+        std::cout << '\n';
+        --x;
+    }
+}
+
+void printState(const CoordType & c) {
+    for ( int y = SQUARE_SIZE - 1; y >= 0; --y ) {
+        for ( int x = 0; x < SQUARE_SIZE; ++x ) {
+            if (x == c[TIGER_X] && y == c[TIGER_Y]) std::cout << "@ ";
+            else if (x == c[ANTEL_X] && y == c[ANTEL_Y]) std::cout << "A ";
+            else std::cout << ". ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 int main() {
     GridWorld world;
 
@@ -195,12 +233,45 @@ int main() {
 
     AIToolbox::MDP::Policy policy(world.getS(), world.getA(), std::get<1>(solution));
 
-    std::cout << "Printing best actions when prey is in (5,5):\n\n";
-    for ( int y = 10; y >= 0; --y ) {
-        for ( int x = 0; x < 11; ++x ) {
-            std::cout << policy.sampleAction( encodeState(CoordType{{x, y, 5, 5}}) ) << " ";
-        }
-        std::cout << "\n";
+    // We create a random engine to pick a random state as start.
+    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    std::uniform_int_distribution<size_t> start(0, SQUARE_SIZE * SQUARE_SIZE * SQUARE_SIZE * SQUARE_SIZE - 1);
+
+    size_t s, a, s1;
+    double r, totalReward = 0.0;
+
+    // We create a starting state which is not the end.
+    do s = start(rand);
+    while (model.isTerminal(s));
+
+    size_t t = 100;
+    while (true) {
+        // Print it!
+        printState(decodeState(s));
+
+        // We give the tiger a time limit, but if it reaches
+        // the antelope we end the game.
+        if (t == 0 || model.isTerminal(s)) break;
+
+        // We sample an action for this state according to the optimal policy
+        a = policy.sampleAction(s);
+        // And we use the model to simulate what is going to happen next (in
+        // case of a "real world" scenario where the library is used this step
+        // would not exist as the world would automatically step to the next
+        // state. Here we simulate.
+        std::tie(s1, r) = model.sampleSR(s, a);
+
+        // Add into the total reward (we don't use this here, it's just as an
+        // example)
+        totalReward += r;
+        // Update the current state with the new one.
+        s = s1;
+
+        --t;
+        goup(SQUARE_SIZE);
+
+        // Sleep 1 second so the user can see what is happening.
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     std::cout << "\nSaving policy to file for later usage...\n";

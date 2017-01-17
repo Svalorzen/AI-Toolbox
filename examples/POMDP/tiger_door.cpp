@@ -258,7 +258,7 @@ int main() {
                 std::cout << manhspacer << m << '\n';
 
             std::cout << "Timestep missing: " << t << "       \n";
-            std::cout << "Total reward:     " << totalReward << "       \n";
+            std::cout << "Total reward:     " << totalReward << "       " << std::endl;
 
             goup(3 * prize.size() + man.size() + 3);
         }
