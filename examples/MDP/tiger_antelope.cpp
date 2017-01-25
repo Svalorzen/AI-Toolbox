@@ -17,6 +17,7 @@
  * even better introduction than this code does.
  */
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <array>
 #include <cmath>
@@ -155,12 +156,6 @@ class GridWorld {
         bool isTerminal(size_t) const;
 };
 
-std::string currentTimeString() {
-    auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    auto str = std::string(std::ctime(&t)); // Newline terminated..
-    return str.substr(0, str.size() - 1);
-}
-
 // RENDERING
 
 // Special character to go back up when drawing.
@@ -196,15 +191,20 @@ void printState(const CoordType & c) {
     }
 }
 
+void printCurrentTimeString() {
+    auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    auto tm = *std::localtime(&t);
+    std::cout << std::put_time(&tm, "%T");
+}
+
 int main() {
     GridWorld world;
 
     // This is optional, and should make solving the model almost instantaneous.
     // Unfortunately, since our main model is so big, the copying process
     // still takes a lot of time. But at least that would be a one-time cost!
-    std::cout << currentTimeString() << " - Copying model...!\n";
+    printCurrentTimeString(); std::cout << " - Constructing MDP...\n";
     AIToolbox::MDP::SparseModel model(world);
-    std::cout << currentTimeString() << " - Init solver...!\n";
 
     // This is a method that solves MDPs completely. It has a couple of
     // parameters available.
@@ -217,9 +217,9 @@ int main() {
     // approximated with a very high horizon, since in theory the final solution
     // will converge to a single policy anyway. Thus we put a very high number
     // as the horizon here.
+    printCurrentTimeString(); std::cout << " - Solving MDP using infinite horizon...\n";
     AIToolbox::MDP::ValueIteration<decltype(model)> solver(1000000);
 
-    std::cout << currentTimeString() << " - Starting solver!\n";
     // This is where the magic happen. This could take around 10-20 minutes,
     // depending on your machine (most of the time is spent on this tutorial's
     // code, however, since it is a pretty inefficient implementation).
@@ -229,7 +229,7 @@ int main() {
     // Eigen is very very efficient in computing the values we need!
     auto solution = solver(model);
 
-    std::cout << currentTimeString() << " - Problem solved? " << std::get<0>(solution) << "\n";
+    printCurrentTimeString(); std::cout << " - Converged: " << std::get<0>(solution) << "\n";
 
     AIToolbox::MDP::Policy policy(world.getS(), world.getA(), std::get<1>(solution));
 
