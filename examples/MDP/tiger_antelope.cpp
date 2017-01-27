@@ -274,14 +274,13 @@ int main() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    std::cout << "\nSaving policy to file for later usage...\n";
-    {
-        // You can load up this policy again using ifstreams.
-        // You will not need to solve the model again ever, and you
-        // can embed the policy into any application you want!
-        std::ofstream output("policy.txt");
-        output << policy;
-    }
+    // You can save, and then load up this policy again on files. You will not
+    // need to solve the model again ever, and you can embed the policy into
+    // any application you want!
+    // {
+    //     std::ofstream output("policy.txt");
+    //     output << policy;
+    // }
 
     return 0;
 }
