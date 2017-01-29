@@ -145,24 +145,38 @@ commands from the project's main folder:
 ```bash
 mkdir build
 cd build/
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j
+cmake ..
+make
 ```
 
-The static library files will be available directly in the `build` directory. At
+`cmake` can be called with a series of flags in order to customize the output,
+if building everything is not desirable. The following flags are available:
+
+```bash
+CMAKE_BUILD_TYPE # Defines the build type
+MAKE_ALL         # Builds all there is to build in the project
+MAKE_LIB         # Builds the core C++ library
+MAKE_MDP         # Builds the core C++ MDP library
+MAKE_POMDP       # Builds the core C++ POMDP and MDP library
+MAKE_PYTHON      # Builds Python bindings for the compiled core library
+MAKE_TESTS       # Builds the library's tests for the compiled core library
+MAKE_EXAMPLES    # Builds the library's examples using the compiled core library
+```
+
+These flags can be combined as needed. For example:
+
+```bash
+# Will build MDP and MDP Python bindings
+cmake -DCMAKE_BUILD_TYPE=Debug -DMAKE_MDP=1 -DMAKE_PYTHON=1 ..
+```
+
+The default flags when nothing is specified are `MAKE_ALL` and
+`CMAKE_BUILD_TYPE=Release`.
+
+The static library files will be available directly in the build directory. At
 the moment two separate libraries are created: `AIToolboxMDP` and
 `AIToolboxPOMDP`. In case you want to link against the POMDP library, you will
 also need to link against the MDP one, since POMDP uses MDP functionality.
-
-In case you do not want to build the whole library (due for example to the
-lp\_solve requirements) you may specify to cmake what parts of the library you
-actually want to build, like so:
-
-```bash
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 ..   # Will only build the MDP algorithms
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP=1 .. # Will build both MDP and POMDP algorithms
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 -DMAKE_PYTHON=1 .. # Will build MDP and Python libraries
-```
 
 A number of small tests are included which you can find in the `test/` folder.
 You can execute them after building the project using the following command
@@ -176,9 +190,9 @@ The tests also offer a brief introduction for the framework, waiting for a
 more complete descriptive write-up. Only the tests for the parts of the library
 that you compiled are going to be built.
 
-To compile the library's documentation you need the [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
-tool. To use it it is sufficient to execute the following command from the
-project's main folder:
+To compile the library's documentation you need the
+[Doxygen](http://www.stack.nl/~dimitri/doxygen/) tool. To use it it is
+sufficient to execute the following command from the project's root folder:
 
 ```bash
 doxygen
@@ -197,9 +211,8 @@ __MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
 `undefined reference` errors.
 
 For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
-you'll be able to use the classes as exported to Python. Note that `MDP` *MUST*
-be imported before `POMDP`. All classes are documented, and you can run in the
-Python CLI
+you'll be able to use the classes as exported to Python. All classes are
+documented, and you can run in the Python CLI
 
     help(MDP)
     help(POMDP)
