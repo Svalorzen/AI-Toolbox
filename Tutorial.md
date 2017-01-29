@@ -354,7 +354,7 @@ Voilà! All is needed now is simply some AIToolbox magic!
     }
 ~~~
 
-The full code of this example can be found in the `examples/tiger_antelope.cpp`
+The full code of this example can be found in the `examples/MDP/tiger_antelope.cpp`
 file, and can be build from there using `make` (given that you have already
 built the library in folder `build/`).
 
@@ -376,7 +376,7 @@ do because the world is toroidal.
 
 Another thing is that the world is symmetrical, both vertically, horizontally and
 diagonally. Thus we could rewrite the transition function and the model so that
-only an eight of the states are needed. Combined with the translational
+only an eighth of the states are needed. Combined with the translational
 symmetry, this would reduce enormously the time needed to solve it.
 
 However, I hope it gave you enough on an introduction on the concepts that you

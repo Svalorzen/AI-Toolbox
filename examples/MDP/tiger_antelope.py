@@ -22,6 +22,8 @@ import argparse
 import itertools
 import os
 import sys
+import time
+from random import randint
 
 build_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                          '..', 'build')
@@ -33,6 +35,7 @@ try:
 except ImportError:
     raise ImportError("cannot find MDP, has it been built?")
 
+# Model
 
 def wrapDiff(coord1, coord2):
     """
@@ -197,11 +200,34 @@ def decodeState(state):
     return tuple(coord)
 
 
-def draw_coord(coord):
+#RENDERING
+
+# Special character to go back up when drawing.
+up = list("\033[XA")
+# Special character to go back to the beginning of the line.
+back = list("\33[2K\r")
+
+def goup(x):
+    """ Moves the cursor up by x lines """
+    while x > 8:
+        up[2] = '9'
+        print "".join(up)
+        x -= 8
+
+    up[2] = str(x + 1)
+    print "".join(up)
+
+def godown(x):
+    """ Moves the cursor down by x lines """
+    while x:
+        print ""
+        x -= 1
+
+def printState(coord):
     """
     Draw the grid world.
 
-    - T represents the tiger.
+    - @ represents the tiger.
     - A represents the antelope.
 
     Parameters
@@ -210,22 +236,15 @@ def draw_coord(coord):
         Four element tuple containing the position of the tiger and antelope.
     """
     t_x, t_y, a_x, a_y = coord
-
-    print "y \ x",
-    for x in range(SQUARE_SIZE):
-        print " {}  ".format(x),
-    print ""
     for y in range(SQUARE_SIZE-1, -1, -1):
-        print " {}  ".format(y),
         for x in range(SQUARE_SIZE):
-            agent = ' '
             if (t_x, t_y) == (x, y):
-                agent = 'T'
+                print "@",
             elif (a_x, a_y) == (x, y):
-                agent = 'A'
-            print "| {} ".format(agent),
-        print "|"
-
+                print "A",
+            else:
+                print ".",
+        print ""
 
 def solve_mdp(horizon, epsilon, discount=0.9):
     """
@@ -239,14 +258,13 @@ def solve_mdp(horizon, epsilon, discount=0.9):
         converged. The second element is the value function. The third
         element is the Q-value function, from which a policy can be derived.
     """
-    print "Constructing MDP:"
+    print time.strftime("%H:%M:%S"), "- Constructing MDP..."
 
     # Statespace contains the tiger (x, y) and antelope (x, y). Note that
     # this is a very naive state representation: many of these states can be
     # aggregated! We leave this as an exercise to the reader :)
     # S = [(t_x, t_y, a_x, a_y), .. ]
     S = list(itertools.product(range(SQUARE_SIZE), repeat=4))
-    print "  constructed statespace S, size {},".format(len(S))
 
     # A = tiger actions
     A = ['stand', 'up', 'down', 'left', 'right']
@@ -258,8 +276,6 @@ def solve_mdp(horizon, epsilon, discount=0.9):
         T.append([[getTransitionProbability(coord, action,
                                             decodeState(next_state))
                    for next_state in range(len(S))] for action in A])
-    print "  constructed transition function T, size {}x{}x{},".format(
-        len(S), len(A), len(S))
 
     # R gives the reward associated with every s, a, s' triple. In the current
     # example, we only specify reward for s', but we still need to give the
@@ -267,46 +283,54 @@ def solve_mdp(horizon, epsilon, discount=0.9):
     reward_row = [getReward(decodeState(next_state))
                   for next_state in range(len(S))]
     R = [[reward_row for _ in A] for _ in S]
-    print "  constructed reward function R, size {}x{}x{}.".format(
-        len(S), len(A), len(S))
 
     # set up the model
-    model = MDP.Model(len(S), len(A))
+    model = MDP.SparseModel(len(S), len(A))
     model.setTransitionFunction(T)
     model.setRewardFunction(R)
     model.setDiscount(discount)
 
     # Perform value iteration
-    print "Solving MDP using ValueIteration(horizon={}, epsilon={})".format(
+    print time.strftime("%H:%M:%S"), "- Solving MDP using ValueIteration(horizon={}, epsilon={})".format(
         horizon, epsilon)
 
-    solver = MDP.ValueIterationModel(horizon, epsilon)
+
+    solver = MDP.ValueIterationSparseModel(horizon, epsilon)
     solution = solver(model)
 
-    print "Converged:", solution[0]
+    print time.strftime("%H:%M:%S"), "- Converged:", solution[0]
     _, value_function, q_function = solution
 
-    policy = MDP.QGreedyPolicy(q_function)
+    policy = MDP.Policy(len(S), len(A), value_function)
 
-    # print the game state and policy for some interesting coordinates
-    coords_of_interest = \
-        [(0, 0, 1, 1), (0, 0, 2, 2), (0, 0, 3, 3), (1, 1, 1, 2)]
-    for coord in coords_of_interest:
+    s = randint(0, SQUARE_SIZE**4 - 1)
+    while model.isTerminal(s):
+        s = randint(0, SQUARE_SIZE**4 - 1)
+
+    totalReward = 0
+    for t in xrange(100):
+        printState(decodeState(s))
+
+        if model.isTerminal(s):
+            break
+
+        a = policy.sampleAction(s)
+        s1, r = model.sampleSR(s, a)
+
+        totalReward += r
+        s = s1
+
+        goup(SQUARE_SIZE)
+
         state = encodeState(coord)
-        print "\nCoord {}, state {}".format(coord, state)
-        print "===============================\n"
-        draw_coord(coord)
 
-        print "\nPolicy:"
-        for a_idx, action in enumerate(A):
-            p_a_given_s = policy.getActionProbability(state, a_idx)
-            print "  p({:>6} | s)={}".format(action, p_a_given_s)
-    return solution
+        # Sleep 1 second so the user can see what is happening.
+        time.sleep(1)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--square-size', default=4, type=int,
+    parser.add_argument('-s', '--square-size', default=5, type=int,
                         help="Size of the square gridworld.")
     parser.add_argument('-ho', '--horizon', default=1000000, type=int,
                         help="Horizon parameter for value iteration")

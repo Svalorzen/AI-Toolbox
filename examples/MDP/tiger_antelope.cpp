@@ -3,7 +3,7 @@
  * be viewed in the main page of the doxygen documentation.
  *
  * This code implements a problem where a tiger needs to plan
- * in order to catch an antelope in a 11x11 toroidal grid world.
+ * in order to catch an antelope in a NxN toroidal grid world.
  *
  * The implementation is not efficient since all transition
  * probabilities are computed on the fly; storing them in a
@@ -17,17 +17,21 @@
  * even better introduction than this code does.
  */
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <array>
 #include <cmath>
 #include <chrono>
+#include <thread>
 
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 #include <AIToolbox/MDP/IO.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
-constexpr int SQUARE_SIZE = 11;
+// MODEL
+
+constexpr int SQUARE_SIZE = 8;
 
 using CoordType = std::array<int, 4>;
 enum {
@@ -152,9 +156,45 @@ class GridWorld {
         bool isTerminal(size_t) const;
 };
 
-std::string currentTimeString() {
+// RENDERING
+
+// Special character to go back up when drawing.
+std::string up =   "\033[XA";
+// Special character to go back to the beginning of the line.
+std::string back = "\33[2K\r";
+
+void goup(unsigned x) {
+    while (x > 9) {
+        up[2] = '0' + 9;
+        std::cout << up;
+        x -= 9;
+    }
+    up[2] = '0' + x;
+    std::cout << up;
+}
+
+void godown(unsigned x) {
+    while (x) {
+        std::cout << '\n';
+        --x;
+    }
+}
+
+void printState(const CoordType & c) {
+    for ( int y = SQUARE_SIZE - 1; y >= 0; --y ) {
+        for ( int x = 0; x < SQUARE_SIZE; ++x ) {
+            if (x == c[TIGER_X] && y == c[TIGER_Y]) std::cout << "@ ";
+            else if (x == c[ANTEL_X] && y == c[ANTEL_Y]) std::cout << "A ";
+            else std::cout << ". ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void printCurrentTimeString() {
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    return std::ctime(&t);
+    auto tm = *std::localtime(&t);
+    std::cout << std::put_time(&tm, "%T");
 }
 
 int main() {
@@ -163,9 +203,8 @@ int main() {
     // This is optional, and should make solving the model almost instantaneous.
     // Unfortunately, since our main model is so big, the copying process
     // still takes a lot of time. But at least that would be a one-time cost!
-    std::cout << currentTimeString() << "- Copying model...!\n";
+    printCurrentTimeString(); std::cout << " - Constructing MDP...\n";
     AIToolbox::MDP::SparseModel model(world);
-    std::cout << currentTimeString() << "- Init solver...!\n";
 
     // This is a method that solves MDPs completely. It has a couple of
     // parameters available.
@@ -178,9 +217,9 @@ int main() {
     // approximated with a very high horizon, since in theory the final solution
     // will converge to a single policy anyway. Thus we put a very high number
     // as the horizon here.
+    printCurrentTimeString(); std::cout << " - Solving MDP using infinite horizon...\n";
     AIToolbox::MDP::ValueIteration<decltype(model)> solver(1000000);
 
-    std::cout << currentTimeString() << "- Starting solver!\n";
     // This is where the magic happen. This could take around 10-20 minutes,
     // depending on your machine (most of the time is spent on this tutorial's
     // code, however, since it is a pretty inefficient implementation).
@@ -190,26 +229,58 @@ int main() {
     // Eigen is very very efficient in computing the values we need!
     auto solution = solver(model);
 
-    std::cout << currentTimeString() << "- Problem solved? " << std::get<0>(solution) << "\n";
+    printCurrentTimeString(); std::cout << " - Converged: " << std::get<0>(solution) << "\n";
 
     AIToolbox::MDP::Policy policy(world.getS(), world.getA(), std::get<1>(solution));
 
-    std::cout << "Printing best actions when prey is in (5,5):\n\n";
-    for ( int y = 10; y >= 0; --y ) {
-        for ( int x = 0; x < 11; ++x ) {
-            std::cout << policy.sampleAction( encodeState(CoordType{{x, y, 5, 5}}) ) << " ";
-        }
-        std::cout << "\n";
+    // We create a random engine to pick a random state as start.
+    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    std::uniform_int_distribution<size_t> start(0, SQUARE_SIZE * SQUARE_SIZE * SQUARE_SIZE * SQUARE_SIZE - 1);
+
+    size_t s, a, s1;
+    double r, totalReward = 0.0;
+
+    // We create a starting state which is not the end.
+    do s = start(rand);
+    while (model.isTerminal(s));
+
+    size_t t = 100;
+    while (true) {
+        // Print it!
+        printState(decodeState(s));
+
+        // We give the tiger a time limit, but if it reaches
+        // the antelope we end the game.
+        if (t == 0 || model.isTerminal(s)) break;
+
+        // We sample an action for this state according to the optimal policy
+        a = policy.sampleAction(s);
+        // And we use the model to simulate what is going to happen next (in
+        // case of a "real world" scenario where the library is used this step
+        // would not exist as the world would automatically step to the next
+        // state. Here we simulate.
+        std::tie(s1, r) = model.sampleSR(s, a);
+
+        // Add into the total reward (we don't use this here, it's just as an
+        // example)
+        totalReward += r;
+        // Update the current state with the new one.
+        s = s1;
+
+        --t;
+        goup(SQUARE_SIZE);
+
+        // Sleep 1 second so the user can see what is happening.
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    std::cout << "\nSaving policy to file for later usage...\n";
-    {
-        // You can load up this policy again using ifstreams.
-        // You will not need to solve the model again ever, and you
-        // can embed the policy into any application you want!
-        std::ofstream output("policy.txt");
-        output << policy;
-    }
+    // You can save, and then load up this policy again on files. You will not
+    // need to solve the model again ever, and you can embed the policy into
+    // any application you want!
+    // {
+    //     std::ofstream output("policy.txt");
+    //     output << policy;
+    // }
 
     return 0;
 }

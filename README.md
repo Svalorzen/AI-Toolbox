@@ -125,9 +125,9 @@ To build the library you need:
 - the [boost library](http://www.boost.org/) >= 1.53
 - the [Eigen 3.3 library](http://eigen.tuxfamily.org/index.php?title=Main_Page).
 
-In addition, C++11 support is required (note: **g++ 4.8 will not work as it has a
-bug which prevents it from successfully compiling the library, 4.9 will compile
-everything correctly**).
+In addition, full C++11 support is required (note: **g++ 4.8 will not work as it
+has a bug which prevents it from successfully compiling the library, 4.9 will
+compile everything but the examples, 5.0 works for all**).
 
 If you want to build the POMDP part of the library you will also need:
 
@@ -145,24 +145,38 @@ commands from the project's main folder:
 ```bash
 mkdir build
 cd build/
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j
+cmake ..
+make
 ```
 
-The static library files will be available directly in the `build` directory. At
+`cmake` can be called with a series of flags in order to customize the output,
+if building everything is not desirable. The following flags are available:
+
+```bash
+CMAKE_BUILD_TYPE # Defines the build type
+MAKE_ALL         # Builds all there is to build in the project
+MAKE_LIB         # Builds the core C++ library
+MAKE_MDP         # Builds the core C++ MDP library
+MAKE_POMDP       # Builds the core C++ POMDP and MDP library
+MAKE_PYTHON      # Builds Python bindings for the compiled core library
+MAKE_TESTS       # Builds the library's tests for the compiled core library
+MAKE_EXAMPLES    # Builds the library's examples using the compiled core library
+```
+
+These flags can be combined as needed. For example:
+
+```bash
+# Will build MDP and MDP Python bindings
+cmake -DCMAKE_BUILD_TYPE=Debug -DMAKE_MDP=1 -DMAKE_PYTHON=1 ..
+```
+
+The default flags when nothing is specified are `MAKE_ALL` and
+`CMAKE_BUILD_TYPE=Release`.
+
+The static library files will be available directly in the build directory. At
 the moment two separate libraries are created: `AIToolboxMDP` and
 `AIToolboxPOMDP`. In case you want to link against the POMDP library, you will
 also need to link against the MDP one, since POMDP uses MDP functionality.
-
-In case you do not want to build the whole library (due for example to the
-lp\_solve requirements) you may specify to cmake what parts of the library you
-actually want to build, like so:
-
-```bash
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 ..   # Will only build the MDP algorithms
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_POMDP=1 .. # Will build both MDP and POMDP algorithms
-cmake -DCMAKE_BUILD_TYPE=Release -DMAKE_MDP=1 -DMAKE_PYTHON=1 .. # Will build MDP and Python libraries
-```
 
 A number of small tests are included which you can find in the `test/` folder.
 You can execute them after building the project using the following command
@@ -176,9 +190,9 @@ The tests also offer a brief introduction for the framework, waiting for a
 more complete descriptive write-up. Only the tests for the parts of the library
 that you compiled are going to be built.
 
-To compile the library's documentation you need the [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
-tool. To use it it is sufficient to execute the following command from the
-project's main folder:
+To compile the library's documentation you need the
+[Doxygen](http://www.stack.nl/~dimitri/doxygen/) tool. To use it it is
+sufficient to execute the following command from the project's root folder:
 
 ```bash
 doxygen
@@ -197,9 +211,8 @@ __MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
 `undefined reference` errors.
 
 For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
-you'll be able to use the classes as exported to Python. Note that `MDP` *MUST*
-be imported before `POMDP`. All classes are documented, and you can run in the
-Python CLI
+you'll be able to use the classes as exported to Python. All classes are
+documented, and you can run in the Python CLI
 
     help(MDP)
     help(POMDP)
@@ -216,70 +229,3 @@ commits, while the one you compile yourself will of course be.
 For Python docs you can find them by typing `help(MDP)` or `help(MDP.SomeMDPClass)`
 from the interpreter. It should show the exported API for each class, along with
 any differences in input/output.
-
-Domain Introduction
-===================
-
-In order to use this library you need to have some idea of what a Markov
-Decision Process (MDP) is. An MDP is a mathematical framework to work with an
-environment which evolves in discrete timestep, and where an agent can influence
-its evolution through actions.
-
-A full-on explanation will likely require some math and complicated sounding
-terms, so I will explain with an example. The full documentation will include
-more details, and currently you can read each class documentation, which helps
-in understanding the whole picture.
-
-Suppose you have a 10x10 cell grid world, with an agent in the middle. At each
-point, the agent can decide to move up, down, left or right. At any point in
-time, you can then describe this world by simply stating where the agent is (for
-example, the agent is in cell (5,5)). This description of the world is
-absolutely complete and does not require knowledge of the past: it is called a
-markovian "state". If knowledge of the past is required, for example to compute
-a speed that is then used to move the agent, you simply increase the
-dimensionality of the state (add a velocity term to it), until it is markovian
-again.
-
-The agent can then influence the environment's state in the next timestep: it
-can choose to move, and where it moves will determine the environment next
-state. If it moves up, then the next state will be (5,6) with 100% probability.
-You can encode this type of movements in a transition table, that for each state
-will tell you the probability of ending in another state, given that the agent
-performs a certain action.
-
-There is another part of an MDP: reward. Since we want the agent to move in an
-intelligent way, we need to tell it what "situations" are better than others.
-For example, we may want the agent to move in the top-left corner: thus every
-movement the agent does will give him 0 reward, but ending in the top-left
-corner will give him 1 reward.
-
-This is all is needed to make this library work. Once you have encoded your
-problem in such a way, the code to solve it is generally something like:
-
-    auto model = make_my_model();
-    solver_type<decltype(model)> solver( solver_parameters );
-
-    auto solution = solver(model);
-
-Or, for methods that compute the solutions not in one swoop but incrementally at
-each timestep the code looks like this:
-
-    auto model = make_my_model();
-    solver_type<decltype(model)> solver( model, solver_parameters );
-    policy_type policy( solver.getQFunction() );
-
-    for ( unsigned timestep = 0; timestep < max_timestep; ++timestep ) {
-        size_t action = policy.sampleAction( current_state );
-
-        std::tie(new_state, reward) = act( action );
-
-        solver.update( current_state, action, new_state, reward);
-    }
-
-In particular, states and actions in this library are represented as `size_t`
-variables, since for example an (x,y) position can be easily encoded in a single
-number.
-
-The code currently in the `example` folder will help you understand the type of
-usage (and possibly the `test` folder), and the documentation of each class will
-tell you what it is for.

@@ -107,7 +107,10 @@ namespace AIToolbox {
                  *
                  * Note that this function works if and only if the horizon is
                  * going to be 1 (one) less than the value used for the
-                 * previous sampling, otherwise anything could happen.
+                 * previous sampling, otherwise anything could happen. This
+                 * does not mean that the calls depend on each other (the
+                 * function is "pure" in that sense), just that to obtain
+                 * meaningful values back the horizon should be decreased.
                  *
                  * To keep things simple, the id does not store internally the
                  * needed horizon value, and you are requested to keep track of

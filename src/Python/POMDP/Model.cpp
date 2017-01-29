@@ -12,7 +12,7 @@ void exportPOMDPModel() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
-    class_<POMDPModelBinded>{"Model",
+    class_<POMDPModelBinded, bases<AIToolbox::MDP::Model>>{"Model",
 
         "@brief This class represents a Partially Observable Markov Decision Process.\n"
         "\n"
@@ -92,19 +92,6 @@ void exportPOMDPModel() {
                  "and actions is not too big."
         , (arg("self"), "sparseModel")))
 
-        .def("setDiscount",                 &POMDPModelBinded::setDiscount,
-                 "This function sets a new discount factor for the Model."
-        , (arg("self"), "discount"))
-
-        .def("setTransitionFunction",       &POMDPModelBinded::setTransitionFunction<std::vector<std::vector<std::vector<double>>>>,
-                "This function replaces the Model transition function with the one provided.\n"
-                "\n"
-                "Currently the Python wrappings support reading through native 3d Python\n"
-                "arrays (so [][][]). As long as the dimensions are correct and they contain\n"
-                "correct probabilities everything should be fine. The code should reject\n"
-                "them otherwise."
-        , (arg("self"), "transitionFunction3D"))
-
         .def("setObservationFunction",      &POMDPModelBinded::setObservationFunction<std::vector<std::vector<std::vector<double>>>>,
                 "This function replaces the Model observation function with the one provided.\n"
                 "\n"
@@ -113,32 +100,6 @@ void exportPOMDPModel() {
                 "correct probabilities everything should be fine. The code should reject\n"
                 "them otherwise."
         , (arg("self"), "observationFunction3D"))
-
-        .def("setRewardFunction",           &POMDPModelBinded::setRewardFunction<std::vector<std::vector<std::vector<double>>>>,
-                "This function replaces the Model reward function with the one provided.\n"
-                "\n"
-                "Currently the Python wrappings support reading through native 3d Python\n"
-                "arrays (so [][][]). As long as the dimensions are correct and they contain\n"
-                "correct probabilities everything should be fine. The code should reject\n"
-                "them otherwise."
-        , (arg("self"), "rewardFunction3D"))
-
-        .def("sampleSR",                    &POMDPModelBinded::sampleSR,
-                 "This function samples the MDP for the specified state action pair.\n"
-                 "\n"
-                 "This function samples the model for simulate experience. The transition\n"
-                 "and reward functions are used to produce, from the state action pair\n"
-                 "inserted as arguments, a possible new state with respective reward.\n"
-                 "The new state is picked from all possible states that the MDP allows\n"
-                 "transitioning to, each with probability equal to the same probability\n"
-                 "of the transition in the model. After a new state is picked, the reward\n"
-                 "is the corresponding reward contained in the reward function.\n"
-                 "\n"
-                 "@param s The state that needs to be sampled.\n"
-                 "@param a The action that needs to be sampled.\n"
-                 "\n"
-                 "@return A tuple containing a new state and a reward."
-        , (arg("self"), "s", "a"))
 
         .def("sampleSOR",                   &POMDPModelBinded::sampleSOR,
                 "This function samples the POMDP for the specified state action pair.\n"
@@ -177,35 +138,11 @@ void exportPOMDPModel() {
                 "@return A tuple containing a new observation and reward."
         , (arg("self"), "s", "a", "s1"))
 
-        .def("getS",                        &POMDPModelBinded::getS,
-                 "This function returns the number of states of the world."
-        , (arg("self")))
-
-        .def("getA",                        &POMDPModelBinded::getA,
-                 "This function returns the number of available actions to the agent."
-        , (arg("self")))
-
         .def("getO",                        &POMDPModelBinded::getO,
                  "This function returns the number of observations possible."
         , (arg("self")))
 
-        .def("getDiscount",                 &POMDPModelBinded::getDiscount,
-                 "This function returns the currently set discount factor."
-        , (arg("self")))
-
-        .def("getTransitionProbability",    &POMDPModelBinded::getTransitionProbability,
-                 "This function returns the stored transition probability for the specified transition."
-        , (arg("self"), "s", "a", "s1"))
-
         .def("getObservationProbability",   static_cast<double(POMDPModelBinded::*)(size_t,size_t,size_t) const>(&POMDPModelBinded::getObservationProbability),
                  "This function returns the stored observation probability for the specified state-action pair."
-        , (arg("self"), "s", "a", "s1"))
-
-        .def("getExpectedReward",           &POMDPModelBinded::getExpectedReward,
-                 "This function returns the stored expected reward for the specified transition."
-        , (arg("self"), "s", "a", "s1"))
-
-        .def("isTerminal",                  &POMDPModelBinded::isTerminal,
-                 "This function returns whether a given state is a terminal."
-        , (arg("self"), "s"));
+        , (arg("self"), "s", "a", "s1"));
 }

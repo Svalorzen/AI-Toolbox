@@ -119,6 +119,7 @@ if (MAKE_POMDP)
             POMDP/Policies/Policy.cpp
             Python/POMDP/Model.cpp
             Python/POMDP/SparseModel.cpp
+            Python/POMDP/Utils.cpp
             Python/POMDP/Algorithms/POMCP.cpp
             Python/POMDP/Algorithms/Witness.cpp
             Python/POMDP/Algorithms/IncrementalPruning.cpp
