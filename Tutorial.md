@@ -376,7 +376,7 @@ do because the world is toroidal.
 
 Another thing is that the world is symmetrical, both vertically, horizontally and
 diagonally. Thus we could rewrite the transition function and the model so that
-only an eight of the states are needed. Combined with the translational
+only an eighth of the states are needed. Combined with the translational
 symmetry, this would reduce enormously the time needed to solve it.
 
 However, I hope it gave you enough on an introduction on the concepts that you
