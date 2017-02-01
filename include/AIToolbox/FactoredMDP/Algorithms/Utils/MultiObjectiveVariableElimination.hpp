@@ -82,7 +82,7 @@ namespace AIToolbox {
                     };
                     // Should we reset the graph?
                     for (const MOQFunctionRule & rule : rules) {
-                        auto & rules = graph_.getFactor(rule.a_.first)->f_.rules_;
+                        auto & rules = graph_.getFactor(rule.a_.first)->getData().rules_;
 
                         // Here we keep everything sorted since it will turn up
                         // useful later when we have to crossSum and merge two

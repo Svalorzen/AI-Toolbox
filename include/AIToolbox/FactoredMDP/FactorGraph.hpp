@@ -14,12 +14,11 @@ namespace AIToolbox {
         /**
          * @brief This class offers a minimal interface to manager a factor graph.
          *
-         * This class allows to store arbitrary factors, and no maintain
-         * adjacency lists between them and a given number of agents. The
-         * interface is intentionally very simple and tries to do very little,
-         * in order to allow clients to optimize their use of the graph as much
-         * as possible. This also means that there is very little access
-         * control.
+         * This class allows to store arbitrary data into each factor, and to
+         * maintain adjacency lists between the factors and a given number of
+         * agents. The interface is intentionally very simple and tries to do
+         * very little, in order to allow clients to optimize their use of the
+         * graph as much as possible.
          *
          * This class maintains a single factor for any unique combination of
          * agents. When multiple factors are needed, a single Factor containing
@@ -35,9 +34,14 @@ namespace AIToolbox {
                 using AgentList = std::vector<AgentNode>;
                 using Agents    = std::vector<size_t>;
 
-                struct FactorNode {
+                class FactorNode {
+                    friend class FactorGraph;
+
                     Factor f_;
                     Agents agents_;
+
+                    public:
+                        Factor & getData() { return f_; }
                 };
 
                 using FactorList = std::list<FactorNode>;
@@ -66,20 +70,7 @@ namespace AIToolbox {
                  *
                  * @return A list of iterators pointing at the factors adjacent to the given agent.
                  */
-                const FactorItList & getNeighbors(size_t agent);
-
-                /**
-                 * @brief This function returns all factors adjacent to any of the given agents.
-                 *
-                 * This function is equivalent to calling the
-                 * getNeighbors(size_t) function multiple times, and merging
-                 * the results to eliminate duplicates.
-                 *
-                 * @param agents A list of agents to look for.
-                 *
-                 * @return A list of iterators pointing at the factors adjacent to any of the given agent.
-                 */
-                FactorItList getNeighbors(const Agents & agents);
+                const FactorItList & getNeighbors(size_t agent) const;
 
                 /**
                  * @brief This function returns all agents adjacent to the given factor.
@@ -88,7 +79,7 @@ namespace AIToolbox {
                  *
                  * @return A vector of agents adjacent to the given factor.
                  */
-                const Agents & getNeighbors(FactorIt factor);
+                const Agents & getNeighbors(FactorIt factor) const;
 
                 /**
                  * @brief This function returns all agents adjacent to any of the given factors.
@@ -101,7 +92,7 @@ namespace AIToolbox {
                  *
                  * @return A vector of agents adjacent to any of the given factors.
                  */
-                Agents getNeighbors(const FactorItList & factors);
+                Agents getNeighbors(const FactorItList & factors) const;
 
                 /**
                  * @brief This function returns an iterator to a factor adjacent to the given agents.
@@ -187,30 +178,17 @@ namespace AIToolbox {
         FactorGraph<Factor>::FactorGraph(size_t agents) : agentAdjacencies_(agents), activeAgents_(agents) {}
 
         template <typename Factor>
-        const typename FactorGraph<Factor>::FactorItList & FactorGraph<Factor>::getNeighbors(size_t agent) {
+        const typename FactorGraph<Factor>::FactorItList & FactorGraph<Factor>::getNeighbors(const size_t agent) const {
             return agentAdjacencies_[agent].factors_;
         }
 
         template <typename Factor>
-        typename FactorGraph<Factor>::FactorItList FactorGraph<Factor>::getNeighbors(const Agents & agents) {
-            FactorItList list1, list2;
-            FactorList *f1 = &list1, *f2 = &list2;
-            for (auto agent : agents) {
-                auto & factors = agentAdjacencies_[agent].factors_;
-                std::set_union(std::begin(factors), std::end(factors), std::begin(*f1), std::end(*f1), std::back_inserter(*f2));
-                std::swap(f1, f2);
-                f2->clear();
-            }
-            return *f1;
-        }
-
-        template <typename Factor>
-        const typename FactorGraph<Factor>::Agents & FactorGraph<Factor>::getNeighbors(FactorIt factor) {
+        const typename FactorGraph<Factor>::Agents & FactorGraph<Factor>::getNeighbors(FactorIt factor) const {
             return factor->agents_;
         }
 
         template <typename Factor>
-        typename FactorGraph<Factor>::Agents FactorGraph<Factor>::getNeighbors(const FactorItList & factors) {
+        typename FactorGraph<Factor>::Agents FactorGraph<Factor>::getNeighbors(const FactorItList & factors) const {
             Agents list1, list2;
             Agents *a1 = &list1, *a2 = &list2;
             for (auto factor : factors) {

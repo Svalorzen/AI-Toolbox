@@ -79,7 +79,7 @@ namespace AIToolbox {
                     // would have resolved together to a single rule), we can
                     // create a tag with their action by simply writing in it.
                     for (const auto factor : factors)
-                        newPayoff += getPayoff(factor->f_.rules_, jointAction, &newTag);
+                        newPayoff += getPayoff(factor->getData().rules_, jointAction, &newTag);
 
                     // We only select the agent's best action.
                     if (newPayoff > bestPayoff) {
@@ -101,8 +101,8 @@ namespace AIToolbox {
                 agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
 
                 auto newFactor = graph_.getFactor(agents);
-                newFactor->f_.rules_.insert(
-                        std::end(newFactor->f_.rules_),
+                newFactor->getData().rules_.insert(
+                        std::end(newFactor->getData().rules_),
                         std::make_move_iterator(std::begin(newRules)),
                         std::make_move_iterator(std::end(newRules))
                 );

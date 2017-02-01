@@ -104,7 +104,7 @@ namespace AIToolbox {
                         jointAction.second[id] = agentAction;
 
                         Entries newEntries;
-                        for (const auto p : getPayoffs(factors[0]->f_.rules_, jointAction))
+                        for (const auto p : getPayoffs(factors[0]->getData().rules_, jointAction))
                             newEntries.insert(std::end(newEntries), std::begin(*p), std::end(*p));
 
                         // So the idea here is that we are computing results for
@@ -125,7 +125,7 @@ namespace AIToolbox {
                         // even more rules, joining their tags together, and
                         // possibly merge them if we see equal ones.
                         for (size_t i = 1; i < factors.size(); ++i) {
-                            newEntries = crossSum(newEntries, getPayoffs(factors[i]->f_.rules_, jointAction));
+                            newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules_, jointAction));
                             // p3.prune(&newEntries);
                         }
 
@@ -189,7 +189,7 @@ namespace AIToolbox {
                 // they are grouped or not. Here elements are CROSS-summed,
                 // which means we cannot simply dump stuff lest losing a
                 // cross-summing step.
-                newFactor->f_.rules_ = mergePayoffs(std::move(newFactor->f_.rules_), std::move(newRules));
+                newFactor->getData().rules_ = mergePayoffs(std::move(newFactor->getData().rules_), std::move(newRules));
             }
         }
 

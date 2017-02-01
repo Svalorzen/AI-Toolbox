@@ -77,7 +77,7 @@ namespace AIToolbox {
                     // Should we reset the graph?
                     for (const QFunctionRule & rule : rules) {
                         auto it = graph_.getFactor(rule.a_.first);
-                        it->f_.rules_.emplace_back(rule.a_, PartialAction(), rule.value_);
+                        it->getData().rules_.emplace_back(rule.a_, PartialAction(), rule.value_);
                     }
                     return start();
                 }
