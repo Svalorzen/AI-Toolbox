@@ -148,7 +148,7 @@ namespace AIToolbox {
         template <typename Iterator, typename Check = void>
         struct BaseIter {
             using BaseIterator = Iterator;
-            Iterator operator()(const Iterator & it) { return it; }
+            Iterator operator()(Iterator it) { return it; }
         };
 
         template <typename Iterator>
@@ -162,15 +162,15 @@ namespace AIToolbox {
      * @brief This function returns the base iterator for any given iterator.
      *
      * A base iterator exists if the iterator implements the method base(). If
-     * not, a copy of the same iterator is returned.
+     * not, a copy of the iterator itself is returned.
      *
      * @param it The iterator to return the base of.
      *
      * @return The base iterator of the input.
      */
     template <typename Iterator>
-    typename Impl::BaseIter<Iterator>::BaseIterator baseIter(const Iterator & it) {
-        return Impl::BaseIter<Iterator>()(it);
+    typename Impl::BaseIter<typename std::remove_reference<Iterator>::type>::BaseIterator baseIter(Iterator && it) {
+        return Impl::BaseIter<typename std::remove_reference<Iterator>::type>()(std::forward<Iterator>(it));
     }
 }
 

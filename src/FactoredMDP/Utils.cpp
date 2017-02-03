@@ -89,7 +89,6 @@ namespace AIToolbox {
             lhs.second.insert(std::end(lhs.second), std::begin(rhs.second) + j, std::end(rhs.second));
         }
 
-
         size_t factorSpace(const Factors & factors) {
             size_t retval = 1;
             for (auto f : factors) {

@@ -81,7 +81,7 @@ namespace AIToolbox {
             const auto rbegin = boost::make_transform_iterator(std::begin(retval), unwrap);
             const auto rend   = boost::make_transform_iterator(std::end  (retval), unwrap);
 
-            retval.erase(AIToolbox::extractDominated(2, rbegin, rend).base(), std::end(retval));
+            retval.erase(AIToolbox::extractDominated(unwrap(retval[0]).size(), rbegin, rend).base(), std::end(retval));
 
             return retval;
         }
