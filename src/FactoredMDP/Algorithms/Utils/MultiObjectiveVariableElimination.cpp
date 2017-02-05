@@ -159,10 +159,7 @@ namespace AIToolbox {
                             // merge efficiently later with rules in a factor.
                             // Doing insertion sort here is hopefully faster
                             // than quicksorting later the whole list.
-                            const auto comp = [](const Rule & lhs, const Rule & rhs) {
-                                return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
-                            };
-                            const auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, comp);
+                            const auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, ruleComp);
                             newRules.emplace(pos, std::move(newRule));
                         } else {
                             finalFactors_.emplace_back(std::move(values));
@@ -191,6 +188,10 @@ namespace AIToolbox {
                 // cross-summing step.
                 newFactor->getData().rules_ = mergePayoffs(std::move(newFactor->getData().rules_), std::move(newRules));
             }
+        }
+
+        bool MOVE::ruleComp(const Rule & lhs, const Rule & rhs) {
+            return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
         }
 
         MOVE::Rules mergePayoffs(MOVE::Rules && lhs, MOVE::Rules && rhs) {

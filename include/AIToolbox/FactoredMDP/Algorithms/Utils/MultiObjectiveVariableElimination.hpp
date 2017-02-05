@@ -76,19 +76,16 @@ namespace AIToolbox {
                  * @return The pair of best Action and its value over the input rules.
                  */
                 template <typename Iterable>
-                Results operator()(const Iterable & rules) {
-                    const auto comp = [](const Rule & lhs, const Rule & rhs) {
-                        return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
-                    };
+                Results operator()(const Iterable & inputRules) {
                     // Should we reset the graph?
-                    for (const MOQFunctionRule & rule : rules) {
+                    for (const MOQFunctionRule & rule : inputRules) {
                         auto & rules = graph_.getFactor(rule.a_.first)->getData().rules_;
 
                         // Here we keep everything sorted since it will turn up
                         // useful later when we have to crossSum and merge two
                         // lists. Having them sorted makes us to less work later.
                         auto newRule = std::make_tuple(rule.a_, Entries{std::make_pair(PartialAction(), rule.values_)});
-                        const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, comp);
+                        const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, ruleComp);
                         rules.emplace(pos, std::move(newRule));
                     }
                     return start();
@@ -126,6 +123,23 @@ namespace AIToolbox {
                  * @param agent The index of the agent to be removed from the graph.
                  */
                 void removeAgent(size_t agent);
+
+                /**
+                 * @brief This function gives an order to Rules.
+                 *
+                 * This function must be used only on Rules contained within
+                 * the same factor. This implies that they will share the
+                 * agents within their respective PartialAction.
+                 *
+                 * This function sorts rules by the actions taken by their
+                 * agents.
+                 *
+                 * @param lhs The left hand side.
+                 * @param rhs The right hand side.
+                 *
+                 * @return True if lhs comes before rhs, false otherwise.
+                 */
+                static bool ruleComp(const Rule & lhs, const Rule & rhs);
 
                 Graph graph_;
                 Action A;
