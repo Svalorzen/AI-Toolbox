@@ -1,5 +1,8 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
 
+#include <AIToolbox/Utils/Probability.hpp>
+#include <AIToolbox/FactoredMDP/Utils.hpp>
+
 namespace AIToolbox {
     namespace FactoredMDP {
         using VE = VariableElimination;

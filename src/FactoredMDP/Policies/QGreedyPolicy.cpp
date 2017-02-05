@@ -1,5 +1,6 @@
 #include <AIToolbox/FactoredMDP/Policies/QGreedyPolicy.hpp>
 
+#include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox {

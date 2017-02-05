@@ -1,9 +1,7 @@
 #ifndef AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
 
-#include "AIToolbox/Utils/Probability.hpp"
 #include "AIToolbox/FactoredMDP/Types.hpp"
-#include "AIToolbox/FactoredMDP/Utils.hpp"
 #include "AIToolbox/FactoredMDP/FactorGraph.hpp"
 
 namespace AIToolbox {
@@ -73,9 +71,9 @@ namespace AIToolbox {
                  * @return A tuple containing the best Action and its value over the input rules.
                  */
                 template <typename Iterable>
-                Result operator()(const Iterable & rules) {
+                Result operator()(const Iterable & inputRules) {
                     // Should we reset the graph?
-                    for (const QFunctionRule & rule : rules) {
+                    for (const QFunctionRule & rule : inputRules) {
                         auto it = graph_.getFactor(rule.a_.first);
                         it->getData().rules_.emplace_back(rule.a_, PartialAction(), rule.value_);
                     }
