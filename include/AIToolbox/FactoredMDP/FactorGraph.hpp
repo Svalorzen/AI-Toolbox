@@ -166,6 +166,13 @@ namespace AIToolbox {
                  */
                 size_t factorSize() const;
 
+                /**
+                 * @brief This function returns all current factors and their adjacency lists.
+                 *
+                 * @return The currently held factors.
+                 */
+                const FactorList & getFactors() const;
+
             private:
                 FactorList factorAdjacencies_;
                 std::unordered_map<Agents, FactorIt, boost::hash<Agents>> factorByAgents_;
@@ -238,6 +245,8 @@ namespace AIToolbox {
         size_t FactorGraph<Factor>::agentSize() const  { return activeAgents_; }
         template <typename Factor>
         size_t FactorGraph<Factor>::factorSize() const { return factorAdjacencies_.size(); }
+        template <typename Factor>
+        const typename FactorGraph<Factor>::FactorList & FactorGraph<Factor>::getFactors() const { return factorAdjacencies_; }
     }
 }
 
