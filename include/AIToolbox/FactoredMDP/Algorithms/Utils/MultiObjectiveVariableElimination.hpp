@@ -84,7 +84,7 @@ namespace AIToolbox {
                         // Here we keep everything sorted since it will turn up
                         // useful later when we have to crossSum and merge two
                         // lists. Having them sorted makes us to less work later.
-                        auto newRule = std::make_tuple(rule.a_, Entries{std::make_pair(PartialAction(), rule.values_)});
+                        auto newRule = std::make_tuple(rule.a_, Entries{std::make_tuple(PartialAction(), rule.values_)});
                         const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, ruleComp);
                         rules.emplace(pos, std::move(newRule));
                     }
