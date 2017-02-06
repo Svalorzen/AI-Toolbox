@@ -126,6 +126,10 @@ namespace AIToolbox {
 
         double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags) {
             double result = 0.0;
+            // Note here that we must use match since the factors adjacent to
+            // one agent aren't all next to all its neighbors. Since they are
+            // different, we must coarsely check that equal agents do equal
+            // actions.
             for (const auto & rule : rules) {
                 if (match(jointAction, std::get<0>(rule))) {
                     result += std::get<2>(rule);

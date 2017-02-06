@@ -223,14 +223,18 @@ namespace AIToolbox {
             return retval;
         }
 
+
         std::vector<const MOVE::Entries*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction) {
             std::vector<const MOVE::Entries*> retval;
+            // Note here that we must use match since the factors adjacent to
+            // one agent aren't all next to all its neighbors. Since they are
+            // different, we must coarsely check that equal agents do equal
+            // actions.
             for (const auto & rule : rules)
                 if (match(jointAction, std::get<0>(rule)))
                     retval.push_back(&std::get<1>(rule));
             return retval;
         }
-
 
         MOVE::Entries crossSum(const MOVE::Entries & lhs, const std::vector<const MOVE::Entries*> rhs) {
             if (!rhs.size()) return lhs;
