@@ -163,9 +163,6 @@ namespace AIToolbox {
         template <typename M>
         struct is_model_eigen {
             private:
-                template <typename T>
-                struct remove_cv_ref { using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type; };
-
                 // With this macro we can find out the return type of a given member function; we use it
                 // so that we can check whether the class offers methods which return Eigen types, so we
                 // can enable the high-performance algorithm variants.

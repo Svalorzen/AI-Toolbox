@@ -32,6 +32,12 @@ namespace AIToolbox {
                                       typename std::add_const<CopiedType>::type,
                                       typename std::remove_const<CopiedType>::type>::type;
     };
+
+    /**
+     * @brief This struct is used to both remove references and all cv qualifiers.
+     */
+    template <typename T>
+    struct remove_cv_ref { using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type; };
 }
 
 #endif
