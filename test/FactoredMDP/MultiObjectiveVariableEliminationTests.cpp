@@ -12,7 +12,7 @@ using MOVE = fm::MultiObjectiveVariableElimination;
 BOOST_AUTO_TEST_CASE( simple_graph ) {
     const std::vector<fm::MOQFunctionRule> rules {
         // States, Actions,                     Value
-        {    {},   {{0}, {0}},            (fm::Rewards(2) << 4.0, 0,0).finished()},
+        {    {},   {{0}, {0}},            (fm::Rewards(2) << 4.0, 0.0).finished()},
         {    {},   {{1}, {0}},            (fm::Rewards(2) << 5.0, 1.0).finished()},
         {    {},   {{1}, {1}},            (fm::Rewards(2) << 2.0, 2.0).finished()},
         {    {},   {{0, 1}, {1, 0}},      (fm::Rewards(2) << 2.0, 3.0).finished()},
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
 BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
     const std::vector<fm::MOQFunctionRule> rules {
         // States, Actions,                     Value
-        {    {},   {{0}, {0}},            (fm::Rewards(2) << 4.0, 0,0).finished()},
+        {    {},   {{0}, {0}},            (fm::Rewards(2) << 4.0, 0.0).finished()},
         {    {},   {{0, 1}, {1, 0}},      (fm::Rewards(2) << 2.0, 3.0).finished()},
     };
 
