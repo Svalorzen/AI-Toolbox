@@ -75,6 +75,7 @@ set(MAP_MAKE_TESTS      "# Building Tests")
 set(MAP_MAKE_EXAMPLES   "# Building Examples")
 
 message("")
+message("Build type: " ${CMAKE_BUILD_TYPE})
 foreach(v MAKE_MDP;MAKE_POMDP;MAKE_PYTHON;MAKE_TESTS;MAKE_EXAMPLES)
     if (${${v}})
         message(${MAP_${v}})
