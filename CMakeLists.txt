@@ -58,7 +58,7 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/src)
 
 # If enabled, add tests
 if (MAKE_TESTS)
-    enable_testing()
+    include(CTest)
     add_subdirectory (${PROJECT_SOURCE_DIR}/test)
 endif()
 
