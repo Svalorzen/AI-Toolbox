@@ -1,6 +1,9 @@
 #include <boost/python.hpp>
 
-void exportUtils();
+void exportTypes();
+
+void exportMDPTypes();
+
 void exportMDPExperience();
 void exportMDPRLModel();
 void exportMDPSparseExperience();
@@ -26,7 +29,9 @@ BOOST_PYTHON_MODULE(MDP)
 {
     boost::python::docstring_options localDocstringOptions(true, true, false);
 
-    exportUtils();
+    exportTypes();
+
+    exportMDPTypes();
 
     exportMDPExperience();
     exportMDPSparseExperience();

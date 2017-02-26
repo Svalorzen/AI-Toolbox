@@ -60,6 +60,8 @@ if (MAKE_MDP)
             MDP/Policies/QSoftmaxPolicy.cpp
             MDP/Policies/WoLFPolicy.cpp
             Python/Utils.cpp
+            Python/Types.cpp
+            Python/MDP/Types.cpp
             Python/MDP/Experience.cpp
             Python/MDP/RLModel.cpp
             Python/MDP/SparseExperience.cpp
@@ -119,9 +121,10 @@ if (MAKE_POMDP)
             POMDP/Algorithms/AMDP.cpp
             POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
             POMDP/Policies/Policy.cpp
+            Python/POMDP/Types.cpp
+            Python/POMDP/Utils.cpp
             Python/POMDP/Model.cpp
             Python/POMDP/SparseModel.cpp
-            Python/POMDP/Utils.cpp
             Python/POMDP/Algorithms/POMCP.cpp
             Python/POMDP/Algorithms/Witness.cpp
             Python/POMDP/Algorithms/IncrementalPruning.cpp
