@@ -99,6 +99,7 @@ namespace AIToolbox {
                  * position 2, and 5 at position 3.
                  *
                  * @param f The Factors used as filter in the trie.
+                 * @param offset The offset for each factor in the input.
                  *
                  * @return The ids of all inserted keys which match the input.
                  */
@@ -195,7 +196,8 @@ namespace AIToolbox {
                  *
                  * \sa Trie::filter(const Factors&, size_t)
                  *
-                 * @param s The key that must be matched.
+                 * @param f The key that must be matched.
+                 * @param offset The offset of the key, if smaller than the factor space.
                  *
                  * @return An iterable object over all values matching the input.
                  */
@@ -208,7 +210,8 @@ namespace AIToolbox {
                  *
                  * \sa Trie::filter(const PartialFactors&)
                  *
-                 * @param s The key that must be matched.
+                 * @param f The key that must be matched.
+                 * @param offset The offset of the key, if smaller than the factor space.
                  *
                  * @return An iterable object over all values matching the input.
                  */

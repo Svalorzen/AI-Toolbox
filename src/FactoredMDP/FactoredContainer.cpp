@@ -189,6 +189,12 @@ namespace AIToolbox {
         }
 
         std::vector<size_t> Trie::filter(const Factors & f, size_t offset) const {
+            if (!f.size()) {
+                // If nothing to match, match all
+                std::vector<size_t> retval(counter_);
+                std::iota(std::begin(retval), std::end(retval), 0);
+                return retval;
+            }
             std::vector<Filter> filters;
             filters.reserve(f.size());
             // For each factor
@@ -211,6 +217,12 @@ namespace AIToolbox {
         }
 
         std::vector<size_t> Trie::filter(const PartialFactors & pf) const {
+            if (!pf.first.size()) {
+                // If nothing to match, match all
+                std::vector<size_t> retval(counter_);
+                std::iota(std::begin(retval), std::end(retval), 0);
+                return retval;
+            }
             std::vector<Filter> filters;
             filters.reserve(pf.first.size());
             // For each factor
