@@ -180,11 +180,11 @@ namespace AIToolbox {
             bool fail = false;
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t a = 0; a < A; ++a ) {
-                    if ( ! ( is >> scheck >> acheck >> policy.policy_[s][a] ) ) {
+                    if ( ! ( is >> scheck >> acheck >> policy.policy_(s,a) ) ) {
                         std::cerr << "AIToolbox: Could not read policy data.\n";
                         fail = true;
                     }
-                    else if ( policy.policy_[s][a] < 0.0 || policy.policy_[s][a] > 1.0 ) {
+                    else if ( policy.policy_(s, a) < 0.0 || policy.policy_(s, a) > 1.0 ) {
                         std::cerr << "AIToolbox: Input policy data contains non-probability values.\n";
                         fail = true;
                     }
@@ -199,10 +199,7 @@ namespace AIToolbox {
                 }
             }
             // Read succeeded
-            for ( size_t s = 0; s < S; ++s ) {
-                // Sanitization: Assign and normalize everything.
-                p.setStatePolicy(s, policy.policy_[s]);
-            }
+            p = policy;
 
             return is;
         }

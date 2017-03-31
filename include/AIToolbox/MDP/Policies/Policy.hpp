@@ -5,7 +5,6 @@
 #include <tuple>
 
 #include <AIToolbox/MDP/Types.hpp>
-#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox {
@@ -27,7 +26,7 @@ namespace AIToolbox {
          */
         class Policy : public PolicyInterface {
             public:
-                using PolicyTable = Table2D;
+                using PolicyTable = Matrix2D;
 
                 /**
                  * @brief Basic constructor.
@@ -108,8 +107,7 @@ namespace AIToolbox {
                  * @param s The state where the policy is being set.
                  * @param container The input container.
                  */
-                template <typename T>
-                void setStatePolicy(size_t s, const T & container);
+                void setStatePolicy(size_t s, const Vector & container);
 
                 /**
                  * @brief This function returns a copy of a particular slice of the policy.
@@ -118,7 +116,7 @@ namespace AIToolbox {
                  *
                  * @return The probabilities of choosing each action in state s.
                  */
-                std::vector<double> getStatePolicy(size_t s) const;
+                Vector getStatePolicy(size_t s) const;
 
                 /**
                  * @brief This function sets the policy for a particular state.
@@ -138,21 +136,6 @@ namespace AIToolbox {
                  * @return A constant reference to the internal policy.
                  */
                 const PolicyTable & getPolicyTable() const;
-
-                /**
-                 * @brief Prints the policy to a stream.
-                 *
-                 * This function differs from operator<<() in that it
-                 * avoids printing all probabilities that equal 0. This
-                 * results in a much more readable and smaller file.
-                 *
-                 * The format of the output file is:
-                 *
-                 * state_number action_number probability
-                 *
-                 * @param os The stream where the policy is printed.
-                 */
-                void prettyPrint(std::ostream & os) const;
 
             private:
                 PolicyTable policy_;
@@ -183,14 +166,6 @@ namespace AIToolbox {
          * @return The input stream.
          */
         std::istream& operator>>(std::istream &is, Policy & p);
-
-        template <typename T>
-        void Policy::setStatePolicy(const size_t s, const T & container) {
-            if ( container.size() != getA() ) throw std::invalid_argument("Container to copy has the wrong size.");
-
-            auto ref = policy_[s]; // This is needed because policy_[s] by itself is a temporary. We don't want begin and end to be of different things.
-            normalizeProbability(std::begin(container), std::end(container), std::begin(ref));
-        }
     }
 }
 

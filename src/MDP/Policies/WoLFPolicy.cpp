@@ -12,28 +12,22 @@ namespace AIToolbox {
         void WoLFPolicy::updatePolicy(const size_t s) {
             ++c_[s];
 
-            // Update estimate of average policy
             auto avgstate = avgPolicy_.getStatePolicy(s);
-            for ( size_t a = 0; a < A; ++a )
-                avgstate[a] += (1.0/c_[s]) * ( actualPolicy_.getActionProbability(s,a) - avgstate[a] );
-
-            avgPolicy_.setStatePolicy(s, avgstate);
-
             // Obtain argmax of Q[s], check whether we are losing or winning.
             auto actualstate = actualPolicy_.getStatePolicy(s);
+
+            // Update estimate of average policy
+            avgstate.noalias() += (1.0/c_[s]) * (actualstate - avgstate);
+            avgPolicy_.setStatePolicy(s, avgstate);
 
             size_t bestAction; double finalDelta;
             {
                 unsigned bestActionCount = 1; double bestQValue = q_(s, 0);
-                double avgValue    = avgstate[0]    * bestQValue;
-                double actualValue = actualstate[0] * bestQValue;
                 // Automatically sets initial best action as bestAction[0] = 0
                 std::vector<size_t> bestActions(A,0);
 
                 for ( size_t a = 1; a < A; ++a ) {
                     const double qsa = q_(s, a);
-                    avgValue        += avgstate[a]    * qsa;
-                    actualValue     += actualstate[a] * qsa;
 
                     if ( checkEqualGeneral(qsa, bestQValue) ) {
                         bestActions[bestActionCount] = a;
@@ -45,6 +39,8 @@ namespace AIToolbox {
                         bestQValue = qsa;
                     }
                 }
+                double avgValue = q_.row(s) * avgstate;
+                double actualValue = q_.row(s) * actualstate;
 
                 auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
                 const unsigned selection = pickDistribution(rand_);
@@ -55,11 +51,10 @@ namespace AIToolbox {
 
             finalDelta /= ( c_[s] / scaling_ + 1.0 );
 
-            actualstate[bestAction] = std::min(1.0, actualstate[bestAction] + finalDelta);
-            for ( size_t a = 0; a < A; ++a ) {
-                if ( a == bestAction ) continue;
-                actualstate[a] = std::max(0.0, actualstate[a] - finalDelta / ( A - 1 ) );
-            }
+            auto oldV = actualstate(bestAction);
+            actualstate = (actualstate.array() - finalDelta/(A-1)).cwiseMax(0);
+            actualstate(bestAction) = std::min(1.0, oldV + finalDelta);
+            actualstate /= actualstate.sum();
 
             // Policy automatically normalizes this to 1
             actualPolicy_.setStatePolicy(s, actualstate);

@@ -2,65 +2,60 @@
 
 #include <algorithm>
 
+#include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox {
     namespace MDP {
         Policy::Policy(const size_t s, const size_t a) :
-                PolicyInterface(s, a), policy_(boost::extents[S][A])
+                PolicyInterface(s, a), policy_(S, A)
         {
             // Random policy is default
-            std::fill(policy_.data(), policy_.data() + policy_.num_elements(), 1.0/getA());
+            policy_.fill(1.0/getA());
         }
 
         Policy::Policy(const PolicyInterface & p) :
-                PolicyInterface(p.getS(), p.getA()), policy_(boost::extents[S][A])
+                PolicyInterface(p.getS(), p.getA()), policy_(S, A)
         {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
-                    policy_[s][a] = p.getActionProbability(s, a);
+                    policy_(s, a) = p.getActionProbability(s, a);
         }
 
         Policy::Policy(const size_t s, const size_t a, const ValueFunction & v) :
-                PolicyInterface(s, a), policy_(boost::extents[S][A])
+                PolicyInterface(s, a), policy_(S, A)
         {
             const auto & actions = std::get<ACTIONS>(v);
             for ( size_t s = 0; s < S; ++s )
-                policy_[s][actions[s]] = 1.0;
+                policy_(s, actions[s]) = 1.0;
         }
 
         size_t Policy::sampleAction(const size_t & s) const {
-            return sampleProbability(A, policy_[s], rand_);
+            return sampleProbability(A, policy_.row(s), rand_);
         }
 
         double Policy::getActionProbability(const size_t & s, const size_t & a) const {
-            return policy_[s][a];
+            return policy_(s, a);
         }
 
-        std::vector<double> Policy::getStatePolicy(const size_t s) const {
-            std::vector<double> statePolicy(A);
+        Vector Policy::getStatePolicy(const size_t s) const {
+            return policy_.row(s);
+        }
 
-            std::copy(std::begin(policy_[s]), std::end(policy_[s]), std::begin(statePolicy));
+        void Policy::setStatePolicy(const size_t s, const Vector & p) {
+            auto sum = p.sum();
+            if ( checkDifferentSmall(sum, 1.0) ) throw std::invalid_argument("Setting state policy not summing to 1");
 
-            return statePolicy;
+            policy_.col(s) /= sum;
         }
 
         void Policy::setStatePolicy(const size_t s, const size_t a) {
-            for ( size_t ax = 0; ax < A; ++ax )
-                policy_[s][ax] = static_cast<double>( ax == a );
+            policy_.row(s).fill(0.0);
+            policy_(s, a) = 1.0;
         }
 
         const Policy::PolicyTable & Policy::getPolicyTable() const {
             return policy_;
-        }
-
-        void Policy::prettyPrint(std::ostream & os) const {
-            for ( size_t s = 0; s < S; ++s ) {
-                for ( size_t a = 0; a < A; ++a ) {
-                    if ( policy_[s][a] )
-                        os << s << "\t" << a << "\t" << std::fixed << policy_[s][a] << "\n";
-                }
-            }
         }
     }
 }
