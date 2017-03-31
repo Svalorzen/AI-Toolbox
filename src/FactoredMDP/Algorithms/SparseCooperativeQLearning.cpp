@@ -14,7 +14,8 @@ namespace AIToolbox {
         }
 
         void SparseCooperativeQLearning::insertRule(QFunctionRule rule) {
-            rules_.emplace(join(S.size(), rule.s_, rule.a_), std::move(rule));
+            auto factor = join(S.size(), rule.s_, rule.a_);
+            rules_.emplace(factor, std::move(rule));
         }
 
         size_t SparseCooperativeQLearning::rulesSize() const {
