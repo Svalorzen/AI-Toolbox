@@ -41,11 +41,13 @@ namespace AIToolbox {
                     Agents agents_;
 
                     public:
+                        const Factor & getData() const { return f_; }
                         Factor & getData() { return f_; }
                 };
 
                 using FactorList = std::list<FactorNode>;
                 using FactorIt = typename FactorList::iterator;
+                using CFactorIt = typename FactorList::const_iterator;
                 using FactorItList = std::vector<FactorIt>;
 
                 struct AgentNode {
@@ -80,6 +82,15 @@ namespace AIToolbox {
                  * @return A vector of agents adjacent to the given factor.
                  */
                 const Agents & getNeighbors(FactorIt factor) const;
+
+                /**
+                 * @brief This function returns all agents adjacent to the given factor.
+                 *
+                 * @param factor A const iterator to the factor to look for.
+                 *
+                 * @return A vector of agents adjacent to the given factor.
+                 */
+                const Agents & getNeighbors(CFactorIt factor) const;
 
                 /**
                  * @brief This function returns all agents adjacent to any of the given factors.
@@ -173,6 +184,26 @@ namespace AIToolbox {
                  */
                 const FactorList & getFactors() const;
 
+                /**
+                 * @brief This function provides an editable iterator to the beginning of the internal factor list.
+                 *
+                 * Note that for const access one might as well use the getFactors() function.
+                 *
+                 * This function is used in order to allow editing of all the factors.
+                 *
+                 * @return An iterator to the beginning of the internal factor range.
+                 */
+                FactorIt factorsBegin();
+
+                /**
+                 * @brief This function provides an editable interactor to the end of the internal factor list.
+                 *
+                 * \sa factorsBegin()
+                 *
+                 * @return An iterator to the end of the internal factor range.
+                 */
+                FactorIt factorsEnd();
+
             private:
                 FactorList factorAdjacencies_;
                 std::unordered_map<Agents, FactorIt, boost::hash<Agents>> factorByAgents_;
@@ -191,6 +222,11 @@ namespace AIToolbox {
 
         template <typename Factor>
         const typename FactorGraph<Factor>::Agents & FactorGraph<Factor>::getNeighbors(FactorIt factor) const {
+            return factor->agents_;
+        }
+
+        template <typename Factor>
+        const typename FactorGraph<Factor>::Agents & FactorGraph<Factor>::getNeighbors(CFactorIt factor) const {
             return factor->agents_;
         }
 
@@ -247,6 +283,10 @@ namespace AIToolbox {
         size_t FactorGraph<Factor>::factorSize() const { return factorAdjacencies_.size(); }
         template <typename Factor>
         const typename FactorGraph<Factor>::FactorList & FactorGraph<Factor>::getFactors() const { return factorAdjacencies_; }
+        template <typename Factor>
+        typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::factorsBegin() { return std::begin(factorAdjacencies_); }
+        template <typename Factor>
+        typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::factorsEnd() { return std::end(factorAdjacencies_); }
     }
 }
 
