@@ -59,7 +59,7 @@ namespace AIToolbox {
          * @brief This function merges two PartialFactors together.
          *
          * This function assumes that all elements in the factors have
-         * different keys. If they have the same keys, the behaviour is
+         * different keys. If they have the same keys, the behavior is
          * unspecified.
          *
          * @param lhs The left hand side.
@@ -73,7 +73,7 @@ namespace AIToolbox {
          * @brief This function merges the second PartialFactors into the first.
          *
          * This function assumes that all elements in the factors have
-         * different keys. If they have the same keys, the behaviour is
+         * different keys. If they have the same keys, the behavior is
          * unspecified.
          *
          * @param lhs The left hand side to be modified.
@@ -87,11 +87,27 @@ namespace AIToolbox {
          * In case the factor space is too big to represent via a size_t, the
          * maximum possible representable value is returned.
          *
-         * @param f The factored factor space.
+         * @param space The factored factor space.
          *
          * @return The possible number of factors if representable, otherwise the max size_t.
          */
-        size_t factorSpace(const Factors & f);
+        size_t factorSpace(const Factors & space);
+
+        /**
+         * @brief This function returns the multiplication of all elements of the input factor.
+         *
+         * This function only takes into account the input ids.
+         *
+         * In case the factor space is too big to represent via a size_t, the
+         * maximum possible representable value is returned.
+         *
+         * \sa factorSpace
+         *
+         * @param space The factored factor space.
+         *
+         * @return The possible number of factors if representable, otherwise the max size_t.
+         */
+        size_t factorSpacePartial(const std::vector<size_t> & ids, const Factors & space);
 
         /**
          * @brief This function converts Factors into the equivalent PartialFactors structure.
@@ -116,6 +132,88 @@ namespace AIToolbox {
          * @return Factors containing all values of the input.
          */
         Factors toFactors(size_t F, const PartialFactors & pf);
+
+        /**
+         * @brief This function converts the input factor in the input space to an unique index.
+         *
+         * This function returns an unique integer in range [0,
+         * factorSpace(space)). The function makes **no guarantees** as to what
+         * the conversion does, aside that from a unique factor it will return
+         * always the same unique number.
+         *
+         * So for example in a space (2,3), a *possible* equivalency would be:
+         *
+         * (0,0) -> 0
+         * (0,1) -> 1
+         * (0,2) -> 2
+         * (1,0) -> 3
+         * (1,1) -> 4
+         * (1,2) -> 5
+         *
+         * This function does not perform bound checking. If the resulting
+         * number is too big to be representable via a size_t, the behavior is
+         * unspecified. This can happen only if factorSpace(space) exceeds the
+         * size of a size_t variable.
+         *
+         * @param space The factor space to consider.
+         * @param f The input factor to convert.
+         *
+         * @return An integer which uniquely identifies the factor in the factor space.
+         */
+        size_t toIndex(const Factors & space, const Factors & f);
+
+        /**
+         * @brief This function converts the input factor in the input space to an unique index.
+         *
+         * \sa toIndex(const Factors &, const Factors &)
+         *
+         * All unspecified values are considered 0.
+         *
+         * @param space The factor space to consider.
+         * @param f The input factor to convert.
+         *
+         * @return An integer which uniquely identifies the factor in the factor space.
+         */
+        size_t toIndex(const Factors & space, const PartialFactors & f);
+
+        /**
+         * @brief This function converts the input factor in the input space to an unique index.
+         *
+         * In this method ONLY the ids passed as input are considered. This
+         * function effectively considers only a subset of the input space and
+         * factor (which should still have the same length).
+         *
+         * So if the ids are {1, 3}, the function will behave as if the factor
+         * space is two-dimensional, taking the values at ids 1 and 3 from the
+         * input space.
+         *
+         * Then it will take the values at ids 1 and 3 from the input factor
+         * and use them to compute the equivalent number.
+         *
+         * \sa toIndex(const Factors &, const Factors &)
+         *
+         * @param ids The ids to consider in the input space and factor.
+         * @param space The factor space to consider.
+         * @param f The input factor to convert.
+         *
+         * @return An integer which uniquely identifies the factor in the factor space for the specified ids.
+         */
+        size_t toIndexPartial(const std::vector<size_t> & ids, const Factors & space, const Factors & f);
+
+        /**
+         * @brief This function converts the input factor in the input space to an unique index.
+         *
+         * In this function only the ids mentioned in the PartialFactors are
+         * considered to be part of the space.
+         *
+         * \sa toIndexPartial(const std::vector<size_t> &, const Factors &, const Factors &);
+         *
+         * @param space The factor space to consider.
+         * @param f The input factor to convert.
+         *
+         * @return An integer which uniquely identifies the factor in the factor space for the factor's ids.
+         */
+        size_t toIndexPartial(const Factors & space, const PartialFactors & f);
 
         /**
          * @brief This class enumerates all possible values for a PartialFactors.

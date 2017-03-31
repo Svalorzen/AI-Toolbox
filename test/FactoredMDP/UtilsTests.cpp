@@ -5,7 +5,129 @@
 
 #include <AIToolbox/FactoredMDP/Utils.hpp>
 
+#include <algorithm>
+
 namespace fm = AIToolbox::FactoredMDP;
+
+BOOST_AUTO_TEST_CASE( to_index_full_factors ) {
+    fm::Factors state = {3,2,5};
+
+    std::vector<size_t> solution;
+    solution.resize(3*2*5);
+
+    std::iota(std::begin(solution), std::end(solution), 0);
+
+    std::vector<size_t> results;
+    results.reserve(3*2*5);
+
+    fm::Factors f = {0,0,0};
+    for (size_t i = 0; i < 3*2*5; ++i) {
+        results.push_back(fm::toIndex(state, f));
+
+        // Get next factor.
+        ++f[0];
+        // Handle carry-over. We stop at size()-1 since the last iteration does
+        // not need to go back to 0,0,0 and handling that is annoying.
+        size_t j = 0;
+        while (j < state.size()-1 && f[j] == state[j]) {
+            f[j] = 0;
+            ++f[++j];
+        }
+    }
+
+    std::sort(std::begin(results), std::end(results));
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution), std::end(solution),
+                                  std::begin(results), std::end(results));
+}
+
+BOOST_AUTO_TEST_CASE( to_index_full_partial_factors ) {
+    fm::Factors state = {3,2,5};
+
+    fm::PartialFactorsEnumerator enumerator(state, {0, 2});
+
+    while (enumerator.isValid()) {
+        auto val = *enumerator;
+        // Copy the PartialFactors to Factors so we can use that logic to test
+        // this one.
+        auto fullFactor = fm::Factors{0,0,0};
+        for (size_t i = 0; i < val.first.size(); ++i)
+            fullFactor[val.first[i]] = val.second[i];
+
+        BOOST_CHECK_EQUAL(fm::toIndex(state, val), fm::toIndex(state, fullFactor));
+
+        enumerator.advance();
+    }
+}
+
+BOOST_AUTO_TEST_CASE( to_index_partial_ids_factors ) {
+    fm::Factors state = {3,2,5,4};
+    std::vector<size_t> unusedids = {0, 2};
+    std::vector<size_t> ids = {1, 3};
+
+    std::vector<size_t> solution;
+    solution.resize(2*4);
+
+    std::iota(std::begin(solution), std::end(solution), 0);
+
+    std::vector<size_t> results;
+    results.reserve(2*4);
+
+    // We iterate over the useless factors to check they are not being used.
+    fm::Factors f = {0,0,0,0};
+    for (size_t k = 0; k < 3*5; ++k) {
+        // Reset results
+        results.clear();
+        // Reset parts of factor we care about
+        for (auto id : ids)
+            f[id] = 0;
+        // Start testing
+        for (size_t i = 0; i < 2*4; ++i) {
+            results.push_back(fm::toIndexPartial(ids, state, f));
+
+            // Get next factor.
+            ++f[ids[0]];
+            // Handle carry-over.
+            size_t j = 0;
+            while (f[ids[j]] == state[ids[j]]) {
+                f[ids[j]] = 0;
+                if (j == ids.size() - 1) break;
+                ++f[ids[++j]];
+            }
+        }
+
+        std::sort(std::begin(results), std::end(results));
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution), std::end(solution),
+                                      std::begin(results), std::end(results));
+
+        // Modify an unused ids to check it does not matter.
+        ++f[unusedids[0]];
+        // Handle carry-over.
+        size_t j = 0;
+        while (f[unusedids[j]] == state[unusedids[j]]) {
+            f[unusedids[j]] = 0;
+            if (j == unusedids.size() - 1) break;
+            ++f[unusedids[++j]];
+        }
+    }
+}
+
+BOOST_AUTO_TEST_CASE( to_index_partial_partial_factor ) {
+    fm::Factors state = {3,2,5,4};
+    fm::PartialFactorsEnumerator enumerator(state, {0, 2});
+
+    while (enumerator.isValid()) {
+        auto val = *enumerator;
+        // We can use toFactors here since we don't care about the value of
+        // unneeded factors.
+        auto fullFactor = fm::toFactors(state.size(), val);
+
+        BOOST_CHECK_EQUAL(fm::toIndexPartial(state, val), fm::toIndexPartial(val.first, state, fullFactor));
+
+        enumerator.advance();
+    }
+}
 
 BOOST_AUTO_TEST_CASE( partial_factor_merge ) {
     fm::PartialFactors lhs = {{0, 3, 5, 6}, {0, 3, 5, 6}};

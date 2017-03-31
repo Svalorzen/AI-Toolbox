@@ -89,13 +89,24 @@ namespace AIToolbox {
             lhs.second.insert(std::end(lhs.second), std::begin(rhs.second) + j, std::end(rhs.second));
         }
 
-        size_t factorSpace(const Factors & factors) {
+        size_t factorSpace(const Factors & space) {
             size_t retval = 1;
-            for (auto f : factors) {
+            for (auto f : space) {
                 // Detect wraparound
                 if (std::numeric_limits<size_t>::max() / f < retval)
                     return std::numeric_limits<size_t>::max();
                 retval *= f;
+            }
+            return retval;
+        }
+
+        size_t factorSpacePartial(const std::vector<size_t> & ids, const Factors & space) {
+            size_t retval = 1;
+            for (auto id : ids) {
+                // Detect wraparound
+                if (std::numeric_limits<size_t>::max() / space[id] < retval)
+                    return std::numeric_limits<size_t>::max();
+                retval *= space[id];
             }
             return retval;
         }
@@ -117,6 +128,45 @@ namespace AIToolbox {
                 f[pf.first[i]] = pf.second[i];
 
             return f;
+        }
+
+        size_t toIndex(const Factors & space, const Factors & f) {
+            size_t result = 0; size_t multiplier = 1;
+            for (size_t i = 0; i < f.size(); ++i) {
+                result += multiplier * f[i];
+                multiplier *= space[i];
+            }
+            return result;
+        }
+
+        size_t toIndex(const Factors & space, const PartialFactors & f) {
+            size_t result = 0; size_t multiplier = 1;
+            for (size_t i = 0, j = 0; i < space.size(); ++i) {
+                if (i == f.first[j]) {
+                    result += multiplier * f.second[j++];
+                    if (j == f.first.size()) break;
+                }
+                multiplier *= space[i];
+            }
+            return result;
+        }
+
+        size_t toIndexPartial(const std::vector<size_t> & ids, const Factors & space, const Factors & f) {
+            size_t result = 0; size_t multiplier = 1;
+            for (size_t i = 0; i < ids.size(); ++i) {
+                result += multiplier * f[ids[i]];
+                multiplier *= space[ids[i]];
+            }
+            return result;
+        }
+
+        size_t toIndexPartial(const Factors & space, const PartialFactors & f) {
+            size_t result = 0; size_t multiplier = 1;
+            for (size_t i = 0; i < f.first.size(); ++i) {
+                result += multiplier * f.second[i];
+                multiplier *= space[f.first[i]];
+            }
+            return result;
         }
 
         // PartialFactorsEnumerator below.
