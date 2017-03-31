@@ -127,9 +127,7 @@ namespace AIToolbox {
                 /**
                  * @brief This function gives an order to Rules.
                  *
-                 * This function must be used only on Rules contained within
-                 * the same factor. This implies that they will share the
-                 * agents within their respective PartialAction.
+                 * This function may only be used on Rules for the same agents.
                  *
                  * This function sorts rules by the actions taken by their
                  * agents.

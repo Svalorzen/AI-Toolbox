@@ -27,7 +27,8 @@ namespace AIToolbox {
          * @brief This function cross-sums the input lists.
          *
          * Cross-sums are performed considering the right-hand side as one
-         * single joined list.
+         * single joined list. This is useful considering how the getPayoffs()
+         * function works.
          *
          * \sa crossSum(const MOVE::Entries &, const MOVE::Entries &);
          *
