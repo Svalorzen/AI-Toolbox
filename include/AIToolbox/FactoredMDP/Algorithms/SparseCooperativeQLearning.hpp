@@ -37,6 +37,11 @@ namespace AIToolbox {
                  * This constructor initializes all data structures and
                  * parameters for the correct functioning of QLearning.
                  *
+                 * Note: This algorithm can be used for bandit problems by
+                 * simply omitting the state part (giving in an empty vector
+                 * for states), rather than giving a single state vector. This
+                 * should speed things up a bit.
+                 *
                  * @param S The factored state space of the environment.
                  * @param A The factored action space for the agent.
                  * @param discount The discount for future rewards.
