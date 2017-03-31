@@ -149,24 +149,6 @@ namespace AIToolbox {
         }
         return d-1;
     }
-
-    /**
-     * @brief This function normalizes a container so that it sums to 1.0.
-     *
-     * If the provided container sums to 0.0, then the first element
-     * in the output range becomes 1.0.
-     *
-     * @param begin The beginning of the range to normalize.
-     * @param end The end of the range to normalize.
-     * @param out The beginning of the output range (can be the same as begin).
-     */
-    template <typename InputIterator, typename OutputIterator>
-    void normalizeProbability(InputIterator begin, InputIterator end, OutputIterator out) {
-        if ( begin == end ) return;
-        const double norm = std::accumulate(begin, end, 0.0);
-        if ( !norm ) *out = 1.0;
-        else std::transform(begin, end, out, [norm](decltype(*begin) t){ return t/norm; });
-    }
 }
 
 #endif
