@@ -9,8 +9,10 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 if (MAKE_PYTHON)
     find_package(PythonLibs 2.7 REQUIRED)
     find_package(Boost 1.53 COMPONENTS python REQUIRED)
+    # Remove junk at the end of the version that breaks requiring the interpreter for tests later.
+    STRING(REGEX REPLACE "[^0-9]+$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
     # Save version of python libs loaded to run tests later.
-    set(PYTHONLIBS_VERSION_STRING ${PYTHONLIBS_VERSION_STRING} PARENT_SCOPE)
+    set(PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING_STRIPPED} PARENT_SCOPE)
     include_directories(${PYTHON_INCLUDE_DIRS})
 endif()
 
