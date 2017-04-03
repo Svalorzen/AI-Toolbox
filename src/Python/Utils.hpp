@@ -6,7 +6,6 @@
 #include <tuple>
 
 #include <boost/python.hpp>
-#include <AIToolbox/Types.hpp>
 
 // C++ to Python
 
@@ -32,9 +31,8 @@ struct TupleToPython {
         return boost::python::make_tuple(std::get<I>(t)...);
     }
 
-    template <typename... Args>
-    static boost::python::tuple boostConvert(const std::tuple<Args...> & t) {
-        return boostConvertImpl(t, typename generator<sizeof...(Args)>::type());
+    static boost::python::tuple boostConvert(const T & t) {
+        return boostConvertImpl(t, typename generator<std::tuple_size<T>::value>::type());
     }
 
     static PyObject* convert(const T& t) {
@@ -44,10 +42,10 @@ struct TupleToPython {
 
 // Python to C++
 
-template <typename... Args>
+template <typename T>
 struct TupleFromPython {
     TupleFromPython() {
-        boost::python::converter::registry::push_back(&TupleFromPython::convertible, &TupleFromPython::construct, boost::python::type_id<std::tuple<Args...>>());
+        boost::python::converter::registry::push_back(&TupleFromPython::convertible, &TupleFromPython::construct, boost::python::type_id<T>());
     }
 
     static void* convertible(PyObject* obj_ptr) {
@@ -55,29 +53,29 @@ struct TupleFromPython {
         return obj_ptr;
     }
 
-    template <size_t Id, typename T, typename... Others>
+    template <size_t Id, bool = true>
     struct ExtractPythonTuple {
-        void operator()(std::tuple<Args...> & t, PyObject * tuple) {
-            std::get<Id>(t) = boost::python::extract<T>(PyTuple_GetItem(tuple, Id));
-            ExtractPythonTuple<Id + 1, Others...>()(t, tuple);
+        void operator()(T & t, PyObject * tuple) {
+            std::get<Id>(t) = boost::python::extract<typename std::tuple_element<Id, T>::type>(PyTuple_GetItem(tuple, Id));
+            ExtractPythonTuple<Id - 1>()(t, tuple);
         }
     };
 
-    template <typename T>
-    struct ExtractPythonTuple<sizeof...(Args) - 1, T> {
-        void operator()(std::tuple<Args...> & t, PyObject * tuple) {
-            std::get<sizeof...(Args) - 1>(t) = boost::python::extract<T>(PyTuple_GetItem(tuple, sizeof...(Args) - 1));
+    template <bool dummyForSpecialization>
+    struct ExtractPythonTuple<0, dummyForSpecialization> {
+        void operator()(T & t, PyObject * tuple) {
+            std::get<0>(t) = boost::python::extract<typename std::tuple_element<0, T>::type>(PyTuple_GetItem(tuple, 0));
         }
     };
 
     static void construct(PyObject* tuple, boost::python::converter::rvalue_from_python_stage1_data* data) {
         // Grab pointer to memory into which to construct the new tuple
-        void* storage = ((boost::python::converter::rvalue_from_python_storage<std::tuple<Args...>>*)data)->storage.bytes;
+        void* storage = ((boost::python::converter::rvalue_from_python_storage<T>*)data)->storage.bytes;
 
-        std::tuple<Args...>& t = *(new (storage) std::tuple<Args...>());
+        T& t = *(new (storage) T());
 
         // Copy item by item the tuple
-        ExtractPythonTuple<0, Args...>()(t, tuple);
+        ExtractPythonTuple<std::tuple_size<T>::value - 1>()(t, tuple);
 
         // Stash the memory chunk pointer for later use by boost.python
         data->convertible = storage;
@@ -85,31 +83,10 @@ struct TupleFromPython {
 };
 
 struct EigenVectorFromPython {
-    EigenVectorFromPython() {
-        boost::python::converter::registry::push_back(&EigenVectorFromPython::convertible, &EigenVectorFromPython::construct, boost::python::type_id<AIToolbox::Vector>());
-    }
+    EigenVectorFromPython();
 
-    static void* convertible(PyObject* obj_ptr) {
-        if (!PyList_Check(obj_ptr)) return 0;
-        return obj_ptr;
-    }
-
-    static void construct(PyObject* list, boost::python::converter::rvalue_from_python_stage1_data* data)
-    {
-        // Grab pointer to memory into which to construct the new Vector
-        void* storage = ((boost::python::converter::rvalue_from_python_storage<AIToolbox::Vector>*)data)->storage.bytes;
-
-        AIToolbox::Vector& v = *(new (storage) AIToolbox::Vector());
-
-        // Copy item by item the list
-        auto size = PyList_Size(list);
-        v.resize(size);
-        for(decltype(size) i = 0; i < size; ++i)
-            v[i] = boost::python::extract<double>(PyList_GetItem(list, i));
-
-        // Stash the memory chunk pointer for later use by boost.python
-        data->convertible = storage;
-    }
+    static void* convertible(PyObject* obj_ptr);
+    static void construct(PyObject* list, boost::python::converter::rvalue_from_python_stage1_data* data);
 };
 
 template<typename T>

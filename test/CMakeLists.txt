@@ -26,6 +26,11 @@ function (AddTestMDPPython name)
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/MDP/${name}Tests.py)
 endfunction (AddTestMDPPython)
 
+function (AddTestPOMDPPython name)
+    set(exename POMDP_Python_${name})
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/POMDP/${name}Tests.py)
+endfunction (AddTestPOMDPPython)
+
 function (AddTestPOMDP name)
     set(exename POMDP_${name})
     add_executable(${exename}Tests POMDP/${name}Tests.cpp)
@@ -95,4 +100,10 @@ if (MAKE_POMDP)
     AddTestPOMDP(RTBSS)
     AddTestPOMDP(SparseModel)
     AddTestPOMDP(Witness)
+
+    if (MAKE_PYTHON)
+        # Here we have surely passed in the MDP Python test branch, so we know
+        # we have everything we need.
+        AddTestPOMDPPython(IncrementalPruning)
+    endif()
 endif()

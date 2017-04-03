@@ -1,7 +1,6 @@
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 
 #include <AIToolbox/MDP/Types.hpp>
-#include "../../Utils.hpp"
 
 #include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
@@ -96,6 +95,4 @@ void exportMDPValueIteration() {
     exportValueIterationByModel<SparseRLModel<SparseExperience>>("SparseRLModel");
     exportValueIterationByModel<Model>("Model");
     exportValueIterationByModel<SparseModel>("SparseModel");
-    // Enable reading the return type
-    TupleToPython<std::tuple<bool, ValueFunction, QFunction>>();
 }
