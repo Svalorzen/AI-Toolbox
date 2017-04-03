@@ -10,8 +10,6 @@ namespace AIToolbox {
         }
 
         bool operator<(const VEntry & lhs, const VEntry & rhs) {
-           // if (AIToolbox::operator<(std::get<0>(lhs), std::get<0>(rhs))) return true;
-           // if (AIToolbox::operator<(std::get<0>(rhs), std::get<0>(lhs))) return false;
             auto cmp = veccmp(std::get<0>(lhs), std::get<0>(rhs));
             if (cmp != 0) return cmp < 0;
             if (std::get<1>(lhs) < std::get<1>(rhs)) return true;

@@ -16,7 +16,7 @@ void exportPOMDPTypes() {
     // POMDP Value Function
     TupleToPython<POMDP::VEntry>();
     class_<POMDP::VList>{"VList"}
-        .def(vector_indexing_suite<POMDP::VList>());
+        .def(vector_indexing_suite<POMDP::VList, true>());
     class_<POMDP::ValueFunction>{"POMDP_VFun"}
         .def(vector_indexing_suite<POMDP::ValueFunction>());
 

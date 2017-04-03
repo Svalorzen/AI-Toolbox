@@ -5,6 +5,7 @@ import os
 sys.path.append(os.getcwd())
 import MDP
 import POMDP
+from Utils.TigerProblem import *
 
 class POMDPPythonIncrementalPruningTests(unittest.TestCase):
 
@@ -69,20 +70,30 @@ class POMDPPythonIncrementalPruningTests(unittest.TestCase):
             ([18.7039537733727385671045340 , -91.2960462266272685383228236], 2, [0]),
         ]
 
-        # auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
-        #     return POMDP::operator<(lhs, rhs);
-        # };
+        self.assertEqual(len(vlist), len(truth))
 
         # Make sure we can actually compare them
-        # std::sort(std::begin(vlist), std::end(vlist), comparer)
-        # std::sort(std::begin(truth), std::end(truth), comparer)
+        def sorter(lhs, rhs):
+            if [lhs[0][0], lhs[0][1]] < [rhs[0][0], rhs[0][1]]:
+                return -1
+            if [lhs[0][0], lhs[0][1]] > [rhs[0][0], rhs[0][1]]:
+                return 1
+            if lhs[1] < rhs[1]:
+                return -1
+            if lhs[1] > rhs[1]:
+                return 1
+            if lhs[2] < rhs[2]:
+                return -1
+            return 1
 
-        self.assertEqual(len(vlist), len(truth))
+        truth = sorted(truth, sorter)
+        vlist = sorted(vlist, sorter)
+
         # We check each entry by itself to avoid checking observations
-        for s in xrange(0, len(vlist)):
+        for i in xrange(0, len(vlist)):
             self.assertEqual(vlist[i][1], truth[i][1])
 
-            values      = vlist[i][0]
+            values      = [vlist[i][0][0], vlist[i][0][1]]
             truthValues = truth[i][0]
 
             self.assertEqual(values, truthValues)
