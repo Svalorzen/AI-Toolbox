@@ -24,7 +24,7 @@ focuses into solving problems that we know how to model: think chess, or 2048.
 Reinforcement learning focuses into creating a model for an environment we do
 not know in advance, and while learning the best policy for it. An excellent
 introduction to the basics can be found freely online in [this
-book](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/the-book.html).
+book](http://incompleteideas.net/sutton/book/ebook/the-book.html).
 
 There are many variants of these problems, with single agent worlds, multi
 agent, multi objective, competitive, cooperative, partially observable and so
