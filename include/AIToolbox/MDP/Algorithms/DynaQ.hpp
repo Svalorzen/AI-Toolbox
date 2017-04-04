@@ -128,7 +128,7 @@ namespace AIToolbox {
                  */
                 const M & getModel() const;
 
-            protected:
+            private:
                 unsigned N;
                 const M & model_;
                 QLearning<M> qLearning_;

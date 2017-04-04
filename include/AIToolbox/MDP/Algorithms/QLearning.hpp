@@ -160,7 +160,7 @@ namespace AIToolbox {
                  */
                 const QFunction & getQFunction() const;
 
-            protected:
+            private:
                 size_t S, A;
                 double alpha_;
                 double discount_;
