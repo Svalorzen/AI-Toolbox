@@ -132,7 +132,7 @@ namespace AIToolbox {
 
             private:
                 // Parameters
-                double discount_, epsilon_;
+                double epsilon_;
                 unsigned horizon_;
                 ValueFunction vParameter_;
 
@@ -157,18 +157,7 @@ namespace AIToolbox {
                  *
                  * @return A new QFunction.
                  */
-                QFunction computeQFunction(const M & model, const QFunction & ir) const;
-
-                /**
-                 * @brief This function applies a single pass Bellman operator, improving the current ValueFunction estimate.
-                 *
-                 * This function computes the optimal value and action for
-                 * each state, given the precomputed QFunction.
-                 *
-                 * @param q The precomputed QFunction.
-                 * @param vOut The newly estimated ValueFunction.
-                 */
-                inline void bellmanOperator(const QFunction & q, ValueFunction * vOut) const;
+                QFunction computeQFunction(const M & model, QFunction ir) const;
         };
 
         template <typename M>
@@ -183,7 +172,6 @@ namespace AIToolbox {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
             A = model.getA();
-            discount_ = model.getDiscount();
 
             {
                 // Verify that parameter value function is compatible.
@@ -214,7 +202,7 @@ namespace AIToolbox {
                 val0 = val1;
 
                 q = computeQFunction(model, ir);
-                bellmanOperator(q, &v1_);
+                bellmanOperatorInline(q, &v1_);
 
                 // We do this only if the epsilon specified is positive, otherwise we
                 // continue for all the timesteps.
@@ -237,25 +225,11 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        QFunction ValueIterationEigen<M>::computeQFunction(const M & model, const QFunction & ir) const {
-            QFunction q(S, A);
-
+        QFunction ValueIterationEigen<M>::computeQFunction(const M & model, QFunction ir) const {
             for ( size_t a = 0; a < A; ++a )
-                q.col(a).noalias() = discount_ * ( model.getTransitionFunction(a).cwiseProduct(std::get<VALUES>(v1_).replicate(1, S).transpose() )) * Vector::Ones(S);
+                ir.col(a).noalias() += model.getDiscount() * ( model.getTransitionFunction(a).cwiseProduct(std::get<VALUES>(v1_).replicate(1, S).transpose() )) * Vector::Ones(S);
 
-            q += ir;
-
-            return q;
-        }
-
-        template <typename M>
-        void ValueIterationEigen<M>::bellmanOperator(const QFunction & q, ValueFunction * v) const {
-            assert(v);
-            auto & values  = std::get<VALUES> (*v);
-            auto & actions = std::get<ACTIONS>(*v);
-
-            for ( size_t s = 0; s < S; ++s )
-                values(s) = q.row(s).maxCoeff(&actions[s]);
+            return ir;
         }
 
         template <typename M>

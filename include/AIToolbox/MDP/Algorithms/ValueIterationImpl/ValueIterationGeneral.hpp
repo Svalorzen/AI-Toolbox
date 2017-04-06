@@ -158,18 +158,7 @@ namespace AIToolbox {
                  *
                  * @return A new QFunction.
                  */
-                QFunction computeQFunction(const M & model, const QFunction & ir) const;
-
-                /**
-                 * @brief This function applies a single pass Bellman operator, improving the current ValueFunction estimate.
-                 *
-                 * This function computes the optimal value and action for
-                 * each state, given the precomputed QFunction.
-                 *
-                 * @param q The precomputed QFunction.
-                 * @param vOut The newly estimated ValueFunction.
-                 */
-                inline void bellmanOperator(const QFunction & q, ValueFunction * vOut) const;
+                QFunction computeQFunction(const M & model, QFunction ir) const;
         };
 
         template <typename M>
@@ -215,7 +204,7 @@ namespace AIToolbox {
                 val0 = val1;
 
                 q = computeQFunction(model, ir);
-                bellmanOperator(q, &v1_);
+                bellmanOperatorInline(q, &v1_);
 
                 // We do this only if the epsilon specified is positive, otherwise we
                 // continue for all the timesteps.
@@ -240,24 +229,12 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        QFunction ValueIterationGeneral<M>::computeQFunction(const M & model, const QFunction & ir) const {
-            QFunction q = ir;
-
+        QFunction ValueIterationGeneral<M>::computeQFunction(const M & model, QFunction ir) const {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
-                        q(s, a) += model.getTransitionProbability(s,a,s1) * discount_ * std::get<VALUES>(v1_)[s1];
-            return q;
-        }
-
-        template <typename M>
-        void ValueIterationGeneral<M>::bellmanOperator(const QFunction & q, ValueFunction * v) const {
-            assert(v);
-            auto & values  = std::get<VALUES> (*v);
-            auto & actions = std::get<ACTIONS>(*v);
-
-            for ( size_t s = 0; s < S; ++s )
-                values(s) = q.row(s).maxCoeff(&actions[s]);
+                        ir(s, a) += model.getTransitionProbability(s,a,s1) * discount_ * std::get<VALUES>(v1_)[s1];
+            return ir;
         }
 
         template <typename M>
