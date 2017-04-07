@@ -64,12 +64,12 @@ iterate in order to find out what works and what doesn't.
 
 Algorithms:
 
-- [Value Iteration](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node44.html)
+- [Value Iteration](http://incompleteideas.net/sutton/book/ebook/node44.html)
 - [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
-- [Q-Learning](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node65.html)
-- [SARSA](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node64.html)
-- [Dyna-Q](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node96.html)
-- [Prioritized Sweeping](http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node98.html)
+- [Q-Learning](http://incompleteideas.net/sutton/book/ebook/node65.html)
+- [SARSA](http://incompleteideas.net/sutton/book/ebook/node64.html)
+- [Dyna-Q](http://incompleteideas.net/sutton/book/ebook/node96.html)
+- [Prioritized Sweeping](http://incompleteideas.net/sutton/book/ebook/node98.html)
 - [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf)
 
 Policies:
