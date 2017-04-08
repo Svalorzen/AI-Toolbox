@@ -41,7 +41,7 @@
 //  |        |        |        |        |        |
 //  +--------+--------+--------+--------+--------+
 
-inline AIToolbox::MDP::Model makeCornerProblem(const GridWorld & grid) {
+inline AIToolbox::MDP::Model makeCornerProblem(const GridWorld & grid, double stepUncertainty = 0.8) {
     using namespace AIToolbox::MDP;
 
     size_t S = grid.getSizeX() * grid.getSizeY(), A = 4;
@@ -65,8 +65,8 @@ inline AIToolbox::MDP::Model makeCornerProblem(const GridWorld & grid) {
                     // anything
                     if ( s == s1 ) transitions[s][a][s1] = 1.0;
                     else {
-                        transitions[s][a][s1] = 0.8;
-                        transitions[s][a][s] = 0.2;
+                        transitions[s][a][s1] = stepUncertainty;
+                        transitions[s][a][s] = 1.0 - stepUncertainty;
                     }
                     rewards[s][a][s1] = -1.0;
                 }
