@@ -193,16 +193,20 @@ namespace AIToolbox {
             double variation = epsilon_ * 2; // Make it bigger
 
             Values val0;
+            auto & val1 = std::get<VALUES>(v1_);
             QFunction q = makeQFunction(S, A);
 
             const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
                 ++timestep;
 
-                auto & val1 = std::get<VALUES>(v1_);
                 val0 = val1;
 
+                // We apply the discount directly on the values vector.
+                val1 *= model.getDiscount();
                 q = computeQFunction(model, ir);
+
+                // Compute the new value function (note that also val1 is overwritten)
                 bellmanOperatorInline(q, &v1_);
 
                 // We do this only if the epsilon specified is positive, otherwise we
@@ -232,7 +236,7 @@ namespace AIToolbox {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
-                        ir(s, a) += model.getTransitionProbability(s,a,s1) * model.getDiscount() * std::get<VALUES>(v1_)[s1];
+                        ir(s, a) += model.getTransitionProbability(s,a,s1) * std::get<VALUES>(v1_)[s1];
             return ir;
         }
 
