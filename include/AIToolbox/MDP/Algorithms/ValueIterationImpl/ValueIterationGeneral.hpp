@@ -216,7 +216,7 @@ namespace AIToolbox {
             }
 
             // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
-            return std::make_tuple(variation <= epsilon_, v1_, q);
+            return std::make_tuple(variation <= epsilon_, std::move(v1_), std::move(q));
         }
 
         template <typename M>
