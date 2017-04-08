@@ -133,7 +133,7 @@ namespace AIToolbox {
 
             private:
                 // Parameters
-                double discount_, epsilon_;
+                double epsilon_;
                 unsigned horizon_;
                 ValueFunction vParameter_;
 
@@ -173,7 +173,6 @@ namespace AIToolbox {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
             A = model.getA();
-            discount_ = model.getDiscount();
 
             {
                 // Verify that parameter value function is compatible.
@@ -233,7 +232,7 @@ namespace AIToolbox {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
-                        ir(s, a) += model.getTransitionProbability(s,a,s1) * discount_ * std::get<VALUES>(v1_)[s1];
+                        ir(s, a) += model.getTransitionProbability(s,a,s1) * model.getDiscount() * std::get<VALUES>(v1_)[s1];
             return ir;
         }
 
