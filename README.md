@@ -64,6 +64,7 @@ iterate in order to find out what works and what doesn't.
 
 Algorithms:
 
+- [Policy Evaluation](http://incompleteideas.net/sutton/book/ebook/node41.html)
 - [Value Iteration](http://incompleteideas.net/sutton/book/ebook/node44.html)
 - [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
 - [Q-Learning](http://incompleteideas.net/sutton/book/ebook/node65.html)
