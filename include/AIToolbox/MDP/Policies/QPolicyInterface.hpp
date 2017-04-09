@@ -28,23 +28,11 @@ namespace AIToolbox {
                 QPolicyInterface(const QFunction & q);
 
                 /**
-                 * @brief This function chooses an action for state s, following the policy distribution.
+                 * @brief This function returns the underlying QFunction reference.
                  *
-                 * @param s The sampled state of the policy.
-                 *
-                 * @return The chosen action.
+                 * @return The underlying QFunction reference.
                  */
-                virtual size_t sampleAction(const size_t & s) const override = 0;
-
-                /**
-                 * @brief This function returns the probability of taking the specified action in the specified state.
-                 *
-                 * @param s The selected state.
-                 * @param a The selected action.
-                 *
-                 * @return The probability of taking the selected action in the specified state.
-                 */
-                virtual double getActionProbability(const size_t & s, const size_t & a) const override = 0;
+                const QFunction & getQFunction() const;
 
             protected:
                 const QFunction & q_;

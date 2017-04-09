@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_MDP_VALUE_ITERATION_EIGEN_HEADER_FILE
-#define AI_TOOLBOX_MDP_VALUE_ITERATION_EIGEN_HEADER_FILE
+#ifndef AI_TOOLBOX_MDP_POLICY_EVALUATION_HEADER_FILE
+#define AI_TOOLBOX_MDP_POLICY_EVALUATION_HEADER_FILE
 
 #include <tuple>
 #include <iostream>
@@ -8,14 +8,15 @@
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
+#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox {
     namespace MDP {
 
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.
-        template <typename M, typename = typename std::enable_if<is_model_eigen<M>::value>::type>
-        class ValueIterationEigen;
+        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+        class PolicyEvaluation;
 #endif
 
         /**
@@ -34,12 +35,12 @@ namespace AIToolbox {
          * This implementation in particular is ported from the MATLAB
          * MDPToolbox (although it is simplified).
          *
-         * This version of the algorithm is optimized to work with Eigen matrices.
+         * This is the general implementation of the algorithm.
          *
          * @tparam M The type of model that is solved by the algorithm.
          */
         template <typename M>
-        class ValueIterationEigen<M> {
+        class PolicyEvaluation<M> {
             public:
                 /**
                  * @brief Basic constructor.
@@ -61,19 +62,20 @@ namespace AIToolbox {
                  * @param epsilon The epsilon factor to stop the value iteration loop.
                  * @param v The initial value function from which to start the loop.
                  */
-                ValueIterationEigen(unsigned horizon, double epsilon = 0.001, ValueFunction v = ValueFunction(Values(), Actions(0)));
+                PolicyEvaluation(unsigned horizon, double epsilon = 0.001, Values v = Values());
 
                 /**
                  * @brief This function applies value iteration on an MDP to solve it.
                  *
                  * The algorithm is constrained by the currently set parameters.
                  *
+                 * @tparam M The type of the solvable MDP.
                  * @param m The MDP that needs to be solved.
                  * @return A tuple containing a boolean value specifying whether
                  *         the specified epsilon bound was reached and the
-                 *         ValueFunction and the QFunction for the Model.
+                 *         Values and QFunction for the Model and policy.
                  */
-                std::tuple<bool, ValueFunction, QFunction> operator()(const M & m);
+                std::tuple<bool, Values, QFunction> operator()(const M & m, const PolicyInterface & p);
 
                 /**
                  * @brief This function sets the epsilon parameter.
@@ -134,10 +136,10 @@ namespace AIToolbox {
                 // Parameters
                 double epsilon_;
                 unsigned horizon_;
-                ValueFunction vParameter_;
+                Values vParameter_;
 
                 // Internals
-                ValueFunction v1_;
+                Values v1_;
                 size_t S, A;
 
                 /**
@@ -161,30 +163,33 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        ValueIterationEigen<M>::ValueIterationEigen(const unsigned horizon, const double epsilon, const ValueFunction v) :
+        PolicyEvaluation<M>::PolicyEvaluation(unsigned horizon, double epsilon, Values v) :
                 horizon_(horizon), vParameter_(v), S(0), A(0)
         {
             setEpsilon(epsilon);
         }
 
         template <typename M>
-        std::tuple<bool, ValueFunction, QFunction> ValueIterationEigen<M>::operator()(const M & model) {
+        std::tuple<bool, Values, QFunction> PolicyEvaluation<M>::operator()(const M & model, const PolicyInterface & policy) {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
             A = model.getA();
 
             {
                 // Verify that parameter value function is compatible.
-                const size_t size = std::get<VALUES>(vParameter_).size();
+                const size_t size = vParameter_.size();
                 if ( size != S ) {
                     if ( size != 0 )
                         std::cerr << "AIToolbox: Size of starting value function in ValueIteration::solve() is incorrect, ignoring...\n";
                     // Defaulting
-                    v1_ = makeValueFunction(S);
+                    v1_ = Values(S);
+                    v1_.fill(0.0);
                 }
                 else
                     v1_ = vParameter_;
             }
+
+            // auto eigenPolicy = dynamic_cast<PolicyEigenInterface*>(&policy);
 
             const auto ir = computeImmediateRewards(model);
 
@@ -192,26 +197,36 @@ namespace AIToolbox {
             double variation = epsilon_ * 2; // Make it bigger
 
             Values val0;
-            auto & val1 = std::get<VALUES>(v1_);
             QFunction q = makeQFunction(S, A);
 
             const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
                 ++timestep;
 
-                val0 = val1;
+                val0 = v1_;
 
                 // We apply the discount directly on the values vector.
-                val1 *= model.getDiscount();
+                v1_ *= model.getDiscount();
                 q = computeQFunction(model, ir);
 
-                // Compute the new value function (note that also val1 is overwritten)
-                bellmanOperatorInline(q, &v1_);
+                // Compute the values for this policy
+                v1_.fill(0.0);
+                for ( size_t s = 0; s < S; ++s )
+                    for ( size_t a = 0; a < A; ++a )
+                        v1_(s) += q(s, a) * policy.getActionProbability(s, a);
+
+                /* Eigen
+                 *
+                 * no_v1_fill
+                 *
+                 * for ( size_t s = 0; s < S; ++s )
+                 *     v1_ = q.row(s) * policy.getStatePolicy(s);
+                 */
 
                 // We do this only if the epsilon specified is positive, otherwise we
                 // continue for all the timesteps.
                 if ( useEpsilon )
-                    variation = (val1 - val0).cwiseAbs().maxCoeff();
+                    variation = (v1_ - val0).cwiseAbs().maxCoeff();
             }
 
             // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
@@ -219,47 +234,50 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        QFunction ValueIterationEigen<M>::computeImmediateRewards(const M & model) const {
+        QFunction PolicyEvaluation<M>::computeImmediateRewards(const M & model) const {
             QFunction pr = makeQFunction(S, A);
 
-            for ( size_t a = 0; a < A; ++a )
-                pr.col(a).noalias() = model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(S);
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a )
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        pr(s, a) += model.getTransitionProbability(s,a,s1) * model.getExpectedReward(s,a,s1);
 
             return pr;
         }
 
         template <typename M>
-        QFunction ValueIterationEigen<M>::computeQFunction(const M & model, QFunction ir) const {
-            for ( size_t a = 0; a < A; ++a )
-                ir.col(a).noalias() += ( model.getTransitionFunction(a).cwiseProduct(std::get<VALUES>(v1_).replicate(1, S).transpose() )) * Vector::Ones(S);
-
+        QFunction PolicyEvaluation<M>::computeQFunction(const M & model, QFunction ir) const {
+            for ( size_t s = 0; s < S; ++s )
+                for ( size_t a = 0; a < A; ++a )
+                    for ( size_t s1 = 0; s1 < S; ++s1 )
+                        ir(s, a) += model.getTransitionProbability(s,a,s1) * v1_[s1];
             return ir;
         }
 
         template <typename M>
-        void ValueIterationEigen<M>::setEpsilon(const double e) {
+        void PolicyEvaluation<M>::setEpsilon(const double e) {
             if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
             epsilon_ = e;
         }
 
         template <typename M>
-        void ValueIterationEigen<M>::setHorizon(const unsigned h) {
+        void PolicyEvaluation<M>::setHorizon(const unsigned h) {
             horizon_ = h;
         }
 
         template <typename M>
-        void ValueIterationEigen<M>::setValueFunction(ValueFunction v) {
+        void PolicyEvaluation<M>::setValueFunction(ValueFunction v) {
             vParameter_ = std::move(v);
         }
 
         template <typename M>
-        double ValueIterationEigen<M>::getEpsilon()   const { return epsilon_; }
+        double PolicyEvaluation<M>::getEpsilon()   const { return epsilon_; }
 
         template <typename M>
-        unsigned ValueIterationEigen<M>::getHorizon() const { return horizon_; }
+        unsigned PolicyEvaluation<M>::getHorizon() const { return horizon_; }
 
         template <typename M>
-        const ValueFunction & ValueIterationEigen<M>::getValueFunction() const { return vParameter_; }
+        const ValueFunction & PolicyEvaluation<M>::getValueFunction() const { return vParameter_; }
     }
 }
 
