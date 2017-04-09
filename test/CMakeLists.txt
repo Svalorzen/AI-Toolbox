@@ -58,6 +58,7 @@ if (MAKE_MDP)
     AddTestMDP(SparseExperience)
     AddTestMDP(SparseModel)
     AddTestMDP(SparseRLModel)
+    AddTestMDP(PolicyEvaluation)
     AddTestMDP(ValueIteration)
     AddTestMDP(WoLFPolicy)
 
