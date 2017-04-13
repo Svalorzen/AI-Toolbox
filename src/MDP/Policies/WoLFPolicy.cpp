@@ -18,6 +18,7 @@ namespace AIToolbox {
 
             // Update estimate of average policy
             avgstate.noalias() += (1.0/c_[s]) * (actualstate - avgstate);
+            avgstate /= avgstate.sum();
             avgPolicy_.setStatePolicy(s, avgstate);
 
             size_t bestAction; double finalDelta;

@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
     MDP::EpsilonPolicy p(policy);
     MDP::EpsilonPolicy p2(policy2);
 
-    for ( unsigned i = 0; i < 1000000; ++i ) {
+    for ( unsigned i = 0; i < 100000; ++i ) {
         size_t a = p.sampleAction(0);
         size_t b = p2.sampleAction(0);
 
@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
 
         policy.updatePolicy(0);
         policy2.updatePolicy(0);
-        // Some values for which it seems to work.
-        solver.setLearningRate( 0.4 / ( i / 1000000.0 + 1.0 ) );
-        solver2.setLearningRate( 0.4 / ( i / 1000000.0 + 1.0 ) );
     }
 
     BOOST_CHECK(policy.getActionProbability(0,0) < 0.4333);
@@ -71,7 +68,7 @@ BOOST_AUTO_TEST_CASE( matching_pennies ) {
     MDP::EpsilonPolicy p(policy);
     MDP::EpsilonPolicy p2(policy2);
 
-    for ( unsigned i = 0; i < 1000000; ++i ) {
+    for ( unsigned i = 0; i < 100000; ++i ) {
         size_t a = p.sampleAction(0);
         // Self-play, b is opponent
         size_t b = p2.sampleAction(0);
