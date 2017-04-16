@@ -50,12 +50,12 @@ namespace AIToolbox {
                  * be ignored. An empty value function will be defaulted
                  * to all zeroes.
                  *
+                 * @param m The MDP to evaluate a policy for.
                  * @param horizon The maximum number of iterations to perform.
                  * @param epsilon The epsilon factor to stop the value iteration loop.
-                 * @param m The MDP to evaluate a policy for.
                  * @param v The initial value function from which to start the loop.
                  */
-                PolicyEvaluation(unsigned horizon, double epsilon = 0.001, const M & m, Values v = Values());
+                PolicyEvaluation(const M & m, unsigned horizon, double epsilon = 0.001, Values v = Values());
 
                 /**
                  * @brief This function applies policy evaluation on a policy.
@@ -157,19 +157,20 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        PolicyEvaluation<M>::PolicyEvaluation(unsigned horizon, double epsilon, const M & m, Values v) :
+        PolicyEvaluation<M>::PolicyEvaluation(const M & m, unsigned horizon, double epsilon, Values v) :
                 horizon_(horizon), vParameter_(v), model_(m), S(0), A(0)
         {
             setEpsilon(epsilon);
+
+            // Extract necessary knowledge from model so we don't have to pass it around
+            S = model_.getS();
+            A = model_.getA();
+
             immediateRewards_ = computeImmediateRewards(m);
         }
 
         template <typename M>
         std::tuple<bool, Values, QFunction> PolicyEvaluation<M>::operator()(const PolicyInterface & policy) {
-            // Extract necessary knowledge from model so we don't have to pass it around
-            S = model.getS();
-            A = model.getA();
-
             {
                 // Verify that parameter value function is compatible.
                 const size_t size = vParameter_.size();
@@ -198,8 +199,8 @@ namespace AIToolbox {
                 val0 = v1_;
 
                 // We apply the discount directly on the values vector.
-                v1_ *= model.getDiscount();
-                q = computeQFunction(model, immediateRewards_);
+                v1_ *= model_.getDiscount();
+                q = computeQFunction(model_, immediateRewards_);
 
                 // Compute the values for this policy
                 for ( size_t s = 0; s < S; ++s )
