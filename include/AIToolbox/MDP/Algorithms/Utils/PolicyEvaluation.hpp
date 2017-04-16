@@ -20,22 +20,14 @@ namespace AIToolbox {
 #endif
 
         /**
-         * @brief This class applies the value iteration algorithm on a Model.
+         * @brief This class applies the policy evaluation algorithm on a policy.
          *
-         * This algorithm solves an MDP model for the specified horizon, or less
-         * if convergence is encountered.
+         * Policy Evaluation computes the values and QFunction for a particular
+         * policy used on a given Model.
          *
-         * The idea of this algorithm is to iteratively compute the
-         * ValueFunction for the MDP optimal policy. On the first iteration,
-         * the ValueFunction for horizon 1 is obtained. On the second
-         * iteration, the one for horizon 2. This process is repeated until the
-         * ValueFunction has converged within a certain accuracy, or the
-         * horizon requested is reached.
-         *
-         * This implementation in particular is ported from the MATLAB
-         * MDPToolbox (although it is simplified).
-         *
-         * This is the general implementation of the algorithm.
+         * This class is setup so it is easy to reuse on multiple policies
+         * using the same Model, so that no redundant computations have to be
+         * performed.
          *
          * @tparam M The type of model that is solved by the algorithm.
          */
@@ -48,8 +40,8 @@ namespace AIToolbox {
                  * The epsilon parameter must be >= 0.0, otherwise the
                  * constructor will throw an std::runtime_error. The epsilon
                  * parameter sets the convergence criterion. An epsilon of 0.0
-                 * forces ValueIteration to perform a number of iterations
-                 * equal to the horizon specified. Otherwise, ValueIteration
+                 * forces PolicyEvaluation to perform a number of iterations
+                 * equal to the horizon specified. Otherwise, PolicyEvaluation
                  * will stop as soon as the difference between two iterations
                  * is less than the epsilon specified.
                  *
@@ -60,22 +52,22 @@ namespace AIToolbox {
                  *
                  * @param horizon The maximum number of iterations to perform.
                  * @param epsilon The epsilon factor to stop the value iteration loop.
+                 * @param m The MDP to evaluate a policy for.
                  * @param v The initial value function from which to start the loop.
                  */
-                PolicyEvaluation(unsigned horizon, double epsilon = 0.001, Values v = Values());
+                PolicyEvaluation(unsigned horizon, double epsilon = 0.001, const M & m, Values v = Values());
 
                 /**
-                 * @brief This function applies value iteration on an MDP to solve it.
+                 * @brief This function applies policy evaluation on a policy.
                  *
                  * The algorithm is constrained by the currently set parameters.
                  *
-                 * @tparam M The type of the solvable MDP.
-                 * @param m The MDP that needs to be solved.
+                 * @param p The policy to be evaluated.
                  * @return A tuple containing a boolean value specifying whether
                  *         the specified epsilon bound was reached and the
                  *         Values and QFunction for the Model and policy.
                  */
-                std::tuple<bool, Values, QFunction> operator()(const M & m, const PolicyInterface & p);
+                std::tuple<bool, Values, QFunction> operator()(const PolicyInterface & p);
 
                 /**
                  * @brief This function sets the epsilon parameter.
@@ -83,8 +75,8 @@ namespace AIToolbox {
                  * The epsilon parameter must be >= 0.0, otherwise the
                  * constructor will throw an std::runtime_error. The epsilon
                  * parameter sets the convergence criterion. An epsilon of 0.0
-                 * forces ValueIteration to perform a number of iterations
-                 * equal to the horizon specified. Otherwise, ValueIteration
+                 * forces PolicyEvaluation to perform a number of iterations
+                 * equal to the horizon specified. Otherwise, PolicyEvaluation
                  * will stop as soon as the difference between two iterations
                  * is less than the epsilon specified.
                  *
@@ -109,7 +101,7 @@ namespace AIToolbox {
                  *
                  * @param v The new starting value function.
                  */
-                void setValueFunction(ValueFunction v);
+                void setValues(Values v);
 
                 /**
                  * @brief This function will return the currently set epsilon parameter.
@@ -126,19 +118,21 @@ namespace AIToolbox {
                 unsigned getHorizon() const;
 
                 /**
-                 * @brief This function will return the current set default value function.
+                 * @brief This function will return the currently set default values.
                  *
-                 * @return The currently set default value function.
+                 * @return The currently set default values.
                  */
-                const ValueFunction & getValueFunction() const;
+                const Values & getValues() const;
 
             private:
                 // Parameters
                 double epsilon_;
                 unsigned horizon_;
                 Values vParameter_;
+                const M & model_;
 
                 // Internals
+                QFunction immediateRewards_;
                 Values v1_;
                 size_t S, A;
 
@@ -163,14 +157,15 @@ namespace AIToolbox {
         };
 
         template <typename M>
-        PolicyEvaluation<M>::PolicyEvaluation(unsigned horizon, double epsilon, Values v) :
-                horizon_(horizon), vParameter_(v), S(0), A(0)
+        PolicyEvaluation<M>::PolicyEvaluation(unsigned horizon, double epsilon, const M & m, Values v) :
+                horizon_(horizon), vParameter_(v), model_(m), S(0), A(0)
         {
             setEpsilon(epsilon);
+            immediateRewards_ = computeImmediateRewards(m);
         }
 
         template <typename M>
-        std::tuple<bool, Values, QFunction> PolicyEvaluation<M>::operator()(const M & model, const PolicyInterface & policy) {
+        std::tuple<bool, Values, QFunction> PolicyEvaluation<M>::operator()(const PolicyInterface & policy) {
             // Extract necessary knowledge from model so we don't have to pass it around
             S = model.getS();
             A = model.getA();
@@ -180,7 +175,7 @@ namespace AIToolbox {
                 const size_t size = vParameter_.size();
                 if ( size != S ) {
                     if ( size != 0 )
-                        std::cerr << "AIToolbox: Size of starting value function in ValueIteration::solve() is incorrect, ignoring...\n";
+                        std::cerr << "AIToolbox: Size of starting value function in PolicyEvaluation::operator() is incorrect, ignoring...\n";
                     // Defaulting
                     v1_ = Values(S);
                     v1_.fill(0.0);
@@ -188,10 +183,6 @@ namespace AIToolbox {
                 else
                     v1_ = vParameter_;
             }
-
-            // auto eigenPolicy = dynamic_cast<PolicyEigenInterface*>(&policy);
-
-            const auto ir = computeImmediateRewards(model);
 
             unsigned timestep = 0;
             double variation = epsilon_ * 2; // Make it bigger
@@ -208,19 +199,20 @@ namespace AIToolbox {
 
                 // We apply the discount directly on the values vector.
                 v1_ *= model.getDiscount();
-                q = computeQFunction(model, ir);
+                q = computeQFunction(model, immediateRewards_);
 
                 // Compute the values for this policy
                 for ( size_t s = 0; s < S; ++s )
                     v1_(s) = q.row(s) * p.row(s).transpose();
 
-                // We do this only if the epsilon specified is positive, otherwise we
-                // continue for all the timesteps.
+                // We do this only if the epsilon specified is positive,
+                // otherwise we continue for all the timesteps.
                 if ( useEpsilon )
                     variation = (v1_ - val0).cwiseAbs().maxCoeff();
             }
 
-            // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
+            // We do not guarantee that the Value/QFunctions are the perfect
+            // ones, as we stop within epsilon.
             return std::make_tuple(variation <= epsilon_, std::move(v1_), std::move(q));
         }
 
@@ -257,7 +249,7 @@ namespace AIToolbox {
         }
 
         template <typename M>
-        void PolicyEvaluation<M>::setValueFunction(ValueFunction v) {
+        void PolicyEvaluation<M>::setValues(Values v) {
             vParameter_ = std::move(v);
         }
 
@@ -268,7 +260,7 @@ namespace AIToolbox {
         unsigned PolicyEvaluation<M>::getHorizon() const { return horizon_; }
 
         template <typename M>
-        const ValueFunction & PolicyEvaluation<M>::getValueFunction() const { return vParameter_; }
+        const Values & PolicyEvaluation<M>::getValues() const { return vParameter_; }
     }
 }
 
