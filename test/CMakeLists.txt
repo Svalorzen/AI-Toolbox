@@ -61,6 +61,7 @@ if (MAKE_MDP)
     AddTestMDP(PolicyEvaluation)
     AddTestMDP(ValueIteration)
     AddTestMDP(WoLFPolicy)
+    AddTestMDP(QGreedyPolicy)
 
     AddTestFactoredMDP(Utils)
     AddTestFactoredMDP(FactoredContainer)

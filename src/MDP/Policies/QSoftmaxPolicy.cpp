@@ -39,7 +39,7 @@ namespace AIToolbox {
                 }
                 return retval;
             } else {
-                actionValues.normalize();
+                actionValues /= actionValues.sum();
 
                 return sampleProbability(A, actionValues, rand_);
             }

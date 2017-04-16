@@ -57,9 +57,12 @@ namespace AIToolbox {
                         count = 1;
                     }
                 }
-                for ( size_t aa = 1; aa < A; ++aa )
+                for ( size_t aa = 0; aa < A; ++aa ) {
                     if ( checkEqualGeneral(q_(s, aa), max) )
                         retval(s, aa) = 1.0 / count;
+                    else
+                        retval(s, aa) = 0.0;
+                }
             }
 
             return retval;

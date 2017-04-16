@@ -43,8 +43,7 @@ namespace AIToolbox {
         }
 
         void Policy::setStatePolicy(const size_t s, const Vector & p) {
-            auto sum = p.sum();
-            if ( checkDifferentSmall(sum, 1.0) ) throw std::invalid_argument("Setting state policy not summing to 1");
+            if ( checkDifferentSmall(p.sum(), 1.0) ) throw std::invalid_argument("Setting state policy not summing to 1");
 
             policy_.row(s) = p;
         }
