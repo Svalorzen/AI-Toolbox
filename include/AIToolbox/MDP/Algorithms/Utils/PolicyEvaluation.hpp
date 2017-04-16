@@ -198,6 +198,7 @@ namespace AIToolbox {
 
             Values val0;
             QFunction q = makeQFunction(S, A);
+            const auto p = policy.getPolicy();
 
             const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
@@ -210,18 +211,8 @@ namespace AIToolbox {
                 q = computeQFunction(model, ir);
 
                 // Compute the values for this policy
-                v1_.fill(0.0);
                 for ( size_t s = 0; s < S; ++s )
-                    for ( size_t a = 0; a < A; ++a )
-                        v1_(s) += q(s, a) * policy.getActionProbability(s, a);
-
-                /* Eigen
-                 *
-                 * no_v1_fill
-                 *
-                 * for ( size_t s = 0; s < S; ++s )
-                 *     v1_ = q.row(s) * policy.getStatePolicy(s);
-                 */
+                    v1_(s) = q.row(s) * p.row(s).transpose();
 
                 // We do this only if the epsilon specified is positive, otherwise we
                 // continue for all the timesteps.

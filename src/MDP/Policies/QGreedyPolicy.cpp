@@ -4,7 +4,8 @@
 
 namespace AIToolbox {
     namespace MDP {
-        QGreedyPolicy::QGreedyPolicy(const QFunction & q) : QPolicyInterface(q) {}
+        QGreedyPolicy::QGreedyPolicy(const QFunction & q) :
+                PolicyInterface::Base(q.rows(), q.cols()), QPolicyInterface(q) {}
 
         size_t QGreedyPolicy::sampleAction(const size_t & s) const {
             // Automatically sets initial best action as bestAction[0] = 0
@@ -42,6 +43,26 @@ namespace AIToolbox {
             if ( checkDifferentGeneral(q_(s, a), max) ) return 0.0;
 
             return 1.0 / count;
+        }
+
+        Matrix2D QGreedyPolicy::getPolicy() const {
+            Matrix2D retval(S, A);
+
+            for (size_t s = 0; s < S; ++s) {
+                double max = q_(s, 0); unsigned count = 1;
+                for ( size_t aa = 1; aa < A; ++aa ) {
+                    if ( checkEqualGeneral(q_(s, aa), max) ) ++count;
+                    else if ( q_(s, aa) > max ) {
+                        max = q_(s, aa);
+                        count = 1;
+                    }
+                }
+                for ( size_t aa = 1; aa < A; ++aa )
+                    if ( checkEqualGeneral(q_(s, aa), max) )
+                        retval(s, aa) = 1.0 / count;
+            }
+
+            return retval;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace AIToolbox {
          * The type of policy obtained from such sampling is left to the implementation,
          * since there are many ways in which such a policy may be formed.
          */
-        class QPolicyInterface : public PolicyInterface {
+        class QPolicyInterface : public virtual PolicyInterface {
             public:
                 /**
                  * @brief Basic constructor.

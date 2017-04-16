@@ -6,7 +6,7 @@ namespace AIToolbox {
     namespace MDP {
 
         WoLFPolicy::WoLFPolicy(const QFunction & q, const double deltaw, const double deltal, const double scaling) :
-                QPolicyInterface(q), deltaW_(deltaw), deltaL_(deltal),
+                Base(q.rows(), q.cols()), QPolicyInterface(q), deltaW_(deltaw), deltaL_(deltal),
                 scaling_(scaling), c_(S, 0), avgPolicy_(S,A), actualPolicy_(S,A) {}
 
         void WoLFPolicy::updatePolicy(const size_t s) {
@@ -18,7 +18,7 @@ namespace AIToolbox {
 
             // Update estimate of average policy
             avgstate.noalias() += (1.0/c_[s]) * (actualstate - avgstate);
-            avgstate /= avgstate.sum();
+            avgstate.normalize();
             avgPolicy_.setStatePolicy(s, avgstate);
 
             size_t bestAction; double finalDelta;
@@ -55,9 +55,8 @@ namespace AIToolbox {
             auto oldV = actualstate(bestAction);
             actualstate = (actualstate.array() - finalDelta/(A-1)).cwiseMax(0);
             actualstate(bestAction) = std::min(1.0, oldV + finalDelta);
-            actualstate /= actualstate.sum();
+            actualstate.normalize();
 
-            // Policy automatically normalizes this to 1
             actualPolicy_.setStatePolicy(s, actualstate);
         }
 
@@ -67,6 +66,10 @@ namespace AIToolbox {
 
         double WoLFPolicy::getActionProbability(const size_t & s, const size_t & a) const {
             return actualPolicy_.getActionProbability(s,a);
+        }
+
+        Matrix2D WoLFPolicy::getPolicy() const {
+            return actualPolicy_.getPolicy();
         }
 
         void WoLFPolicy::setDeltaW(const double deltaW) {

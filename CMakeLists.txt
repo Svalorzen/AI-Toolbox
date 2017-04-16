@@ -14,7 +14,7 @@ project (AIToolbox)
 # MAKE_EXAMPLES: Builds the library's examples using the compiled core library
 
 add_definitions(
-    -std=c++11 # Or -std=c++0x
+    -std=c++14
     -Wall
     -Wextra
     # Other flags
