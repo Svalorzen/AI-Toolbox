@@ -15,8 +15,8 @@ before_install:
 install:
     - sudo apt-get install -qq libboost-python1.54-dev libboost1.54-dev libboost-test1.54-dev liblpsolve55-dev lp-solve
     - sudo apt-get install -qq --force-yes libeigen3-dev
-    - sudo apt-get install -qq g++-5
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+    - sudo apt-get install -qq g++-6
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
     - if [ "$CC" = "clang" ]; then sudo apt-get install -qq clang-3.4; fi
 script:
   - mkdir build
