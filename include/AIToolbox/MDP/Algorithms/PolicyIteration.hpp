@@ -15,9 +15,31 @@ namespace AIToolbox {
         class PolicyIteration;
 #endif
 
+        /**
+         * @brief This class represents the Policy Iteration algorithm.
+         *
+         * This algorithm begins with an arbitrary policy (random), and uses
+         * the PolicyEvaluation algorithm to find out the Values for each state
+         * of this policy.
+         *
+         * Once this is done, the policy can be improved by using a greedy
+         * approach towards the QFunction found. The new policy is then newly
+         * evaluated, and the process repeated.
+         *
+         * When the policy does not change anymore, it is guaranteed to be
+         * optimal, and the found QFunction is returned.
+         *
+         * @tparam M The model to be solved.
+         */
         template <typename M>
         class PolicyIteration<M> {
             public:
+                /**
+                 * @brief Basic constructor.
+                 *
+                 * @param horizon The horizon parameter to use during the PolicyEvaluation phase.
+                 * @param epsilon The epsilon parameter to use during the PolicyEvaluation phase.
+                 */
                 PolicyIteration(unsigned horizon, double epsilon = 0.001);
 
                 /**
@@ -25,17 +47,31 @@ namespace AIToolbox {
                  *
                  * The algorithm is constrained by the currently set parameters.
                  *
-                 * @tparam M The type of the solvable MDP.
                  * @param m The MDP that needs to be solved.
-                 * @return A tuple containing a boolean value specifying whether
-                 *         the specified epsilon bound was reached and the
-                 *         ValueFunction and QFunction for the Model.
+                 * @return The QFunction of the optimal policy found.
                  */
                 QFunction operator()(const M & m);
 
+                /**
+                 * @brief This function sets the epsilon parameter.
+                 *
+                 * The epsilon parameter must be >= 0 or the function will throw.
+                 */
                 void setEpsilon(double e);
+
+                /**
+                 * @brief This function sets the horizon parameter.
+                 */
                 void setHorizon(unsigned h);
+
+                /**
+                 * @brief This function returns the currently set epsilon parameter.
+                 */
                 double getEpsilon() const;
+
+                /**
+                 * @brief This function returns the currently set horizon parameter.
+                 */
                 unsigned getHorizon() const;
 
             private:
