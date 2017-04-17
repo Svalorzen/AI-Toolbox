@@ -38,8 +38,8 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
                     -1.0, -1.0, -1.0, -1.0,
                     -1.0, -1.0, -1.0,  0.0;
 
-    PolicyEvaluation<Model> ev(1, 0.0);
-    auto solution = ev(model, randomPolicy);
+    PolicyEvaluation<Model> ev(model, 1, 0.0);
+    auto solution = ev(randomPolicy);
     checkSolution(truthHorizon1, std::get<1>(solution));
 
     // NOTE: Here we swap the 1.7s with 1.8 since rounding goes towards even
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
                     -2.0, -2.0, -1.8,  0.0;
 
     ev.setHorizon(2);
-    solution = ev(model, randomPolicy);
+    solution = ev(randomPolicy);
     checkSolution(truthHorizon2, std::get<1>(solution));
 
     Values truthHorizon3(S);
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
                     -3.0, -2.9, -2.4,  0.0;
 
     ev.setHorizon(3);
-    solution = ev(model, randomPolicy);
+    solution = ev(randomPolicy);
     checkSolution(truthHorizon3, std::get<1>(solution));
 
     Values truthHorizon10(S);
@@ -71,6 +71,6 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
                     -9.0, -8.4, -6.1,  0.0;
 
     ev.setHorizon(10);
-    solution = ev(model, randomPolicy);
+    solution = ev(randomPolicy);
     checkSolution(truthHorizon10, std::get<1>(solution));
 }

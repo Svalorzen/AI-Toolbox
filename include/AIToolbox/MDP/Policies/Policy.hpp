@@ -93,23 +93,6 @@ namespace AIToolbox {
                 virtual double getActionProbability(const size_t & s, const size_t & a) const override;
 
                 /**
-                 * @brief This function sets the policy for a particular state.
-                 *
-                 * This function copies correctly sized container into the policy,
-                 * normalizing it so that it sums to 1. If the size of the container
-                 * is incorrect, an std::invalid_argument is thrown.
-                 *
-                 * The container needs to support size() and begin/end iterators.
-                 * The elements of the container must be convertible to double, and the
-                 * results of these conversions MUST BE positive.
-                 *
-                 * @tparam T The type of the input container.
-                 * @param s The state where the policy is being set.
-                 * @param container The input container.
-                 */
-                void setStatePolicy(size_t s, const Vector & container);
-
-                /**
                  * @brief This function returns a copy of a particular slice of the policy.
                  *
                  * @param s The requested state.
@@ -117,6 +100,18 @@ namespace AIToolbox {
                  * @return The probabilities of choosing each action in state s.
                  */
                 Vector getStatePolicy(size_t s) const;
+
+                /**
+                 * @brief This function sets the policy for a particular state.
+                 *
+                 * This function copies a correctly sized Vector into the
+                 * policy. It does NOT normalize it, and will throw an
+                 * exception if it does not sum to 1.0 (or close enough).
+                 *
+                 * @param s The state where the policy is being set.
+                 * @param container The vector containing the new policy values.
+                 */
+                void setStatePolicy(size_t s, const Vector & container);
 
                 /**
                  * @brief This function sets the policy for a particular state.
@@ -136,6 +131,13 @@ namespace AIToolbox {
                  * @return A constant reference to the internal policy.
                  */
                 const PolicyTable & getPolicyTable() const;
+
+                /**
+                 * @brief This function returns a matrix containing all probabilities of the policy.
+                 *
+                 * This is simply a copy of the internal policy.
+                 */
+                virtual Matrix2D getPolicy() const override;
 
             private:
                 PolicyTable policy_;

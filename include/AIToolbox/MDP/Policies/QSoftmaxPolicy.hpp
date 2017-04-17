@@ -63,6 +63,19 @@ namespace AIToolbox {
                 virtual double getActionProbability(const size_t & s, const size_t & a) const override;
 
                 /**
+                 * @brief This function returns a matrix containing all probabilities of the policy.
+                 *
+                 * Note that this may be expensive to compute, and should not
+                 * be called often (aside from the fact that it needs to
+                 * allocate a new Matrix2D each time).
+                 *
+                 * Ideally this function can be called only when there is a
+                 * repeated need to access the same policy values in an
+                 * efficient manner.
+                 */
+                virtual Matrix2D getPolicy() const override;
+
+                /**
                  * @brief This function sets the temperature parameter.
                  *
                  * The temperature parameter determines the amount of

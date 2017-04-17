@@ -5,7 +5,7 @@
 namespace AIToolbox {
     namespace FactoredMDP {
         EpsilonPolicy::EpsilonPolicy(const Base::Base & p, double epsilon) :
-                Base(p, epsilon)
+                Base::Base(p.getS(), p.getA()), Base(p, epsilon)
         {
             randomDistribution_.reserve(getA().size());
             for (size_t i = 0; i < getA().size(); ++i)

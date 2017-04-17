@@ -25,7 +25,7 @@ namespace AIToolbox {
      * @tparam Action This defines the type that is used to handle actions.
      */
     template <typename State, typename Sampling, typename Action>
-    class EpsilonPolicyInterface : public PolicyInterface<State, Sampling, Action> {
+    class EpsilonPolicyInterface : public virtual PolicyInterface<State, Sampling, Action> {
         public:
             using Base = PolicyInterface<State, Sampling, Action>;
             /**
@@ -118,7 +118,7 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     EpsilonPolicyInterface<State, Sampling, Action>::EpsilonPolicyInterface(const Base & p, const double e) :
-            Base(p.getS(), p.getA()), policy_(p), epsilon_(e),
+            policy_(p), epsilon_(e),
             sampleDistribution_(0.0, 1.0)
     {
         if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");

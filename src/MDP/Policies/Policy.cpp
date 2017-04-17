@@ -8,14 +8,14 @@
 namespace AIToolbox {
     namespace MDP {
         Policy::Policy(const size_t s, const size_t a) :
-                PolicyInterface(s, a), policy_(S, A)
+                PolicyInterface::Base(s, a), policy_(S, A)
         {
             // Random policy is default
             policy_.fill(1.0/getA());
         }
 
         Policy::Policy(const PolicyInterface & p) :
-                PolicyInterface(p.getS(), p.getA()), policy_(S, A)
+                PolicyInterface::Base(p.getS(), p.getA()), policy_(S, A)
         {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
@@ -23,7 +23,7 @@ namespace AIToolbox {
         }
 
         Policy::Policy(const size_t s, const size_t a, const ValueFunction & v) :
-                PolicyInterface(s, a), policy_(S, A)
+                PolicyInterface::Base(s, a), policy_(S, A)
         {
             const auto & actions = std::get<ACTIONS>(v);
             for ( size_t s = 0; s < S; ++s )
@@ -43,10 +43,9 @@ namespace AIToolbox {
         }
 
         void Policy::setStatePolicy(const size_t s, const Vector & p) {
-            auto sum = p.sum();
-            if ( checkDifferentSmall(sum, 1.0) ) throw std::invalid_argument("Setting state policy not summing to 1");
+            if ( checkDifferentSmall(p.sum(), 1.0) ) throw std::invalid_argument("Setting state policy not summing to 1");
 
-            policy_.col(s) /= sum;
+            policy_.row(s) = p;
         }
 
         void Policy::setStatePolicy(const size_t s, const size_t a) {
@@ -55,6 +54,10 @@ namespace AIToolbox {
         }
 
         const Policy::PolicyTable & Policy::getPolicyTable() const {
+            return policy_;
+        }
+
+        Matrix2D Policy::getPolicy() const {
             return policy_;
         }
     }

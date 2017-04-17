@@ -1,13 +1,14 @@
 #ifndef AI_TOOLBOX_MDP_EPSILON_POLICY_HEADER_FILE
 #define AI_TOOLBOX_MDP_EPSILON_POLICY_HEADER_FILE
 
+#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 #include <AIToolbox/EpsilonPolicyInterface.hpp>
 
 namespace AIToolbox {
     namespace MDP {
-        class EpsilonPolicy : public EpsilonPolicyInterface<size_t, size_t, size_t> {
+        class EpsilonPolicy : public PolicyInterface, public EpsilonPolicyInterface<size_t, size_t, size_t> {
             public:
-                using Base = EpsilonPolicyInterface<size_t, size_t, size_t>;
+                using EpsilonBase = EpsilonPolicyInterface<size_t, size_t, size_t>;
 
                 /**
                  * @brief Basic constructor.
@@ -21,7 +22,20 @@ namespace AIToolbox {
                  * @param p The policy that is being extended.
                  * @param epsilon The parameter that controls the amount of exploration.
                  */
-                EpsilonPolicy(const Base::Base & p, double epsilon = 0.9);
+                EpsilonPolicy(const PolicyInterface & p, double epsilon = 0.9);
+
+                /**
+                 * @brief This function returns a matrix containing all probabilities of the policy.
+                 *
+                 * Note that this may be expensive to compute, and should not
+                 * be called often (aside from the fact that it needs to
+                 * allocate a new Matrix2D each time).
+                 *
+                 * Ideally this function can be called only when there is a
+                 * repeated need to access the same policy values in an
+                 * efficient manner.
+                 */
+                virtual Matrix2D getPolicy() const override;
 
             protected:
                 /**

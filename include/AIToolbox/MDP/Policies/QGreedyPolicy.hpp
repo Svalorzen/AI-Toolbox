@@ -23,6 +23,9 @@ namespace AIToolbox {
                 /**
                  * @brief This function chooses the greediest action for state s.
                  *
+                 * If multiple actions would be equally as greedy, a random one
+                 * is returned.
+                 *
                  * @param s The sampled state of the policy.
                  *
                  * @return The chosen action.
@@ -32,12 +35,30 @@ namespace AIToolbox {
                 /**
                  * @brief This function returns the probability of taking the specified action in the specified state.
                  *
+                 * If multiple greedy actions exist, this function returns the
+                 * correct probability of picking each one, since we return a
+                 * random one with sampleAction().
+                 *
                  * @param s The selected state.
                  * @param a The selected action.
                  *
-                 * @return This function returns 1 if a is equal to the greediest action, and 0 otherwise.
+                 * @return This function returns 0 if the action is not greedy, and 1/the number of greedy actions otherwise.
                  */
                 virtual double getActionProbability(const size_t & s, const size_t & a) const override;
+
+                /**
+                 * @brief This function returns a matrix containing all probabilities of the policy.
+                 *
+                 * Computing this function is approximately a bit more
+                 * efficient than calling repeatedly the getActionProbability()
+                 * function over and over, since it does not need to find out
+                 * the maxima of the underlying QFunction over and over.
+                 *
+                 * Ideally this function can be called only when there is a
+                 * repeated need to access the same policy values in an
+                 * efficient manner.
+                 */
+                virtual Matrix2D getPolicy() const override;
         };
     }
 }

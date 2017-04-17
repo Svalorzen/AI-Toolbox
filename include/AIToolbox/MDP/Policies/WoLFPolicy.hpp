@@ -71,6 +71,15 @@ namespace AIToolbox {
                 virtual double getActionProbability(const size_t & s, const size_t & a) const override;
 
                 /**
+                 * @brief This function returns a matrix containing all probabilities of the policy.
+                 *
+                 * Ideally this function can be called only when there is a
+                 * repeated need to access the same policy values in an
+                 * efficient manner.
+                 */
+                virtual Matrix2D getPolicy() const override;
+
+                /**
                  * @brief This function sets the new learning rate if winning.
                  *
                  * This is the amount that the policy is modified when the updatePolicy() function is called

@@ -65,6 +65,7 @@ iterate in order to find out what works and what doesn't.
 Algorithms:
 
 - [Policy Evaluation](http://incompleteideas.net/sutton/book/ebook/node41.html)
+- [Policy Iteration](http://incompleteideas.net/sutton/book/ebook/node43.html)
 - [Value Iteration](http://incompleteideas.net/sutton/book/ebook/node44.html)
 - [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
 - [Q-Learning](http://incompleteideas.net/sutton/book/ebook/node65.html)
@@ -126,9 +127,10 @@ To build the library you need:
 - the [boost library](http://www.boost.org/) >= 1.53
 - the [Eigen 3.3 library](http://eigen.tuxfamily.org/index.php?title=Main_Page).
 
-In addition, full C++11 support is required (note: **g++ 4.8 will not work as it
+In addition, full C++14 support is required (note: **g++ 4.8 will not work as it
 has a bug which prevents it from successfully compiling the library, 4.9 will
-compile everything but the examples, 5.0 works for all**).
+compile everything but the examples, 5.0 works for all**). Note that C++17 will
+probably be required in the future.
 
 If you want to build the POMDP part of the library you will also need:
 
