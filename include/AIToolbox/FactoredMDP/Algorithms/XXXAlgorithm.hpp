@@ -16,7 +16,7 @@ namespace AIToolbox {
                  * reach their goal. This is converted in a simple Q-Table
                  * containing the learned averages for those groups.
                  *
-                 * Note: each groups must be unique! Not only duplicates are
+                 * Note: each group must be unique! Not only duplicates are
                  * ignored here, but this must also be taken into consideration
                  * when producing the rewards. Duplicate factors' rewards must
                  * be summed together before reporting them to this class.
@@ -40,6 +40,18 @@ namespace AIToolbox {
                  * @return The new optimal action to be taken at the next timestep.
                  */
                 Action stepUpdateQ(const Action & a, const Rewards & rew);
+
+                /**
+                 * @brief This function returns the currently learned policy in the form of QFunctionRules.
+                 *
+                 * These rules skip the exploration part, to allow the creation
+                 * of a greedy policy greedily with respect to the learned
+                 * QFunction (since otherwise this algorithm would forever
+                 * explore).
+                 *
+                 * @return The learned QFunctionRules.
+                 */
+                std::vector<QFunctionRule> toRules() const;
 
                 /**
                  * @brief This function returns the currently set internal timestep.
@@ -71,8 +83,8 @@ namespace AIToolbox {
                  */
                 struct Factor {
                     struct Average {
-                        double value;
-                        unsigned count;
+                        double value = 0.0;
+                        unsigned count = 0;
                     };
                     /**
                      * @brief The Q-Table for this factor's agents.

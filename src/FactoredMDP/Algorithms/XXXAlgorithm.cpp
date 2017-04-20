@@ -7,8 +7,8 @@
 
 namespace AIToolbox {
     namespace FactoredMDP {
-        XXXAlgorithm::XXXAlgorithm(Action a, const std::vector<std::pair<double, std::vector<size_t>>> & dependenciesAndRanges) :
-                A(a), timestep_(0),
+        XXXAlgorithm::XXXAlgorithm(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & dependenciesAndRanges) :
+                A(std::move(aa)), timestep_(0),
                 graph_(A.size()), logA_(0.0)
         {
             // Compute log(|A|) without needing to compute |A| which may be too
@@ -27,11 +27,6 @@ namespace AIToolbox {
 
                 it->getData().rangeSquared = dependency.first * dependency.first;
                 it->getData().averages.resize(factorSpacePartial(dependency.second, A));
-                // We initialize all counts to 1 to avoid infinities. This
-                // helps at the start to explore actions in a more efficient
-                // manner.
-                for (auto & avg : it->getData().averages)
-                    avg.count = 1;
 
                 // std::cout << "rsq: " << it->getData().rangeSquared <<
                 //              " -- size: " << it->getData().averages.size() << '\n';
@@ -83,12 +78,17 @@ namespace AIToolbox {
                     const auto & pAction = *enumerator;
                     // Get the average structure for this action
                     const auto & avg = it->getData().averages[toIndexPartial(A, pAction)];
+                    // If the count is zero, we set it to a small number.
+                    // This has the advantage that exploration actions won't
+                    // become infinities, which helps us explore more
+                    // efficiently at the beginning.
+                    const double count = avg.count ? avg.count : 0.00001;
                     // Create new vector
                     ucveVectors.emplace_back(
                         pAction,
                         UCVE::V{
                             avg.value,
-                            it->getData().rangeSquared / avg.count
+                            it->getData().rangeSquared / count
                         }
                     );
                     enumerator.advance();
@@ -105,7 +105,7 @@ namespace AIToolbox {
             // Update the timestep, and finish computing log(t |A|) for this
             // timestep.
             ++timestep_;
-            auto logtA = logA_ + std::log(timestep_);
+            const auto logtA = logA_ + std::log(timestep_);
 
             // std::cout << logtA << "\n";
 
@@ -124,9 +124,30 @@ namespace AIToolbox {
             return toFactors(A.size(), std::get<0>(a_v));
         }
 
+        std::vector<QFunctionRule> XXXAlgorithm::toRules() const {
+            std::vector<QFunctionRule> retval;
+
+            const auto begin = graph_.factorsBegin();
+            const auto end   = graph_.factorsEnd();
+            for (auto it = begin; it != end; ++it) {
+                const auto & agents = graph_.getNeighbors(it);
+
+                PartialFactorsEnumerator enumerator(A, agents);
+                while (enumerator.isValid()) {
+                    const auto & pAction = *enumerator;
+                    // Get the average structure for this action
+                    const auto & avg = it->getData().averages[toIndexPartial(A, pAction)];
+
+                    // Create new vector
+                    retval.emplace_back(PartialState{}, pAction, avg.value);
+
+                    enumerator.advance();
+                }
+            }
+            return retval;
+        }
+
         unsigned XXXAlgorithm::getTimestep() const { return timestep_; }
         void XXXAlgorithm::setTimestep(unsigned t) { timestep_ = t; }
-
-        // TODO: Convert vectors to QFunctionRules (skipping exploration) to allow using other policies.
     }
 }

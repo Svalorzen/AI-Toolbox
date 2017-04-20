@@ -81,7 +81,7 @@ namespace AIToolbox {
         UCVE::Rules mergePayoffs(UCVE::Rules && lhs, UCVE::Rules && rhs);
 
         // We half the logtA since we always need to multiply it with 1/2 anyway.
-        UCVE::UCVE(Action a, double logtA) : A(a), graph_(A.size()), logtA_(logtA * 0.5) {}
+        UCVE::UCVE(Action a, double logtA) : A(std::move(a)), graph_(A.size()), logtA_(logtA * 0.5) {}
 
         void printPartialAction(const PartialAction & pa) {
             for (size_t i = 0; i < pa.first.size(); ++i) {
