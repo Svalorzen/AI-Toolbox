@@ -64,7 +64,7 @@ namespace AIToolbox {
 
         // -----------------------
 
-        MOVE::MultiObjectiveVariableElimination(Action a) : graph_(a.size()), A(a) {}
+        MOVE::MultiObjectiveVariableElimination(Action a) : A(std::move(a)), graph_(A.size()) {}
 
         MOVE::Results MOVE::start() {
             // This can possibly be improved with some heuristic ordering

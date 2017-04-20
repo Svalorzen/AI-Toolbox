@@ -7,7 +7,7 @@
 namespace AIToolbox {
     namespace FactoredMDP {
         SparseCooperativeQLearning::SparseCooperativeQLearning(State s, Action a, double discount, double alpha) :
-                S(s), A(a), discount_(discount), alpha_(alpha), rules_(join(S, A)) {}
+                S(std::move(s)), A(std::move(a)), discount_(discount), alpha_(alpha), rules_(join(S, A)) {}
 
         void SparseCooperativeQLearning::reserveRules(size_t s) {
             rules_.reserve(s);

@@ -6,7 +6,7 @@
 namespace AIToolbox {
     namespace FactoredMDP {
         QGreedyPolicy::QGreedyPolicy(State s, Action a, const FactoredContainer<QFunctionRule> & q) :
-                Base(s, a), q_(q) {}
+                Base(std::move(s), std::move(a)), q_(q) {}
 
         Action QGreedyPolicy::sampleAction(const State & s) const {
             VariableElimination ve(A);

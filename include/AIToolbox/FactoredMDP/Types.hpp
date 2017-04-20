@@ -82,6 +82,9 @@ namespace AIToolbox {
             PartialState s_;
             PartialAction a_;
             double value_;
+
+            QFunctionRule(PartialState s, PartialAction a, double v) :
+                    s_(std::move(s)), a_(std::move(a)), value_(v) {}
         };
 
         /**
@@ -95,6 +98,9 @@ namespace AIToolbox {
             PartialState s_;
             PartialAction a_;
             Rewards values_;
+
+            MOQFunctionRule(PartialState s, PartialAction a, Rewards vs) :
+                    s_(std::move(s)), a_(std::move(a)), values_(std::move(vs)) {}
         };
     }
 }

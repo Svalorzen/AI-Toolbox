@@ -171,23 +171,22 @@ namespace AIToolbox {
 
         // PartialFactorsEnumerator below.
 
-        PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors) :
-            F(f), factorToSkipId_(factors.size())
+        PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, std::vector<size_t> factors) :
+            F(std::move(f)), factorToSkipId_(factors.size())
         {
-            factors_.first = factors;
-            factors_.second.resize(factors.size());
+            factors_.first = std::move(factors);
+            factors_.second.resize(factors_.first.size());
         }
 
-        PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors, size_t factorToSkip) :
-            F(f), factorToSkipId_(factors.size())
+        PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, std::vector<size_t> factors, size_t factorToSkip) :
+            PartialFactorsEnumerator(std::move(f), std::move(factors))
         {
-            factors_.first.reserve(factors.size());
-            factors_.second.resize(factors.size());
             // Set all used agents and find the skip id.
-            for (size_t i = 0; i < factors.size(); ++i) {
-                factors_.first.push_back(factors[i]);
-                if (factorToSkip == factors[i])
+            for (size_t i = 0; i < factors_.first.size(); ++i) {
+                if (factorToSkip == factors_.first[i]) {
                     factorToSkipId_ = i;
+                    break;
+                }
             }
         }
 

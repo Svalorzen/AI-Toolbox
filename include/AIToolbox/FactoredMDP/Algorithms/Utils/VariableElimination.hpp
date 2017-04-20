@@ -114,8 +114,8 @@ namespace AIToolbox {
                  */
                 void removeAgent(size_t agent);
 
-                Graph graph_;
                 Action A;
+                Graph graph_;
                 std::vector<Rules> finalFactors_;
         };
     }

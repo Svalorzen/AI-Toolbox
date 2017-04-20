@@ -5,7 +5,7 @@
 namespace AIToolbox {
     namespace FactoredMDP {
         SingleActionPolicy::SingleActionPolicy(State s, Action a) :
-                Base(s, a), currentAction_(A.size()) {}
+                Base(std::move(s), std::move(a)), currentAction_(A.size()) {}
 
         Action SingleActionPolicy::sampleAction(const State &) const {
             return currentAction_;

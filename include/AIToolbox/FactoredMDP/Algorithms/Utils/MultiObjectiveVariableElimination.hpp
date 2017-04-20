@@ -139,8 +139,8 @@ namespace AIToolbox {
                  */
                 static bool ruleComp(const Rule & lhs, const Rule & rhs);
 
-                Graph graph_;
                 Action A;
+                Graph graph_;
                 std::vector<Entries> finalFactors_;
         };
     }

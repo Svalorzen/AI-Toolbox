@@ -160,7 +160,7 @@ namespace AIToolbox {
                  *
                  * @param f The desired factor space.
                  */
-                FactoredContainer(Factors f) : ids_(f) {}
+                FactoredContainer(Factors f) : ids_(std::move(f)) {}
 
                 /**
                  * @brief This function returns the set factor space for the FactoredContainer.
@@ -305,7 +305,7 @@ namespace AIToolbox {
                  * @param ids The ids to iterate over.
                  * @param items The items
                  */
-                FactoredIterable(std::vector<size_t> ids, Container & items) : ids_(ids), items_(items) {}
+                FactoredIterable(std::vector<size_t> ids, Container & items) : ids_(std::move(ids)), items_(items) {}
 
                 /**
                  * @brief This function returns an iterator to the beginning of this filtered range.

@@ -85,7 +85,7 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     PolicyInterface<State, Sampling, Action>::PolicyInterface(State s, Action a) :
-            S(s), A(a), rand_(Impl::Seeder::getSeed()) {}
+            S(std::move(s)), A(std::move(a)), rand_(Impl::Seeder::getSeed()) {}
 
     template <typename State, typename Sampling, typename Action>
     PolicyInterface<State, Sampling, Action>::~PolicyInterface() {}

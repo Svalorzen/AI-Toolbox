@@ -27,7 +27,7 @@ namespace AIToolbox {
          */
         double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags = nullptr);
 
-        VE::VariableElimination(Action a) : graph_(a.size()), A(a) {}
+        VE::VariableElimination(Action a) : A(std::move(a)), graph_(A.size()) {}
 
         VE::Result VE::start() {
             // This can possibly be improved with some heuristic ordering

@@ -136,7 +136,7 @@ namespace AIToolbox {
             }
         }
 
-        Trie::Trie(Factors f) : F(f), counter_(0) {
+        Trie::Trie(Factors f) : F(std::move(f)), counter_(0) {
             if ( F.size() < 2 ) throw std::invalid_argument("Factors must have at least 2 elements!");
 
             partials_.resize(F.size());

@@ -187,13 +187,18 @@ namespace AIToolbox {
                 /**
                  * @brief This function provides an editable iterator to the beginning of the internal factor list.
                  *
-                 * Note that for const access one might as well use the getFactors() function.
-                 *
                  * This function is used in order to allow editing of all the factors.
                  *
                  * @return An iterator to the beginning of the internal factor range.
                  */
                 FactorIt factorsBegin();
+
+                /**
+                 * @brief This function provides a const iterator to the beginning of the internal factor list.
+                 *
+                 * @return A const iterator to the beginning of the internal factor range.
+                 */
+                CFactorIt factorsBegin() const;
 
                 /**
                  * @brief This function provides an editable interactor to the end of the internal factor list.
@@ -203,6 +208,15 @@ namespace AIToolbox {
                  * @return An iterator to the end of the internal factor range.
                  */
                 FactorIt factorsEnd();
+
+                /**
+                 * @brief This function provides a const interactor to the end of the internal factor list.
+                 *
+                 * \sa factorsBegin() const
+                 *
+                 * @return A const iterator to the end of the internal factor range.
+                 */
+                CFactorIt factorsEnd() const;
 
             private:
                 FactorList factorAdjacencies_;
@@ -287,6 +301,10 @@ namespace AIToolbox {
         typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::factorsBegin() { return std::begin(factorAdjacencies_); }
         template <typename Factor>
         typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::factorsEnd() { return std::end(factorAdjacencies_); }
+        template <typename Factor>
+        typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::factorsBegin() const { return std::begin(factorAdjacencies_); }
+        template <typename Factor>
+        typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::factorsEnd() const { return std::end(factorAdjacencies_); }
     }
 }
 
