@@ -6,6 +6,46 @@ void exportMDPPolicy() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
+    struct PolicyPickle : boost::python::pickle_suite {
+        static boost::python::tuple getinitargs(const Policy& p) {
+            return make_tuple(p.getS(), p.getA());
+        }
+
+        static boost::python::tuple getstate(const Policy& p) {
+            return make_tuple(p.getPolicy());
+        }
+
+        static void setstate(Policy& p, boost::python::tuple state) {
+            if (len(state) != 1) {
+                PyErr_SetObject(PyExc_ValueError,
+                    ("expected 1-item tuple in call to __setstate__; got %s" % state).ptr()
+                );
+                throw_error_already_set();
+            }
+
+            AIToolbox::Matrix2D table = extract<AIToolbox::Matrix2D>(state[0]);
+            if (static_cast<size_t>(table.rows()) != p.getS() ||
+                static_cast<size_t>(table.cols()) != p.getA())
+            {
+                PyErr_SetObject(PyExc_ValueError,
+                    ("state obtained in __setstate__ cannot be applied to this object; got %s" % state).ptr()
+                );
+                throw_error_already_set();
+            }
+
+            for (size_t s = 0; s < p.getS(); ++s) {
+                try {
+                    p.setStatePolicy(s, table.row(s));
+                } catch (const std::invalid_argument &) {
+                    PyErr_SetObject(PyExc_ValueError,
+                        ("state obtained in __setstate__ does not represent a correct policy; got %s" % state).ptr()
+                    );
+                    throw_error_already_set();
+                }
+            }
+        }
+    };
+
     class_<Policy, bases<PolicyInterface>>{"Policy",
 
          "This class represents an MDP Policy.\n"
@@ -21,6 +61,20 @@ void exportMDPPolicy() {
          "mostly when it is known that the final solution won't change again.\n"
          "Otherwise you may want to build a wrapper around some data to\n"
          "extract the policy dynamically.", no_init}
+
+        .def(init<size_t, size_t>(
+                 "Basic constructor.\n"
+                 "\n"
+                 "This constructor initializes the internal policy table so that\n"
+                 "each action in each state has the same probability of being\n"
+                 "chosen (random policy). This class guarantees that at any point\n"
+                 "the internal policy is a true probability distribution, i.e.\n"
+                 "for each state the sum of the probabilities of choosing an action\n"
+                 "sums up to 1.\n"
+                 "\n"
+                 "@param s The number of states of the world.\n"
+                 "@param a The number of actions available to the agent."
+        , (arg("self"), "s", "a")))
 
         .def(init<const PolicyInterface &>(
                  "Basic constructor.\n"
@@ -54,7 +108,9 @@ void exportMDPPolicy() {
                  "This function enables inspection of the internal policy.\n"
                  "\n"
                  "@return A constant reference to the internal policy."
-        , (arg("self")));
+        , (arg("self")))
+
+        .def_pickle(PolicyPickle());
 }
 
 
