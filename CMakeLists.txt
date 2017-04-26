@@ -17,8 +17,20 @@ add_definitions(
     -std=c++14
     -Wall
     -Wextra
-    # Other flags
 )
+
+# Optional compiler options
+if     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # using Clang
+    add_definitions( -lto )
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"  )
+    # using GCC
+    add_definitions( -lto )
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+    # using Intel C++
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" )
+    # using Visual Studio C++
+endif()
 
 # Set default cmake build type to release
 if(NOT CMAKE_BUILD_TYPE)
