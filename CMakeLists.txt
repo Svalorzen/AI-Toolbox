@@ -13,24 +13,21 @@ project (AIToolbox)
 # MAKE_TESTS:    Builds the library's tests for the compiled core library
 # MAKE_EXAMPLES: Builds the library's examples using the compiled core library
 
-add_definitions(
-    -std=c++14
-    -Wall
-    -Wextra
-)
+##############################
+##  CMake helper functions  ##
+##############################
 
-# Optional compiler options
-if     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # using Clang
-    add_definitions( -lto )
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"  )
-    # using GCC
-    add_definitions( -lto )
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-    # using Intel C++
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" )
-    # using Visual Studio C++
-endif()
+include(CheckCXXCompilerFlag)
+
+function(append value)
+    foreach(variable ${ARGN})
+        set(${variable} "${${variable}} ${value}" PARENT_SCOPE)
+    endforeach(variable)
+endfunction()
+
+##############################
+## Compiler/Linker Settings ##
+##############################
 
 # Set default cmake build type to release
 if(NOT CMAKE_BUILD_TYPE)
@@ -39,6 +36,66 @@ if(NOT CMAKE_BUILD_TYPE)
           Debug Release RelWithDebInfo MinSizeRel."
       FORCE)
 endif()
+
+add_definitions(
+    -std=c++14
+    -Wall
+    -Wextra
+)
+
+# Do release linker and option optimizations
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+    # Use ld.gold if it is available and isn't disabled explicitly
+    option(USE_LD_GOLD "Use GNU gold linker" ON)
+    if (USE_LD_GOLD)
+        check_cxx_compiler_flag("-fuse-ld=gold" GOLD_IS_AVAILABLE)
+        if (NOT GOLD_IS_AVAILABLE)
+            message(WARNING "GNU gold linker isn't available, using the default system linker.")
+        endif ()
+    endif ()
+
+    # Per-compiler type optional options
+    if     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        # using Clang
+
+        if (GOLD_IS_AVAILABLE)
+            APPEND("-fuse-ld=gold" CMAKE_EXE_LINKER_FLAGS
+            CMAKE_MODULE_LINKER_FLAGS CMAKE_SHARED_LINKER_FLAGS)
+
+            # Cannot enable lto in Clang since it explodes - it needs a gold version
+            # which supports plugins, and we'd have to check for that. AND it should
+            # have the clang-gold plugin available for use anyway.
+            #
+            # add_definitions( -flto )
+        endif()
+
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"  )
+        # using GCC
+
+        # Add link time optimizations
+        add_definitions( -flto )
+        append("-flto" CMAKE_EXE_LINKER_FLAGS CMAKE
+            CMAKE_MODULE_LINKER_FLAGS CMAKE_SHARED_LINKER_FLAGS)
+        # Use gcc-ar so that we can optimize the static libraries
+        set(CMAKE_AR "gcc-ar")
+        set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> qcs <TARGET> <LINK_FLAGS> <OBJECTS>")
+        set(CMAKE_CXX_ARCHIVE_FINISH true)
+        # Try to use gold as it is faster if possible
+        if (GOLD_IS_AVAILABLE)
+            append("-fuse-ld=gold" CMAKE_EXE_LINKER_FLAGS
+            CMAKE_MODULE_LINKER_FLAGS CMAKE_SHARED_LINKER_FLAGS)
+        endif()
+
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+        # using Intel C++
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" )
+        # using Visual Studio C++
+    endif()
+endif()
+
+##############################
+##     Project Settings     ##
+##############################
 
 # Default is to build everything
 IF (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_POMDP)
@@ -57,6 +114,7 @@ elseif (MAKE_LIB)
 elseif (MAKE_POMDP)
     set(MAKE_MDP        1)
 endif()
+
 
 # For additional Find library scripts
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
