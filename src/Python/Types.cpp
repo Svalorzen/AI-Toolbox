@@ -37,7 +37,7 @@ struct VectorPickle : boost::python::pickle_suite {
     static boost::python::tuple getstate(const AIToolbox::Vector& v) {
         using namespace boost::python;
         boost::python::list l;
-        for (size_t i = 0; i < v.size(); ++i)
+        for (size_t i = 0; i < static_cast<size_t>(v.size()); ++i)
             l.append(v[i]);
         return make_tuple(l);
     }
@@ -57,7 +57,7 @@ struct VectorPickle : boost::python::pickle_suite {
             throw_error_already_set();
         }
 
-        for (size_t i = 0; i < v.size(); ++i)
+        for (size_t i = 0; i < static_cast<size_t>(v.size()); ++i)
             v[i] = extract<double>(state[0][i]);
     }
 };
@@ -71,9 +71,9 @@ struct Matrix2DPickle : boost::python::pickle_suite {
     static boost::python::tuple getstate(const AIToolbox::Matrix2D& m) {
         using namespace boost::python;
         boost::python::list rows;
-        for (size_t i = 0; i < m.rows(); ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(m.rows()); ++i) {
             boost::python::list row;
-            for (size_t j = 0; j < m.cols(); ++j)
+            for (size_t j = 0; j < static_cast<size_t>(m.cols()); ++j)
                 row.append(m(i, j));
             rows.append(row);
         }
@@ -95,14 +95,14 @@ struct Matrix2DPickle : boost::python::pickle_suite {
             throw_error_already_set();
         }
 
-        for (size_t i = 0; i < m.rows(); ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(m.rows()); ++i) {
             if (m.cols() != len(state[0][i])) {
                 PyErr_SetObject(PyExc_ValueError,
                     ("state obtained in __setstate__ cannot be applied to this object; got %s" % state).ptr()
                 );
                 throw_error_already_set();
             }
-            for (size_t j = 0; j < m.cols(); ++j)
+            for (size_t j = 0; j < static_cast<size_t>(m.cols()); ++j)
                 m(i, j) = extract<double>(state[0][i][j]);
         }
     }

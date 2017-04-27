@@ -43,14 +43,14 @@ namespace AIToolbox {
                  *
                  * @return A valid random action.
                  */
-                virtual size_t sampleRandomAction() const;
+                virtual size_t sampleRandomAction() const override;
 
                 /**
                  * @brief This function returns the probability of picking a random action.
                  *
                  * @return The probability of picking an an action at random.
                  */
-                virtual double getRandomActionProbability() const;
+                virtual double getRandomActionProbability() const override;
 
                 // Used to sampled random actions
                 mutable std::uniform_int_distribution<size_t> randomDistribution_;
