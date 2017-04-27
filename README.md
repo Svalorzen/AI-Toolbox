@@ -127,7 +127,8 @@ To build the library you need:
 - the [boost library](http://www.boost.org/) >= 1.53
 - the [Eigen 3.3 library](http://eigen.tuxfamily.org/index.php?title=Main_Page).
 
-In addition, full C++17 support is now required (**this means at least g++-7**).
+In addition, full C++17 support is now required (**this means at least g++-7 or
+a decently recent clang++ version**).
 
 If you want to build the POMDP part of the library you will also need:
 
