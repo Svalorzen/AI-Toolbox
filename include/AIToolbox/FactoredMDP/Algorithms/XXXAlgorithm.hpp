@@ -22,7 +22,7 @@ namespace AIToolbox {
                  * be summed together before reporting them to this class.
                  *
                  * @param a The factored action space of the problem.
-                 * @param dependenciesAndRanges A list of [range, [agent, ..], ..] for each subgroup of connected agents.
+                 * @param dependenciesAndRanges A list of [[range, [agent, ..]], ..] for each subgroup of connected agents.
                  */
                 XXXAlgorithm(Action a, const std::vector<std::pair<double, std::vector<size_t>>> & dependenciesAndRanges);
 
