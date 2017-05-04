@@ -132,6 +132,10 @@ namespace AIToolbox {
                  * to compute the best possible action for the next timestep,
                  * we return it in case it is needed.
                  *
+                 * Note: this algorithm expects one reward per factored action
+                 * (i.e. the size of the action input and the rewards input
+                 * should be the same)!
+                 *
                  * @param s The previous state.
                  * @param a The action performed.
                  * @param s1 The new state.

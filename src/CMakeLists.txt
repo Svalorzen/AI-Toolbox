@@ -41,6 +41,7 @@ if (MAKE_MDP)
         FactoredMDP/Algorithms/Utils/VariableElimination.cpp
         FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
+        FactoredMDP/Algorithms/LLR.cpp
     )
 
     if (MAKE_PYTHON)
