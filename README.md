@@ -108,6 +108,7 @@ Algorithms:
 - [Variable Elimination](http://www.select.cs.cmu.edu/publications/paperdir/nips2001-guestrin-koller-parr.pdf)
 - [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
 - [Sparse Cooperative QLearning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf)
+- [Learning with Linear Rewards (LLR)](http://www-scf.usc.edu/~ygai/publications/TON2012.pdf)
 
 Policies:
 
