@@ -265,12 +265,92 @@ namespace AIToolbox {
                 }
 
                 /**
+                 * @brief This function returns the beginning of a range containing all items added to the container.
+                 *
+                 * @return The beginning of the range of all items.
+                 */
+                typename ItemsContainer::iterator begin() {
+                    return items_.begin();
+                }
+
+                /**
+                 * @brief This function returns the beginning of a range containing all items added to the container.
+                 *
+                 * @return The beginning of the range of all items.
+                 */
+                typename ItemsContainer::const_iterator begin() const {
+                    return items_.begin();
+                }
+
+                /**
+                 * @brief This function returns the end of a range containing all items added to the container.
+                 *
+                 * @return The end of the range of all items.
+                 */
+                typename ItemsContainer::iterator end() {
+                    return items_.end();
+                }
+
+                /**
+                 * @brief This function returns the end of a range containing all items added to the container.
+                 *
+                 * @return The end of the range of all items.
+                 */
+                typename ItemsContainer::const_iterator end() const {
+                    return items_.end();
+                }
+
+                /**
+                 * @brief This function allows direct access to the items in the container.
+                 *
+                 * This function is provided in case one wants to manually
+                 * access and call the underlying Trie.
+                 *
+                 * No bound checking is performed.
+                 *
+                 * @param id The id of the item.
+                 *
+                 * @return A constant reference to the accessed item.
+                 */
+                const T & operator[](size_t id) const {
+                    return items_[id];
+                }
+
+                /**
+                 * @brief This function allows direct access to the items in the container.
+                 *
+                 * This function is provided in case one wants to manually
+                 * access and call the underlying Trie.
+                 *
+                 * No bound checking is performed.
+                 *
+                 * @param id The id of the item.
+                 *
+                 * @return A reference to the accessed item.
+                 */
+                T & operator[](size_t id) {
+                    return items_[id];
+                }
+
+                /**
                  * @brief This function provides a direct view on the items contained by the container.
                  *
                  * @return The underlying data container.
                  */
                 const ItemsContainer & getContainer() const {
                     return items_;
+                }
+
+                /**
+                 * @brief This function returns the underlying Trie object.
+                 *
+                 * This is useful since it is the Trie which does all the heavy
+                 * lifting in this class (filtering).
+                 *
+                 * @return The Trie associated with this container.
+                 */
+                const Trie & getTrie() const {
+                    return ids_;
                 }
 
             private:
@@ -365,6 +445,11 @@ namespace AIToolbox {
 
                 value_type& operator*()  { return parent_->items_[parent_->ids_[currentId_]]; }
                 value_type* operator->() { return &(operator*()); }
+
+                /**
+                 * @brief This function returns the equivalent item id of this iterator in its container.
+                 */
+                size_t toContainerId() const { return parent_->ids_[currentId_]; }
 
                 void operator++() {
                     ++currentId_;

@@ -6,40 +6,39 @@
 namespace AIToolbox {
     namespace FactoredMDP {
         LLR::LLR(Action a, const std::vector<Factors> & dependencies) :
-                A(std::move(a)), L(1), timestep_(0), graph_(A.size()),
+                A(std::move(a)), L(1), timestep_(0), rules_(A),
                 missingExplorations_(*std::max_element(std::begin(A), std::end(A)))
         {
             // Note: L = 1 since we only do 1 action at a time.
 
-            // Build graph keeping all averages.
-            for (const auto & dependency : dependencies) {
-                auto it = graph_.getFactor(dependency);
+            // TODO: Fix comments in FactoredContainer
+            for (const auto & agents : dependencies) {
+                PartialFactorsEnumerator enumerator(A, agents);
+                while (enumerator.isValid()) {
+                    const auto & pAction = *enumerator;
 
-                // We already have this one.
-                if (it->getData().averages.size() != 0) continue;
+                    rules_.emplace(pAction, PartialState{}, pAction, 0.0);
 
-                it->getData().averages.resize(factorSpacePartial(dependency, A));
+                    enumerator.advance();
+                }
             }
+            averages_.resize(rules_.size());
         }
 
         Action LLR::stepUpdateQ(const Action & a, const Rewards & rew) {
-            const auto begin = graph_.factorsBegin();
-            const auto end   = graph_.factorsEnd();
-
-            // Update all averages with what we've learned this step.
-            // Note: We know that the factors are going to be in the correct
-            // order when looping here since we are looping in the same order
-            // in which we have inserted them into the graph. So we can
-            // correctly match the rewards with the agent groups!
+            // We use the rules_'s Trie in order to obtain the ids of the
+            // actions we need to update. We keep in sync the rules_ container
+            // with the averages_ vector, so that we can use the Trie's ids for
+            // both.
+            auto filtered = rules_.getTrie().filter(a, 0);
             size_t i = 0;
-            for (auto it = begin; it != end; ++it) {
-                const auto & agents = graph_.getNeighbors(it);
-                // Get previous data
-                auto & avg = it->getData().averages[toIndexPartial(agents, A, a)];
+            // We update the averages/counts based on the obtained rewards.
+            for (auto id : filtered)
+               averages_[id].value += (rew[i++] - averages_[id].value) / (++averages_[id].count);
 
-                avg.value += (rew[i++] - avg.value) / (++avg.count);
-            }
             ++timestep_;
+            // If we haven't yet explored all possible actions, we explore some more.
+            // This is so we don't have to divide by 0 later.
             if (missingExplorations_) {
                 Action action(A.size(), 0);
                 for (size_t a = 0; a < A.size(); ++a)
@@ -50,29 +49,20 @@ namespace AIToolbox {
                 return action;
             }
 
-            // Build the vectors to pass to VE
-            std::vector<QFunctionRule> rules;
-            for (auto it = begin; it != end; ++it) {
-                const auto & agents = graph_.getNeighbors(it);
-
-                // std::cout << "Working for "<<agents.size()<< "agents\n";
-
-                PartialFactorsEnumerator enumerator(A, agents);
-                while (enumerator.isValid()) {
-                    const auto & pAction = *enumerator;
-                    // Get the average structure for this action
-                    const auto & avg = it->getData().averages[toIndexPartial(A, pAction)];
-                    // Create new vector
-                    rules.emplace_back(
-                        PartialState{}, pAction,
-                        avg.value + std::sqrt((L+1) * std::log(timestep_) / avg.count)
-                    );
-                    enumerator.advance();
-                }
-            }
+            // Otherwise, recompute all rules' values based on the new timestep
+            // and counts.
+            for (size_t i = 0; i < rules_.size(); ++i)
+                rules_[i].value_ = averages_[i].count + std::sqrt((L+1) * std::log(timestep_) / averages_[i].count);
 
             VariableElimination ve(A);
-            return std::get<0>(ve(rules));
+            return std::get<0>(ve(rules_));
+        }
+
+        FactoredContainer<QFunctionRule> LLR::getQFunctionRules() const {
+            auto rulesCopy = rules_;
+            for (size_t i = 0; i < rulesCopy.size(); ++i)
+                rulesCopy[i].value_ = averages_[i].value;
+            return rulesCopy;
         }
     }
 }

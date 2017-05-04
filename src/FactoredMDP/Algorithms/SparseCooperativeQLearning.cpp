@@ -70,10 +70,9 @@ namespace AIToolbox {
             discount_ = d;
         }
 
-        double SparseCooperativeQLearning::getDiscount() const { return discount_; }
-
         const State &  SparseCooperativeQLearning::getS() const { return S; }
         const Action & SparseCooperativeQLearning::getA() const { return A; }
+        double SparseCooperativeQLearning::getDiscount() const { return discount_; }
         const FactoredContainer<QFunctionRule> & SparseCooperativeQLearning::getQFunctionRules() const { return rules_; }
     }
 }

@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 #include <AIToolbox/FactoredMDP/Types.hpp>
-#include <AIToolbox/FactoredMDP/FactorGraph.hpp>
+#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
@@ -62,24 +62,24 @@ namespace AIToolbox {
                  */
                 Action stepUpdateQ(const Action & a, const Rewards & r);
 
-            private:
                 /**
-                 * @brief This factor contains averages and counts for each group of agents.
+                 * @brief This function obtains the optimal QFunctionRules computed so far.
+                 *
+                 * Note that this function must perform a complete copy of all
+                 * internal rules, as those contain the exploration factors of
+                 * UCB1 baked in.
+                 *
+                 * This function is useful to use the leared QFunctionRules
+                 * with a policy.
+                 *
+                 * @return The learned optimal QFunctionRules.
                  */
-                struct Factor {
-                    struct Average {
-                        double value = 0.0;
-                        unsigned count = 0;
-                    };
-                    /**
-                     * @brief The Q-Table for this factor's agents.
-                     *
-                     * Since we don't know in advance what the dimensionality
-                     * of this Q-Table may be, we simply create a
-                     * one-dimensional vector and we automatically compute its
-                     * indices as if it was a multi-dimensional array.
-                     */
-                    std::vector<Average> averages;
+                FactoredContainer<QFunctionRule> getQFunctionRules() const;
+
+            private:
+                struct Average {
+                    double value = 0.0;
+                    unsigned count = 0;
                 };
 
                 /// The action space
@@ -88,8 +88,10 @@ namespace AIToolbox {
                 unsigned L;
                 /// The current timestep, to compute the UCB1 value
                 unsigned timestep_;
-                /// The graph containing the averages and ranges for the agents.
-                FactorGraph<Factor> graph_;
+                /// A vector containing all averages and counts for all local joint actions.
+                std::vector<Average> averages_;
+                /// A container for all QFunctionRules we have.
+                FactoredContainer<QFunctionRule> rules_;
                 /// This counter is used to know when to start using UCB1 and stop doing random actions.
                 unsigned missingExplorations_;
         };
