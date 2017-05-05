@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     GridWorld grid(4, 4);
 
     Model model = makeCornerProblem(grid);
-    size_t S = model.getS(), A = model.getA();
+    size_t A = model.getA();
 
     // We set the horizon to a very high value so that
     // the epsilon bound will prevail, solving the problem
