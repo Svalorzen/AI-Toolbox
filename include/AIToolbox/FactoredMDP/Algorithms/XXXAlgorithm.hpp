@@ -2,7 +2,8 @@
 #define AI_TOOLBOX_FACTOREDMDP_XXX_ALGORITHM_HEADER_FILE
 
 #include <AIToolbox/FactoredMDP/Types.hpp>
-#include <AIToolbox/FactoredMDP/FactorGraph.hpp>
+#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
+#include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
@@ -22,9 +23,9 @@ namespace AIToolbox {
                  * be summed together before reporting them to this class.
                  *
                  * @param a The factored action space of the problem.
-                 * @param dependenciesAndRanges A list of [[range, [agent, ..]], ..] for each subgroup of connected agents.
+                 * @param rangesAndDependencies A list of [[range, [agent, ..]], ..] for each subgroup of connected agents.
                  */
-                XXXAlgorithm(Action a, const std::vector<std::pair<double, std::vector<size_t>>> & dependenciesAndRanges);
+                XXXAlgorithm(Action a, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies);
 
                 /**
                  * @brief This function updates the learning process from the previous action and reward.
@@ -40,18 +41,6 @@ namespace AIToolbox {
                  * @return The new optimal action to be taken at the next timestep.
                  */
                 Action stepUpdateQ(const Action & a, const Rewards & rew);
-
-                /**
-                 * @brief This function returns the currently learned policy in the form of QFunctionRules.
-                 *
-                 * These rules skip the exploration part, to allow the creation
-                 * of a greedy policy greedily with respect to the learned
-                 * QFunction (since otherwise this algorithm would forever
-                 * explore).
-                 *
-                 * @return The learned QFunctionRules.
-                 */
-                std::vector<QFunctionRule> toRules() const;
 
                 /**
                  * @brief This function returns the currently set internal timestep.
@@ -77,24 +66,27 @@ namespace AIToolbox {
                  */
                 void setTimestep(unsigned t);
 
-            private:
                 /**
-                 * @brief This factor contains averages and ranges for each group of agents.
+                 * @brief This function obtains the optimal QFunctionRules computed so far.
+                 *
+                 * @brief This function obtains the optimal QFunctionRules computed so far.
+                 *
+                 * These rules skip the exploration part, to allow the creation
+                 * of a policy using the learned QFunction (since otherwise
+                 * this algorithm would forever explore).
+                 *
+                 * Note that this function must perform a complete copy of all
+                 * internal rules, as those contain the exploration factors of
+                 * UCB1 baked in.
+                 *
+                 * @return The learned optimal QFunctionRules.
                  */
-                struct Factor {
-                    struct Average {
-                        double value = 0.0;
-                        unsigned count = 0;
-                    };
-                    /**
-                     * @brief The Q-Table for this factor's agents.
-                     *
-                     * Since we don't know in advance what the dimensionality
-                     * of this Q-Table may be, we simply create a
-                     * one-dimensional vector and we automatically compute its
-                     * indices as if it was a multi-dimensional array.
-                     */
-                    std::vector<Average> averages;
+                FactoredContainer<QFunctionRule> getQFunctionRules() const;
+
+            private:
+                struct Average {
+                    double value;
+                    unsigned count;
                     double rangeSquared;
                 };
 
@@ -103,7 +95,8 @@ namespace AIToolbox {
                 /// The current timestep, used to compute logtA
                 unsigned timestep_;
                 /// The graph containing the averages and ranges for the agents.
-                FactorGraph<Factor> graph_;
+                FactoredContainer<Average> averages_;
+                std::vector<UCVE::Entry> rules_;
                 /// Precomputed logA since it won't change.
                 double logA_;
         };

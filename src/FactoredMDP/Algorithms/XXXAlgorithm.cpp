@@ -7,35 +7,32 @@
 
 namespace AIToolbox {
     namespace FactoredMDP {
-        XXXAlgorithm::XXXAlgorithm(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & dependenciesAndRanges) :
+        XXXAlgorithm::XXXAlgorithm(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies) :
                 A(std::move(aa)), timestep_(0),
-                graph_(A.size()), logA_(0.0)
+                averages_(A), logA_(0.0)
         {
             // Compute log(|A|) without needing to compute |A| which may be too
             // big. We'll use it later to obtain log(t |A|)
             for (const auto a : A)
                 logA_ += std::log(a);
 
-            // std::cout << "loga: " << logA_ << '\n';
+            // Build single rules for each dependency group.
+            // This allows us to allocate the rules_ only once, and to just
+            // update their values at each timestep.
+            for (const auto & dependency : rangesAndDependencies) {
+                PartialFactorsEnumerator enumerator(A, dependency.second);
+                while (enumerator.isValid()) {
+                    const auto & pAction = *enumerator;
 
-            // Build graph
-            for (const auto & dependency : dependenciesAndRanges) {
-                auto it = graph_.getFactor(dependency.second);
+                    averages_.emplace(pAction, Average{ 0.0, 0, dependency.first * dependency.first });
+                    rules_.emplace_back(pAction, UCVE::V());
 
-                // We already have this one.
-                if (it->getData().averages.size() != 0) continue;
-
-                it->getData().rangeSquared = dependency.first * dependency.first;
-                it->getData().averages.resize(factorSpacePartial(dependency.second, A));
-
-                // std::cout << "rsq: " << it->getData().rangeSquared <<
-                //              " -- size: " << it->getData().averages.size() << '\n';
+                    enumerator.advance();
+                }
             }
         }
 
         Action XXXAlgorithm::stepUpdateQ(const Action & a, const Rewards & rew) {
-            assert((size_t)rew.size() == graph_.getFactors().size());
-
             // auto printaction = [](Action y){
             //     std::cout << "[";
             //     for (auto yy : y) std::cout << yy << ", ";
@@ -45,8 +42,6 @@ namespace AIToolbox {
             // printaction(a);
             // std::cout << '\n';
 
-            const auto begin = graph_.factorsBegin();
-            const auto end   = graph_.factorsEnd();
 
             // std::cout << "Updating averages\n";
 
@@ -56,43 +51,17 @@ namespace AIToolbox {
             // in which we have inserted them into the graph. So we can
             // correctly match the rewards with the agent groups!
             size_t i = 0;
-            for (auto it = begin; it != end; ++it) {
-                const auto & agents = graph_.getNeighbors(it);
-                // Get previous data
-                auto & avg = it->getData().averages[toIndexPartial(agents, A, a)];
-
+            auto filtered = averages_.filter(a);
+            for (auto & avg : filtered)
                 avg.value += (rew[i++] - avg.value) / (++avg.count);
-            }
 
             // std::cout << "Building vectors\n";
 
             // Build the vectors to pass to UCVE
-            UCVE::Entries ucveVectors;
-            for (auto it = begin; it != end; ++it) {
-                const auto & agents = graph_.getNeighbors(it);
-
-                // std::cout << "Working for "<<agents.size()<< "agents\n";
-
-                PartialFactorsEnumerator enumerator(A, agents);
-                while (enumerator.isValid()) {
-                    const auto & pAction = *enumerator;
-                    // Get the average structure for this action
-                    const auto & avg = it->getData().averages[toIndexPartial(A, pAction)];
-                    // If the count is zero, we set it to a small number.
-                    // This has the advantage that exploration actions won't
-                    // become infinities, which helps us explore more
-                    // efficiently at the beginning.
-                    const double count = avg.count ? avg.count : 0.00001;
-                    // Create new vector
-                    ucveVectors.emplace_back(
-                        pAction,
-                        UCVE::V{
-                            avg.value,
-                            it->getData().rangeSquared / count
-                        }
-                    );
-                    enumerator.advance();
-                }
+            for (size_t i = 0; i < averages_.size(); ++i) {
+                const double count = averages_[i].count ? averages_[i].count : 0.00001;
+                std::get<1>(rules_[i])[0] = averages_[i].value;
+                std::get<1>(rules_[i])[1] = averages_[i].rangeSquared / count;
             }
 
             // for (const auto & v : ucveVectors) {
@@ -111,7 +80,7 @@ namespace AIToolbox {
 
             // Create and run UCVE
             UCVE ucve(A, logtA);
-            auto a_v = ucve(ucveVectors);
+            auto a_v = ucve(rules_);
 
             // std::cout << "Result: ";
             // printaction(toFactors(A.size(), std::get<0>(vcs[0])));
@@ -124,27 +93,13 @@ namespace AIToolbox {
             return toFactors(A.size(), std::get<0>(a_v));
         }
 
-        std::vector<QFunctionRule> XXXAlgorithm::toRules() const {
-            std::vector<QFunctionRule> retval;
+        FactoredContainer<QFunctionRule> XXXAlgorithm::getQFunctionRules() const {
+            FactoredContainer<QFunctionRule>::ItemsContainer container;
 
-            const auto begin = graph_.factorsBegin();
-            const auto end   = graph_.factorsEnd();
-            for (auto it = begin; it != end; ++it) {
-                const auto & agents = graph_.getNeighbors(it);
+            for (size_t i = 0; i < averages_.size(); ++i)
+                container.emplace_back(PartialState{}, std::get<0>(rules_[i]), averages_[i].value);
 
-                PartialFactorsEnumerator enumerator(A, agents);
-                while (enumerator.isValid()) {
-                    const auto & pAction = *enumerator;
-                    // Get the average structure for this action
-                    const auto & avg = it->getData().averages[toIndexPartial(A, pAction)];
-
-                    // Create new vector
-                    retval.emplace_back(PartialState{}, pAction, avg.value);
-
-                    enumerator.advance();
-                }
-            }
-            return retval;
+            return FactoredContainer<QFunctionRule>(averages_.getTrie(), std::move(container));
         }
 
         unsigned XXXAlgorithm::getTimestep() const { return timestep_; }
