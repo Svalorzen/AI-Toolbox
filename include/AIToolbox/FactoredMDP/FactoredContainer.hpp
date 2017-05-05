@@ -163,6 +163,30 @@ namespace AIToolbox {
                 FactoredContainer(Factors f) : ids_(std::move(f)) {}
 
                 /**
+                 * @brief Constructor from Trie and items.
+                 *
+                 * This constructor is provided when the user wants to copy two
+                 * FactoredContainer of different types but which share the
+                 * underlying factorization.
+                 *
+                 * With this constructor, the underlying Trie can be copied,
+                 * while a new container of items must be provided, of the same
+                 * size as the input Trie.
+                 *
+                 * If the two sizes are not equal, the constructor will throw
+                 * an std::invalid_argument exception.
+                 *
+                 * @param t The trie to copy.
+                 * @param c The new items to store.
+                 */
+                FactoredContainer(Trie t, ItemsContainer c) :
+                        ids_(std::move(t)), items_(std::move(c))
+                {
+                    if (ids_.size() != items_.size())
+                        throw std::invalid_argument("Input trie and container have different sizes!");
+                }
+
+                /**
                  * @brief This function returns the set factor space for the FactoredContainer.
                  *
                  * @return The set factor space.
