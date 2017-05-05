@@ -11,7 +11,9 @@ namespace AIToolbox {
         {
             // Note: L = 1 since we only do 1 action at a time.
 
-            // TODO: Fix comments in FactoredContainer
+            // Build single rules for each dependency group.
+            // This allows us to allocate the rules_ only once, and to just
+            // update their values at each timestep.
             for (const auto & agents : dependencies) {
                 PartialFactorsEnumerator enumerator(A, agents);
                 while (enumerator.isValid()) {

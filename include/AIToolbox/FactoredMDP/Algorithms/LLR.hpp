@@ -65,12 +65,13 @@ namespace AIToolbox {
                 /**
                  * @brief This function obtains the optimal QFunctionRules computed so far.
                  *
+                 * These rules skip the exploration part, to allow the creation
+                 * of a policy using the learned QFunction (since otherwise
+                 * this algorithm would forever explore).
+                 *
                  * Note that this function must perform a complete copy of all
                  * internal rules, as those contain the exploration factors of
                  * UCB1 baked in.
-                 *
-                 * This function is useful to use the leared QFunctionRules
-                 * with a policy.
                  *
                  * @return The learned optimal QFunctionRules.
                  */
