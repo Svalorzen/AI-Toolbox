@@ -134,6 +134,22 @@ namespace AIToolbox {
         Factors toFactors(size_t F, const PartialFactors & pf);
 
         /**
+         * @brief This function converts an index into the equivalent Factors, within the specified factor space.
+         *
+         * This function is the inverse of the toIndex(const Factors &, size_t)
+         * function.
+         *
+         * The input id shall not cause the output to exceed the input space
+         * (i.e. the id will always be lower than factorSpace(space)).
+         *
+         * @param space The factor space to consider.
+         * @param id The integer uniquely identifying the factor.
+         *
+         * @return
+         */
+        Factors toFactors(const Factors & space, size_t id);
+
+        /**
          * @brief This function converts the input factor in the input space to an unique index.
          *
          * This function returns an unique integer in range [0,

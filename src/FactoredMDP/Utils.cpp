@@ -130,6 +130,15 @@ namespace AIToolbox {
             return f;
         }
 
+        Factors toFactors(const Factors & space, size_t id) {
+            Factors f(space.size());
+            for (size_t i = 0; i < space.size(); ++i) {
+                f[i] = id % space[i];
+                id /= space[i];
+            }
+            return f;
+        }
+
         size_t toIndex(const Factors & space, const Factors & f) {
             size_t result = 0; size_t multiplier = 1;
             for (size_t i = 0; i < f.size(); ++i) {

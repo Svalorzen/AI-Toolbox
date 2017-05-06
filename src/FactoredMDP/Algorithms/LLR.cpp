@@ -6,8 +6,7 @@
 namespace AIToolbox {
     namespace FactoredMDP {
         LLR::LLR(Action a, const std::vector<Factors> & dependencies) :
-                A(std::move(a)), L(1), timestep_(0), rules_(A),
-                missingExplorations_(*std::max_element(std::begin(A), std::end(A)))
+                A(std::move(a)), L(1), timestep_(0), rules_(A)
         {
             // Note: L = 1 since we only do 1 action at a time.
 
@@ -36,25 +35,19 @@ namespace AIToolbox {
             size_t i = 0;
             // We update the averages/counts based on the obtained rewards.
             for (auto id : filtered)
-               averages_[id].value += (rew[i++] - averages_[id].value) / (++averages_[id].count);
+                averages_[id].value += (rew[i++] - averages_[id].value) / (++averages_[id].count);
 
             ++timestep_;
-            // If we haven't yet explored all possible actions, we explore some more.
-            // This is so we don't have to divide by 0 later.
-            if (missingExplorations_) {
-                Action action(A.size(), 0);
-                for (size_t a = 0; a < A.size(); ++a)
-                    if (A[a] >= missingExplorations_)
-                        action[a] = missingExplorations_ - 1;
-
-                --missingExplorations_;
-                return action;
-            }
 
             // Otherwise, recompute all rules' values based on the new timestep
             // and counts.
-            for (size_t i = 0; i < rules_.size(); ++i)
-                rules_[i].value_ = averages_[i].count + std::sqrt((L+1) * std::log(timestep_) / averages_[i].count);
+            for (size_t i = 0; i < rules_.size(); ++i) {
+                // We give rules we haven't seen yet a headstart so they'll get picked first
+                if (averages_[i].count == 0)
+                    rules_[i].value_ = 1000000.0;
+                else
+                    rules_[i].value_ = averages_[i].value + std::sqrt((L+1) * std::log(timestep_) / averages_[i].count);
+            }
 
             VariableElimination ve(A);
             return std::get<0>(ve(rules_));

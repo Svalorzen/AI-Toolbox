@@ -93,8 +93,6 @@ namespace AIToolbox {
                 std::vector<Average> averages_;
                 /// A container for all QFunctionRules we have.
                 FactoredContainer<QFunctionRule> rules_;
-                /// This counter is used to know when to start using UCB1 and stop doing random actions.
-                unsigned missingExplorations_;
         };
     }
 }
