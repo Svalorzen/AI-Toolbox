@@ -289,7 +289,7 @@ namespace AIToolbox {
         };
 
         template <typename Iterator>
-        Iterator boundPrune(Iterator begin, Iterator end, const double x_l, const double x_u, const double logtA) {
+        Iterator boundPrune(const Iterator begin, Iterator end, const double x_l, const double x_u, const double logtA) {
             if ( std::distance(begin, end) < 2 ) return end;
 
             // Descending sort
@@ -313,7 +313,7 @@ namespace AIToolbox {
             //                  computeValue(*it, x_l, logtA) << ", " << computeValue(*it, x_u, logtA) << ")\n";
             // }
             // std::cout << "\n";
-            double max = computeValue(*begin, x_l, logtA);
+            const double max = computeValue(*begin, x_l, logtA);
             // std::cout << "MAX: " << max << "\n\n";
             return std::remove_if(begin + 1, end, [max, x_u, logtA](const UCVE::Entry & e) { return computeValue(e, x_u, logtA) <= max; });
         }
