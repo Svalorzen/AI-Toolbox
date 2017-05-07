@@ -17,10 +17,7 @@ namespace AIToolbox {
                  * reach their goal. This is converted in a simple Q-Table
                  * containing the learned averages for those groups.
                  *
-                 * Note: each group must be unique! Not only duplicates are
-                 * ignored here, but this must also be taken into consideration
-                 * when producing the rewards. Duplicate factors' rewards must
-                 * be summed together before reporting them to this class.
+                 * Note: each group must be unique!
                  *
                  * @param a The factored action space of the problem.
                  * @param rangesAndDependencies A list of [[range, [agent, ..]], ..] for each subgroup of connected agents.
@@ -69,8 +66,6 @@ namespace AIToolbox {
                 /**
                  * @brief This function obtains the optimal QFunctionRules computed so far.
                  *
-                 * @brief This function obtains the optimal QFunctionRules computed so far.
-                 *
                  * These rules skip the exploration part, to allow the creation
                  * of a policy using the learned QFunction (since otherwise
                  * this algorithm would forever explore).
@@ -96,6 +91,7 @@ namespace AIToolbox {
                 unsigned timestep_;
                 /// The graph containing the averages and ranges for the agents.
                 FactoredContainer<Average> averages_;
+                /// The rules to pass to UCVE at each timestep.
                 std::vector<UCVE::Entry> rules_;
                 /// Precomputed logA since it won't change.
                 double logA_;

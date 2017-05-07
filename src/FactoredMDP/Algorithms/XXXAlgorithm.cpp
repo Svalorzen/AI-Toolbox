@@ -45,11 +45,12 @@ namespace AIToolbox {
 
             // std::cout << "Updating averages\n";
 
-            // Update all averages with what we've learned this step.
-            // Note: We know that the factors are going to be in the correct
-            // order when looping here since we are looping in the same order
-            // in which we have inserted them into the graph. So we can
-            // correctly match the rewards with the agent groups!
+            // Update all averages with what we've learned this step.  Note: We
+            // know that the factors are going to be in the correct order when
+            // looping here since we are looping in the same order in which we
+            // have inserted them into the averages_ container, and filter
+            // returns sorted lists. So we can correctly match the rewards with
+            // the agent groups!
             size_t i = 0;
             auto filtered = averages_.filter(a);
             for (auto & avg : filtered)
