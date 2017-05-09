@@ -1,9 +1,19 @@
 var searchData=
 [
-  ['qgreedypolicy_2ehpp',['QGreedyPolicy.hpp',['../FactoredMDP_2Policies_2QGreedyPolicy_8hpp.html',1,'']]],
-  ['qgreedypolicy_2ehpp',['QGreedyPolicy.hpp',['../MDP_2Policies_2QGreedyPolicy_8hpp.html',1,'']]],
-  ['qlearning_2ehpp',['QLearning.hpp',['../QLearning_8hpp.html',1,'']]],
-  ['qmdp_2ehpp',['QMDP.hpp',['../QMDP_8hpp.html',1,'']]],
-  ['qpolicyinterface_2ehpp',['QPolicyInterface.hpp',['../QPolicyInterface_8hpp.html',1,'']]],
-  ['qsoftmaxpolicy_2ehpp',['QSoftmaxPolicy.hpp',['../QSoftmaxPolicy_8hpp.html',1,'']]]
+  ['pbvi_2ehpp',['PBVI.hpp',['../PBVI_8hpp.html',1,'']]],
+  ['perseus_2ehpp',['PERSEUS.hpp',['../PERSEUS_8hpp.html',1,'']]],
+  ['policy_2ehpp',['Policy.hpp',['../MDP_2Policies_2Policy_8hpp.html',1,'(Global Namespace)'],['../POMDP_2Policies_2Policy_8hpp.html',1,'(Global Namespace)']]],
+  ['policyevaluation_2ehpp',['PolicyEvaluation.hpp',['../PolicyEvaluation_8hpp.html',1,'']]],
+  ['policyinterface_2ehpp',['PolicyInterface.hpp',['../MDP_2Policies_2PolicyInterface_8hpp.html',1,'(Global Namespace)'],['../PolicyInterface_8hpp.html',1,'(Global Namespace)']]],
+  ['policyiteration_2ehpp',['PolicyIteration.hpp',['../PolicyIteration_8hpp.html',1,'']]],
+  ['pomcp_2ehpp',['POMCP.hpp',['../POMCP_8hpp.html',1,'']]],
+  ['prioritizedsweeping_2ehpp',['PrioritizedSweeping.hpp',['../PrioritizedSweeping_8hpp.html',1,'']]],
+  ['prioritizedsweepingeigen_2ehpp',['PrioritizedSweepingEigen.hpp',['../PrioritizedSweepingEigen_8hpp.html',1,'']]],
+  ['prioritizedsweepinggeneral_2ehpp',['PrioritizedSweepingGeneral.hpp',['../PrioritizedSweepingGeneral_8hpp.html',1,'']]],
+  ['probability_2ehpp',['Probability.hpp',['../Probability_8hpp.html',1,'']]],
+  ['projecter_2ehpp',['Projecter.hpp',['../Projecter_8hpp.html',1,'']]],
+  ['projectereigen_2ehpp',['ProjecterEigen.hpp',['../ProjecterEigen_8hpp.html',1,'']]],
+  ['projectergeneral_2ehpp',['ProjecterGeneral.hpp',['../ProjecterGeneral_8hpp.html',1,'']]],
+  ['prune_2ehpp',['Prune.hpp',['../Prune_8hpp.html',1,'']]],
+  ['pruner_2ehpp',['Pruner.hpp',['../Pruner_8hpp.html',1,'']]]
 ];

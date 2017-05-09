@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['model_5f',['model_',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#a352be5c79bb4335938a7178da5e83e48',1,'AIToolbox::MDP::DynaQ&lt; M &gt;']]]
+  ['policy_5f',['policy_',['../classAIToolbox_1_1EpsilonPolicyInterface.html#ae7a56f751b83c7028c6caea4b2a7264b',1,'AIToolbox::EpsilonPolicyInterface']]]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
+  ['declval_3c_20iterator_20_2a_20_3e_28_29_20_2d_3ebase_28_29_2c_20void_28_29_29_3e',['declval&lt; Iterator * &gt;() -&gt;base(), void())&gt;',['../structAIToolbox_1_1Impl_1_1BaseIter_3_01Iterator_00_01decltype_07std_1_1declval_3_01Iterator_01_09a30e10749b65a626e2a810ceca898d.html',1,'AIToolbox::Impl']]],
   ['direction',['Direction',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa',1,'Direction():&#160;ToroidalWorld.hpp'],['../GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa',1,'Direction():&#160;GridWorld.hpp']]],
-  ['discount_5f',['discount_',['../classAIToolbox_1_1MDP_1_1QLearning.html#a50ea57f923019fc430826ae0a9507178',1,'AIToolbox::MDP::QLearning::discount_()'],['../classAIToolbox_1_1MDP_1_1SARSA.html#aea792bc5802a13825ccb31810cb5f8e0',1,'AIToolbox::MDP::SARSA::discount_()']]],
   ['discretizedense',['discretizeDense',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a697b5b31b0bac07942bc64deebdb3c2d',1,'AIToolbox::POMDP::AMDP']]],
   ['discretizer',['Discretizer',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf',1,'AIToolbox::POMDP::AMDP']]],
   ['discretizesparse',['discretizeSparse',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a3d6a58ae5eb30857450d0c08750e481b',1,'AIToolbox::POMDP::AMDP']]],

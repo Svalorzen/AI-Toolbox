@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['cfactorit',['CFactorIt',['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082',1,'AIToolbox::FactoredMDP::FactorGraph']]],
   ['checkdifferentgeneral',['checkDifferentGeneral',['../namespaceAIToolbox.html#a67f283ebe30cd11e1eead7a814057945',1,'AIToolbox']]],
   ['checkdifferentsmall',['checkDifferentSmall',['../namespaceAIToolbox.html#add1da51b88333c412b0978a7e95581f1',1,'AIToolbox']]],
   ['checkequalgeneral',['checkEqualGeneral',['../namespaceAIToolbox.html#a1cb49a3d6b7ce2588edec044a541e88e',1,'AIToolbox']]],
@@ -8,9 +9,9 @@ var searchData=
   ['cliffproblem_2ehpp',['CliffProblem.hpp',['../CliffProblem_8hpp.html',1,'']]],
   ['const_5fiterator',['const_iterator',['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6038b86a10deb35182616ffa3f2492b9',1,'AIToolbox::FactoredMDP::FactoredIterable']]],
   ['constiterable',['ConstIterable',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a334c9079feb62807c40c6d483c4d922d',1,'AIToolbox::FactoredMDP::FactoredContainer']]],
-  ['construct',['construct',['../structVectorFromPython.html#af3b7a4dfe069d5858aef9e1e92f903d7',1,'VectorFromPython::construct()'],['../structVector3DFromPython.html#a9cf7025fd114286fc8c9afef2f6603b8',1,'Vector3DFromPython::construct()']]],
+  ['construct',['construct',['../structTupleFromPython.html#a77f9c7b19df7ba511c90304824b630b0',1,'TupleFromPython::construct()'],['../structEigenVectorFromPython.html#a2bc4c671994468769eec67640ca815a3',1,'EigenVectorFromPython::construct()'],['../structVectorFromPython.html#af3b7a4dfe069d5858aef9e1e92f903d7',1,'VectorFromPython::construct()'],['../structVector3DFromPython.html#a9cf7025fd114286fc8c9afef2f6603b8',1,'Vector3DFromPython::construct()']]],
   ['convert',['convert',['../structTupleToPython.html#a2190b84ccacfa243f536f165193f53cb',1,'TupleToPython']]],
-  ['convertible',['convertible',['../structVectorFromPython.html#a81607416564f25a07aea457b7b84d3a6',1,'VectorFromPython::convertible()'],['../structVector3DFromPython.html#a3523635b64080d0128b214ce64bf3144',1,'Vector3DFromPython::convertible()']]],
+  ['convertible',['convertible',['../structTupleFromPython.html#aac60709bcb2e3efe2191f58c47197a01',1,'TupleFromPython::convertible()'],['../structEigenVectorFromPython.html#aac98edda92506af04780f24c0159f1b2',1,'EigenVectorFromPython::convertible()'],['../structVectorFromPython.html#a81607416564f25a07aea457b7b84d3a6',1,'VectorFromPython::convertible()'],['../structVector3DFromPython.html#a3523635b64080d0128b214ce64bf3144',1,'Vector3DFromPython::convertible()']]],
   ['copy_5fconst',['copy_const',['../structAIToolbox_1_1copy__const.html',1,'AIToolbox']]],
   ['copytable3d',['copyTable3D',['../namespaceAIToolbox.html#adf3316313e5c38bb940a665f55db9a04',1,'AIToolbox']]],
   ['core_2ehpp',['Core.hpp',['../Core_8hpp.html',1,'']]],
