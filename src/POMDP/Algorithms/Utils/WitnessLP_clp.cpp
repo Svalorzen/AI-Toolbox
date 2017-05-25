@@ -32,8 +32,8 @@ namespace AIToolbox {
              * 2) The other constraints can be rewritten as follows:
              *
              *       v[0] * b0 +       v[1] * b1 + ... - K          = 0
-             * best[0][0] * b0 + best[0][1] * b1 + ... - K - delta <= 0
-             * best[1][0] * b0 + best[1][1] * b1 + ... - K - delta <= 0
+             * best[0][0] * b0 + best[0][1] * b1 + ... - K + delta <= 0
+             * best[1][0] * b0 + best[1][1] * b1 + ... - K + delta <= 0
              * ...
              *
              * Where basically with the first constraint we are setting K
@@ -102,8 +102,8 @@ namespace AIToolbox {
 
             // We have found a witness point if we have found a belief for which the value
             // of the supplied ValueFunction is greater than ALL others. Thus we just need
-            // to verify that the variable we have minimized is actually less than 0.
-            if ( ! isOptimal || value >= 0.0 ) {
+            // to verify that the variable we have maximized is actually greater than 0.
+            if ( ! isOptimal || value <= 0.0 ) {
                 return std::make_pair(false, POMDP::Belief());
             }
 
