@@ -135,8 +135,6 @@ If you want to build the POMDP part of the library you will also need:
 
 - the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required
   (a shared library must be available to compile the Python libraries).
-- Alternatively, an implementation using [COIN-OR](http://www.coin-or.org/) is
-  available, but must be activated in the CMake files and source files.
 
 Building
 --------
