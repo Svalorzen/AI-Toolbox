@@ -89,12 +89,11 @@ namespace AIToolbox {
             //
             // That we do in the findWitnessPoint function.
             while ( bound < end ) {
-                const auto result = lp.findWitness( std::get<VALUES>(*(end-1)) );
+                const auto witness = lp.findWitness( std::get<VALUES>(*(end-1)) );
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
-                if ( std::get<0>(result) ) {
-                    const auto & witness = std::get<1>(result);
-                    bound = extractWorstAtBelief(witness, bound, bound, end);   // Advance bound with the next best
+                if ( witness ) {
+                    bound = extractWorstAtBelief(*witness, bound, bound, end);  // Advance bound with the next best
                     lp.addOptimalRow(std::get<VALUES>(*(bound-1)));             // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a

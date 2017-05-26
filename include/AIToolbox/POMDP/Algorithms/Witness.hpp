@@ -214,11 +214,10 @@ namespace AIToolbox {
 
                     // We check whether any element in the agenda improves what we have
                     while ( !agenda_.empty() ) {
-                        const auto result = lp.findWitness( std::get<VALUES>(agenda_.back()) );
-                        if ( std::get<0>(result) ) {
-                            const auto & witness = std::get<1>(result);
+                        const auto witness = lp.findWitness( std::get<VALUES>(agenda_.back()) );
+                        if ( witness ) {
                             // If so, we generate the best vector for that particular belief point.
-                            U[a].push_back(crossSumBestAtBelief(projections[a], a, witness));
+                            U[a].push_back(crossSumBestAtBelief(projections[a], a, *witness));
                             lp.addOptimalRow(std::get<VALUES>(U[a].back()));
                             // We add to the agenda all possible "variations" of the VEntry found.
                             addVariations(projections[a], a, U[a].back());

@@ -41,14 +41,13 @@ namespace AIToolbox {
                 /**
                  * @brief This function solves the currently set LP.
                  *
-                 * This function tries to solve the underlying LP, and
-                 * returns whether a solution has been found. If it is
-                 * it also returns the witness belief point which satisfies
+                 * This function tries to solve the underlying LP, and if
+                 * successful returns the witness belief point which satisfies
                  * the solution.
                  *
-                 * @return A pair of whether a solution has been found, and an eventual Belief with the solution.
+                 * @return If found, the Belief witness to the set problem.
                  */
-                std::tuple<bool, POMDP::Belief> findWitness(const MDP::Values & v);
+                std::optional<POMDP::Belief> findWitness(const MDP::Values & v);
 
                 /**
                  * @brief This function resets the internal LP to only the simplex constraint.

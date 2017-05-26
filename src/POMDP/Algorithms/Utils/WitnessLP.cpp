@@ -75,7 +75,7 @@ namespace AIToolbox {
             lp_.row[S+1] = 0.0;
         }
 
-        std::tuple<bool, POMDP::Belief> WitnessLP::findWitness(const MDP::Values & v) {
+        std::optional<POMDP::Belief> WitnessLP::findWitness(const MDP::Values & v) {
             // Add witness constraint
             for ( size_t i = 0; i < S; ++i )
                 lp_.row[i] = v[i];
@@ -86,10 +86,7 @@ namespace AIToolbox {
             // Remove it
             lp_.popRow();
 
-            if (solution)
-                return std::make_tuple(true, *solution);
-
-            return std::make_tuple(false, POMDP::Belief());
+            return solution;
         }
 
         void WitnessLP::reset() {
