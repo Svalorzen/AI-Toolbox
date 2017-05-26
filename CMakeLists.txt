@@ -38,7 +38,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 add_definitions(
-    -std=c++17
+    -std=c++1z
     -Wall
     -Wextra
 )
