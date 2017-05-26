@@ -1,6 +1,7 @@
 #ifndef AI_TOOLBOX_POMDP_UTILS_TYPES_HEADER_FILE
 #define AI_TOOLBOX_POMDP_UTILS_TYPES_HEADER_FILE
 
+#include <optional>
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox {
@@ -19,7 +20,7 @@ namespace AIToolbox {
                         static_cast<void (Z::*)()>                                                  (&Z::reset),
                         static_cast<void (Z::*)(size_t size)>                                       (&Z::allocate),
                         static_cast<void (Z::*)(const MDP::Values &)>                               (&Z::addOptimalRow),
-                        static_cast<std::tuple<bool, Belief> (Z::*)(const MDP::Values &)>           (&Z::findWitness),
+                        static_cast<std::optional<Belief> (Z::*)(const MDP::Values &)>              (&Z::findWitness),
 
                         std::true_type()
                 );

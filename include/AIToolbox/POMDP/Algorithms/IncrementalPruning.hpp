@@ -7,8 +7,7 @@
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
-// #include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_clp.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
 namespace AIToolbox {
@@ -160,7 +159,7 @@ namespace AIToolbox {
 
             unsigned timestep = 0;
 
-            Pruner<WitnessLP_lpsolve> prune(S);
+            Pruner<WitnessLP> prune(S);
             Projecter<M> projecter(model);
 
             const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);

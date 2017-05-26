@@ -1,21 +1,15 @@
-#ifndef AI_TOOLBOX_POMDP_WITNESS_LP_LPSOLVE_HEADER_FILE
-#define AI_TOOLBOX_POMDP_WITNESS_LP_LPSOLVE_HEADER_FILE
+#ifndef AI_TOOLBOX_POMDP_WITNESS_LP_HEADER_FILE
+#define AI_TOOLBOX_POMDP_WITNESS_LP_HEADER_FILE
 
-#include <cstddef>
-#include <memory>
-#include <vector>
+#include <optional>
 
+#include <AIToolbox/LP.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
-
-#include <lpsolve/lp_types.h>
 
 namespace AIToolbox {
     namespace POMDP {
         /**
-         * @brief This class implements easy-to-use facilities to do linear programming.
-         *
-         * This particular implementation of the class uses lp_solve to do linear
-         * programming.
+         * @brief This class implements an easy interface to do Witness discovery through linear programming.
          *
          * This class is meant to help finding witness points by solving the linear
          * programming needed. As such, it contains a linear programming problem where
@@ -26,7 +20,7 @@ namespace AIToolbox {
          * new constraint needs to be tested to see if a witness is available, the
          * findWitness() function can be called.
          */
-        class WitnessLP_lpsolve {
+        class WitnessLP {
             public:
                 /**
                  * @brief Basic constructor.
@@ -35,7 +29,7 @@ namespace AIToolbox {
                  *
                  * @param S The number of states in the world.
                  */
-                WitnessLP_lpsolve(size_t S);
+                WitnessLP(size_t S);
 
                 /**
                  * @brief This function adds a new optimal constraint to the LP, which will not be removed unless the LP is reset.
@@ -47,14 +41,13 @@ namespace AIToolbox {
                 /**
                  * @brief This function solves the currently set LP.
                  *
-                 * This function tries to solve the underlying LP, and
-                 * returns whether a solution has been found. If it is
-                 * it also returns the witness belief point which satisfies
+                 * This function tries to solve the underlying LP, and if
+                 * successful returns the witness belief point which satisfies
                  * the solution.
                  *
-                 * @return A pair of whether a solution has been found, and an eventual Belief with the solution.
+                 * @return If found, the Belief witness to the set problem.
                  */
-                std::tuple<bool, POMDP::Belief> findWitness(const MDP::Values & v);
+                std::optional<POMDP::Belief> findWitness(const MDP::Values & v);
 
                 /**
                  * @brief This function resets the internal LP to only the simplex constraint.
@@ -71,32 +64,11 @@ namespace AIToolbox {
                 void allocate(size_t rows);
 
             private:
-                /**
-                 * @brief This function adds a constraint row in the LP.
-                 *
-                 * This class works as a stack of constraints: one can
-                 * only add and remove constraints at the bottom of the
-                 * stack. This works out fine for the work this class is
-                 * designed to do, which is finding witness points with
-                 * respect to a set of already optimal constraints which
-                 * will not need to be removed.
-                 *
-                 * @param v The constraint coefficients.
-                 * @param constrType The constraint type.
-                 */
-                void pushRow(const MDP::Values & v, int constrType);
-
-                /**
-                 * @brief This function removes a single constraint from the LP in a LIFO fashion.
-                 */
-                void popRow();
-
                 size_t S;
-                int cols_;
-                std::unique_ptr<lprec, void(*)(lprec*)> lp;
-                std::unique_ptr<REAL[]> row;
+                LP lp_;
         };
     }
 }
 
 #endif
+

@@ -59,10 +59,6 @@ namespace AIToolbox {
             const size_t size = w.size();
             if ( size < 2 ) return;
 
-            // We setup the lp preparing for a max of size rows.
-            lp.reset();
-            lp.allocate(size);
-
             // Initialize the new best list with some easy finds, and remove them from
             // the old list.
             VList::iterator begin = std::begin(w), end = std::end(w), bound = begin;
@@ -71,10 +67,17 @@ namespace AIToolbox {
 
             // Here we could do some random belief lookups..
 
-            // Setup initial LP rows. Note that best can't be empty, since we have
-            // at least one best for the simplex corners.
-            for ( auto it = begin; it != bound; ++it )
-                lp.addOptimalRow(std::get<VALUES>(*it));
+            // If we actually have still work to do..
+            if ( bound < end ) {
+                // We setup the lp preparing for a max of size rows.
+                lp.reset();
+                lp.allocate(size);
+
+                // Setup initial LP rows. Note that best can't be empty, since we have
+                // at least one best for the simplex corners.
+                for ( auto it = begin; it != bound; ++it )
+                    lp.addOptimalRow(std::get<VALUES>(*it));
+            }
 
             // For each of the remaining points now we try to find a witness
             // point with respect to the best ones. If there is, there is
@@ -86,12 +89,11 @@ namespace AIToolbox {
             //
             // That we do in the findWitnessPoint function.
             while ( bound < end ) {
-                const auto result = lp.findWitness( std::get<VALUES>(*(end-1)) );
+                const auto witness = lp.findWitness( std::get<VALUES>(*(end-1)) );
                 // If we get a belief point, we search for the actual vector that provides
                 // the best value on the belief point, we move it into the best vector.
-                if ( std::get<0>(result) ) {
-                    const auto & witness = std::get<1>(result);
-                    bound = extractWorstAtBelief(witness, bound, bound, end);   // Advance bound with the next best
+                if ( witness ) {
+                    bound = extractWorstAtBelief(*witness, bound, bound, end);  // Advance bound with the next best
                     lp.addOptimalRow(std::get<VALUES>(*(bound-1)));             // Add the newly found vector to our lp.
                 }
                 // We only advance if we did not find anything. Otherwise, we may have found a

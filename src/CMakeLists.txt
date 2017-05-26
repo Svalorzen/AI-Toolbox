@@ -89,10 +89,7 @@ endif()
 
 if (MAKE_POMDP)
     find_package(LpSolve REQUIRED)
-#   find_package(COIN REQUIRED)
-
     include_directories(${LPSOLVE_INCLUDE_DIR})
-#   include_directories(${COIN_INCLUDE_DIR})
 
     add_library(AIToolboxPOMDP
         POMDP/Utils.cpp
@@ -101,13 +98,11 @@ if (MAKE_POMDP)
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/AMDP.cpp
-        POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
-#       POMDP/Algorithms/Utils/WitnessLP_clp.cpp
+        POMDP/Algorithms/Utils/WitnessLP.cpp
+        LP/LpSolveWrapper.cpp
         POMDP/Policies/Policy.cpp)
 
-    target_link_libraries(AIToolboxPOMDP AIToolboxMDP
-#           ${COIN_CLP_LIBRARY} ${COIN_COIN_UTILS_LIBRARY}
-            ${LPSOLVE_LIBRARIES})
+    target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
 
     if (MAKE_PYTHON)
         if ("${LPSOLVE_LIBRARIES}" MATCHES "\\.a")
@@ -120,8 +115,9 @@ if (MAKE_POMDP)
             POMDP/Algorithms/PBVI.cpp
             POMDP/Algorithms/PERSEUS.cpp
             POMDP/Algorithms/AMDP.cpp
-            POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
             POMDP/Policies/Policy.cpp
+            POMDP/Algorithms/Utils/WitnessLP.cpp
+            LP/LpSolveWrapper.cpp
             Python/POMDP/Types.cpp
             Python/POMDP/Utils.cpp
             Python/POMDP/Model.cpp

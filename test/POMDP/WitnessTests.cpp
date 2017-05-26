@@ -4,7 +4,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/POMDP/Algorithms/Witness.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
 #include "Utils/TigerProblem.hpp"

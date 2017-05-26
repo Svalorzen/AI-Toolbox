@@ -7,7 +7,7 @@
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
@@ -181,8 +181,8 @@ namespace AIToolbox {
             size_t reserveSize = 1;
 
             Projecter<M> project(model);
-            Pruner<WitnessLP_lpsolve> prune(S);
-            WitnessLP_lpsolve lp(S);
+            Pruner<WitnessLP> prune(S);
+            WitnessLP lp(S);
 
             const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             double variation = epsilon_ * 2; // Make it bigger
@@ -214,11 +214,10 @@ namespace AIToolbox {
 
                     // We check whether any element in the agenda improves what we have
                     while ( !agenda_.empty() ) {
-                        const auto result = lp.findWitness( std::get<VALUES>(agenda_.back()) );
-                        if ( std::get<0>(result) ) {
-                            const auto & witness = std::get<1>(result);
+                        const auto witness = lp.findWitness( std::get<VALUES>(agenda_.back()) );
+                        if ( witness ) {
                             // If so, we generate the best vector for that particular belief point.
-                            U[a].push_back(crossSumBestAtBelief(projections[a], a, witness));
+                            U[a].push_back(crossSumBestAtBelief(projections[a], a, *witness));
                             lp.addOptimalRow(std::get<VALUES>(U[a].back()));
                             // We add to the agenda all possible "variations" of the VEntry found.
                             addVariations(projections[a], a, U[a].back());
