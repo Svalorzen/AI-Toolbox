@@ -59,10 +59,6 @@ namespace AIToolbox {
             const size_t size = w.size();
             if ( size < 2 ) return;
 
-            // We setup the lp preparing for a max of size rows.
-            lp.reset();
-            lp.allocate(size);
-
             // Initialize the new best list with some easy finds, and remove them from
             // the old list.
             VList::iterator begin = std::begin(w), end = std::end(w), bound = begin;
@@ -71,10 +67,17 @@ namespace AIToolbox {
 
             // Here we could do some random belief lookups..
 
-            // Setup initial LP rows. Note that best can't be empty, since we have
-            // at least one best for the simplex corners.
-            for ( auto it = begin; it != bound; ++it )
-                lp.addOptimalRow(std::get<VALUES>(*it));
+            // If we actually have still work to do..
+            if ( bound < end ) {
+                // We setup the lp preparing for a max of size rows.
+                lp.reset();
+                lp.allocate(size);
+
+                // Setup initial LP rows. Note that best can't be empty, since we have
+                // at least one best for the simplex corners.
+                for ( auto it = begin; it != bound; ++it )
+                    lp.addOptimalRow(std::get<VALUES>(*it));
+            }
 
             // For each of the remaining points now we try to find a witness
             // point with respect to the best ones. If there is, there is

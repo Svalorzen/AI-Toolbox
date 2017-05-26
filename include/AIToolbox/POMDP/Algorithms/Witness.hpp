@@ -7,7 +7,7 @@
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP_lpsolve.hpp>
+#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
@@ -181,8 +181,8 @@ namespace AIToolbox {
             size_t reserveSize = 1;
 
             Projecter<M> project(model);
-            Pruner<WitnessLP_lpsolve> prune(S);
-            WitnessLP_lpsolve lp(S);
+            Pruner<WitnessLP> prune(S);
+            WitnessLP lp(S);
 
             const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
             double variation = epsilon_ * 2; // Make it bigger

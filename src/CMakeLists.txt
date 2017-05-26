@@ -98,7 +98,8 @@ if (MAKE_POMDP)
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/AMDP.cpp
-        POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
+        POMDP/Algorithms/Utils/WitnessLP.cpp
+        LP/LpSolveWrapper.cpp
         POMDP/Policies/Policy.cpp)
 
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
@@ -114,8 +115,9 @@ if (MAKE_POMDP)
             POMDP/Algorithms/PBVI.cpp
             POMDP/Algorithms/PERSEUS.cpp
             POMDP/Algorithms/AMDP.cpp
-            POMDP/Algorithms/Utils/WitnessLP_lpsolve.cpp
             POMDP/Policies/Policy.cpp
+            POMDP/Algorithms/Utils/WitnessLP.cpp
+            LP/LpSolveWrapper.cpp
             Python/POMDP/Types.cpp
             Python/POMDP/Utils.cpp
             Python/POMDP/Model.cpp
