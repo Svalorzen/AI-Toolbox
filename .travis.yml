@@ -3,7 +3,7 @@ dist: trusty
 language: cpp
 compiler:
     - gcc
-    - clang
+#    - clang
 env:
     - CMAKE_BUILD_TYPE=Release
 before_install:
