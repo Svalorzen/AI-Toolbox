@@ -11,16 +11,13 @@
 
 #include <boost/python.hpp>
 
-template <typename M>
-void exportValueIterationByModel(std::string className) {
+void exportMDPValueIteration() {
     using namespace AIToolbox::MDP;
     using namespace boost::python;
 
-    using V = ValueIteration<M>;
+    class_<ValueIteration>{"ValueIteration",
 
-    class_<V>{("ValueIteration" + className).c_str(), (
-
-         "This class applies the value iteration algorithm on a " + className + ".\n"
+         "This class applies the value iteration algorithm.\n"
          "\n"
          "This algorithm solves an MDP model for the specified horizon, or less\n"
          "if convergence is encountered.\n"
@@ -33,7 +30,7 @@ void exportValueIterationByModel(std::string className) {
          "horizon requested is reached.\n"
          "\n"
          "This implementation in particular is ported from the MATLAB\n"
-         "MDPToolbox (although it is simplified)." ).c_str(), no_init}
+         "MDPToolbox (although it is simplified).", no_init}
 
         .def(init<unsigned, optional<double>>(
                  "Basic constructor.\n"
@@ -50,7 +47,7 @@ void exportValueIterationByModel(std::string className) {
                  "@param epsilon The epsilon factor to stop the value iteration loop.\n"
         , (arg("self"), "horizon", "epsilon")))
 
-        .def("__call__",                &V::operator(),
+        .def("__call__",                &ValueIteration::operator()<Model>,
                  "This function applies value iteration on an MDP to solve it.\n"
                  "\n"
                  "The algorithm is constrained by the currently set parameters.\n"
@@ -61,7 +58,40 @@ void exportValueIterationByModel(std::string className) {
                  "        ValueFunction and the QFunction for the Model."
         , (arg("self"), "m"))
 
-        .def("setEpsilon",              &V::setEpsilon,
+        .def("__call__",                &ValueIteration::operator()<SparseModel>,
+                 "This function applies value iteration on an MDP to solve it.\n"
+                 "\n"
+                 "The algorithm is constrained by the currently set parameters.\n"
+                 "\n"
+                 "@param m The MDP that needs to be solved.\n"
+                 "@return A tuple containing a boolean value specifying whether\n"
+                 "        the specified epsilon bound was reached and the\n"
+                 "        ValueFunction and the QFunction for the Model."
+        , (arg("self"), "m"))
+
+        .def("__call__",                &ValueIteration::operator()<RLModel<Experience>>,
+                 "This function applies value iteration on an MDP to solve it.\n"
+                 "\n"
+                 "The algorithm is constrained by the currently set parameters.\n"
+                 "\n"
+                 "@param m The MDP that needs to be solved.\n"
+                 "@return A tuple containing a boolean value specifying whether\n"
+                 "        the specified epsilon bound was reached and the\n"
+                 "        ValueFunction and the QFunction for the Model."
+        , (arg("self"), "m"))
+
+        .def("__call__",                &ValueIteration::operator()<SparseRLModel<SparseExperience>>,
+                 "This function applies value iteration on an MDP to solve it.\n"
+                 "\n"
+                 "The algorithm is constrained by the currently set parameters.\n"
+                 "\n"
+                 "@param m The MDP that needs to be solved.\n"
+                 "@return A tuple containing a boolean value specifying whether\n"
+                 "        the specified epsilon bound was reached and the\n"
+                 "        ValueFunction and the QFunction for the Model."
+        , (arg("self"), "m"))
+
+        .def("setEpsilon",              &ValueIteration::setEpsilon,
                  "This function sets the epsilon parameter.\n"
                  "\n"
                  "The epsilon parameter must be >= 0.0, otherwise the\n"
@@ -75,24 +105,15 @@ void exportValueIterationByModel(std::string className) {
                  "@param e The new epsilon parameter."
         , (arg("self"), "e"))
 
-        .def("setHorizon",              &V::setHorizon,
+        .def("setHorizon",              &ValueIteration::setHorizon,
                  "This function sets the horizon parameter."
         , (arg("self"), "horizon"))
 
-        .def("getEpsilon",              &V::getEpsilon,
+        .def("getEpsilon",              &ValueIteration::getEpsilon,
                  "This function will return the currently set epsilon parameter."
         , (arg("self")))
 
-        .def("getHorizon",              &V::getHorizon,
+        .def("getHorizon",              &ValueIteration::getHorizon,
                  "This function will return the current horizon parameter."
         , (arg("self")));
-}
-
-void exportMDPValueIteration() {
-    using namespace AIToolbox::MDP;
-
-    exportValueIterationByModel<RLModel<Experience>>("RLModel");
-    exportValueIterationByModel<SparseRLModel<SparseExperience>>("SparseRLModel");
-    exportValueIterationByModel<Model>("Model");
-    exportValueIterationByModel<SparseModel>("SparseModel");
 }

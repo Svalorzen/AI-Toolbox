@@ -116,7 +116,7 @@ namespace AIToolbox {
                 unsigned getHorizon() const;
 
             private:
-                MDP::ValueIteration<M> solver_;
+                MDP::ValueIteration solver_;
         };
 
         template <typename M>

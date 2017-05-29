@@ -23,8 +23,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     // We set the horizon to a very high value so that
     // the epsilon bound will prevail, solving the problem
     // until convergence (infinite horizon).
-    ValueIteration<decltype(model)> solver(1000000, 0.001);
-    BOOST_CHECK_EQUAL((std::is_base_of<ValueIterationEigen<decltype(model)>, decltype(solver)>::value), true);
+    ValueIteration solver(1000000, 0.001);
 
     auto solution = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
@@ -120,8 +119,7 @@ BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
     // We set the horizon to a very high value so that
     // the epsilon bound will prevail, solving the problem
     // until convergence (infinite horizon).
-    ValueIteration<decltype(model)> solver(1000000, 0.001);
-    BOOST_CHECK_EQUAL((std::is_base_of<ValueIterationEigen<decltype(model)>, decltype(solver)>::value), true);
+    ValueIteration solver(1000000, 0.001);
 
     auto solution = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
@@ -217,8 +215,7 @@ BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
     // We set the horizon to a very high value so that
     // the epsilon bound will prevail, solving the problem
     // until convergence (infinite horizon).
-    ValueIteration<decltype(model)> solver(1000000, 0.001);
-    BOOST_CHECK_EQUAL((std::is_base_of<ValueIterationGeneral<decltype(model)>, decltype(solver)>::value), true);
+    ValueIteration solver(1000000, 0.001);
 
     auto solution = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon

@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto & simplerModel = std::get<0>(convertedModel);
     auto & beliefConverter = std::get<1>(convertedModel);
 
-    MDP::ValueIteration<std::remove_reference<decltype(simplerModel)>::type> solver(horizon);
+    MDP::ValueIteration solver(horizon);
 
     auto solution = solver(simplerModel);
     MDP::QGreedyPolicy policy(std::get<2>(solution));
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
 
     auto & beliefConverter = std::get<1>(convertedModel);
 
-    MDP::ValueIteration<std::remove_reference<decltype(simplerModel)>::type> solver(horizon);
+    MDP::ValueIteration solver(horizon);
 
     auto solution = solver(simplerModel);
     MDP::QGreedyPolicy policy(std::get<2>(solution));
