@@ -11,7 +11,7 @@
 #include <fstream>
 
 BOOST_AUTO_TEST_CASE( construction ) {
-    const int S = 5, A = 6;
+    const size_t S = 5, A = 6;
 
     AIToolbox::MDP::Model m(S, A);
 
@@ -24,6 +24,9 @@ BOOST_AUTO_TEST_CASE( construction ) {
     BOOST_CHECK_EQUAL(m.getTransitionProbability(0,1,1), 0.0);
 
     BOOST_CHECK_EQUAL(m.getExpectedReward(0,0,0), 0.0);
+
+    for (size_t s = 0; s < S; ++s)
+        BOOST_CHECK(m.isTerminal(s));
 }
 
 BOOST_AUTO_TEST_CASE( copy_construction ) {
@@ -56,7 +59,7 @@ int generator() {
 }
 
 BOOST_AUTO_TEST_CASE( files ) {
-    const int S = 4, A = 2;
+    const size_t S = 4, A = 2;
     AIToolbox::MDP::Model m(S,A);
 
     std::string inputFilename  = "./data/mdp_model.txt";
