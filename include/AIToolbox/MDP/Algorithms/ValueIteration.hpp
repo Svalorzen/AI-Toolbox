@@ -125,14 +125,13 @@ namespace AIToolbox::MDP {
 
             // Internals
             ValueFunction v1_;
-            size_t S, A;
     };
 
     template <typename M, typename>
     std::tuple<bool, ValueFunction, QFunction> ValueIteration::operator()(const M & model) {
         // Extract necessary knowledge from model so we don't have to pass it around
-        S = model.getS();
-        A = model.getA();
+        const size_t S = model.getS();
+        const size_t A = model.getA();
 
         {
             // Verify that parameter value function is compatible.

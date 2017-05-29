@@ -2,7 +2,7 @@
 
 namespace AIToolbox::MDP {
     ValueIteration::ValueIteration(unsigned horizon, double epsilon, ValueFunction v) :
-            horizon_(horizon), vParameter_(v), S(0), A(0)
+            horizon_(horizon), vParameter_(v)
     {
         setEpsilon(epsilon);
     }
