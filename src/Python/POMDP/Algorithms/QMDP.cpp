@@ -13,16 +13,13 @@
 using POMDPModelBinded = AIToolbox::POMDP::Model<AIToolbox::MDP::Model>;
 using POMDPSparseModelBinded = AIToolbox::POMDP::SparseModel<AIToolbox::MDP::SparseModel>;
 
-template <typename M>
-void exportQMDPByModel(std::string className) {
+void exportPOMDPQMDP() {
     using namespace AIToolbox::POMDP;
     using namespace boost::python;
 
-    using V = QMDP<M>;
+    class_<QMDP>{"QMDP",
 
-    class_<V>{("QMDP" + className).c_str(), (
-
-         "This class implements the QMDP algorithm for " + className + ".\n"
+         "This class implements the QMDP algorithm.\n"
          "\n"
          "QMDP is a particular way to approach a POMDP problem and solve it\n"
          "approximately. The idea is to compute a solution that disregards the\n"
@@ -48,7 +45,7 @@ void exportQMDPByModel(std::string className) {
          "\n"
          "The solution returned by QMDP will thus have only horizon 1, since\n"
          "the horizon requested is implicitly encoded in the MDP part of the\n"
-         "solution.").c_str(), no_init}
+         "solution.", no_init}
 
         .def(init<unsigned, double>(
                  "Basic constructor.\n"
@@ -61,7 +58,7 @@ void exportQMDPByModel(std::string className) {
                  "@param epsilon The epsilon factor to stop the value iteration loop."
         , (arg("self"), "horizon", "epsilon")))
 
-        .def("__call__",                &V::operator(),
+        .def("__call__",                &QMDP::operator()<POMDPModelBinded>,
                  "This function applies the QMDP algorithm on the input POMDP.\n"
                  "\n"
                  "This function computes the MDP::ValueFunction of the underlying\n"
@@ -77,7 +74,23 @@ void exportQMDPByModel(std::string className) {
                  "POMDP::ValueFunction and the equivalent MDP::ValueFunction."
         , (arg("self"), "m"))
 
-        .def("setEpsilon",              &V::setEpsilon,
+        .def("__call__",                &QMDP::operator()<POMDPSparseModelBinded>,
+                 "This function applies the QMDP algorithm on the input POMDP.\n"
+                 "\n"
+                 "This function computes the MDP::ValueFunction of the underlying\n"
+                 "MDP of the input POMDP with the parameters set. It then converts\n"
+                 "this solution into the equivalent POMDP::ValueFunction. Finally\n"
+                 "it returns both (plus the boolean specifying whether the epsilon\n"
+                 "constraint requested is satisfied or not).\n"
+                 "\n"
+                 "@param m The POMDP to be solved\n"
+                 "\n"
+                 "@return A tuple containing a boolean value specifying\n"
+                 "whether the specified epsilon bound was reached, a\n"
+                 "POMDP::ValueFunction and the equivalent MDP::ValueFunction."
+        , (arg("self"), "m"))
+
+        .def("setEpsilon",              &QMDP::setEpsilon,
                  "This function sets the epsilon parameter.\n"
                  "\n"
                  "The epsilon parameter must be >= 0.0, otherwise the function\n"
@@ -91,22 +104,15 @@ void exportQMDPByModel(std::string className) {
                  "@param epsilon The new epsilon parameter."
         , (arg("self"), "epsilon"))
 
-        .def("setHorizon",              &V::setHorizon,
+        .def("setHorizon",              &QMDP::setHorizon,
                  "This function sets the horizon parameter."
         , (arg("self"), "horizon"))
 
-        .def("getEpsilon",              &V::getEpsilon,
+        .def("getEpsilon",              &QMDP::getEpsilon,
                  "This function returns the currently set epsilon parameter."
         , (arg("self")))
 
-        .def("getHorizon",              &V::getHorizon,
+        .def("getHorizon",              &QMDP::getHorizon,
                  "This function returns the currently set horizon parameter."
         , (arg("self")));
-}
-
-void exportPOMDPQMDP() {
-    using namespace AIToolbox::MDP;
-
-    exportQMDPByModel<POMDPModelBinded>("Model");
-    exportQMDPByModel<POMDPSparseModelBinded>("SparseModel");
 }

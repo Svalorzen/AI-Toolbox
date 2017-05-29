@@ -101,6 +101,7 @@ if (MAKE_POMDP)
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/AMDP.cpp
+        POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
         LP/LpSolveWrapper.cpp
         POMDP/Policies/Policy.cpp)
@@ -118,6 +119,7 @@ if (MAKE_POMDP)
             POMDP/Algorithms/PBVI.cpp
             POMDP/Algorithms/PERSEUS.cpp
             POMDP/Algorithms/AMDP.cpp
+            POMDP/Algorithms/QMDP.cpp
             POMDP/Policies/Policy.cpp
             POMDP/Algorithms/Utils/WitnessLP.cpp
             LP/LpSolveWrapper.cpp
