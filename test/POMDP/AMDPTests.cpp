@@ -7,7 +7,6 @@
 
 #include <AIToolbox/POMDP/Algorithms/AMDP.hpp>
 #include <AIToolbox/POMDP/Algorithms/IncrementalPruning.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/BeliefGenerator.hpp>
 
 #include <AIToolbox/POMDP/Policies/Policy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
@@ -15,7 +14,6 @@
 #include <AIToolbox/POMDP/SparseModel.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
-#include <AIToolbox/MDP/IO.hpp>
 
 #include "Utils/TigerProblem.hpp"
 

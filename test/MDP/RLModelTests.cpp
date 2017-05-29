@@ -5,9 +5,9 @@
 
 #include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
-#include <AIToolbox/MDP/IO.hpp>
 
-#include <fstream>
+// #include <AIToolbox/MDP/IO.hpp>
+// #include <fstream>
 
 BOOST_AUTO_TEST_CASE( construction ) {
     using namespace AIToolbox::MDP;
