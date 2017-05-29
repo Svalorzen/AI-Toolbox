@@ -28,6 +28,7 @@ if (MAKE_MDP)
         MDP/Algorithms/QLearning.cpp
         MDP/Algorithms/SARSA.cpp
         MDP/Algorithms/ValueIteration.cpp
+        MDP/Algorithms/PolicyIteration.cpp
         MDP/Policies/Policy.cpp
         MDP/Policies/EpsilonPolicy.cpp
         MDP/Policies/QPolicyInterface.cpp

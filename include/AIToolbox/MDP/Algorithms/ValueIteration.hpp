@@ -8,7 +8,6 @@
 #include <iostream>
 
 namespace AIToolbox::MDP {
-
     /**
      * @brief This class applies the value iteration algorithm on a Model.
      *
@@ -127,27 +126,6 @@ namespace AIToolbox::MDP {
             // Internals
             ValueFunction v1_;
             size_t S, A;
-
-            /**
-             * @brief This function computes all immediate rewards (state and action) of the MDP once for improved speed.
-             *
-             * @param m The MDP that needs to be solved.
-             *
-             * @return The Models's immediate rewards.
-             */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-            QFunction computeImmediateRewards(const M & model) const;
-
-            /**
-             * @brief This function creates the Model's most up-to-date QFunction.
-             *
-             * @param m The MDP that needs to be solved.
-             * @param ir The immediate rewards of the model.
-             *
-             * @return A new QFunction.
-             */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-            QFunction computeQFunction(const M & model, QFunction ir) const;
     };
 
     template <typename M, typename>
@@ -186,7 +164,7 @@ namespace AIToolbox::MDP {
 
             // We apply the discount directly on the values vector.
             val1 *= model.getDiscount();
-            q = computeQFunction(model, ir);
+            q = computeQFunction(model, std::get<VALUES>(v1_), ir);
 
             // Compute the new value function (note that also val1 is overwritten)
             bellmanOperatorInline(q, &v1_);
@@ -199,37 +177,6 @@ namespace AIToolbox::MDP {
 
         // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
         return std::make_tuple(variation <= epsilon_, std::move(v1_), std::move(q));
-    }
-
-    template <typename M, typename>
-    QFunction ValueIteration::computeImmediateRewards(const M & model) const {
-        auto pr = makeQFunction(S, A);
-
-        if constexpr(is_model_eigen<M>::value) {
-            for ( size_t a = 0; a < A; ++a )
-                pr.col(a).noalias() = model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(S);
-        } else {
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    for ( size_t s1 = 0; s1 < S; ++s1 )
-                        pr(s, a) += model.getTransitionProbability(s,a,s1) * model.getExpectedReward(s,a,s1);
-        }
-
-        return pr;
-    }
-
-    template <typename M, typename>
-    QFunction ValueIteration::computeQFunction(const M & model, QFunction ir) const {
-        if constexpr(is_model_eigen<M>::value) {
-            for ( size_t a = 0; a < A; ++a )
-                ir.col(a).noalias() += ( model.getTransitionFunction(a).cwiseProduct(std::get<VALUES>(v1_).transpose().replicate(S, 1)) ) * Vector::Ones(S);
-        } else {
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    for ( size_t s1 = 0; s1 < S; ++s1 )
-                        ir(s, a) += model.getTransitionProbability(s,a,s1) * std::get<VALUES>(v1_)[s1];
-        }
-        return ir;
     }
 }
 
