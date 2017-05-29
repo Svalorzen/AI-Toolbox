@@ -26,6 +26,7 @@ namespace AIToolbox {
                 PolicyInterface::Base(s, a), policy_(S, A)
         {
             const auto & actions = std::get<ACTIONS>(v);
+            policy_.fill(0.0);
             for ( size_t s = 0; s < S; ++s )
                 policy_(s, actions[s]) = 1.0;
         }
