@@ -126,8 +126,7 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     Action EpsilonPolicyInterface<State, Sampling, Action>::sampleAction(const Sampling & s) const {
-        const double pe = sampleDistribution_(this->rand_);
-        if ( pe > epsilon_ )
+        if ( sampleDistribution_(this->rand_) > epsilon_ )
             return sampleRandomAction();
 
         return policy_.sampleAction(s);
