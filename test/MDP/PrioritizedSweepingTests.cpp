@@ -26,8 +26,6 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     mdp::PrioritizedSweeping<decltype(learnedModel)> solver(learnedModel);
 
-    BOOST_CHECK_EQUAL((std::is_base_of<mdp::PrioritizedSweepingEigen<decltype(learnedModel)>, decltype(solver)>::value), true);
-
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
     mdp::EpsilonPolicy ePolicy(gPolicy, 0.9);
 
