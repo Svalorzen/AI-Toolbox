@@ -80,9 +80,8 @@ namespace AIToolbox::MDP {
         QGreedyPolicy p(qfun);
         auto table = p.getPolicy();
 
-        bool workToDo;
-        do {
-            workToDo = false;
+        {
+nextLoop:
             auto solution = eval(p);
 
             eval.setValues(std::move(std::get<1>(solution)));
@@ -92,14 +91,12 @@ namespace AIToolbox::MDP {
             for (size_t s = 0; s < S; ++s) {
                 for (size_t a = 0; a < A; ++a) {
                     if (checkDifferentSmall(table(s,a), newTable(s,a))) {
-                        workToDo = true;
                         table = std::move(newTable);
                         goto nextLoop;
                     }
                 }
             }
-nextLoop:;
-        } while (workToDo);
+        }
 
         return std::move(qfun);
     }
