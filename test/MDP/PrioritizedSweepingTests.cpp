@@ -31,13 +31,13 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     size_t start = model.getS() - 2;
 
-    size_t s, a, s1; double rew;
+    size_t s, a;
 
     for ( int episode = 0; episode < 10; ++episode ) {
         s = start;
         for ( int i = 0; i < 10000; ++i ) {
             a = ePolicy.sampleAction( s );
-            std::tie( s1, rew ) = model.sampleSR( s, a );
+            const auto [s1, rew] = model.sampleSR( s, a );
 
             exp.record(s, a, s1, rew);
             learnedModel.sync(s, a, s1);

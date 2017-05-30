@@ -118,10 +118,9 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     EpsilonPolicyInterface<State, Sampling, Action>::EpsilonPolicyInterface(const Base & p, const double e) :
-            policy_(p), epsilon_(e),
-            sampleDistribution_(0.0, 1.0)
+            policy_(p), sampleDistribution_(0.0, 1.0)
     {
-        if ( epsilon_ < 0.0 || epsilon_ > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
+        setEpsilon(e);
     }
 
     template <typename State, typename Sampling, typename Action>
@@ -140,7 +139,7 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     void EpsilonPolicyInterface<State, Sampling, Action>::setEpsilon(const double e) {
-        if ( e < 0.0 || e > 1.0 ) throw std::invalid_argument("Epsilon parameter was outside specified bounds");
+        if ( e < 0.0 || e > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
         epsilon_ = e;
     }
 
