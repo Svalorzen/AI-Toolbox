@@ -2,99 +2,96 @@
 
 #include <AIToolbox/Utils/Core.hpp>
 
-namespace AIToolbox {
-    namespace MDP {
+namespace AIToolbox::MDP {
+    WoLFPolicy::WoLFPolicy(const QFunction & q, const double deltaw, const double deltal, const double scaling) :
+            Base(q.rows(), q.cols()), QPolicyInterface(q), deltaW_(deltaw), deltaL_(deltal),
+            scaling_(scaling), c_(S, 0), avgPolicy_(S,A), actualPolicy_(S,A) {}
 
-        WoLFPolicy::WoLFPolicy(const QFunction & q, const double deltaw, const double deltal, const double scaling) :
-                Base(q.rows(), q.cols()), QPolicyInterface(q), deltaW_(deltaw), deltaL_(deltal),
-                scaling_(scaling), c_(S, 0), avgPolicy_(S,A), actualPolicy_(S,A) {}
+    void WoLFPolicy::updatePolicy(const size_t s) {
+        ++c_[s];
 
-        void WoLFPolicy::updatePolicy(const size_t s) {
-            ++c_[s];
+        auto avgstate = avgPolicy_.getStatePolicy(s);
+        // Obtain argmax of Q[s], check whether we are losing or winning.
+        auto actualstate = actualPolicy_.getStatePolicy(s);
 
-            auto avgstate = avgPolicy_.getStatePolicy(s);
-            // Obtain argmax of Q[s], check whether we are losing or winning.
-            auto actualstate = actualPolicy_.getStatePolicy(s);
+        // Update estimate of average policy
+        avgstate.noalias() += (1.0/c_[s]) * (actualstate - avgstate);
+        avgstate /= avgstate.sum();
 
-            // Update estimate of average policy
-            avgstate.noalias() += (1.0/c_[s]) * (actualstate - avgstate);
-            avgstate /= avgstate.sum();
+        avgPolicy_.setStatePolicy(s, avgstate);
 
-            avgPolicy_.setStatePolicy(s, avgstate);
+        size_t bestAction; double finalDelta;
+        {
+            unsigned bestActionCount = 1; double bestQValue = q_(s, 0);
+            // Automatically sets initial best action as bestAction[0] = 0
+            std::vector<size_t> bestActions(A,0);
 
-            size_t bestAction; double finalDelta;
-            {
-                unsigned bestActionCount = 1; double bestQValue = q_(s, 0);
-                // Automatically sets initial best action as bestAction[0] = 0
-                std::vector<size_t> bestActions(A,0);
+            for ( size_t a = 1; a < A; ++a ) {
+                const double qsa = q_(s, a);
 
-                for ( size_t a = 1; a < A; ++a ) {
-                    const double qsa = q_(s, a);
-
-                    if ( checkEqualGeneral(qsa, bestQValue) ) {
-                        bestActions[bestActionCount] = a;
-                        ++bestActionCount;
-                    }
-                    else if ( qsa > bestQValue ) {
-                        bestActions[0] = a;
-                        bestActionCount = 1;
-                        bestQValue = qsa;
-                    }
+                if ( checkEqualGeneral(qsa, bestQValue) ) {
+                    bestActions[bestActionCount] = a;
+                    ++bestActionCount;
                 }
-                double avgValue = q_.row(s) * avgstate;
-                double actualValue = q_.row(s) * actualstate;
-
-                auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
-                const unsigned selection = pickDistribution(rand_);
-
-                bestAction = bestActions[selection];
-                finalDelta = actualValue > avgValue ? deltaW_ : deltaL_;
+                else if ( qsa > bestQValue ) {
+                    bestActions[0] = a;
+                    bestActionCount = 1;
+                    bestQValue = qsa;
+                }
             }
+            double avgValue = q_.row(s) * avgstate;
+            double actualValue = q_.row(s) * actualstate;
 
-            finalDelta /= ( c_[s] / scaling_ + 1.0 );
+            auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
+            const unsigned selection = pickDistribution(rand_);
 
-            auto oldV = actualstate(bestAction);
-            actualstate = (actualstate.array() - finalDelta/(A-1)).cwiseMax(0);
-            actualstate(bestAction) = std::min(1.0, oldV + finalDelta);
-            actualstate /= actualstate.sum();
-
-            actualPolicy_.setStatePolicy(s, actualstate);
+            bestAction = bestActions[selection];
+            finalDelta = actualValue > avgValue ? deltaW_ : deltaL_;
         }
 
-        size_t WoLFPolicy::sampleAction(const size_t & s) const {
-            return actualPolicy_.sampleAction(s);
-        }
+        finalDelta /= ( c_[s] / scaling_ + 1.0 );
 
-        double WoLFPolicy::getActionProbability(const size_t & s, const size_t & a) const {
-            return actualPolicy_.getActionProbability(s,a);
-        }
+        auto oldV = actualstate(bestAction);
+        actualstate = (actualstate.array() - finalDelta/(A-1)).cwiseMax(0);
+        actualstate(bestAction) = std::min(1.0, oldV + finalDelta);
+        actualstate /= actualstate.sum();
 
-        Matrix2D WoLFPolicy::getPolicy() const {
-            return actualPolicy_.getPolicy();
-        }
+        actualPolicy_.setStatePolicy(s, actualstate);
+    }
 
-        void WoLFPolicy::setDeltaW(const double deltaW) {
-            deltaW_ = deltaW;
-        }
+    size_t WoLFPolicy::sampleAction(const size_t & s) const {
+        return actualPolicy_.sampleAction(s);
+    }
 
-        double WoLFPolicy::getDeltaW() const {
-            return deltaW_;
-        }
+    double WoLFPolicy::getActionProbability(const size_t & s, const size_t & a) const {
+        return actualPolicy_.getActionProbability(s,a);
+    }
 
-        void WoLFPolicy::setDeltaL(const double deltaL) {
-            deltaL_ = deltaL;
-        }
+    Matrix2D WoLFPolicy::getPolicy() const {
+        return actualPolicy_.getPolicy();
+    }
 
-        double WoLFPolicy::getDeltaL() const {
-            return deltaL_;
-        }
+    void WoLFPolicy::setDeltaW(const double deltaW) {
+        deltaW_ = deltaW;
+    }
 
-        void WoLFPolicy::setScaling(const double scaling) {
-            scaling_ = scaling;
-        }
+    double WoLFPolicy::getDeltaW() const {
+        return deltaW_;
+    }
 
-        double WoLFPolicy::getScaling() const {
-            return scaling_;
-        }
+    void WoLFPolicy::setDeltaL(const double deltaL) {
+        deltaL_ = deltaL;
+    }
+
+    double WoLFPolicy::getDeltaL() const {
+        return deltaL_;
+    }
+
+    void WoLFPolicy::setScaling(const double scaling) {
+        scaling_ = scaling;
+    }
+
+    double WoLFPolicy::getScaling() const {
+        return scaling_;
     }
 }
