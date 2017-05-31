@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     // We set the horizon to a very high value so that
     // the epsilon bound will prevail, solving the problem
     // until convergence (infinite horizon).
-    PolicyIteration<decltype(model)> solver(1000000, 0.001);
+    PolicyIteration solver(1000000, 0.001);
 
     auto qfun = solver(model);
     QGreedyPolicy policy( qfun );

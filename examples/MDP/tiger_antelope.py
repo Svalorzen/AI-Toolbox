@@ -295,7 +295,7 @@ def solve_mdp(horizon, epsilon, discount=0.9):
         horizon, epsilon)
 
 
-    solver = MDP.ValueIterationSparseModel(horizon, epsilon)
+    solver = MDP.ValueIteration(horizon, epsilon)
     solution = solver(model)
 
     print time.strftime("%H:%M:%S"), "- Converged:", solution[0]

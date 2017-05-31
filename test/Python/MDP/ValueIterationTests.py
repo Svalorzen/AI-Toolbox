@@ -50,7 +50,7 @@ class MDPPythonValueIterationTests(unittest.TestCase):
         model.setTransitionFunction(t)
         model.setRewardFunction(r)
 
-        vi = MDP.ValueIterationModel(1000000, 0.001)
+        vi = MDP.ValueIteration(1000000, 0.001)
         solution = vi(model)
 
         self.assertEqual(solution[0], True)

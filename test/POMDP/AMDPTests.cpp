@@ -7,7 +7,6 @@
 
 #include <AIToolbox/POMDP/Algorithms/AMDP.hpp>
 #include <AIToolbox/POMDP/Algorithms/IncrementalPruning.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/BeliefGenerator.hpp>
 
 #include <AIToolbox/POMDP/Policies/Policy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
@@ -15,7 +14,6 @@
 #include <AIToolbox/POMDP/SparseModel.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
-#include <AIToolbox/MDP/IO.hpp>
 
 #include "Utils/TigerProblem.hpp"
 
@@ -36,7 +34,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto & simplerModel = std::get<0>(convertedModel);
     auto & beliefConverter = std::get<1>(convertedModel);
 
-    MDP::ValueIteration<std::remove_reference<decltype(simplerModel)>::type> solver(horizon);
+    MDP::ValueIteration solver(horizon);
 
     auto solution = solver(simplerModel);
     MDP::QGreedyPolicy policy(std::get<2>(solution));
@@ -78,7 +76,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
 
     auto & beliefConverter = std::get<1>(convertedModel);
 
-    MDP::ValueIteration<std::remove_reference<decltype(simplerModel)>::type> solver(horizon);
+    MDP::ValueIteration solver(horizon);
 
     auto solution = solver(simplerModel);
     MDP::QGreedyPolicy policy(std::get<2>(solution));

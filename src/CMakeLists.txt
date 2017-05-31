@@ -27,6 +27,8 @@ if (MAKE_MDP)
         MDP/IO.cpp
         MDP/Algorithms/QLearning.cpp
         MDP/Algorithms/SARSA.cpp
+        MDP/Algorithms/ValueIteration.cpp
+        MDP/Algorithms/PolicyIteration.cpp
         MDP/Policies/Policy.cpp
         MDP/Policies/EpsilonPolicy.cpp
         MDP/Policies/QPolicyInterface.cpp
@@ -54,6 +56,7 @@ if (MAKE_MDP)
             MDP/SparseModel.cpp
             MDP/Algorithms/QLearning.cpp
             MDP/Algorithms/SARSA.cpp
+            MDP/Algorithms/ValueIteration.cpp
             MDP/Policies/Policy.cpp
             MDP/Policies/EpsilonPolicy.cpp
             MDP/Policies/QPolicyInterface.cpp
@@ -98,6 +101,7 @@ if (MAKE_POMDP)
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/AMDP.cpp
+        POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
         LP/LpSolveWrapper.cpp
         POMDP/Policies/Policy.cpp)
@@ -115,6 +119,7 @@ if (MAKE_POMDP)
             POMDP/Algorithms/PBVI.cpp
             POMDP/Algorithms/PERSEUS.cpp
             POMDP/Algorithms/AMDP.cpp
+            POMDP/Algorithms/QMDP.cpp
             POMDP/Policies/Policy.cpp
             POMDP/Algorithms/Utils/WitnessLP.cpp
             LP/LpSolveWrapper.cpp

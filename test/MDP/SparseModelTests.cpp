@@ -11,7 +11,7 @@
 #include <fstream>
 
 BOOST_AUTO_TEST_CASE( construction ) {
-    const int S = 5, A = 6;
+    const size_t S = 5, A = 6;
 
     AIToolbox::MDP::SparseModel m(S, A);
 
@@ -56,7 +56,7 @@ int generator() {
 }
 
 BOOST_AUTO_TEST_CASE( files ) {
-    const int S = 4, A = 2;
+    const size_t S = 4, A = 2;
     AIToolbox::MDP::SparseModel m(S,A);
 
     std::string inputFilename  = "./data/mdp_model.txt";
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE( files ) {
 }
 
 BOOST_AUTO_TEST_CASE( setTransitionFunction ) {
-    const int S = 5, A = 6;
+    const size_t S = 5, A = 6;
 
     AIToolbox::MDP::SparseModel m(S, A);
 
