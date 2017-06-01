@@ -21,10 +21,10 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
 
     // This indicates where the tiger is.
     Matrix2D beliefs(5, 2);
-    beliefs << 0.5,     0.5, 
-               1.0,     0.0, 
-               0.25,    0.75, 
-               0.98,    0.02, 
+    beliefs << 0.5,     0.5,
+               1.0,     0.0,
+               0.25,    0.75,
+               0.98,    0.02,
                0.33,    0.66;
 
     unsigned maxHorizon = 7;
@@ -65,10 +65,10 @@ BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
 
     // This indicates where the tiger is.
     Matrix2D beliefs(5, 2);
-    beliefs << 0.5,     0.5, 
-               1.0,     0.0, 
-               0.25,    0.75, 
-               0.98,    0.02, 
+    beliefs << 0.5,     0.5,
+               1.0,     0.0,
+               0.25,    0.75,
+               0.98,    0.02,
                0.33,    0.66;
 
     unsigned horizon = 1;
