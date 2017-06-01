@@ -94,8 +94,8 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     for ( size_t i = 0; i < vlist.size(); ++i ) {
         auto & values = std::get<POMDP::VALUES>(vlist[i]);
         auto it = std::find_if(std::begin(truth), std::end(truth), [&](const POMDP::VEntry & ve) {
-                return std::get<POMDP::VALUES>(ve) == values;
-                });
+            return std::get<POMDP::VALUES>(ve) == values;
+        });
         BOOST_CHECK( it != std::end(truth) );
 
         if ( std::get<POMDP::ACTION>(*it) == 0u )
