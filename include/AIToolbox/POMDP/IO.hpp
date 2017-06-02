@@ -8,6 +8,7 @@
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 #include <AIToolbox/POMDP/SparseModel.hpp>
+#include <AIToolbox/POMDP/Policies/Policy.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -134,6 +135,35 @@ namespace AIToolbox::POMDP {
 
         return is;
     }
+
+    /**
+     * @brief This function reads a policy from a file.
+     *
+     * This function reads files that have been outputted through
+     * operator<<(). If not enough values can be extracted from
+     * the stream, the function stops and the input policy is
+     * not modified. In addition, it checks whether the probability
+     * values are within 0 and 1.
+     *
+     * @param is The stream were the policy is being read from.
+     * @param p The policy that is being assigned.
+     *
+     * @return The input stream.
+     */
+    std::istream& operator>>(std::istream &is, Policy & p);
+
+    /**
+     * @brief This function prints the whole policy to a stream.
+     *
+     * This function basically outputs the internal ValueFunction
+     * in a recoverable format.
+     *
+     * @param os The stream where the policy is printed.
+     * @param p The policy that is begin printed.
+     *
+     * @return The original stream.
+     */
+    std::ostream& operator<<(std::ostream &os, const Policy & p);
 }
 
 #endif

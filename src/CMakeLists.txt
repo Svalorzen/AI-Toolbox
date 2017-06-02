@@ -103,6 +103,7 @@ if (MAKE_POMDP)
         POMDP/Algorithms/AMDP.cpp
         POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
+        POMDP/IO.cpp
         LP/LpSolveWrapper.cpp
         POMDP/Policies/Policy.cpp)
 
