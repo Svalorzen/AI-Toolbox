@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
         {    {},   {{1, 2}, {1, 1}},            5.0},
     };
 
-    auto solution = std::make_pair(fm::Action{1, 0, 0}, 11.0);
+    const auto solution = std::make_pair(fm::Action{1, 0, 0}, 11.0);
 
     const fm::Action a{2, 2, 2};
 

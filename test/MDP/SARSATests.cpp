@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     size_t start = model.getS() - 2;
 
-    size_t s, a, s1, a1; double rew;
+    size_t s, a, a1;
     for ( int episode = 0; episode < 10000; ++episode ) {
         // Ok, so this is because I basically couldn't find
         // any other way to make this thing converge to the
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
         a = ePolicy.sampleAction( s );
 
         for ( int i = 0; i < 10000; ++i ) {
-            std::tie( s1, rew ) = model.sampleSR( s, a );
+            const auto [s1, rew] = model.sampleSR( s, a );
             a1 = ePolicy.sampleAction( s );
             solver.stepUpdateQ( s, a, s1, a1, rew );
             s = s1; a = a1;
@@ -69,4 +69,15 @@ BOOST_AUTO_TEST_CASE( cliff ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, DOWN), 1.0 );
         state.setAdjacent(DOWN);
     }
+}
+
+BOOST_AUTO_TEST_CASE( exceptions ) {
+    namespace mdp = AIToolbox::MDP;
+    BOOST_CHECK_EXCEPTION(mdp::SARSA(1,1,0.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::SARSA(1,1,-10.0,0.5), std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::SARSA(1,1,3.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+
+    BOOST_CHECK_EXCEPTION(mdp::SARSA(1,1,0.3,0.0),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::SARSA(1,1,0.3,-0.5),  std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::SARSA(1,1,0.3,1.1),   std::invalid_argument, [](const std::invalid_argument &){return true;});
 }

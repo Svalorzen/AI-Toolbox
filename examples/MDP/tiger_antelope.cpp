@@ -218,7 +218,7 @@ int main() {
     // will converge to a single policy anyway. Thus we put a very high number
     // as the horizon here.
     printCurrentTimeString(); std::cout << " - Solving MDP using infinite horizon...\n";
-    AIToolbox::MDP::ValueIteration<decltype(model)> solver(1000000);
+    AIToolbox::MDP::ValueIteration solver(1000000);
 
     // This is where the magic happen. This could take around 10-20 minutes,
     // depending on your machine (most of the time is spent on this tutorial's

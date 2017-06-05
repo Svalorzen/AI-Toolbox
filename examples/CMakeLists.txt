@@ -11,7 +11,8 @@ if (MAKE_MDP)
             COMMAND cp
             ARGS    "${CMAKE_CURRENT_LIST_DIR}/MDP/tiger_antelope.py"
                     "${CMAKE_CURRENT_BINARY_DIR}"
-            COMMENT "Copying python tiger_antelope to example folder...")
+            COMMENT "Copying python tiger_antelope to example folder..."
+            DEPENDS "${CMAKE_CURRENT_LIST_DIR}/MDP/tiger_antelope.py")
         add_custom_target(tiger_antelope_py ALL
             DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/tiger_antelope.py")
     endif()
@@ -27,7 +28,8 @@ if (MAKE_POMDP)
             COMMAND cp
             ARGS    "${CMAKE_CURRENT_LIST_DIR}/POMDP/tiger_door.py"
                     "${CMAKE_CURRENT_BINARY_DIR}"
-            COMMENT "Copying python tiger_door to example folder...")
+            COMMENT "Copying python tiger_door to example folder..."
+            DEPENDS "${CMAKE_CURRENT_LIST_DIR}/POMDP/tiger_door.py")
         add_custom_target(tiger_door_py ALL
             DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/tiger_door.py")
     endif()

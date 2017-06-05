@@ -5,13 +5,13 @@
 
 #include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/RLModel.hpp>
-#include <AIToolbox/MDP/IO.hpp>
 
-#include <fstream>
+// #include <AIToolbox/MDP/IO.hpp>
+// #include <fstream>
 
 BOOST_AUTO_TEST_CASE( construction ) {
     using namespace AIToolbox::MDP;
-    const int S = 10, A = 8;
+    const size_t S = 10, A = 8;
 
     Experience exp(S,A);
     RLModel<decltype(exp)> model(exp, 1.0, false);
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
 
 BOOST_AUTO_TEST_CASE( syncing ) {
     using namespace AIToolbox::MDP;
-    const int S = 10, A = 8;
+    const size_t S = 10, A = 8;
 
     Experience exp(S,A);
     // Single state sync
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
 
 BOOST_AUTO_TEST_CASE( sampling ) {
     using namespace AIToolbox::MDP;
-    const int S = 10, A = 8;
+    const size_t S = 10, A = 8;
 
     Experience exp(S,A);
     RLModel<decltype(exp)> model(exp, 1.0, false);

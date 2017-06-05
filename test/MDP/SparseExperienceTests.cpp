@@ -12,7 +12,7 @@
 #include <cstdio>
 
 BOOST_AUTO_TEST_CASE( construction ) {
-    const int S = 5, A = 6;
+    const size_t S = 5, A = 6;
 
     AIToolbox::MDP::SparseExperience exp(S, A);
 
@@ -27,11 +27,11 @@ BOOST_AUTO_TEST_CASE( construction ) {
 }
 
 BOOST_AUTO_TEST_CASE( recording ) {
-    const int S = 5, A = 6;
+    const size_t S = 5, A = 6;
 
     AIToolbox::MDP::SparseExperience exp(S, A);
 
-    const int s = 3, s1 = 4, a = 5;
+    const size_t s = 3, s1 = 4, a = 5;
     const double rew = 7.4, negrew = -4.2, zerorew = 0.0;
 
     BOOST_CHECK_EQUAL(exp.getVisits(s,a,s1), 0);
@@ -64,7 +64,7 @@ int generator() {
 }
 
 BOOST_AUTO_TEST_CASE( compatibility ) {
-    const int S = 4, A = 3;
+    const size_t S = 4, A = 3;
     AIToolbox::MDP::SparseExperience exp(S,A);
 
     std::array<std::array<std::array<int, S>, A>, S> visits;
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
 }
 
 BOOST_AUTO_TEST_CASE( files ) {
-    const int S = 96, A = 2;
+    const size_t S = 96, A = 2;
     AIToolbox::MDP::SparseExperience exp(S,A);
 
     std::string inputFilename  = "./data/experience.txt";

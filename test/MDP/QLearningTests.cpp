@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     size_t start = model.getS() - 2;
 
-    size_t s, a, s1; double rew;
+    size_t s, a;
     // Sorry Sutton & Barto, but NO WAY IN HELL that
     // QLearning is going to learn the best path in
     // 50 episodes. Like, NO.
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
         s = start;
         for ( int i = 0; i < 10000; ++i ) {
             a = ePolicy.sampleAction( s );
-            std::tie( s1, rew ) = model.sampleSR( s, a );
+            const auto [s1, rew] = model.sampleSR( s, a );
 
             solver.stepUpdateQ( s, a, s1, rew );
 
@@ -86,4 +86,15 @@ BOOST_AUTO_TEST_CASE( cliff ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, DOWN), 1.0 );
         state.setAdjacent(DOWN);
     }
+}
+
+BOOST_AUTO_TEST_CASE( exceptions ) {
+    namespace mdp = AIToolbox::MDP;
+    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,-10.0,0.5), std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,3.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+
+    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.3,0.0),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.3,-0.5),  std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.3,1.1),   std::invalid_argument, [](const std::invalid_argument &){return true;});
 }
