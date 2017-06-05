@@ -61,12 +61,12 @@ BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
         action = llr.stepUpdateQ(action, rew);
     }
 
-    fm::Action solution{0, 1, 0};
+    const fm::Action solution{0, 1, 0};
 
-    auto rules = llr.getQFunctionRules();
+    const auto rules = llr.getQFunctionRules();
     fm::QGreedyPolicy p({}, A, rules);
 
-    auto greedyAction = p.sampleAction({});
+    const auto greedyAction = p.sampleAction({});
 
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution), std::end(solution),
                                   std::begin(greedyAction), std::end(greedyAction));
