@@ -1,11 +1,10 @@
 #ifndef AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 #define AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 
+#include <AIToolbox/Impl/Logging.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
-
-#include <iostream>
 
 namespace AIToolbox::MDP {
     /**
@@ -137,8 +136,9 @@ namespace AIToolbox::MDP {
             // Verify that parameter value function is compatible.
             const size_t size = std::get<VALUES>(vParameter_).size();
             if ( size != S ) {
-                if ( size != 0 )
-                    std::cerr << "AIToolbox: Size of starting value function in ValueIteration::solve() is incorrect, ignoring...\n";
+                if ( size != 0 ) {
+                    AI_LOGGER(AI_SEVERITY_WARNING, "Size of starting value function is incorrect, ignoring...");
+                }
                 // Defaulting
                 v1_ = makeValueFunction(S);
             }
@@ -158,6 +158,7 @@ namespace AIToolbox::MDP {
         const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
         while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
             ++timestep;
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Processing timestep " << timestep);
 
             val0 = val1;
 
