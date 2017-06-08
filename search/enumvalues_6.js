@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['tig_5fleft',['TIG_LEFT',['../TigerProblem_8hpp.html#aba01db17f4a2bfbc3db60dc172972a25ae7db346161ae7a41f4113fc585cb6901',1,'TigerProblem.hpp']]],
-  ['tig_5fright',['TIG_RIGHT',['../TigerProblem_8hpp.html#aba01db17f4a2bfbc3db60dc172972a25a3b8e7fd024fa54f04e4de13d5bd7a93d',1,'TigerProblem.hpp']]]
+  ['right',['RIGHT',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaec8379af7490bb9eaaf579cf17876f38',1,'RIGHT():&#160;ToroidalWorld.hpp'],['../GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaec8379af7490bb9eaaf579cf17876f38',1,'RIGHT():&#160;GridWorld.hpp']]]
 ];

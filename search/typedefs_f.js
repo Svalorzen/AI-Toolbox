@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['v',['V',['../classAIToolbox_1_1FactoredMDP_1_1UCVE.html#a7e51aa03abe8663255904e9fe8a623dd',1,'AIToolbox::FactoredMDP::UCVE']]],
   ['v3d',['V3D',['../structVector3DFromPython.html#ac395d0df7df6588e6d62d547948c5ba6',1,'Vector3DFromPython']]],
   ['value_5ftype',['value_type',['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#ac0fc95cdba0f249d9f29b1acf714dc21',1,'AIToolbox::FactoredMDP::FactoredIterable::value_type()'],['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable_1_1FactoredIterator.html#aec280c3005823252ebc9a71310c3c2c4',1,'AIToolbox::FactoredMDP::FactoredIterable::FactoredIterator::value_type()']]],
   ['valuefunction',['ValueFunction',['../namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b',1,'AIToolbox::MDP::ValueFunction()'],['../namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb',1,'AIToolbox::POMDP::ValueFunction()']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stand',['STAND',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaf422fb81d42ecd479de08e64b6533d18',1,'ToroidalWorld.hpp']]]
+  ['obs',['OBS',['../namespaceAIToolbox_1_1POMDP.html#a4ee8f7f75ac407c0506a523313dfd1bbab21b7279adcaeea4b513579146191508',1,'AIToolbox::POMDP']]]
 ];

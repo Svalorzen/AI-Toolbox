@@ -96,8 +96,6 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:namespaceAIToolbox"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceAIToolbox_1_1MDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html">AIToolbox::MDP</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -112,10 +110,10 @@ MDP Value Types</h2></td></tr>
 <p>A QFunction is a function that takes in a state and action, and returns the value for that particular pair. The higher the value is, the better we predict we will perform. Using a QFunction to obtain the perfect policy is straightforward, since at each state we can simply check which action will yeld the best value, and choose that one (assuming that all actions taken from that point are optimal, which we would like to assume since we are trying to find out the best).</p>
 <p>In theory, a ValueFunction is a function that is a max over actions of the QFunction, as in it takes a state and returns the best value obtainable from that state (following the implied policy). However, that is not very useful in a practical scenario. Thus we want to store not only that value, but also the action that resulted in that particular choice. Instead of storing, as it would make more intuitive sense, this function as a vector of tuples, we are going to store it as a tuple of vectors, to allow for easy manipulations of the underlying values (sums, products and so on). </p>
 </td></tr>
-<tr class="memitem:a1779f5d4df8804f1b99ea13493d63e1f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespaceAIToolbox_1_1MDP.html#a1779f5d4df8804f1b99ea13493d63e1fad23a58e5e8528fbc8b2f366e62e20a24">AIToolbox::MDP::VALUES</a> = 0, 
-<a class="el" href="namespaceAIToolbox_1_1MDP.html#a1779f5d4df8804f1b99ea13493d63e1fa9285b4826fb6fe43f75df0aed7db51fa">AIToolbox::MDP::ACTIONS</a> = 1
+<tr class="memitem:a87449a3e95621e29fe4257e5905b70be"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespaceAIToolbox_1_1MDP.html#a87449a3e95621e29fe4257e5905b70bead23a58e5e8528fbc8b2f366e62e20a24">AIToolbox::MDP::VALUES</a> = 0, 
+<a class="el" href="namespaceAIToolbox_1_1MDP.html#a87449a3e95621e29fe4257e5905b70bea9285b4826fb6fe43f75df0aed7db51fa">AIToolbox::MDP::ACTIONS</a> = 1
  }</td></tr>
-<tr class="separator:a1779f5d4df8804f1b99ea13493d63e1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a87449a3e95621e29fe4257e5905b70be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6bfccca3b00146c82eb345ca8490b74"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">AIToolbox::MDP::Values</a> = Vector</td></tr>
 <tr class="separator:ae6bfccca3b00146c82eb345ca8490b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42a6ee8b9f55d5503151441128736d14"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a42a6ee8b9f55d5503151441128736d14">AIToolbox::MDP::Actions</a> = std::vector&lt; size_t &gt;</td></tr>
@@ -141,13 +139,13 @@ MDP Value Types</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">\</div><div class="line">                template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(Z* z) -&gt;                                                      \</div><div class="line">                                                                    typename remove_cv_ref&lt;decltype(z-&gt;fun_name(std::declval&lt;Args&gt;()...))&gt;::type;   \</div><div class="line">                                                                                                                                                    \</div><div class="line">                template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(...) -&gt; <span class="keywordtype">int</span></div></div><!-- fragment -->
+<b>Value:</b><div class="fragment"><div class="line">\</div><div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(Z* z) -&gt;                                                      \</div><div class="line">                                                                typename remove_cv_ref&lt;decltype(z-&gt;fun_name(std::declval&lt;Args&gt;()...))&gt;::type;   \</div><div class="line">                                                                                                                                                \</div><div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(...) -&gt; <span class="keywordtype">int</span></div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 9 2017 12:27:44 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 8 2017 15:04:18 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

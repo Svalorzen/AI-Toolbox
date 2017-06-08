@@ -8,12 +8,8 @@ var searchData=
   ['policyiteration_2ehpp',['PolicyIteration.hpp',['../PolicyIteration_8hpp.html',1,'']]],
   ['pomcp_2ehpp',['POMCP.hpp',['../POMCP_8hpp.html',1,'']]],
   ['prioritizedsweeping_2ehpp',['PrioritizedSweeping.hpp',['../PrioritizedSweeping_8hpp.html',1,'']]],
-  ['prioritizedsweepingeigen_2ehpp',['PrioritizedSweepingEigen.hpp',['../PrioritizedSweepingEigen_8hpp.html',1,'']]],
-  ['prioritizedsweepinggeneral_2ehpp',['PrioritizedSweepingGeneral.hpp',['../PrioritizedSweepingGeneral_8hpp.html',1,'']]],
   ['probability_2ehpp',['Probability.hpp',['../Probability_8hpp.html',1,'']]],
   ['projecter_2ehpp',['Projecter.hpp',['../Projecter_8hpp.html',1,'']]],
-  ['projectereigen_2ehpp',['ProjecterEigen.hpp',['../ProjecterEigen_8hpp.html',1,'']]],
-  ['projectergeneral_2ehpp',['ProjecterGeneral.hpp',['../ProjecterGeneral_8hpp.html',1,'']]],
   ['prune_2ehpp',['Prune.hpp',['../Prune_8hpp.html',1,'']]],
   ['pruner_2ehpp',['Pruner.hpp',['../Pruner_8hpp.html',1,'']]]
 ];
