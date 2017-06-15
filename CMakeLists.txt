@@ -71,6 +71,9 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"  )
         # using GCC
+        if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7)
+            message(FATAL_ERROR "g++ version required is at least 7")
+        endif()
 
         # Add link time optimizations
         add_definitions( -flto )
