@@ -5,6 +5,11 @@ import os
 sys.path.append(os.getcwd())
 import MDP
 
+UP = 0
+RIGHT = 1
+DOWN = 2
+LEFT = 3
+
 class MDPPythonValueIterationTests(unittest.TestCase):
 
     def testEscapeToCorners(self):
@@ -65,29 +70,29 @@ class MDPPythonValueIterationTests(unittest.TestCase):
             self.assertEqual(p.getActionProbability(9, a), 0.25)
             self.assertEqual(p.getActionProbability(15, a), 0.25)
 
-        self.assertEqual(p.getActionProbability(1, 3), 1.0)
-        self.assertEqual(p.getActionProbability(2, 3), 1.0)
+        self.assertEqual(p.getActionProbability(1, LEFT), 1.0)
+        self.assertEqual(p.getActionProbability(2, LEFT), 1.0)
 
-        self.assertEqual(p.getActionProbability(3, 3), 0.5)
-        self.assertEqual(p.getActionProbability(3, 2), 0.5)
+        self.assertEqual(p.getActionProbability(3, LEFT), 0.5)
+        self.assertEqual(p.getActionProbability(3, DOWN), 0.5)
 
-        self.assertEqual(p.getActionProbability(4, 0), 1.0)
-        self.assertEqual(p.getActionProbability(8, 0), 1.0)
+        self.assertEqual(p.getActionProbability(4, UP), 1.0)
+        self.assertEqual(p.getActionProbability(8, UP), 1.0)
 
-        self.assertEqual(p.getActionProbability(5, 3), 0.5)
-        self.assertEqual(p.getActionProbability(5, 0), 0.5)
+        self.assertEqual(p.getActionProbability(5, LEFT), 0.5)
+        self.assertEqual(p.getActionProbability(5, UP), 0.5)
 
-        self.assertEqual(p.getActionProbability(7, 2), 1.0)
-        self.assertEqual(p.getActionProbability(11, 2), 1.0)
+        self.assertEqual(p.getActionProbability(7,  DOWN), 1.0)
+        self.assertEqual(p.getActionProbability(11, DOWN), 1.0)
 
-        self.assertEqual(p.getActionProbability(10, 1), 0.5)
-        self.assertEqual(p.getActionProbability(10, 2), 0.5)
+        self.assertEqual(p.getActionProbability(10, RIGHT), 0.5)
+        self.assertEqual(p.getActionProbability(10, DOWN), 0.5)
 
-        self.assertEqual(p.getActionProbability(12, 1), 0.5)
-        self.assertEqual(p.getActionProbability(12, 0), 0.5)
+        self.assertEqual(p.getActionProbability(12, RIGHT), 0.5)
+        self.assertEqual(p.getActionProbability(12, UP), 0.5)
 
-        self.assertEqual(p.getActionProbability(13, 1), 1.0)
-        self.assertEqual(p.getActionProbability(14, 1), 1.0)
+        self.assertEqual(p.getActionProbability(13, RIGHT), 1.0)
+        self.assertEqual(p.getActionProbability(14, RIGHT), 1.0)
 
         vfun = solution[1]
         values = vfun[0]
