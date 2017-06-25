@@ -85,6 +85,7 @@ if (MAKE_MDP)
             AddTestMDPPython(Experience)
             AddTestMDPPython(QLearning)
             AddTestMDPPython(ValueIteration)
+            AddTestMDPPython(PolicyIteration)
         endif()
     endif()
 

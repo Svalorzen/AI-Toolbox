@@ -14,6 +14,7 @@ void exportMDPSparseModel();
 void exportMDPQLearning();
 void exportMDPSARSA();
 void exportMDPValueIteration();
+void exportMDPPolicyIteration();
 void exportMDPPrioritizedSweeping();
 void exportMDPMCTS();
 
@@ -43,6 +44,7 @@ BOOST_PYTHON_MODULE(MDP)
     exportMDPQLearning();
     exportMDPSARSA();
     exportMDPValueIteration();
+    exportMDPPolicyIteration();
     exportMDPPrioritizedSweeping();
     exportMDPMCTS();
 
