@@ -44,7 +44,7 @@ void exportMDPValueIteration() {
                  "is less than the epsilon specified.\n"
                  "\n"
                  "@param horizon The maximum number of iterations to perform.\n"
-                 "@param epsilon The epsilon factor to stop the value iteration loop.\n"
+                 "@param epsilon The epsilon factor to stop the value iteration loop."
         , (arg("self"), "horizon", "epsilon")))
 
         .def("__call__",                &ValueIteration::operator()<Model>,

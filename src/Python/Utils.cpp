@@ -4,8 +4,8 @@
 
 EigenVectorFromPython::EigenVectorFromPython() {
     boost::python::converter::registry::push_back(
-        &EigenVectorFromPython::convertible, 
-        &EigenVectorFromPython::construct, 
+        &EigenVectorFromPython::convertible,
+        &EigenVectorFromPython::construct,
         boost::python::type_id<AIToolbox::Vector>(
     ));
 }
