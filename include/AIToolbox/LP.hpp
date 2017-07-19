@@ -50,6 +50,8 @@ namespace AIToolbox {
              *
              * This field will NEVER be touched by this class, so you are free
              * to set it as you please, and its value will not be modified.
+             *
+             * By default it is NOT initialized!
              */
             Eigen::Map<Vector> row;
 
@@ -84,6 +86,19 @@ namespace AIToolbox {
             void popRow();
 
             /**
+             * @brief This function adds a new column to the LP.
+             *
+             * The inserted column is empty (all previous rows are assumed to
+             * not need the newly added variable).
+             *
+             * Calling this function will reset the content of the `row` public
+             * variable to an uninitialized space.
+             *
+             * @return The index of the newly inserted column.
+             */
+            size_t addColumn();
+
+            /**
              * @brief This function solves the LP associated with all constraints in the stack.
              *
              * This function solves the currently set LP problem. If solved,
@@ -111,9 +126,10 @@ namespace AIToolbox {
              * popRow() until the remaining number of rules is equal to the
              * number specified.
              *
-             * @param rows
+             * @param rows The number of rows to preallocate/leave in the LP.
              */
             void resize(size_t rows);
+
             /**
              * @brief This function sets the specified variable as unbounded.
              *
@@ -125,6 +141,7 @@ namespace AIToolbox {
             void setUnbounded(size_t n);
 
         private:
+            size_t varNumber_;
             bool maximize_;
     };
 }

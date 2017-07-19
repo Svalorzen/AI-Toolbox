@@ -10,6 +10,7 @@ namespace AIToolbox {
     template <bool realConversionNeeded>
     struct ConversionArray {
         ConversionArray(const size_t) {}
+        void resize(size_t) {}
         double * conversionData(const Vector &) { return nullptr; }
     };
 
@@ -21,19 +22,18 @@ namespace AIToolbox {
                 conv_[v+1] = static_cast<REAL>(row[v]);
             return conv_.get();
         }
+        void resize(const size_t vars) {
+            conv_.reset(new REAL[vars + 1]);
+        }
         std::unique_ptr<REAL[]> conv_;
     };
 
-    constexpr int toLpSolveConstraint(LP::Constraint c) {
-        if (c == LP::Constraint::LessEqual)
-            return LE;
-        if (c == LP::Constraint::GreaterEqual)
-            return GE;
-        return EQ;
-    }
-
-    struct LP::LP_impl : public ConversionArray<conversionNeeded> {
+    struct LP::LP_impl : private ConversionArray<conversionNeeded> {
         LP_impl(size_t vars);
+        void resize(size_t vars);
+        // Used to switch from double to REAL if needed.
+        using ConversionArray<conversionNeeded>::conversionData;
+
         std::unique_ptr<lprec, void(*)(lprec*)> lp_;
         std::unique_ptr<double[]> data_;
     };
@@ -55,12 +55,25 @@ namespace AIToolbox {
         // set_BFP(lp.get(), "../../libbfp_etaPFI.so");
     }
 
+    void LP::LP_impl::resize(const size_t vars) {
+        data_.reset(new double[vars + 1]);
+        ConversionArray<conversionNeeded>::resize(vars);
+    }
+
+    constexpr int toLpSolveConstraint(LP::Constraint c) {
+        if (c == LP::Constraint::LessEqual)
+            return LE;
+        if (c == LP::Constraint::GreaterEqual)
+            return GE;
+        return EQ;
+    }
+
     LP::~LP() = default;
 
     // Row is initialized from 1 since lp_solve reads element from 1 onwards
     LP::LP(const size_t varNumber) :
             pimpl_(new LP_impl(varNumber)), row(pimpl_->data_.get()+1, varNumber),
-            maximize_(false) {}
+            varNumber_(varNumber), maximize_(false) {}
 
     void LP::setObjective(const size_t n, const bool maximize) {
         set_obj(pimpl_->lp_.get(), n+1, 1.0);
@@ -79,8 +92,25 @@ namespace AIToolbox {
         }
     }
 
+    // TODO: Implement this version of pushRow to improve performances.
+    // void LP::pushRow(const std::vector<int> & ids, const Constraint c, const double value) {
+    //     add_constraintex(pimpl_->lp_.get(), ids.size(), pimpl_->data_.get(), ids.data(), toLpSolveConstraint(c), static_cast<REAL>(value));
+    // }
+
     void LP::popRow() {
         del_constraint(pimpl_->lp_.get(), get_Nrows(pimpl_->lp_.get()));
+    }
+
+    size_t LP::addColumn() {
+        ++varNumber_;
+        // Add element to row
+        pimpl_->resize(varNumber_);
+        // Reassign MAP to new row
+        new (&row) Eigen::Map<Vector>(pimpl_->data_.get()+1, varNumber_);
+        // Add new empty column to LP
+        add_columnex(pimpl_->lp_.get(), 0, NULL, NULL);
+
+        return varNumber_;
     }
 
     void LP::setUnbounded(const size_t n) {
