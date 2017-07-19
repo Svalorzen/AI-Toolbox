@@ -49,6 +49,10 @@ namespace AIToolbox::FactoredMDP {
             using CFactorIt = typename FactorList::const_iterator;
             using FactorItList = std::vector<FactorIt>;
 
+            using value_type = Factor;
+            using iterator = FactorIt;
+            using const_iterator = CFactorIt;
+
             struct AgentNode {
                 FactorItList factors_;
             };
@@ -177,27 +181,20 @@ namespace AIToolbox::FactoredMDP {
             size_t factorSize() const;
 
             /**
-             * @brief This function returns all current factors and their adjacency lists.
-             *
-             * @return The currently held factors.
-             */
-            const FactorList & getFactors() const;
-
-            /**
              * @brief This function provides an editable iterator to the beginning of the internal factor list.
              *
              * This function is used in order to allow editing of all the factors.
              *
              * @return An iterator to the beginning of the internal factor range.
              */
-            FactorIt factorsBegin();
+            FactorIt begin();
 
             /**
              * @brief This function provides a const iterator to the beginning of the internal factor list.
              *
              * @return A const iterator to the beginning of the internal factor range.
              */
-            CFactorIt factorsBegin() const;
+            CFactorIt begin() const;
 
             /**
              * @brief This function provides an editable interactor to the end of the internal factor list.
@@ -206,7 +203,7 @@ namespace AIToolbox::FactoredMDP {
              *
              * @return An iterator to the end of the internal factor range.
              */
-            FactorIt factorsEnd();
+            FactorIt end();
 
             /**
              * @brief This function provides a const interactor to the end of the internal factor list.
@@ -215,7 +212,7 @@ namespace AIToolbox::FactoredMDP {
              *
              * @return A const iterator to the end of the internal factor range.
              */
-            CFactorIt factorsEnd() const;
+            CFactorIt end() const;
 
         private:
             FactorList factorAdjacencies_;
@@ -295,15 +292,13 @@ namespace AIToolbox::FactoredMDP {
     template <typename Factor>
     size_t FactorGraph<Factor>::factorSize() const { return factorAdjacencies_.size(); }
     template <typename Factor>
-    const typename FactorGraph<Factor>::FactorList & FactorGraph<Factor>::getFactors() const { return factorAdjacencies_; }
+    typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::begin() { return std::begin(factorAdjacencies_); }
     template <typename Factor>
-    typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::factorsBegin() { return std::begin(factorAdjacencies_); }
+    typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::end() { return std::end(factorAdjacencies_); }
     template <typename Factor>
-    typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::factorsEnd() { return std::end(factorAdjacencies_); }
+    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::begin() const { return std::begin(factorAdjacencies_); }
     template <typename Factor>
-    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::factorsBegin() const { return std::begin(factorAdjacencies_); }
-    template <typename Factor>
-    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::factorsEnd() const { return std::end(factorAdjacencies_); }
+    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::end() const { return std::end(factorAdjacencies_); }
 }
 
 #endif
