@@ -42,14 +42,20 @@ namespace AIToolbox {
 
             /**
              * @brief Basic destructor to avoid problems with std::unique_ptr
+             *
+             * std::unique_ptr does not compile with incomplete types, since
+             * its generated default constructor needs to know the whole type.
+             * If we declare our own, we can postpone this step until the type
+             * is known in the source file.
              */
             ~LP();
 
             /**
              * @brief Editable vector containing column coefficients.
              *
-             * This field will NEVER be touched by this class, so you are free
-             * to set it as you please, and its value will not be modified.
+             * This field will NEVER be touched by this class unless where
+             * noted, so you are free to set it as you please, and its value
+             * will not be modified.
              *
              * By default it is NOT initialized!
              */
@@ -91,8 +97,8 @@ namespace AIToolbox {
              * The inserted column is empty (all previous rows are assumed to
              * not need the newly added variable).
              *
-             * Calling this function will reset the content of the `row` public
-             * variable to an uninitialized space.
+             * Warning: calling this function will reset the content of the
+             * `row` public variable to an uninitialized space.
              *
              * @return The index of the newly inserted column.
              */
@@ -105,11 +111,16 @@ namespace AIToolbox {
              * the return Vector will contain the values of the first N
              * variables of the solution, where N is the input.
              *
+             * This function may also return the final result of the objective.
+             * The pointer may be written independently from whether the
+             * solution was successful or not.
+             *
              * @param variables The number of variables one wants the solution of.
+             * @param objective A pointer where to store the result value of the objective.
              *
              * @return A Vector if the solving process succeeded.
              */
-            std::optional<Vector> solve(size_t variables);
+            std::optional<Vector> solve(size_t variables, double * objective = nullptr);
 
             /**
              * @brief This function resizes the underlying LP.

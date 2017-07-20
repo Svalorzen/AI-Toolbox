@@ -117,7 +117,7 @@ namespace AIToolbox {
         set_unbounded(pimpl_->lp_.get(), n+1);
     }
 
-    std::optional<Vector> LP::solve(const size_t variables) {
+    std::optional<Vector> LP::solve(const size_t variables, double * objective) {
         auto lp = pimpl_->lp_.get();
         // lp_solve uses the result of the previous runs to bootstrap
         // the new solution. Sometimes this breaks down for some reason,
@@ -125,26 +125,19 @@ namespace AIToolbox {
         // boost..
         default_basis(lp);
 
-
         // print_lp(lp.get());
         const auto result = ::solve(lp);
 
         REAL * vp;
         get_ptr_variables(lp, &vp);
-        const REAL value = get_objective(lp);
 
-        // We have found a witness point if we have found a belief for which the value
-        // of the supplied ValueFunction is greater than ALL others. Thus we just need
-        // to verify that the variable we have maximixed is actually greater than 0.
-        const bool isSolved = !( result > 1 || (maximize_ && value <= 0.0) || (!maximize_ && value >= 0.0) );
-
+        if (objective)
+            *objective = get_objective(lp);
 
         std::optional<Vector> solution;
 
-
-        if ( isSolved )
+        if ( result == 0 || result == 1 )
             solution = Eigen::Map<Vector>(vp, variables);
-
 
         return solution;
     }
