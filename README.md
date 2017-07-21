@@ -156,6 +156,7 @@ CMAKE_BUILD_TYPE # Defines the build type
 MAKE_ALL         # Builds all there is to build in the project
 MAKE_LIB         # Builds the core C++ library
 MAKE_MDP         # Builds the core C++ MDP library
+MAKE_FMDP        # Builds the core C++ Factored MDP and MDP library
 MAKE_POMDP       # Builds the core C++ POMDP and MDP library
 MAKE_PYTHON      # Builds Python bindings for the compiled core library
 MAKE_TESTS       # Builds the library's tests for the compiled core library
@@ -207,7 +208,9 @@ To compile a program that uses this library, simply link it against
 `libAIToolboxMDP.a` and possibly both `libAIToolboxPOMDP.a` and all `lp_solve`
 libraries. Please note that since the POMDP code relies on the MDP code, you
 __MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
-`undefined reference` errors.
+`undefined reference` errors. The same is true for the MDP and Factored MDP
+libraries. The POMDP and Factored MDP libraries are not currently dependent so
+their order does not matter.
 
 For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
 you'll be able to use the classes as exported to Python. All classes are

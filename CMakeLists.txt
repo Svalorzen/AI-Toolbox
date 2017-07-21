@@ -8,6 +8,7 @@ project (AIToolbox)
 # MAKE_ALL:      Builds all there is to build in the project
 # MAKE_LIB:      Builds the core C++ library
 # MAKE_MDP:      Builds the core C++ MDP library
+# MAKE_FMDP:     Builds the core C++ Factored MDP and MDP library
 # MAKE_POMDP:    Builds the core C++ POMDP and MDP library
 # MAKE_PYTHON:   Builds Python bindings for the compiled core library
 # MAKE_TESTS:    Builds the library's tests for the compiled core library
@@ -101,19 +102,23 @@ endif()
 ##############################
 
 # Default is to build everything
-IF (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_POMDP)
+IF (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_FMDP AND NOT MAKE_POMDP)
     set(MAKE_ALL    1)
 endif()
 
 if (MAKE_ALL)
     set(MAKE_MDP        1)
+    set(MAKE_FMDP       1)
     set(MAKE_POMDP      1)
     set(MAKE_PYTHON     1)
     set(MAKE_TESTS      1)
     set(MAKE_EXAMPLES   1)
 elseif (MAKE_LIB)
     set(MAKE_MDP        1)
+    set(MAKE_FMDP       1)
     set(MAKE_POMDP      1)
+elseif (MAKE_FMDP)
+    set(MAKE_MDP        1)
 elseif (MAKE_POMDP)
     set(MAKE_MDP        1)
 endif()
@@ -142,6 +147,7 @@ endif()
 
 # Print what we're actually doing
 set(MAP_MAKE_MDP        "# Building MDP")
+set(MAP_MAKE_FMDP       "# Building Factored MDP")
 set(MAP_MAKE_POMDP      "# Building POMDP")
 set(MAP_MAKE_PYTHON     "# Building Python bindings")
 set(MAP_MAKE_TESTS      "# Building Tests")
@@ -149,7 +155,7 @@ set(MAP_MAKE_EXAMPLES   "# Building Examples")
 
 message("")
 message("Build type: " ${CMAKE_BUILD_TYPE})
-foreach(v MAKE_MDP;MAKE_POMDP;MAKE_PYTHON;MAKE_TESTS;MAKE_EXAMPLES)
+foreach(v MAKE_MDP;MAKE_FMDP;MAKE_POMDP;MAKE_PYTHON;MAKE_TESTS;MAKE_EXAMPLES)
     if (${${v}})
         message(${MAP_${v}})
     endif()

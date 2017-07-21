@@ -17,7 +17,7 @@ endfunction (AddTestMDP)
 function (AddTestFactoredMDP name)
     set(exename FactoredMDP_${name})
     add_executable(${exename}Tests FactoredMDP/${name}Tests.cpp)
-    target_link_libraries(${exename}Tests AIToolboxMDP ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
+    target_link_libraries(${exename}Tests AIToolboxMDP AIToolboxFMDP ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
 endfunction (AddTestFactoredMDP)
 
