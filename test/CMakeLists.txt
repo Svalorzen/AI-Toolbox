@@ -75,6 +75,7 @@ if (MAKE_MDP)
     AddTestFactoredMDP(MultiObjectiveVariableElimination)
     AddTestFactoredMDP(SparseCooperativeQLearning)
     AddTestFactoredMDP(LLR)
+    AddTestFactoredMDP(FactoredLP)
 
     if (MAKE_PYTHON)
         # Normally one loads PythonInterp first, but since

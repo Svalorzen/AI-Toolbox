@@ -71,6 +71,20 @@ namespace AIToolbox::FactoredMDP {
     // @}
 
     /**
+     * @brief This struct represents a single state/value tuple.
+     *
+     * This struct can be used to represent factored Value Functions (possibly
+     * inside a FactorGraph) or a set of basis functions.
+     */
+    struct ValueFunctionRule {
+        PartialState s_;
+        double value_;
+
+        ValueFunctionRule(PartialState s, double v) :
+                s_(std::move(s)), value_(v) {}
+    };
+
+    /**
      * @brief This struct represents a single state/action/value tuple.
      *
      * This struct can be used in place of a full-blown QFunction table

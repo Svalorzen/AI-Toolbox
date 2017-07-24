@@ -98,6 +98,7 @@ if (MAKE_FMDP)
         FactoredMDP/Policies/QGreedyPolicy.cpp
         FactoredMDP/Algorithms/Utils/VariableElimination.cpp
         FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
+        FactoredMDP/Algorithms/Utils/FactoredLP.cpp
         FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
         FactoredMDP/Algorithms/LLR.cpp)
 
