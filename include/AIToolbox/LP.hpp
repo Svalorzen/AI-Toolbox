@@ -151,6 +151,21 @@ namespace AIToolbox {
              */
             void setUnbounded(size_t n);
 
+            /**
+             * @brief This function returns the maximum precision obtainable from the solution.
+             *
+             * This is dependent on the underlying implementation. In general
+             * it is unwise to compare returned results from an LP with exact
+             * numbers, but if that needs to be done the idea is that this
+             * function will give some sort of upper bound on the messiness of
+             * the results.
+             *
+             * No guarantees though!
+             *
+             * @return The "epsilon" of precision that we hope the solutions, if found, should have.
+             */
+            static double getPrecision();
+
         private:
             size_t varNumber_;
             bool maximize_;

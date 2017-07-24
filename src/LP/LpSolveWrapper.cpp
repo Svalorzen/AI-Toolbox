@@ -145,4 +145,13 @@ namespace AIToolbox {
     void LP::resize(const size_t rows) {
         resize_lp(pimpl_->lp_.get(), rows, row.size());
     }
+
+    double LP::getPrecision() {
+        // I'm ignorant and cannot make much sense of the epsilons that can be
+        // read from lp_solve (get_epsd, get_epsel, get_epsint, etc..) so I'm
+        // not sure which one would be best returned here. So I just return a
+        // number that I saw could make sense until somebody better than me
+        // comes along and fixes this.
+        return 1e-10;
+    }
 }
