@@ -109,6 +109,7 @@ Algorithms:
 - [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
 - [Sparse Cooperative QLearning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf)
 - [Learning with Linear Rewards (LLR)](http://www-scf.usc.edu/~ygai/publications/TON2012.pdf)
+- [FactoredLP](https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf)
 
 Policies:
 
@@ -130,7 +131,8 @@ To build the library you need:
 
 In addition, full C++17 support is now required (**this means at least g++-7**)
 
-If you want to build the POMDP part of the library you will also need:
+If you want to build the POMDP or Factored MDP part of the library you will also
+need:
 
 - the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required
   (a shared library must be available to compile the Python libraries).
