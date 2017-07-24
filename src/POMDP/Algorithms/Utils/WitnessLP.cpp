@@ -80,10 +80,17 @@ namespace AIToolbox::POMDP {
             lp_.row[i] = v[i];
         lp_.pushRow(LP::Constraint::Equal, 0.0);
 
-        auto solution = lp_.solve(S);
+        double deltaValue;
+        auto solution = lp_.solve(S, &deltaValue);
 
         // Remove it
         lp_.popRow();
+
+        // We have found a witness point if we have found a belief for which the value
+        // of the supplied ValueFunction is greater than ALL others. Thus we just need
+        // to verify that the variable we have maximixed is actually greater than 0.
+        if (deltaValue <= 0)
+            solution.reset();
 
         return solution;
     }

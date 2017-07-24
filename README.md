@@ -109,6 +109,7 @@ Algorithms:
 - [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
 - [Sparse Cooperative QLearning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf)
 - [Learning with Linear Rewards (LLR)](http://www-scf.usc.edu/~ygai/publications/TON2012.pdf)
+- [FactoredLP](https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf)
 
 Policies:
 
@@ -130,7 +131,8 @@ To build the library you need:
 
 In addition, full C++17 support is now required (**this means at least g++-7**)
 
-If you want to build the POMDP part of the library you will also need:
+If you want to build the POMDP or Factored MDP part of the library you will also
+need:
 
 - the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required
   (a shared library must be available to compile the Python libraries).
@@ -156,6 +158,7 @@ CMAKE_BUILD_TYPE # Defines the build type
 MAKE_ALL         # Builds all there is to build in the project
 MAKE_LIB         # Builds the core C++ library
 MAKE_MDP         # Builds the core C++ MDP library
+MAKE_FMDP        # Builds the core C++ Factored MDP and MDP library
 MAKE_POMDP       # Builds the core C++ POMDP and MDP library
 MAKE_PYTHON      # Builds Python bindings for the compiled core library
 MAKE_TESTS       # Builds the library's tests for the compiled core library
@@ -207,7 +210,9 @@ To compile a program that uses this library, simply link it against
 `libAIToolboxMDP.a` and possibly both `libAIToolboxPOMDP.a` and all `lp_solve`
 libraries. Please note that since the POMDP code relies on the MDP code, you
 __MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
-`undefined reference` errors.
+`undefined reference` errors. The same is true for the MDP and Factored MDP
+libraries. The POMDP and Factored MDP libraries are not currently dependent so
+their order does not matter.
 
 For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
 you'll be able to use the classes as exported to Python. All classes are

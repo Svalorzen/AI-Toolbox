@@ -35,15 +35,6 @@ if (MAKE_MDP)
         MDP/Policies/QGreedyPolicy.cpp
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
-        FactoredMDP/FactoredContainer.cpp
-        FactoredMDP/Utils.cpp
-        FactoredMDP/Policies/EpsilonPolicy.cpp
-        FactoredMDP/Policies/SingleActionPolicy.cpp
-        FactoredMDP/Policies/QGreedyPolicy.cpp
-        FactoredMDP/Algorithms/Utils/VariableElimination.cpp
-        FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
-        FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
-        FactoredMDP/Algorithms/LLR.cpp
     )
 
     if (MAKE_PYTHON)
@@ -92,11 +83,31 @@ if (MAKE_MDP)
     endif()
 endif()
 
-if (MAKE_POMDP)
+if (MAKE_FMDP OR MAKE_POMDP)
     find_package(LpSolve REQUIRED)
     include_directories(${LPSOLVE_INCLUDE_DIR})
+endif()
 
+if (MAKE_FMDP)
+    add_library(AIToolboxFMDP
+        LP/LpSolveWrapper.cpp
+        FactoredMDP/FactoredContainer.cpp
+        FactoredMDP/Utils.cpp
+        FactoredMDP/Policies/EpsilonPolicy.cpp
+        FactoredMDP/Policies/SingleActionPolicy.cpp
+        FactoredMDP/Policies/QGreedyPolicy.cpp
+        FactoredMDP/Algorithms/Utils/VariableElimination.cpp
+        FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
+        FactoredMDP/Algorithms/Utils/FactoredLP.cpp
+        FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
+        FactoredMDP/Algorithms/LLR.cpp)
+
+    target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
+endif()
+
+if (MAKE_POMDP)
     add_library(AIToolboxPOMDP
+        LP/LpSolveWrapper.cpp
         POMDP/Utils.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
         POMDP/Algorithms/Witness.cpp
@@ -106,7 +117,6 @@ if (MAKE_POMDP)
         POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
         POMDP/IO.cpp
-        LP/LpSolveWrapper.cpp
         POMDP/Policies/Policy.cpp)
 
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
@@ -116,6 +126,7 @@ if (MAKE_POMDP)
             message(WARNING "LpSolve libraries found could be static, linking against Python dynamic libraries may not work!")
         endif()
         add_library(POMDP SHARED
+            LP/LpSolveWrapper.cpp
             POMDP/Utils.cpp
             POMDP/Algorithms/IncrementalPruning.cpp
             POMDP/Algorithms/Witness.cpp
@@ -125,7 +136,6 @@ if (MAKE_POMDP)
             POMDP/Algorithms/QMDP.cpp
             POMDP/Policies/Policy.cpp
             POMDP/Algorithms/Utils/WitnessLP.cpp
-            LP/LpSolveWrapper.cpp
             Python/POMDP/Types.cpp
             Python/POMDP/Utils.cpp
             Python/POMDP/Model.cpp

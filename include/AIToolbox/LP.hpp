@@ -42,14 +42,22 @@ namespace AIToolbox {
 
             /**
              * @brief Basic destructor to avoid problems with std::unique_ptr
+             *
+             * std::unique_ptr does not compile with incomplete types, since
+             * its generated default constructor needs to know the whole type.
+             * If we declare our own, we can postpone this step until the type
+             * is known in the source file.
              */
             ~LP();
 
             /**
              * @brief Editable vector containing column coefficients.
              *
-             * This field will NEVER be touched by this class, so you are free
-             * to set it as you please, and its value will not be modified.
+             * This field will NEVER be touched by this class unless where
+             * noted, so you are free to set it as you please, and its value
+             * will not be modified.
+             *
+             * By default it is NOT initialized!
              */
             Eigen::Map<Vector> row;
 
@@ -84,17 +92,35 @@ namespace AIToolbox {
             void popRow();
 
             /**
+             * @brief This function adds a new column to the LP.
+             *
+             * The inserted column is empty (all previous rows are assumed to
+             * not need the newly added variable).
+             *
+             * Warning: calling this function will reset the content of the
+             * `row` public variable to an uninitialized space.
+             *
+             * @return The index of the newly inserted column.
+             */
+            size_t addColumn();
+
+            /**
              * @brief This function solves the LP associated with all constraints in the stack.
              *
              * This function solves the currently set LP problem. If solved,
              * the return Vector will contain the values of the first N
              * variables of the solution, where N is the input.
              *
+             * This function may also return the final result of the objective.
+             * The pointer may be written independently from whether the
+             * solution was successful or not.
+             *
              * @param variables The number of variables one wants the solution of.
+             * @param objective A pointer where to store the result value of the objective.
              *
              * @return A Vector if the solving process succeeded.
              */
-            std::optional<Vector> solve(size_t variables);
+            std::optional<Vector> solve(size_t variables, double * objective = nullptr);
 
             /**
              * @brief This function resizes the underlying LP.
@@ -111,9 +137,10 @@ namespace AIToolbox {
              * popRow() until the remaining number of rules is equal to the
              * number specified.
              *
-             * @param rows
+             * @param rows The number of rows to preallocate/leave in the LP.
              */
             void resize(size_t rows);
+
             /**
              * @brief This function sets the specified variable as unbounded.
              *
@@ -124,7 +151,23 @@ namespace AIToolbox {
              */
             void setUnbounded(size_t n);
 
+            /**
+             * @brief This function returns the maximum precision obtainable from the solution.
+             *
+             * This is dependent on the underlying implementation. In general
+             * it is unwise to compare returned results from an LP with exact
+             * numbers, but if that needs to be done the idea is that this
+             * function will give some sort of upper bound on the messiness of
+             * the results.
+             *
+             * No guarantees though!
+             *
+             * @return The "epsilon" of precision that we hope the solutions, if found, should have.
+             */
+            static double getPrecision();
+
         private:
+            size_t varNumber_;
             bool maximize_;
     };
 }

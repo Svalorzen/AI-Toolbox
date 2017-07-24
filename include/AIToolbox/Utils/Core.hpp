@@ -77,7 +77,7 @@ namespace AIToolbox {
      */
     inline bool checkEqualGeneral(const double a, const double b) {
         if ( checkEqualSmall(a,b) ) return true;
-        return ( std::fabs(a - b) / std::min(std::fabs(a), std::fabs(b)) < std::numeric_limits<double>::epsilon() );
+        return ( std::fabs(a - b) <= std::min(std::fabs(a), std::fabs(b)) * 5 * std::numeric_limits<double>::epsilon() );
     }
 
     /**

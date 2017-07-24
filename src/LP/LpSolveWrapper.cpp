@@ -10,6 +10,7 @@ namespace AIToolbox {
     template <bool realConversionNeeded>
     struct ConversionArray {
         ConversionArray(const size_t) {}
+        void resize(size_t) {}
         double * conversionData(const Vector &) { return nullptr; }
     };
 
@@ -21,19 +22,18 @@ namespace AIToolbox {
                 conv_[v+1] = static_cast<REAL>(row[v]);
             return conv_.get();
         }
+        void resize(const size_t vars) {
+            conv_.reset(new REAL[vars + 1]);
+        }
         std::unique_ptr<REAL[]> conv_;
     };
 
-    constexpr int toLpSolveConstraint(LP::Constraint c) {
-        if (c == LP::Constraint::LessEqual)
-            return LE;
-        if (c == LP::Constraint::GreaterEqual)
-            return GE;
-        return EQ;
-    }
-
-    struct LP::LP_impl : public ConversionArray<conversionNeeded> {
+    struct LP::LP_impl : private ConversionArray<conversionNeeded> {
         LP_impl(size_t vars);
+        void resize(size_t vars);
+        // Used to switch from double to REAL if needed.
+        using ConversionArray<conversionNeeded>::conversionData;
+
         std::unique_ptr<lprec, void(*)(lprec*)> lp_;
         std::unique_ptr<double[]> data_;
     };
@@ -55,12 +55,25 @@ namespace AIToolbox {
         // set_BFP(lp.get(), "../../libbfp_etaPFI.so");
     }
 
+    void LP::LP_impl::resize(const size_t vars) {
+        data_.reset(new double[vars + 1]);
+        ConversionArray<conversionNeeded>::resize(vars);
+    }
+
+    constexpr int toLpSolveConstraint(LP::Constraint c) {
+        if (c == LP::Constraint::LessEqual)
+            return LE;
+        if (c == LP::Constraint::GreaterEqual)
+            return GE;
+        return EQ;
+    }
+
     LP::~LP() = default;
 
     // Row is initialized from 1 since lp_solve reads element from 1 onwards
     LP::LP(const size_t varNumber) :
             pimpl_(new LP_impl(varNumber)), row(pimpl_->data_.get()+1, varNumber),
-            maximize_(false) {}
+            varNumber_(varNumber), maximize_(false) {}
 
     void LP::setObjective(const size_t n, const bool maximize) {
         set_obj(pimpl_->lp_.get(), n+1, 1.0);
@@ -79,15 +92,32 @@ namespace AIToolbox {
         }
     }
 
+    // TODO: Implement this version of pushRow to improve performances.
+    // void LP::pushRow(const std::vector<int> & ids, const Constraint c, const double value) {
+    //     add_constraintex(pimpl_->lp_.get(), ids.size(), pimpl_->data_.get(), ids.data(), toLpSolveConstraint(c), static_cast<REAL>(value));
+    // }
+
     void LP::popRow() {
         del_constraint(pimpl_->lp_.get(), get_Nrows(pimpl_->lp_.get()));
+    }
+
+    size_t LP::addColumn() {
+        ++varNumber_;
+        // Add element to row
+        pimpl_->resize(varNumber_);
+        // Reassign MAP to new row
+        new (&row) Eigen::Map<Vector>(pimpl_->data_.get()+1, varNumber_);
+        // Add new empty column to LP
+        add_columnex(pimpl_->lp_.get(), 0, NULL, NULL);
+
+        return varNumber_;
     }
 
     void LP::setUnbounded(const size_t n) {
         set_unbounded(pimpl_->lp_.get(), n+1);
     }
 
-    std::optional<Vector> LP::solve(const size_t variables) {
+    std::optional<Vector> LP::solve(const size_t variables, double * objective) {
         auto lp = pimpl_->lp_.get();
         // lp_solve uses the result of the previous runs to bootstrap
         // the new solution. Sometimes this breaks down for some reason,
@@ -95,31 +125,33 @@ namespace AIToolbox {
         // boost..
         default_basis(lp);
 
-
         // print_lp(lp.get());
         const auto result = ::solve(lp);
 
         REAL * vp;
         get_ptr_variables(lp, &vp);
-        const REAL value = get_objective(lp);
 
-        // We have found a witness point if we have found a belief for which the value
-        // of the supplied ValueFunction is greater than ALL others. Thus we just need
-        // to verify that the variable we have maximixed is actually greater than 0.
-        const bool isSolved = !( result > 1 || (maximize_ && value <= 0.0) || (!maximize_ && value >= 0.0) );
-
+        if (objective)
+            *objective = get_objective(lp);
 
         std::optional<Vector> solution;
 
-
-        if ( isSolved )
+        if ( result == 0 || result == 1 )
             solution = Eigen::Map<Vector>(vp, variables);
-
 
         return solution;
     }
 
     void LP::resize(const size_t rows) {
         resize_lp(pimpl_->lp_.get(), rows, row.size());
+    }
+
+    double LP::getPrecision() {
+        // I'm ignorant and cannot make much sense of the epsilons that can be
+        // read from lp_solve (get_epsd, get_epsel, get_epsint, etc..) so I'm
+        // not sure which one would be best returned here. So I just return a
+        // number that I saw could make sense until somebody better than me
+        // comes along and fixes this.
+        return 1e-10;
     }
 }

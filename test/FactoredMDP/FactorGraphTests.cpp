@@ -12,7 +12,7 @@ struct EmptyFactor {};
 BOOST_AUTO_TEST_CASE( basic_construction ) {
     fm::FactorGraph<EmptyFactor> graph(15);
 
-    BOOST_CHECK_EQUAL(graph.agentSize(), 15);
+    BOOST_CHECK_EQUAL(graph.variableSize(), 15);
     BOOST_CHECK_EQUAL(graph.factorSize(), 0);
 }
 
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE( adding_rules ) {
     for (const auto & rule : rules)
         graph.getFactor(rule.first);
 
-    BOOST_CHECK_EQUAL(graph.agentSize(),  agentsNum);
+    BOOST_CHECK_EQUAL(graph.variableSize(),  agentsNum);
     BOOST_CHECK_EQUAL(graph.factorSize(), 4);
 
     BOOST_CHECK_EQUAL(graph.getNeighbors(0).size(), 3);
@@ -65,12 +65,12 @@ BOOST_AUTO_TEST_CASE( erase_agent ) {
     const size_t agentsNum = 3;
     fm::FactorGraph<EmptyFactor> graph(agentsNum);
 
-    BOOST_CHECK_EQUAL(graph.agentSize(),  agentsNum);
+    BOOST_CHECK_EQUAL(graph.variableSize(),  agentsNum);
     graph.erase(0);
-    BOOST_CHECK_EQUAL(graph.agentSize(),  agentsNum - 1);
+    BOOST_CHECK_EQUAL(graph.variableSize(),  agentsNum - 1);
     graph.erase(1);
     graph.erase(2);
-    BOOST_CHECK_EQUAL(graph.agentSize(),  0);
+    BOOST_CHECK_EQUAL(graph.variableSize(),  0);
 }
 
 BOOST_AUTO_TEST_CASE( neighbors ) {

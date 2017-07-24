@@ -67,8 +67,8 @@ namespace AIToolbox::FactoredMDP {
 
     MOVE::Results MOVE::start() {
         // This can possibly be improved with some heuristic ordering
-        while (graph_.agentSize())
-            removeAgent(graph_.agentSize() - 1);
+        while (graph_.variableSize())
+            removeAgent(graph_.variableSize() - 1);
 
         Results retval;
         if (finalFactors_.size() == 0) return retval;
