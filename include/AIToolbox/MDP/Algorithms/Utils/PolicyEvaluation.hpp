@@ -25,7 +25,7 @@ namespace AIToolbox::MDP {
      */
     template <typename M>
     class PolicyEvaluation {
-        static_assert(is_model<M>::value, "The input value type must be an MDP model!");
+        static_assert(is_model<M>::value, "This class only works for MDP models!");
 
         public:
             /**
