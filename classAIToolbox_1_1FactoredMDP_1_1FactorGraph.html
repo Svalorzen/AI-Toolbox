@@ -80,17 +80,17 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1AgentNode.html">AgentNode</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1FactorNode.html">FactorNode</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1VariableNode.html">VariableNode</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a68efe4b52a44c1b5f982aa463a6c84a7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a68efe4b52a44c1b5f982aa463a6c84a7">AgentList</a> = std::vector&lt; <a class="el" href="structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1AgentNode.html">AgentNode</a> &gt;</td></tr>
-<tr class="separator:a68efe4b52a44c1b5f982aa463a6c84a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1480b27a3fef1e185348babc898163b4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> = std::vector&lt; size_t &gt;</td></tr>
-<tr class="separator:a1480b27a3fef1e185348babc898163b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace77e5944cd4a19067fae0849b8b7596"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#ace77e5944cd4a19067fae0849b8b7596">VariableList</a> = std::vector&lt; <a class="el" href="structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1VariableNode.html">VariableNode</a> &gt;</td></tr>
+<tr class="separator:ace77e5944cd4a19067fae0849b8b7596"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71ac2fb9a9cfb71fa9ca545f7f54e66a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> = std::vector&lt; size_t &gt;</td></tr>
+<tr class="separator:a71ac2fb9a9cfb71fa9ca545f7f54e66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad27d06c83673cc9c7ad1c0202bd39eb6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#ad27d06c83673cc9c7ad1c0202bd39eb6">FactorList</a> = std::list&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1FactorNode.html">FactorNode</a> &gt;</td></tr>
 <tr class="separator:ad27d06c83673cc9c7ad1c0202bd39eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9013966cf21c4aad8ab4cc4a18c39f78"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> = typename FactorList::iterator</td></tr>
@@ -99,62 +99,65 @@ Public Types</h2></td></tr>
 <tr class="separator:a91ab5f7de9adf7e9d2bb9f25ff918082"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9712d27c789e77117fb1963162e2d3f1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9712d27c789e77117fb1963162e2d3f1">FactorItList</a> = std::vector&lt; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> &gt;</td></tr>
 <tr class="separator:a9712d27c789e77117fb1963162e2d3f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69aeafe8e2b75204c0d6be52c33b571b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a69aeafe8e2b75204c0d6be52c33b571b">value_type</a> = Factor</td></tr>
+<tr class="separator:a69aeafe8e2b75204c0d6be52c33b571b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac36d15e8e9f109af290485dbe2316c77"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#ac36d15e8e9f109af290485dbe2316c77">iterator</a> = <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a></td></tr>
+<tr class="separator:ac36d15e8e9f109af290485dbe2316c77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d98c6167b8e20326b56875906670a4d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9d98c6167b8e20326b56875906670a4d">const_iterator</a> = <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a></td></tr>
+<tr class="separator:a9d98c6167b8e20326b56875906670a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9dc26fb6da041c315fec636bfd651b20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9dc26fb6da041c315fec636bfd651b20">FactorGraph</a> (size_t agents)</td></tr>
-<tr class="memdesc:a9dc26fb6da041c315fec636bfd651b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a9dc26fb6da041c315fec636bfd651b20">More...</a><br /></td></tr>
-<tr class="separator:a9dc26fb6da041c315fec636bfd651b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e2f7d378f271b1649563afc9773a868"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9712d27c789e77117fb1963162e2d3f1">FactorItList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a8e2f7d378f271b1649563afc9773a868">getNeighbors</a> (size_t agent) const</td></tr>
-<tr class="memdesc:a8e2f7d378f271b1649563afc9773a868"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all factors adjacent to the given agent.  <a href="#a8e2f7d378f271b1649563afc9773a868">More...</a><br /></td></tr>
-<tr class="separator:a8e2f7d378f271b1649563afc9773a868"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a200948e84a46fadb86af26bccef568ed"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a200948e84a46fadb86af26bccef568ed">getNeighbors</a> (<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> factor) const</td></tr>
-<tr class="memdesc:a200948e84a46fadb86af26bccef568ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all agents adjacent to the given factor.  <a href="#a200948e84a46fadb86af26bccef568ed">More...</a><br /></td></tr>
-<tr class="separator:a200948e84a46fadb86af26bccef568ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3563d3675e7420dcf9cc55b5a8a3d631"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a3563d3675e7420dcf9cc55b5a8a3d631">getNeighbors</a> (<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a> factor) const</td></tr>
-<tr class="memdesc:a3563d3675e7420dcf9cc55b5a8a3d631"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all agents adjacent to the given factor.  <a href="#a3563d3675e7420dcf9cc55b5a8a3d631">More...</a><br /></td></tr>
-<tr class="separator:a3563d3675e7420dcf9cc55b5a8a3d631"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89bcab015fca52c51aee5ab747dbc849"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a89bcab015fca52c51aee5ab747dbc849">getNeighbors</a> (const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9712d27c789e77117fb1963162e2d3f1">FactorItList</a> &amp;factors) const</td></tr>
-<tr class="memdesc:a89bcab015fca52c51aee5ab747dbc849"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all agents adjacent to any of the given factors.  <a href="#a89bcab015fca52c51aee5ab747dbc849">More...</a><br /></td></tr>
-<tr class="separator:a89bcab015fca52c51aee5ab747dbc849"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17c8ed30590a44b1c6c1e9fbfb8beeb3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a17c8ed30590a44b1c6c1e9fbfb8beeb3">getFactor</a> (const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> &amp;agents)</td></tr>
-<tr class="memdesc:a17c8ed30590a44b1c6c1e9fbfb8beeb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to a factor adjacent to the given agents.  <a href="#a17c8ed30590a44b1c6c1e9fbfb8beeb3">More...</a><br /></td></tr>
-<tr class="separator:a17c8ed30590a44b1c6c1e9fbfb8beeb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e9f40ae84de228012263f95d280b52d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9e9f40ae84de228012263f95d280b52d">FactorGraph</a> (size_t variables)</td></tr>
+<tr class="memdesc:a9e9f40ae84de228012263f95d280b52d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a9e9f40ae84de228012263f95d280b52d">More...</a><br /></td></tr>
+<tr class="separator:a9e9f40ae84de228012263f95d280b52d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaec568c307d64e75bea25ef3f768ce1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9712d27c789e77117fb1963162e2d3f1">FactorItList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#afaec568c307d64e75bea25ef3f768ce1">getNeighbors</a> (size_t variable) const</td></tr>
+<tr class="memdesc:afaec568c307d64e75bea25ef3f768ce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all factors adjacent to the given variable.  <a href="#afaec568c307d64e75bea25ef3f768ce1">More...</a><br /></td></tr>
+<tr class="separator:afaec568c307d64e75bea25ef3f768ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cf42e93a3b8ddad281e88c0857a45b8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a8cf42e93a3b8ddad281e88c0857a45b8">getNeighbors</a> (<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> factor) const</td></tr>
+<tr class="memdesc:a8cf42e93a3b8ddad281e88c0857a45b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to the given factor.  <a href="#a8cf42e93a3b8ddad281e88c0857a45b8">More...</a><br /></td></tr>
+<tr class="separator:a8cf42e93a3b8ddad281e88c0857a45b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19bcfb9348d80e9f5c4c29551336014a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a19bcfb9348d80e9f5c4c29551336014a">getNeighbors</a> (<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a> factor) const</td></tr>
+<tr class="memdesc:a19bcfb9348d80e9f5c4c29551336014a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to the given factor.  <a href="#a19bcfb9348d80e9f5c4c29551336014a">More...</a><br /></td></tr>
+<tr class="separator:a19bcfb9348d80e9f5c4c29551336014a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af45bb6dcdf936d232f64bfeec7ded123"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#af45bb6dcdf936d232f64bfeec7ded123">getNeighbors</a> (const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9712d27c789e77117fb1963162e2d3f1">FactorItList</a> &amp;factors) const</td></tr>
+<tr class="memdesc:af45bb6dcdf936d232f64bfeec7ded123"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to any of the given factors.  <a href="#af45bb6dcdf936d232f64bfeec7ded123">More...</a><br /></td></tr>
+<tr class="separator:af45bb6dcdf936d232f64bfeec7ded123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fb028ba2538d3800e9b3620d4e6ac70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6fb028ba2538d3800e9b3620d4e6ac70">getFactor</a> (const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> &amp;variables)</td></tr>
+<tr class="memdesc:a6fb028ba2538d3800e9b3620d4e6ac70"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to a factor adjacent to the given variables.  <a href="#a6fb028ba2538d3800e9b3620d4e6ac70">More...</a><br /></td></tr>
+<tr class="separator:a6fb028ba2538d3800e9b3620d4e6ac70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d2a60087c4708a3365e1f9817b69f26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6d2a60087c4708a3365e1f9817b69f26">erase</a> (<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> it)</td></tr>
 <tr class="memdesc:a6d2a60087c4708a3365e1f9817b69f26"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function removes a factor from the graph.  <a href="#a6d2a60087c4708a3365e1f9817b69f26">More...</a><br /></td></tr>
 <tr class="separator:a6d2a60087c4708a3365e1f9817b69f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6654c4674c82a97aa2647780e92be65a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6654c4674c82a97aa2647780e92be65a">erase</a> (size_t agent)</td></tr>
-<tr class="memdesc:a6654c4674c82a97aa2647780e92be65a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially removes an agent from the graph.  <a href="#a6654c4674c82a97aa2647780e92be65a">More...</a><br /></td></tr>
-<tr class="separator:a6654c4674c82a97aa2647780e92be65a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a64a3ea18d540ca2439f8ef59e3094b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a7a64a3ea18d540ca2439f8ef59e3094b">agentSize</a> () const</td></tr>
-<tr class="memdesc:a7a64a3ea18d540ca2439f8ef59e3094b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of agents still in the graph.  <a href="#a7a64a3ea18d540ca2439f8ef59e3094b">More...</a><br /></td></tr>
-<tr class="separator:a7a64a3ea18d540ca2439f8ef59e3094b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef2a905920a66fd3c49be490316928f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#aef2a905920a66fd3c49be490316928f3">erase</a> (size_t variable)</td></tr>
+<tr class="memdesc:aef2a905920a66fd3c49be490316928f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially removes an variable from the graph.  <a href="#aef2a905920a66fd3c49be490316928f3">More...</a><br /></td></tr>
+<tr class="separator:aef2a905920a66fd3c49be490316928f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abac0f6609b257a37907685e69da417ee"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#abac0f6609b257a37907685e69da417ee">variableSize</a> () const</td></tr>
+<tr class="memdesc:abac0f6609b257a37907685e69da417ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of variables still in the graph.  <a href="#abac0f6609b257a37907685e69da417ee">More...</a><br /></td></tr>
+<tr class="separator:abac0f6609b257a37907685e69da417ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d50b7b5c92770f0261df0b6644dc643"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1d50b7b5c92770f0261df0b6644dc643">factorSize</a> () const</td></tr>
 <tr class="memdesc:a1d50b7b5c92770f0261df0b6644dc643"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of factors still in the graph.  <a href="#a1d50b7b5c92770f0261df0b6644dc643">More...</a><br /></td></tr>
 <tr class="separator:a1d50b7b5c92770f0261df0b6644dc643"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f881558f9fdf04acc3bcda2f325b174"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#ad27d06c83673cc9c7ad1c0202bd39eb6">FactorList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a0f881558f9fdf04acc3bcda2f325b174">getFactors</a> () const</td></tr>
-<tr class="memdesc:a0f881558f9fdf04acc3bcda2f325b174"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all current factors and their adjacency lists.  <a href="#a0f881558f9fdf04acc3bcda2f325b174">More...</a><br /></td></tr>
-<tr class="separator:a0f881558f9fdf04acc3bcda2f325b174"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9303bbe9d3748434a85f7116f5a76333"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9303bbe9d3748434a85f7116f5a76333">factorsBegin</a> ()</td></tr>
-<tr class="memdesc:a9303bbe9d3748434a85f7116f5a76333"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable iterator to the beginning of the internal factor list.  <a href="#a9303bbe9d3748434a85f7116f5a76333">More...</a><br /></td></tr>
-<tr class="separator:a9303bbe9d3748434a85f7116f5a76333"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a687dd4ff3e8dc52af2a2eb805453113a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a687dd4ff3e8dc52af2a2eb805453113a">factorsBegin</a> () const</td></tr>
-<tr class="memdesc:a687dd4ff3e8dc52af2a2eb805453113a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const iterator to the beginning of the internal factor list.  <a href="#a687dd4ff3e8dc52af2a2eb805453113a">More...</a><br /></td></tr>
-<tr class="separator:a687dd4ff3e8dc52af2a2eb805453113a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38357802ff96eb5a58053bf9f2cd9c91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a38357802ff96eb5a58053bf9f2cd9c91">factorsEnd</a> ()</td></tr>
-<tr class="memdesc:a38357802ff96eb5a58053bf9f2cd9c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable interactor to the end of the internal factor list.  <a href="#a38357802ff96eb5a58053bf9f2cd9c91">More...</a><br /></td></tr>
-<tr class="separator:a38357802ff96eb5a58053bf9f2cd9c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cc9bf9b3b6e949fda57c415dd753588"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6cc9bf9b3b6e949fda57c415dd753588">factorsEnd</a> () const</td></tr>
-<tr class="memdesc:a6cc9bf9b3b6e949fda57c415dd753588"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const interactor to the end of the internal factor list.  <a href="#a6cc9bf9b3b6e949fda57c415dd753588">More...</a><br /></td></tr>
-<tr class="separator:a6cc9bf9b3b6e949fda57c415dd753588"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b2ee1bcffc07750bb4e7eb1b50e7bbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a5b2ee1bcffc07750bb4e7eb1b50e7bbb">begin</a> ()</td></tr>
+<tr class="memdesc:a5b2ee1bcffc07750bb4e7eb1b50e7bbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable iterator to the beginning of the internal factor list.  <a href="#a5b2ee1bcffc07750bb4e7eb1b50e7bbb">More...</a><br /></td></tr>
+<tr class="separator:a5b2ee1bcffc07750bb4e7eb1b50e7bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af24a84ef948d69a18b0fb101d756c79f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#af24a84ef948d69a18b0fb101d756c79f">begin</a> () const</td></tr>
+<tr class="memdesc:af24a84ef948d69a18b0fb101d756c79f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const iterator to the beginning of the internal factor list.  <a href="#af24a84ef948d69a18b0fb101d756c79f">More...</a><br /></td></tr>
+<tr class="separator:af24a84ef948d69a18b0fb101d756c79f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1603b2904a869b7a032bc6b9cd975178"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1603b2904a869b7a032bc6b9cd975178">end</a> ()</td></tr>
+<tr class="memdesc:a1603b2904a869b7a032bc6b9cd975178"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable interactor to the end of the internal factor list.  <a href="#a1603b2904a869b7a032bc6b9cd975178">More...</a><br /></td></tr>
+<tr class="separator:a1603b2904a869b7a032bc6b9cd975178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bfd761b70e14691a30f6bffd7ef88a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a2bfd761b70e14691a30f6bffd7ef88a7">end</a> () const</td></tr>
+<tr class="memdesc:a2bfd761b70e14691a30f6bffd7ef88a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const interactor to the end of the internal factor list.  <a href="#a2bfd761b70e14691a30f6bffd7ef88a7">More...</a><br /></td></tr>
+<tr class="separator:a2bfd761b70e14691a30f6bffd7ef88a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename Factor&gt;<br />
 class AIToolbox::FactoredMDP::FactorGraph&lt; Factor &gt;</h3>
 
 <p>This class offers a minimal interface to manager a factor graph. </p>
-<p>This class allows to store arbitrary data into each factor, and to maintain adjacency lists between the factors and a given number of agents. The interface is intentionally very simple and tries to do very little, in order to allow clients to optimize their use of the graph as much as possible.</p>
-<p>This class maintains a single factor for any unique combination of agents. When multiple factors are needed, a single Factor containing a vector of data should suffice.</p>
+<p>This class allows to store arbitrary data into each factor, and to maintain adjacency lists between the factors and a given number of variables. The interface is intentionally very simple and tries to do very little, in order to allow clients to optimize their use of the graph as much as possible.</p>
+<p>This class maintains a single factor for any unique combination of variables. When multiple factors are needed, a single Factor containing a vector of data should suffice.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Factor</td><td>The Factor class that is stored for each factor. </td></tr>
@@ -162,38 +165,6 @@ class AIToolbox::FactoredMDP::FactorGraph&lt; Factor &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a68efe4b52a44c1b5f982aa463a6c84a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68efe4b52a44c1b5f982aa463a6c84a7">&#9670;&nbsp;</a></span>AgentList</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a68efe4b52a44c1b5f982aa463a6c84a7">AgentList</a> =  std::vector&lt;<a class="el" href="structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1AgentNode.html">AgentNode</a>&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1480b27a3fef1e185348babc898163b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1480b27a3fef1e185348babc898163b4">&#9670;&nbsp;</a></span>Agents</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> =  std::vector&lt;size_t&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a91ab5f7de9adf7e9d2bb9f25ff918082"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a91ab5f7de9adf7e9d2bb9f25ff918082">&#9670;&nbsp;</a></span>CFactorIt</h2>
 
@@ -204,6 +175,22 @@ template&lt;typename Factor&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a> =  typename FactorList::const_iterator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d98c6167b8e20326b56875906670a4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d98c6167b8e20326b56875906670a4d">&#9670;&nbsp;</a></span>const_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9d98c6167b8e20326b56875906670a4d">const_iterator</a> =  <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -258,9 +245,73 @@ template&lt;typename Factor&gt; </div>
 
 </div>
 </div>
+<a id="ac36d15e8e9f109af290485dbe2316c77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac36d15e8e9f109af290485dbe2316c77">&#9670;&nbsp;</a></span>iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#ac36d15e8e9f109af290485dbe2316c77">iterator</a> =  <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a69aeafe8e2b75204c0d6be52c33b571b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69aeafe8e2b75204c0d6be52c33b571b">&#9670;&nbsp;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a69aeafe8e2b75204c0d6be52c33b571b">value_type</a> =  Factor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace77e5944cd4a19067fae0849b8b7596"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace77e5944cd4a19067fae0849b8b7596">&#9670;&nbsp;</a></span>VariableList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#ace77e5944cd4a19067fae0849b8b7596">VariableList</a> =  std::vector&lt;<a class="el" href="structAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1VariableNode.html">VariableNode</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71ac2fb9a9cfb71fa9ca545f7f54e66a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71ac2fb9a9cfb71fa9ca545f7f54e66a">&#9670;&nbsp;</a></span>Variables</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> =  std::vector&lt;size_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a9dc26fb6da041c315fec636bfd651b20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9dc26fb6da041c315fec636bfd651b20">&#9670;&nbsp;</a></span>FactorGraph()</h2>
+<a id="a9e9f40ae84de228012263f95d280b52d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e9f40ae84de228012263f95d280b52d">&#9670;&nbsp;</a></span>FactorGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,17 +322,17 @@ template&lt;typename Factor &gt; </div>
           <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>agents</em></td><td>)</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>This constructor initializes the agent adjacency list with the given number of agents. Agents in this class cannot be added, only removed.</p>
+<p>This constructor initializes the variable adjacency list with the given number of variables. Variables in this class cannot be added, only removed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">agents</td><td>The number of agents with which to start the graph. </td></tr>
+    <tr><td class="paramname">variables</td><td>The number of variables with which to start the graph. </td></tr>
   </table>
   </dd>
 </dl>
@@ -289,8 +340,8 @@ template&lt;typename Factor &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a7a64a3ea18d540ca2439f8ef59e3094b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a64a3ea18d540ca2439f8ef59e3094b">&#9670;&nbsp;</a></span>agentSize()</h2>
+<a id="a5b2ee1bcffc07750bb4e7eb1b50e7bbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b2ee1bcffc07750bb4e7eb1b50e7bbb">&#9670;&nbsp;</a></span>begin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,7 +349,30 @@ template&lt;typename Factor &gt; </div>
 template&lt;typename Factor &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::agentSize </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function provides an editable iterator to the beginning of the internal factor list. </p>
+<p>This function is used in order to allow editing of all the factors.</p>
+<dl class="section return"><dt>Returns</dt><dd>An iterator to the beginning of the internal factor range. </dd></dl>
+
+</div>
+</div>
+<a id="af24a84ef948d69a18b0fb101d756c79f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af24a84ef948d69a18b0fb101d756c79f">&#9670;&nbsp;</a></span>begin() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -306,10 +380,54 @@ template&lt;typename Factor &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the number of agents still in the graph. </p>
-<p>This function basically returns the number of agents this graph has been initialized with, minus the number of times the <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6654c4674c82a97aa2647780e92be65a" title="This function partially removes an agent from the graph. ">erase(size_t)</a> function has been called (even for the same agent!).</p>
-<p>This means that if the <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6654c4674c82a97aa2647780e92be65a" title="This function partially removes an agent from the graph. ">erase(size_t)</a> function is used generously, multiple times per agent, this function's return value is meaningless.</p>
-<dl class="section return"><dt>Returns</dt><dd>The number of agents still in the graph. </dd></dl>
+<p>This function provides a const iterator to the beginning of the internal factor list. </p>
+<dl class="section return"><dt>Returns</dt><dd>A const iterator to the beginning of the internal factor range. </dd></dl>
+
+</div>
+</div>
+<a id="a1603b2904a869b7a032bc6b9cd975178"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1603b2904a869b7a032bc6b9cd975178">&#9670;&nbsp;</a></span>end() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function provides an editable interactor to the end of the internal factor list. </p>
+<dl class="section see"><dt>See also</dt><dd>factorsBegin()</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An iterator to the end of the internal factor range. </dd></dl>
+
+</div>
+</div>
+<a id="a2bfd761b70e14691a30f6bffd7ef88a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bfd761b70e14691a30f6bffd7ef88a7">&#9670;&nbsp;</a></span>end() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function provides a const interactor to the end of the internal factor list. </p>
+<dl class="section see"><dt>See also</dt><dd>factorsBegin() const</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A const iterator to the end of the internal factor range. </dd></dl>
 
 </div>
 </div>
@@ -342,8 +460,8 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a6654c4674c82a97aa2647780e92be65a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6654c4674c82a97aa2647780e92be65a">&#9670;&nbsp;</a></span>erase() <span class="overload">[2/2]</span></h2>
+<a id="aef2a905920a66fd3c49be490316928f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef2a905920a66fd3c49be490316928f3">&#9670;&nbsp;</a></span>erase() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -354,113 +472,22 @@ template&lt;typename Factor &gt; </div>
           <td class="memname">void <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::erase </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>agent</em></td><td>)</td>
+          <td class="paramname"><em>variable</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function partially removes an agent from the graph. </p>
-<p>This function does not actually do much, so it is very important that it is used correctly. No factors are modified, so before calling this function all factors pointing to this agent should be removed.</p>
-<p>This function simply clears the adjacency list for the specified agent, and decreases the number of agents by one, so that <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a7a64a3ea18d540ca2439f8ef59e3094b" title="This function returns the number of agents still in the graph. ">agentSize()</a> reports one less agent.</p>
-<p>Calling this function multiple times will continue to decrease the counter! This will have no side effect aside that the <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a7a64a3ea18d540ca2439f8ef59e3094b" title="This function returns the number of agents still in the graph. ">agentSize()</a> function will become meaningless.</p>
+<p>This function partially removes an variable from the graph. </p>
+<p>This function does not actually do much, so it is very important that it is used correctly. No factors are modified, so before calling this function all factors pointing to this variable should be removed.</p>
+<p>This function simply clears the adjacency list for the specified variable, and decreases the number of variables by one, so that <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#abac0f6609b257a37907685e69da417ee" title="This function returns the number of variables still in the graph. ">variableSize()</a> reports one less variable.</p>
+<p>Calling this function multiple times will continue to decrease the counter! This will have no side effect aside that the <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#abac0f6609b257a37907685e69da417ee" title="This function returns the number of variables still in the graph. ">variableSize()</a> function will become meaningless.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">agent</td><td>The agent to be removed. </td></tr>
+    <tr><td class="paramname">variable</td><td>The variable to be removed. </td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a9303bbe9d3748434a85f7116f5a76333"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9303bbe9d3748434a85f7116f5a76333">&#9670;&nbsp;</a></span>factorsBegin() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::factorsBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function provides an editable iterator to the beginning of the internal factor list. </p>
-<p>This function is used in order to allow editing of all the factors.</p>
-<dl class="section return"><dt>Returns</dt><dd>An iterator to the beginning of the internal factor range. </dd></dl>
-
-</div>
-</div>
-<a id="a687dd4ff3e8dc52af2a2eb805453113a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a687dd4ff3e8dc52af2a2eb805453113a">&#9670;&nbsp;</a></span>factorsBegin() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::factorsBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function provides a const iterator to the beginning of the internal factor list. </p>
-<dl class="section return"><dt>Returns</dt><dd>A const iterator to the beginning of the internal factor range. </dd></dl>
-
-</div>
-</div>
-<a id="a38357802ff96eb5a58053bf9f2cd9c91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38357802ff96eb5a58053bf9f2cd9c91">&#9670;&nbsp;</a></span>factorsEnd() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::factorsEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function provides an editable interactor to the end of the internal factor list. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9303bbe9d3748434a85f7116f5a76333" title="This function provides an editable iterator to the beginning of the internal factor list...">factorsBegin()</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>An iterator to the end of the internal factor range. </dd></dl>
-
-</div>
-</div>
-<a id="a6cc9bf9b3b6e949fda57c415dd753588"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cc9bf9b3b6e949fda57c415dd753588">&#9670;&nbsp;</a></span>factorsEnd() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::factorsEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function provides a const interactor to the end of the internal factor list. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a687dd4ff3e8dc52af2a2eb805453113a" title="This function provides a const iterator to the beginning of the internal factor list. ">factorsBegin() const</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>A const iterator to the end of the internal factor range. </dd></dl>
 
 </div>
 </div>
@@ -486,8 +513,8 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a17c8ed30590a44b1c6c1e9fbfb8beeb3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17c8ed30590a44b1c6c1e9fbfb8beeb3">&#9670;&nbsp;</a></span>getFactor()</h2>
+<a id="a6fb028ba2538d3800e9b3620d4e6ac70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fb028ba2538d3800e9b3620d4e6ac70">&#9670;&nbsp;</a></span>getFactor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -497,20 +524,20 @@ template&lt;typename Factor &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getFactor </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> &amp;&#160;</td>
-          <td class="paramname"><em>agents</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> &amp;&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns an iterator to a factor adjacent to the given agents. </p>
+<p>This function returns an iterator to a factor adjacent to the given variables. </p>
 <p>This function may return an iterator to an already existing factor, or if it didn't exist before, to a newly created one.</p>
 <p>This means that it is safe to call this function multiple times with the same input, as only one factor will be created.</p>
 <p>As factors are kept in a list, insertion is O(1).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">agents</td><td>The agents the factor returned should be adjacent of.</td></tr>
+    <tr><td class="paramname">variables</td><td>The variables the factor returned should be adjacent of.</td></tr>
   </table>
   </dd>
 </dl>
@@ -518,30 +545,8 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a0f881558f9fdf04acc3bcda2f325b174"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f881558f9fdf04acc3bcda2f325b174">&#9670;&nbsp;</a></span>getFactors()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#ad27d06c83673cc9c7ad1c0202bd39eb6">FactorList</a> &amp; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getFactors </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns all current factors and their adjacency lists. </p>
-<dl class="section return"><dt>Returns</dt><dd>The currently held factors. </dd></dl>
-
-</div>
-</div>
-<a id="a8e2f7d378f271b1649563afc9773a868"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e2f7d378f271b1649563afc9773a868">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[1/4]</span></h2>
+<a id="afaec568c307d64e75bea25ef3f768ce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaec568c307d64e75bea25ef3f768ce1">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -552,25 +557,25 @@ template&lt;typename Factor &gt; </div>
           <td class="memname">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9712d27c789e77117fb1963162e2d3f1">FactorItList</a> &amp; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>agent</em></td><td>)</td>
+          <td class="paramname"><em>variable</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns all factors adjacent to the given agent. </p>
+<p>This function returns all factors adjacent to the given variable. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">agent</td><td>The agent to look for.</td></tr>
+    <tr><td class="paramname">variable</td><td>The variable to look for.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A list of iterators pointing at the factors adjacent to the given agent. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of iterators pointing at the factors adjacent to the given variable. </dd></dl>
 
 </div>
 </div>
-<a id="a200948e84a46fadb86af26bccef568ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a200948e84a46fadb86af26bccef568ed">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[2/4]</span></h2>
+<a id="a8cf42e93a3b8ddad281e88c0857a45b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cf42e93a3b8ddad281e88c0857a45b8">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -578,7 +583,7 @@ template&lt;typename Factor &gt; </div>
 template&lt;typename Factor &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> &amp; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> &amp; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9013966cf21c4aad8ab4cc4a18c39f78">FactorIt</a>&#160;</td>
           <td class="paramname"><em>factor</em></td><td>)</td>
@@ -587,19 +592,19 @@ template&lt;typename Factor &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns all agents adjacent to the given factor. </p>
+<p>This function returns all variables adjacent to the given factor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">factor</td><td>An iterator to the factor to look for.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A vector of agents adjacent to the given factor. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of variables adjacent to the given factor. </dd></dl>
 
 </div>
 </div>
-<a id="a3563d3675e7420dcf9cc55b5a8a3d631"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3563d3675e7420dcf9cc55b5a8a3d631">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[3/4]</span></h2>
+<a id="a19bcfb9348d80e9f5c4c29551336014a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19bcfb9348d80e9f5c4c29551336014a">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -607,7 +612,7 @@ template&lt;typename Factor &gt; </div>
 template&lt;typename Factor &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> &amp; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> &amp; <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a91ab5f7de9adf7e9d2bb9f25ff918082">CFactorIt</a>&#160;</td>
           <td class="paramname"><em>factor</em></td><td>)</td>
@@ -616,19 +621,19 @@ template&lt;typename Factor &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns all agents adjacent to the given factor. </p>
+<p>This function returns all variables adjacent to the given factor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">factor</td><td>A const iterator to the factor to look for.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A vector of agents adjacent to the given factor. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of variables adjacent to the given factor. </dd></dl>
 
 </div>
 </div>
-<a id="a89bcab015fca52c51aee5ab747dbc849"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89bcab015fca52c51aee5ab747dbc849">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[4/4]</span></h2>
+<a id="af45bb6dcdf936d232f64bfeec7ded123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af45bb6dcdf936d232f64bfeec7ded123">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -636,7 +641,7 @@ template&lt;typename Factor &gt; </div>
 template&lt;typename Factor &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1480b27a3fef1e185348babc898163b4">Agents</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a71ac2fb9a9cfb71fa9ca545f7f54e66a">Variables</a> <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a9712d27c789e77117fb1963162e2d3f1">FactorItList</a> &amp;&#160;</td>
           <td class="paramname"><em>factors</em></td><td>)</td>
@@ -645,7 +650,7 @@ template&lt;typename Factor &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns all agents adjacent to any of the given factors. </p>
+<p>This function returns all variables adjacent to any of the given factors. </p>
 <p>This function is equivalent to calling the getNeighbors(FactorIt) function multiple times, and merging the results to eliminate duplicates.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -653,7 +658,31 @@ template&lt;typename Factor &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A vector of agents adjacent to any of the given factors. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of variables adjacent to any of the given factors. </dd></dl>
+
+</div>
+</div>
+<a id="abac0f6609b257a37907685e69da417ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abac0f6609b257a37907685e69da417ee">&#9670;&nbsp;</a></span>variableSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html">AIToolbox::FactoredMDP::FactorGraph</a>&lt; Factor &gt;::variableSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the number of variables still in the graph. </p>
+<p>This function basically returns the number of variables this graph has been initialized with, minus the number of times the <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#aef2a905920a66fd3c49be490316928f3" title="This function partially removes an variable from the graph. ">erase(size_t)</a> function has been called (even for the same variable!).</p>
+<p>This means that if the <a class="el" href="classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#aef2a905920a66fd3c49be490316928f3" title="This function partially removes an variable from the graph. ">erase(size_t)</a> function is used generously, multiple times per variable, this function's return value is meaningless.</p>
+<dl class="section return"><dt>Returns</dt><dd>The number of variables still in the graph. </dd></dl>
 
 </div>
 </div>
@@ -663,7 +692,7 @@ template&lt;typename Factor &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 8 2017 15:04:19 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 8 2017 19:41:07 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

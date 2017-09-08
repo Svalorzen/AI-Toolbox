@@ -111,7 +111,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Augmented <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> algorithm. </p>
 <p>This algorithm transforms a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> into an approximately equivalent <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>. This is done by extending the original <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> statespace with a discretized entropy component, which approximates a sufficient statistic for the belief. In essence, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html" title="This class implements the Augmented MDP algorithm. ">AMDP</a> builds states which contain intrinsically information about the uncertainty of the agent.</p>
-<p>In order to compute a new transition and reward function, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html" title="This class implements the Augmented MDP algorithm. ">AMDP</a> needs to sample possible transitions at random, since each belief can potentially update to any other belief. We sample beliefs using the BeliefGenerator class which creates both random beliefs and beliefs generated using the original <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model, in order to try to obtain beliefs distributed in a way that better resembles the original problem.</p>
+<p>In order to compute a new transition and reward function, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html" title="This class implements the Augmented MDP algorithm. ">AMDP</a> needs to sample possible transitions at random, since each belief can potentially update to any other belief. We sample beliefs using the <a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefGenerator.html" title="This class generates reachable beliefs from a given Model. ">BeliefGenerator</a> class which creates both random beliefs and beliefs generated using the original <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model, in order to try to obtain beliefs distributed in a way that better resembles the original problem.</p>
 <p>Once this is done, it is simply a matter of taking each belief, computing every possible new belief given an action and observation, and sum up all possibilities.</p>
 <p>This class also bundles together with the resulting <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> a function to convert an original <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> belief into an equivalent <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html" title="This class implements the Augmented MDP algorithm. ">AMDP</a> state; this is done so that a policy can be applied, observation gathered and beliefs updated while continuing to use the approximated model. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
@@ -336,7 +336,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 8 2017 15:04:19 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 8 2017 19:41:08 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

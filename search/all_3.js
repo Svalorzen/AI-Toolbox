@@ -6,7 +6,6 @@ var searchData=
   ['discretizer',['Discretizer',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf',1,'AIToolbox::POMDP::AMDP']]],
   ['discretizesparse',['discretizeSparse',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a3d6a58ae5eb30857450d0c08750e481b',1,'AIToolbox::POMDP::AMDP']]],
   ['down',['DOWN',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da',1,'DOWN():&#160;ToroidalWorld.hpp'],['../GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da',1,'DOWN():&#160;GridWorld.hpp']]],
-  ['dynaq',['DynaQ',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html#acaa11f7ae6d8b2076681251fca81390d',1,'AIToolbox::MDP::DynaQ&lt; M &gt;']]],
-  ['dynaq_2ehpp',['DynaQ.hpp',['../DynaQ_8hpp.html',1,'']]],
-  ['dynaq_3c_20m_20_3e',['DynaQ&lt; M &gt;',['../classAIToolbox_1_1MDP_1_1DynaQ_3_01M_01_4.html',1,'AIToolbox::MDP']]]
+  ['dynaq',['DynaQ',['../classAIToolbox_1_1MDP_1_1DynaQ.html',1,'AIToolbox::MDP::DynaQ&lt; M &gt;'],['../classAIToolbox_1_1MDP_1_1DynaQ.html#acaa11f7ae6d8b2076681251fca81390d',1,'AIToolbox::MDP::DynaQ::DynaQ()']]],
+  ['dynaq_2ehpp',['DynaQ.hpp',['../DynaQ_8hpp.html',1,'']]]
 ];

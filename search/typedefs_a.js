@@ -1,9 +1,4 @@
 var searchData=
 [
-  ['partialaction',['PartialAction',['../namespaceAIToolbox_1_1FactoredMDP.html#a7f0b2b22c857b302573fca57418af952',1,'AIToolbox::FactoredMDP']]],
-  ['partialfactors',['PartialFactors',['../namespaceAIToolbox_1_1FactoredMDP.html#aa08c9d777622142d14b2b2a0d8f7421f',1,'AIToolbox::FactoredMDP']]],
-  ['partialstate',['PartialState',['../namespaceAIToolbox_1_1FactoredMDP.html#a2af9f6e0d1cdf22329d5bdfdc427c864',1,'AIToolbox::FactoredMDP']]],
-  ['policytable',['PolicyTable',['../classAIToolbox_1_1MDP_1_1Policy.html#a0b00a0834a613787c43bad66ffae5d9c',1,'AIToolbox::MDP::Policy']]],
-  ['projectionsrow',['ProjectionsRow',['../classAIToolbox_1_1POMDP_1_1Projecter_3_01M_01_4.html#a56a25d788da6a6db2d9c2bb9fe65cba7',1,'AIToolbox::POMDP::Projecter&lt; M &gt;']]],
-  ['projectionstable',['ProjectionsTable',['../classAIToolbox_1_1POMDP_1_1Projecter_3_01M_01_4.html#a933bbb7ed4c426975739b5b2c0b679b4',1,'AIToolbox::POMDP::Projecter&lt; M &gt;']]]
+  ['observationtable',['ObservationTable',['../classAIToolbox_1_1POMDP_1_1Model.html#abe80a9bd07ff46557f7e009d6c0ff16d',1,'AIToolbox::POMDP::Model::ObservationTable()'],['../classAIToolbox_1_1POMDP_1_1SparseModel.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a',1,'AIToolbox::POMDP::SparseModel::ObservationTable()'],['../classOldPOMDPModel_3_01M_01_4.html#a2cde437166ec55df9a995f6294d65227',1,'OldPOMDPModel&lt; M &gt;::ObservationTable()']]]
 ];

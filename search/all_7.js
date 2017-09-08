@@ -1,21 +1,6 @@
 var searchData=
 [
-  ['incrementalpruning',['IncrementalPruning',['../classAIToolbox_1_1POMDP_1_1IncrementalPruning.html',1,'AIToolbox::POMDP::IncrementalPruning'],['../classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#aa9699db6c0e644599fc561dfb13de53f',1,'AIToolbox::POMDP::IncrementalPruning::IncrementalPruning()']]],
-  ['incrementalpruning_2ehpp',['IncrementalPruning.hpp',['../IncrementalPruning_8hpp.html',1,'']]],
-  ['inplace_5fmerge',['inplace_merge',['../namespaceAIToolbox_1_1FactoredMDP.html#a3bdf42e6e1cae2e313316d298d32c30c',1,'AIToolbox::FactoredMDP']]],
-  ['insert',['insert',['../classAIToolbox_1_1FactoredMDP_1_1Trie.html#aa3da1ab5dbd9e3c845c68092ee281b3c',1,'AIToolbox::FactoredMDP::Trie']]],
-  ['insertrule',['insertRule',['../classAIToolbox_1_1FactoredMDP_1_1SparseCooperativeQLearning.html#a3a5c89f1f030ae7704c743a0b70c5150',1,'AIToolbox::FactoredMDP::SparseCooperativeQLearning']]],
-  ['io_2ehpp',['IO.hpp',['../MDP_2IO_8hpp.html',1,'(Global Namespace)'],['../POMDP_2IO_8hpp.html',1,'(Global Namespace)']]],
-  ['is_5fexperience',['is_experience',['../structAIToolbox_1_1MDP_1_1is__experience.html',1,'AIToolbox::MDP']]],
-  ['is_5fgenerative_5fmodel',['is_generative_model',['../structAIToolbox_1_1POMDP_1_1is__generative__model.html',1,'AIToolbox::POMDP::is_generative_model&lt; M &gt;'],['../structAIToolbox_1_1MDP_1_1is__generative__model.html',1,'AIToolbox::MDP::is_generative_model&lt; M &gt;']]],
-  ['is_5fmodel',['is_model',['../structAIToolbox_1_1POMDP_1_1is__model.html',1,'AIToolbox::POMDP::is_model&lt; T &gt;'],['../structAIToolbox_1_1MDP_1_1is__model.html',1,'AIToolbox::MDP::is_model&lt; M &gt;']]],
-  ['is_5fmodel_5feigen',['is_model_eigen',['../structAIToolbox_1_1POMDP_1_1is__model__eigen.html',1,'AIToolbox::POMDP::is_model_eigen&lt; M &gt;'],['../structAIToolbox_1_1MDP_1_1is__model__eigen.html',1,'AIToolbox::MDP::is_model_eigen&lt; M &gt;']]],
-  ['is_5fmodel_5fnot_5feigen',['is_model_not_eigen',['../structAIToolbox_1_1POMDP_1_1is__model__not__eigen.html',1,'AIToolbox::POMDP::is_model_not_eigen&lt; M &gt;'],['../structAIToolbox_1_1MDP_1_1is__model__not__eigen.html',1,'AIToolbox::MDP::is_model_not_eigen&lt; M &gt;']]],
-  ['is_5fwitness_5flp',['is_witness_lp',['../structAIToolbox_1_1POMDP_1_1is__witness__lp.html',1,'AIToolbox::POMDP']]],
-  ['isprobability',['isProbability',['../namespaceAIToolbox.html#a5d4052078699d21068b648273ec9dcf6',1,'AIToolbox']]],
-  ['isterminal',['isTerminal',['../classAIToolbox_1_1MDP_1_1Model.html#a6ca4b6fc92c8089ec4cea5910f0f6a1b',1,'AIToolbox::MDP::Model::isTerminal()'],['../classAIToolbox_1_1MDP_1_1RLModel_3_01E_01_4.html#a570fb89416fcbb7c33c18b84174eed88',1,'AIToolbox::MDP::RLModel&lt; E &gt;::isTerminal()'],['../classAIToolbox_1_1MDP_1_1SparseModel.html#a0331b4c524f02946de72fa9f0c481129',1,'AIToolbox::MDP::SparseModel::isTerminal()'],['../classAIToolbox_1_1MDP_1_1SparseRLModel_3_01E_01_4.html#a1281c9722ff0db979abfc7696ae2d960',1,'AIToolbox::MDP::SparseRLModel&lt; E &gt;::isTerminal()'],['../classOldMDPModel.html#a8c5f0b6bf5f51be457401483776c2d07',1,'OldMDPModel::isTerminal()']]],
-  ['isvalid',['isValid',['../classAIToolbox_1_1FactoredMDP_1_1PartialFactorsEnumerator.html#abd5ba3f5d1c71b504112de7617d1001d',1,'AIToolbox::FactoredMDP::PartialFactorsEnumerator']]],
-  ['itemscontainer',['ItemsContainer',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a375b10041c925ee366ea04d294642652',1,'AIToolbox::FactoredMDP::FactoredContainer']]],
-  ['iterable',['Iterable',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a87aa8eed3e55c4c1b2bb989f18b2085e',1,'AIToolbox::FactoredMDP::FactoredContainer']]],
-  ['iterator',['iterator',['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562',1,'AIToolbox::FactoredMDP::FactoredIterable']]]
+  ['headbeliefnode',['HeadBeliefNode',['../classAIToolbox_1_1POMDP_1_1HeadBeliefNode.html',1,'AIToolbox::POMDP::HeadBeliefNode&lt; UseEntropy &gt;'],['../classAIToolbox_1_1POMDP_1_1HeadBeliefNode.html#a285c83accbbca85e1af0d6552e8fe449',1,'AIToolbox::POMDP::HeadBeliefNode::HeadBeliefNode(size_t A, std::default_random_engine &amp;rand)'],['../classAIToolbox_1_1POMDP_1_1HeadBeliefNode.html#a898c23a51108ec04be7462f6e8764bc7',1,'AIToolbox::POMDP::HeadBeliefNode::HeadBeliefNode(size_t A, size_t beliefSize, const AIToolbox::POMDP::Belief &amp;b, std::default_random_engine &amp;rand)'],['../classAIToolbox_1_1POMDP_1_1HeadBeliefNode.html#a5c684887fb72e0e8cd2d2d58db5f0d6f',1,'AIToolbox::POMDP::HeadBeliefNode::HeadBeliefNode(size_t A, BeliefNode&lt; UseEntropy &gt; &amp;&amp;bn, std::default_random_engine &amp;rand)']]],
+  ['hnode',['HNode',['../classAIToolbox_1_1POMDP_1_1rPOMCP_3_01M_00_01UseEntropy_01_4.html#ab044b4ad05b2e2e6354cc2d5cc43fc22',1,'AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;']]],
+  ['how_20to_20use_20aitoolbox_20logging_20facilities_2e',['How to use AIToolbox logging facilities.',['../Logging.html',1,'']]]
 ];

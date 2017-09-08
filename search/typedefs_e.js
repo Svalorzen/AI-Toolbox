@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['table2d',['Table2D',['../namespaceAIToolbox.html#af774ebb18ec376e43d77e908e3854370',1,'AIToolbox']]],
-  ['table3d',['Table3D',['../namespaceAIToolbox.html#a7fa914363e6f779a2ba9f92ea654b90a',1,'AIToolbox']]],
-  ['transitiontable',['TransitionTable',['../classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5',1,'AIToolbox::MDP::Model::TransitionTable()'],['../classAIToolbox_1_1MDP_1_1RLModel_3_01E_01_4.html#a17e36e2428911249676a4676ca6b379f',1,'AIToolbox::MDP::RLModel&lt; E &gt;::TransitionTable()'],['../classAIToolbox_1_1MDP_1_1SparseModel.html#a6a745497d281534a598ec3f6dc475406',1,'AIToolbox::MDP::SparseModel::TransitionTable()'],['../classAIToolbox_1_1MDP_1_1SparseRLModel_3_01E_01_4.html#a17ce52a164e7f2b8ba5fcfa6babaed1f',1,'AIToolbox::MDP::SparseRLModel&lt; E &gt;::TransitionTable()'],['../classOldMDPModel.html#ac59c22e7f1cab441c4ddd93066fecad6',1,'OldMDPModel::TransitionTable()']]],
-  ['type',['type',['../structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20',1,'AIToolbox::copy_const::type()'],['../structAIToolbox_1_1remove__cv__ref.html#a1565209f227ed8f3533a44d64acc3d73',1,'AIToolbox::remove_cv_ref::type()'],['../structTupleToPython_1_1generator_3_010_00_01S_8_8_8_01_4.html#a5ca2afbe557b7db71fb3f0ba4d8438c1',1,'TupleToPython::generator&lt; 0, S... &gt;::type()']]]
+  ['samplebelief',['SampleBelief',['../classAIToolbox_1_1MDP_1_1MCTS.html#a18febe33dccd1d2c71c635af1e737ca4',1,'AIToolbox::MDP::MCTS::SampleBelief()'],['../classAIToolbox_1_1POMDP_1_1POMCP.html#a59a857f389a56676e63b3346d8a75f22',1,'AIToolbox::POMDP::POMCP::SampleBelief()'],['../namespaceAIToolbox_1_1POMDP.html#a79664c416e1fbfe5d89acb9f94f35bee',1,'AIToolbox::POMDP::SampleBelief()']]],
+  ['sparsematrix2d',['SparseMatrix2D',['../namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161',1,'AIToolbox']]],
+  ['sparsematrix2dlong',['SparseMatrix2DLong',['../namespaceAIToolbox.html#a8dac40c8fbdb76d149b6cbee1868b0c9',1,'AIToolbox']]],
+  ['sparsematrix3d',['SparseMatrix3D',['../namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77',1,'AIToolbox']]],
+  ['sparsematrix3dlong',['SparseMatrix3DLong',['../namespaceAIToolbox.html#a1c1d4d92e6349e16ab51cc2b3b328750',1,'AIToolbox']]],
+  ['state',['State',['../namespaceAIToolbox_1_1FactoredMDP.html#a04a63a02e9bcfe84b74a358f4b0af350',1,'AIToolbox::FactoredMDP']]],
+  ['statenodes',['StateNodes',['../classAIToolbox_1_1MDP_1_1MCTS.html#adf14dc90b1dec372af521e169f191a30',1,'AIToolbox::MDP::MCTS']]]
 ];

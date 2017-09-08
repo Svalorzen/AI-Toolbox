@@ -95,12 +95,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a31b1ca5fb3076e5d42648ac93eea9f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae99091d5abd06399564f5ce2cd399084"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt;::value&gt;::type&gt; </td></tr>
 <tr class="memitem:ae99091d5abd06399564f5ce2cd399084"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#ae99091d5abd06399564f5ce2cd399084">operator()</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:ae99091d5abd06399564f5ce2cd399084"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a POMDP::Model completely.  <a href="#ae99091d5abd06399564f5ce2cd399084">More...</a><br /></td></tr>
+<tr class="memdesc:ae99091d5abd06399564f5ce2cd399084"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> completely.  <a href="#ae99091d5abd06399564f5ce2cd399084">More...</a><br /></td></tr>
 <tr class="separator:ae99091d5abd06399564f5ce2cd399084"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Incremental Pruning algorithm. </p>
-<p>This algorithm solves a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> Model perfectly. It computes solutions for each horizon incrementally, every new solution building upon the previous one.</p>
+<p>This algorithm solves a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a> perfectly. It computes solutions for each horizon incrementally, every new solution building upon the previous one.</p>
 <p>From each solution, it computes the full set of possible projections. It then computes all possible cross-sums of such projections, in order to compute all possible vectors that can be included in the final solution.</p>
 <p>What makes this method unique is its pruning strategy. Instead of generating every possible vector, combining them and pruning, it tries to prune at every possible occasion in order to minimize the number of possible vectors at any given time. Thus it will prune after creating the projections, after every single cross-sum, and in the end when combining all projections for each action.</p>
 <p>The performances of this method are <em>heavily</em> dependent on the linear programming methods used. In particular, this code currently utilizes the lp_solve55 library. However, this library is not the most efficient implementation, as it defaults to a somewhat slow solver, and its problem-building API also tends to be slow due to lots of bounds checking (which are cool, but sometimes people know what they are doing). Still, to avoid replicating infinite amounts of code and managing memory by ourselves, we use its API. It would be nice if one day we could port directly into the code a fast lp implementation; for now we do what we can. </p>
@@ -132,7 +132,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>This constructor sets the default horizon used to solve a POMDP::Model.</p>
+<p>This constructor sets the default horizon used to solve a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a>.</p>
 <p>The epsilon parameter must be &gt;= 0.0, otherwise the constructor will throw an std::runtime_error. The epsilon parameter sets the convergence criterion. An epsilon of 0.0 forces <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html" title="This class implements the Incremental Pruning algorithm. ">IncrementalPruning</a> to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html" title="This class implements the Incremental Pruning algorithm. ">IncrementalPruning</a> will stop as soon as the difference between two iterations is less than the epsilon specified.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -203,7 +203,7 @@ template&lt;typename M , typename &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function solves a POMDP::Model completely. </p>
+<p>This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> completely. </p>
 <p>This function is pretty expensive (as are possibly all <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> solvers). It generates for each new solved timestep the whole set of possible ValueFunctions, and prunes it incrementally, trying to reduce as much as possible the linear programming solves required.</p>
 <p>This function returns a tuple to be consistent with <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> solving methods, but it should always succeed.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -281,7 +281,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 8 2017 15:04:19 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 8 2017 19:41:08 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -66,6 +66,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classAIToolbox_1_1LP-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -103,15 +104,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3746d26c3700ebcd2ca8af75a2ff683"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#ac3746d26c3700ebcd2ca8af75a2ff683">popRow</a> ()</td></tr>
 <tr class="memdesc:ac3746d26c3700ebcd2ca8af75a2ff683"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function removes the last pushed constraint.  <a href="#ac3746d26c3700ebcd2ca8af75a2ff683">More...</a><br /></td></tr>
 <tr class="separator:ac3746d26c3700ebcd2ca8af75a2ff683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afedd191ef9d47361cd74ab446df373c3"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#afedd191ef9d47361cd74ab446df373c3">solve</a> (size_t variables)</td></tr>
-<tr class="memdesc:afedd191ef9d47361cd74ab446df373c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves the <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a> associated with all constraints in the stack.  <a href="#afedd191ef9d47361cd74ab446df373c3">More...</a><br /></td></tr>
-<tr class="separator:afedd191ef9d47361cd74ab446df373c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4c4d7d75c9f4b3bb2b3e776e98bd0d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#afd4c4d7d75c9f4b3bb2b3e776e98bd0d">addColumn</a> ()</td></tr>
+<tr class="memdesc:afd4c4d7d75c9f4b3bb2b3e776e98bd0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function adds a new column to the <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a>.  <a href="#afd4c4d7d75c9f4b3bb2b3e776e98bd0d">More...</a><br /></td></tr>
+<tr class="separator:afd4c4d7d75c9f4b3bb2b3e776e98bd0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d7939f41885d1a89da337c7a901df14"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#a9d7939f41885d1a89da337c7a901df14">solve</a> (size_t variables, double *objective=nullptr)</td></tr>
+<tr class="memdesc:a9d7939f41885d1a89da337c7a901df14"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves the <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a> associated with all constraints in the stack.  <a href="#a9d7939f41885d1a89da337c7a901df14">More...</a><br /></td></tr>
+<tr class="separator:a9d7939f41885d1a89da337c7a901df14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcd28bf038d3f31870e5029c7f496870"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#abcd28bf038d3f31870e5029c7f496870">resize</a> (size_t rows)</td></tr>
 <tr class="memdesc:abcd28bf038d3f31870e5029c7f496870"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function resizes the underlying <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a>.  <a href="#abcd28bf038d3f31870e5029c7f496870">More...</a><br /></td></tr>
 <tr class="separator:abcd28bf038d3f31870e5029c7f496870"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fae8376386f7e7eb9e8ec135aa1eab1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#a4fae8376386f7e7eb9e8ec135aa1eab1">setUnbounded</a> (size_t n)</td></tr>
 <tr class="memdesc:a4fae8376386f7e7eb9e8ec135aa1eab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the specified variable as unbounded.  <a href="#a4fae8376386f7e7eb9e8ec135aa1eab1">More...</a><br /></td></tr>
 <tr class="separator:a4fae8376386f7e7eb9e8ec135aa1eab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:acaa356ecc18e68b4da2ebdeb0544cbc5"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#acaa356ecc18e68b4da2ebdeb0544cbc5">getPrecision</a> ()</td></tr>
+<tr class="memdesc:acaa356ecc18e68b4da2ebdeb0544cbc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the maximum precision obtainable from the solution.  <a href="#acaa356ecc18e68b4da2ebdeb0544cbc5">More...</a><br /></td></tr>
+<tr class="separator:acaa356ecc18e68b4da2ebdeb0544cbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -196,10 +206,63 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic destructor to avoid problems with std::unique_ptr. </p>
+<p>std::unique_ptr does not compile with incomplete types, since its generated default constructor needs to know the whole type. If we declare our own, we can postpone this step until the type is known in the source file. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="afd4c4d7d75c9f4b3bb2b3e776e98bd0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd4c4d7d75c9f4b3bb2b3e776e98bd0d">&#9670;&nbsp;</a></span>addColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t AIToolbox::LP::addColumn </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function adds a new column to the <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a>. </p>
+<p>The inserted column is empty (all previous rows are assumed to not need the newly added variable).</p>
+<p>Warning: calling this function will reset the content of the <code>row</code> public variable to an uninitialized space.</p>
+<dl class="section return"><dt>Returns</dt><dd>The index of the newly inserted column. </dd></dl>
+
+</div>
+</div>
+<a id="acaa356ecc18e68b4da2ebdeb0544cbc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaa356ecc18e68b4da2ebdeb0544cbc5">&#9670;&nbsp;</a></span>getPrecision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static double AIToolbox::LP::getPrecision </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function returns the maximum precision obtainable from the solution. </p>
+<p>This is dependent on the underlying implementation. In general it is unwise to compare returned results from an <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a> with exact numbers, but if that needs to be done the idea is that this function will give some sort of upper bound on the messiness of the results.</p>
+<p>No guarantees though!</p>
+<dl class="section return"><dt>Returns</dt><dd>The "epsilon" of precision that we hope the solutions, if found, should have. </dd></dl>
+
+</div>
+</div>
 <a id="ac3746d26c3700ebcd2ca8af75a2ff683"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac3746d26c3700ebcd2ca8af75a2ff683">&#9670;&nbsp;</a></span>popRow()</h2>
 
@@ -280,7 +343,7 @@ Public Attributes</h2></td></tr>
 <p>If the number is lower, the effect is equivalent to calling <a class="el" href="classAIToolbox_1_1LP.html#ac3746d26c3700ebcd2ca8af75a2ff683" title="This function removes the last pushed constraint. ">popRow()</a> until the remaining number of rules is equal to the number specified.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">rows</td><td></td></tr>
+    <tr><td class="paramname">rows</td><td>The number of rows to preallocate/leave in the <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -352,8 +415,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="afedd191ef9d47361cd74ab446df373c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afedd191ef9d47361cd74ab446df373c3">&#9670;&nbsp;</a></span>solve()</h2>
+<a id="a9d7939f41885d1a89da337c7a901df14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d7939f41885d1a89da337c7a901df14">&#9670;&nbsp;</a></span>solve()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,17 +425,29 @@ Public Attributes</h2></td></tr>
           <td class="memname">std::optional&lt;<a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>&gt; AIToolbox::LP::solve </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td class="paramname"><em>variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>objective</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>This function solves the <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a> associated with all constraints in the stack. </p>
 <p>This function solves the currently set <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a> problem. If solved, the return Vector will contain the values of the first N variables of the solution, where N is the input.</p>
+<p>This function may also return the final result of the objective. The pointer may be written independently from whether the solution was successful or not.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variables</td><td>The number of variables one wants the solution of.</td></tr>
+    <tr><td class="paramname">variables</td><td>The number of variables one wants the solution of. </td></tr>
+    <tr><td class="paramname">objective</td><td>A pointer where to store the result value of the objective.</td></tr>
   </table>
   </dd>
 </dl>
@@ -394,7 +469,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Editable vector containing column coefficients. </p>
-<p>This field will NEVER be touched by this class, so you are free to set it as you please, and its value will not be modified. </p>
+<p>This field will NEVER be touched by this class unless where noted, so you are free to set it as you please, and its value will not be modified.</p>
+<p>By default it is NOT initialized! </p>
 
 </div>
 </div>
@@ -404,7 +480,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 8 2017 15:04:18 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 8 2017 19:41:07 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

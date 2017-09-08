@@ -71,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This struct represents the required interface for a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> Model.  
+<p>This struct represents the required interface for a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a>.  
  <a href="structAIToolbox_1_1POMDP_1_1is__model.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="POMDP_2Types_8hpp_source.html">Types.hpp</a>&gt;</code></p>
@@ -86,10 +86,10 @@ Public Types</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 struct AIToolbox::POMDP::is_model&lt; T &gt;</h3>
 
-<p>This struct represents the required interface for a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> Model. </p>
+<p>This struct represents the required interface for a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a>. </p>
 <p>This struct is used to check interfaces of classes in templates. In particular, this struct tests for the interface of a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model. The interface must be implemented and be public in the parameter class. The interface is the following:</p>
 <ul>
-<li>size_t getO() const : Returns the number of observations of the Model.</li>
+<li>size_t getO() const : Returns the number of observations of the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a>.</li>
 <li>double getObservationProbability(size_t s1, size_t a, size_t o) const : Returns the probability for observation o after action a and final state s1.</li>
 </ul>
 <p>In addition the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> needs to respect the interface for the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> generative model and the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.</p>
@@ -129,7 +129,7 @@ template&lt;typename T&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 8 2017 15:04:19 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 8 2017 19:41:08 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

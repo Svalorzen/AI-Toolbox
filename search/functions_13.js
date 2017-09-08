@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['weakbounddistance',['weakBoundDistance',['../namespaceAIToolbox_1_1POMDP.html#a05e4fb4a18324709e70b42d66cf2054b',1,'AIToolbox::POMDP']]],
-  ['witness',['Witness',['../classAIToolbox_1_1POMDP_1_1Witness.html#ae245a162b17965f9cef3552fb3297ffd',1,'AIToolbox::POMDP::Witness']]],
-  ['witnesslp',['WitnessLP',['../classAIToolbox_1_1POMDP_1_1WitnessLP.html#abd0dcf5837c2bbba19445e488e8e2456',1,'AIToolbox::POMDP::WitnessLP']]],
-  ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a5da7647741afda3a435534a1a423c5b2',1,'AIToolbox::MDP::WoLFPolicy']]]
+  ['updateaction',['updateAction',['../classAIToolbox_1_1FactoredMDP_1_1SingleActionPolicy.html#a45ac0079099fbd637c9d59fe1c27ece9',1,'AIToolbox::FactoredMDP::SingleActionPolicy']]],
+  ['updatebelief',['updateBelief',['../namespaceAIToolbox_1_1POMDP.html#ad19c9f085248dc19299d511194210843',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o)'],['../namespaceAIToolbox_1_1POMDP.html#a33a1c23c71b6afae16da4db1863bf68d',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)']]],
+  ['updatebeliefandknowledge',['updateBeliefAndKnowledge',['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#ab05969db16d2f81f685be7d4eba33cee',1,'AIToolbox::POMDP::BeliefNode::updateBeliefAndKnowledge(size_t s)'],['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#a678ab71828f0b61efee363e82f893e81',1,'AIToolbox::POMDP::BeliefNode::updateBeliefAndKnowledge(size_t s)'],['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#a5144cad85092dbc5145f3a88cfaa3919',1,'AIToolbox::POMDP::BeliefNode::updateBeliefAndKnowledge(size_t s)']]],
+  ['updatebeliefunnormalized',['updateBeliefUnnormalized',['../namespaceAIToolbox_1_1POMDP.html#aeadb8ad292520175aea2ad4b9173c5cd',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o)'],['../namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)']]],
+  ['updatepolicy',['updatePolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ad428806fd6034c9acd435b2320e15e81',1,'AIToolbox::MDP::WoLFPolicy']]]
 ];

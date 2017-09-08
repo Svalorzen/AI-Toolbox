@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['sarsa_2ehpp',['SARSA.hpp',['../SARSA_8hpp.html',1,'']]],
-  ['seeder_2ehpp',['Seeder.hpp',['../Seeder_8hpp.html',1,'']]],
-  ['singleactionpolicy_2ehpp',['SingleActionPolicy.hpp',['../SingleActionPolicy_8hpp.html',1,'']]],
-  ['sparsecooperativeqlearning_2ehpp',['SparseCooperativeQLearning.hpp',['../SparseCooperativeQLearning_8hpp.html',1,'']]],
-  ['sparseexperience_2ehpp',['SparseExperience.hpp',['../SparseExperience_8hpp.html',1,'']]],
-  ['sparsemodel_2ehpp',['SparseModel.hpp',['../MDP_2SparseModel_8hpp.html',1,'(Global Namespace)'],['../POMDP_2SparseModel_8hpp.html',1,'(Global Namespace)']]],
-  ['sparserlmodel_2ehpp',['SparseRLModel.hpp',['../SparseRLModel_8hpp.html',1,'']]]
+  ['rlmodel_2ehpp',['RLModel.hpp',['../RLModel_8hpp.html',1,'']]],
+  ['rpomcp_2ehpp',['rPOMCP.hpp',['../rPOMCP_8hpp.html',1,'']]],
+  ['rpomcpgraph_2ehpp',['rPOMCPGraph.hpp',['../rPOMCPGraph_8hpp.html',1,'']]],
+  ['rtbss_2ehpp',['RTBSS.hpp',['../RTBSS_8hpp.html',1,'']]]
 ];

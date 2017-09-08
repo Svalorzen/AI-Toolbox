@@ -101,13 +101,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af756d47c7d506bcbc1b39eefe7355b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afba5259060af28012ff4cfce63b8faa7"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </td></tr>
 <tr class="memitem:afba5259060af28012ff4cfce63b8faa7"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#afba5259060af28012ff4cfce63b8faa7">operator()</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:afba5259060af28012ff4cfce63b8faa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a POMDP::Model approximately.  <a href="#afba5259060af28012ff4cfce63b8faa7">More...</a><br /></td></tr>
+<tr class="memdesc:afba5259060af28012ff4cfce63b8faa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately.  <a href="#afba5259060af28012ff4cfce63b8faa7">More...</a><br /></td></tr>
 <tr class="separator:afba5259060af28012ff4cfce63b8faa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Point Based Value Iteration algorithm. </p>
-<p>The idea behind this algorithm is to solve a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> Model approximately. When computing a perfect solution, the main problem is pruning the resulting ValueFunction in order to contain only a parsimonious representation. What this means is that many vectors inside can be dominated by others, and so they do not add any additional information, while at the same time occupying memory and computational time.</p>
-<p>The way this method tries to fix the problem is by solving the Model in a set of specified Beliefs. Doing so results in no need for pruning at all, since every belief uniquely identifies one of the optimal solution vectors (only uniqueness in the final set is required, but it is way cheaper than linear programming).</p>
+<p>The idea behind this algorithm is to solve a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a> approximately. When computing a perfect solution, the main problem is pruning the resulting ValueFunction in order to contain only a parsimonious representation. What this means is that many vectors inside can be dominated by others, and so they do not add any additional information, while at the same time occupying memory and computational time.</p>
+<p>The way this method tries to fix the problem is by solving the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a> in a set of specified Beliefs. Doing so results in no need for pruning at all, since every belief uniquely identifies one of the optimal solution vectors (only uniqueness in the final set is required, but it is way cheaper than linear programming).</p>
 <p>The set of Beliefs are stochastically computed as to cover as much as possible of the belief space, to ensure minimization of the final error. The final solution will thus be correct 100% in the Beliefs that have been selected, and will (possibly) overshoot in non-covered Beliefs.</p>
 <p>In addition, the fact that we solve only for a fixed set of Beliefs guarantees that our final solution is limited in size, which is useful since even small <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> true solutions can explode in size with high horizons, for very little gain.</p>
 <p>There is no convergence guarantee of this method, but the error is bounded. </p>
@@ -145,7 +145,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>This constructor sets the default horizon/epsilon used to solve a POMDP::Model and the number of beliefs used to approximate the ValueFunction.</p>
+<p>This constructor sets the default horizon/epsilon used to solve a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> and the number of beliefs used to approximate the ValueFunction.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nBeliefs</td><td>The number of support beliefs to use. </td></tr>
@@ -236,7 +236,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
       </table>
 </div><div class="memdoc">
 
-<p>This function solves a POMDP::Model approximately. </p>
+<p>This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately. </p>
 <p>This function computes a set of beliefs for which to solve the input model. The beliefs are chosen stochastically, trying to cover as much as possible of the belief space in order to offer as precise a solution as possible. The final solution will only contain ValueFunctions for those Beliefs and will interpolate them for points it did not solve for. Even though the resulting solution is approximate very often it is good enough, and this comes with an incredible increase in speed.</p>
 <p>Note that even in the beliefs sampled the solution is not guaranteed to be optimal. This is because a solution for horizon h can only be computed with the true solution from horizon h-1. If such a solution is approximate (and it is here), then the solution for h will not be optimal by definition.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -340,7 +340,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 8 2017 15:04:19 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 8 2017 19:41:08 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

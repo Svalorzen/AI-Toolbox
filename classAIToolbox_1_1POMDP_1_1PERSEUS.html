@@ -101,7 +101,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5b14d4bae29db552278ea98eec608678"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af42c115b6790695b75093cf84b2f9a36"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </td></tr>
 <tr class="memitem:af42c115b6790695b75093cf84b2f9a36"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html#af42c115b6790695b75093cf84b2f9a36">operator()</a> (const M &amp;model, double minReward)</td></tr>
-<tr class="memdesc:af42c115b6790695b75093cf84b2f9a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a POMDP::Model approximately.  <a href="#af42c115b6790695b75093cf84b2f9a36">More...</a><br /></td></tr>
+<tr class="memdesc:af42c115b6790695b75093cf84b2f9a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately.  <a href="#af42c115b6790695b75093cf84b2f9a36">More...</a><br /></td></tr>
 <tr class="separator:af42c115b6790695b75093cf84b2f9a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -143,7 +143,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>This constructor sets the default horizon/epsilon used to solve a POMDP::Model and the number of beliefs used to approximate the ValueFunction.</p>
+<p>This constructor sets the default horizon/epsilon used to solve a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> and the number of beliefs used to approximate the ValueFunction.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nBeliefs</td><td>The number of support beliefs to use. </td></tr>
@@ -244,7 +244,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
       </table>
 </div><div class="memdoc">
 
-<p>This function solves a POMDP::Model approximately. </p>
+<p>This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately. </p>
 <p>This function computes a set of beliefs for which to solve the input model. The beliefs are chosen stochastically, trying to cover as much as possible of the belief space in order to offer as precise a solution as possible.</p>
 <p>The final solution will try to be as small as possible, in order to drastically improve performances, while at the same time provide a reasonably good result.</p>
 <p>Note that the model input cannot have a discount of 1, due to how <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html" title="This class implements the PERSEUS algorithm. ">PERSEUS</a> initializes the value function internally; if the model provided has a discount of 1 we throw.</p>
@@ -350,7 +350,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 8 2017 15:04:19 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 8 2017 19:41:08 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

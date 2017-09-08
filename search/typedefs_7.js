@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['itemscontainer',['ItemsContainer',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a375b10041c925ee366ea04d294642652',1,'AIToolbox::FactoredMDP::FactoredContainer']]],
-  ['iterable',['Iterable',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a87aa8eed3e55c4c1b2bb989f18b2085e',1,'AIToolbox::FactoredMDP::FactoredContainer']]],
-  ['iterator',['iterator',['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a9b9d5a70a66173a173be64c9aad12562',1,'AIToolbox::FactoredMDP::FactoredIterable']]]
+  ['hnode',['HNode',['../classAIToolbox_1_1POMDP_1_1rPOMCP_3_01M_00_01UseEntropy_01_4.html#ab044b4ad05b2e2e6354cc2d5cc43fc22',1,'AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;']]]
 ];
