@@ -11,11 +11,6 @@
 #include <vector>
 
 namespace AIToolbox::MDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
-    class DynaQ;
-#endif
     /**
      * @brief This class represents the DynaQ algorithm.
      *
@@ -35,7 +30,9 @@ namespace AIToolbox::MDP {
      * from.
      */
     template <typename M>
-    class DynaQ<M> {
+    class DynaQ {
+        static_assert(is_generative_model<M>::value, "The input value type must be a generative MDP model!");
+
         public:
             /**
              * @brief Basic constructor.

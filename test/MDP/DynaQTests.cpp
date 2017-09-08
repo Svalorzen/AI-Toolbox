@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE( updates ) {
     auto model = makeCliffProblem(grid);
     model.setDiscount(0.9);
 
-    mdp::DynaQ<decltype(model)> solver(model, 0.5);
+    mdp::DynaQ solver(model, 0.5);
     {
         // State goes to itself, thus needs to consider
         // next-step value.
