@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
                     -1.0, -1.0, -1.0, -1.0,
                     -1.0, -1.0, -1.0,  0.0;
 
-    PolicyEvaluation<Model> ev(model, 1, 0.0);
+    PolicyEvaluation ev(model, 1, 0.0);
     auto solution = ev(randomPolicy);
     checkSolution(truthHorizon1, std::get<1>(solution));
 
