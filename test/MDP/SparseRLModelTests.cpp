@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     const size_t S = 10, A = 8;
 
     AIToolbox::MDP::Experience exp(S,A);
-    AIToolbox::MDP::SparseRLModel<decltype(exp)> model(exp, 1.0, false);
+    AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
 
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     AIToolbox::MDP::Experience exp(S,A);
     // Single state sync
     {
-        AIToolbox::MDP::SparseRLModel<decltype(exp)> model(exp, 1.0, false);
+        AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
 
         exp.record(0,0,1,10);
         exp.record(0,0,2,10);
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     const size_t S = 10, A = 8;
 
     AIToolbox::MDP::Experience exp(S,A);
-    AIToolbox::MDP::SparseRLModel<decltype(exp)>  model(exp, 1.0, false);
+    AIToolbox::MDP::SparseRLModel  model(exp, 1.0, false);
 
     exp.record(0,0,0,0);
     exp.record(0,0,1,0);

@@ -10,11 +10,6 @@
 #include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox::MDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename E, typename = typename std::enable_if<is_experience<E>::value>::type>
-    class SparseRLModel;
-#endif
     /**
      * @brief This class models Experience as a Markov Decision Process.
      *
@@ -67,7 +62,9 @@ namespace AIToolbox::MDP {
      * caching.
      */
     template <typename E>
-    class SparseRLModel<E> {
+    class SparseRLModel {
+        static_assert(is_experience<E>::value, "This class only works for MDP experiences!");
+
         public:
             using TransitionTable   = SparseMatrix3D;
             using RewardTable       = SparseMatrix3D;
