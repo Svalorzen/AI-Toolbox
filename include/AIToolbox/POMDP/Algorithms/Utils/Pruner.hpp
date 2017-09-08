@@ -11,16 +11,13 @@
 #include <AIToolbox/POMDP/Algorithms/Utils/Types.hpp>
 
 namespace AIToolbox::POMDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename WitnessLP, typename = typename std::enable_if<is_witness_lp<WitnessLP>::value>::type>
-    class Pruner;
-#endif
     /**
      * @brief This class offers pruning facilities for non-parsimonious ValueFunction sets.
      */
     template <typename WitnessLP>
-    class Pruner<WitnessLP> {
+    class Pruner {
+        static_assert(is_witness_lp<WitnessLP>::value, "This class only works for linear programming witness classes!");
+
         public:
             Pruner(size_t S);
 
