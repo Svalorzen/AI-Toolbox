@@ -12,11 +12,6 @@
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::MDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-    class PrioritizedSweeping;
-#endif
     /**
      * @brief This class represents the PrioritizedSweeping algorithm.
      *
@@ -45,7 +40,9 @@ namespace AIToolbox::MDP {
      * supported by this approach are ones with an infinite horizon.
      */
     template <typename M>
-    class PrioritizedSweeping<M> {
+    class PrioritizedSweeping {
+        static_assert(is_model<M>::value, "The input value type must be an MDP model!");
+
         public:
             /**
              * @brief Basic constructor.
