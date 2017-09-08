@@ -10,11 +10,8 @@
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox::POMDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
+    template <typename M>
     class Model;
-#endif
 
     // Declaration to warn the compiler that this is a template function
     template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
@@ -67,7 +64,9 @@ namespace AIToolbox::POMDP {
      * @tparam M The particular MDP type that we want to extend.
      */
     template <typename M>
-    class Model<M> : public M {
+    class Model : public M {
+        static_assert(MDP::is_model<M>::value, "This class only works for MDP models!");
+
         public:
             using ObservationTable = Matrix3D;
 
