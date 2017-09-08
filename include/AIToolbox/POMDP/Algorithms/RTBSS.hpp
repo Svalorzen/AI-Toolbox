@@ -8,11 +8,6 @@
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::POMDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-    class RTBSS;
-#endif
     /**
      * @brief This class represents the RTBSS online planner.
      *
@@ -38,7 +33,9 @@ namespace AIToolbox::POMDP {
      * due to floating point approximation errors.
      */
     template <typename M>
-    class RTBSS<M> {
+    class RTBSS {
+        static_assert(is_model<M>::value, "This class only works for POMDP models!");
+
         public:
 
             /**

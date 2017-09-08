@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto & vf = std::get<1>(solution);
 
     for ( unsigned horizon = 1; horizon <= maxHorizon; ++horizon ) {
-        POMDP::RTBSS<decltype(model)> solver(model, 10.0);
+        POMDP::RTBSS solver(model, 10.0);
 
         for ( auto i = 0; i < beliefs.rows(); ++i ) {
             auto b = beliefs.row(i);
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     auto & vf = std::get<1>(solution);
 
     for ( unsigned horizon = 1; horizon <= maxHorizon; ++horizon ) {
-        POMDP::RTBSS<decltype(model)> solver(model, 10.0);
+        POMDP::RTBSS solver(model, 10.0);
 
         for ( auto i = 0; i < beliefs.rows(); ++i ) {
             auto b = beliefs.row(i);
