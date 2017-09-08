@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
 
     auto model = makeCornerProblem(grid);
 
-    MCTS<decltype(model)> solver(model, 10000, 5.0);
+    MCTS solver(model, 10000, 5.0);
 
     // Check that solution agrees with that we'd like
     //
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE( sampleOneTime ) {
 
     auto model = makeCornerProblem(grid);
 
-    MCTS<decltype(model)> solver(model, 1, 5.0);
+    MCTS solver(model, 1, 5.0);
 
     // We ensure POMCP does not crash when pruning a tree
     // and the new head was a leaf (and thus did not have
