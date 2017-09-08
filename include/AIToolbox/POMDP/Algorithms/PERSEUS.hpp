@@ -169,7 +169,7 @@ namespace AIToolbox::POMDP {
         // up). However, this is easily changeable, since the belief generator
         // can be called multiple times to increase the size of the belief
         // vector.
-        BeliefGenerator<M> bGen(model);
+        BeliefGenerator bGen(model);
         const auto beliefs = bGen(beliefSize_);
 
         // We initialize the ValueFunction to the "worst" case scenario.
@@ -178,7 +178,7 @@ namespace AIToolbox::POMDP {
 
         unsigned timestep = 0;
 
-        Projecter<M> projecter(model);
+        Projecter projecter(model);
 
         // And off we go
         const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);

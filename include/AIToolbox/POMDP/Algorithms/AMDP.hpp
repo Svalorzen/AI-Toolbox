@@ -111,7 +111,7 @@ namespace AIToolbox::POMDP {
         const size_t S = model.getS(), A = model.getA(), O = model.getO();
         const size_t S1 = S * buckets_;
 
-        BeliefGenerator<M> bGen(model);
+        BeliefGenerator bGen(model);
         const auto beliefs = bGen(beliefSize_);
 
         auto T = MDP::Model::TransitionTable   (A, Matrix2D::Zero(S1, S1));

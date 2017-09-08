@@ -3,16 +3,12 @@
 
 #include <unordered_map>
 
+#include <AIToolbox/Impl/Logging.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox::POMDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
-    class POMCP;
-#endif
     /**
      * @brief This class represents the POMCP online planner using UCB1.
      *
@@ -61,7 +57,9 @@ namespace AIToolbox::POMDP {
      * knowledge).
      */
     template <typename M>
-    class POMCP<M> {
+    class POMCP {
+        static_assert(is_generative_model<M>::value, "This class only works for generative POMDP models!");
+
         public:
             using SampleBelief = std::vector<size_t>;
 
@@ -335,6 +333,7 @@ namespace AIToolbox::POMDP {
 
         auto it = obs.find(o);
         if ( it == obs.end() ) {
+            AI_LOGGER(AI_SEVERITY_WARNING, "Observation " << o << " never experienced in simulation, restarting with uniform belief..");
             auto b = Belief(S); b.fill(1.0/S);
             return sampleAction(b, horizon);
         }
@@ -347,6 +346,7 @@ namespace AIToolbox::POMDP {
         { auto tmp = std::move(it->second); graph_ = std::move(tmp); }
 
         if ( ! graph_.belief.size() ) {
+            AI_LOGGER(AI_SEVERITY_WARNING, "POMCP Lost track of the belief, restarting with uniform..");
             auto b = Belief(S); b.fill(1.0/S);
             return sampleAction(b, horizon);
         }

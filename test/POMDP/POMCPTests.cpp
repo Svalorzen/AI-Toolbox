@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         // The main problem is that the high exploration constant here is used to force
         // OPEN actions in high uncertainty situations, in any case. Otherwise, LISTEN actions
         // end up being way better, since POMCP averages across actions (not very smart).
-        POMDP::POMCP<decltype(model)> solver(model, 1000, 10000, horizon * 10000.0);
+        POMDP::POMCP solver(model, 1000, 10000, horizon * 10000.0);
 
         for ( auto i = 0; i < beliefs.rows(); ++i ) {
             auto a = solver.sampleAction(beliefs.row(i), horizon);
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
     unsigned horizon = 1;
     unsigned count = 10000;
 
-    POMDP::POMCP<decltype(model)> solver(model, 1000, count, 10000.0);
+    POMDP::POMCP solver(model, 1000, count, 10000.0);
 
     // We want to check that when there is an horizon of 1
     // the particle belief still gets updated so that it
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE( sampleOneTime ) {
     unsigned horizon = 100;
     unsigned count = 1;
 
-    POMDP::POMCP<decltype(model)> solver(model, 1000, count, 10000.0);
+    POMDP::POMCP solver(model, 1000, count, 10000.0);
 
     // We assure POMCP does not crash when pruning a tree
     // and the new head was a leaf (and thus did not have

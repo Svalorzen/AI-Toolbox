@@ -159,7 +159,7 @@ namespace AIToolbox::POMDP {
         unsigned timestep = 0;
 
         Pruner<WitnessLP> prune(S);
-        Projecter<M> projecter(model);
+        Projecter projecter(model);
 
         const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
         double variation = epsilon_ * 2; // Make it bigger

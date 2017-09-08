@@ -11,11 +11,6 @@
 #include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::MDP {
-#ifndef DOXYGEN_SKIP
-        // This is done to avoid bringing around the enable_if everywhere.
-        template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-        class PolicyEvaluation;
-#endif
     /**
      * @brief This class applies the policy evaluation algorithm on a policy.
      *
@@ -29,7 +24,9 @@ namespace AIToolbox::MDP {
      * @tparam M The type of model that is solved by the algorithm.
      */
     template <typename M>
-    class PolicyEvaluation<M> {
+    class PolicyEvaluation {
+        static_assert(is_model<M>::value, "This class only works for MDP models!");
+
         public:
             /**
              * @brief Basic constructor.

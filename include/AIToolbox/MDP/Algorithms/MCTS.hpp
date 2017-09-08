@@ -8,11 +8,6 @@
 #include <unordered_map>
 
 namespace AIToolbox::MDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
-    class MCTS;
-#endif
     /**
      * @brief This class represents the MCTS online planner using UCB1.
      *
@@ -48,7 +43,9 @@ namespace AIToolbox::MDP {
      * again.
      */
     template <typename M>
-    class MCTS<M> {
+    class MCTS {
+        static_assert(is_generative_model<M>::value, "This class only works for generative MDP models!");
+
         public:
             using SampleBelief = std::vector<size_t>;
 

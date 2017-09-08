@@ -178,7 +178,7 @@ namespace AIToolbox::POMDP {
         // to avoid too many reallocations.
         size_t reserveSize = 1;
 
-        Projecter<M> project(model);
+        Projecter project(model);
         Pruner<WitnessLP> prune(S);
         WitnessLP lp(S);
 

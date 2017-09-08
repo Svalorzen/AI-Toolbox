@@ -6,16 +6,13 @@
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox::POMDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
-    class BeliefGenerator;
-#endif
     /**
      * @brief This class generates reachable beliefs from a given Model.
      */
     template <typename M>
-    class BeliefGenerator<M> {
+    class BeliefGenerator {
+        static_assert(is_generative_model<M>::value, "This class only works for generative POMDP models!");
+
         public:
             using BeliefList = std::vector<Belief>;
 
