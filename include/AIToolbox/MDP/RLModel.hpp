@@ -10,11 +10,6 @@
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::MDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename E, typename = typename std::enable_if<is_experience<E>::value>::type>
-    class RLModel;
-#endif
     /**
      * @brief This class models Experience as a Markov Decision Process.
      *
@@ -57,7 +52,9 @@ namespace AIToolbox::MDP {
      * the model you are trying to approximate. Trying out things is good!
      */
     template <typename E>
-    class RLModel<E> {
+    class RLModel {
+        static_assert(is_experience<E>::value, "This class only works for MDP experiences!");
+
         public:
             using TransitionTable   = Matrix3D;
             using RewardTable       = Matrix3D;
