@@ -185,7 +185,7 @@ namespace AIToolbox::POMDP {
 
         unsigned timestep = 0;
 
-        Projecter<M> projecter(model);
+        Projecter projecter(model);
 
         // And off we go
         const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);

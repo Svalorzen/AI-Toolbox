@@ -4,16 +4,13 @@
 #include <AIToolbox/POMDP/Types.hpp>
 
 namespace AIToolbox::POMDP {
-#ifndef DOXYGEN_SKIP
-    // This is done to avoid bringing around the enable_if everywhere.
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-    class Projecter;
-#endif
     /**
      * @brief This class offers projecting facilities for Models.
      */
     template <typename M>
-    class Projecter<M> {
+    class Projecter {
+        static_assert(is_model<M>::value, "This class only works for POMDP models!");
+
         public:
             using ProjectionsTable          = boost::multi_array<VList, 2>;
             using ProjectionsRow            = boost::multi_array<VList, 1>;
