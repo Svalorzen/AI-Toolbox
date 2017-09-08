@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 
+#include <AIToolbox/Impl/Logging.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
@@ -335,6 +336,7 @@ namespace AIToolbox::POMDP {
 
         auto it = obs.find(o);
         if ( it == obs.end() ) {
+            AI_LOGGER(AI_SEVERITY_WARNING, "Observation " << o << " never experienced in simulation, restarting with uniform belief..");
             auto b = Belief(S); b.fill(1.0/S);
             return sampleAction(b, horizon);
         }
@@ -347,6 +349,7 @@ namespace AIToolbox::POMDP {
         { auto tmp = std::move(it->second); graph_ = std::move(tmp); }
 
         if ( ! graph_.belief.size() ) {
+            AI_LOGGER(AI_SEVERITY_WARNING, "POMCP Lost track of the belief, restarting with uniform..");
             auto b = Belief(S); b.fill(1.0/S);
             return sampleAction(b, horizon);
         }
