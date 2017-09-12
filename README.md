@@ -134,8 +134,8 @@ In addition, full C++17 support is now required (**this means at least g++-7**)
 If you want to build the POMDP or Factored MDP part of the library you will also
 need:
 
-- the [lp\_solve](http://lpsolve.sourceforge.net/5.5/) library is also required
-  (a shared library must be available to compile the Python libraries).
+- the [lp\_solve library](http://lpsolve.sourceforge.net/5.5/) (a shared library
+  must be available to compile the Python wrapper).
 
 Building
 --------

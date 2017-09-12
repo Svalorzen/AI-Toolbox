@@ -26,7 +26,7 @@
  * An example of how the library uses this macros to log is the following:
  *
  * ```
- * AI_LOGGER(AI_SEVERITY_DEBUG, "Logging a value in debug: " << value << "\n");
+ * AI_LOGGER(AI_SEVERITY_DEBUG, "Logging a value in debug: " << value);
  * ```
  *
  * How you redefine the macros will transform how the final logging statement
