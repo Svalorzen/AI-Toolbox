@@ -175,10 +175,11 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DMAKE_MDP=1 -DMAKE_PYTHON=1 ..
 The default flags when nothing is specified are `MAKE_ALL` and
 `CMAKE_BUILD_TYPE=Release`.
 
-The static library files will be available directly in the build directory. At
-the moment two separate libraries are created: `AIToolboxMDP` and
-`AIToolboxPOMDP`. In case you want to link against the POMDP library, you will
-also need to link against the MDP one, since POMDP uses MDP functionality.
+The static library files will be available directly in the build directory.
+Three separate libraries are built: `AIToolboxMDP`, `AIToolboxPOMDP` and
+`AIToolboxFMDP`. In case you want to link against either the POMDP library or
+the Factored MDP library, you will also need to link against the MDP one, since
+both of them use MDP functionality.
 
 A number of small tests are included which you can find in the `test/` folder.
 You can execute them after building the project using the following command
@@ -206,13 +207,15 @@ main directory.
 Compiling a Program
 ===================
 
-To compile a program that uses this library, simply link it against
-`libAIToolboxMDP.a` and possibly both `libAIToolboxPOMDP.a` and all `lp_solve`
-libraries. Please note that since the POMDP code relies on the MDP code, you
-__MUST__ link the MDP library *after* the POMDP one, otherwise it may result in
-`undefined reference` errors. The same is true for the MDP and Factored MDP
-libraries. The POMDP and Factored MDP libraries are not currently dependent so
-their order does not matter.
+To compile a program that uses this library, simply link it against the compiled
+libraries you need, and possibly to the `lp_solve` libraries (if using POMDP or
+FMDP).
+
+Please note that since both POMDP and FMDP libraries rely on the MDP code, you
+__MUST__ specify those libraries *before* the MDP library when linking,
+otherwise it may result in `undefined reference` errors. The POMDP and Factored
+MDP libraries are not currently dependent on each other so their order does not
+matter.
 
 For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
 you'll be able to use the classes as exported to Python. All classes are
