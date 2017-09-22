@@ -94,7 +94,7 @@ namespace AIToolbox::POMDP {
             { return false; }
 
         public:
-            enum { value = test<M>(0) };
+            enum { value = test<M>(0) && MDP::is_generative_model<M>::value };
     };
 
     /**
