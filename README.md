@@ -157,10 +157,10 @@ if building everything is not desirable. The following flags are available:
 ```bash
 CMAKE_BUILD_TYPE # Defines the build type
 MAKE_ALL         # Builds all there is to build in the project
-MAKE_LIB         # Builds the core C++ library
-MAKE_MDP         # Builds the core C++ MDP library
-MAKE_FMDP        # Builds the core C++ Factored MDP and MDP library
-MAKE_POMDP       # Builds the core C++ POMDP and MDP library
+MAKE_LIB         # Builds the whole core C++ library (MDP, POMDP, etc..)
+MAKE_MDP         # Builds only the core C++ MDP library
+MAKE_FMDP        # Builds only the core C++ Factored MDP and MDP library
+MAKE_POMDP       # Builds only the core C++ POMDP and MDP library
 MAKE_PYTHON      # Builds Python bindings for the compiled core library
 MAKE_TESTS       # Builds the library's tests for the compiled core library
 MAKE_EXAMPLES    # Builds the library's examples using the compiled core library
