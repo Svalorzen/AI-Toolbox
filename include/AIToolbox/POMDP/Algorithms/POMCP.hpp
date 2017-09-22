@@ -346,7 +346,7 @@ namespace AIToolbox::POMDP {
         { auto tmp = std::move(it->second); graph_ = std::move(tmp); }
 
         if ( ! graph_.belief.size() ) {
-            AI_LOGGER(AI_SEVERITY_WARNING, "POMCP Lost track of the belief, restarting with uniform..");
+            AI_LOGGER(AI_SEVERITY_WARNING, "POMCP lost track of the belief, restarting with uniform..");
             auto b = Belief(S); b.fill(1.0/S);
             return sampleAction(b, horizon);
         }
