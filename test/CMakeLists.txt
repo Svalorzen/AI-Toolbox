@@ -68,15 +68,6 @@ if (MAKE_MDP)
     AddTestMDP(ValueIteration)
     AddTestMDP(MCTS)
 
-    AddTestFactoredMDP(Utils)
-    AddTestFactoredMDP(FactoredContainer)
-    AddTestFactoredMDP(FactorGraph)
-    AddTestFactoredMDP(VariableElimination)
-    AddTestFactoredMDP(MultiObjectiveVariableElimination)
-    AddTestFactoredMDP(SparseCooperativeQLearning)
-    AddTestFactoredMDP(LLR)
-    AddTestFactoredMDP(FactoredLP)
-
     if (MAKE_PYTHON)
         # Normally one loads PythonInterp first, but since
         # here the interpreter is only optional then libs
@@ -98,6 +89,17 @@ if (MAKE_MDP)
                 "${PROJECT_SOURCE_DIR}/test/data"
                 "${CMAKE_CURRENT_BINARY_DIR}"
         COMMENT "Copying data to test folder...")
+endif()
+
+if (MAKE_FMDP)
+    AddTestFactoredMDP(Utils)
+    AddTestFactoredMDP(FactoredContainer)
+    AddTestFactoredMDP(FactorGraph)
+    AddTestFactoredMDP(VariableElimination)
+    AddTestFactoredMDP(MultiObjectiveVariableElimination)
+    AddTestFactoredMDP(SparseCooperativeQLearning)
+    AddTestFactoredMDP(LLR)
+    AddTestFactoredMDP(FactoredLP)
 endif()
 
 if (MAKE_POMDP)
