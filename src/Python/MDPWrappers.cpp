@@ -4,6 +4,8 @@ void exportTypes();
 
 void exportMDPTypes();
 
+void exportMDPUtils();
+
 void exportMDPExperience();
 void exportMDPRLModel();
 void exportMDPSparseExperience();
@@ -13,6 +15,7 @@ void exportMDPSparseModel();
 
 void exportMDPQLearning();
 void exportMDPSARSA();
+void exportMDPExpectedSARSA();
 void exportMDPValueIteration();
 void exportMDPPolicyIteration();
 void exportMDPPrioritizedSweeping();
@@ -34,6 +37,8 @@ BOOST_PYTHON_MODULE(MDP)
 
     exportMDPTypes();
 
+    exportMDPUtils();
+
     exportMDPExperience();
     exportMDPSparseExperience();
     exportMDPRLModel();
@@ -43,6 +48,7 @@ BOOST_PYTHON_MODULE(MDP)
 
     exportMDPQLearning();
     exportMDPSARSA();
+    exportMDPExpectedSARSA();
     exportMDPValueIteration();
     exportMDPPolicyIteration();
     exportMDPPrioritizedSweeping();

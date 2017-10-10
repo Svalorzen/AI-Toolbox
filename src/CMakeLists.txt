@@ -47,6 +47,7 @@ if (MAKE_MDP)
             MDP/SparseModel.cpp
             MDP/Algorithms/QLearning.cpp
             MDP/Algorithms/SARSA.cpp
+            MDP/Algorithms/ExpectedSARSA.cpp
             MDP/Algorithms/ValueIteration.cpp
             MDP/Algorithms/PolicyIteration.cpp
             MDP/Policies/Policy.cpp
@@ -57,6 +58,7 @@ if (MAKE_MDP)
             MDP/Policies/WoLFPolicy.cpp
             Python/Utils.cpp
             Python/Types.cpp
+            Python/MDP/Utils.cpp
             Python/MDP/Types.cpp
             Python/MDP/Experience.cpp
             Python/MDP/RLModel.cpp
@@ -66,6 +68,7 @@ if (MAKE_MDP)
             Python/MDP/SparseModel.cpp
             Python/MDP/Algorithms/QLearning.cpp
             Python/MDP/Algorithms/SARSA.cpp
+            Python/MDP/Algorithms/ExpectedSARSA.cpp
             Python/MDP/Algorithms/ValueIteration.cpp
             Python/MDP/Algorithms/PolicyIteration.cpp
             Python/MDP/Algorithms/PrioritizedSweeping.cpp
