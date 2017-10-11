@@ -23,7 +23,7 @@ void exportMDPExpectedSARSA() {
          "lies in the value used to approximate the value for the next timestep.\n"
          "In standard SARSA this value is directly taken as the current\n"
          "approximation of the value of the QFunction for the newly sampled state\n"
-         "and the next action to be performed (the final "SA" in SAR"SA").\n"
+         "and the next action to be performed (the final 'SA' in SAR'SA').\n"
          "\n"
          "In Expected SARSA this value is instead replaced by the expected value\n"
          "for the newly sampled state, given the policy from which we will sample\n"

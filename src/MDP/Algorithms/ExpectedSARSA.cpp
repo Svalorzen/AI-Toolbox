@@ -34,4 +34,5 @@ namespace AIToolbox::MDP {
     size_t ExpectedSARSA::getA() const { return A; }
 
     const QFunction & ExpectedSARSA::getQFunction() const { return q_; }
+    const PolicyInterface & ExpectedSARSA::getPolicy() const { return policy_; }
 }
