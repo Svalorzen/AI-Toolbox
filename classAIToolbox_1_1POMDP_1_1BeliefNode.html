@@ -73,6 +73,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>This is a belief node of the <a class="el" href="classAIToolbox_1_1POMDP_1_1rPOMCP.html" title="This class represents the rPOMCP online planner. ">rPOMCP</a> tree.  
+ <a href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="rPOMCPGraph_8hpp_source.html">rPOMCPGraph.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for AIToolbox::POMDP::BeliefNode&lt; UseEntropy &gt;:</div>
@@ -80,7 +83,7 @@ Inheritance diagram for AIToolbox::POMDP::BeliefNode&lt; UseEntropy &gt;:</div>
  <div class="center">
   <img src="classAIToolbox_1_1POMDP_1_1BeliefNode.png" usemap="#AIToolbox::POMDP::BeliefNode_3C_20UseEntropy_20_3E_map" alt=""/>
   <map id="AIToolbox::POMDP::BeliefNode_3C_20UseEntropy_20_3E_map" name="AIToolbox::POMDP::BeliefNode_3C_20UseEntropy_20_3E_map">
-<area href="classAIToolbox_1_1POMDP_1_1HeadBeliefNode.html" alt="AIToolbox::POMDP::HeadBeliefNode&lt; UseEntropy &gt;" shape="rect" coords="0,112,514,136"/>
+<area href="classAIToolbox_1_1POMDP_1_1HeadBeliefNode.html" title="This class is the root node of the rPOMCP graph. " alt="AIToolbox::POMDP::HeadBeliefNode&lt; UseEntropy &gt;" shape="rect" coords="0,112,618,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -89,37 +92,50 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa038b5488585a2f0ee260e00bdc8b678"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#aa038b5488585a2f0ee260e00bdc8b678">BeliefNode</a> ()</td></tr>
 <tr class="separator:aa038b5488585a2f0ee260e00bdc8b678"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab05969db16d2f81f685be7d4eba33cee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#ab05969db16d2f81f685be7d4eba33cee">updateBeliefAndKnowledge</a> (size_t s)</td></tr>
+<tr class="memdesc:ab05969db16d2f81f685be7d4eba33cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the knowledge measure after adding a new belief particle.  <a href="#ab05969db16d2f81f685be7d4eba33cee">More...</a><br /></td></tr>
 <tr class="separator:ab05969db16d2f81f685be7d4eba33cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a125d2bce89ba02a67d522eb68d921b61"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a125d2bce89ba02a67d522eb68d921b61">getKnowledgeMeasure</a> () const</td></tr>
+<tr class="memdesc:a125d2bce89ba02a67d522eb68d921b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the current estimate for reward for this node.  <a href="#a125d2bce89ba02a67d522eb68d921b61">More...</a><br /></td></tr>
 <tr class="separator:a125d2bce89ba02a67d522eb68d921b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a678ab71828f0b61efee363e82f893e81"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a678ab71828f0b61efee363e82f893e81"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a678ab71828f0b61efee363e82f893e81">updateBeliefAndKnowledge</a> (size_t s)</td></tr>
-<tr class="separator:a678ab71828f0b61efee363e82f893e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5144cad85092dbc5145f3a88cfaa3919"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a5144cad85092dbc5145f3a88cfaa3919"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a5144cad85092dbc5145f3a88cfaa3919">updateBeliefAndKnowledge</a> (size_t s)</td></tr>
-<tr class="separator:a5144cad85092dbc5145f3a88cfaa3919"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bcb0850f9830a4118b0ea53d56210f2"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a4bcb0850f9830a4118b0ea53d56210f2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a4bcb0850f9830a4118b0ea53d56210f2">updateBeliefAndKnowledge</a> (const size_t s)</td></tr>
+<tr class="separator:a4bcb0850f9830a4118b0ea53d56210f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a329061bf238e78ed2295e99b6ca5bc"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a5a329061bf238e78ed2295e99b6ca5bc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a5a329061bf238e78ed2295e99b6ca5bc">updateBeliefAndKnowledge</a> (const size_t s)</td></tr>
+<tr class="separator:a5a329061bf238e78ed2295e99b6ca5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:afe2ac4975d02e7dc0677389905ed190d"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#afe2ac4975d02e7dc0677389905ed190d">N</a></td></tr>
+<tr class="memdesc:afe2ac4975d02e7dc0677389905ed190d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counter for number of times we went through this belief node.  <a href="#afe2ac4975d02e7dc0677389905ed190d">More...</a><br /></td></tr>
 <tr class="separator:afe2ac4975d02e7dc0677389905ed190d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a651c4226144428394390b71aef15f50f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a97f123407d50846293c4e9b46d7fbd49">ActionNodes</a>&lt; UseEntropy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a651c4226144428394390b71aef15f50f">children</a></td></tr>
 <tr class="separator:a651c4226144428394390b71aef15f50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82c2893987100ce38c62757dda23b33a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a82c2893987100ce38c62757dda23b33a">V</a></td></tr>
+<tr class="memdesc:a82c2893987100ce38c62757dda23b33a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimated value for this belief, taking into account future rewards/actions.  <a href="#a82c2893987100ce38c62757dda23b33a">More...</a><br /></td></tr>
 <tr class="separator:a82c2893987100ce38c62757dda23b33a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21fdfaed9c910fadee03508c0d1a20ac"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a21fdfaed9c910fadee03508c0d1a20ac">actionsV</a></td></tr>
+<tr class="memdesc:a21fdfaed9c910fadee03508c0d1a20ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimated value for the actions (could be mean, max, or other)  <a href="#a21fdfaed9c910fadee03508c0d1a20ac">More...</a><br /></td></tr>
 <tr class="separator:a21fdfaed9c910fadee03508c0d1a20ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab82999c8ebfeed494dc867fde8aa80b9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#ab82999c8ebfeed494dc867fde8aa80b9">bestAction</a></td></tr>
+<tr class="memdesc:ab82999c8ebfeed494dc867fde8aa80b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracker of best available action in MAX-mode, to select node value.  <a href="#ab82999c8ebfeed494dc867fde8aa80b9">More...</a><br /></td></tr>
 <tr class="separator:ab82999c8ebfeed494dc867fde8aa80b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:ac9aa972e9348588527f8f99f925f1889"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad867f06ad8946aa1b205a7f5f8fcb42e">TrackBelief</a>&lt; UseEntropy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#ac9aa972e9348588527f8f99f925f1889">trackBelief_</a></td></tr>
+<tr class="memdesc:ac9aa972e9348588527f8f99f925f1889"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a particle belief which is easy to update.  <a href="#ac9aa972e9348588527f8f99f925f1889">More...</a><br /></td></tr>
 <tr class="separator:ac9aa972e9348588527f8f99f925f1889"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cdf3f90bc400d0c75662c1c1c6f9561"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html#a8cdf3f90bc400d0c75662c1c1c6f9561">knowledgeMeasure_</a></td></tr>
+<tr class="memdesc:a8cdf3f90bc400d0c75662c1c1c6f9561"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimated entropy/max-belief for this node.  <a href="#a8cdf3f90bc400d0c75662c1c1c6f9561">More...</a><br /></td></tr>
 <tr class="separator:a8cdf3f90bc400d0c75662c1c1c6f9561"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;bool UseEntropy&gt;<br />
+class AIToolbox::POMDP::BeliefNode&lt; UseEntropy &gt;</h3>
+
+<p>This is a belief node of the <a class="el" href="classAIToolbox_1_1POMDP_1_1rPOMCP.html" title="This class represents the rPOMCP online planner. ">rPOMCP</a> tree. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa038b5488585a2f0ee260e00bdc8b678"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa038b5488585a2f0ee260e00bdc8b678">&#9670;&nbsp;</a></span>BeliefNode()</h2>
 
@@ -157,6 +173,8 @@ template&lt;bool UseEntropy&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>This function returns the current estimate for reward for this node. </p>
+
 </div>
 </div>
 <a id="ab05969db16d2f81f685be7d4eba33cee"></a>
@@ -177,10 +195,12 @@ template&lt;bool UseEntropy&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>This function updates the knowledge measure after adding a new belief particle. </p>
+
 </div>
 </div>
-<a id="a678ab71828f0b61efee363e82f893e81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a678ab71828f0b61efee363e82f893e81">&#9670;&nbsp;</a></span>updateBeliefAndKnowledge() <span class="overload">[2/3]</span></h2>
+<a id="a4bcb0850f9830a4118b0ea53d56210f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bcb0850f9830a4118b0ea53d56210f2">&#9670;&nbsp;</a></span>updateBeliefAndKnowledge() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,7 +210,7 @@ template&lt;&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html">AIToolbox::POMDP::BeliefNode</a>&lt; true &gt;::updateBeliefAndKnowledge </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>s</em></td><td>)</td>
           <td></td>
         </tr>
@@ -199,8 +219,8 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a id="a5144cad85092dbc5145f3a88cfaa3919"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5144cad85092dbc5145f3a88cfaa3919">&#9670;&nbsp;</a></span>updateBeliefAndKnowledge() <span class="overload">[3/3]</span></h2>
+<a id="a5a329061bf238e78ed2295e99b6ca5bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a329061bf238e78ed2295e99b6ca5bc">&#9670;&nbsp;</a></span>updateBeliefAndKnowledge() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -210,7 +230,7 @@ template&lt;&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classAIToolbox_1_1POMDP_1_1BeliefNode.html">AIToolbox::POMDP::BeliefNode</a>&lt; false &gt;::updateBeliefAndKnowledge </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>s</em></td><td>)</td>
           <td></td>
         </tr>
@@ -234,6 +254,8 @@ template&lt;bool UseEntropy&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Estimated value for the actions (could be mean, max, or other) </p>
+
 </div>
 </div>
 <a id="ab82999c8ebfeed494dc867fde8aa80b9"></a>
@@ -249,6 +271,8 @@ template&lt;bool UseEntropy&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Tracker of best available action in MAX-mode, to select node value. </p>
 
 </div>
 </div>
@@ -290,6 +314,8 @@ template&lt;bool UseEntropy&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Estimated entropy/max-belief for this node. </p>
+
 </div>
 </div>
 <a id="afe2ac4975d02e7dc0677389905ed190d"></a>
@@ -305,6 +331,8 @@ template&lt;bool UseEntropy&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Counter for number of times we went through this belief node. </p>
 
 </div>
 </div>
@@ -330,6 +358,8 @@ template&lt;bool UseEntropy&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>This is a particle belief which is easy to update. </p>
+
 </div>
 </div>
 <a id="a82c2893987100ce38c62757dda23b33a"></a>
@@ -346,6 +376,8 @@ template&lt;bool UseEntropy&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Estimated value for this belief, taking into account future rewards/actions. </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -354,7 +386,7 @@ template&lt;bool UseEntropy&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 8 2017 19:41:08 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 11 2017 22:34:37 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -11,7 +11,7 @@ var searchData=
   ['match',['match',['../namespaceAIToolbox_1_1FactoredMDP.html#a1c22add5edd7a5e03f6de671683f2df1',1,'AIToolbox::FactoredMDP']]],
   ['matrix2d',['Matrix2D',['../namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a',1,'AIToolbox']]],
   ['matrix3d',['Matrix3D',['../namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94',1,'AIToolbox']]],
-  ['maxs_5f',['maxS_',['../structAIToolbox_1_1POMDP_1_1Impl_1_1BeliefNodeNoEntropyAddon.html#a62dc81ed2131b57c7310706cd6aeeaa7',1,'AIToolbox::POMDP::Impl::BeliefNodeNoEntropyAddon']]],
+  ['maxs_5f',['maxS_',['../structAIToolbox_1_1Impl_1_1POMDP_1_1BeliefNodeNoEntropyAddon.html#a58163dcba9a40d4d4a2af39de62c8b3d',1,'AIToolbox::Impl::POMDP::BeliefNodeNoEntropyAddon']]],
   ['mcts',['MCTS',['../classAIToolbox_1_1MDP_1_1MCTS.html',1,'AIToolbox::MDP::MCTS&lt; M &gt;'],['../classAIToolbox_1_1MDP_1_1MCTS.html#a74736f20833c3bf238d6ed9211907061',1,'AIToolbox::MDP::MCTS::MCTS()']]],
   ['mcts_2ehpp',['MCTS.hpp',['../MCTS_8hpp.html',1,'']]],
   ['merge',['merge',['../namespaceAIToolbox_1_1FactoredMDP.html#a7d70d0f8dca250efae4a88491e702147',1,'AIToolbox::FactoredMDP']]],

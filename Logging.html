@@ -77,7 +77,7 @@ $(function() {
 </ul>
 <p>This macro is how the library tries to log. SEV is the severity, represented by one of the four SEVERITY macros described above. Args are the arguments to be printed, joined by the &lt;&lt; operator.</p>
 <p>An example of how the library uses this macros to log is the following:</p>
-<div class="fragment"><div class="line"><a class="code" href="Logging_8hpp.html#a2d38261fbd93323a5175b971c488b5ce">AI_LOGGER</a>(<a class="code" href="Logging_8hpp.html#a9b0d10889d15bd23198797c5cfb54669">AI_SEVERITY_DEBUG</a>, <span class="stringliteral">&quot;Logging a value in debug: &quot;</span> &lt;&lt; value &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>);</div></div><!-- fragment --><p>How you redefine the macros will transform how the final logging statement reads, so you'll be able to send all messages to whatever sink you prefer.</p>
+<div class="fragment"><div class="line"><a class="code" href="Logging_8hpp.html#a2d38261fbd93323a5175b971c488b5ce">AI_LOGGER</a>(<a class="code" href="Logging_8hpp.html#a9b0d10889d15bd23198797c5cfb54669">AI_SEVERITY_DEBUG</a>, <span class="stringliteral">&quot;Logging a value in debug: &quot;</span> &lt;&lt; value);</div></div><!-- fragment --><p>How you redefine the macros will transform how the final logging statement reads, so you'll be able to send all messages to whatever sink you prefer.</p>
 <p>Logs do <em>not</em> contain newlines. Logs do <em>not</em> contain file/line information, but you can add them through the redefinition of the AI_LOGGER macro.</p>
 <p>A simple redefinition of the macro to print all messages to <code>std::cout</code> with file and line information could be:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#define AI_LOGGER(SEV, ARGS) std::cout &lt;&lt; __FILE__ &quot;:&quot; &lt;&lt; __LINE__ &lt;&lt; &quot; &quot; &lt;&lt; ARGS &lt;&lt; &#39;\n&#39;;</span></div></div><!-- fragment --><p>Note that it is possible to obtain logs only from certain files by simply defining the above macros before #including the files where logs are needed, and #undefine them before the other files.</p>
@@ -85,7 +85,7 @@ $(function() {
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 8 2017 19:41:07 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 11 2017 22:34:37 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

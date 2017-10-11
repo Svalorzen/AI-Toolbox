@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: test/POMDP/Utils/NonMyopicProblem.hpp File Reference</title>
+<title>AIToolbox: AIToolbox::Impl::POMDP::BeliefParticleEntropyAddon Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,33 +59,50 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li><li class="navelem"><a class="el" href="dir_5307aa812e498aa2ee7c219a6de0f21b.html">POMDP</a></li><li class="navelem"><a class="el" href="dir_00d55517edb3fd2b3e9016fdfe429863.html">Utils</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></li><li class="navelem"><a class="el" href="namespaceAIToolbox_1_1Impl.html">Impl</a></li><li class="navelem"><a class="el" href="namespaceAIToolbox_1_1Impl_1_1POMDP.html">POMDP</a></li><li class="navelem"><a class="el" href="structAIToolbox_1_1Impl_1_1POMDP_1_1BeliefParticleEntropyAddon.html">BeliefParticleEntropyAddon</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="structAIToolbox_1_1Impl_1_1POMDP_1_1BeliefParticleEntropyAddon-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">NonMyopicProblem.hpp File Reference</div>  </div>
+<div class="title">AIToolbox::Impl::POMDP::BeliefParticleEntropyAddon Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
-<code>#include &lt;random&gt;</code><br />
-<code>#include &lt;<a class="el" href="Seeder_8hpp_source.html">AIToolbox/Impl/Seeder.hpp</a>&gt;</code><br />
-</div>
-<p><a href="NonMyopicProblem_8hpp_source.html">Go to the source code of this file.</a></p>
+
+<p><code>#include &lt;<a class="el" href="rPOMCPGraph_8hpp_source.html">rPOMCPGraph.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNonMyopicModel.html">NonMyopicModel</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A model with a non-myopic optimal solution.  <a href="classNonMyopicModel.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:aa6f02a2612997c8bd2f8e3f4712f7bdb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Impl_1_1POMDP_1_1BeliefParticleEntropyAddon.html#aa6f02a2612997c8bd2f8e3f4712f7bdb">negativeEntropy</a> = 0</td></tr>
+<tr class="memdesc:aa6f02a2612997c8bd2f8e3f4712f7bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimated entropy deriving from this particle type.  <a href="#aa6f02a2612997c8bd2f8e3f4712f7bdb">More...</a><br /></td></tr>
+<tr class="separator:aa6f02a2612997c8bd2f8e3f4712f7bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="aa6f02a2612997c8bd2f8e3f4712f7bdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f02a2612997c8bd2f8e3f4712f7bdb">&#9670;&nbsp;</a></span>negativeEntropy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::Impl::POMDP::BeliefParticleEntropyAddon::negativeEntropy = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Estimated entropy deriving from this particle type. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>include/AIToolbox/POMDP/Algorithms/Utils/<a class="el" href="rPOMCPGraph_8hpp_source.html">rPOMCPGraph.hpp</a></li>
+</ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 8 2017 19:41:07 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 11 2017 22:34:37 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

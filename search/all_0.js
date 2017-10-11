@@ -22,10 +22,10 @@ var searchData=
   ['allocate',['allocate',['../classAIToolbox_1_1POMDP_1_1WitnessLP.html#afc041af4f411ecad68c83b1f92d04c52',1,'AIToolbox::POMDP::WitnessLP']]],
   ['amdp',['AMDP',['../classAIToolbox_1_1POMDP_1_1AMDP.html',1,'AIToolbox::POMDP::AMDP'],['../classAIToolbox_1_1POMDP_1_1AMDP.html#abaeeeb08dad0be6f1ebe3daa03c9938b',1,'AIToolbox::POMDP::AMDP::AMDP()']]],
   ['amdp_2ehpp',['AMDP.hpp',['../AMDP_8hpp.html',1,'']]],
-  ['anode',['ANode',['../classAIToolbox_1_1POMDP_1_1rPOMCP_3_01M_00_01UseEntropy_01_4.html#a6289d0cf16cd3a3dfb267504298128a7',1,'AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;']]],
+  ['anode',['ANode',['../classAIToolbox_1_1POMDP_1_1rPOMCP.html#a6289d0cf16cd3a3dfb267504298128a7',1,'AIToolbox::POMDP::rPOMCP']]],
   ['factoredmdp',['FactoredMDP',['../namespaceAIToolbox_1_1FactoredMDP.html',1,'AIToolbox']]],
-  ['impl',['Impl',['../namespaceAIToolbox_1_1Impl.html',1,'AIToolbox::Impl'],['../namespaceAIToolbox_1_1POMDP_1_1Impl.html',1,'AIToolbox::POMDP::Impl']]],
+  ['impl',['Impl',['../namespaceAIToolbox_1_1Impl.html',1,'AIToolbox']]],
   ['aitoolbox_20tutorial',['AIToolbox Tutorial',['../index.html',1,'']]],
   ['mdp',['MDP',['../namespaceAIToolbox_1_1MDP.html',1,'AIToolbox']]],
-  ['pomdp',['POMDP',['../namespaceAIToolbox_1_1POMDP.html',1,'AIToolbox']]]
+  ['pomdp',['POMDP',['../namespaceAIToolbox_1_1Impl_1_1POMDP.html',1,'AIToolbox::Impl::POMDP'],['../namespaceAIToolbox_1_1POMDP.html',1,'AIToolbox::POMDP']]]
 ];

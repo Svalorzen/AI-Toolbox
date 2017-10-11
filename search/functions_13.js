@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['updateaction',['updateAction',['../classAIToolbox_1_1FactoredMDP_1_1SingleActionPolicy.html#a45ac0079099fbd637c9d59fe1c27ece9',1,'AIToolbox::FactoredMDP::SingleActionPolicy']]],
-  ['updatebelief',['updateBelief',['../namespaceAIToolbox_1_1POMDP.html#ad19c9f085248dc19299d511194210843',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o)'],['../namespaceAIToolbox_1_1POMDP.html#a33a1c23c71b6afae16da4db1863bf68d',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)']]],
-  ['updatebeliefandknowledge',['updateBeliefAndKnowledge',['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#ab05969db16d2f81f685be7d4eba33cee',1,'AIToolbox::POMDP::BeliefNode::updateBeliefAndKnowledge(size_t s)'],['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#a678ab71828f0b61efee363e82f893e81',1,'AIToolbox::POMDP::BeliefNode::updateBeliefAndKnowledge(size_t s)'],['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#a5144cad85092dbc5145f3a88cfaa3919',1,'AIToolbox::POMDP::BeliefNode::updateBeliefAndKnowledge(size_t s)']]],
-  ['updatebeliefunnormalized',['updateBeliefUnnormalized',['../namespaceAIToolbox_1_1POMDP.html#aeadb8ad292520175aea2ad4b9173c5cd',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o)'],['../namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)']]],
-  ['updatepolicy',['updatePolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ad428806fd6034c9acd435b2320e15e81',1,'AIToolbox::MDP::WoLFPolicy']]]
+  ['valuefunctionrule',['ValueFunctionRule',['../structAIToolbox_1_1FactoredMDP_1_1ValueFunctionRule.html#abdf7199cd60a629621078d70677ca132',1,'AIToolbox::FactoredMDP::ValueFunctionRule']]],
+  ['valueiteration',['ValueIteration',['../classAIToolbox_1_1MDP_1_1ValueIteration.html#a37aaca20b9fb0daf31f4b209436cb73a',1,'AIToolbox::MDP::ValueIteration']]],
+  ['variableelimination',['VariableElimination',['../classAIToolbox_1_1FactoredMDP_1_1VariableElimination.html#a2afb4c1998561a228536c8848dc4c38f',1,'AIToolbox::FactoredMDP::VariableElimination']]],
+  ['variablesize',['variableSize',['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#abac0f6609b257a37907685e69da417ee',1,'AIToolbox::FactoredMDP::FactorGraph']]],
+  ['veccmp',['veccmp',['../namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58',1,'AIToolbox']]],
+  ['vector3dfrompython',['Vector3DFromPython',['../structVector3DFromPython.html#a994fdfa7572612d6831cc59390e45814',1,'Vector3DFromPython']]],
+  ['vectorfrompython',['VectorFromPython',['../structVectorFromPython.html#a48ed9da7c7fa7143ff4c8f6826cd9d45',1,'VectorFromPython']]]
 ];

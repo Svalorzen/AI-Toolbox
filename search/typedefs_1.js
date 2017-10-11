@@ -5,5 +5,5 @@ var searchData=
   ['belief',['Belief',['../namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4',1,'AIToolbox::POMDP']]],
   ['belieflist',['BeliefList',['../classAIToolbox_1_1POMDP_1_1BeliefGenerator.html#a913d331934fa513244cd669c14fa60ba',1,'AIToolbox::POMDP::BeliefGenerator']]],
   ['beliefnodes',['BeliefNodes',['../classAIToolbox_1_1POMDP_1_1POMCP.html#acdb32c5b9192dbf6d8c2d1b940e53999',1,'AIToolbox::POMDP::POMCP::BeliefNodes()'],['../namespaceAIToolbox_1_1POMDP.html#afba9c8e6204b8f6b341362af3991da75',1,'AIToolbox::POMDP::BeliefNodes()']]],
-  ['bnode',['BNode',['../classAIToolbox_1_1POMDP_1_1rPOMCP_3_01M_00_01UseEntropy_01_4.html#a7e9dcd98e7e5b3f674c92f1eb6843eef',1,'AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;']]]
+  ['bnode',['BNode',['../classAIToolbox_1_1POMDP_1_1rPOMCP.html#a7e9dcd98e7e5b3f674c92f1eb6843eef',1,'AIToolbox::POMDP::rPOMCP']]]
 ];
