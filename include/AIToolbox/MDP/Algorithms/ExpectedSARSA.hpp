@@ -11,59 +11,73 @@ namespace AIToolbox::MDP {
     /**
      * @brief This class represents the ExpectedSARSA algorithm.
      *
-     * This algorithm is a very simple but powerful way to learn a
-     * QFunction for an MDP model, where the transition and reward
-     * functions are unknown. It works in an online fashion, meaning that
-     * the QFunction learned is the one of the currently used policy.
+     * This algorithm is a subtle improvement over the SARSA algorithm.
      *
-     * The idea is to progressively update the QFunction averaging all
-     * obtained datapoints. This can be done by generating data via the
-     * model, or by simply sending the agent into the world to try stuff
-     * out. This allows to avoid modeling directly the transition and
-     * reward functions for unknown problems.
+     * \sa SARSA
      *
-     * This algorithm is guaranteed convergence for stationary MDPs (MDPs
-     * that do not change their transition and reward functions over time),
-     * given that the learning parameter converges to 0 over time.
+     * The difference between this algorithm and the original SARSA algorithm
+     * lies in the value used to approximate the value for the next timestep.
+     * In standard SARSA this value is directly taken as the current
+     * approximation of the value of the QFunction for the newly sampled state
+     * and the next action to be performed (the final "SA" in SAR"SA").
      *
-     * \sa setLearningRate(double)
+     * In Expected SARSA this value is instead replaced by the expected value
+     * for the newly sampled state, given the policy from which we will sample
+     * the next action. In this sense Expected SARSA is more similar to
+     * QLearning: where QLearning uses the max over the QFunction for the next
+     * state, Expected SARSA uses the future expectation over the current
+     * online policy.
      *
-     * The main difference between this algorithm and QLearning is that
-     * QLearning always tries to learn the optimal policy, regardless of
-     * the one that is currently being executed. Instead, SARSA tries to
-     * find a policy which can perform decently given exploration tradeoffs
-     * that must be done when learning the QFunction of a new environment.
-     * A possible use for this would be to run SARSA together with
-     * QLearning; during the training phase one would use SARSA actions in
-     * order to perform decently during the training. Afterwards, one could
-     * switch to the optimal policy learnt offline by QLearning.
-     *
-     * This algorithm does not actually need to sample from the input
-     * model, and so it can be a good algorithm to apply in real world
-     * scenarios, where there would be no way to reproduce the world's
-     * behavior aside from actually trying out actions. However it is
-     * needed to know the size of the state space, the size of the action
-     * space and the discount factor of the problem.
+     * This reduces considerably the variance of the updates performed, which
+     * in turn allows to somewhat increase the learning rate for the method,
+     * which allows Expected SARSA to learn faster than simple SARSA. All
+     * guarantees of normal SARSA are maintained.
      */
     class ExpectedSARSA {
         public:
             /**
              * @brief Basic constructor.
              *
+             * Note that differently from normal SARSA, ExpectedSARSA does not
+             * self-contain its own QFunction. This is because many policies
+             * are implemented in terms of a QFunction continuously updated by
+             * a method (e.g. QGreedyPolicy).
+             *
+             * At the same time ExpectedSARSA needs this policy in order to be
+             * able to perform its expected value computation. In order to
+             * avoid having a chicken and egg problem, ExpectedSARSA takes a
+             * QFunction as parameter to allow the user to create it an use the
+             * same one for both ExpectedSARSA and the policy.
+             *
              * The learning rate must be > 0.0 and <= 1.0, otherwise the
              * constructor will throw an std::invalid_argument.
              *
-             * @param model The MDP model that SARSA will use as a base.
-             * @param alpha The learning rate of the SARSA method.
+             * @param qfun The QFunction underlying the ExpectedSARSA algorithm.
+             * @param policy The policy used to select actions.
+             * @param discount The discount of the underlying MDP model.
+             * @param alpha The learning rate of the ExpectedSARSA method.
              */
             ExpectedSARSA(QFunction & qfun, const PolicyInterface & policy, double discount = 0.0, double alpha = 0.1);
 
             /**
              * @brief Basic constructor.
              *
+             * Note that differently from normal SARSA, ExpectedSARSA does not
+             * self-contain its own QFunction. This is because many policies
+             * are implemented in terms of a QFunction continuously updated by
+             * a method (e.g. QGreedyPolicy).
+             *
+             * At the same time ExpectedSARSA needs this policy in order to be
+             * able to perform its expected value computation. In order to
+             * avoid having a chicken and egg problem, ExpectedSARSA takes a
+             * QFunction as parameter to allow the user to create it an use the
+             * same one for both ExpectedSARSA and the policy.
+             *
              * The learning rate must be > 0.0 and <= 1.0, otherwise the
              * constructor will throw an std::invalid_argument.
              *
+             * @param qfun The QFunction underlying the ExpectedSARSA algorithm.
+             * @param policy The policy used to select actions.
              * @param model The MDP model that SARSA will use as a base.
              * @param alpha The learning rate of the SARSA method.
              */
@@ -85,7 +99,7 @@ namespace AIToolbox::MDP {
              *
              * Otherwise it can be kept somewhat high if the environment
              * dynamics change progressively, and the algorithm will adapt
-             * accordingly. The final behaviour of SARSA is very
+             * accordingly. The final behaviour of ExpectedSARSA is very
              * dependent on this parameter.
              *
              * The learning rate parameter must be > 0.0 and <= 1.0,
@@ -105,10 +119,12 @@ namespace AIToolbox::MDP {
             /**
              * @brief This function sets the new discount parameter.
              *
-             * The discount parameter controls the amount that future rewards are considered
-             * by SARSA. If 1, then any reward is the same, if obtained now or in a million
-             * timesteps. Thus the algorithm will optimize overall reward accretion. When less
-             * than 1, rewards obtained in the presents are valued more than future rewards.
+             * The discount parameter controls the amount that future rewards
+             * are considered by ExpectedSARSA. If 1, then any reward is the
+             * same, if obtained now or in a million timesteps. Thus the
+             * algorithm will optimize overall reward accretion. When less than
+             * 1, rewards obtained in the presents are valued more than future
+             * rewards.
              *
              * @param d The new discount factor.
              */
@@ -128,10 +144,10 @@ namespace AIToolbox::MDP {
              * update the QFunction. This is a very efficient method to
              * keep the QFunction up to date with the latest experience.
              *
-             * Keep in mind that, since SARSA needs to compute the
-             * QFunction for the currently used policy, it needs to know
-             * two consecutive state-action pairs, in order to correctly
-             * relate how the policy acts from state to state.
+             * Keep in mind that, since ExpectedSARSA needs to compute the
+             * QFunction for the currently used policy, it needs to know two
+             * consecutive state-action pairs, in order to correctly relate how
+             * the policy acts from state to state.
              *
              * @param s The previous state.
              * @param a The action performed.
@@ -163,6 +179,13 @@ namespace AIToolbox::MDP {
              * @return The internal QFunction.
              */
             const QFunction & getQFunction() const;
+
+            /**
+             * @brief This function returns a reference to the policy used by ExpectedSARSA.
+             *
+             * @return The internal policy reference.
+             */
+            const PolicyInterface & getPolicy() const;
 
         private:
             const PolicyInterface & policy_;
