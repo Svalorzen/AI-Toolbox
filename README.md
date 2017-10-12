@@ -71,6 +71,7 @@ Algorithms:
 - [Q-Learning](http://incompleteideas.net/sutton/book/ebook/node65.html)
 - [SARSA](http://incompleteideas.net/sutton/book/ebook/node64.html)
 - [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf)
+- [SARSA(λ)](http://incompleteideas.net/sutton/book/ebook/node77.html)
 - [Dyna-Q](http://incompleteideas.net/sutton/book/ebook/node96.html)
 - [Prioritized Sweeping](http://incompleteideas.net/sutton/book/ebook/node98.html)
 - [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf)
