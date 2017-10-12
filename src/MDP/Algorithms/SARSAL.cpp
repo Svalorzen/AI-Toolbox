@@ -19,7 +19,7 @@ namespace AIToolbox::MDP {
                 el = 1.0;
                 newTrace = false;
             } else {
-                el = el * gammaL_;
+                el *= gammaL_;
                 if (el < epsilon_) {
                     std::swap(traces_[i], traces_[traces_.size() - 1]);
                     traces_.pop_back();
@@ -50,6 +50,8 @@ namespace AIToolbox::MDP {
     double SARSAL::getDiscount() const { return discount_; }
 
     void SARSAL::setLambda(const double lambda) {
+        if ( lambda < 0.0 || lambda > 1.0 ) throw std::invalid_argument("Lambda parameter must be in [0,1]");
+
         lambda_ = lambda;
         gammaL_ = lambda_ * discount_;
     }
