@@ -82,8 +82,8 @@ namespace AIToolbox::MDP {
              *
              * @param qfun The QFunction underlying the ExpectedSARSA algorithm.
              * @param policy The policy used to select actions.
-             * @param model The MDP model that SARSA will use as a base.
-             * @param alpha The learning rate of the SARSA method.
+             * @param model The MDP model that ExpectedSARSA will use as a base.
+             * @param alpha The learning rate of the ExpectedSARSA method.
              */
             template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
             ExpectedSARSA(QFunction & qfun, const PolicyInterface & policy, const M& model, double alpha = 0.1);
