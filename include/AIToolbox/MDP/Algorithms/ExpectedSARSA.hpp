@@ -76,6 +76,10 @@ namespace AIToolbox::MDP {
              * The learning rate must be > 0.0 and <= 1.0, otherwise the
              * constructor will throw an std::invalid_argument.
              *
+             * This constructor copies the discount parameter from the supplied
+             * model. It does not keep the reference, so if the discount needs
+             * to change you'll need to update it here manually too.
+             *
              * @param qfun The QFunction underlying the ExpectedSARSA algorithm.
              * @param policy The policy used to select actions.
              * @param model The MDP model that SARSA will use as a base.

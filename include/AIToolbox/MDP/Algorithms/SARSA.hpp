@@ -65,6 +65,11 @@ namespace AIToolbox::MDP {
              * The learning rate must be > 0.0 and <= 1.0, otherwise the
              * constructor will throw an std::invalid_argument.
              *
+             * This constructor copies the S and A and discount parameters from
+             * the supplied model. It does not keep the reference, so if the
+             * discount needs to change you'll need to update it here manually
+             * too.
+             *
              * @param model The MDP model that SARSA will use as a base.
              * @param alpha The learning rate of the SARSA method.
              */
