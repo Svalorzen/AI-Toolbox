@@ -60,8 +60,8 @@ void exportMDPSARSA() {
                  "@param S The state space of the underlying model.\n"
                  "@param A The action space of the underlying model.\n"
                  "@param discount The discount of the underlying model.\n"
-                 "@param alpha The learning rate of the SARSA method.\n"
-        , (arg("self"), "S", "A", "model", "alpha")))
+                 "@param alpha The learning rate of the SARSA method."
+        , (arg("self"), "S", "A", "discount", "alpha")))
 
         .def(init<const RLModel<Experience>&, optional<double>>(
                  "Basic constructor for RLModel.\n"
