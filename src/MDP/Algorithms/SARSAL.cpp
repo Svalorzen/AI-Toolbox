@@ -16,7 +16,7 @@ namespace AIToolbox::MDP {
         for (size_t i = 0; i < traces_.size(); ++i) {
             auto & [ss, aa, el] = traces_[i];
             if (ss == s && aa == a) {
-                el = el * gammaL_ + 1.0;
+                el = 1.0;
                 newTrace = false;
             } else {
                 el = el * gammaL_;
