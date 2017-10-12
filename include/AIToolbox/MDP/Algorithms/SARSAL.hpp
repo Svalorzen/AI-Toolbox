@@ -10,39 +10,28 @@ namespace AIToolbox::MDP {
     /**
      * @brief This class represents the SARSAL algorithm.
      *
-     * This algorithm is a very simple but powerful way to learn a
-     * QFunction for an MDP model, where the transition and reward
-     * functions are unknown. It works in an online fashion, meaning that
-     * the QFunction learned is the one of the currently used policy.
+     * This algorithms adds eligibility traces to the SARSA algorithm.
      *
-     * The idea is to progressively update the QFunction averaging all
-     * obtained datapoints. This can be done by generating data via the
-     * model, or by simply sending the agent into the world to try stuff
-     * out. This allows to avoid modeling directly the transition and
-     * reward functions for unknown problems.
+     * \sa SARSA
      *
-     * This algorithm is guaranteed convergence for stationary MDPs (MDPs
-     * that do not change their transition and reward functions over time),
-     * given that the learning parameter converges to 0 over time.
+     * In order to more effectively use the data obtained, SARSAL keeps a list
+     * of previously visited state/action pairs, which are updated together
+     * with the last experienced transition. The updates all use the same
+     * value, with the difference that state/action pairs experienced more in
+     * the past are updated less (by discount*lambda per each previous
+     * timestep). Once this reducing coefficient falls below a certain
+     * threshold, the old state/action pair is forgotten and not updated
+     * anymore. If instead the pair is visited again, the coefficient is once
+     * again increased.
      *
-     * \sa setLearningRate(double)
+     * The idea is to be able to give credit to past actions for current reward
+     * in an efficient manner. This reduces the amount of data needed in order
+     * to backpropagate rewards, and allows SARSAL to learn faster.
      *
-     * The main difference between this algorithm and QLearning is that
-     * QLearning always tries to learn the optimal policy, regardless of
-     * the one that is currently being executed. Instead, SARSA tries to
-     * find a policy which can perform decently given exploration tradeoffs
-     * that must be done when learning the QFunction of a new environment.
-     * A possible use for this would be to run SARSA together with
-     * QLearning; during the training phase one would use SARSA actions in
-     * order to perform decently during the training. Afterwards, one could
-     * switch to the optimal policy learnt offline by QLearning.
-     *
-     * This algorithm does not actually need to sample from the input
-     * model, and so it can be a good algorithm to apply in real world
-     * scenarios, where there would be no way to reproduce the world's
-     * behavior aside from actually trying out actions. However it is
-     * needed to know the size of the state space, the size of the action
-     * space and the discount factor of the problem.
+     * This particular version of the algorithm implements capped traces: every
+     * time an action/state pair is witnessed, its eligibility trace is reset
+     * to 1.0. This avoids potentially diverging values which can happen with
+     * the normal eligibility traces.
      */
     class SARSAL {
         public:
@@ -66,6 +55,11 @@ namespace AIToolbox::MDP {
              *
              * The learning rate must be > 0.0 and <= 1.0, otherwise the
              * constructor will throw an std::invalid_argument.
+             *
+             * This constructor copies the S and A and discount parameters from
+             * the supplied model. It does not keep the reference, so if the
+             * discount needs to change you'll need to update it here manually
+             * too.
              *
              * @param model The MDP model that SARSAL will use as a base.
              * @param alpha The learning rate of the SARSAL method.
@@ -126,9 +120,50 @@ namespace AIToolbox::MDP {
              */
             double getDiscount() const;
 
+            /**
+             * @brief This function sets the new lambda parameter.
+             *
+             * This parameter determines how much to decrease updates for each
+             * timestep in the past. If set to zero, SARSAL effectively becomes
+             * equivalent to SARSA, as no backpropagation will be performed. If
+             * set to 1 it will result in a method similar to Monte Carlo
+             * sampling, where rewards are backed up from the end to the
+             * beginning of the episode (of course still dependent on the
+             * discount of the model).
+             *
+             * The lambda parameter must be >= 0.0 and <= 1.0, otherwise the
+             * function will throw an std::invalid_argument.
+             *
+             * @param l The new lambda parameter.
+             */
             void setLambda(double l);
+
+            /**
+             * @brief This function returns the currently set lambda parameter.
+             *
+             * @return The currently set lambda parameter.
+             */
             double getLambda() const;
+
+            /**
+             * @brief This function sets the trace cutoff parameter.
+             *
+             * This parameter determines when a trace is removed, as its
+             * coefficient has become too small to bother updating its value.
+             *
+             * Note that the epsilon cutoff is performed on the overall
+             * discount*lambda value, and not only on lambda. So this parameter
+             * is useful even when lambda is 1.
+             *
+             * @param e The new trace cutoff value.
+             */
             void setEpsilon(double e);
+
+            /**
+             * @brief This function returns the currently set trace cutoff parameter.
+             *
+             * @return The currently set trace cutoff parameter.
+             */
             double getEpsilon() const;
 
             /**
@@ -180,6 +215,7 @@ namespace AIToolbox::MDP {
             double alpha_;
             double discount_;
             double lambda_, epsilon_;
+            // This is used to avoid multiplying the discount and lambda all the time.
             double gammaL_;
 
             QFunction q_;
