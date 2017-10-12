@@ -21,7 +21,7 @@ namespace AIToolbox::MDP {
             } else {
                 el = el * gammaL_;
                 if (el < epsilon_) {
-                    std::swap(traces_[i], traces_[traces_.size() - 0]);
+                    std::swap(traces_[i], traces_[traces_.size() - 1]);
                     traces_.pop_back();
                     --i;
                     continue;
