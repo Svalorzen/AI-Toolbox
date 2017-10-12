@@ -219,12 +219,13 @@ template&lt;typename M , typename &gt; </div>
 <p>Note that differently from normal <a class="el" href="classAIToolbox_1_1MDP_1_1SARSA.html" title="This class represents the SARSA algorithm. ">SARSA</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html" title="This class represents the ExpectedSARSA algorithm. ">ExpectedSARSA</a> does not self-contain its own QFunction. This is because many policies are implemented in terms of a QFunction continuously updated by a method (e.g. <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction. ">QGreedyPolicy</a>).</p>
 <p>At the same time <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html" title="This class represents the ExpectedSARSA algorithm. ">ExpectedSARSA</a> needs this policy in order to be able to perform its expected value computation. In order to avoid having a chicken and egg problem, <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html" title="This class represents the ExpectedSARSA algorithm. ">ExpectedSARSA</a> takes a QFunction as parameter to allow the user to create it an use the same one for both <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html" title="This class represents the ExpectedSARSA algorithm. ">ExpectedSARSA</a> and the policy.</p>
 <p>The learning rate must be &gt; 0.0 and &lt;= 1.0, otherwise the constructor will throw an std::invalid_argument.</p>
+<p>This constructor copies the discount parameter from the supplied model. It does not keep the reference, so if the discount needs to change you'll need to update it here manually too.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">qfun</td><td>The QFunction underlying the <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html" title="This class represents the ExpectedSARSA algorithm. ">ExpectedSARSA</a> algorithm. </td></tr>
     <tr><td class="paramname">policy</td><td>The policy used to select actions. </td></tr>
-    <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model that <a class="el" href="classAIToolbox_1_1MDP_1_1SARSA.html" title="This class represents the SARSA algorithm. ">SARSA</a> will use as a base. </td></tr>
-    <tr><td class="paramname">alpha</td><td>The learning rate of the <a class="el" href="classAIToolbox_1_1MDP_1_1SARSA.html" title="This class represents the SARSA algorithm. ">SARSA</a> method. </td></tr>
+    <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model that <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html" title="This class represents the ExpectedSARSA algorithm. ">ExpectedSARSA</a> will use as a base. </td></tr>
+    <tr><td class="paramname">alpha</td><td>The learning rate of the <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html" title="This class represents the ExpectedSARSA algorithm. ">ExpectedSARSA</a> method. </td></tr>
   </table>
   </dd>
 </dl>
@@ -469,7 +470,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Oct 11 2017 22:34:37 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Oct 12 2017 18:59:31 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

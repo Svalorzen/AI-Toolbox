@@ -1,6 +1,7 @@
 var searchData=
 [
   ['sarsa_2ehpp',['SARSA.hpp',['../SARSA_8hpp.html',1,'']]],
+  ['sarsal_2ehpp',['SARSAL.hpp',['../SARSAL_8hpp.html',1,'']]],
   ['seeder_2ehpp',['Seeder.hpp',['../Seeder_8hpp.html',1,'']]],
   ['singleactionpolicy_2ehpp',['SingleActionPolicy.hpp',['../SingleActionPolicy_8hpp.html',1,'']]],
   ['sparsecooperativeqlearning_2ehpp',['SparseCooperativeQLearning.hpp',['../SparseCooperativeQLearning_8hpp.html',1,'']]],
