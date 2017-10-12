@@ -60,14 +60,19 @@ void exportMDPSARSA() {
                  "@param S The state space of the underlying model.\n"
                  "@param A The action space of the underlying model.\n"
                  "@param discount The discount of the underlying model.\n"
-                 "@param alpha The learning rate of the SARSA method.\n"
-        , (arg("self"), "S", "A", "model", "alpha")))
+                 "@param alpha The learning rate of the SARSA method."
+        , (arg("self"), "S", "A", "discount", "alpha")))
 
         .def(init<const RLModel<Experience>&, optional<double>>(
                  "Basic constructor for RLModel.\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
                  "constructor will throw an std::invalid_argument.\n"
+                 "\n"
+                 "This constructor copies the S and A and discount parameters from\n"
+                 "the supplied model. It does not keep the reference, so if the\n"
+                 "discount needs to change you'll need to update it here manually\n"
+                 "too.\n"
                  "\n"
                  "@param model The MDP model that SARSA will use as a base.\n"
                  "@param alpha The learning rate of the SARSA method."
