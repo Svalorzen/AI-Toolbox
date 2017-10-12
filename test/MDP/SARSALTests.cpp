@@ -10,8 +10,6 @@
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
-#include <iostream>
-
 #include "Utils/CliffProblem.hpp"
 
 BOOST_AUTO_TEST_CASE( cliff ) {
@@ -59,13 +57,6 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     for ( int i = 0; i < 3; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, DOWN), 1.0 );
         state.setAdjacent(DOWN);
-    }
-
-    for (int y = 2; y>=0; --y) {
-        for (int x = 0; x < 12; ++x) {
-            std::cout << solver.getQFunction()(x + 12 * y,DOWN) << ", ";
-        }
-        std::cout << "\n";
     }
 }
 
