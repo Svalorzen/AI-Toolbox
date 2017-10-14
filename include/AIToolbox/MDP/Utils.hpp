@@ -72,12 +72,13 @@ namespace AIToolbox::MDP {
         const auto S = model.getS();
         const auto A = model.getA();
 
-        auto ir = makeQFunction(S, A);
+        auto ir = QFunction(S, A);
 
         if constexpr(is_model_eigen<M>::value) {
             for ( size_t a = 0; a < A; ++a )
                 ir.col(a).noalias() = model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(S);
         } else {
+            ir.fill(0.0);
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )

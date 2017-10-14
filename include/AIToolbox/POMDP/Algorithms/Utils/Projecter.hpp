@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_POMDP_PROJECTER_HEADER_FILE
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -69,7 +70,7 @@ namespace AIToolbox::POMDP {
     template <typename M>
     Projecter<M>::Projecter(const M& model) :
             model_(model), S(model_.getS()), A(model_.getA()), O(model_.getO()),
-            discount_(model_.getDiscount()), immediateRewards_(A, S), possibleObservations_(boost::extents[A][O])
+            discount_(model_.getDiscount()), possibleObservations_(boost::extents[A][O])
     {
         computePossibleObservations();
         computeImmediateRewards();
@@ -127,16 +128,7 @@ namespace AIToolbox::POMDP {
 
     template <typename M>
     void Projecter<M>::computeImmediateRewards() {
-        if constexpr(is_model_eigen<M>::value) {
-            for ( size_t a = 0; a < A; ++a )
-                immediateRewards_.row(a).noalias() = (model_.getTransitionFunction(a).cwiseProduct(model_.getRewardFunction(a)) * Vector::Ones(model_.getS())).transpose();
-        } else {
-            immediateRewards_.fill(0.0);
-            for ( size_t a = 0; a < A; ++a )
-                for ( size_t s = 0; s < S; ++s )
-                    for ( size_t s1 = 0; s1 < S; ++s1 )
-                        immediateRewards_(a, s) += model_.getTransitionProbability(s,a,s1) * model_.getExpectedReward(s,a,s1);
-        }
+        immediateRewards_ = MDP::computeImmediateRewards(model_).transpose();
         // You can find out why this is divided in the incremental pruning paper =)
         // The idea is that at the end of all the cross sums it's going to add up to the correct value.
         immediateRewards_ /= static_cast<double>(O);
