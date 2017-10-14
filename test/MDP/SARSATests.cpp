@@ -19,10 +19,10 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     auto model = makeCliffProblem(grid);
 
-    mdp::SARSA solver(model, 0.1);
+    mdp::SARSA solver(model, 0.4);
 
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
-    mdp::EpsilonPolicy ePolicy(gPolicy, 0.5);
+    mdp::EpsilonPolicy ePolicy(gPolicy, 0.3);
 
     size_t start = model.getS() - 2;
 
@@ -39,7 +39,8 @@ BOOST_AUTO_TEST_CASE( cliff ) {
         // No offense, but this to me screams "YAY QLEARNING"
         // Or it may be a bug in my implementation - if so
         // please let me know!
-        solver.setLearningRate(1.0 / (episode/3 + 1));
+        if (episode > 500)
+            solver.setLearningRate(5.0 / (episode/3 + 1));
         s = start;
         a = ePolicy.sampleAction( s );
 
