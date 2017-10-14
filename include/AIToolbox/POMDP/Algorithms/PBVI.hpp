@@ -30,7 +30,7 @@ namespace AIToolbox::POMDP {
      * The set of Beliefs are stochastically computed as to cover as much
      * as possible of the belief space, to ensure minimization of the final
      * error. The final solution will thus be correct 100% in the Beliefs
-     * that have been selected, and will (possibly) overshoot in
+     * that have been selected, and will (possibly) undershoot in
      * non-covered Beliefs.
      *
      * In addition, the fact that we solve only for a fixed set of Beliefs
