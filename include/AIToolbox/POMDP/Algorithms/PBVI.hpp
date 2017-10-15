@@ -216,7 +216,7 @@ namespace AIToolbox::POMDP {
 
             auto begin = std::begin(w), bound = begin, end = std::end(w);
             for ( const auto & belief : beliefs )
-                bound = extractWorstAtBelief(belief, begin, bound, end);
+                bound = extractBestAtBelief(belief, begin, bound, end);
 
             w.erase(bound, end);
 

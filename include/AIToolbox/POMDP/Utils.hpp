@@ -435,7 +435,7 @@ namespace AIToolbox::POMDP {
      * @return The iterator pointing to the element with the highest dot product with the input belief.
      */
     template <typename Iterator>
-    Iterator extractWorstAtBelief(const Belief & b, Iterator begin, Iterator bound, Iterator end) {
+    Iterator extractBestAtBelief(const Belief & b, Iterator begin, Iterator bound, Iterator end) {
         auto bestMatch = findBestAtBelief(b, begin, end);
 
         if ( bestMatch >= bound )
@@ -464,7 +464,7 @@ namespace AIToolbox::POMDP {
      * @return The new bound iterator.
      */
     template <typename Iterator>
-    Iterator extractWorstAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end) {
+    Iterator extractBestAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end) {
         if ( end == bound ) return bound;
 
         // For each corner

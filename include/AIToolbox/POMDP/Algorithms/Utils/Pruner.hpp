@@ -58,7 +58,7 @@ namespace AIToolbox::POMDP {
         // the old list.
         VList::iterator begin = std::begin(w), end = std::end(w), bound = begin;
 
-        bound = extractWorstAtSimplexCorners(S, begin, bound, end);
+        bound = extractBestAtSimplexCorners(S, begin, bound, end);
 
         // Here we could do some random belief lookups..
 
@@ -88,7 +88,7 @@ namespace AIToolbox::POMDP {
             // If we get a belief point, we search for the actual vector that provides
             // the best value on the belief point, we move it into the best vector.
             if ( witness ) {
-                bound = extractWorstAtBelief(*witness, bound, bound, end);  // Advance bound with the next best
+                bound = extractBestAtBelief(*witness, bound, bound, end);  // Advance bound with the next best
                 lp.addOptimalRow(std::get<VALUES>(*(bound-1)));             // Add the newly found vector to our lp.
             }
             // We only advance if we did not find anything. Otherwise, we may have found a

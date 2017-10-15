@@ -234,7 +234,7 @@ namespace AIToolbox::POMDP {
                 }
                 helper.emplace_back(std::move(v), a, std::move(obs));
             }
-            extractWorstAtBelief(b, std::begin(helper), std::begin(helper), std::end(helper));
+            extractBestAtBelief(b, std::begin(helper), std::begin(helper), std::end(helper));
             result.emplace_back(std::move(helper[0]));
             start = false;
         }
