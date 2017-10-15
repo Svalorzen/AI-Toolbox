@@ -37,7 +37,9 @@ namespace AIToolbox::POMDP {
      * vector in the literature, though here it contains more data than just that.
      *
      * A VList is a slice of the final tree with respect to depth, as in all
-     * ValueFunctions for a certain timestep t.
+     * ValueFunctions for a certain timestep t. This also means that the size
+     * of a VList is at most |A| (it could be less if some actions are
+     * suboptimal and get pruned).
      *
      * A ValueFunction is the final tree keeping all VLists together.
      *
