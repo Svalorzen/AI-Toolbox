@@ -106,7 +106,7 @@ namespace AIToolbox::MDP {
 
         if constexpr(is_model_eigen<M>::value) {
             for ( size_t a = 0; a < A; ++a )
-                ir.col(a).noalias() += ( model.getTransitionFunction(a).cwiseProduct(v.transpose().replicate(S, 1)) ) * Vector::Ones(S);
+                ir.col(a).noalias() += model.getTransitionFunction(a) * v;
         } else {
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
