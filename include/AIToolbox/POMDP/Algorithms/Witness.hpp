@@ -298,12 +298,10 @@ namespace AIToolbox::POMDP {
                 vObs[o] = i;
                 if ( triedVectors_.find(vObs) != std::end(triedVectors_) ) continue;
 
-                // Allocate only when needed
-                auto obs = vObs;
-                auto v = vValues - std::get<VALUES>(projs[o][skip]) + std::get<VALUES>(projs[o][i]);
+                triedVectors_.insert(vObs);
 
-                triedVectors_.insert(obs);
-                agenda_.emplace_back(std::move(v), a, std::move(obs));
+                auto v = vValues - std::get<VALUES>(projs[o][skip]) + std::get<VALUES>(projs[o][i]);
+                agenda_.emplace_back(std::move(v), a, vObs);
             }
             vObs[o] = skip;
         }
