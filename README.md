@@ -21,9 +21,9 @@ use to do so.
 
 The field divides itself into planning and reinforcement learning: planning
 focuses into solving problems that we know how to model: think chess, or 2048.
-Reinforcement learning focuses into creating a model for an environment we do
-not know in advance, and while learning the best policy for it. An excellent
-introduction to the basics can be found freely online in [this
+Reinforcement learning focuses on exploring an unknown environment and learning
+the best policy for it. An excellent introduction to the basics can be found
+freely online in [this
 book](http://incompleteideas.net/sutton/book/ebook/the-book.html).
 
 There are many variants of these problems, with single agent worlds, multi
@@ -31,9 +31,9 @@ agent, multi objective, competitive, cooperative, partially observable and so
 on. This framework is a work in progress that tries to implement many DTC
 algorithms in one place, much like OpenCV is for Computer Vision algorithms.
 
-Please note that the API is not yet stable (although most things at this point
-are) since at every algorithm I add I may decide to alter the API a bit, to
-offer a more consistent interface throughout the library.
+Please note that the API may change over time (although most things at this
+point are stable) since at every algorithm I add I may decide to alter the API a
+bit, to offer a more consistent interface throughout the library.
 
 Goals
 =====
