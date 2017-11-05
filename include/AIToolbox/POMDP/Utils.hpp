@@ -283,12 +283,12 @@ namespace AIToolbox::POMDP {
      *
      * @tparam Iterator An iterator, can be const or not, from VList.
      * @param bbegin The begin of the belief.
-     * @param bend   The end of the belief.
+     * @param bend The end of the belief.
      * @param begin The begin of the search range.
      * @param bound The begin of the 'useful' range.
      * @param end The range end to be checked. It is NOT included in the search.
      *
-     * @return The iterator pointing to the element with the highest dot product with the input belief.
+     * @return The new bound iterator.
      */
     template <typename Iterator>
     Iterator extractBestAtBelief(const Belief & b, Iterator begin, Iterator bound, Iterator end) {
@@ -331,6 +331,48 @@ namespace AIToolbox::POMDP {
                 std::iter_swap(bestMatch, bound++);
         }
         return bound;
+    }
+
+    /**
+     * @brief This function finds and moves all non-useful beliefs at the end of the input range.
+     *
+     * This function helps remove beliefs which do not support any VEntry and
+     * are thus not useful for improving the VList bounds.
+     *
+     * This function moves all non-useful beliefs at the end of the input
+     * range, and returns the resulting iterator pointing to the first
+     * non-useful belief.
+     *
+     * Note that this function will shuffle around the VEntries, as it needs to
+     * keep track of which VEntries have already been supported by some beliefs
+     * (so that if another beliefs supports them, we know it is not useful).
+     *
+     * The input VEntries may contain elements which are not supported by any
+     * of the input Beliefs (although if they exist they will slow down the
+     * function).
+     *
+     * @param it The beginning of the belief range to check.
+     * @param bend The end of the belief range to check.
+     * @param begin The beginning of the VEntry range to check against.
+     * @param end The end of the VEntry range to check against.
+     *
+     * @return An iterator pointing to the first non-useful belief.
+     */
+    template <typename BIterator, typename VIterator>
+    BIterator extractUsefulBeliefs(BIterator it, BIterator bend, VIterator begin, VIterator end) {
+        auto bound = begin;
+        // We stop if we looked at all beliefs, or if there's no VEntries to
+        // support anymore.
+        while (it < bend && bound < end) {
+            const auto newBound = extractBestAtBelief(*it, begin, bound, end);
+            if (bound == newBound) {
+                std::iter_swap(it, --bend);
+            } else {
+                bound = newBound;
+                ++it;
+            }
+        }
+        return it;
     }
 }
 
