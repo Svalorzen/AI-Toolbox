@@ -140,7 +140,7 @@ namespace AIToolbox::POMDP {
         };
 
         constexpr unsigned jMax = 20;
-        std::array<Belief, jMax> actionBuffer;
+        std::array<size_t, jMax> observationBuffer;
         Belief helper(S); double distance;
         // We apply the discovery process also to all beliefs we discover
         // along the way. We start from the first good one, since the others
@@ -155,26 +155,23 @@ namespace AIToolbox::POMDP {
 
                     size_t o;
                     std::tie(std::ignore, o, std::ignore) = model_.sampleSOR(s, a);
-                    updateBelief(model_, bl[i], a, o, &helper);
 
-                    // Check the new guy against the ones we have already
+                    // Check the new observation against the ones we have already
                     // produced this round. If it passes, add it to them.
                     bool pass = true;
-                    distance = computeDistance(helper, bl[0]);
                     for ( unsigned k = 0; k < bufferFill; ++k ) {
-                        distance = std::min(distance, computeDistance(helper, actionBuffer[k]));
-                        if (distance <= distances[a]) {
+                        if (o == observationBuffer[k]) {
                             pass = false;
                             break;
                         }
                     }
-                    if (pass) {
-                        actionBuffer[bufferFill++] = helper;
-                    } else {
-                        continue;
-                    }
+                    if (!pass) continue;
 
-                    // Now check against all others.
+                    // If we haven't had this observation before, we can update the belief.
+                    observationBuffer[bufferFill++] = o;
+                    updateBelief(model_, bl[i], a, o, &helper);
+
+                    // Now check the new belief's distance against all others.
                     for (size_t k = 0; k < bl.size(); ++k) {
                         distance = std::min(distance, computeDistance(helper, bl[k]));
                         if (distance <= distances[a]) break;
