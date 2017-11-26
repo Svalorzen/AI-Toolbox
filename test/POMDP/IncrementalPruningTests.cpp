@@ -25,11 +25,11 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // (all but the new ones are the same as his). This
     // is probably due to this library using a higher
     // precision floating point error.
-    unsigned horizon = 15;
+    constexpr unsigned horizon = 15;
     POMDP::IncrementalPruning solver(horizon, 0.0);
-    auto solution = solver(model);
+    const auto solution = solver(model);
 
-    auto & vf = std::get<1>(solution);
+    const auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];
 
     // This is the correct solution
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         std::make_tuple((MDP::Values(2) << 18.7039537733727385671045340 , -91.2960462266272685383228236).finished(), 2u, POMDP::VObs(0)),
     };
 
-    auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
+    const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
         return POMDP::operator<(lhs, rhs);
     };
 
@@ -96,8 +96,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     for ( size_t i = 0; i < vlist.size(); ++i ) {
         BOOST_CHECK_EQUAL(std::get<POMDP::ACTION>(vlist[i]), std::get<POMDP::ACTION>(truth[i]));
 
-        auto & values      = std::get<POMDP::VALUES>(vlist[i]);
-        auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
+        const auto & values      = std::get<POMDP::VALUES>(vlist[i]);
+        const auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
 
         BOOST_CHECK_EQUAL(values, truthValues);
     }
@@ -117,11 +117,11 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     auto model = makeTigerProblem();
     model.setDiscount(1.0);
 
-    unsigned horizon = 2;
+    constexpr unsigned horizon = 2;
     POMDP::IncrementalPruning solver(horizon, 0.0);
-    auto solution = solver(model);
+    const auto solution = solver(model);
 
-    auto & vf = std::get<1>(solution);
+    const auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];
 
     // This is the correct solution
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
         std::make_tuple((MDP::Values(2) << 9.0000000000000000000000000   , -101.0000000000000000000000000).finished(), 10u, POMDP::VObs(0)),
     };
 
-    auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
+    const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
         return POMDP::operator<(lhs, rhs);
     };
 
@@ -150,8 +150,8 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
         if ( std::get<POMDP::ACTION>(truth[i]) != 10u )
             BOOST_CHECK_EQUAL(std::get<POMDP::ACTION>(vlist[i]), std::get<POMDP::ACTION>(truth[i]));
 
-        auto & values      = std::get<POMDP::VALUES>(vlist[i]);
-        auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
+        const auto & values      = std::get<POMDP::VALUES>(vlist[i]);
+        const auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
 
         BOOST_CHECK_EQUAL(values, truthValues);
     }
@@ -171,11 +171,11 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     // (all but the new ones are the same as his). This
     // is probably due to this library using a higher
     // precision floating point error.
-    unsigned horizon = 15;
+    constexpr unsigned horizon = 15;
     POMDP::IncrementalPruning solver(horizon, 0.0);
-    auto solution = solver(model);
+    const auto solution = solver(model);
 
-    auto & vf = std::get<1>(solution);
+    const auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];
 
     // This is the correct solution
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
         std::make_tuple((MDP::Values(2) << 18.7039537733727385671045340 , -91.2960462266272685383228236).finished(), 2u, POMDP::VObs(0)),
     };
 
-    auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
+    const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
         return POMDP::operator<(lhs, rhs);
     };
 
@@ -242,8 +242,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     for ( size_t i = 0; i < vlist.size(); ++i ) {
         BOOST_CHECK_EQUAL(std::get<POMDP::ACTION>(vlist[i]), std::get<POMDP::ACTION>(truth[i]));
 
-        auto & values      = std::get<POMDP::VALUES>(vlist[i]);
-        auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
+        const auto & values      = std::get<POMDP::VALUES>(vlist[i]);
+        const auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
 
         BOOST_CHECK_EQUAL(values, truthValues);
     }
@@ -263,11 +263,11 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizonSparse ) {
     POMDP::SparseModel<MDP::SparseModel> model = makeTigerProblem();
     model.setDiscount(1.0);
 
-    unsigned horizon = 2;
+    constexpr unsigned horizon = 2;
     POMDP::IncrementalPruning solver(horizon, 0.0);
-    auto solution = solver(model);
+    const auto solution = solver(model);
 
-    auto & vf = std::get<1>(solution);
+    const auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];
 
     // This is the correct solution
@@ -281,7 +281,7 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizonSparse ) {
         std::make_tuple((MDP::Values(2) << 9.0000000000000000000000000   , -101.0000000000000000000000000).finished(), 10u, POMDP::VObs(0)),
     };
 
-    auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
+    const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
         return POMDP::operator<(lhs, rhs);
     };
 
@@ -296,8 +296,8 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizonSparse ) {
         if ( std::get<POMDP::ACTION>(truth[i]) != 10u )
             BOOST_CHECK_EQUAL(std::get<POMDP::ACTION>(vlist[i]), std::get<POMDP::ACTION>(truth[i]));
 
-        auto & values      = std::get<POMDP::VALUES>(vlist[i]);
-        auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
+        const auto & values      = std::get<POMDP::VALUES>(vlist[i]);
+        const auto & truthValues = std::get<POMDP::VALUES>(truth[i]);
 
         BOOST_CHECK_EQUAL(values, truthValues);
     }
