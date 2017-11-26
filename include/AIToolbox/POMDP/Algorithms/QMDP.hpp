@@ -56,18 +56,18 @@ namespace AIToolbox::POMDP {
              * This function computes the MDP::ValueFunction of the underlying
              * MDP of the input POMDP with the parameters set. It then converts
              * this solution into the equivalent POMDP::ValueFunction. Finally
-             * it returns both (plus the boolean specifying whether the epsilon
-             * constraint requested is satisfied or not).
+             * it returns both (plus the variation for the last iteration of
+             * ValueIteration).
              *
              * @tparam M The type of the input POMDP
              * @param m The POMDP to be solved
              *
-             * @return A tuple containing a boolean value specifying
-             *         whether the specified epsilon bound was reached, a
-             *         POMDP::ValueFunction and the equivalent MDP::ValueFunction.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction, the computed ValueFunction and the
+             *         equivalent MDP::ValueFunction.
              */
             template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-            std::tuple<bool, ValueFunction, MDP::ValueFunction> operator()(const M & m);
+            std::tuple<double, ValueFunction, MDP::ValueFunction> operator()(const M & m);
 
             /**
              * @brief This function sets the epsilon parameter.
@@ -110,7 +110,7 @@ namespace AIToolbox::POMDP {
     };
 
     template <typename M, typename>
-    std::tuple<bool, ValueFunction, MDP::ValueFunction> QMDP::operator()(const M & m) {
+    std::tuple<double, ValueFunction, MDP::ValueFunction> QMDP::operator()(const M & m) {
         auto solution = solver_(m);
         auto & mdpValueFunction = std::get<1>(solution);
         const auto & mdpValues  = std::get<MDP::VALUES >(mdpValueFunction);

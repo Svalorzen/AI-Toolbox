@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
 
     auto solution = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( std::get<0>(solution) );
+    BOOST_CHECK( std::get<0>(solution) <= solver.getEpsilon() );
     // Get best policy from QFunction
     auto & qfun = std::get<2>(solution);
     QGreedyPolicy policy( qfun );
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
 
     auto solution = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( std::get<0>(solution) );
+    BOOST_CHECK( std::get<0>(solution) <= solver.getEpsilon() );
     // Get best policy from QFunction
     auto & qfun = std::get<2>(solution);
     QGreedyPolicy policy( qfun );
@@ -219,7 +219,7 @@ BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
 
     auto solution = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( std::get<0>(solution) );
+    BOOST_CHECK( std::get<0>(solution) <= solver.getEpsilon() );
     // Get best policy from QFunction
     auto & qfun = std::get<2>(solution);
     QGreedyPolicy policy( qfun );

@@ -69,9 +69,9 @@ void exportPOMDPQMDP() {
                  "\n"
                  "@param m The POMDP to be solved\n"
                  "\n"
-                 "@return A tuple containing a boolean value specifying\n"
-                 "whether the specified epsilon bound was reached, a\n"
-                 "POMDP::ValueFunction and the equivalent MDP::ValueFunction."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction, the computed ValueFunction and the\n"
+                 "        equivalent MDP::ValueFunction."
         , (arg("self"), "m"))
 
         .def("__call__",                &QMDP::operator()<POMDPSparseModelBinded>,
@@ -85,9 +85,9 @@ void exportPOMDPQMDP() {
                  "\n"
                  "@param m The POMDP to be solved\n"
                  "\n"
-                 "@return A tuple containing a boolean value specifying\n"
-                 "whether the specified epsilon bound was reached, a\n"
-                 "POMDP::ValueFunction and the equivalent MDP::ValueFunction."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction, the computed ValueFunction and the\n"
+                 "        equivalent MDP::ValueFunction."
         , (arg("self"), "m"))
 
         .def("setEpsilon",              &QMDP::setEpsilon,

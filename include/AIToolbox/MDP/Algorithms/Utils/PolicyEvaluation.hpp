@@ -57,11 +57,11 @@ namespace AIToolbox::MDP {
              * The algorithm is constrained by the currently set parameters.
              *
              * @param p The policy to be evaluated.
-             * @return A tuple containing a boolean value specifying whether
-             *         the specified epsilon bound was reached and the
-             *         Values and QFunction for the Model and policy.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction, the ValueFunction and the QFunction for
+             *         the Model and policy.
              */
-            std::tuple<bool, Values, QFunction> operator()(const PolicyInterface & p);
+            std::tuple<double, Values, QFunction> operator()(const PolicyInterface & p);
 
             /**
              * @brief This function sets the epsilon parameter.
@@ -145,7 +145,7 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M>
-    std::tuple<bool, Values, QFunction> PolicyEvaluation<M>::operator()(const PolicyInterface & policy) {
+    std::tuple<double, Values, QFunction> PolicyEvaluation<M>::operator()(const PolicyInterface & policy) {
         {
             // Verify that parameter value function is compatible.
             const size_t size = vParameter_.size();
@@ -191,7 +191,7 @@ namespace AIToolbox::MDP {
 
         // We do not guarantee that the Value/QFunctions are the perfect
         // ones, as we stop within epsilon.
-        return std::make_tuple(variation <= epsilon_, std::move(v1_), std::move(q));
+        return std::make_tuple(useEpsilon ? variation : 0.0, std::move(v1_), std::move(q));
     }
 
     template <typename M>

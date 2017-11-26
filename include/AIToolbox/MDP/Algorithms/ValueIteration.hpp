@@ -54,12 +54,12 @@ namespace AIToolbox::MDP {
              *
              * @tparam M The type of the solvable MDP.
              * @param m The MDP that needs to be solved.
-             * @return A tuple containing a boolean value specifying whether
-             *         the specified epsilon bound was reached and the
-             *         ValueFunction and the QFunction for the Model.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction, the ValueFunction and the QFunction for
+             *         the Model.
              */
             template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-            std::tuple<bool, ValueFunction, QFunction> operator()(const M & m);
+            std::tuple<double, ValueFunction, QFunction> operator()(const M & m);
 
             /**
              * @brief This function sets the epsilon parameter.
@@ -127,7 +127,7 @@ namespace AIToolbox::MDP {
     };
 
     template <typename M, typename>
-    std::tuple<bool, ValueFunction, QFunction> ValueIteration::operator()(const M & model) {
+    std::tuple<double, ValueFunction, QFunction> ValueIteration::operator()(const M & model) {
         // Extract necessary knowledge from model so we don't have to pass it around
         const size_t S = model.getS();
         const size_t A = model.getA();
@@ -176,7 +176,7 @@ namespace AIToolbox::MDP {
         }
 
         // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
-        return std::make_tuple(variation <= epsilon_, std::move(v1_), std::move(q));
+        return std::make_tuple(useEpsilon ? variation : 0.0, std::move(v1_), std::move(q));
     }
 }
 

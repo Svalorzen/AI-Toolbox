@@ -53,9 +53,9 @@ void exportMDPValueIteration() {
                  "The algorithm is constrained by the currently set parameters.\n"
                  "\n"
                  "@param m The MDP that needs to be solved.\n"
-                 "@return A tuple containing a boolean value specifying whether\n"
-                 "        the specified epsilon bound was reached and the\n"
-                 "        ValueFunction and the QFunction for the Model."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction, the computed ValueFunction and the\n"
+                 "        QFunction for the Model."
         , (arg("self"), "m"))
 
         .def("__call__",                &ValueIteration::operator()<SparseModel>,
@@ -64,9 +64,9 @@ void exportMDPValueIteration() {
                  "The algorithm is constrained by the currently set parameters.\n"
                  "\n"
                  "@param m The MDP that needs to be solved.\n"
-                 "@return A tuple containing a boolean value specifying whether\n"
-                 "        the specified epsilon bound was reached and the\n"
-                 "        ValueFunction and the QFunction for the Model."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction, the computed ValueFunction and the\n"
+                 "        QFunction for the Model."
         , (arg("self"), "m"))
 
         .def("__call__",                &ValueIteration::operator()<RLModel<Experience>>,
@@ -75,9 +75,9 @@ void exportMDPValueIteration() {
                  "The algorithm is constrained by the currently set parameters.\n"
                  "\n"
                  "@param m The MDP that needs to be solved.\n"
-                 "@return A tuple containing a boolean value specifying whether\n"
-                 "        the specified epsilon bound was reached and the\n"
-                 "        ValueFunction and the QFunction for the Model."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction, the computed ValueFunction and the\n"
+                 "        QFunction for the Model."
         , (arg("self"), "m"))
 
         .def("__call__",                &ValueIteration::operator()<SparseRLModel<SparseExperience>>,
@@ -86,9 +86,9 @@ void exportMDPValueIteration() {
                  "The algorithm is constrained by the currently set parameters.\n"
                  "\n"
                  "@param m The MDP that needs to be solved.\n"
-                 "@return A tuple containing a boolean value specifying whether\n"
-                 "        the specified epsilon bound was reached and the\n"
-                 "        ValueFunction and the QFunction for the Model."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction, the computed ValueFunction and the\n"
+                 "        QFunction for the Model."
         , (arg("self"), "m"))
 
         .def("setEpsilon",              &ValueIteration::setEpsilon,

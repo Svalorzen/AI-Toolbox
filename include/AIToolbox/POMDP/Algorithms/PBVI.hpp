@@ -131,10 +131,11 @@ namespace AIToolbox::POMDP {
              * @param model The POMDP model that needs to be solved.
              * @param v The ValueFunction to startup the process from, if needed.
              *
-             * @return True, and the computed ValueFunction up to the requested horizon.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction and the computed ValueFunction.
              */
             template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-            std::tuple<bool, ValueFunction> operator()(const M & model, ValueFunction v = {});
+            std::tuple<double, ValueFunction> operator()(const M & model, ValueFunction v = {});
 
             /**
              * @brief This function solves a POMDP::Model approximately.
@@ -153,10 +154,11 @@ namespace AIToolbox::POMDP {
              * @param beliefs The list of beliefs to evaluate.
              * @param v The ValueFunction to startup the process from, if needed.
              *
-             * @return True, and the computed ValueFunction up to the requested horizon.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction and the computed ValueFunction.
              */
             template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-            std::tuple<bool, ValueFunction> operator()(const M & model, const std::vector<Belief> & bList, ValueFunction v = {});
+            std::tuple<double, ValueFunction> operator()(const M & model, const std::vector<Belief> & bList, ValueFunction v = {});
 
         private:
             /**
@@ -189,7 +191,7 @@ namespace AIToolbox::POMDP {
     };
 
     template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-    std::tuple<bool, ValueFunction> PBVI::operator()(const M & model, ValueFunction v) {
+    std::tuple<double, ValueFunction> PBVI::operator()(const M & model, ValueFunction v) {
         // In this implementation we compute all beliefs in advance. This
         // is mostly due to the fact that I prefer counter parameters (how
         // many beliefs do you want?) versus timers (loop until time is
@@ -201,7 +203,7 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-    std::tuple<bool, ValueFunction> PBVI::operator()(const M & model, const std::vector<Belief> & beliefs, ValueFunction v) {
+    std::tuple<double, ValueFunction> PBVI::operator()(const M & model, const std::vector<Belief> & beliefs, ValueFunction v) {
         // Initialize "global" variables
         S = model.getS();
         A = model.getA();
@@ -255,12 +257,11 @@ namespace AIToolbox::POMDP {
             v.emplace_back(std::move(w));
 
             // Check convergence
-            if ( useEpsilon ) {
+            if ( useEpsilon )
                 variation = weakBoundDistance(v[v.size()-2], v.back());
-            }
         }
 
-        return std::make_tuple(true, v);
+        return std::make_tuple(useEpsilon ? variation : 0.0, v);
     }
 
     template <typename ProjectionsRow>

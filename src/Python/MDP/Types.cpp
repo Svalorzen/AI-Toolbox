@@ -18,5 +18,5 @@ void exportMDPTypes() {
     // possible.
 
     // ValueIteration return value
-    TupleToPython<std::tuple<bool, MDP::ValueFunction, MDP::QFunction>>();
+    TupleToPython<std::tuple<double, MDP::ValueFunction, MDP::QFunction>>();
 }

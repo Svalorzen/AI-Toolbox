@@ -112,12 +112,11 @@ namespace AIToolbox::POMDP {
              *
              * @param model The POMDP model that needs to be solved.
              *
-             * @return A tuple containing a boolean value specifying whether
-             *         the specified epsilon bound was reached and the computed
-             *         ValueFunction.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction and the computed ValueFunction.
              */
             template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-            std::tuple<bool, ValueFunction> operator()(const M & model);
+            std::tuple<double, ValueFunction> operator()(const M & model);
 
         private:
             /**
@@ -160,7 +159,7 @@ namespace AIToolbox::POMDP {
     };
 
     template <typename M, typename>
-    std::tuple<bool, ValueFunction> Witness::operator()(const M& model) {
+    std::tuple<double, ValueFunction> Witness::operator()(const M& model) {
         S = model.getS();
         A = model.getA();
         O = model.getO();
@@ -249,7 +248,7 @@ namespace AIToolbox::POMDP {
             }
         }
 
-        return std::make_tuple(variation <= epsilon_, v);
+        return std::make_tuple(useEpsilon ? variation : 0.0, v);
     }
 
     template <typename ProjectionsRow>
