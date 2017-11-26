@@ -154,7 +154,7 @@ namespace AIToolbox::POMDP {
             maxVariation = std::max(maxVariation, variation);
             retval.emplace_back(std::move(oldAlpha), a, VObs(0));
         }
-        return std::make_tuple(maxVariation, std::move(retval));
+        return std::make_tuple(useEpsilon ? maxVariation : 0.0, std::move(retval));
     }
 }
 
