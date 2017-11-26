@@ -135,14 +135,15 @@ if (MAKE_POMDP)
     add_library(AIToolboxPOMDP
         LP/LpSolveWrapper.cpp
         POMDP/Utils.cpp
+        POMDP/IO.cpp
+        POMDP/Algorithms/AMDP.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
-        POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
-        POMDP/Algorithms/AMDP.cpp
+        POMDP/Algorithms/BlindStrategies.cpp
         POMDP/Algorithms/QMDP.cpp
+        POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
-        POMDP/IO.cpp
         POMDP/Policies/Policy.cpp)
 
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
@@ -154,14 +155,14 @@ if (MAKE_POMDP)
         add_library(POMDP SHARED
             LP/LpSolveWrapper.cpp
             POMDP/Utils.cpp
+            POMDP/Algorithms/AMDP.cpp
             POMDP/Algorithms/IncrementalPruning.cpp
-            POMDP/Algorithms/Witness.cpp
             POMDP/Algorithms/PBVI.cpp
             POMDP/Algorithms/PERSEUS.cpp
-            POMDP/Algorithms/AMDP.cpp
             POMDP/Algorithms/QMDP.cpp
-            POMDP/Policies/Policy.cpp
+            POMDP/Algorithms/Witness.cpp
             POMDP/Algorithms/Utils/WitnessLP.cpp
+            POMDP/Policies/Policy.cpp
             Python/POMDP/Types.cpp
             Python/POMDP/Utils.cpp
             Python/POMDP/Model.cpp

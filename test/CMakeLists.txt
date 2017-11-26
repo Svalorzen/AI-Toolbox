@@ -109,23 +109,28 @@ if (MAKE_FMDP)
     AddTestFactoredMDP(Utils)
     AddTestFactoredMDP(FactoredContainer)
     AddTestFactoredMDP(FactorGraph)
-    AddTestFactoredMDP(VariableElimination)
+
+    AddTestFactoredMDP(FactoredLP)
+
+    AddTestFactoredMDP(LLR)
     AddTestFactoredMDP(MultiObjectiveVariableElimination)
     AddTestFactoredMDP(SparseCooperativeQLearning)
-    AddTestFactoredMDP(LLR)
-    AddTestFactoredMDP(FactoredLP)
+    AddTestFactoredMDP(VariableElimination)
 endif()
 
 if (MAKE_POMDP)
     AddTestPOMDP(Types)
+
+    AddTestPOMDP(Model)
+    AddTestPOMDP(SparseModel)
+
     AddTestPOMDP(AMDP)
     AddTestPOMDP(IncrementalPruning)
-    AddTestPOMDP(Model)
     AddTestPOMDP(PBVI)
     AddTestPOMDP(POMCP)
+    AddTestPOMDP(BlindStrategies)
     AddTestPOMDP(rPOMCP)
     AddTestPOMDP(RTBSS)
-    AddTestPOMDP(SparseModel)
     AddTestPOMDP(Witness)
 
     if (MAKE_PYTHON)
