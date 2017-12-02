@@ -206,17 +206,6 @@ namespace AIToolbox::POMDP {
             double getObservationProbability(size_t s1, size_t a, size_t o) const;
 
             /**
-             * @brief This function *computes* the probability of obtaining an observation given an action and an initial belief.
-             *
-             * @param b The initial belief state.
-             * @param a The action performed.
-             * @param o The resulting observation.
-             *
-             * @return The probability of obtaining the specified observation.
-             */
-            double getObservationProbability(const Belief & b, size_t o, size_t a) const;
-
-            /**
              * @brief This function returns the observation function for a given action.
              *
              * @param a The action requested.
