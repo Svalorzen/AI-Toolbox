@@ -101,13 +101,13 @@ namespace AIToolbox::MDP {
      */
     template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
     QFunction computeQFunction(const M & model, const Values & v, QFunction ir) {
-        const auto S = model.getS();
         const auto A = model.getA();
 
         if constexpr(is_model_eigen<M>::value) {
             for ( size_t a = 0; a < A; ++a )
                 ir.col(a).noalias() += model.getTransitionFunction(a) * v;
         } else {
+            const auto S = model.getS();
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
