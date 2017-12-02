@@ -44,6 +44,8 @@ enum {
     TIG_RIGHT   = 1,
 };
 
+constexpr double listenError = 0.15;
+
 inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> makeTigerProblem() {
     // Actions are: 0-listen, 1-open-left, 2-open-right
     size_t S = 2, A = 3, O = 2;
@@ -69,11 +71,11 @@ inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> makeTigerProblem() {
 
     // Observations
     // If we listen, we guess right 85% of the time.
-    observations[TIG_LEFT ][A_LISTEN][TIG_LEFT ] = 0.85;
-    observations[TIG_LEFT ][A_LISTEN][TIG_RIGHT] = 0.15;
+    observations[TIG_LEFT ][A_LISTEN][TIG_LEFT ] = 1.0 - listenError;
+    observations[TIG_LEFT ][A_LISTEN][TIG_RIGHT] = listenError;
 
-    observations[TIG_RIGHT][A_LISTEN][TIG_RIGHT] = 0.85;
-    observations[TIG_RIGHT][A_LISTEN][TIG_LEFT ] = 0.15;
+    observations[TIG_RIGHT][A_LISTEN][TIG_RIGHT] = 1.0 - listenError;
+    observations[TIG_RIGHT][A_LISTEN][TIG_LEFT ] = listenError;
 
     // Otherwise we get no information on the environment.
     for ( size_t s = 0; s < S; ++s ) {

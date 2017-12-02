@@ -53,6 +53,69 @@ namespace AIToolbox::POMDP {
     double weakBoundDistance(const VList & oldV, const VList & newV);
 
     /**
+     * @brief This function creates the SOSA table for the input POMDP.
+     *
+     * The SOSA table is a way to represent the observation and transition
+     * functions in a single function, at the same time.
+     *
+     * Each cell in this four-dimensional table contains the probability of
+     * getting to state s' while obtaining observation o when starting with
+     * state s and action a.
+     *
+     * This table is less space-efficient than storing both tables separately,
+     * but it can save you some time if you need its values multiple times in a
+     * loop (for example in the FastInformedBound algorithm).
+     *
+     * @param m The input POMDP to extract the SOSA table from.
+     *
+     * @return The SOSA table for the input pomdp.
+     */
+    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    Matrix4D makeSOSA(const M & m) {
+        Matrix4D retval( boost::extents[m.getA()][m.getO()] );
+
+        if constexpr(is_model_eigen<M>::value) {
+            for (size_t a = 0; a < m.getA(); ++a)
+                for (size_t o = 0; o < m.getO(); ++o)
+                    retval[a][o] = m.getTransitionFunction(a).cwiseProduct(m.getObservationFunction(a).col(o).transpose().replicate(m.getS(), 1));
+        } else {
+            for (size_t a = 0; a < m.getA(); ++a) {
+                for (size_t o = 0; o < m.getO(); ++o) {
+                    retval[a][o].resize(m.getS(), m.getS());
+                    for (size_t s = 0; s < m.getS(); ++s)
+                        for (size_t s1 = 0; s1 < m.getS(); ++s1)
+                            retval[a][o](s, s1) = m.getTransitionProbability(s, a, s1) * m.getObservationProbability(s1, a, o);
+                }
+            }
+        }
+
+        return retval;
+    }
+
+    /**
+     * @brief This function generates a random belief uniformly in the space of beliefs.
+     *
+     * @param S The number of states of the resulting belief.
+     * @param generator A random number generator.
+     *
+     * @return A new random belief.
+     */
+    template <typename G>
+    Belief makeRandomBelief(const size_t S, G & generator) {
+        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
+        Belief b(S);
+        for ( size_t s = 0; s < S; ++s )
+            b[s] = sampleDistribution(generator);
+
+        const auto sum = b.sum();
+
+        if ( checkEqualSmall(sum, 0.0) ) b[0] = 1.0;
+        else b /= sum;
+
+        return b;
+    }
+
+    /**
      * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
      *
      * This function needs to create a new belief since modifying a belief

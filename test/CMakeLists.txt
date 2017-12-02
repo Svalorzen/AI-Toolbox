@@ -120,6 +120,7 @@ endif()
 
 if (MAKE_POMDP)
     AddTestPOMDP(Types)
+    AddTestPOMDP(Utils)
 
     AddTestPOMDP(Model)
     AddTestPOMDP(SparseModel)
