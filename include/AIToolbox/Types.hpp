@@ -23,6 +23,8 @@ namespace AIToolbox {
     using SparseMatrix3D = std::vector<SparseMatrix2D>;
     using SparseMatrix3DLong = std::vector<SparseMatrix2DLong>;
 
+    using Matrix4D = boost::multi_array<Matrix2D, 2>;
+
     /**
      * @brief This struct is used to copy constness from one type to another.
      */
