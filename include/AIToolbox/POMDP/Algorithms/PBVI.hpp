@@ -210,7 +210,7 @@ namespace AIToolbox::POMDP {
         O = model.getO();
 
         if (v.size() == 0)
-            v = ValueFunction(1, VList(1, makeVEntry(S)));
+            v = makeValueFunction(S);
 
         unsigned timestep = 0;
 

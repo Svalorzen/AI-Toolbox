@@ -45,7 +45,7 @@ namespace AIToolbox::POMDP {
         const size_t O = p.getO();
 
         // We automatically generate the horizon 0 entry.
-        ValueFunction vf(1, VList(1, makeVEntry(S)));
+        auto vf = makeValueFunction(S);
 
         // This variable keeps track of allowed obs indeces.
         size_t oldH = 1;

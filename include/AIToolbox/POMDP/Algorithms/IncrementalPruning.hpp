@@ -153,7 +153,7 @@ namespace AIToolbox::POMDP {
         A = model.getA();
         O = model.getO();
 
-        ValueFunction v(1, VList(1, makeVEntry(S))); // TODO: May take user input
+        auto v = makeValueFunction(S); // TODO: May take user input
 
         unsigned timestep = 0;
 

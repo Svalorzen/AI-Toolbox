@@ -34,18 +34,27 @@ namespace AIToolbox::POMDP {
      * - An action index, for the action that results in the actuation of those
      *   particular values.
      * - A vector containing, for each possible observation, the index of the
-     *   VList to look into for the next timestep. Thus, there are going to be
-     *   |O| entries in this vector (sometimes it's empty, when it doesn't
-     *   matter). Some observations are however impossible from certain
+     *   VEntry to look into for the next timestep/VList. Thus, there are going
+     *   to be |O| entries in this vector (sometimes it's empty, when it
+     *   doesn't matter). Some observations are however impossible from certain
      *   beliefs. In theory, those vector entries should never be accessed, so
      *   they will just keep the value of zero to keep things simple.
      *
      * A VList is a slice of the final tree with respect to depth, as in all
-     * ValueFunctions for a certain timestep t. This also means that the size
-     * of a VList is at most |A| (it could be less if some actions are
-     * suboptimal and get pruned).
+     * ValueFunctions for a certain timestep t. Note that a VList can have an
+     * arbitrary number of VEntries inside - with an upper bound. Each VList
+     * can have at most A * size(VList_{t-1})^O.
      *
-     * A ValueFunction is the final tree keeping all VLists together.
+     * A ValueFunction is the final tree keeping all VLists together. A
+     * ValueFunction has always at least one element.
+     *
+     * The first element of a ValueFunction is technically useless, as it is a
+     * VList with just one VEntry that tells to perform action zero. It's the
+     * default from which all Dynamic Programming algorithm start. The values
+     * of the default entry are usually zeros, although some algorithms
+     * initialize them differently. The first entry otherwise is never used,
+     * not even for sampling for a policy, and it's simply an artifact that
+     * takes little space to keep, and it's expected in all the code.
      *
      * QFunctions may be defined later, however since POMDP ValueFunctions are already
      * pretty costly in terms of space, in general there's little sense in storing them.

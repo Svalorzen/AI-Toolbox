@@ -24,24 +24,27 @@ namespace AIToolbox::POMDP {
     bool operator<(const VEntry & lhs, const VEntry & rhs);
 
     /**
-     * @brief This function creates an empty VEntry.
+     * @brief This function creates a default ValueFunction.
      *
-     * A VEntry is simply a data structure containing a single alpha vector,
-     * along with the action it is associated with, and an observation vector
-     * which is useful when creating multiple-timestep ValueFunctions.
+     * The default ValueFunction contains a single VList with inside a single
+     * VEntry: do action 0, with all value zeroes.
      *
-     * The default assumes a zero-filled alpha vector for action 0, and to
-     * always pick the VEntry zero for the next timestep. By default the
-     * observation space is zero to avoid allocating an observation vector full
-     * of zeroes.
+     * The VList is a necessary byproduct that is needed when computing the
+     * whole ValueFunction recursively via dynamic programming.
+     *
+     * In the end, to act, it's not needed, but it's probably more hassle to
+     * remove the entry, and so we leave it there. So in general we always
+     * assume it's there.
+     *
+     * Another peculiarity of the default VEntry is that it's the only place
+     * where the observation id vector is empty, since nobody is ever supposed
+     * to go looking in there.
      *
      * @param S The number of possible states.
-     * @param a The action contained in the VEntry.
-     * @param O The size of the observations vector.
      *
-     * @return A new VEntry.
+     * @return A new ValueFunction.
      */
-    VEntry makeVEntry(size_t S, size_t a = 0, size_t O = 0);
+    ValueFunction makeValueFunction(size_t S);
 
     /**
      * @brief This function returns a weak measure of distance between two VLists.
