@@ -61,6 +61,11 @@ namespace AIToolbox::MDP {
     /**
      * @brief This function computes all immediate rewards (state and action) of the MDP once for improved speed.
      *
+     * This function pretty much creates the R(s,a) function for the input
+     * model. Normally we store the reward function as R(s,a,s'), but this table
+     * can be "compressed" into R(s,a) with no loss of meaningful information -
+     * with respect to the planning process.
+     *
      * Note that this function is more efficient with eigen models.
      *
      * @param m The MDP that needs to be solved.
@@ -68,7 +73,7 @@ namespace AIToolbox::MDP {
      * @return The Models's immediate rewards.
      */
     template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-    QFunction computeImmediateRewards(const M & model) {
+    Matrix2D computeImmediateRewards(const M & model) {
         const auto S = model.getS();
         const auto A = model.getA();
 
