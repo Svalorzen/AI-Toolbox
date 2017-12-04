@@ -26,6 +26,15 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This function creates an empty VEntry.
      *
+     * A VEntry is simply a data structure containing a single alpha vector,
+     * along with the action it is associated with, and an observation vector
+     * which is useful when creating multiple-timestep ValueFunctions.
+     *
+     * The default assumes a zero-filled alpha vector for action 0, and to
+     * always pick the VEntry zero for the next timestep. By default the
+     * observation space is zero to avoid allocating an observation vector full
+     * of zeroes.
+     *
      * @param S The number of possible states.
      * @param a The action contained in the VEntry.
      * @param O The size of the observations vector.

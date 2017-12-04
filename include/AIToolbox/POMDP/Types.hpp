@@ -26,15 +26,19 @@ namespace AIToolbox::POMDP {
      * fact that most operations like search and update are done on a timestep
      * basis, as in, specific tree depth. Thus the layout is arranged as follows:
      *
-     * A VEntry contains the MDP::Values for its specific Belief range. At any
-     * belief it can be used to compute, via dot product, the true value of that
-     * belief. Together with it, it contains an action index, for the action that
-     * results in the actuation of those particular values, and a vector of
-     * indeces into the previous VList. There are going to be |O| entries in this
-     * vector. Some observations are however impossible from certain beliefs. In
-     * theory, those should never be accessed, and those entries will just keep
-     * the value of zero to keep things simple. This is also called an alpha
-     * vector in the literature, though here it contains more data than just that.
+     * A VEntry contains:
+     *
+     * - The MDP::Values for its specific Belief range. This is also called an
+     *   alphavector in the literature. At any belief it can be used to
+     *   compute, via dot product, the true value of that belief.
+     * - An action index, for the action that results in the actuation of those
+     *   particular values.
+     * - A vector containing, for each possible observation, the index of the
+     *   VList to look into for the next timestep. Thus, there are going to be
+     *   |O| entries in this vector (sometimes it's empty, when it doesn't
+     *   matter). Some observations are however impossible from certain
+     *   beliefs. In theory, those vector entries should never be accessed, so
+     *   they will just keep the value of zero to keep things simple.
      *
      * A VList is a slice of the final tree with respect to depth, as in all
      * ValueFunctions for a certain timestep t. This also means that the size
