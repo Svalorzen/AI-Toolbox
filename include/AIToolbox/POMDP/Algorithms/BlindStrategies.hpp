@@ -72,12 +72,12 @@ namespace AIToolbox::POMDP {
              * @brief This function sets the epsilon parameter.
              *
              * The epsilon parameter must be >= 0.0, otherwise the function
-             * will throw an std::invalid_argument. The epsilon parameter
-             * sets the convergence criterion. An epsilon of 0.0 forces the
-             * internal ValueIteration to perform a number of iterations
-             * equal to the horizon specified. Otherwise, ValueIteration
-             * will stop as soon as the difference between two iterations
-             * is less than the epsilon specified.
+             * will throw an std::invalid_argument. The epsilon parameter sets
+             * the convergence criterion. An epsilon of 0.0 forces
+             * BlindStrategies to perform a number of iterations equal to the
+             * horizon specified. Otherwise, BlindStrategies will stop as soon
+             * as the difference between two iterations is less than the
+             * epsilon specified.
              *
              * @param e The new epsilon parameter.
              */
