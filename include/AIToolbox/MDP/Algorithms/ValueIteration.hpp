@@ -164,7 +164,7 @@ namespace AIToolbox::MDP {
 
             // We apply the discount directly on the values vector.
             val1 *= model.getDiscount();
-            q = computeQFunction(model, std::get<VALUES>(v1_), ir);
+            q = computeQFunction(model, val1, ir);
 
             // Compute the new value function (note that also val1 is overwritten)
             bellmanOperatorInline(q, &v1_);
