@@ -99,6 +99,7 @@ Algorithms:
 
 - [Augmented MDP (AMDP)](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
 - [Blind Strategies](http://www.aaai.org/Papers/AAAI/1997/AAAI97-114.pdf)
+- [Fast Informed Bound](https://people.cs.pitt.edu/~milos/research/JAIR-2000.pdf)
 - [Incremental Pruning](http://arxiv.org/pdf/1302.1525.pdf)
 - [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf)
 - [Point Based Value Iteration (PBVI)](http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf)
