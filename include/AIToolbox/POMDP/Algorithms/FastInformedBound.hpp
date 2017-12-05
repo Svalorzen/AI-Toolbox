@@ -201,13 +201,9 @@ namespace AIToolbox::POMDP {
                     newQ.col(a) += (sosa[a][o] * oldQ).rowwise().maxCoeff();
             newQ *= m.getDiscount();
             newQ += ir;
-            // This is in the original MATLAB code for GapMin, so I've left it here.
-            newQ = oldQ.array().min(newQ.array());
 
-            // Note that we don't need the abs here as we guarantee with the
-            // min that oldQ > newQ
             if (useEpsilon)
-                variation = (oldQ - newQ).maxCoeff();
+                variation = (oldQ - newQ).cwiseAbs().maxCoeff();
 
             std::swap(oldQ, newQ);
         }
