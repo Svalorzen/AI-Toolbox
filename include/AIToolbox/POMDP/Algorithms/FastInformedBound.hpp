@@ -5,6 +5,7 @@
 
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/Utils.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -182,8 +183,7 @@ namespace AIToolbox::POMDP {
 
         if (oldQ.size() == 0) {
             oldQ.resize(m.getS(), m.getA());
-            for (size_t a = 0; a < m.getA(); ++a)
-                oldQ.col(a).fill(ir.col(a).maxCoeff() / std::max(0.0001, 1.0 - m.getDiscount()));
+            oldQ.fill(ir.maxCoeff() / std::max(0.0001, 1.0 - m.getDiscount()));
         }
 
         unsigned timestep = 0;
@@ -201,8 +201,10 @@ namespace AIToolbox::POMDP {
             // This is in the original MATLAB code for GapMin, so I've left it here.
             newQ = oldQ.array().min(newQ.array());
 
+            // Note that we don't need the abs here as we guarantee with the
+            // min that oldQ > newQ
             if (useEpsilon)
-                variation = (oldQ - newQ).cwiseAbs().maxCoeff();
+                variation = (oldQ - newQ).maxCoeff();
 
             std::swap(oldQ, newQ);
         }
