@@ -125,6 +125,10 @@ namespace AIToolbox::POMDP {
         for (size_t a = 0; a < m.getA(); ++a) {
             auto newAlpha = Vector(m.getS());
             auto oldAlpha = Vector(m.getS());
+            // Note that here we can take the minimum for each action
+            // separately, since the implied policy will take that action
+            // forever anyway so there cannot be "cross-pollination" between
+            // different actions.
             if (fasterConvergence)
                 oldAlpha.fill(ir.row(a).minCoeff() / std::max(0.0001, 1.0 - m.getDiscount()));
             else

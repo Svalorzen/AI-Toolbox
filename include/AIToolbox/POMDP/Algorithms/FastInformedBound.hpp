@@ -183,6 +183,9 @@ namespace AIToolbox::POMDP {
 
         if (oldQ.size() == 0) {
             oldQ.resize(m.getS(), m.getA());
+            // Note that here we take the max over all IR: since we're
+            // computing an upper bound, we want to assume that we're going to
+            // do the best possible thing after each action forever.
             oldQ.fill(ir.maxCoeff() / std::max(0.0001, 1.0 - m.getDiscount()));
         }
 
