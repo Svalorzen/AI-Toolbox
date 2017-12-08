@@ -121,7 +121,7 @@ namespace AIToolbox::POMDP {
             }
             firstProductiveBelief = beliefs.size();
             for ( size_t i = 0; currentSize < beliefNumber && i < bonusBeliefsToAdd; ++i, ++currentSize )
-                beliefs.emplace_back(makeRandomBelief(S, rand_));
+                beliefs.emplace_back(makeRandomProbability(S, rand_));
         }
     }
 

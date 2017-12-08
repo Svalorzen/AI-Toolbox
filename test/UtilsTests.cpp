@@ -4,7 +4,9 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 BOOST_AUTO_TEST_CASE( veccmp ) {
     using namespace AIToolbox;
@@ -26,5 +28,16 @@ BOOST_AUTO_TEST_CASE( veccmp ) {
         Vector rhs = Vector::Map(std::get<1>(test).data(), 3);
 
         BOOST_CHECK_EQUAL(AIToolbox::veccmp(lhs, rhs), std::get<2>(test));
+    }
+}
+
+BOOST_AUTO_TEST_CASE( probGeneration ) {
+    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+
+    for (size_t i = 0; i < 100; ++i) {
+        const auto v = AIToolbox::makeRandomProbability(i+1, rand);
+        for (size_t j = 0; j < i+1; ++j)
+            BOOST_CHECK(0.0 <= v[j] && v[j] <= 1.0);
+        BOOST_CHECK(AIToolbox::checkEqualSmall(v.sum(), 1.0));
     }
 }
