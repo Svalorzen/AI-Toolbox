@@ -141,6 +141,7 @@ if (MAKE_POMDP)
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/BlindStrategies.cpp
+        POMDP/Algorithms/FastInformedBound.cpp
         POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
