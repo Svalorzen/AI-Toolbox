@@ -20,6 +20,7 @@ if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
         Game/Policies/LRPPolicy.cpp
+        Game/Policies/ESRLPolicy.cpp
         MDP/Experience.cpp
         MDP/Utils.cpp
         MDP/Model.cpp
