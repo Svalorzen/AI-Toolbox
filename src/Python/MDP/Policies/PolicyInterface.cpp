@@ -35,5 +35,3 @@ void exportMDPPolicyInterface() {
              "@return The probability of taking the selected action in the specified state.\n"
         , (arg("self"), "s", "a"));
 }
-
-
