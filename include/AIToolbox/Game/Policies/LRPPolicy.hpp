@@ -49,7 +49,7 @@ namespace AIToolbox::Game {
              * @param a The learning parameter on successful actions.
              * @param b The learning parameter on failed actions.
              */
-            LRPPolicy(size_t A, double a, double b = 0);
+            LRPPolicy(size_t A, double a, double b = 0.0);
 
             /**
              * @brief This function updates the LRP policy based on the result of the action.

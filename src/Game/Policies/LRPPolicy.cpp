@@ -20,7 +20,7 @@ namespace AIToolbox::Game {
             policy_[act] *= invB_;
             for (size_t i = 0; i < static_cast<size_t>(policy_.size()); ++i)
                 if (i != act)
-                    policy_[i] -= divB_ + invB_ * policy_[i];
+                    policy_[i] = divB_ + invB_ * policy_[i];
         }
     }
 
