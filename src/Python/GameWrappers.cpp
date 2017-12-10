@@ -3,6 +3,7 @@
 void exportGamePolicyInterface();
 
 void exportGameLRPPolicy();
+void exportGameESRLPolicy();
 
 BOOST_PYTHON_MODULE(Game)
 {
@@ -11,4 +12,5 @@ BOOST_PYTHON_MODULE(Game)
     exportGamePolicyInterface();
 
     exportGameLRPPolicy();
+    exportGameESRLPolicy();
 }

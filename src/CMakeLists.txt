@@ -95,8 +95,10 @@ if (MAKE_MDP)
 
         add_library(Game SHARED
             Game/Policies/LRPPolicy.cpp
+            Game/Policies/ESRLPolicy.cpp
             Python/Game/Policies/PolicyInterface.cpp
             Python/Game/Policies/LRPPolicy.cpp
+            Python/Game/Policies/ESRLPolicy.cpp
             Python/GameWrappers.cpp)
 
         target_link_libraries(Game ${Boost_PYTHON_LIBRARY} MDP)
