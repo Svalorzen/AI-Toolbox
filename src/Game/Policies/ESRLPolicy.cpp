@@ -16,14 +16,14 @@ namespace AIToolbox::Game {
         std::iota(std::begin(allowedActions_), std::end(allowedActions_), 0);
     }
 
-    void ESRLPolicy::stepUpdateQ(size_t a, bool result) {
+    void ESRLPolicy::stepUpdateP(size_t a, bool result) {
         if (explorations_ < explorationPhases_) {
             // Check that the action was in our allowed ones.
             const auto it = std::find(std::begin(allowedActions_), std::end(allowedActions_), a);
             if (it == std::end(allowedActions_))
                 return;
             // Exploration phase
-            lri_.stepUpdateQ(std::distance(std::begin(allowedActions_), it), result);
+            lri_.stepUpdateP(std::distance(std::begin(allowedActions_), it), result);
 
             ++timestep_;
             average_ = ((timestep_ - 1) * average_ + static_cast<double>(result)) / window_;

@@ -10,7 +10,7 @@ namespace AIToolbox::Game {
         policy_.fill(1.0 / A);
     }
 
-    void LRPPolicy::stepUpdateQ(size_t act, bool result) {
+    void LRPPolicy::stepUpdateP(size_t act, bool result) {
         if (result) {
             policy_[act] += a_ * (1.0 - policy_[act]);
             for (size_t i = 0; i < static_cast<size_t>(policy_.size()); ++i)

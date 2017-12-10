@@ -49,7 +49,7 @@ void exportGameLRPPolicy() {
                  "@param b The learning parameter on failed actions."
         , (arg("self"), "A", "a", "b")))
 
-        .def("stepUpdateQ",             &Game::LRPPolicy::stepUpdateQ,
+        .def("stepUpdateP",             &Game::LRPPolicy::stepUpdateP,
                  "This function updates the LRP policy based on the result of the action.\n"
                  "\n"
                  "Note that LRP works with binary rewards: either the action\n"

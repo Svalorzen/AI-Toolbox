@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE( prisoners_dilemma ) {
 
         const auto [r1, r2] = testPrisonersDilemma(a,b);
 
-        p1.stepUpdateQ(a, dist(rand) < r1);
-        p2.stepUpdateQ(b, dist(rand) < r2);
+        p1.stepUpdateP(a, dist(rand) < r1);
+        p2.stepUpdateP(b, dist(rand) < r2);
 
     }
     // Check convergence to Nash equilibrium
@@ -71,8 +71,8 @@ BOOST_AUTO_TEST_CASE( randomish_game ) {
 
         const auto [r1, r2] = testRandomishGame(a,b);
 
-        p1.stepUpdateQ(a, dist(rand) < r1);
-        p2.stepUpdateQ(b, dist(rand) < r2);
+        p1.stepUpdateP(a, dist(rand) < r1);
+        p2.stepUpdateP(b, dist(rand) < r2);
     }
     // Check convergence to Nash equilibrium
     BOOST_CHECK(p1.getActionProbability(2) > 0.9);

@@ -63,7 +63,7 @@ namespace AIToolbox::Game {
              * @param a The action taken.
              * @param result Whether the action taken was a success, or not.
              */
-            void stepUpdateQ(size_t a, bool result);
+            void stepUpdateP(size_t a, bool result);
 
             /**
              * @brief This function returns whether ESRL is now in the exploiting phase.
