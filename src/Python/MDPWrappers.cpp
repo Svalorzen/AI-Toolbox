@@ -14,6 +14,7 @@ void exportMDPModel();
 void exportMDPSparseModel();
 
 void exportMDPQLearning();
+void exportMDPHystereticQLearning();
 void exportMDPSARSA();
 void exportMDPExpectedSARSA();
 void exportMDPValueIteration();
@@ -47,6 +48,7 @@ BOOST_PYTHON_MODULE(MDP)
     exportMDPSparseModel();
 
     exportMDPQLearning();
+    exportMDPHystereticQLearning();
     exportMDPSARSA();
     exportMDPExpectedSARSA();
     exportMDPValueIteration();

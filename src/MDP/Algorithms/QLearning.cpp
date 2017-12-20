@@ -2,7 +2,7 @@
 
 namespace AIToolbox::MDP {
     QLearning::QLearning(const size_t ss, const size_t aa, const double discount, const double alpha) :
-            S(ss), A(aa), alpha_(alpha), discount_(discount), q_(makeQFunction(S, A))
+            S(ss), A(aa), discount_(discount), q_(makeQFunction(S, A))
     {
         setDiscount(discount);
         setLearningRate(alpha);
