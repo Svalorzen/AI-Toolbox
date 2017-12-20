@@ -69,6 +69,7 @@ Algorithms:
 - [Value Iteration](http://incompleteideas.net/sutton/book/ebook/node44.html)
 - [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
 - [Q-Learning](http://incompleteideas.net/sutton/book/ebook/node65.html)
+- [Hysteretic Q-Learning](https://hal.archives-ouvertes.fr/hal-00187279/document)
 - [SARSA](http://incompleteideas.net/sutton/book/ebook/node64.html)
 - [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf)
 - [SARSA(λ)](http://incompleteideas.net/sutton/book/ebook/node77.html)
