@@ -61,6 +61,7 @@ if (MAKE_MDP)
 
     AddTestMDP(PrioritizedSweeping)
     AddTestMDP(QLearning)
+    AddTestMDP(HystereticQLearning)
     AddTestMDP(SARSA)
     AddTestMDP(ExpectedSARSA)
     AddTestMDP(SARSAL)

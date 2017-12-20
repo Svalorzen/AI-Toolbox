@@ -26,6 +26,7 @@ if (MAKE_MDP)
         MDP/SparseModel.cpp
         MDP/IO.cpp
         MDP/Algorithms/QLearning.cpp
+        MDP/Algorithms/HystereticQLearning.cpp
         MDP/Algorithms/SARSA.cpp
         MDP/Algorithms/ExpectedSARSA.cpp
         MDP/Algorithms/SARSAL.cpp
@@ -48,6 +49,7 @@ if (MAKE_MDP)
             MDP/Model.cpp
             MDP/SparseModel.cpp
             MDP/Algorithms/QLearning.cpp
+            MDP/Algorithms/HystereticQLearning.cpp
             MDP/Algorithms/SARSA.cpp
             MDP/Algorithms/ExpectedSARSA.cpp
             MDP/Algorithms/SARSAL.cpp
@@ -70,6 +72,7 @@ if (MAKE_MDP)
             Python/MDP/Model.cpp
             Python/MDP/SparseModel.cpp
             Python/MDP/Algorithms/QLearning.cpp
+            Python/MDP/Algorithms/HystereticQLearning.cpp
             Python/MDP/Algorithms/SARSA.cpp
             Python/MDP/Algorithms/ExpectedSARSA.cpp
             Python/MDP/Algorithms/SARSAL.cpp
