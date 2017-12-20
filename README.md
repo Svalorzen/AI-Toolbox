@@ -24,7 +24,7 @@ focuses into solving problems that we know how to model: think chess, or 2048.
 Reinforcement learning focuses on exploring an unknown environment and learning
 the best policy for it. An excellent introduction to the basics can be found
 freely online in [this
-book](http://incompleteideas.net/sutton/book/ebook/the-book.html).
+book](http://incompleteideas.net/book/ebook/the-book.html).
 
 There are many variants of these problems, with single agent worlds, multi
 agent, multi objective, competitive, cooperative, partially observable and so
@@ -64,17 +64,17 @@ iterate in order to find out what works and what doesn't.
 
 Algorithms:
 
-- [Policy Evaluation](http://incompleteideas.net/sutton/book/ebook/node41.html)
-- [Policy Iteration](http://incompleteideas.net/sutton/book/ebook/node43.html)
-- [Value Iteration](http://incompleteideas.net/sutton/book/ebook/node44.html)
+- [Policy Evaluation](http://incompleteideas.net/book/ebook/node41.html)
+- [Policy Iteration](http://incompleteideas.net/book/ebook/node43.html)
+- [Value Iteration](http://incompleteideas.net/book/ebook/node44.html)
 - [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
-- [Q-Learning](http://incompleteideas.net/sutton/book/ebook/node65.html)
+- [Q-Learning](http://incompleteideas.net/book/ebook/node65.html)
 - [Hysteretic Q-Learning](https://hal.archives-ouvertes.fr/hal-00187279/document)
-- [SARSA](http://incompleteideas.net/sutton/book/ebook/node64.html)
+- [SARSA](http://incompleteideas.net/book/ebook/node64.html)
 - [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf)
-- [SARSA(λ)](http://incompleteideas.net/sutton/book/ebook/node77.html)
-- [Dyna-Q](http://incompleteideas.net/sutton/book/ebook/node96.html)
-- [Prioritized Sweeping](http://incompleteideas.net/sutton/book/ebook/node98.html)
+- [SARSA(λ)](http://incompleteideas.net/book/ebook/node77.html)
+- [Dyna-Q](http://incompleteideas.net/book/ebook/node96.html)
+- [Prioritized Sweeping](http://incompleteideas.net/book/ebook/node98.html)
 - [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf)
 
 Policies:
