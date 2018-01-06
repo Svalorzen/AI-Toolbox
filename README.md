@@ -60,6 +60,13 @@ as possible instantiations. This toolbox does lose quite a bit of power in
 terms of efficient customization when used from Python, but it allows to rapidly
 iterate in order to find out what works and what doesn't.
 
+### Normal Games: ###
+
+Policies:
+
+- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y)
+- [Exploring Selfish Reinforcement Learning (ESRL)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf)
+
 ### Single Agent MDP: ###
 
 Algorithms:
