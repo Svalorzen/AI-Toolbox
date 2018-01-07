@@ -26,12 +26,18 @@ namespace AIToolbox::Game {
             lri_.stepUpdateP(std::distance(std::begin(allowedActions_), it), result);
 
             ++timestep_;
-            average_ = ((timestep_ - 1) * average_ + static_cast<double>(result)) / window_;
+            // Note that the paper contains an error here. It says that you
+            // should multiply average by (timestep - 1)/WINDOW, but that would
+            // make no sense.
+            average_ = ((window_ - 1) * average_ + static_cast<double>(result)) / window_;
 
             // Synchronization phase
-            if (N_ >= timestep_) {
+            if (timestep_ >= N_) {
                 ++explorations_;
 
+                // So here we assume that we have converged to something.
+                // We extract the action we have converged to as the one that
+                // has the highest likelihood of being chosen.
                 size_t convergedActionLri = 0;
                 double maxP = lri_.getActionProbability(0);
                 for (size_t i = 1; i < lri_.getA(); ++i) {
@@ -41,10 +47,18 @@ namespace AIToolbox::Game {
                     }
                 }
 
+                // We convert that action in "LRI" space, which may have less
+                // action than ours since actions can be banned, to our space.
                 const auto convergedAction = allowedActions_[convergedActionLri];
 
+                // The value for the action is updated if it has increased,
+                // since the Nash equilibrium we have converged to may be
+                // different than the old one if another agent changed its
+                // action.
                 values_[convergedAction] = std::max(values_[convergedAction], average_);
 
+                // If we have more than one allowed action, we remove it.
+                // Otherwise, we reset to allowing the whole spectrum.
                 if (allowedActions_.size() > 1) {
                     std::swap(allowedActions_[convergedActionLri], allowedActions_[allowedActions_.size()-1]);
                     allowedActions_.pop_back();
@@ -56,6 +70,7 @@ namespace AIToolbox::Game {
                 lri_ = LRPPolicy(allowedActions_.size(), lri_.getAParam());
 
                 timestep_ = 0;
+                average_ = 0.0;
             }
         } else if (!exploit_) {
             // Exploitation phase
