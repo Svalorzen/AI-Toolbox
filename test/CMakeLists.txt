@@ -55,6 +55,7 @@ if (MAKE_MDP)
     AddTestGlobal(Utils)
 
     AddTestGame(LRPPolicy)
+    AddTestGame(ESRLPolicy)
 
     AddTestMDP(Types)
 
