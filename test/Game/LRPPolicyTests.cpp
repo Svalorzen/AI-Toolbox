@@ -5,7 +5,6 @@
 
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Game/Policies/LRPPolicy.hpp>
-#include <iostream>
 
 std::pair<double, double> testPrisonersDilemma(unsigned a, unsigned b) {
     // Normalized to 1.0
