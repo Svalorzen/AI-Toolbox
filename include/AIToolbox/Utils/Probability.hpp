@@ -149,6 +149,60 @@ namespace AIToolbox {
         }
         return d-1;
     }
+
+    /**
+     * @brief This function generates a random probability vector.
+     *
+     * This function will sample uniformly from the simplex space with the
+     * specified number of dimensions.
+     *
+     * S must be at least one or we don't guarantee any behaviour.
+     *
+     * @param S The number of entries of the output vector.
+     * @param generator A random number generator.
+     *
+     * @return A new random probability vector.
+     */
+    template <typename G>
+    Vector makeRandomProbability(const size_t S, G & generator) {
+        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
+        Vector b(S);
+        double * bData = b.data();
+        // The way this works is that we're going to generate S-1 numbers in
+        // [0,1], and sort them with together with an implied 0.0 and 1.0, for
+        // a total of S+1 numbers.
+        //
+        // The output will be represented by the differences between each pair
+        // of numbers, after sorting the original vector.
+        //
+        // The idea is basically to take a unit vector and cut it up into
+        // random parts. The size of each part is the value of an entry of the
+        // output.
+
+        // We must set the first element to zero even if we're later
+        // overwriting it. This is to avoid bugs in case the input S is one -
+        // in which case we should return a vector with a single element
+        // containing 1.0.
+        bData[0] = 0.0;
+        for ( size_t s = 0; s < S-1; ++s )
+            bData[s] = sampleDistribution(generator);
+
+        // Sort all but the implied last 1.0 which we'll add later.
+        std::sort(bData, bData + S - 1);
+
+        // For each number, keep track of what was in the vector there, and
+        // transform it into the difference with its predecessor.
+        double helper1 = bData[0], helper2;
+        for ( size_t s = 1; s < S - 1; ++s ) {
+            helper2 = bData[s];
+            bData[s] -= helper1;
+            helper1 = helper2;
+        }
+        // The final one is computed with respect to the overall sum of 1.0.
+        bData[S-1] = 1.0 - helper1;
+
+        return b;
+    }
 }
 
 #endif

@@ -2,10 +2,17 @@ cmake_minimum_required (VERSION 3.0)
 
 function (AddTestGlobal name)
     set(exename Global_${name})
-    add_executable(${exename}Tests ${name}Tests.cpp)
+    add_executable(${exename}Tests ${name}Tests.cpp ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp)
     target_link_libraries(${exename}Tests ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
 endfunction (AddTestGlobal)
+
+function (AddTestGame name)
+    set(exename Game_${name})
+    add_executable(${exename}Tests Game/${name}Tests.cpp)
+    target_link_libraries(${exename}Tests AIToolboxMDP ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
+endfunction (AddTestGame)
 
 function (AddTestMDP name)
     set(exename MDP_${name})
@@ -46,6 +53,9 @@ if (MAKE_MDP)
     include_directories(${EIGEN3_INCLUDE_DIR})
 
     AddTestGlobal(Utils)
+
+    AddTestGame(LRPPolicy)
+    AddTestGame(ESRLPolicy)
 
     AddTestMDP(Types)
 

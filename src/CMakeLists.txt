@@ -19,6 +19,8 @@ endif()
 if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
+        Game/Policies/LRPPolicy.cpp
+        Game/Policies/ESRLPolicy.cpp
         MDP/Experience.cpp
         MDP/Utils.cpp
         MDP/Model.cpp
@@ -80,7 +82,7 @@ if (MAKE_MDP)
             Python/MDP/Algorithms/PolicyIteration.cpp
             Python/MDP/Algorithms/PrioritizedSweeping.cpp
             Python/MDP/Algorithms/MCTS.cpp
-            Python/MDP/PolicyInterface.cpp
+            Python/MDP/Policies/PolicyInterface.cpp
             Python/MDP/Policies/QPolicyInterface.cpp
             Python/MDP/Policies/Policy.cpp
             Python/MDP/Policies/QGreedyPolicy.cpp
@@ -90,6 +92,17 @@ if (MAKE_MDP)
             Python/MDPWrappers.cpp)
         target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")
+
+        add_library(Game SHARED
+            Game/Policies/LRPPolicy.cpp
+            Game/Policies/ESRLPolicy.cpp
+            Python/Game/Policies/PolicyInterface.cpp
+            Python/Game/Policies/LRPPolicy.cpp
+            Python/Game/Policies/ESRLPolicy.cpp
+            Python/GameWrappers.cpp)
+
+        target_link_libraries(Game ${Boost_PYTHON_LIBRARY} MDP)
+        set_target_properties(Game PROPERTIES PREFIX "")
     endif()
 endif()
 
@@ -158,7 +171,7 @@ if (MAKE_POMDP)
             Python/POMDP/Algorithms/AMDP.cpp
             Python/POMDP/Algorithms/PERSEUS.cpp
             Python/POMDP/Algorithms/PBVI.cpp
-            Python/POMDP/PolicyInterface.cpp
+            Python/POMDP/Policies/PolicyInterface.cpp
             Python/POMDP/Policies/Policy.cpp
             Python/POMDPWrappers.cpp)
         target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP

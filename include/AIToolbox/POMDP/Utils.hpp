@@ -53,29 +53,6 @@ namespace AIToolbox::POMDP {
     double weakBoundDistance(const VList & oldV, const VList & newV);
 
     /**
-     * @brief This function generates a random belief uniformly in the space of beliefs.
-     *
-     * @param S The number of states of the resulting belief.
-     * @param generator A random number generator.
-     *
-     * @return A new random belief.
-     */
-    template <typename G>
-    Belief makeRandomBelief(const size_t S, G & generator) {
-        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
-        Belief b(S);
-        for ( size_t s = 0; s < S; ++s )
-            b[s] = sampleDistribution(generator);
-
-        const auto sum = b.sum();
-
-        if ( checkEqualSmall(sum, 0.0) ) b[0] = 1.0;
-        else b /= sum;
-
-        return b;
-    }
-
-    /**
      * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
      *
      * This function needs to create a new belief since modifying a belief
