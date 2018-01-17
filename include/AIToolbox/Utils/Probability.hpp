@@ -164,9 +164,9 @@ namespace AIToolbox {
      * @return A new random probability vector.
      */
     template <typename G>
-    Vector makeRandomProbability(const size_t S, G & generator) {
+    ProbabilityVector makeRandomProbability(const size_t S, G & generator) {
         static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
-        Vector b(S);
+        ProbabilityVector b(S);
         double * bData = b.data();
         // The way this works is that we're going to generate S-1 numbers in
         // [0,1], and sort them with together with an implied 0.0 and 1.0, for
@@ -202,6 +202,28 @@ namespace AIToolbox {
         bData[S-1] = 1.0 - helper1;
 
         return b;
+    }
+
+    /**
+     * @brief This function checks whether two input ProbabilityVector are equal.
+     *
+     * This function is approximate. It assumes that the vectors are valid, so
+     * they must sum up to one, and each element must be between zero and one.
+     * The vector must also be of the same size.
+     *
+     * This function is approximate, as we're dealing with floating point.
+     *
+     * @param lhs The left hand side to check.
+     * @param rhs The right hand side to check.
+     *
+     * @return Whether the two ProbabilityVectors are the same.
+     */
+    bool checkEqualProbability(const ProbabilityVector & lhs, const ProbabilityVector & rhs) {
+        const auto size = lhs.size();
+        for (auto i = 0; i < size; ++i)
+            if (!checkEqualSmall(lhs[i], rhs[i]))
+                return false;
+        return true;
     }
 }
 
