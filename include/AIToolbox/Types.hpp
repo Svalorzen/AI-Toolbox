@@ -25,6 +25,9 @@ namespace AIToolbox {
 
     using Matrix4D = boost::multi_array<Matrix2D, 2>;
 
+    // This is used to store a probability vector (sums to one, every element >= 0, <= 1)
+    using ProbabilityVector = Vector;
+
     /**
      * @brief This struct is used to copy constness from one type to another.
      */
