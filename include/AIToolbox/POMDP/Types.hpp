@@ -9,7 +9,7 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This represents a belief, which is a probability distribution over states.
      */
-    using Belief            = Vector;
+    using Belief            = ProbabilityVector;
 
     /**
      * @name POMDP Value Types
