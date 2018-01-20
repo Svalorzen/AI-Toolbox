@@ -137,9 +137,11 @@ namespace AIToolbox::POMDP {
             const double uBound = rew + upperBound(b, a, horizon - 1);
             if ( uBound > max ) {
                 for ( size_t o = 0; o < O; ++o ) {
-                    const double p = beliefObservationProbability(model_, b, a, o);
+                    const auto nextBelief = updateBeliefUnnormalized(model_, b, a, o);
+                    const double sum = nextBelief.sum();
                     // Only work if it makes sense
-                    if ( checkDifferentSmall(p, 0.0) ) rew += model_.getDiscount() * p * simulate(updateBelief(model_, b, a, o), horizon - 1);
+                    if ( checkDifferentSmall(sum, 0.0) )
+                        rew += model_.getDiscount() * sum * simulate(nextBelief / sum, horizon - 1);
                 }
             }
             if ( rew > max ) {

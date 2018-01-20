@@ -69,13 +69,15 @@ namespace AIToolbox::POMDP {
 
             const M& model_;
             size_t S, A;
+            mutable Belief helper1_, helper2_; // These are used to avoid reallocating memory all the time.
 
             mutable std::default_random_engine rand_;
     };
 
     template <typename M>
     BeliefGenerator<M>::BeliefGenerator(const M& model) :
-            model_(model), S(model_.getS()), A(model_.getA()), rand_(Impl::Seeder::getSeed()) {}
+            model_(model), S(model_.getS()), A(model_.getA()),
+            helper1_(S), helper2_(S), rand_(Impl::Seeder::getSeed()) {}
 
     template <typename M>
     typename BeliefGenerator<M>::BeliefList BeliefGenerator<M>::operator()(const size_t beliefNumber) const {
@@ -141,7 +143,7 @@ namespace AIToolbox::POMDP {
 
         constexpr unsigned jMax = 20;
         std::array<size_t, jMax> observationBuffer;
-        Belief helper(S); double distance;
+        double distance;
         // We apply the discovery process also to all beliefs we discover
         // along the way. We start from the first good one, since the others
         // have already produced as much as they can.
@@ -150,6 +152,7 @@ namespace AIToolbox::POMDP {
             for ( size_t a = 0; a < A; ++a ) {
                 distances[a] = 0.0;
                 size_t bufferFill = 0;
+                updateBeliefPartial(model_, bl[i], a, &helper1_);
                 for ( unsigned j = 0; j < jMax; ++j ) {
                     const size_t s = sampleProbability(S, bl[i], rand_);
 
@@ -169,11 +172,11 @@ namespace AIToolbox::POMDP {
 
                     // If we haven't had this observation before, we can update the belief.
                     observationBuffer[bufferFill++] = o;
-                    updateBelief(model_, bl[i], a, o, &helper);
+                    updateBeliefPartialNormalized(model_, helper1_, a, o, &helper2_);
 
                     // Now check the new belief's distance against all others.
                     for (size_t k = 0; k < bl.size(); ++k) {
-                        distance = std::min(distance, computeDistance(helper, bl[k]));
+                        distance = std::min(distance, computeDistance(helper2_, bl[k]));
                         if (distance <= distances[a]) break;
                     }
                     // Select the best found over 20 times, or just set this one if
@@ -182,7 +185,7 @@ namespace AIToolbox::POMDP {
                     // saving us a lot of work).
                     if ( distance > distances[a] || distances[a] == 0.0) {
                         distances[a] = distance;
-                        newBeliefs[a] = helper;
+                        newBeliefs[a] = helper2_;
                     }
                 }
             }
