@@ -42,3 +42,71 @@ BOOST_AUTO_TEST_CASE( sosa ) {
                 for (size_t s1 = 0; s1 < problem.getS(); ++s1)
                     BOOST_CHECK_EQUAL(psosa[a][o](s, s1), 0.25);
 }
+
+BOOST_AUTO_TEST_CASE( beliefUpdate ) {
+    using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
+
+    auto problem = makeTigerProblem();
+    OldPOMDPModel<MDP::Model> oldProblem = problem;
+
+    Belief b(2); b << 0.5, 0.5;
+    Belief solution(2); solution << 0.85, 0.15;
+
+    auto resultEigen = updateBelief(problem, b, 0, 0);
+    auto resultOld   = updateBelief(oldProblem, b, 0, 0);
+
+    for (size_t s = 0; s < problem.getS(); ++s)
+        BOOST_CHECK_EQUAL(resultEigen[s], resultOld[s]);
+
+    BOOST_CHECK(checkEqualProbability(resultEigen, solution));
+}
+
+BOOST_AUTO_TEST_CASE( beliefUpdateUnnormalized ) {
+    using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
+
+    auto problem = makeTigerProblem();
+    OldPOMDPModel<MDP::Model> oldProblem = problem;
+
+    Belief b(2); b << 0.5, 0.5;
+    Belief solution(2); solution << 0.425, 0.075;
+
+    auto resultEigen = updateBeliefUnnormalized(problem, b, 0, 0);
+    auto resultOld   = updateBeliefUnnormalized(oldProblem, b, 0, 0);
+
+    BOOST_CHECK(checkEqualProbability(resultEigen, resultOld));
+    BOOST_CHECK(checkEqualProbability(resultEigen, solution));
+}
+
+BOOST_AUTO_TEST_CASE( beliefUpdatePartial ) {
+    using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
+
+    auto problem = makeTigerProblem();
+    OldPOMDPModel<MDP::Model> oldProblem = problem;
+
+    Belief b(2); b << 0.5, 0.5;
+
+    auto partialEigen = updateBeliefPartial(problem, b, 0);
+    auto partialOld   = updateBeliefPartial(oldProblem, b, 0);
+
+    BOOST_CHECK(checkEqualProbability(partialEigen, partialOld));
+
+    for (size_t o = 0; o < problem.getO(); ++o) {
+        auto partialEigen1 = updateBeliefPartialNormalized(problem, partialEigen, 0, o);
+        auto partialEigen2 = updateBeliefPartialUnnormalized(problem, partialEigen, 0, o);
+
+        auto partialOld1 = updateBeliefPartialNormalized(oldProblem, partialEigen, 0, o);
+        auto partialOld2 = updateBeliefPartialUnnormalized(oldProblem, partialEigen, 0, o);
+
+        auto resultEigen1 = updateBelief(problem, b, 0, o);
+        auto resultEigen2 = updateBeliefUnnormalized(problem, b, 0, o);
+
+        BOOST_CHECK(checkEqualProbability(partialEigen1, partialOld1));
+        BOOST_CHECK(checkEqualProbability(partialEigen2, partialOld2));
+
+        BOOST_CHECK(checkEqualProbability(resultEigen1, partialEigen1));
+        BOOST_CHECK(checkEqualProbability(resultEigen2, partialEigen2));
+    }
+}
