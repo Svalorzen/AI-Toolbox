@@ -218,7 +218,7 @@ namespace AIToolbox {
      *
      * @return Whether the two ProbabilityVectors are the same.
      */
-    bool checkEqualProbability(const ProbabilityVector & lhs, const ProbabilityVector & rhs) {
+    inline bool checkEqualProbability(const ProbabilityVector & lhs, const ProbabilityVector & rhs) {
         const auto size = lhs.size();
         for (auto i = 0; i < size; ++i)
             if (!checkEqualSmall(lhs[i], rhs[i]))
