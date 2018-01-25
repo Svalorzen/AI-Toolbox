@@ -3,7 +3,7 @@
 #include <AIToolbox/FactoredMDP/Utils.hpp>
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
 
-#include <iostream>
+#include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::FactoredMDP {
     XXXAlgorithm::XXXAlgorithm(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies) :
@@ -32,17 +32,7 @@ namespace AIToolbox::FactoredMDP {
     }
 
     Action XXXAlgorithm::stepUpdateQ(const Action & a, const Rewards & rew) {
-        // auto printaction = [](Action y){
-        //     std::cout << "[";
-        //     for (auto yy : y) std::cout << yy << ", ";
-        //     std::cout << "]";
-        // };
-        // std::cout << "Input: ";
-        // printaction(a);
-        // std::cout << '\n';
-
-
-        // std::cout << "Updating averages\n";
+        AI_LOGGER(AI_SEVERITY_INFO, "Updating averages...");
 
         // Update all averages with what we've learned this step.  Note: We
         // know that the factors are going to be in the correct order when
@@ -55,41 +45,26 @@ namespace AIToolbox::FactoredMDP {
         for (auto & avg : filtered)
             avg.value += (rew[i++] - avg.value) / (++avg.count);
 
-        // std::cout << "Building vectors\n";
-
         // Build the vectors to pass to UCVE
+        AI_LOGGER(AI_SEVERITY_INFO, "Building vectors...");
         for (size_t i = 0; i < averages_.size(); ++i) {
             const double count = averages_[i].count ? averages_[i].count : 0.00001;
             std::get<1>(rules_[i])[0] = averages_[i].value;
             std::get<1>(rules_[i])[1] = averages_[i].rangeSquared / count;
         }
 
-        // for (const auto & v : ucveVectors) {
-        //     std::cout << "PA:[";
-        //     for (size_t i = 0; i < std::get<0>(v).first.size(); ++i)
-        //         std::cout << std::get<0>(v).first[i] << ", " << std::get<0>(v).second[i] << " | ";
-        //     std::cout << "] ==> " << std::get<1>(v).transpose() << '\n';
-        // }
-
         // Update the timestep, and finish computing log(t |A|) for this
         // timestep.
         ++timestep_;
         const auto logtA = logA_ + std::log(timestep_);
 
-        // std::cout << logtA << "\n";
-
         // Create and run UCVE
+        AI_LOGGER(AI_SEVERITY_INFO, "Now running UCVE...");
         UCVE ucve(A, logtA);
         auto a_v = ucve(rules_);
+        AI_LOGGER(AI_SEVERITY_INFO, "Done.");
 
-        // std::cout << "Result: ";
-        // printaction(toFactors(A.size(), std::get<0>(vcs[0])));
-        // std::cout << std::get<1>(vcs[0]).transpose() << '\n';
-
-        // std::cout << "Returned vectors: " << vcs.size() << "\n";
-
-        // We pick the first out since they should all be equally good, and
-        // convert it to a normal action.
+        // We convert the output (PartialAction) to a normal action.
         return toFactors(A.size(), std::get<0>(a_v));
     }
 
