@@ -17,7 +17,8 @@ namespace AIToolbox {
                  * reach their goal. This is converted in a simple Q-Table
                  * containing the learned averages for those groups.
                  *
-                 * Note: each group must be unique!
+                 * Note: each group must be unique, and all lists of agents
+                 * must be sorted!
                  *
                  * @param a The factored action space of the problem.
                  * @param rangesAndDependencies A list of [[range, [agent, ..]], ..] for each subgroup of connected agents.
