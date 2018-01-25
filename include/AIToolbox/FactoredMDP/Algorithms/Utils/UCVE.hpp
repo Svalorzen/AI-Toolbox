@@ -4,95 +4,124 @@
 #include "AIToolbox/FactoredMDP/Types.hpp"
 #include "AIToolbox/FactoredMDP/FactorGraph.hpp"
 
-namespace AIToolbox {
-    namespace FactoredMDP {
-        /**
-         * @brief
-         */
-        class UCVE {
-            public:
-                // Estimated mean and inverse weighted counts
-                using V = Eigen::Vector2d;
-                // Tag - Vector pair
-                using Entry = std::tuple<PartialAction, V>;
-                using Entries = std::vector<Entry>;
-                // Action -> (Tag + Vector)
-                using Rule = std::tuple<PartialAction, Entries>;
-                using Rules = std::vector<Rule>;
+namespace AIToolbox::FactoredMDP {
+    /**
+     * @brief This class represents the UCVE process.
+     *
+     * This class implements variable elimination using bounds. It receives
+     * as input a series of rules, one per PartialAction, containing both
+     * an approximate value for the action, and a variance to keep track of
+     * how much the rule could be actually worth.
+     *
+     * Internally, this uses a variation over
+     * MultiObjectiveVariableElimination, where the two objectives are the
+     * approximate value and the variance. Additionally, in order to be
+     * more efficient, the agent removal process during Variable
+     * Elimination computes an upper and lower variance bound for that
+     * agent, in order to remove actions which cannot possibly be optimal
+     * from the search.
+     *
+     * As this class doesn't really do much cleanup after solving a
+     * process, it's probably best to create a separate instance for each
+     * solving process.
+     */
+    class UCVE {
+        public:
+            // Estimated mean and inverse weighted counts
+            using V = Eigen::Vector2d;
+            // Tag - Vector pair
+            using Entry = std::tuple<PartialAction, V>;
+            using Entries = std::vector<Entry>;
+            // Action -> (Tag + Vector)
+            using Rule = std::tuple<PartialAction, Entries>;
+            using Rules = std::vector<Rule>;
 
-                using Result = Entry;
+            using Result = Entry;
 
-                struct Factor {
-                    Rules rules_;
-                };
+            struct Factor {
+                Rules rules_;
+            };
 
-                using Graph = FactorGraph<Factor>;
+            using Graph = FactorGraph<Factor>;
 
-                /**
-                 * @brief Basic constructor.
-                 *
-                 * @param a The action space of all agents.
-                 * @param logtA The current logtA.
-                 */
-                UCVE(Action a, double logtA);
+            /**
+             * @brief Basic constructor.
+             *
+             * The constructor requires log(tA), which is the log of the
+             * current timestep multiplied by the overall size of the
+             * action space. This is required during the pruning process to
+             * compute the exploration part due to the input variances for
+             * each rule.
+             *
+             * @param A The action space of all agents.
+             * @param logtA The current logtA.
+             */
+            UCVE(Action A, double logtA);
 
-                template <typename Iterable>
-                Result operator()(const Iterable & inputRules) {
-                    for (const Entry & rule : inputRules) {
-                        const auto & a = std::get<0>(rule);
-                        auto & rules = graph_.getFactor(a.first)->getData().rules_;
+            /**
+             * @brief This function is the entry point for the solving process.
+             *
+             * @tparam Iterable An iterable object containing a series of Entry.
+             * @param inputRules The rules on which the Variable Elimination process will work.
+             *
+             * @return The optimal action to take, and its value.
+             */
+            template <typename Iterable>
+            Result operator()(const Iterable & inputRules) {
+                for (const Entry & rule : inputRules) {
+                    const auto & a = std::get<0>(rule);
+                    auto & rules = graph_.getFactor(a.first)->getData().rules_;
 
-                        // Create new rule for this action (untagged)
-                        auto newRule = std::make_tuple(a, Entries{std::make_tuple(PartialAction(), std::get<1>(rule))});
-                        // In case there are multiple rules for this action,
-                        // insert it sorted so we can do merges later faster.
-                        const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, ruleComp);
-                        rules.emplace(pos, std::move(newRule));
-                    }
-                    // Start solving process.
-                    return start();
+                    // Create new rule for this action (untagged)
+                    auto newRule = std::make_tuple(a, Entries{std::make_tuple(PartialAction(), std::get<1>(rule))});
+                    // In case there are multiple rules for this action,
+                    // insert it sorted so we can do merges later faster.
+                    const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, ruleComp);
+                    rules.emplace(pos, std::move(newRule));
                 }
+                // Start solving process.
+                return start();
+            }
 
-            private:
-                /**
-                 * @brief This function performs the actual agent elimination process.
-                 *
-                 * @return A list of all equally best actions.
-                 */
-                Result start();
+        private:
+            /**
+             * @brief This function performs the actual agent elimination process.
+             *
+             * @return The best action, randomly taken if multiple actions are eligible.
+             */
+            Result start();
 
-                /**
-                 * @brief This function performs a single step in the agent elimination process.
-                 *
-                 * First we compute the two bounds for the reward of the
-                 * agents. These bounds are then used in order to prune actions
-                 * which are neither promising nor good.
-                 *
-                 * @param agent The agent to remove from the graph.
-                 */
-                void removeAgent(size_t agent);
+            /**
+             * @brief This function performs a single step in the agent elimination process.
+             *
+             * First we compute the two bounds for the reward of the
+             * agents. These bounds are then used in order to prune actions
+             * which are neither promising nor good.
+             *
+             * @param agent The agent to remove from the graph.
+             */
+            void removeAgent(size_t agent);
 
-                /**
-                 * @brief This function allows ordering and sorting of Rules to allow for merging.
-                 *
-                 * This function may only be used on Rules for the same agents.
-                 *
-                 * This function sorts rules by the actions taken by their
-                 * agents.
-                 *
-                 * @param lhs The left hand side.
-                 * @param rhs The right hand side.
-                 *
-                 * @return True if lhs comes before rhs, false otherwise.
-                 */
-                static bool ruleComp(const Rule & lhs, const Rule & rhs);
+            /**
+             * @brief This function allows ordering and sorting of Rules to allow for merging.
+             *
+             * This function may only be used on Rules for the same agents.
+             *
+             * This function sorts rules by the actions taken by their
+             * agents.
+             *
+             * @param lhs The left hand side.
+             * @param rhs The right hand side.
+             *
+             * @return True if lhs comes before rhs, false otherwise.
+             */
+            static bool ruleComp(const Rule & lhs, const Rule & rhs);
 
-                Action A;
-                Graph graph_;
-                std::vector<Entries> finalFactors_;
-                double logtA_;
-        };
-    }
+            Action A;
+            Graph graph_;
+            std::vector<Entries> finalFactors_;
+            double logtA_;
+    };
 }
 
 #endif
