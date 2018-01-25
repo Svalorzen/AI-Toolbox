@@ -1,10 +1,8 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
-
 #include <AIToolbox/FactoredMDP/Utils.hpp>
-
-#include <iostream>
+#include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox {
     namespace FactoredMDP {
@@ -83,41 +81,25 @@ namespace AIToolbox {
         // We half the logtA since we always need to multiply it with 1/2 anyway.
         UCVE::UCVE(Action a, double logtA) : A(std::move(a)), graph_(A.size()), logtA_(logtA * 0.5) {}
 
-        void printPartialAction(const PartialAction & pa) {
-            for (size_t i = 0; i < pa.first.size(); ++i) {
-                std::cout << "(" << pa.first[i] << ", " << pa.second[i] << ")";
-            }
-        }
-
+        // We use this to compute the UCB value given a bound
         double computeValue(const UCVE::Entry & e, const double x, const double logtA);
-
-        void printEntries(const UCVE::Entries & es, double x_l, double x_u, double logtA) {
-            for (const auto & fValue : es) {
-                printPartialAction(std::get<0>(fValue));
-                std::cout << " -- value (" <<
-                             computeValue(fValue, x_l, logtA) << ", " << computeValue(fValue, x_u, logtA) << ")\n";
-            }
-        }
 
         UCVE::Result UCVE::start() {
             // This can possibly be improved with some heuristic ordering
             while (graph_.variableSize())
                 removeAgent(graph_.variableSize() - 1);
 
-            // std::cout << "\nDone removing agents.\n";
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Done removing agents.");
             Entries results;
             if (finalFactors_.size() == 0) return {};
 
-            // std::cout << "Cross-summing final factors...\n";
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Cross-summing final factors...");
             for (const auto & fValue : finalFactors_) {
                 results = crossSum(results, fValue);
                 results.erase(boundPrune(std::begin(results), std::end(results), 0.0, 0.0, logtA_), std::end(results));
             }
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Now there are " << results.size() << " factors remaining.");
 
-            // std::cout << "Now there are " << results.size() << " factors remaining:\n";
-            // printEntries(retval, 0.0, 0.0, logtA_);
-
-            // std::cout << "Keeping best..\n";
             double max = std::numeric_limits<double>::lowest();
             Entries::iterator retval;
             for (auto it = std::begin(results); it != std::end(results); ++it) {
@@ -132,14 +114,13 @@ namespace AIToolbox {
         }
 
         void UCVE::removeAgent(const size_t agent) {
-            // std::cout << "\nRemoving agent " << agent << "\n";
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Removing agent " << agent);
 
             const auto factors = graph_.getNeighbors(agent);
             auto agents = graph_.getNeighbors(factors);
 
-            //std::cout << "This agent has " << factors.size() << " factors.\n";
-
-            //std::cout << "Now building bounds...\n";
+            AI_LOGGER(AI_SEVERITY_DEBUG, "This agent has " << factors.size() << " factors.");
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Now building bounds...");
 
             // Here we compute the upper and lower bounds for this round. These
             // are used later for pruning, since here each V we get is
@@ -157,7 +138,6 @@ namespace AIToolbox {
                     // do less work later.
                     const auto duplicate = std::find(skipIt, factorsEnd, it);
                     if (duplicate != factorsEnd) {
-                        //// std::cout << "    Skipping a factor...\n";
                         skipIt = duplicate + 1;
                         continue;
                     }
@@ -174,9 +154,8 @@ namespace AIToolbox {
                     x_l += currMin;
                 }
             }
-            //std::cout << "Current bounds: lower = " << x_l << "; higher = " << x_u << "\n";
-
-            //std::cout << "Cross-summing and pruning...\n";
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Current bounds: lower = " << x_l << "; higher = " << x_u);
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Cross-summing and pruning...");
 
             // Now that we are done computing the bounds, we perform the actual
             // cross-summing and related pruning. The pruning here uses the
@@ -191,35 +170,23 @@ namespace AIToolbox {
                 auto & values = std::get<1>(newRule);
                 for (size_t agentAction = 0; agentAction < A[agent]; ++agentAction) {
                     jointAction.second[id] = agentAction;
-                    //std::cout << "## DOING STEP FOR ACTION ";
-                    // printPartialAction(jointAction);
-                    //std::cout << std::endl;
 
                     Entries newEntries;
                     for (const auto p : getPayoffs(factors[0]->getData().rules_, jointAction))
                         newEntries.insert(std::end(newEntries), std::begin(*p), std::end(*p));
 
-                    // std::cout << "Begin:\n";
-                    // printEntries(newEntries, x_l, x_u, logtA_);
                     auto entries = newEntries.size();
                     for (size_t i = 1; i < factors.size(); ++i) {
-                        // for (const auto p : getPayoffs(factors[i]->getData().rules_, jointAction))
-                        //     printEntries(*p, x_l, x_u, logtA_);
                         newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules_, jointAction));
-                        // std::cout << "Crosssum: " << newEntries.size() << " entries!\n";
-                        // printEntries(newEntries, x_l, x_u, logtA_);
                         // We remove the entries that cannot possibly be useful anymore
                         if (newEntries.size() > entries) {
                             newEntries.erase(boundPrune(std::begin(newEntries), std::end(newEntries), x_l, x_u, logtA_), std::end(newEntries));
                             entries = newEntries.size();
-                            // std::cout << "Prune: " << newEntries.size() << " remaining.\n";
                         }
-                        // if (agent == 3)
-                        //     printEntries(newEntries, x_l, x_u, logtA_);
                     }
 
                     if (newEntries.size() != 0) {
-                        //std::cout << "ADDING ENTRIES\n";
+                        AI_LOGGER(AI_SEVERITY_DEBUG, "Adding entries...");
                         // Add tags for the current agent.
                         for (auto & nv : newEntries) {
                             auto & first  = std::get<0>(nv).first;
@@ -240,7 +207,7 @@ namespace AIToolbox {
                     // here, to avoid copying joint actions which we won't
                     // really need anymore.
                     if (agents.size() > 1) {
-                        //std::cout << "Found new rule...\n";
+                        AI_LOGGER(AI_SEVERITY_DEBUG, "Found new rule...");
                         std::get<0>(newRule) = removeFactor(jointAction, agent);
 
                         // Our insertion needs to be sorted so that we can
@@ -250,22 +217,23 @@ namespace AIToolbox {
                         const auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, ruleComp);
                         newRules.emplace(pos, std::move(newRule));
                     } else {
-                        //std::cout << "Adding final factor...\n";
+                        AI_LOGGER(AI_SEVERITY_DEBUG, "Adding final factor...");
                         finalFactors_.emplace_back(std::move(values));
                     }
                 }
                 jointActions.advance();
             }
-            //std::cout << "Done. Erasing agent...\n";
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Done. Erasing agent...");
 
             for (const auto & it : factors)
                 graph_.erase(it);
             graph_.erase(agent);
 
-            //std::cout << "Done.\n";
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Done.");
+
             if (newRules.size() == 0) return;
             if (agents.size() > 1) {
-                //std::cout << "Non-end rule, adding it...\n";
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Non-end rule, adding it...");
                 agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
 
                 auto newFactor = graph_.getFactor(agents);
@@ -291,29 +259,20 @@ namespace AIToolbox {
         Iterator boundPrune(const Iterator begin, Iterator end, const double x_l, const double x_u, const double logtA) {
             if ( std::distance(begin, end) < 2 ) return end;
 
-            // Descending sort
+            // A custom algorithm could maybe be faster here, since this is one
+            // of the bottlenecks of the algorithm, but for now we'll keep it
+            // simple.
+
+            // Descending sort by lower value
             std::sort(begin, end, [x_l, logtA](const UCVE::Entry & lhs, const UCVE::Entry & rhs) {
                 return computeValue(lhs, x_l, logtA) > computeValue(rhs, x_l, logtA);
             });
-            // std::cout << "After sort:\n";
-            // for (auto it = begin; it != end; ++it) {
-            //     printPartialAction(std::get<0>(*it));
-            //     std::cout << " -- value (" <<
-            //                  computeValue(*it, x_l, logtA) << ", " << computeValue(*it, x_u, logtA) << ")\n";
-            // }
-            // std::cout << "\n";
+            // Remove uniques
             end = std::unique(begin, end, [](const UCVE::Entry & lhs, const UCVE::Entry & rhs) {
                 return std::get<1>(lhs) == std::get<1>(rhs);
             });
-            // std::cout << "After unique:\n";
-            // for (auto it = begin; it != end; ++it) {
-            //     printPartialAction(std::get<0>(*it));
-            //     std::cout << " -- value (" <<
-            //                  computeValue(*it, x_l, logtA) << ", " << computeValue(*it, x_u, logtA) << ")\n";
-            // }
-            // std::cout << "\n";
+            // Remove bounded by upper value
             const double max = computeValue(*begin, x_l, logtA);
-            // std::cout << "MAX: " << max << "\n\n";
             return std::remove_if(begin + 1, end, [max, x_u, logtA](const UCVE::Entry & e) { return computeValue(e, x_u, logtA) <= max; });
         }
 
