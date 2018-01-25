@@ -101,8 +101,8 @@ namespace AIToolbox {
 
         UCVE::Result UCVE::start() {
             // This can possibly be improved with some heuristic ordering
-            while (graph_.agentSize())
-                removeAgent(graph_.agentSize() - 1);
+            while (graph_.variableSize())
+                removeAgent(graph_.variableSize() - 1);
 
             // std::cout << "\nDone removing agents.\n";
             Entries results;
@@ -149,10 +149,9 @@ namespace AIToolbox {
             // then at least one in its worst case.
             double x_u = 0.0, x_l = 0.0;
             {
-                const auto & allFactors = graph_.getFactors();
                 // We use these iterators to skip the factors for this agent.
                 auto skipIt = factors.cbegin(); const auto factorsEnd = factors.cend();
-                for (auto it = allFactors.begin(); it != allFactors.end(); ++it) {
+                for (auto it = graph_.cbegin(); it != graph_.cend(); ++it) {
                     // We skip the ones for this agent. Both lists are in the same
                     // order so we can keep track of the last duplicate we found to
                     // do less work later.
