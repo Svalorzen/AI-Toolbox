@@ -169,6 +169,54 @@ namespace AIToolbox::POMDP {
         // return ???
     }
 
+    /**
+     * @brief This function obtains the best action with respect to the input VList.
+     * 
+     * This function pretty much does what the Projecter class does. The
+     * difference is that while the Projecter expands one step in the future
+     * every single entry in the input VList, this only does it to the input
+     * Belief.
+     *
+     * This allows to both avoid a lot of work if we wouldn't need to reuse the
+     * Projecter results a lot, and simplifies the crossSum step.
+     *
+     * @param pomdp The model to use.
+     * @param initialBelief The belief where the best action needs to be found.
+     * @param lbVList The alphavectors to use.
+     *
+     * @return The best action in the input belief with respect to the input VList.
+     */
+    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    std::tuple<size_t, double> bestConservativeAction(const M & pomdp, const Belief & initialBelief, const VList & lbVList) {
+        auto ir = computeImmediateRewards(pomdp);
+
+        for (size_t a = 0; a < pomdp.getA(); ++a) {
+            const Belief intermediateBelief = updateBeliefPartial(pomdp, initialBelief, a);
+
+            Vector bpAlpha(pomdp.getS());
+            bpAlpha.fill(0.0);
+
+            for (size_t o = 0; o < pomdp.getO(); ++o) {
+                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, initialBelief, a, o);
+
+                const auto nextBeliefProbability = nextBelief.sum();
+                if (checkEqualSmall(nextBeliefProbability, 0.0)) continue;
+                // Now normalized
+                nextBelief /= nextBeliefProbability;
+
+                auto it = findBestAtBelief(nextBelief, std::begin(lbVList), std::end(lbVList));
+
+                bpAlpha += pomdp.getTransitionFunction(a).col(o).cwiseProduct(*it);
+            }
+            ir.col(a) += pomdp.getDiscount() * pomdp.getTransitionFunction(a) * bpAlpha;
+        }
+
+        size_t id;
+        double v = (initialBelief * ir).maxCoeff(&id);
+
+        return std::make_tuple(id, v);
+    }
+
     template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
     std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> GapMin::selectReachableBeliefs(const M & pomdp, const Belief & initialBelief, const VList & lbVList, const std::vector<Belief> & lbBeliefs, const MDP::QFunction & ubQ, const UbVType & ubV) {
         // Queue sorted by gap.         belief,    gap,   prob,    depth,       path
@@ -310,14 +358,12 @@ namespace AIToolbox::POMDP {
             // For each new possible belief, we look if we've already visited
             // it. If not, we compute the gap at that point, and we add it to
             // the queue.
-            const Belief intermediateBelief = (belief.transpose() * pomdp.getTransitionFunction(ubAction)).transpose();
+            const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, ubAction);
             for (size_t o = 0; o < pomdp.getO(); ++o) {
-                // Unnormalized here
-                Belief nextBelief = intermediateBelief.cwiseProduct(pomdp.getObservationFunction(ubAction).col(o));
+                Belief nextBelief = updateBeliefUnnormalized(pomdp, intermediateBelief, ubAction, o);
 
                 const auto nextBeliefProbability = nextBelief.sum();
                 if (checkEqualSmall(nextBeliefProbability, 0.0)) continue;
-                // Now normalized
                 nextBelief /= nextBeliefProbability;
 
                 const auto check = [&nextBelief](const Belief & bb){ return checkEqualProbability(nextBelief, bb); };
