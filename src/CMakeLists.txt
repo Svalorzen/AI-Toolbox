@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 
 find_package(Boost 1.53 REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -42,6 +42,7 @@ if (MAKE_MDP)
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
     )
+    set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     if (MAKE_PYTHON)
         add_library(MDP SHARED
@@ -95,6 +96,7 @@ if (MAKE_MDP)
             Python/MDPWrappers.cpp)
         target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")
+        set_target_properties(MDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
         add_library(Game SHARED
             Game/Policies/LRPPolicy.cpp
@@ -106,6 +108,7 @@ if (MAKE_MDP)
 
         target_link_libraries(Game ${Boost_PYTHON_LIBRARY} MDP)
         set_target_properties(Game PROPERTIES PREFIX "")
+        set_target_properties(Game PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
 endif()
 
@@ -126,7 +129,9 @@ if (MAKE_FMDP)
         FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         FactoredMDP/Algorithms/Utils/FactoredLP.cpp
         FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
-        FactoredMDP/Algorithms/LLR.cpp)
+        FactoredMDP/Algorithms/LLR.cpp
+    )
+    set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
 endif()
@@ -145,7 +150,9 @@ if (MAKE_POMDP)
         POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
-        POMDP/Policies/Policy.cpp)
+        POMDP/Policies/Policy.cpp
+    )
+    set_target_properties(AIToolboxPOMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
 
@@ -182,5 +189,6 @@ if (MAKE_POMDP)
         target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP
             ${LPSOLVE_LIBRARIES})
         set_target_properties(POMDP PROPERTIES PREFIX "")
+        set_target_properties(POMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
 endif()
