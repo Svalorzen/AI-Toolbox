@@ -59,7 +59,7 @@ endif()
 ##############################
 
 # Default is to build everything
-IF (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_FMDP AND NOT MAKE_POMDP)
+if (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_FMDP AND NOT MAKE_POMDP)
     set(MAKE_ALL    1)
 endif()
 
@@ -80,6 +80,13 @@ elseif (MAKE_POMDP)
     set(MAKE_MDP        1)
 endif()
 
+# Check whether to enable logging
+if (${AI_LOGGING_ENABLED})
+    add_definitions(-DAI_LOGGING_ENABLED)
+    set(LOGGING_STATUS "ENABLED")
+else()
+    set(LOGGING_STATUS "DISABLED")
+endif()
 
 # For additional Find library scripts
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
@@ -112,6 +119,7 @@ set(MAP_MAKE_EXAMPLES   "# Building Examples")
 
 message("")
 message("Build type: " ${CMAKE_BUILD_TYPE})
+message("Logging is " ${LOGGING_STATUS})
 foreach(v MAKE_MDP;MAKE_FMDP;MAKE_POMDP;MAKE_PYTHON;MAKE_TESTS;MAKE_EXAMPLES)
     if (${${v}})
         message(${MAP_${v}})

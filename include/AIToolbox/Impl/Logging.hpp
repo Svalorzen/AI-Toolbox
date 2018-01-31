@@ -2,72 +2,76 @@
  * @page Logging How to use AIToolbox logging facilities.
  *
  * Since AIToolbox is a library, it leaves the choice of how to log to you. You
- * can use any framework, library or C++ iostream facilities you want in order
- * to log as you prefer.
+ * can use any framework, library or C++ iostream facilities you want.
  *
- * In order to enable logging you must define, *before including any AIToolbox
- * header*, all macros described below.
+ * ## Enabling Logging in the Library ##
  *
- * - AI_SEVERITY_DEBUG,
- * - AI_SEVERITY_INFO,
- * - AI_SEVERITY_WARNING,
- * - AI_SEVERITY_ERROR
+ * In order to enable logging the library MUST be compiled with the flag
+ * AI_LOGGING_ENABLED set to 1 (You can do this via CMake). If it's not, no
+ * logging will be produced by the pre-compiled parts of the library.
  *
- * These four macros represent how the AIToolbox library splits log severities.
- * You can define them however you want, even to empty values, or merge two
- * into a single value.
+ * In addition, you need to set the AI_LOGGING_ENABLED macro to 1 before
+ * including any AIToolbox header files in your project too, or logging in
+ * header-only classes will not work.
  *
- * - AI_LOGGER(SEV, ARGS)
+ * This has been done in order to obtain the best possible performance when
+ * logging is disabled.
  *
- * This macro is how the library tries to log. SEV is the severity, represented
- * by one of the four SEVERITY macros described above. Args are the arguments
- * to be printed, joined by the << operator.
+ * ## Setting the Logging Function ##
  *
- * An example of how the library uses this macros to log is the following:
+ * In order to log you need to overwrite the AIToolbox::AILogger function
+ * pointer. This is a pointer to a function with signature:
  *
- * ```
- * AI_LOGGER(AI_SEVERITY_DEBUG, "Logging a value in debug: " << value);
- * ```
+ *     void(int severity, const char * message);
  *
- * How you redefine the macros will transform how the final logging statement
- * reads, so you'll be able to send all messages to whatever sink you prefer.
+ * ## Priorities and Log Information ##
  *
- * Logs do *not* contain newlines. Logs do *not* contain file/line information,
- * but you can add them through the redefinition of the AI_LOGGER macro.
+ * AIToolbox defines 4 different severity levels:
  *
- * A simple redefinition of the macro to print all messages to `std::cout` with
- * file and line information could be:
+ * - AI_SEVERITY_DEBUG    (0),
+ * - AI_SEVERITY_INFO     (1),
+ * - AI_SEVERITY_WARNING  (2),
+ * - AI_SEVERITY_ERROR    (3)
  *
- * ```
- * #define AI_LOGGER(SEV, ARGS) std::cout << __FILE__ ":" << __LINE__ << " " << ARGS << '\n';
- * ```
+ * These values represent how the AIToolbox library splits log severities.
  *
- * Note that it is possible to obtain logs only from certain files by simply
- * defining the above macros before #including the files where logs are needed,
- * and #undefine them before the other files.
- *
- * This setup has been chosen in order to maintain the best possible
- * performances when logging is disabled. This choice allows to avoid
- * evaluating arguments, storing strings and so on if the above macros are
- * undefined when any header that uses them finds them undefined.
+ * Logs do *not* contain newlines. Logs do *not* contain file/line information.
  */
-#ifndef AI_LOGGER
 
-#undef AI_SEVERITY_DEBUG
-#undef AI_SEVERITY_INFO
-#undef AI_SEVERITY_WARNING
-#undef AI_SEVERITY_ERROR
+#ifndef AI_TOOLBOX_IMPL_LOGGING_HEADER_FILE
+#define AI_TOOLBOX_IMPL_LOGGING_HEADER_FILE
+
+#ifndef AI_LOGGING_ENABLED
+#define AI_LOGGING_ENABLED 0
+#endif
 
 #define AI_SEVERITY_DEBUG   0
-#define AI_SEVERITY_INFO    0
-#define AI_SEVERITY_WARNING 0
-#define AI_SEVERITY_ERROR   0
+#define AI_SEVERITY_INFO    1
+#define AI_SEVERITY_WARNING 2
+#define AI_SEVERITY_ERROR   3
 
-// Prevent redefinition errors in case of multiple headers with no logging
-// split by files with logging.
-#ifndef AITOOLBOX_IMPL_FAKELOGGER_HEADER_FILE
-#define AITOOLBOX_IMPL_FAKELOGGER_HEADER_FILE
+#if AI_LOGGING_ENABLED == 1
 
+#include <sstream>
+
+namespace AIToolbox {
+    using AILoggerFun = void(int, const char *);
+
+    /**
+     * @brief This pointer defines the function used to log.
+     *
+     * \sa \ref Logging
+     */
+    inline AILoggerFun * AILogger = nullptr;
+
+    namespace Impl {
+        // We use this to dump logs in.
+        inline char logBuffer[100] = {0};
+    }
+}
+
+#else
+// Fake logger to keep static checks
 namespace AIToolbox::Impl {
     struct FakeLogger {
         FakeLogger(int) {}
@@ -78,10 +82,27 @@ namespace AIToolbox::Impl {
 
 #endif
 
-// With this we avoid logging, while still checking for possible syntax errors.
-#define AI_LOGGER(SEV, ARGS)                            \
-    while (false) {                                     \
-        AIToolbox::Impl::FakeLogger(SEV) << ARGS;       \
+#if AI_LOGGING_ENABLED == 1
+// Actual logging if logging is enabled.
+#define AI_LOGGER(SEV, ARGS)                                \
+    do {                                                    \
+        if (AILogger) {                                     \
+            std::stringstream s;                            \
+            s.rdbuf()->pubsetbuf(                           \
+                AIToolbox::Impl::logBuffer,                 \
+                sizeof(AIToolbox::Impl::logBuffer) - 1      \
+            );                                              \
+            s << ARGS << '\0';                              \
+            AILogger(SEV, AIToolbox::Impl::logBuffer);      \
+        }                                                   \
+    } while(0)
+
+#else
+// Statement to enable static checks on inputs if logging is disabled.
+#define AI_LOGGER(SEV, ARGS)                                \
+    while (0) {                                             \
+        AIToolbox::Impl::FakeLogger(SEV) << ARGS;           \
     }
+#endif
 
 #endif
