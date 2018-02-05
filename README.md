@@ -116,10 +116,10 @@ Not in Python yet.
 
 Algorithms:
 
-- [Variable Elimination](http://www.select.cs.cmu.edu/publications/paperdir/nips2001-guestrin-koller-parr.pdf)
+- [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf)
 - [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
-- [Sparse Cooperative QLearning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf)
-- [Learning with Linear Rewards (LLR)](http://www-scf.usc.edu/~ygai/publications/TON2012.pdf)
+- [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf)
+- [Learning with Linear Rewards (LLR)](https://arxiv.org/pdf/1011.4748.pdf)
 - [FactoredLP](https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf)
 
 Policies:
