@@ -1,12 +1,12 @@
-#ifndef AI_TOOLBOX_FACTOREDMDP_XXX_ALGORITHM_HEADER_FILE
-#define AI_TOOLBOX_FACTOREDMDP_XXX_ALGORITHM_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTOREDMDP_MAUCE_HEADER_FILE
+#define AI_TOOLBOX_FACTOREDMDP_MAUCE_HEADER_FILE
 
 #include <AIToolbox/FactoredMDP/Types.hpp>
 #include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
 
 namespace AIToolbox::FactoredMDP {
-    class XXXAlgorithm {
+    class MAUCE {
         public:
             /**
              * @brief Basic constructor.
@@ -22,7 +22,7 @@ namespace AIToolbox::FactoredMDP {
              * @param a The factored action space of the problem.
              * @param rangesAndDependencies A list of [[range, [agent, ..]], ..] for each subgroup of connected agents.
              */
-            XXXAlgorithm(Action a, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies);
+            MAUCE(Action a, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies);
 
             /**
              * @brief This function updates the learning process from the previous action and reward.

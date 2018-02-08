@@ -1,4 +1,4 @@
-#include <AIToolbox/FactoredMDP/Algorithms/XXXAlgorithm.hpp>
+#include <AIToolbox/FactoredMDP/Algorithms/MAUCE.hpp>
 
 #include <AIToolbox/FactoredMDP/Utils.hpp>
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
@@ -6,7 +6,7 @@
 #include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::FactoredMDP {
-    XXXAlgorithm::XXXAlgorithm(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies) :
+    MAUCE::MAUCE(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies) :
             A(std::move(aa)), timestep_(0),
             averages_(A), logA_(0.0)
     {
@@ -31,7 +31,7 @@ namespace AIToolbox::FactoredMDP {
         }
     }
 
-    Action XXXAlgorithm::stepUpdateQ(const Action & a, const Rewards & rew) {
+    Action MAUCE::stepUpdateQ(const Action & a, const Rewards & rew) {
         AI_LOGGER(AI_SEVERITY_INFO, "Updating averages...");
 
         // Update all averages with what we've learned this step.  Note: We
@@ -68,7 +68,7 @@ namespace AIToolbox::FactoredMDP {
         return toFactors(A.size(), std::get<0>(a_v));
     }
 
-    FactoredContainer<QFunctionRule> XXXAlgorithm::getQFunctionRules() const {
+    FactoredContainer<QFunctionRule> MAUCE::getQFunctionRules() const {
         FactoredContainer<QFunctionRule>::ItemsContainer container;
 
         for (size_t i = 0; i < averages_.size(); ++i)
@@ -77,6 +77,6 @@ namespace AIToolbox::FactoredMDP {
         return FactoredContainer<QFunctionRule>(averages_.getTrie(), std::move(container));
     }
 
-    unsigned XXXAlgorithm::getTimestep() const { return timestep_; }
-    void XXXAlgorithm::setTimestep(unsigned t) { timestep_ = t; }
+    unsigned MAUCE::getTimestep() const { return timestep_; }
+    void MAUCE::setTimestep(unsigned t) { timestep_ = t; }
 }

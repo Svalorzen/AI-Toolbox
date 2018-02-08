@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE FactoredMDP_XXX
+#define BOOST_TEST_MODULE FactoredMDP_MAUCE
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
@@ -7,13 +7,13 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/FactoredMDP/Utils.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/XXXAlgorithm.hpp>
+#include <AIToolbox/FactoredMDP/Algorithms/MAUCE.hpp>
 
 namespace fm = AIToolbox::FactoredMDP;
 
-BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
+BOOST_AUTO_TEST_CASE( simple_example_small ) {
     fm::Action a{2,2,2};
-    fm::XXXAlgorithm x(a, {{1.0, {0,1}}, {1.0, {1,2}}});
+    fm::MAUCE x(a, {{1.0, {0,1}}, {1.0, {1,2}}});
 
     // Two rewards since we have two agent groups.
     fm::Rewards rew(2);
@@ -54,10 +54,8 @@ BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
 
     fm::Action action{0,0,0};
     for (unsigned t = 0; t < 10000; ++t) {
-        printAction(action);
         rew[0] = getEvenReward(action[0], action[1]);
         rew[1] = getOddReward(action[1], action[2]);
-        std::cout << " ==> " << rew[0] << ", " << rew[1] << "\n";
 
         action = x.stepUpdateQ(action, rew);
     }
