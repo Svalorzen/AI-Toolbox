@@ -8,12 +8,13 @@
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/FactoredMDP/Utils.hpp>
 #include <AIToolbox/FactoredMDP/Algorithms/MAUCE.hpp>
+#include <AIToolbox/FactoredMDP/Policies/QGreedyPolicy.hpp>
 
 namespace fm = AIToolbox::FactoredMDP;
 
 BOOST_AUTO_TEST_CASE( simple_example_small ) {
-    fm::Action a{2,2,2};
-    fm::MAUCE x(a, {{1.0, {0,1}}, {1.0, {1,2}}});
+    fm::Action A{2,2,2};
+    fm::MAUCE x(A, {{1.0, {0,1}}, {1.0, {1,2}}});
 
     // Two rewards since we have two agent groups.
     fm::Rewards rew(2);
@@ -59,4 +60,14 @@ BOOST_AUTO_TEST_CASE( simple_example_small ) {
 
         action = x.stepUpdateQ(action, rew);
     }
+
+    const fm::Action solution{0, 1, 0};
+
+    const auto rules = x.getQFunctionRules();
+    fm::QGreedyPolicy p({}, A, rules);
+
+    const auto greedyAction = p.sampleAction({});
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution), std::end(solution),
+                                  std::begin(greedyAction), std::end(greedyAction));
 }
