@@ -6,6 +6,22 @@
 #include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
 
 namespace AIToolbox::FactoredMDP {
+    /**
+     * @brief This class represents the Multi-Agent Upper Confidence Exploration algorithm.
+     *
+     * This algorithm is similar in spirit to LLR, but it performs a much more
+     * sophisticated variable elimination step that includes branch-and-bound.
+     *
+     * It does this by knowing, via its parameters, the maximum reward range
+     * for each group of interdependent agents (max possible reward minus min
+     * possible reward). This allows it to estimate the uncertainty around any
+     * given joint action, by keeping track for each PartialAction its upper
+     * and lower bounds.
+     *
+     * During the VariableElimination step (done with UCVE), the uncertainties
+     * are tracked during the cross-sums, which allows pruning actions that are
+     * known to be suboptimal.
+     */
     class MAUCE {
         public:
             /**
