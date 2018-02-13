@@ -92,7 +92,7 @@ namespace AIToolbox {
         }
     }
 
-    // TODO: Implement this version of pushRow to improve performances.
+    // TODO: Implement this version of pushRow to improve performance.
     // void LP::pushRow(const std::vector<int> & ids, const Constraint c, const double value) {
     //     add_constraintex(pimpl_->lp_.get(), ids.size(), pimpl_->data_.get(), ids.data(), toLpSolveConstraint(c), static_cast<REAL>(value));
     // }

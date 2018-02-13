@@ -139,6 +139,7 @@ if (MAKE_POMDP)
     AddTestPOMDP(rPOMCP)
     AddTestPOMDP(RTBSS)
     AddTestPOMDP(Witness)
+    AddTestPOMDP(GapMin)
 
     if (MAKE_PYTHON)
         # Here we have surely passed in the MDP Python test branch, so we know
