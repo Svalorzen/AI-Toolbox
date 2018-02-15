@@ -35,6 +35,7 @@ if (MAKE_MDP)
         MDP/Algorithms/ValueIteration.cpp
         MDP/Algorithms/PolicyIteration.cpp
         MDP/Policies/Policy.cpp
+        MDP/Policies/RandomPolicy.cpp
         MDP/Policies/EpsilonPolicy.cpp
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
@@ -58,6 +59,7 @@ if (MAKE_MDP)
             MDP/Algorithms/ValueIteration.cpp
             MDP/Algorithms/PolicyIteration.cpp
             MDP/Policies/Policy.cpp
+            MDP/Policies/RandomPolicy.cpp
             MDP/Policies/EpsilonPolicy.cpp
             MDP/Policies/QPolicyInterface.cpp
             MDP/Policies/QGreedyPolicy.cpp
