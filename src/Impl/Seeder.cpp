@@ -4,6 +4,8 @@
 #include <limits>
 
 namespace AIToolbox::Impl {
+    Seeder Seeder::instance_;
+
     Seeder::Seeder() : generator_(std::chrono::system_clock::now().time_since_epoch().count()) {}
 
     unsigned Seeder::getSeed() {
