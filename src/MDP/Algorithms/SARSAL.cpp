@@ -13,6 +13,18 @@ namespace AIToolbox::MDP {
     void SARSAL::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const size_t a1, const double rew) {
         auto error = alpha_ * ( rew + discount_ * q_(s1, a1) - q_(s, a) );
         bool newTrace = true;
+
+        // So basically here we have in traces_ a non-ordered list of the old
+        // state/action pairs we have already seen. For each item in this list,
+        // we scale its "relevantness" back by gammaL_, and we update its
+        // q-value accordingly.
+        //
+        // If the current s-a are in the list already, their eligibility is
+        // directly updated to 1.0. Otherwise, they are added to the list.
+        //
+        // If any element would become too far away temporally to still be
+        // relevant, we extract it from the list. As the order is not important
+        // (it is implicit in the "el" element), we can use swap+pop.
         for (size_t i = 0; i < traces_.size(); ++i) {
             auto & [ss, aa, el] = traces_[i];
             if (ss == s && aa == a) {
@@ -35,6 +47,10 @@ namespace AIToolbox::MDP {
         }
     }
 
+    void SARSAL::clearTraces() {
+        traces_.clear();
+    }
+
     void SARSAL::setLearningRate(const double a) {
         if ( a <= 0.0 || a > 1.0 ) throw std::invalid_argument("Learning rate parameter must be in (0,1]");
         alpha_ = a;
@@ -45,6 +61,7 @@ namespace AIToolbox::MDP {
     void SARSAL::setDiscount(const double d) {
         if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
         discount_ = d;
+        gammaL_ = lambda_ * discount_;
     }
 
     double SARSAL::getDiscount() const { return discount_; }
@@ -72,4 +89,5 @@ namespace AIToolbox::MDP {
     size_t SARSAL::getA() const { return A; }
 
     const QFunction & SARSAL::getQFunction() const { return q_; }
+    void SARSAL::setQFunction(const QFunction & qfun) { q_ = qfun; }
 }
