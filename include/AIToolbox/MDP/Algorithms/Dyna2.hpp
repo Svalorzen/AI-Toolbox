@@ -217,7 +217,21 @@ namespace AIToolbox::MDP {
     template <typename M>
     void Dyna2<M>::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const size_t a1, const double rew) {
         // We copy the traces from the permanent SARSAL to the transient one so
-        // that they will update their respective QFunctions in the same way.
+        // that they will update their respective QFunctions in (nearly) the
+        // same way.
+        //
+        // Note that this is not quite the same as it is stated in the paper.
+        // Normally one would update only permanentLearning_, and transfer the
+        // exact same changes directly to the QFunction of transientLearning_.
+        //
+        // They differ since the QFunction inside each method are different,
+        // and so the updates won't exactly match. At the same time, after each
+        // reset (or end of episodes) the transient memory should reset to the
+        // permanent one, so this minor differences should go away.
+        //
+        // Ideally one would update directly the two QFunctions here, but this
+        // would basically require re-implementing SARSAL both here and in the
+        // batchUpdateQ method, which we avoid here for practicality.
         transientLearning_.setTraces(permanentLearning_.getTraces());
         permanentLearning_.stepUpdateQ(s, a, s1, a1, rew);
         transientLearning_.stepUpdateQ(s, a, s1, a1, rew);
@@ -225,6 +239,10 @@ namespace AIToolbox::MDP {
 
     template <typename M>
     void Dyna2<M>::batchUpdateQ(const size_t initS) {
+        // This clearing may not be needed if this is called after stepUpdateQ
+        // with the same s1 (since the set traces there will be correct then).
+        // We do it anyway in case this method is called in different settings
+        // and/or multiple times in a row.
         transientLearning_.clearTraces();
 
         size_t s = initS;
