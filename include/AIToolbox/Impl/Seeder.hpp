@@ -13,9 +13,29 @@ namespace AIToolbox::Impl {
      */
     class Seeder {
         public:
+            /**
+             * @brief This function gets a random number to seed generators.
+             *
+             * @return A random unsigned number.
+             */
             static unsigned getSeed();
+
+            /**
+             * @brief This function sets the seed for the seed generator.
+             *
+             * By default the generator is seeded with the current time. If
+             * this is not satisfactory, due for example to the need of having
+             * reproducible experiments, this function can be called in order
+             * to seed the underlying generator.
+             *
+             * @param seed The seed for the underlying generator.
+             */
+            static void setRootSeed(unsigned seed);
+
         private:
             Seeder();
+
+            static Seeder instance_;
 
             std::default_random_engine generator_;
     };

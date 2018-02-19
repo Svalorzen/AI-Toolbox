@@ -58,11 +58,11 @@ namespace AIToolbox::MDP {
              * them in a set, keeping them unique.
              *
              * @param s The previous state.
-             * @param s1 The new state.
              * @param a The action performed.
+             * @param s1 The new state.
              * @param rew The reward obtained.
              */
-            void stepUpdateQ(size_t s, size_t s1, size_t a, double rew);
+            void stepUpdateQ(size_t s, size_t a, size_t s1, double rew);
 
             /**
              * @brief This function updates a QFunction based on simulated experience.
@@ -146,8 +146,8 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M>
-    void DynaQ<M>::stepUpdateQ(const size_t s, const size_t s1, const size_t a, const double rew) {
-        qLearning_.stepUpdateQ(s, s1, a, rew);
+    void DynaQ<M>::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const double rew) {
+        qLearning_.stepUpdateQ(s, a, s1, rew);
         // O(1) insertion...
         const auto result = visitedStatesActionsInserter_.insert(std::make_pair(s,a));
         if ( std::get<1>(result) )
@@ -164,7 +164,7 @@ namespace AIToolbox::MDP {
             const auto [s,a] = visitedStatesActionsSampler_[sampleDistribution_(rand_)];
             const auto [s1, rew] = model_.sample(s, a);
 
-            qLearning_.stepUpdateQ(s, s1, a, rew);
+            qLearning_.stepUpdateQ(s, a, s1, rew);
         }
     }
 

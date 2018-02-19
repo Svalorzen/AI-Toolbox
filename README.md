@@ -81,6 +81,7 @@ Algorithms:
 - [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf)
 - [SARSA(λ)](http://incompleteideas.net/book/ebook/node77.html)
 - [Dyna-Q](http://incompleteideas.net/book/ebook/node96.html)
+- [Dyna2](http://www0.cs.ucl.ac.uk/staff/D.Silver/web/Applications_files/dyna2.pdf)
 - [Prioritized Sweeping](http://incompleteideas.net/book/ebook/node98.html)
 - [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf)
 

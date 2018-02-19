@@ -58,6 +58,10 @@ namespace AIToolbox::MDP {
              * efficient manner.
              */
             virtual Matrix2D getPolicy() const override;
+
+        private:
+            // To avoid reallocating a vector every time for sampling.
+            mutable std::vector<unsigned> bestActions_;
     };
 }
 
