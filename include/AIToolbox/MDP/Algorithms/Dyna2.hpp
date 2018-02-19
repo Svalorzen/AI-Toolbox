@@ -33,10 +33,12 @@ namespace AIToolbox::MDP {
              * @brief Basic constructor.
              *
              * @param m The model to be used to update the QFunction.
-             * @param alpha The learning rate of the QLearning method.
+             * @param alpha The learning rate of the internal SARSAL methods.
+             * @param lambda The lambda parameter for the eligibility traces.
+             * @param epsilon The cutoff point for eligibility traces.
              * @param n The number of sampling passes to do on the model upon batchUpdateQ().
              */
-            explicit Dyna2(const M & m, double alpha = 0.5, unsigned n = 50);
+            explicit Dyna2(const M & m, double alpha = 0.1, double lambda = 0.9, double epsilon = 0.001, unsigned n = 50);
 
             /**
              * @brief This function updates the internal QFunction.
@@ -55,9 +57,10 @@ namespace AIToolbox::MDP {
              * @param s The previous state.
              * @param a The action performed.
              * @param s1 The new state.
+             * @param a1 The action performed in the new state.
              * @param rew The reward obtained.
              */
-            void stepUpdateQ(size_t s, size_t a, size_t s1, double rew);
+            void stepUpdateQ(size_t s, size_t a, size_t s1, size_t a1, double rew);
 
             /**
              * @brief This function updates a QFunction based on simulated experience.
@@ -91,7 +94,7 @@ namespace AIToolbox::MDP {
              *
              * @param p The new policy to use during batch updates.
              */
-            void changeInternalPolicy(PolicyInterface * p);
+            void setInternalPolicy(PolicyInterface * p);
 
             /**
              * @brief This function sets the new lambda parameter for the permanent SARSAL.
@@ -203,32 +206,42 @@ namespace AIToolbox::MDP {
     };
 
     template <typename M>
-    Dyna2<M>::Dyna2(const M & m, const double alpha, const unsigned n) :
+    Dyna2<M>::Dyna2(const M & m, const double alpha, const double lambda, const double epsilon, const unsigned n) :
             N(n), model_(m),
-            permanentLearning_(model_, alpha),
-            transientLearning_(model_, alpha),
+            permanentLearning_(model_, alpha, lambda, epsilon),
+            transientLearning_(model_, alpha, lambda, epsilon),
             internalPolicy_(new RandomPolicy(model_.getS(), model_.getA()))
     {
     }
 
     template <typename M>
-    void Dyna2<M>::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const double rew) {
+    void Dyna2<M>::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const size_t a1, const double rew) {
         // We copy the traces from the permanent SARSAL to the transient one so
         // that they will update their respective QFunctions in the same way.
         transientLearning_.setTraces(permanentLearning_.getTraces());
-        permanentLearning_.stepUpdateQ(s, a, s1, rew);
-        transientLearning_.stepUpdateQ(s, a, s1, rew);
+        permanentLearning_.stepUpdateQ(s, a, s1, a1, rew);
+        transientLearning_.stepUpdateQ(s, a, s1, a1, rew);
     }
 
     template <typename M>
-    void Dyna2<M>::batchUpdateQ(size_t s) {
+    void Dyna2<M>::batchUpdateQ(const size_t initS) {
         transientLearning_.clearTraces();
-        for ( unsigned i = 0; i < N; ++i ) {
-            const size_t a = internalPolicy_->sampleAction(s);
-            const auto [s1, rew] = model_.sample(s, a);
 
-            transientLearning_.stepUpdateQ(s, s1, a, rew);
-            s = s1;
+        size_t s = initS;
+        size_t a = internalPolicy_->sampleAction(s);
+        for ( unsigned i = 0; i < N; ++i ) {
+            const auto [s1, rew] = model_.sampleSR(s, a);
+            const size_t a1 = internalPolicy_->sampleAction(s1);
+
+            transientLearning_.stepUpdateQ(s, a, s1, a1, rew);
+
+            if (model_.isTerminal(s1)) {
+                s = initS;
+                a = internalPolicy_->sampleAction(s);
+            } else {
+                s = s1;
+                a = a1;
+            }
         }
     }
 
@@ -237,7 +250,7 @@ namespace AIToolbox::MDP {
         transientLearning_.setQFunction(permanentLearning_.getQFunction());
     }
     template <typename M>
-    void Dyna2<M>::changeInternalPolicy(PolicyInterface * p) {
+    void Dyna2<M>::setInternalPolicy(PolicyInterface * p) {
         internalPolicy_.reset(p);
     }
 
@@ -275,11 +288,11 @@ namespace AIToolbox::MDP {
     template <typename M>
     void Dyna2<M>::setPermanentLambda(double l) { permanentLearning_.setLambda(l); }
     template <typename M>
-    double Dyna2<M>::getPermanentLambda() const { permanentLearning_.getLambda(); }
+    double Dyna2<M>::getPermanentLambda() const { return permanentLearning_.getLambda(); }
     template <typename M>
     void Dyna2<M>::setTransientLambda(double l) { transientLearning_.setLambda(l); }
     template <typename M>
-    double Dyna2<M>::getTransientLambda() const { transientLearning_.getLambda(); }
+    double Dyna2<M>::getTransientLambda() const { return transientLearning_.getLambda(); }
 }
 
 #endif
