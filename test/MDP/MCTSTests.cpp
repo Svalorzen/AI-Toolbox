@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE( sampleOneTime ) {
 
     MCTS solver(model, 1, 5.0);
 
-    // We ensure POMCP does not crash when pruning a tree
+    // We ensure MCTS does not crash when pruning a tree
     // and the new head was a leaf (and thus did not have
     // children).
 
