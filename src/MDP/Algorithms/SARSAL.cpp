@@ -51,6 +51,14 @@ namespace AIToolbox::MDP {
         traces_.clear();
     }
 
+    const SARSAL::Traces & SARSAL::getTraces() const {
+        return traces_;
+    }
+
+    void SARSAL::setTraces(const Traces & t) {
+        traces_ = t;
+    }
+
     void SARSAL::setLearningRate(const double a) {
         if ( a <= 0.0 || a > 1.0 ) throw std::invalid_argument("Learning rate parameter must be in (0,1]");
         alpha_ = a;
