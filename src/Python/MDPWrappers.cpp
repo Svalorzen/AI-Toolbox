@@ -28,6 +28,7 @@ void exportMDPQGreedyPolicy();
 void exportMDPQSoftmaxPolicy();
 void exportMDPEpsilonPolicy();
 void exportMDPWoLFPolicy();
+void exportMDPRandomPolicy();
 void exportMDPPolicy();
 
 BOOST_PYTHON_MODULE(MDP)
@@ -62,5 +63,6 @@ BOOST_PYTHON_MODULE(MDP)
     exportMDPQSoftmaxPolicy();
     exportMDPEpsilonPolicy();
     exportMDPWoLFPolicy();
+    exportMDPRandomPolicy();
     exportMDPPolicy();
 }

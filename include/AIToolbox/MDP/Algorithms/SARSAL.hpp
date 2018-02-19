@@ -35,6 +35,8 @@ namespace AIToolbox::MDP {
      */
     class SARSAL {
         public:
+            using Trace = std::tuple<size_t, size_t, double>;
+            using Traces = std::vector<Trace>;
             /**
              * @brief Basic constructor.
              *
@@ -187,6 +189,29 @@ namespace AIToolbox::MDP {
             void stepUpdateQ(size_t s, size_t a, size_t s1, size_t a1, double rew);
 
             /**
+             * @brief This function clears the already set traces.
+             */
+            void clearTraces();
+
+            /**
+             * @brief This function returns the currently set traces.
+             *
+             * @return The currently set traces.
+             */
+            const Traces & getTraces() const;
+
+            /**
+             * @brief This function sets the currently set traces.
+             *
+             * This method is provided in case you have a need to tinker with
+             * the internal traces. You generally don't unless you are building
+             * on top of SARSAL in order to do something more complicated.
+             *
+             * @param t The currently set traces.
+             */
+            void setTraces(const Traces & t);
+
+            /**
              * @brief This function returns the number of states on which QLearning is working.
              *
              * @return The number of states.
@@ -210,6 +235,19 @@ namespace AIToolbox::MDP {
              */
             const QFunction & getQFunction() const;
 
+            /**
+             * @brief This function allows to directly set the internal QFunction.
+             *
+             * This can be useful in order to use a QFunction that has already
+             * been computed elsewhere. SARSAL will then continue building upon
+             * it.
+             *
+             * This is used for example in the Dyna2 algorithm.
+             *
+             * @param qfun The new QFunction to set.
+             */
+            void setQFunction(const QFunction & qfun);
+
         private:
             size_t S, A;
             double alpha_;
@@ -219,7 +257,7 @@ namespace AIToolbox::MDP {
             double gammaL_;
 
             QFunction q_;
-            std::vector<std::tuple<size_t, size_t, double>> traces_;
+            Traces traces_;
     };
 
     template <typename M, typename>

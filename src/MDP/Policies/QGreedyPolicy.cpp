@@ -4,22 +4,22 @@
 
 namespace AIToolbox::MDP {
     QGreedyPolicy::QGreedyPolicy(const QFunction & q) :
-            PolicyInterface::Base(q.rows(), q.cols()), QPolicyInterface(q) {}
+            PolicyInterface::Base(q.rows(), q.cols()), QPolicyInterface(q), bestActions_(getA()) {}
 
     size_t QGreedyPolicy::sampleAction(const size_t & s) const {
         // Automatically sets initial best action as bestAction[0] = 0
-        std::vector<unsigned> bestActions(A, 0);
+        bestActions_[0] = 0;
 
         // This work is due to multiple max-valued actions
         double bestQValue = q_(s, 0); unsigned bestActionCount = 1;
         for ( size_t a = 1; a < A; ++a ) {
             if ( q_(s, a) > bestQValue ) {
-                bestActions[0] = a;
+                bestActions_[0] = a;
                 bestActionCount = 1;
                 bestQValue = q_(s, a);
             }
             else if ( checkEqualGeneral(q_(s, a), bestQValue) ) {
-                bestActions[bestActionCount] = a;
+                bestActions_[bestActionCount] = a;
                 ++bestActionCount;
             }
         }
@@ -27,7 +27,7 @@ namespace AIToolbox::MDP {
         auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
         const unsigned selection = pickDistribution(rand_);
 
-        return bestActions[selection];
+        return bestActions_[selection];
     }
 
     double QGreedyPolicy::getActionProbability(const size_t & s, const size_t & a) const {
