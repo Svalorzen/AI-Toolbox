@@ -87,6 +87,7 @@ if (MAKE_MDP)
             Python/MDP/Policies/PolicyInterface.cpp
             Python/MDP/Policies/QPolicyInterface.cpp
             Python/MDP/Policies/Policy.cpp
+            Python/MDP/Policies/RandomPolicy.cpp
             Python/MDP/Policies/QGreedyPolicy.cpp
             Python/MDP/Policies/QSoftmaxPolicy.cpp
             Python/MDP/Policies/EpsilonPolicy.cpp
