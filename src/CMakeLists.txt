@@ -94,7 +94,7 @@ if (MAKE_MDP)
             Python/MDP/Policies/EpsilonPolicy.cpp
             Python/MDP/Policies/WoLFPolicy.cpp
             Python/MDPWrappers.cpp)
-        target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
+        target_link_libraries(MDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")
         set_target_properties(MDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
@@ -106,7 +106,7 @@ if (MAKE_MDP)
             Python/Game/Policies/ESRLPolicy.cpp
             Python/GameWrappers.cpp)
 
-        target_link_libraries(Game ${Boost_PYTHON_LIBRARY} MDP)
+        target_link_libraries(Game ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP)
         set_target_properties(Game PROPERTIES PREFIX "")
         set_target_properties(Game PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
@@ -186,8 +186,7 @@ if (MAKE_POMDP)
             Python/POMDP/Policies/PolicyInterface.cpp
             Python/POMDP/Policies/Policy.cpp
             Python/POMDPWrappers.cpp)
-        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP
-            ${LPSOLVE_LIBRARIES})
+        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP ${LPSOLVE_LIBRARIES})
         set_target_properties(POMDP PROPERTIES PREFIX "")
         set_target_properties(POMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
