@@ -3,16 +3,20 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/MDP/Experience.hpp>
+#include <AIToolbox/MDP/SparseExperience.hpp>
 #include <AIToolbox/MDP/SparseRLModel.hpp>
 
 // #include <AIToolbox/MDP/IO.hpp>
 // #include <fstream>
 
+BOOST_AUTO_TEST_CASE( eigen_model ) {
+    BOOST_CHECK(AIToolbox::MDP::is_model_eigen<AIToolbox::MDP::SparseRLModel<AIToolbox::MDP::SparseExperience>>::value);
+}
+
 BOOST_AUTO_TEST_CASE( construction ) {
     const size_t S = 10, A = 8;
 
-    AIToolbox::MDP::Experience exp(S,A);
+    AIToolbox::MDP::SparseExperience exp(S,A);
     AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
 
     for ( size_t s = 0; s < S; ++s )
@@ -27,7 +31,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
 BOOST_AUTO_TEST_CASE( syncing ) {
     const size_t S = 10, A = 8;
 
-    AIToolbox::MDP::Experience exp(S,A);
+    AIToolbox::MDP::SparseExperience exp(S,A);
     // Single state sync
     {
         AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
@@ -84,8 +88,8 @@ BOOST_AUTO_TEST_CASE( syncing ) {
 BOOST_AUTO_TEST_CASE( sampling ) {
     const size_t S = 10, A = 8;
 
-    AIToolbox::MDP::Experience exp(S,A);
-    AIToolbox::MDP::SparseRLModel  model(exp, 1.0, false);
+    AIToolbox::MDP::SparseExperience exp(S,A);
+    AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
 
     exp.record(0,0,0,0);
     exp.record(0,0,1,0);
@@ -123,7 +127,7 @@ BOOST_AUTO_TEST_CASE( IO ) {
     std::string inputModelFilename   = "./data/model.txt";
     std::string outputFilename       = "./computedModule.txt";
 
-    AIToolbox::MDP::Experience exp(S,A);
+    AIToolbox::MDP::SparseExperience exp(S,A);
     {
         std::ifstream inputExpFile(inputExpFilename);
 

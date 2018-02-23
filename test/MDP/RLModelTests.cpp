@@ -9,6 +9,10 @@
 // #include <AIToolbox/MDP/IO.hpp>
 // #include <fstream>
 
+BOOST_AUTO_TEST_CASE( eigen_model ) {
+    BOOST_CHECK(AIToolbox::MDP::is_model_eigen<AIToolbox::MDP::RLModel<AIToolbox::MDP::Experience>>::value);
+}
+
 BOOST_AUTO_TEST_CASE( construction ) {
     using namespace AIToolbox::MDP;
     const size_t S = 10, A = 8;

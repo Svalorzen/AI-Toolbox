@@ -10,6 +10,10 @@
 
 #include <fstream>
 
+BOOST_AUTO_TEST_CASE( eigen_model ) {
+    BOOST_CHECK(AIToolbox::MDP::is_model_eigen<AIToolbox::MDP::SparseModel>::value);
+}
+
 BOOST_AUTO_TEST_CASE( construction ) {
     const size_t S = 5, A = 6;
 
