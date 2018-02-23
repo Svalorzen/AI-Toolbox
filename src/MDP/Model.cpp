@@ -1,11 +1,7 @@
 #include <AIToolbox/MDP/Model.hpp>
 
 namespace AIToolbox::MDP {
-    Model Model::makeFromTrustedData(const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) {
-        return Model(s, a, std::move(t), std::move(r), d);
-    }
-
-    Model::Model(const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) :
+    Model::Model(NoCheck, const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) :
             S(s), A(a), discount_(d),
             transitions_(std::move(t)),
             rewards_(std::move(r)),

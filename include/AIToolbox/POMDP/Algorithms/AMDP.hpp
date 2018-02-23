@@ -151,7 +151,7 @@ namespace AIToolbox::POMDP {
                 else T[a].row(s) /= sum;
             }
 
-        return std::make_tuple(MDP::Model::makeFromTrustedData(S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
+        return std::make_tuple(MDP::Model(NO_CHECK, S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
     }
 
     template <typename M, typename>
@@ -199,7 +199,7 @@ namespace AIToolbox::POMDP {
                 else T[a].row(s) /= sum;
             }
 
-        return std::make_tuple(MDP::SparseModel::makeFromTrustedData(S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
+        return std::make_tuple(MDP::SparseModel(NO_CHECK, S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
     }
 }
 

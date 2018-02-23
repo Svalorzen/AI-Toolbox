@@ -1,11 +1,7 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 
 namespace AIToolbox::MDP {
-    SparseModel SparseModel::makeFromTrustedData(const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) {
-        return SparseModel(s, a, std::move(t), std::move(r), d);
-    }
-
-    SparseModel::SparseModel(const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) :
+    SparseModel::SparseModel(NoCheck, const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) :
             S(s), A(a), discount_(d), transitions_(t), rewards_(r), rand_(Impl::Seeder::getSeed()) {}
 
     SparseModel::SparseModel(const size_t s, const size_t a, const double discount) :
