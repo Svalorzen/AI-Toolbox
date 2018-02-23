@@ -6,6 +6,8 @@
 #include <boost/heap/fibonacci_heap.hpp>
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/MDP/SparseModel.hpp>
+#include <AIToolbox/POMDP/SparseModel.hpp>
 
 #include <AIToolbox/POMDP/Algorithms/BlindStrategies.hpp>
 #include <AIToolbox/POMDP/Algorithms/FastInformedBound.hpp>
@@ -19,10 +21,11 @@ namespace AIToolbox::POMDP {
      */
     class GapMin {
         public:
+            using IntermediatePOMDP = SparseModel<MDP::SparseModel>;
             /**
              * @brief Basic constructor.
              */
-            GapMin();
+            GapMin() {}
 
             /**
              * @brief This function solves a POMDP::Model approximately.
@@ -45,6 +48,8 @@ namespace AIToolbox::POMDP {
             using QueueType = boost::heap::fibonacci_heap<QueueElement, boost::heap::compare<GapTupleLess>>;
 
             std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
+            template <typename M>
+            std::tuple<IntermediatePOMDP, Matrix4D> makeNewPomdp(const M& model, const MDP::QFunction &, const UbVType &);
 
             template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
             std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> selectReachableBeliefs(
@@ -121,7 +126,7 @@ namespace AIToolbox::POMDP {
             // Now we find beliefs for both lower and upper bound where we
             // think we can improve. For the ub beliefs we also return their
             // values, since we need them to improve the ub.
-            auto [newLbBeliefs, newUbBeliefs, newUbVals] = selectReachableBeliefs(pomdp, initialBelief, lbVList, ubQ, ubV);
+            auto [newLbBeliefs, newUbBeliefs, newUbVals] = selectReachableBeliefs(pomdp, initialBelief, lbVList, lbBeliefs, ubQ, ubV);
             const auto newLbBeliefsSize = newLbBeliefs.size();
             const auto newUbBeliefsSize = newUbBeliefs.size();
 
@@ -132,7 +137,7 @@ namespace AIToolbox::POMDP {
 
                 // Then we remove all beliefs which don't actively support any
                 // alphaVectors.
-                lbVList = std::move(pbvi(pomdp, lbBeliefs, std::move(lbVList)).back());
+                lbVList = std::move(std::get<1>(pbvi(pomdp, lbBeliefs, ValueFunction{std::move(lbVList)})).back());
                 lbBeliefs.erase(extractUsefulBeliefs(
                     std::begin(lbBeliefs), std::end(lbBeliefs),
                     std::begin(lbVList), std::end(lbVList)),
@@ -189,6 +194,45 @@ namespace AIToolbox::POMDP {
         // return ???
     }
 
+    template <typename M>
+    std::tuple<GapMin::IntermediatePOMDP, Matrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV) {
+        size_t S = model.getS() + ubV.first.size();
+
+        Matrix4D sosa;
+        Matrix2D R(S, model.getA());
+
+        auto ir = computeImmediateRewards(model);
+        R.topLeftCorner(model.getS(), model.getA()).noalias() = ir;
+        for (size_t b = 0; b < ubV.first.size(); ++b)
+            R.col(model.getS()+b) = ubV.first[b] * ir;
+
+        Belief helper(S);
+
+        for (size_t a = 0; a < model.getA(); ++a) {
+            for (size_t o = 0; o < model.getO(); ++o) {
+                Matrix2D m(S, S);
+
+                // FIXME: This needs to count corners
+                for (size_t b = 0; b < ubV.first.size(); ++b) {
+                    updateBeliefUnnormalized(model, ubV.first[b], a, o, &helper);
+                    auto sum = helper.sum();
+                    if (checkEqualSmall(sum, 0.0)) {
+                        m.row(b).fill(0.0);
+                    } else {
+                        const auto [v, dist] = UB(helper/sum, ubQ, ubV);
+                        m.row(b).noalias() = dist;
+                    }
+                }
+                sosa[a][o] = std::move(m);
+            }
+        }
+
+        return std::make_tuple(
+                Model(NO_CHECK, model.getO(), model.getObservationFunction(),
+                      NO_CHECK, S, model.getA(), Matrix3D(), std::move(R), model.getDiscount()),
+                std::move(sosa)
+        );
+    }
     /**
      * @brief This function obtains the best action with respect to the input VList.
      *

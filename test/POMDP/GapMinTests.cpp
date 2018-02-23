@@ -9,4 +9,12 @@
 #include "Utils/TigerProblem.hpp"
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
+    using namespace AIToolbox::POMDP;
+    GapMin gm;
+
+    //auto model = makeTigerProblem();
+    //Belief initialBelief(model.getS());
+    //initialBelief.fill(1.0 / model.getS());
+
+    //auto solution = gm(model, initialBelief);
 }
