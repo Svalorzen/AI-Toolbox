@@ -141,7 +141,9 @@ namespace AIToolbox::MDP {
         S = model_.getS();
         A = model_.getA();
 
-        immediateRewards_ = computeImmediateRewards(m);
+        // Only compute the immediate rewards if we need them.
+        if constexpr (!is_model_eigen<M>::value)
+            immediateRewards_ = computeImmediateRewards(m);
     }
 
     template <typename M>
@@ -177,7 +179,12 @@ namespace AIToolbox::MDP {
 
             // We apply the discount directly on the values vector.
             v1_ *= model_.getDiscount();
-            q = computeQFunction(model_, v1_, immediateRewards_);
+            // We use the implicit reward function if it is available,
+            // otherwise we use the one we computed beforehand.
+            if constexpr(is_model_eigen<M>::value)
+                q = computeQFunction(model_, v1_, model_.getRewardFunction());
+            else
+                q = computeQFunction(model_, v1_, immediateRewards_);
 
             // Compute the values for this policy
             for ( size_t s = 0; s < S; ++s )
