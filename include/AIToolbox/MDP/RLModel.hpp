@@ -57,7 +57,7 @@ namespace AIToolbox::MDP {
 
         public:
             using TransitionTable   = Matrix3D;
-            using RewardTable       = Matrix3D;
+            using RewardTable       = Matrix2D;
 
             /**
              * @brief Constructor using previous Experience.
@@ -237,15 +237,6 @@ namespace AIToolbox::MDP {
             const RewardTable &     getRewardFunction()     const;
 
             /**
-             * @brief This function returns the reward function for a given action.
-             *
-             * @param a The action requested.
-             *
-             * @return The reward function for the input action.
-             */
-            const Matrix2D & getRewardFunction(size_t a) const;
-
-            /**
              * @brief This function returns whether a given state is a terminal.
              *
              * @param s The state examined.
@@ -269,11 +260,10 @@ namespace AIToolbox::MDP {
     template <typename E>
     RLModel<E>::RLModel(const E& exp, const double discount, const bool toSync) :
             S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, Matrix2D(S, S)),
-            rewards_(A, Matrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(discount);
-        for ( size_t a = 0; a < A; ++a )
-            rewards_[a].fill(0.0);
+        rewards_.fill(0.0);
 
         if ( toSync ) {
             sync();
@@ -317,12 +307,9 @@ namespace AIToolbox::MDP {
         // Normalize
         for ( size_t s1 = 0; s1 < S; ++s1 ) {
             const auto visits = experience_.getVisits(s, a, s1);
-            // Normalize action reward over transition visits
-            if ( visits != 0 ) {
-                rewards_[a](s, s1) = experience_.getReward(s, a, s1) / visits;
-            }
             transitions_[a](s, s1) = static_cast<double>(visits) * visitSumReciprocal;
         }
+        rewards_(s, a) = experience_.getRewardSum(s, a) * visitSumReciprocal;
     }
 
     template <typename E>
@@ -334,12 +321,12 @@ namespace AIToolbox::MDP {
         if ( visitSum == 1ul ) {
             transitions_[a].coeffRef(s, s) = 0.0;
             transitions_[a].coeffRef(s, s1) = 1.0;
-            rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1);
+            rewards_(s, a) = experience_.getReward(s, a, s1);
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
 
-            // Update reward for this transition (all others stay the same).
-            rewards_[a](s, s1) = experience_.getReward(s, a, s1) / newVisits;
+            // Update reward for this transition
+            rewards_(s, a) = experience_.getRewardSum(s, a) / visitSum;
 
             const double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
             const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a](s, s1));
@@ -356,7 +343,7 @@ namespace AIToolbox::MDP {
     std::tuple<size_t, double> RLModel<E>::sampleSR(const size_t s, const size_t a) const {
         const size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
-        return std::make_tuple(s1, rewards_[a](s, s1));
+        return std::make_tuple(s1, rewards_(s, a));
     }
 
     template <typename E>
@@ -365,8 +352,8 @@ namespace AIToolbox::MDP {
     }
 
     template <typename E>
-    double RLModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t s1) const {
-        return rewards_[a](s, s1);
+    double RLModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t) const {
+        return rewards_(s, a);
     }
 
     template <typename E>
@@ -393,8 +380,6 @@ namespace AIToolbox::MDP {
 
     template <typename E>
     const Matrix2D & RLModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }
-    template <typename E>
-    const Matrix2D & RLModel<E>::getRewardFunction(const size_t a)     const { return rewards_[a]; }
 }
 
 #endif
