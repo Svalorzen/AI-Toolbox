@@ -136,6 +136,24 @@ namespace AIToolbox::POMDP {
             Model(const PM& model);
 
             /**
+             * @brief Unchecked constructor.
+             *
+             * This constructor takes ownership of the data that it is passed
+             * to it to avoid any sorts of copies and additional work (sanity
+             * checks), in order to speed up as much as possible the process of
+             * building a new Model.
+             *
+             * Note that to use it you have to explicitly use the NO_CHECK tag
+             * parameter first.
+             *
+             * @param o The number of possible observations the agent could make.
+             * @param ot The observation probability table.
+             * @param parameters All arguments needed to build the parent Model.
+             */
+            template <typename... Args>
+            Model(NoCheck, size_t o, ObservationTable && ot, Args&&... parameters);
+
+            /**
              * @brief This function replaces the Model observation function with the one provided.
              *
              * The container needs to support data access through
@@ -258,6 +276,13 @@ namespace AIToolbox::POMDP {
     {
         setObservationFunction(of);
     }
+
+    template <typename M>
+    template <typename... Args>
+    Model<M>::Model(NoCheck, size_t o, ObservationTable && ot, Args&&... params) :
+            M(std::forward<Args>(params)...), O(o),
+            observations_(std::move(ot))
+    {}
 
     template <typename M>
     template <typename PM, typename>
