@@ -162,7 +162,7 @@ namespace AIToolbox::POMDP {
         const auto beliefs = bGen(beliefSize_);
 
         auto T = MDP::SparseModel::TransitionTable   (A, SparseMatrix2D(S1, S1));
-        auto R = MDP::SparseModel::RewardTable       (A, SparseMatrix2D(S1, S1));
+        auto R = MDP::SparseModel::RewardTable       (S1, A);
 
         auto discretizer = makeDiscretizer(S);
 
@@ -181,22 +181,25 @@ namespace AIToolbox::POMDP {
                         const size_t s1 = discretizer(b1);
 
                         T[a].coeffRef(s, s1) += p;
-                        R[a].coeffRef(s, s1) += p * r;
+                        if (checkDifferentSmall(0.0, r))
+                            R.coeffRef(s, a) += p * r;
                     }
                 }
             }
         }
 
-        for ( size_t a = 0; a < A; ++a )
+        for ( size_t a = 0; a < A; ++a ) {
             for ( size_t s = 0; s < S1; ++s ) {
-                for ( size_t s1 = 0; s1 < S1; ++s1 ) {
-                    if ( checkDifferentSmall(0.0, T[a].coeff(s, s1)) )
-                        R[a].coeffRef(s, s1) /= T[a].coeff(s, s1);
-                }
+                if (checkDifferentSmall(0.0, R.coeff(s, a)))
+                    R.coeffRef(s, a) /= T[a].row(s).sum();
+
                 const double sum = T[a].row(s).sum();
                 if ( checkEqualSmall(sum, 0.0) ) T[a].coeffRef(s, s) = 1.0;
                 else T[a].row(s) /= sum;
             }
+            T[a].makeCompressed();
+        }
+        R.makeCompressed();
 
         return std::make_tuple(MDP::SparseModel(NO_CHECK, S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
     }

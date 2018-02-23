@@ -154,9 +154,10 @@ namespace AIToolbox::MDP {
                         if ( checkDifferentSmall(0.0, p) ) {
                             sum += p;
                             in.transitions_[a].coeffRef(s, s1) = p;
+
+                            if ( checkDifferentSmall(0.0, r) )
+                                in.rewards_.coeffRef(s, a) += r * p;
                         }
-                        if ( checkDifferentSmall(0.0, r) )
-                            in.rewards_[a].coeffRef(s, s1) = r;
                     }
                 }
                 if ( checkDifferentSmall(sum, 0.0) )

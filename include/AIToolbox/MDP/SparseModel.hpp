@@ -76,7 +76,7 @@ namespace AIToolbox::MDP {
     class SparseModel {
         public:
             using TransitionTable   = SparseMatrix3D;
-            using RewardTable       = SparseMatrix3D;
+            using RewardTable       = SparseMatrix2D;
 
             /**
              * @brief Basic constructor.
@@ -221,7 +221,7 @@ namespace AIToolbox::MDP {
              *
              * @param t The external transitions container.
              */
-            void setTransitionFunction(const SparseMatrix3D & t);
+            void setTransitionFunction(const TransitionTable & t);
 
             /**
              * @brief This function replaces the reward function with the one provided.
@@ -255,16 +255,14 @@ namespace AIToolbox::MDP {
              * @brief This function replaces the reward function with the one provided.
              *
              * The dimensions of the container must match the ones provided
-             * as arguments (for three dimensions: S, S, A). BE CAREFUL.
-             * The sparse matrices MUST be SxS, while the std::vector
-             * containing them MUST represent A.
+             * as arguments (for two dimensions: S, A). BE CAREFUL.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
              *
              * @param r The external rewards container.
              */
-            void setRewardFunction(SparseMatrix3D r);
+            void setRewardFunction(const RewardTable & r);
 
             /**
              * @brief This function sets a new discount factor for the SparseModel.
@@ -360,15 +358,6 @@ namespace AIToolbox::MDP {
             const RewardTable &     getRewardFunction()     const;
 
             /**
-             * @brief This function returns the reward function for a given action.
-             *
-             * @param a The action requested.
-             *
-             * @return The reward function for the input action.
-             */
-            const SparseMatrix2D & getRewardFunction(size_t a) const;
-
-            /**
              * @brief This function returns whether a given state is a terminal.
              *
              * @param s The state examined.
@@ -392,7 +381,7 @@ namespace AIToolbox::MDP {
     template <typename T, typename R>
     SparseModel::SparseModel(const size_t s, const size_t a, const T & t, const R & r, const double d) :
             S(s), A(a), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(A, SparseMatrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(d);
         setTransitionFunction(t);
@@ -402,7 +391,7 @@ namespace AIToolbox::MDP {
     template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
     SparseModel::SparseModel(const M& model) :
             S(model.getS()), A(model.getA()), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(A, SparseMatrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(model.getDiscount());
         for ( size_t s = 0; s < S; ++s )
@@ -412,14 +401,14 @@ namespace AIToolbox::MDP {
                 if ( p < 0.0 || p > 1.0 ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
                 if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
                 const double r = model.getExpectedReward(s, a, s1);
-                if ( checkDifferentSmall(0.0, r) ) rewards_[a].insert(s, s1) = r;
+                if ( checkDifferentSmall(0.0, r) ) rewards_.coeffRef(s, a) += r * p;
             }
             if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
         }
-        for ( size_t a = 0; a < A; ++a ) {
+
+        for ( size_t a = 0; a < A; ++a )
             transitions_[a].makeCompressed();
-            rewards_[a].makeCompressed();
-        }
+        rewards_.makeCompressed();
     }
 
     template <typename T>
@@ -444,16 +433,16 @@ namespace AIToolbox::MDP {
 
     template <typename R>
     void SparseModel::setRewardFunction( const R & r ) {
+        rewards_.setZero();
         for ( size_t a = 0; a < A; ++a ) {
-            rewards_[a].setZero();
-
             for ( size_t s = 0; s < S; ++s )
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
                 const double w = r[s][a][s1];
-                if ( checkDifferentSmall(0.0, w) ) rewards_[a].insert(s, s1) = w;
+                const double p = transitions_[a].coeff(s, s1);
+                if ( checkDifferentSmall(0.0, w) && checkDifferentSmall(0.0, p) ) rewards_.coeffRef(s, a) += w * p;
             }
-            rewards_[a].makeCompressed();
         }
+        rewards_.makeCompressed();
     }
 }
 

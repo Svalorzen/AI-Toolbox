@@ -190,7 +190,7 @@ namespace AIToolbox::MDP {
 
         // Update q[s][a]
         if constexpr(is_model_eigen<M>::value) {
-            qfun_(s,a) = model_.getRewardFunction()(s, a) + model_.getTransitionFunction(a).row(s).dot(values * model_.getDiscount());
+            qfun_(s,a) = model_.getRewardFunction().coeff(s, a) + model_.getTransitionFunction(a).row(s).dot(values * model_.getDiscount());
         } else {
             double newQValue = 0;
             for ( size_t s1 = 0; s1 < S; ++s1 ) {

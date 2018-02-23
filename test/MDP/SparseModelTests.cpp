@@ -57,7 +57,7 @@ int generator() {
 
 BOOST_AUTO_TEST_CASE( files ) {
     const size_t S = 4, A = 2;
-    AIToolbox::MDP::SparseModel m(S,A);
+    AIToolbox::MDP::SparseModel m(S,A), m2(S,A);
 
     std::string inputFilename  = "./data/mdp_model.txt";
     std::string outputFilename = "./loadedModel.txt";
@@ -73,15 +73,20 @@ BOOST_AUTO_TEST_CASE( files ) {
         BOOST_CHECK( outputFile << m );
     }
     {
-        std::ifstream inputFile(inputFilename);
-        std::ifstream writtenFile(outputFilename);
+        std::ifstream inputFile(outputFilename);
 
-        double input, written;
-        while ( inputFile >> input ) {
-            BOOST_CHECK( writtenFile >> written );
-            BOOST_CHECK_EQUAL( written, input );
+        if ( !inputFile ) BOOST_FAIL("Data written cannot be read again: " + inputFilename);
+        BOOST_CHECK( inputFile >> m2 );
+    }
+    {
+        for ( size_t s = 0; s < S; ++s ) {
+            for ( size_t a = 0; a < A; ++a ) {
+                for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                    BOOST_CHECK(AIToolbox::checkEqualSmall(m.getTransitionProbability(s, a, s1), m2.getTransitionProbability(s, a, s1)));
+                    BOOST_CHECK(AIToolbox::checkEqualGeneral(m.getExpectedReward(s, a, s1), m2.getExpectedReward(s, a, s1)));
+                }
+            }
         }
-        BOOST_CHECK( ! ( writtenFile >> written ) );
     }
     // Cleanup
     {
