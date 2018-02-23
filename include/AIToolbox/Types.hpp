@@ -43,6 +43,11 @@ namespace AIToolbox {
      */
     template <typename T>
     struct remove_cv_ref { using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type; };
+
+    /**
+     * @brief This is used to tag functions that avoid runtime checks.
+     */
+    inline struct NoCheck {} NO_CHECK;
 }
 
 #endif
