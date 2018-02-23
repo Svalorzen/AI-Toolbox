@@ -67,7 +67,7 @@ namespace AIToolbox::MDP {
 
         public:
             using TransitionTable   = SparseMatrix3D;
-            using RewardTable       = SparseMatrix3D;
+            using RewardTable       = SparseMatrix2D;
             /**
              * @brief Constructor using previous Experience.
              *
@@ -246,15 +246,6 @@ namespace AIToolbox::MDP {
             const RewardTable &     getRewardFunction()     const;
 
             /**
-             * @brief This function returns the reward function for a given action.
-             *
-             * @param a The action requested.
-             *
-             * @return The reward function for the input action.
-             */
-            const SparseMatrix2D & getRewardFunction(size_t a) const;
-
-            /**
              * @brief This function returns whether a given state is a terminal.
              *
              * @param s The state examined.
@@ -278,7 +269,7 @@ namespace AIToolbox::MDP {
     template <typename E>
     SparseRLModel<E>::SparseRLModel(const E & exp, const double discount, const bool toSync) :
             S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(A, SparseMatrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(discount);
 
@@ -327,12 +318,11 @@ namespace AIToolbox::MDP {
         // Normalize
         for ( size_t s1 = 0; s1 < S; ++s1 ) {
             const auto visits = experience_.getVisits(s, a, s1);
-            // Normalize action reward over transition visits
-            if ( visits != 0 ) {
-                rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1) / visits;
-            }
-            transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+            if (visits > 0)
+                transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
         }
+        if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
+            rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a) * visitSumReciprocal;
     }
 
     template <typename E>
@@ -344,12 +334,13 @@ namespace AIToolbox::MDP {
         if ( visitSum == 1ul ) {
             transitions_[a].coeffRef(s, s) = 0.0;
             transitions_[a].coeffRef(s, s1) = 1.0;
-            rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1);
+            if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
+                rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a) / visitSum;
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
 
-            // Update reward for this transition (all others stay the same).
-            rewards_[a].coeffRef(s, s1) = experience_.getReward(s, a, s1) / newVisits;
+            if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
+                rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a) / visitSum;
 
             const double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
             const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a].coeff(s, s1));
@@ -366,7 +357,7 @@ namespace AIToolbox::MDP {
     std::tuple<size_t, double> SparseRLModel<E>::sampleSR(const size_t s, const size_t a) const {
         const size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
-        return std::make_tuple(s1, rewards_[a].coeff(s, s1));
+        return std::make_tuple(s1, rewards_.coeff(s, a));
     }
 
     template <typename E>
@@ -375,8 +366,8 @@ namespace AIToolbox::MDP {
     }
 
     template <typename E>
-    double SparseRLModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t s1) const {
-        return rewards_[a].coeff(s, s1);
+    double SparseRLModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t) const {
+        return rewards_.coeff(s, a);
     }
 
     template <typename E>
@@ -403,8 +394,6 @@ namespace AIToolbox::MDP {
 
     template <typename E>
     const SparseMatrix2D & SparseRLModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }
-    template <typename E>
-    const SparseMatrix2D & SparseRLModel<E>::getRewardFunction(const size_t a)     const { return rewards_[a]; }
 }
 
 #endif
