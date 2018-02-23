@@ -424,7 +424,7 @@ namespace AIToolbox::POMDP {
     template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
     double beliefExpectedReward(const M& model, const Belief & b, const size_t a) {
         if constexpr (is_model_eigen<M>::value) {
-            return (model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(model.getS())).dot(b);
+            return model.getRewardFunction().col(a).dot(b);
         } else {
             double rew = 0.0; const size_t S = model.getS();
             for ( size_t s = 0; s < S; ++s )

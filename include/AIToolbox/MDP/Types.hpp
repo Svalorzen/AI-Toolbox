@@ -170,12 +170,12 @@ namespace AIToolbox::MDP {
             // The template parameters here must match the ones used in the test function!
             // So const M if the function is const, and then the parameter types.
             using F = decltype(getTransitionFunctionRetType<const M, size_t>(0));
-            using R = decltype(getRewardFunctionRetType<const M, size_t>(0));
+            using R = decltype(getRewardFunctionRetType<const M>(0));
 
             template <typename Z> static constexpr auto test(int) -> decltype(
 
                     static_cast<const F & (Z::*)(size_t) const>         (&Z::getTransitionFunction),
-                    static_cast<const R & (Z::*)(size_t) const>         (&Z::getRewardFunction),
+                    static_cast<const R & (Z::*)()       const>         (&Z::getRewardFunction),
 
                     bool()
             ) { return true; }

@@ -178,7 +178,10 @@ namespace AIToolbox::POMDP {
 
     template <typename M, typename>
     std::tuple<double, MDP::QFunction> FastInformedBound::operator()(const M & m, const SOSATable & sosa, MDP::QFunction oldQ) {
-        const auto ir = MDP::computeImmediateRewards(m);
+        const auto & ir = [&]{
+            if constexpr (is_model_eigen<M>::value) return m.getRewardFunction();
+            else return computeImmediateRewards(m);
+        }();
         auto newQ = MDP::QFunction(m.getS(), m.getA());
 
         if (oldQ.size() == 0) {

@@ -9,13 +9,13 @@ namespace AIToolbox::MDP {
 
     Model::Model(const size_t s, const size_t a, const double discount) :
             S(s), A(a), discount_(discount), transitions_(A, Matrix2D(S, S)),
-            rewards_(A, Matrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         // Make transition table true probability
-        for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t a = 0; a < A; ++a )
             transitions_[a].setIdentity();
-            rewards_[a].fill(0.0);
-        }
+
+        rewards_.fill(0.0);
     }
 
     void Model::setTransitionFunction(const Matrix3D & t) {
@@ -33,22 +33,22 @@ namespace AIToolbox::MDP {
         transitions_ = t;
     }
 
-    void Model::setRewardFunction(const Matrix3D & r) {
+    void Model::setRewardFunction(const RewardTable & r) {
         rewards_ = r;
     }
 
     std::tuple<size_t, double> Model::sampleSR(const size_t s, const size_t a) const {
         size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
-        return std::make_tuple(s1, rewards_[a](s, s1));
+        return std::make_tuple(s1, rewards_(s, a));
     }
 
     double Model::getTransitionProbability(const size_t s, const size_t a, const size_t s1) const {
         return transitions_[a](s, s1);
     }
 
-    double Model::getExpectedReward(const size_t s, const size_t a, const size_t s1) const {
-        return rewards_[a](s, s1);
+    double Model::getExpectedReward(const size_t s, const size_t a, const size_t) const {
+        return rewards_(s, a);
     }
 
     void Model::setDiscount(const double d) {
@@ -71,5 +71,4 @@ namespace AIToolbox::MDP {
     const Model::RewardTable &     Model::getRewardFunction()     const { return rewards_; }
 
     const Matrix2D & Model::getTransitionFunction(const size_t a) const { return transitions_[a]; }
-    const Matrix2D & Model::getRewardFunction(const size_t a)     const { return rewards_[a]; }
 }

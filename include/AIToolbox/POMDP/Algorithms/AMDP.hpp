@@ -115,7 +115,8 @@ namespace AIToolbox::POMDP {
         const auto beliefs = bGen(beliefSize_);
 
         auto T = MDP::Model::TransitionTable   (A, Matrix2D::Zero(S1, S1));
-        auto R = MDP::Model::RewardTable       (A, Matrix2D::Zero(S1, S1));
+        auto R = MDP::Model::RewardTable       (S1, A);
+        R.fill(0.0);
 
         const auto discretizer = makeDiscretizer(S);
 
@@ -134,7 +135,7 @@ namespace AIToolbox::POMDP {
                         const size_t s1 = discretizer(b1);
 
                         T[a](s, s1) += p;
-                        R[a](s, s1) += p * r;
+                        R(s, a)     += p * r;
                     }
                 }
             }
@@ -142,10 +143,8 @@ namespace AIToolbox::POMDP {
 
         for ( size_t a = 0; a < A; ++a )
             for ( size_t s = 0; s < S1; ++s ) {
-                for ( size_t s1 = 0; s1 < S1; ++s1 ) {
-                    if ( checkDifferentSmall(0.0, T[a](s, s1)) )
-                        R[a](s, s1) /= T[a](s, s1);
-                }
+                R(s, a) /= T[a].row(s).sum();
+
                 const double sum = T[a].row(s).sum();
                 if ( checkEqualSmall(sum, 0.0) ) T[a](s, s) = 1.0;
                 else T[a].row(s) /= sum;

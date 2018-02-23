@@ -146,7 +146,10 @@ namespace AIToolbox::MDP {
                 v1_ = vParameter_;
         }
 
-        const auto ir = computeImmediateRewards(model);
+        const auto & ir = [&]{
+            if constexpr (is_model_eigen<M>::value) return model.getRewardFunction();
+            else return computeImmediateRewards(model);
+        }();
 
         unsigned timestep = 0;
         double variation = epsilon_ * 2; // Make it bigger
