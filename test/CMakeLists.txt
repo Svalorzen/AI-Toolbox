@@ -49,7 +49,7 @@ if (MAKE_MDP)
     find_package(Boost 1.53 COMPONENTS unit_test_framework REQUIRED)
     include_directories(${Boost_INCLUDE_DIRS})
 
-    find_package(Eigen3 REQUIRED)
+    find_package(Eigen3 3.3 REQUIRED)
     include_directories(${EIGEN3_INCLUDE_DIR})
 
     AddTestGlobal(Utils)
