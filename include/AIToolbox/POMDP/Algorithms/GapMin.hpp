@@ -6,8 +6,8 @@
 #include <boost/heap/fibonacci_heap.hpp>
 
 #include <AIToolbox/POMDP/Types.hpp>
-#include <AIToolbox/MDP/SparseModel.hpp>
-#include <AIToolbox/POMDP/SparseModel.hpp>
+#include <AIToolbox/MDP/Model.hpp>
+#include <AIToolbox/POMDP/Model.hpp>
 
 #include <AIToolbox/POMDP/Algorithms/BlindStrategies.hpp>
 #include <AIToolbox/POMDP/Algorithms/FastInformedBound.hpp>
@@ -21,7 +21,7 @@ namespace AIToolbox::POMDP {
      */
     class GapMin {
         public:
-            using IntermediatePOMDP = SparseModel<MDP::SparseModel>;
+            using IntermediatePOMDP = Model<MDP::Model>;
             /**
              * @brief Basic constructor.
              */
@@ -31,7 +31,7 @@ namespace AIToolbox::POMDP {
              * @brief This function solves a POMDP::Model approximately.
              */
             template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-            std::tuple<double, ValueFunction> operator()(const M & model, const Belief & initialBelief);
+            std::tuple<double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
 
         private:
 
@@ -69,7 +69,7 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-    std::tuple<double, ValueFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
+    std::tuple<double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
 
         // Helper methods
@@ -182,55 +182,86 @@ namespace AIToolbox::POMDP {
                 std::tie(ub, std::ignore) = UB(initialBelief, ubQ, ubV);
             }
 
+            // Update the difference between upper and lower bound so we can
+            // return it/use it to stop the loop.
+            var = ub - lb;
+
             // Stop if we didn't find anything new.
             if (newLbBeliefsSize + newUbBeliefsSize == 0)
                 break;
-
-            // Otherwise see what is the difference between upper and lower
-            // bound, and let the loop condition check whether we want to stop.
-            var = ub - lb;
         }
-        // FIXME
-        // return ???
+        return std::make_tuple(var, lbVList, ubQ);
     }
 
     template <typename M>
     std::tuple<GapMin::IntermediatePOMDP, Matrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV) {
         size_t S = model.getS() + ubV.first.size();
 
-        Matrix4D sosa;
+        // First we build the new reward function. For normal states, this is
+        // the same as the old one. For all additional states (beliefs), we
+        // simply take their expected reward with respect to the original
+        // reward function.
         Matrix2D R(S, model.getA());
+        const auto & ir = [&]{
+            if constexpr (MDP::is_model_eigen<M>::value) return model.getRewardFunction();
+            else return computeImmediateRewards(model);
+        }();
 
-        auto ir = computeImmediateRewards(model);
         R.topLeftCorner(model.getS(), model.getA()).noalias() = ir;
         for (size_t b = 0; b < ubV.first.size(); ++b)
             R.col(model.getS()+b) = ubV.first[b] * ir;
 
-        Belief helper(S);
+        // Now we create the SOSA matrix for this new POMDP. For each pair of
+        // action/observation, and for each belief we have (thus state), we
+        // compute the probability of going to any other belief.
+        //
+        // This is done through the UB function, although I must admit I don't
+        // fully understand the math behind of why it works.
+        Belief helper(S), corner(S);
+        corner.fill(0.0);
+
+        Matrix4D sosa;
+        Matrix2D m(S, S);
+        const auto updateMatrix = [&](const Belief & b, size_t a, size_t o, size_t index) {
+            updateBeliefUnnormalized(model, b, a, o, &helper);
+            auto sum = helper.sum();
+            if (checkEqualSmall(sum, 0.0)) {
+                m.row(index).fill(0.0);
+            } else {
+                Vector dist;
+                std::tie(std::ignore, dist) = UB(helper/sum, ubQ, ubV);
+                m.row(index).noalias() = dist;
+            }
+        };
 
         for (size_t a = 0; a < model.getA(); ++a) {
             for (size_t o = 0; o < model.getO(); ++o) {
-                Matrix2D m(S, S);
-
-                // FIXME: This needs to count corners
-                for (size_t b = 0; b < ubV.first.size(); ++b) {
-                    updateBeliefUnnormalized(model, ubV.first[b], a, o, &helper);
-                    auto sum = helper.sum();
-                    if (checkEqualSmall(sum, 0.0)) {
-                        m.row(b).fill(0.0);
-                    } else {
-                        const auto [v, dist] = UB(helper/sum, ubQ, ubV);
-                        m.row(b).noalias() = dist;
-                    }
+                for (size_t s = 0; s < model.getS(); ++s) {
+                    corner[s] = 1.0;
+                    updateMatrix(corner, a, o, s);
+                    corner[s] = 0.0;
                 }
-                sosa[a][o] = std::move(m);
+
+                for (size_t b = 0; b < ubV.first.size(); ++b)
+                    updateMatrix(ubV.first[b], a, o, model.getS() + b);
+
+                // After updating all rows of the matrix, we put it inside the
+                // SOSA table.
+                sosa[a][o] = m;
             }
         }
 
+        // Finally we return a POMDP with no transition nor observation
+        // function, since those are contained in the SOSA matrix.
+        //
+        // We do however include the new reward function that contains rewards
+        // for each new "state"/belief.
         return std::make_tuple(
-                Model(NO_CHECK, model.getO(), model.getObservationFunction(),
-                      NO_CHECK, S, model.getA(), Matrix3D(), std::move(R), model.getDiscount()),
-                std::move(sosa)
+            IntermediatePOMDP(
+                NO_CHECK, model.getO(), Matrix3D(),
+                NO_CHECK, S, model.getA(), Matrix3D(), std::move(R), model.getDiscount()
+            ),
+            std::move(sosa)
         );
     }
     /**
@@ -252,7 +283,12 @@ namespace AIToolbox::POMDP {
      */
     template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
     std::tuple<size_t, double> bestConservativeAction(const M & pomdp, const Belief & initialBelief, const VList & lbVList) {
-        auto ir = computeImmediateRewards(pomdp);
+        MDP::QFunction ir = [&]{
+            if constexpr (MDP::is_model_eigen<M>::value)
+                return pomdp.getRewardFunction();
+            else
+                return computeImmediateRewards(pomdp);
+        }();
 
         for (size_t a = 0; a < pomdp.getA(); ++a) {
             const Belief intermediateBelief = updateBeliefPartial(pomdp, initialBelief, a);
@@ -270,15 +306,20 @@ namespace AIToolbox::POMDP {
 
                 auto it = findBestAtBelief(nextBelief, std::begin(lbVList), std::end(lbVList));
 
-                bpAlpha += pomdp.getTransitionFunction(a).col(o).cwiseProduct(*it);
+                bpAlpha += pomdp.getTransitionFunction(a).col(o).cwiseProduct(std::get<VALUES>(*it));
             }
             ir.col(a) += pomdp.getDiscount() * pomdp.getTransitionFunction(a) * bpAlpha;
         }
 
         size_t id;
-        double v = (initialBelief * ir).maxCoeff(&id);
+        double v = (initialBelief.transpose() * ir).maxCoeff(&id);
 
         return std::make_tuple(id, v);
+    }
+
+    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV) {
+
     }
 
     template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
@@ -305,6 +346,7 @@ namespace AIToolbox::POMDP {
 
         while (!queue.empty() && newBeliefs < maxNewBeliefs) {
             const auto [belief, gap, beliefProbability, depth, path] = queue.top();
+            (void)gap; // ignore gap variable
             queue.pop();
 
             // We add the new belief in the history, to avoid adding to the
@@ -325,6 +367,7 @@ namespace AIToolbox::POMDP {
             // belief to the list.
             const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, belief, ubQ, ubV);
             const auto [lbAction, lbActionValue] = bestConservativeAction(pomdp, belief, lbVList);
+            (void)lbAction; // ignore lbAction
 
             /***********************
              **     UPPER GAP     **
@@ -338,14 +381,16 @@ namespace AIToolbox::POMDP {
 
                 // We also want to check whether we have already added this belief somewhere else.
                 const auto check = [&b](const Belief & bb){ return checkEqualProbability(b, bb); };
-
-                auto it = std::find_if(std::begin(newUbBeliefs), std::end(newUbBeliefs), check);
-                if (it != std::end(newUbBeliefs))
-                    return false;
-
-                it = std::find_if(std::begin(ubV.first), std::end(ubV.first), check);
-                if (it != std::end(ubV.first))
-                    return false;
+                {
+                    auto it = std::find_if(std::begin(newUbBeliefs), std::end(newUbBeliefs), check);
+                    if (it != std::end(newUbBeliefs))
+                        return false;
+                }
+                {
+                    auto it = std::find_if(std::begin(ubV.first), std::end(ubV.first), check);
+                    if (it != std::end(ubV.first))
+                        return false;
+                }
                 return true;
             };
 
@@ -377,18 +422,20 @@ namespace AIToolbox::POMDP {
             // code). We still check on the lower bound lists though.
             const auto validForLb = [&newLbBeliefs, &lbBeliefs](const Belief & b) {
                 const auto check = [&b](const Belief & bb){ return checkEqualProbability(b, bb); };
-
-                auto it = std::find_if(std::begin(newLbBeliefs), std::end(newLbBeliefs), check);
-                if (it != std::end(newLbBeliefs))
-                    return false;
-
-                it = std::find_if(std::begin(lbBeliefs), std::end(lbBeliefs), check);
-                if (it != std::end(lbBeliefs))
-                    return false;
+                {
+                    auto it = std::find_if(std::begin(newLbBeliefs), std::end(newLbBeliefs), check);
+                    if (it != std::end(newLbBeliefs))
+                        return false;
+                }
+                {
+                    auto it = std::find_if(std::begin(lbBeliefs), std::end(lbBeliefs), check);
+                    if (it != std::end(lbBeliefs))
+                        return false;
+                }
                 return true;
             };
 
-            if (validForLb) {
+            if (validForLb(belief)) {
                 double currentLowerBound;
                 findBestAtBelief(belief, std::begin(lbVList), std::end(lbVList), &currentLowerBound);
                 if (checkDifferentGeneral(lbActionValue, currentLowerBound) && lbActionValue > currentLowerBound) {
