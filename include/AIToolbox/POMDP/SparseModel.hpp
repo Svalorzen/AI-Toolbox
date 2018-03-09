@@ -14,7 +14,7 @@ namespace AIToolbox::POMDP {
     class SparseModel;
 
     // Declaration to warn the compiler that this is a template function
-    template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
+    template <typename M, typename = std::enable_if_t<MDP::is_model<M>::value>>
     std::istream& operator>>(std::istream &is, SparseModel<M> & m);
 
     /**
@@ -123,7 +123,7 @@ namespace AIToolbox::POMDP {
              * @param parameters All arguments needed to build the parent Model.
              */
             // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
-            template <typename ObFun, typename... Args, typename = typename std::enable_if<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>::type>
+            template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>>
             SparseModel(size_t o, ObFun && of, Args&&... parameters);
 
             /**
@@ -141,7 +141,7 @@ namespace AIToolbox::POMDP {
              * @tparam PM The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename PM, typename = typename std::enable_if<is_model<PM>::value && std::is_constructible<M,PM>::value, int>::type>
+            template <typename PM, typename = std::enable_if_t<is_model<PM>::value && std::is_constructible<M,PM>::value>>
             SparseModel(const PM& model);
 
             /**

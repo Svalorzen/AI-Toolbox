@@ -103,7 +103,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         QFunction and the computed QFunction.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, MDP::QFunction> operator()(const M & m, const MDP::QFunction & oldQ = {});
 
             /**
@@ -127,7 +127,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         QFunction and the computed QFunction.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, MDP::QFunction> operator()(const M & m, const SOSATable & sosa, MDP::QFunction oldQ = {});
 
             /**

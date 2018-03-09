@@ -20,7 +20,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The resulting output stream.
      */
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     std::ostream& operator<<(std::ostream &os, const M & model) {
         // First print the MDP part
         MDP::operator<<(os, model);

@@ -152,7 +152,7 @@ namespace AIToolbox::MDP {
              * @tparam M The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             SparseModel(const M& model);
 
             /**
@@ -388,7 +388,7 @@ namespace AIToolbox::MDP {
         setRewardFunction(r);
     }
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+    template <typename M, typename>
     SparseModel::SparseModel(const M& model) :
             S(model.getS()), A(model.getA()), transitions_(A, SparseMatrix2D(S, S)),
             rewards_(S, A), rand_(Impl::Seeder::getSeed())

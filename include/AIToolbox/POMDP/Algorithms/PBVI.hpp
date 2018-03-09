@@ -134,7 +134,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, ValueFunction> operator()(const M & model, ValueFunction v = {});
 
             /**
@@ -157,7 +157,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, ValueFunction> operator()(const M & model, const std::vector<Belief> & bList, ValueFunction v = {});
 
         private:
@@ -190,7 +190,7 @@ namespace AIToolbox::POMDP {
             mutable std::default_random_engine rand_;
     };
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+    template <typename M, typename>
     std::tuple<double, ValueFunction> PBVI::operator()(const M & model, ValueFunction v) {
         // In this implementation we compute all beliefs in advance. This
         // is mostly due to the fact that I prefer counter parameters (how
@@ -202,7 +202,7 @@ namespace AIToolbox::POMDP {
         return operator()(model, bGen(beliefSize_), v);
     }
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+    template <typename M, typename>
     std::tuple<double, ValueFunction> PBVI::operator()(const M & model, const std::vector<Belief> & beliefs, ValueFunction v) {
         // Initialize "global" variables
         S = model.getS();

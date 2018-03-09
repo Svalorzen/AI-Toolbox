@@ -72,7 +72,7 @@ namespace AIToolbox::MDP {
      *
      * @return The Models's immediate rewards.
      */
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     Matrix2D computeImmediateRewards(const M & model) {
         if constexpr(is_model_eigen<M>::value) {
             return model.getRewardFunction();
@@ -101,7 +101,7 @@ namespace AIToolbox::MDP {
      *
      * @return A new QFunction.
      */
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     QFunction computeQFunction(const M & model, const Values & v, QFunction ir) {
         const auto A = model.getA();
 

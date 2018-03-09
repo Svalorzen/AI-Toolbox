@@ -58,7 +58,7 @@ namespace AIToolbox::MDP {
              *         ValueFunction, the ValueFunction and the QFunction for
              *         the Model.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, ValueFunction, QFunction> operator()(const M & m);
 
             /**

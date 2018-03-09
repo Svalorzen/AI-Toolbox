@@ -285,7 +285,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The best action in the input belief with respect to the input VList.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, typename = std::enable_if_t<is_model<M>::value>>
     std::tuple<size_t, double> bestConservativeAction(const M & pomdp, const Belief & initialBelief, const VList & lbVList) {
         MDP::QFunction ir = [&]{
             if constexpr (MDP::is_model_eigen<M>::value)

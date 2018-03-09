@@ -65,7 +65,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation over all
              *         actions and the VList containing the found bounds.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, VList> operator()(const M & m, bool fasterConvergence);
 
             /**

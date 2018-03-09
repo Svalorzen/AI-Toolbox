@@ -82,7 +82,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The SOSA table for the input pomdp.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     Matrix4D makeSOSA(const M & m) {
         Matrix4D retval( boost::extents[m.getA()][m.getO()] );
 
@@ -121,7 +121,7 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     void updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
@@ -157,7 +157,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     Belief updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
         Belief br(model.getS());
         updateBeliefUnnormalized(model, b, a, o, &br);
@@ -185,7 +185,7 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     void updateBelief(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
@@ -215,7 +215,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     Belief updateBelief(const M & model, const Belief & b, const size_t a, const size_t o) {
         Belief br(model.getS());
         updateBelief(model, b, a, o, &br);
@@ -239,7 +239,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param bRet The output belief.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     void updateBeliefPartial(const M & model, const Belief & b, const size_t a, Belief * bRet) {
         if (!bRet) return;
 
@@ -273,7 +273,7 @@ namespace AIToolbox::POMDP {
      * @param b The old belief.
      * @param a The action taken during the transition.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     Belief updateBeliefPartial(const M & model, const Belief & b, const size_t a) {
         Belief bRet(model.getS());
         updateBeliefPartial(model, b, a, &bRet);
@@ -300,7 +300,7 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     void updateBeliefPartialUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
@@ -334,7 +334,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     Belief updateBeliefPartialUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
         Belief bRet(model.getS());
         updateBeliefPartialUnnormalized(model, b, a, o, &bRet);
@@ -368,7 +368,7 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     void updateBeliefPartialNormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
@@ -405,7 +405,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     Belief updateBeliefPartialNormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
         auto newB = updateBeliefPartialUnnormalized(model, b, a, o);
         newB /= newB.sum();
@@ -421,7 +421,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The immediate reward.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     double beliefExpectedReward(const M& model, const Belief & b, const size_t a) {
         if constexpr (is_model_eigen<M>::value) {
             return model.getRewardFunction().col(a).dot(b);

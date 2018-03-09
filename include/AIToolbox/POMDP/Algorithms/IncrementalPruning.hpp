@@ -116,7 +116,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, ValueFunction> operator()(const M & model);
 
         private:

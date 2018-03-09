@@ -86,7 +86,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A tuple containing a dense MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<MDP::Model, Discretizer> discretizeDense(const M& model);
 
             /**
@@ -97,7 +97,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A tuple containing a sparse MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<MDP::SparseModel, Discretizer> discretizeSparse(const M& model);
 
         private:
