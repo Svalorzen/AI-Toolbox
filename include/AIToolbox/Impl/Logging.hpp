@@ -87,12 +87,12 @@ namespace AIToolbox::Impl {
 #define AI_LOGGER(SEV, ARGS)                                \
     do {                                                    \
         if (AILogger) {                                     \
-            std::stringstream s;                            \
-            s.rdbuf()->pubsetbuf(                           \
+            std::stringstream internal_stringstream_;       \
+            internal_stringstream_.rdbuf()->pubsetbuf(      \
                 AIToolbox::Impl::logBuffer,                 \
                 sizeof(AIToolbox::Impl::logBuffer) - 1      \
             );                                              \
-            s << ARGS << '\0';                              \
+            internal_stringstream_ << ARGS << '\0';         \
             AILogger(SEV, AIToolbox::Impl::logBuffer);      \
         }                                                   \
     } while(0)
