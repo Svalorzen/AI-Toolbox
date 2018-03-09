@@ -10,7 +10,7 @@
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox::POMDP;
-    GapMin gm;
+    GapMin gm(0.0001);
 
     auto model = makeTigerProblem();
     Belief initialBelief(model.getS());

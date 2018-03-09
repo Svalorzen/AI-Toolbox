@@ -25,12 +25,12 @@ namespace AIToolbox::POMDP {
             /**
              * @brief Basic constructor.
              */
-            GapMin() {}
+            GapMin(double epsilon);
 
             /**
              * @brief This function solves a POMDP::Model approximately.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
 
         private:
@@ -50,8 +50,10 @@ namespace AIToolbox::POMDP {
             std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
             template <typename M>
             std::tuple<IntermediatePOMDP, Matrix4D> makeNewPomdp(const M& model, const MDP::QFunction &, const UbVType &);
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV);
 
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> selectReachableBeliefs(
                 const M & model,
                 const Belief &,
@@ -63,12 +65,14 @@ namespace AIToolbox::POMDP {
             double epsilon_;
     };
 
+    GapMin::GapMin(double epsilon) : epsilon_(epsilon) {}
+
     bool GapMin::GapTupleLess::operator() (const QueueElement& arg1, const QueueElement& arg2) const
     {
         return std::get<1>(arg1) < std::get<1>(arg2);
     }
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+    template <typename M, typename>
     std::tuple<double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
 
@@ -178,7 +182,7 @@ namespace AIToolbox::POMDP {
                     ubV.second[i] = fibQ.row(pomdp.getS() + i).maxCoeff();
 
                 // Finally, we remove some unused stuff, and we recompute the upperbound.
-                // FIXME: cleanUp(ubQ, ubV, fibQ);
+                //cleanUp(ubQ, ubV, fibQ);
                 std::tie(ub, std::ignore) = UB(initialBelief, ubQ, ubV);
             }
 
@@ -317,12 +321,36 @@ namespace AIToolbox::POMDP {
         return std::make_tuple(id, v);
     }
 
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
-    std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV) {
+    template <typename M, typename>
+    std::tuple<size_t, double> GapMin::bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV) {
+        Vector qvals = belief * [&]{
+            if constexpr (MDP::is_model_eigen<M>::value)
+                return pomdp.getRewardFunction();
+            else
+                return computeImmediateRewards(pomdp);
+        }();
 
+        double val;
+        for (size_t a = 0; a < pomdp.getA(); ++a) {
+            const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, a);
+            for (size_t o = 0; o < pomdp.getO(); ++o) {
+                Belief nextBelief = updateBeliefUnnormalized(pomdp, intermediateBelief, a, o);
+
+                const auto sum = nextBelief.sum();
+                if (checkEqualSmall(sum, 0.0)) continue;
+                nextBelief /= sum;
+
+                std::tie(val, std::ignore) = UB(nextBelief, ubQ, ubV);
+                qvals[a] += pomdp.getDiscount() * val;
+            }
+        }
+        size_t bestAction;
+        double bestValue = qvals.maxCoeff(&bestAction);
+
+        return std::make_tuple(bestAction, bestValue);
     }
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+    template <typename M, typename>
     std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> GapMin::selectReachableBeliefs(
             const M & pomdp, const Belief & initialBelief, const VList & lbVList,
             const std::vector<Belief> & lbBeliefs, const MDP::QFunction & ubQ, const UbVType & ubV
