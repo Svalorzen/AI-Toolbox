@@ -5,6 +5,8 @@
 
 #include <boost/heap/fibonacci_heap.hpp>
 
+#include <AIToolbox/Impl/Logging.hpp>
+
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
@@ -127,6 +129,7 @@ namespace AIToolbox::POMDP {
 
         auto var = ub - lb;
         while (var >= epsilon_) {
+            AI_LOGGER(AI_SEVERITY_DEBUG, "looping...");
             // Now we find beliefs for both lower and upper bound where we
             // think we can improve. For the ub beliefs we also return their
             // values, since we need them to improve the ub.

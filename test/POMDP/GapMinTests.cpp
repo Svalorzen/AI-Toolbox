@@ -7,9 +7,19 @@
 #include <AIToolbox/POMDP/Types.hpp>
 
 #include "Utils/TigerProblem.hpp"
+#include <AIToolbox/Impl/Logging.hpp>
+
+#include <iostream>
+
+void print(int, const char * msg) {
+    std::cout << msg << '\n';
+}
+
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox::POMDP;
+    AIToolbox::AILogger = print;
+
     GapMin gm(0.0001);
 
     auto model = makeTigerProblem();
