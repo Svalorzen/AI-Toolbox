@@ -143,17 +143,17 @@ namespace AIToolbox::POMDP {
 
         constexpr unsigned jMax = 20;
         std::array<size_t, jMax> observationBuffer;
-        double distance;
         // We apply the discovery process also to all beliefs we discover
         // along the way. We start from the first good one, since the others
         // have already produced as much as they can.
         for (size_t i = firstProductiveBelief; i < bl.size(); ++i) {
             // Compute all new beliefs
             for ( size_t a = 0; a < A; ++a ) {
+                double distance = std::numeric_limits<double>::max();
                 distances[a] = 0.0;
                 size_t bufferFill = 0;
                 updateBeliefPartial(model_, bl[i], a, &helper1_);
-                for ( unsigned j = 0; j < jMax; ++j ) {
+                for (unsigned j = 0; j < jMax; ++j) {
                     const size_t s = sampleProbability(S, bl[i], rand_);
 
                     size_t o;
