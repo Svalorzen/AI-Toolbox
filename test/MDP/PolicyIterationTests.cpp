@@ -54,17 +54,10 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     // Also cells in the diagonal are indifferent as to the chosen direction.
     for ( size_t a = 0; a < A; ++a ) {
         BOOST_CHECK_EQUAL( policy.getActionProbability(0, a),   0.25);
+        BOOST_CHECK_EQUAL( policy.getActionProbability(6, a),   0.25);
+        BOOST_CHECK_EQUAL( policy.getActionProbability(9, a),   0.25);
         BOOST_CHECK_EQUAL( policy.getActionProbability(15, a),  0.25);
     }
-
-    // For some reason, PolicyIteration converges to a policy which tries to
-    // stay "inside" of the grid. This is not wrong, per se, since the final
-    // values of the policy will be the same. Still we note this, and we change
-    // a bit the tests just to make them pass.
-    BOOST_CHECK_EQUAL( policy.getActionProbability(6, LEFT),   0.5);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(6, DOWN),   0.5);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(9, RIGHT),  0.5);
-    BOOST_CHECK_EQUAL( policy.getActionProbability(9, UP),     0.5);
 
     // Middle top cells want to go left to the absorbing state:
     BOOST_CHECK_EQUAL( policy.getActionProbability(1, LEFT), 1.0);

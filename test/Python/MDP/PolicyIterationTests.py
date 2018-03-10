@@ -62,13 +62,9 @@ class MDPPythonPolicyIterationTests(unittest.TestCase):
 
         for a in xrange(0, 4):
             self.assertEqual(p.getActionProbability(0, a), 0.25)
+            self.assertEqual(p.getActionProbability(6, a), 0.25)
+            self.assertEqual(p.getActionProbability(9, a), 0.25)
             self.assertEqual(p.getActionProbability(15, a), 0.25)
-
-        self.assertEqual(p.getActionProbability(6, LEFT), 0.5)
-        self.assertEqual(p.getActionProbability(6, DOWN), 0.5)
-
-        self.assertEqual(p.getActionProbability(9, RIGHT), 0.5)
-        self.assertEqual(p.getActionProbability(9, UP),    0.5)
 
         self.assertEqual(p.getActionProbability(1, LEFT), 1.0)
         self.assertEqual(p.getActionProbability(2, LEFT), 1.0)
