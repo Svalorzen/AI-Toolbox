@@ -9,7 +9,7 @@
 BOOST_AUTO_TEST_CASE( updates ) {
     namespace mdp = AIToolbox::MDP;
 
-    mdp::HystereticQLearning solver(5, 5, 0.9, 0.5, 0.3);
+    mdp::HystereticQLearning solver(6, 6, 0.9, 0.5, 0.3);
 
     BOOST_CHECK_EQUAL( solver.getPositiveLearningRate(), 0.5 );
     BOOST_CHECK_EQUAL( solver.getNegativeLearningRate(), 0.3 );
