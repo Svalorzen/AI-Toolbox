@@ -49,9 +49,12 @@ namespace AIToolbox::POMDP {
 
             using QueueType = boost::heap::fibonacci_heap<QueueElement, boost::heap::compare<GapTupleLess>>;
 
+            void cleanUp(const MDP::QFunction & ubQ, UbVType * ubV, Matrix2D * fibQ);
             std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
-            template <typename M>
+
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<IntermediatePOMDP, Matrix4D> makeNewPomdp(const M& model, const MDP::QFunction &, const UbVType &);
+
             template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV);
 
@@ -194,7 +197,7 @@ namespace AIToolbox::POMDP {
                     ubV.second[i] = fibQ.row(pomdp.getS() + i).maxCoeff();
 
                 // Finally, we remove some unused stuff, and we recompute the upperbound.
-                //cleanUp(ubQ, ubV, fibQ);
+                cleanUp(ubQ, &ubV, &fibQ);
                 std::tie(ub, std::ignore) = UB(initialBelief, ubQ, ubV);
             }
 
@@ -210,7 +213,90 @@ namespace AIToolbox::POMDP {
         return std::make_tuple(var, lbVList, ubQ);
     }
 
-    template <typename M>
+    void GapMin::cleanUp(const MDP::QFunction & ubQ, UbVType * ubVp, Matrix2D * fibQp) {
+        assert(ubVp);
+        assert(fibQp);
+
+        UbVType & ubV = *ubVp;
+        Matrix2D & fibQ = *fibQp;
+
+        std::vector<size_t> toRemove;
+        size_t i;
+
+        // For each belief, we try to compute its upper bound with the others.
+        // If it doesn't change, it means that we don't really need it, and
+        // thus we remove it.
+        i = 0;
+        while (i < ubV.first.size() && ubV.first.size() > 1) {
+            std::swap(ubV.first[i], ubV.first.back());
+            std::swap(ubV.second[i], ubV.second.back());
+
+            auto belief = std::move(ubV.first.back());
+            auto value = ubV.second.back();
+
+            ubV.first.pop_back();
+            ubV.second.pop_back();
+
+            const auto [v, dist] = UB(belief, ubQ, ubV);
+
+            if (std::fabs(v - value) < epsilon_) {
+                // We keep note of the "real" indeces of the removed beliefs.
+                toRemove.push_back(i + toRemove.size());
+            } else {
+                // Unpop and unswap, since we need to keep the order consistent
+                // (fibQ depends on it). This could be done with a couple less
+                // moves but like this it's more clear.
+                ubV.first.emplace_back(std::move(belief));
+                ubV.second.emplace_back(value);
+
+                std::swap(ubV.first[i], ubV.first.back());
+                std::swap(ubV.second[i], ubV.second.back());
+
+                ++i;
+            }
+        }
+        // If all beliefs are useful, we're done.
+        if (toRemove.size() == 0) return;
+
+        // Here we do a bit of fancy dance in order to do as little operations
+        // as possible to remove the unneeded rows from fibQ. Additionally, we
+        // try to also do as few block operations as possible, in the hope that
+        // Eigen gets to optimize those and thus speeds us up.
+        //
+        // We need to allocate another matrix anyway since if we copied from
+        // fibQ to fibQ we'd have to make an allocation per copy anyway. So we
+        // do only one and we're done.
+        //
+        // The idea is simply copying one block at a time towards the beginning.
+        const size_t newRows = fibQ.rows() - toRemove.size();
+        const size_t cols = fibQ.cols();
+        Matrix2D newFibQ(newRows, cols);
+
+        size_t beginSource = 0;
+        size_t beginTarget = 0;
+        size_t toCopy;
+
+        i = 0;
+        while (i < toRemove.size()) {
+            while (i < toRemove.size() && toRemove[i] == beginSource) ++i, ++beginSource;
+
+            if (i == toRemove.size()) {
+                if (beginSource > cols) break;
+                toCopy = cols - beginSource;
+            } else {
+                toCopy = toRemove[i] - beginSource;
+            }
+
+            newFibQ.block(beginTarget, 0, toCopy, cols) = fibQ.block(beginSource, 0, toCopy, cols);
+
+            beginTarget += toCopy;
+            beginSource += toCopy;
+        }
+        // And we give it back
+        fibQ = std::move(newFibQ);
+    }
+
+    template <typename M, typename>
     std::tuple<GapMin::IntermediatePOMDP, Matrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV) {
         size_t S = model.getS() + ubV.first.size();
 
