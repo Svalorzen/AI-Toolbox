@@ -100,9 +100,10 @@ namespace AIToolbox::POMDP {
         auto lbBeliefs = std::vector<Belief>{initialBelief};
 
         // The same we do here with FIB for the input POMDP.
-        MDP::QFunction ubQ(pomdp.getS(), pomdp.getA());
+        MDP::QFunction ubQ;
         std::tie(std::ignore, ubQ) = fib(pomdp);
         AI_LOGGER(AI_SEVERITY_DEBUG, "Initial QFunction:\n" << ubQ);
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Initial belief:\n" << initialBelief);
 
         // At the same time, we start initializing fibQ, which will be our
         // pseudo-alphaVector storage for our belief-POMDPs which we'll create
@@ -113,7 +114,7 @@ namespace AIToolbox::POMDP {
         // and project them to our input POMDP.
         auto fibQ = Matrix2D(pomdp.getS()+1, pomdp.getA());
         fibQ.topLeftCorner(pomdp.getS(), pomdp.getA()).noalias() = ubQ;
-        fibQ.row(pomdp.getS()).noalias() = ubQ * initialBelief;
+        fibQ.row(pomdp.getS()).noalias() = initialBelief.transpose() * ubQ;
 
         // While we store the lower bound as alphaVectors, the upper bound is
         // composed by both alphaVectors (albeit only S of them - out of the
