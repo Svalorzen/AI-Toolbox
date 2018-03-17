@@ -142,7 +142,7 @@ namespace AIToolbox::POMDP {
             while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
                 ++timestep;
                 if constexpr(is_model_eigen<M>::value) {
-                    newAlpha = ir.row(a) + m.getDiscount() * m.getTransitionFunction(a) * oldAlpha;
+                    newAlpha = ir.row(a) + (m.getDiscount() * m.getTransitionFunction(a) * oldAlpha).transpose();
                 } else {
                     newAlpha = ir.row(a);
                     for (size_t s = 0; s < m.getS(); ++s) {
