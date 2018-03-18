@@ -698,7 +698,7 @@ namespace AIToolbox::POMDP {
             retval.head(belief.size()).noalias() = belief;
             retval.tail(ubV.first.size() - belief.size()).fill(0.0);
 
-            return std::make_tuple((belief * ubQ).maxCoeff(), std::move(retval));
+            return std::make_tuple((belief.transpose() * ubQ).maxCoeff(), std::move(retval));
         }
 
         Vector cornerVals = ubQ.rowwise().maxCoeff();
