@@ -331,7 +331,7 @@ namespace AIToolbox::POMDP {
         //
         // This is done through the UB function, although I must admit I don't
         // fully understand the math behind of why it works.
-        Belief helper(S), corner(S);
+        Belief helper(model.getS()), corner(model.getS());
         corner.fill(0.0);
 
         Matrix4D sosa;
