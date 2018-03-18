@@ -133,8 +133,9 @@ namespace AIToolbox::POMDP {
         double ub = ubV.second[0];
 
         auto var = ub - lb;
+        AI_LOGGER(AI_SEVERITY_WARNING, "Initial bounds: " << lb << ", " << ub);
         while (var >= epsilon_) {
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Beginning loop...");
+            AI_LOGGER(AI_SEVERITY_ERROR, "Beginning loop...");
             // Now we find beliefs for both lower and upper bound where we
             // think we can improve. For the ub beliefs we also return their
             // values, since we need them to improve the ub.
@@ -142,9 +143,9 @@ namespace AIToolbox::POMDP {
             const auto newLbBeliefsSize = newLbBeliefs.size();
             const auto newUbBeliefsSize = newUbBeliefs.size();
 
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Checking lower bound updates...");
+            AI_LOGGER(AI_SEVERITY_ERROR, "Checking lower bound updates...");
             if (newLbBeliefsSize > 0) {
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Adding " << newLbBeliefsSize << " new beliefs...");
+                AI_LOGGER(AI_SEVERITY_WARNING, "Adding " << newLbBeliefsSize << " new beliefs...");
                 for (const auto & b : newLbBeliefs)
                     AI_LOGGER(AI_SEVERITY_DEBUG, "- Belief: " << b.transpose());
                 // If we found something interesting for the lower bound, we
@@ -153,21 +154,22 @@ namespace AIToolbox::POMDP {
 
                 // Then we remove all beliefs which don't actively support any
                 // alphaVectors.
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Running PBVI...");
+                AI_LOGGER(AI_SEVERITY_WARNING, "Running PBVI...");
                 lbVList = std::move(std::get<1>(pbvi(pomdp, lbBeliefs, ValueFunction{std::move(lbVList)})).back());
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Pruning non-useful beliefs...");
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Pruning non-useful beliefs, from " << lbBeliefs.size() << " beliefs...");
                 lbBeliefs.erase(extractUsefulBeliefs(
                     std::begin(lbBeliefs), std::end(lbBeliefs),
                     std::begin(lbVList), std::end(lbVList)),
                     std::end(lbBeliefs)
                 );
+                AI_LOGGER(AI_SEVERITY_DEBUG, "... to " << lbBeliefs.size() << " beliefs.");
 
                 // And we recompute the lower bound.
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Updating lower bound...");
                 findBestAtBelief(initialBelief, std::begin(lbVList), std::end(lbVList), &lb);
+                AI_LOGGER(AI_SEVERITY_WARNING, "Updated lower bound to " << lb);
             }
 
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Checking upper bound updates...");
+            AI_LOGGER(AI_SEVERITY_ERROR, "Checking upper bound updates...");
             if (newUbBeliefsSize > 0) {
                 // Here we do the same for the upper bound.
                 const auto prevRows = pomdp.getS() + ubV.first.size();
@@ -184,8 +186,10 @@ namespace AIToolbox::POMDP {
                     fibQ.row(prevRows + i).fill(newUbVals[i]);
                 }
 
+                AI_LOGGER(AI_SEVERITY_WARNING, "Building new POMDP...");
                 // We create a new POMDP where each state is a belief.
                 auto [newPOMDP, newPOMDPSOSA] = makeNewPomdp(pomdp, ubQ, ubV);
+                AI_LOGGER(AI_SEVERITY_WARNING, "Running FIB...");
                 // And we approximate its upper bound.
                 std::tie(std::ignore, fibQ) = fib(newPOMDP, newPOMDPSOSA, std::move(fibQ));
 
@@ -193,19 +197,24 @@ namespace AIToolbox::POMDP {
                 // states of the input POMDP, and we copy them to our
                 // upperBound alphavectors. We additionally update the values
                 // for all ub beliefs.
+                AI_LOGGER(AI_SEVERITY_WARNING, "Updating UbQ...");
                 ubQ.noalias() = fibQ.block(0, 0, pomdp.getS(), pomdp.getA());
                 for (size_t i = 0; i < ubV.second.size(); ++i)
                     ubV.second[i] = fibQ.row(pomdp.getS() + i).maxCoeff();
 
                 // Finally, we remove some unused stuff, and we recompute the upperbound.
+                AI_LOGGER(AI_SEVERITY_WARNING, "Cleanup...");
                 cleanUp(ubQ, &ubV, &fibQ);
+                AI_LOGGER(AI_SEVERITY_WARNING, "Recomputing upper bound...");
                 std::tie(ub, std::ignore) = UB(initialBelief, ubQ, ubV);
+
+                AI_LOGGER(AI_SEVERITY_WARNING, "Updated upper bound to " << ub);
             }
 
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Updating gap...");
             // Update the difference between upper and lower bound so we can
             // return it/use it to stop the loop.
             var = ub - lb;
+            AI_LOGGER(AI_SEVERITY_ERROR, "Updated bounds to " << lb << ", " << ub);
 
             // Stop if we didn't find anything new.
             if (newLbBeliefsSize + newUbBeliefsSize == 0)
@@ -445,6 +454,7 @@ namespace AIToolbox::POMDP {
                 qvals[a] += pomdp.getDiscount() * val;
             }
         }
+        AI_LOGGER(AI_SEVERITY_DEBUG, "");
         size_t bestAction;
         double bestValue = qvals.maxCoeff(&bestAction);
 
@@ -457,7 +467,7 @@ namespace AIToolbox::POMDP {
             const std::vector<Belief> & lbBeliefs, const MDP::QFunction & ubQ, const UbVType & ubV
         )
     {
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Selecting reachable beliefs...");
+        AI_LOGGER(AI_SEVERITY_WARNING, "Selecting reachable beliefs...");
         std::vector<Belief> newLbBeliefs, newUbBeliefs, visitedBeliefs;
         std::vector<double> newUbValues;
 
@@ -476,7 +486,7 @@ namespace AIToolbox::POMDP {
 
         while (!queue.empty() && newBeliefs < maxNewBeliefs) {
             const auto [belief, gap, beliefProbability, depth, path] = queue.top();
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Now examining belief: " << belief.transpose());
+            AI_LOGGER(AI_SEVERITY_INFO, "### QUEUE EXTRACTION: Now examining belief: " << belief.transpose());
             (void)gap; // ignore gap variable
             queue.pop();
 
@@ -498,8 +508,8 @@ namespace AIToolbox::POMDP {
             // belief to the list.
             const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, belief, ubQ, ubV);
             const auto [lbAction, lbActionValue] = bestConservativeAction(pomdp, belief, lbVList);
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Best promising UB action: " << ubAction << " with value " << ubActionValue);
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Best conservatibe LB action: " << lbAction << " with value " << lbActionValue);
+            AI_LOGGER(AI_SEVERITY_INFO, "Best promising UB action: " << ubAction << " with value " << ubActionValue);
+            AI_LOGGER(AI_SEVERITY_INFO, "Best conservative LB action: " << lbAction << " with value " << lbActionValue);
 
             (void)lbAction; // ignore lbAction
 
@@ -529,9 +539,11 @@ namespace AIToolbox::POMDP {
             };
 
             if (validForUb(belief)) {
-                AI_LOGGER(AI_SEVERITY_DEBUG, "This belief is valid for UB.");
+                AI_LOGGER(AI_SEVERITY_INFO, "UB: belief " << belief.transpose() << " is valid for UB.");
                 const double currentUpperBound = std::get<0>(UB(belief, ubQ, ubV));
+                AI_LOGGER(AI_SEVERITY_INFO, "UB: This belief currently has a value of " << currentUpperBound << " vs the found " << ubActionValue);
                 if (checkDifferentGeneral(ubActionValue, currentUpperBound) && ubActionValue < currentUpperBound) {
+                    AI_LOGGER(AI_SEVERITY_INFO, "UB: Adding this belief to the UB with value " << ubActionValue);
                     newUbBeliefs.push_back(belief);
                     newUbValues.push_back(ubActionValue);
 
@@ -571,10 +583,12 @@ namespace AIToolbox::POMDP {
             };
 
             if (validForLb(belief)) {
-                AI_LOGGER(AI_SEVERITY_DEBUG, "This belief is valid for LB.");
+                AI_LOGGER(AI_SEVERITY_INFO, "LB: belief " << belief.transpose() << " is valid for LB.");
                 double currentLowerBound;
                 findBestAtBelief(belief, std::begin(lbVList), std::end(lbVList), &currentLowerBound);
+                AI_LOGGER(AI_SEVERITY_INFO, "LB: This belief currently has a value of " << currentLowerBound << " vs the found " << lbActionValue);
                 if (checkDifferentGeneral(lbActionValue, currentLowerBound) && lbActionValue > currentLowerBound) {
+                    AI_LOGGER(AI_SEVERITY_INFO, "LB: Adding this belief to the LB with value " << lbActionValue);
                     // We add the new belief, and the same is done for all
                     // beliefs that led us to this one (if they're valid -
                     // i.e., we didn't have them already).
@@ -599,6 +613,8 @@ namespace AIToolbox::POMDP {
             if (newBeliefs >= maxNewBeliefs)
                 break;
 
+            AI_LOGGER(AI_SEVERITY_INFO, "Expanding queue...");
+
             auto newPath = path;
             newPath.push_back(belief);
 
@@ -622,6 +638,7 @@ namespace AIToolbox::POMDP {
                 findBestAtBelief(nextBelief, std::begin(lbVList), std::end(lbVList), &lbValue);
 
                 if ((ubValue - lbValue) * std::pow(pomdp.getDiscount(), depth) > epsilon_ * 20) {
+                    AI_LOGGER(AI_SEVERITY_INFO, "Adding belief " << nextBelief.transpose() << ", which we don't already have...");
                     const auto nextBeliefOverallProbability = nextBeliefProbability * beliefProbability * pomdp.getDiscount();
                     const auto nextBeliefGap = nextBeliefOverallProbability * (ubValue - lbValue);
                     queue.emplace(
@@ -801,6 +818,9 @@ namespace AIToolbox::POMDP {
         AI_LOGGER(AI_SEVERITY_DEBUG, "Unscaled solution value is " << unscaledValue << "...");
 
         double ubValue = unscaledValue + belief.transpose() * cornerVals;
+
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Final value value is " << ubValue);
+
         Vector retval(belief.size() + ubV.first.size());
         retval.fill(0.0);
 
