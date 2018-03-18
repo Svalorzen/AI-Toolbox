@@ -248,6 +248,7 @@ namespace AIToolbox::POMDP {
             ubV.second.pop_back();
 
             const auto [v, dist] = UB(belief, ubQ, ubV);
+            (void)dist;
 
             if (std::fabs(v - value) < epsilon_) {
                 // We keep note of the "real" indeces of the removed beliefs.
