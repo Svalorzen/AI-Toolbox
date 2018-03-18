@@ -404,10 +404,10 @@ namespace AIToolbox::POMDP {
                 return computeImmediateRewards(pomdp);
         }();
 
+        Vector bpAlpha(pomdp.getS());
         for (size_t a = 0; a < pomdp.getA(); ++a) {
             const Belief intermediateBelief = updateBeliefPartial(pomdp, initialBelief, a);
 
-            Vector bpAlpha(pomdp.getS());
             bpAlpha.fill(0.0);
 
             for (size_t o = 0; o < pomdp.getO(); ++o) {
