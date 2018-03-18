@@ -334,7 +334,7 @@ namespace AIToolbox::POMDP {
         Belief helper(model.getS()), corner(model.getS());
         corner.fill(0.0);
 
-        Matrix4D sosa;
+        Matrix4D sosa( boost::extents[model.getA()][model.getO()] );
         Matrix2D m(S, S);
         const auto updateMatrix = [&](const Belief & b, size_t a, size_t o, size_t index) {
             updateBeliefUnnormalized(model, b, a, o, &helper);
