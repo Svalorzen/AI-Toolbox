@@ -323,7 +323,7 @@ namespace AIToolbox::POMDP {
 
         R.topLeftCorner(model.getS(), model.getA()).noalias() = ir;
         for (size_t b = 0; b < ubV.first.size(); ++b)
-            R.col(model.getS()+b) = ubV.first[b] * ir;
+            R.row(model.getS()+b) = ubV.first[b].transpose() * ir;
 
         // Now we create the SOSA matrix for this new POMDP. For each pair of
         // action/observation, and for each belief we have (thus state), we
