@@ -452,7 +452,7 @@ namespace AIToolbox::POMDP {
 
                 AI_LOGGER(AI_SEVERITY_DEBUG, "");
                 std::tie(val, std::ignore) = UB(nextBelief, ubQ, ubV);
-                qvals[a] += pomdp.getDiscount() * val;
+                qvals[a] += pomdp.getDiscount() * sum * val;
             }
         }
         AI_LOGGER(AI_SEVERITY_DEBUG, "");
