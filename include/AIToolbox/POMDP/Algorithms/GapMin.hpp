@@ -731,7 +731,7 @@ namespace AIToolbox::POMDP {
              * c[0] * b[0][1] + c[1] * b[1][1] + ...                = bin[1]
              * c[0] * b[0][2] + c[1] * b[1][2] + ...                = bin[2]
              * ...
-             * c[0] * v[0]    + c[1] * v[1]    + ... + K            = 0
+             * c[0] * v[0]    + c[1] * v[1]    + ... - K            = 0
              *
              * And we minimize K to get:
              *
@@ -772,6 +772,14 @@ namespace AIToolbox::POMDP {
              * The only thing is that the values obtained for the target function
              * would need to be scaled back before being returned by the LP.
              *
+             * The other thing is that removing the corner values from the
+             * beliefs also means removing the coefficients for them in the LP.
+             * This is good as the LP is simpler, but pretty much makes it
+             * infeasible. So what we do is change the constraints, and instead
+             * of making them equal, we make them less or equal.
+             *
+             * In the end we're going to fix all missing numbers anyway by
+             * filling the corners with the needed numbers.
              */
             AI_LOGGER(AI_SEVERITY_DEBUG, "Setting up the LP...");
 
@@ -781,8 +789,8 @@ namespace AIToolbox::POMDP {
             lp.resize(nonZeroStates.size() + 1); // One row per state, plus the K constraint.
             size_t i;
 
-            // Goal: maximize K.
-            lp.setObjective(compatibleBeliefs.size(), true);
+            // Goal: minimize K.
+            lp.setObjective(compatibleBeliefs.size(), false);
 
             // IMPORTANT: K is unbounded, since the value function may be negative.
             lp.setUnbounded(compatibleBeliefs.size());
@@ -796,7 +804,7 @@ namespace AIToolbox::POMDP {
                 i = 0;
                 for (const auto b : compatibleBeliefs)
                     lp.row[i++] = ubV.first[b][s];
-                lp.pushRow(LP::Constraint::Equal, belief[s]);
+                lp.pushRow(LP::Constraint::LessEqual, belief[s]);
             }
 
             // Finally we setup the last row.
@@ -819,22 +827,26 @@ namespace AIToolbox::POMDP {
         }
         AI_LOGGER(AI_SEVERITY_DEBUG, "Unscaled solution value is " << unscaledValue << "...");
 
+        // We scale back the value as if we had considered the corners.
         double ubValue = unscaledValue + belief.transpose() * cornerVals;
-
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Final value value is " << ubValue);
 
         Vector retval(belief.size() + ubV.first.size());
         retval.fill(0.0);
 
+        // And we fix the coefficients in order to actually make the equalities
+        // hold.
         for (const auto s : nonZeroStates) {
             double sum = 0.0;
             for (size_t i = 0; i < compatibleBeliefs.size(); ++i)
                 sum += ubV.first[compatibleBeliefs[i]][s] * result[i];
             retval[s] = belief[s] - sum;
+            // Remove infinitesimal values
+            if (checkEqualSmall(retval[s], 0.0)) retval[s] = 0.0;
         }
-        for (size_t i = 0; i < compatibleBeliefs.size(); ++i)
-            retval[belief.size() + compatibleBeliefs[i]] = result[i];
+        retval.tail(compatibleBeliefs.size()) = result;
 
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Result is: " << retval.transpose());
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Value is: " << ubValue);
         return std::make_tuple(ubValue, std::move(retval));
     }
 }
