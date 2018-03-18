@@ -779,6 +779,7 @@ namespace AIToolbox::POMDP {
             // that's implied).
             LP lp(compatibleBeliefs.size() + 1);
             lp.resize(nonZeroStates.size() + 1); // One row per state, plus the K constraint.
+            size_t i;
 
             // Goal: maximize K.
             lp.setObjective(compatibleBeliefs.size(), true);
@@ -791,8 +792,8 @@ namespace AIToolbox::POMDP {
 
             // So each row contains the same-index element from all the compatible
             // beliefs, and they should sum up to that same element in the input belief.
-            size_t i = 0;
             for (const auto s : nonZeroStates) {
+                i = 0;
                 for (const auto b : compatibleBeliefs)
                     lp.row[i++] = ubV.first[b][s];
                 lp.pushRow(LP::Constraint::Equal, belief[s]);
