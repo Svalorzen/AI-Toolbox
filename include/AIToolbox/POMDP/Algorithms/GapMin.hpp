@@ -433,7 +433,7 @@ namespace AIToolbox::POMDP {
 
     template <typename M, typename>
     std::tuple<size_t, double> GapMin::bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV) {
-        Vector qvals = belief * [&]{
+        Vector qvals = belief.transpose() * [&]{
             if constexpr (MDP::is_model_eigen<M>::value)
                 return pomdp.getRewardFunction();
             else
