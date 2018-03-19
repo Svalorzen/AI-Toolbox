@@ -344,7 +344,7 @@ namespace AIToolbox::POMDP {
             } else {
                 Vector dist;
                 std::tie(std::ignore, dist) = UB(helper/sum, ubQ, ubV);
-                m.row(index).noalias() = dist;
+                m.row(index).noalias() = dist * sum;
             }
         };
 
