@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 
 find_package(Boost 1.53 REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 find_package(Eigen3 3.2 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
 if (MAKE_PYTHON)
     find_package(PythonLibs 2.7 REQUIRED)
@@ -13,7 +13,7 @@ if (MAKE_PYTHON)
     STRING(REGEX REPLACE "[^0-9]+$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
     # Save version of python libs loaded to run tests later.
     set(PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING_STRIPPED} PARENT_SCOPE)
-    include_directories(${PYTHON_INCLUDE_DIRS})
+    include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
 endif()
 
 if (MAKE_MDP)
@@ -114,7 +114,7 @@ endif()
 
 if (MAKE_FMDP OR MAKE_POMDP)
     find_package(LpSolve REQUIRED)
-    include_directories(${LPSOLVE_INCLUDE_DIR})
+    include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
 endif()
 
 if (MAKE_FMDP)
