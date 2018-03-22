@@ -111,18 +111,18 @@ BOOST_AUTO_TEST_CASE( beliefUpdatePartial ) {
     }
 }
 
-BOOST_AUTO_TEST_CASE( extractUsefulBeliefsTest ) {
+BOOST_AUTO_TEST_CASE( extractBestUsefulBeliefsTest ) {
     using namespace AIToolbox;
     using namespace AIToolbox::POMDP;
 
     std::vector<Belief> beliefs = {
-        (Belief(2) << 0.994534   , 0.00546559).finished(),
-        (Belief(2) << 0.00546559 , 0.994534).finished(),
         (Belief(2) << 0.969799   , 0.0302013).finished(),
-        (Belief(2) << 0.0302013  , 0.969799).finished(),
         (Belief(2) << 0.85       , 0.15).finished(),
+        (Belief(2) << 0.00546559 , 0.994534).finished(),
         (Belief(2) << 0.15       , 0.85).finished(),
         (Belief(2) << 0.5        , 0.5).finished(),
+        (Belief(2) << 0.0302013  , 0.969799).finished(),
+        (Belief(2) << 0.994534   , 0.00546559).finished(),
     };
 
     POMDP::VList vl = {
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE( extractUsefulBeliefsTest ) {
         std::make_tuple((MDP::Values(2) << -5, 5).finished(), 1u, POMDP::VObs(0)),
     };
 
-    auto bound = extractUsefulBeliefs(std::begin(beliefs), std::end(beliefs), std::begin(vl), std::end(vl));
+    auto bound = extractBestUsefulBeliefs(std::begin(beliefs), std::end(beliefs), std::begin(vl), std::end(vl));
 
     BOOST_CHECK_EQUAL(std::distance(std::begin(beliefs), bound), vl.size());
 
