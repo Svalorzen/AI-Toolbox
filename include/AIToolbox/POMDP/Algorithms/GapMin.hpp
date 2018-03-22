@@ -250,7 +250,7 @@ namespace AIToolbox::POMDP {
             const auto [v, dist] = UB(belief, ubQ, ubV);
             (void)dist;
 
-            if (std::fabs(v - value) < epsilon_) {
+            if (value >= v - epsilon_) {
                 // We keep note of the "real" indeces of the removed beliefs.
                 toRemove.push_back(i + toRemove.size());
             } else {
@@ -279,12 +279,18 @@ namespace AIToolbox::POMDP {
         // do only one and we're done.
         //
         // The idea is simply copying one block at a time towards the beginning.
-        const size_t newRows = fibQ.rows() - toRemove.size();
+        const size_t S = ubQ.rows();
+        const size_t oldRows = fibQ.rows();
+        const size_t newRows = oldRows - toRemove.size();
         const size_t cols = fibQ.cols();
+
         Matrix2D newFibQ(newRows, cols);
 
-        size_t beginSource = 0;
-        size_t beginTarget = 0;
+        // Copy the "default" part of the matrix (which is the same as ubQ at the moment)
+        newFibQ.topRows(S).noalias() = fibQ.topRows(S);
+
+        size_t beginSource = 0; // This is not S because we use it to check against the IDs to remove.
+        size_t beginTarget = S;
         size_t toCopy;
 
         i = 0;
@@ -292,13 +298,13 @@ namespace AIToolbox::POMDP {
             while (i < toRemove.size() && toRemove[i] == beginSource) ++i, ++beginSource;
 
             if (i == toRemove.size()) {
-                if (beginSource > cols) break;
-                toCopy = cols - beginSource;
+                if (beginSource > oldRows - S) break;
+                toCopy = oldRows - S - beginSource;
             } else {
                 toCopy = toRemove[i] - beginSource;
             }
 
-            newFibQ.block(beginTarget, 0, toCopy, cols) = fibQ.block(beginSource, 0, toCopy, cols);
+            newFibQ.block(beginTarget, 0, toCopy, cols).noalias() = fibQ.block(beginSource + S, 0, toCopy, cols);
 
             beginTarget += toCopy;
             beginSource += toCopy;
