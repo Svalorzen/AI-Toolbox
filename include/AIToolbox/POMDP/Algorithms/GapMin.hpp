@@ -33,7 +33,7 @@ namespace AIToolbox::POMDP {
              * @brief This function solves a POMDP::Model approximately.
              */
             template <typename M, typename = std::enable_if_t<is_model<M>::value>>
-            std::tuple<double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
+            std::tuple<double, double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
 
         private:
 
@@ -78,7 +78,7 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename M, typename>
-    std::tuple<double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
+    std::tuple<double, double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
 
         // Helper methods
@@ -220,7 +220,7 @@ namespace AIToolbox::POMDP {
             if (newLbBeliefsSize + newUbBeliefsSize == 0)
                 break;
         }
-        return std::make_tuple(var, lbVList, ubQ);
+        return std::make_tuple(lb, ub, lbVList, ubQ);
     }
 
     void GapMin::cleanUp(const MDP::QFunction & ubQ, UbVType * ubVp, Matrix2D * fibQp) {
