@@ -426,7 +426,7 @@ namespace AIToolbox::POMDP {
 
                 auto it = findBestAtBelief(nextBelief, std::begin(lbVList), std::end(lbVList));
 
-                bpAlpha += pomdp.getTransitionFunction(a).col(o).cwiseProduct(std::get<VALUES>(*it));
+                bpAlpha += pomdp.getObservationFunction(a).col(o).cwiseProduct(std::get<VALUES>(*it));
             }
             ir.col(a) += pomdp.getDiscount() * pomdp.getTransitionFunction(a) * bpAlpha;
         }
