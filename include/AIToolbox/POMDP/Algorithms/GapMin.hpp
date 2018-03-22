@@ -648,13 +648,24 @@ namespace AIToolbox::POMDP {
                     AI_LOGGER(AI_SEVERITY_INFO, "Adding belief " << nextBelief.transpose() << ", which we don't already have...");
                     const auto nextBeliefOverallProbability = nextBeliefProbability * beliefProbability * pomdp.getDiscount();
                     const auto nextBeliefGap = nextBeliefOverallProbability * (ubValue - lbValue);
-                    queue.emplace(
-                            std::move(nextBelief),
-                            nextBeliefGap,
-                            nextBeliefOverallProbability,
-                            depth+1,
-                            newPath
-                    ); // To add: ubValue + lbValue; double paths
+
+                    const auto qcheck = [&nextBelief](const QueueElement & qe){ return checkEqualProbability(nextBelief, std::get<0>(qe)); };
+                    auto it = std::find_if(std::begin(queue), std::end(queue), qcheck);
+                    if (it == std::end(queue)) {
+                        queue.emplace(
+                                std::move(nextBelief),
+                                nextBeliefGap,
+                                nextBeliefOverallProbability,
+                                depth+1,
+                                newPath
+                        ); // To add: ubValue + lbValue; double paths
+                    } else {
+                        auto handle = QueueType::s_handle_from_iterator(it);
+                        std::get<1>(*handle) += nextBeliefGap;
+                        std::get<2>(*handle) += nextBeliefOverallProbability;
+                        std::get<3>(*handle) = std::min(std::get<3>(*it), depth+1);
+                        queue.increase(handle);
+                    }
                 }
             }
         }
