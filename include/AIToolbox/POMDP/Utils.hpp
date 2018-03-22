@@ -567,12 +567,11 @@ namespace AIToolbox::POMDP {
      * range, and returns the resulting iterator pointing to the first
      * non-useful belief.
      *
-     * Note that this function will shuffle around the VEntries, as it needs to
-     * keep track of which VEntries have already been supported by some beliefs
-     * (so that if another beliefs supports them, we know it is not useful).
+     * When multiple beliefs support the same VEntry, the ones with the best
+     * values are returned.
      *
      * The input VEntries may contain elements which are not supported by any
-     * of the input Beliefs (although if they exist they will slow down the
+     * of the input Beliefs (although if they exist they may slow down the
      * function).
      *
      * @param it The beginning of the belief range to check.
@@ -583,20 +582,55 @@ namespace AIToolbox::POMDP {
      * @return An iterator pointing to the first non-useful belief.
      */
     template <typename BIterator, typename VIterator>
-    BIterator extractUsefulBeliefs(BIterator it, BIterator bend, VIterator begin, VIterator end) {
-        auto bound = begin;
-        // We stop if we looked at all beliefs, or if there's no VEntries to
-        // support anymore.
-        while (it < bend && bound < end) {
-            const auto newBound = extractBestAtBelief(*it, begin, bound, end);
-            if (bound == newBound) {
-                std::iter_swap(it, --bend);
-            } else {
-                bound = newBound;
-                ++it;
+    BIterator extractBestUsefulBeliefs(BIterator bbegin, BIterator bend, VIterator begin, VIterator end) {
+        const auto beliefsN = std::distance(bbegin, bend);
+        const auto entriesN = std::distance(begin, end);
+
+        std::vector<std::pair<BIterator, double>> bestValues(entriesN, {bend, std::numeric_limits<double>::lowest()});
+        const auto maxBound = beliefsN < entriesN ? bend : bbegin + entriesN;
+
+        // So the idea here is that we advance IT only if we found a belief
+        // which supports a previously unsupported VEntry. This allows us to
+        // avoid doing later work for compacting the beliefs before the bound.
+        //
+        // If instead the found belief takes into consideration an already
+        // supported VEntry, then it either is better or not. If it's better,
+        // we swap it with whatever was before. In both cases, the belief to
+        // discard ends up at the end and we decrease the bound.
+        auto it = bbegin;
+        auto bound = bend;
+        while (it < bound && it < maxBound) {
+            double value;
+            const auto vId = std::distance(begin, findBestAtBelief(*it, begin, end, &value));
+            if (bestValues[vId].second < value) {
+                if (bestValues[vId].first == bend) {
+                    bestValues[vId] = {it++, value};
+                    continue;
+                } else {
+                    bestValues[vId].second = value;
+                    std::iter_swap(bestValues[vId].first, it);
+                }
             }
+            std::iter_swap(it, --bound);
         }
-        return it;
+        if (it == bound) return it;
+
+        // If all VEntries have been supported by at least one belief, then we
+        // can finish up the rest with less swaps and checks. Here we only swap
+        // with the best if needed, otherwise we don't have to do anything.
+        //
+        // This is because we can return one belief per VEntry at the most, so
+        // if we're here the bound is not going to move anyway.
+        while (it < bound) {
+            double value;
+            const auto vId = std::distance(begin, findBestAtBelief(*it, begin, end, &value));
+            if (bestValues[vId].second < value) {
+                bestValues[vId].second = value;
+                std::iter_swap(bestValues[vId].first, it);
+            }
+            ++it;
+        }
+        return maxBound;
     }
 }
 
