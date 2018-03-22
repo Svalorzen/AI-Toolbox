@@ -36,6 +36,11 @@
  * These values represent how the AIToolbox library splits log severities.
  *
  * Logs do *not* contain newlines. Logs do *not* contain file/line information.
+ *
+ * The max length of logs is capped at compile time. The variable `logBuffer`
+ * is a char array which temporarily contains the message before it is passed
+ * to your function. By default, the length of this array is 100. If you need
+ * longer logs, feel free to change the length of the array and recompile.
  */
 
 #ifndef AI_TOOLBOX_IMPL_LOGGING_HEADER_FILE
