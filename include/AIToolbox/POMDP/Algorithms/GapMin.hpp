@@ -549,7 +549,7 @@ namespace AIToolbox::POMDP {
                 AI_LOGGER(AI_SEVERITY_INFO, "UB: belief " << belief.transpose() << " is valid for UB.");
                 const double currentUpperBound = std::get<0>(UB(belief, ubQ, ubV));
                 AI_LOGGER(AI_SEVERITY_INFO, "UB: This belief currently has a value of " << currentUpperBound << " vs the found " << ubActionValue);
-                if (checkDifferentGeneral(ubActionValue, currentUpperBound) && ubActionValue < currentUpperBound) {
+                if (checkDifferentGeneral(ubActionValue, currentUpperBound) && ubActionValue < currentUpperBound - epsilon_) {
                     AI_LOGGER(AI_SEVERITY_INFO, "UB: Adding this belief to the UB with value " << ubActionValue);
                     newUbBeliefs.push_back(belief);
                     newUbValues.push_back(ubActionValue);
@@ -594,7 +594,7 @@ namespace AIToolbox::POMDP {
                 double currentLowerBound;
                 findBestAtBelief(belief, std::begin(lbVList), std::end(lbVList), &currentLowerBound);
                 AI_LOGGER(AI_SEVERITY_INFO, "LB: This belief currently has a value of " << currentLowerBound << " vs the found " << lbActionValue);
-                if (checkDifferentGeneral(lbActionValue, currentLowerBound) && lbActionValue > currentLowerBound) {
+                if (checkDifferentGeneral(lbActionValue, currentLowerBound) && lbActionValue > currentLowerBound + epsilon_) {
                     AI_LOGGER(AI_SEVERITY_INFO, "LB: Adding this belief to the LB with value " << lbActionValue);
                     // We add the new belief, and the same is done for all
                     // beliefs that led us to this one (if they're valid -
