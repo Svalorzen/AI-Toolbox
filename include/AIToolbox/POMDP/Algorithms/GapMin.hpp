@@ -713,7 +713,7 @@ namespace AIToolbox::POMDP {
             Vector retval(belief.size() + ubV.first.size());
 
             retval.head(belief.size()).noalias() = belief;
-            retval.tail(ubV.first.size() - belief.size()).fill(0.0);
+            retval.tail(ubV.first.size()).fill(0.0);
 
             return std::make_tuple((belief.transpose() * ubQ).maxCoeff(), std::move(retval));
         }
