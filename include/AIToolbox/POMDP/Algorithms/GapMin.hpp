@@ -417,7 +417,7 @@ namespace AIToolbox::POMDP {
             bpAlpha.fill(0.0);
 
             for (size_t o = 0; o < pomdp.getO(); ++o) {
-                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, initialBelief, a, o);
+                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
 
                 const auto nextBeliefProbability = nextBelief.sum();
                 if (checkEqualSmall(nextBeliefProbability, 0.0)) continue;
@@ -450,7 +450,7 @@ namespace AIToolbox::POMDP {
         for (size_t a = 0; a < pomdp.getA(); ++a) {
             const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, a);
             for (size_t o = 0; o < pomdp.getO(); ++o) {
-                Belief nextBelief = updateBeliefUnnormalized(pomdp, intermediateBelief, a, o);
+                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
 
                 const auto sum = nextBelief.sum();
                 if (checkEqualSmall(sum, 0.0)) continue;
@@ -630,7 +630,7 @@ namespace AIToolbox::POMDP {
             // the queue.
             const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, ubAction);
             for (size_t o = 0; o < pomdp.getO(); ++o) {
-                Belief nextBelief = updateBeliefUnnormalized(pomdp, intermediateBelief, ubAction, o);
+                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, ubAction, o);
 
                 const auto nextBeliefProbability = nextBelief.sum();
                 if (checkEqualSmall(nextBeliefProbability, 0.0)) continue;
