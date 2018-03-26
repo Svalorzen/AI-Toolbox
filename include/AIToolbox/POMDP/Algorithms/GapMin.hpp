@@ -88,8 +88,7 @@ namespace AIToolbox::POMDP {
 
         // Here we use the BlindStrategies in order to obtain a very simple
         // initial lower bound.
-        VList lbVList;
-        std::tie(std::ignore, lbVList) = bs(pomdp, true);
+        VList lbVList = std::get<1>(bs(pomdp, true));
         {
             const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
             const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
@@ -100,8 +99,7 @@ namespace AIToolbox::POMDP {
         auto lbBeliefs = std::vector<Belief>{initialBelief};
 
         // The same we do here with FIB for the input POMDP.
-        MDP::QFunction ubQ;
-        std::tie(std::ignore, ubQ) = fib(pomdp);
+        MDP::QFunction ubQ = std::get<1>(fib(pomdp));
         AI_LOGGER(AI_SEVERITY_DEBUG, "Initial QFunction:\n" << ubQ);
         AI_LOGGER(AI_SEVERITY_DEBUG, "Initial belief:\n" << initialBelief);
 
@@ -197,8 +195,8 @@ namespace AIToolbox::POMDP {
                 // states of the input POMDP, and we copy them to our
                 // upperBound alphavectors. We additionally update the values
                 // for all ub beliefs.
-                AI_LOGGER(AI_SEVERITY_WARNING, "Updating UbQ...");
-                ubQ.noalias() = fibQ.block(0, 0, pomdp.getS(), pomdp.getA());
+                ubQ.noalias() = fibQ.topRows(pomdp.getS());
+                AI_LOGGER(AI_SEVERITY_WARNING, "UbQ is now:\n" << ubQ);
                 for (size_t i = 0; i < ubV.second.size(); ++i)
                     ubV.second[i] = fibQ.row(pomdp.getS() + i).maxCoeff();
 
@@ -206,7 +204,7 @@ namespace AIToolbox::POMDP {
                 AI_LOGGER(AI_SEVERITY_WARNING, "Cleanup...");
                 cleanUp(ubQ, &ubV, &fibQ);
                 AI_LOGGER(AI_SEVERITY_WARNING, "Recomputing upper bound...");
-                std::tie(ub, std::ignore) = UB(initialBelief, ubQ, ubV);
+                ub = std::get<0>(UB(initialBelief, ubQ, ubV));
 
                 AI_LOGGER(AI_SEVERITY_WARNING, "Updated upper bound to " << ub);
             }
@@ -348,8 +346,7 @@ namespace AIToolbox::POMDP {
             if (checkEqualSmall(sum, 0.0)) {
                 m.row(index).fill(0.0);
             } else {
-                Vector dist;
-                std::tie(std::ignore, dist) = UB(helper/sum, ubQ, ubV);
+                Vector dist = std::get<1>(UB(helper/sum, ubQ, ubV));
                 m.row(index).noalias() = dist * sum;
             }
         };
@@ -457,8 +454,8 @@ namespace AIToolbox::POMDP {
                 nextBelief /= sum;
 
                 AI_LOGGER(AI_SEVERITY_DEBUG, "");
-                std::tie(val, std::ignore) = UB(nextBelief, ubQ, ubV);
-                qvals[a] += pomdp.getDiscount() * sum * val;
+                val = std::get<0>(UB(nextBelief, ubQ, ubV));
+                qvals[a] += pomdp.getDiscount() * val * sum;
             }
         }
         AI_LOGGER(AI_SEVERITY_DEBUG, "");
