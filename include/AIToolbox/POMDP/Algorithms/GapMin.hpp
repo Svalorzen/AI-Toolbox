@@ -17,22 +17,58 @@
 
 #include <AIToolbox/LP.hpp>
 
-#include <iomanip>
-
 namespace AIToolbox::POMDP {
     /**
      * @brief This class implements the GapMin algorithm.
+     *
+     * This method works by repeatedly refining both a lower bound and upper
+     * bound for the input POMDP.
+     *
+     * The lower bound is worked through PBVI.
+     *
+     * The upper bound is worked through a combination of alphavectors, and a
+     * belief-value pair piecewise linear surface.
+     *
+     * At each iteration, a set of beliefs are found that the algorithm thinks
+     * may be useful to reduce the bound.
+     *
+     * For the lower bound, these beliefs are added to a list, and run through
+     * PBVI. Spurious beliefs are then removed.
+     *
+     * For the upper bound, the beliefs are used to create a temporary belief
+     * POMDP, where each belief is a state. This belief is then used as input
+     * to the FastInformedBound algorithm, which refines its upper bound.
+     *
+     * The strong point of the algorithm is that beliefs are searched by gap
+     * size, so that the beliefs that are most likely to decrease the gap are
+     * looked at first. This results in less overall work to highly reduce the
+     * bound.
+     *
+     * In order to act, the output lower bound should be used (as it's the only
+     * one that gives an actual guarantee), but for this just using PBVI may be
+     * more useful.
      */
     class GapMin {
         public:
             using IntermediatePOMDP = Model<MDP::Model>;
             /**
              * @brief Basic constructor.
+             *
+             * The input parameters can heavily influence both the time and the
+             * strictness of the resulting bound.
+             *
+             * @param initialTolerance The tolerance to compute the initial bounds.
+             * @param precisionDigits The number of digits precision to stop the gap searching process.
              */
             GapMin(double initialTolerance, unsigned precisionDigits);
 
             /**
-             * @brief This function solves a POMDP::Model approximately.
+             * @brief This function efficiently computes bounds for the optimal value of the input belief for the input POMDP.
+             *
+             * @param model The model to compute the gap for.
+             * @param initialBelief The belief to compute the gap for.
+             *
+             * @return The lower and upper gap bounds, the lower bound VList, and the upper bound QFunction.
              */
             template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<double, double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
@@ -44,30 +80,119 @@ namespace AIToolbox::POMDP {
             // Queue sorted by gap.         belief,    gap,   prob,    lb,    ub,    depth,       path
             using QueueElement = std::tuple<Belief, double, double, double, double, unsigned, std::vector<Belief>>;
 
-            class GapTupleLess {
+            class QueueElementLess {
                 public:
                     bool operator() (const QueueElement& arg1, const QueueElement& arg2) const;
             };
 
-            using QueueType = boost::heap::fibonacci_heap<QueueElement, boost::heap::compare<GapTupleLess>>;
+            using QueueType = boost::heap::fibonacci_heap<QueueElement, boost::heap::compare<QueueElementLess>>;
 
-            void cleanUp(const MDP::QFunction & ubQ, UbVType * ubV, Matrix2D * fibQ);
-            std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
-
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
-            std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction &, const UbVType &);
-
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
-            std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV);
-
+            /**
+             * @brief This function collects beliefs in order to reduce the gap.
+             *
+             * This function explores beliefs and sorts them by gap size. It
+             * creates two lists, for lower and upper bound, which contain
+             * these beliefs.
+             *
+             * The gap is computed based on the input lower bound VList, and
+             * upper bound QFunction and belief list.
+             *
+             * The beliefs are explored in a sequential fashion from the input
+             * belief.
+             *
+             * @param model The POMDP model to look beliefs for.
+             * @param belief The belief to compute from.
+             * @param lbV The VList for the lower bound.
+             * @param lbBeliefs The beliefs supporting the lower bound.
+             * @param ubQ The QFunction containing the upper bound.
+             * @param ubV The belief-value pairs for the upper bound.
+             *
+             * @return Two lists of beliefs, for lower and upper bound respectively, and a list of values for the upper bound beliefs.
+             */
             template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> selectReachableBeliefs(
                 const M & model,
-                const Belief &,
-                const VList &,
-                const std::vector<Belief> &,
-                const MDP::QFunction &, const UbVType &
+                const Belief & belief,
+                const VList & lbV,
+                const std::vector<Belief> & lbBeliefs,
+                const MDP::QFunction & ubQ, const UbVType & ubV
             );
+
+            /**
+             * @brief This function creates a partial POMDP and its SOSA table from the input upper bound.
+             *
+             * Only the reward table is computed for the output POMDP, as it's
+             * the only part that matters. For the rest, a SOSA table is also
+             * computed and returned, so that the two can be jointly used with
+             * the FastInformedBound method.
+             *
+             * The output POMDP has an additional state for each belief
+             * contained in the ubV. The SOSA table in particular is built so
+             * that transition/observation probabilities between beliefs follow
+             * the upper bound of the input.
+             *
+             * @param model The POMDP model to look beliefs for.
+             * @param ubQ The QFunction containing the upper bound.
+             * @param ubV The belief-value pairs for the upper bound.
+             *
+             * @return A pair with a reward-function only POMDP, and its associated SOSA matrix.
+             */
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV);
+
+            /**
+             * @brief This function obtains the best action with respect to the input QFunction and UbV.
+             *
+             * This function simply computes the upper bound for all beliefs that can
+             * be reached from the input belief. For each action, their values are
+             * summed (after multiplying each by the probability of it happening), and
+             * the best action extracted.
+             *
+             * @param pomdp The model to look the action for.
+             * @param belief The belief to find the best action in.
+             * @param ubQ The current QFunction for this model.
+             * @param ubV The current list of belief/values for this model.
+             *
+             * @return The best action-value pair.
+             */
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV);
+
+            /**
+             * @brief This function skims useless beliefs from the ubV.
+             *
+             * This function also removes the appropriate lines from the fibQ,
+             * since each line in it represents one of the beliefs.
+             *
+             * The beliefs are removed preferentially in the ones that have
+             * been added last.
+             *
+             * Beliefs are removed when they do not contribute to the
+             * belief-value piecewise linear surface of the upper bound.
+             *
+             * @param ubQ The current basic upper bound.
+             * @param ubV The current belief-value pairs.
+             * @param fibQ The alphavectors associated with the ubV.
+             */
+            void cleanUp(const MDP::QFunction & ubQ, UbVType * ubV, Matrix2D * fibQ);
+
+            /**
+             * @brief This function computes the best approximation possible of the upper bound of the input belief.
+             *
+             * The input QFunction is used as an easy upper bound.
+             *
+             * Then, a linear programming is created that uses the input ubV. What
+             * happens is that the linear program uses each belief point (and its
+             * value) to construct a piecewise linear surface, where the value of the
+             * input belief is determined.
+             *
+             * @param belief The belief to compute the upper bound of.
+             * @param ubQ The current QFunction.
+             * @param ubV The current belief-value pairs.
+             *
+             * @return The value of the belief, and a vector containing the proportion in which each belief contributes to the upper bound.
+             */
+            std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
 
             double epsilon_;
             unsigned precisionDigits_;
@@ -75,7 +200,7 @@ namespace AIToolbox::POMDP {
 
     GapMin::GapMin(const double epsilon, const unsigned digits) : epsilon_(epsilon), precisionDigits_(digits) {}
 
-    bool GapMin::GapTupleLess::operator() (const QueueElement& arg1, const QueueElement& arg2) const
+    bool GapMin::QueueElementLess::operator() (const QueueElement& arg1, const QueueElement& arg2) const
     {
         return std::get<1>(arg1) < std::get<1>(arg2);
     }
@@ -517,6 +642,10 @@ namespace AIToolbox::POMDP {
             //
             // If the found actions improve on the bounds, then we'll add this
             // belief to the list.
+            //
+            // These functions could be combined to avoid repeating some work
+            // (the belief updates step), but it seems that doing so actually
+            // slows the code down - probably cache problems.
             const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, belief, ubQ, ubV);
             const auto [lbAction, lbActionValue] = bestConservativeAction(pomdp, belief, lbVList);
 
