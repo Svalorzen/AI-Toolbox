@@ -347,8 +347,11 @@ namespace AIToolbox::POMDP {
             if (checkEqualSmall(sum, 0.0)) {
                 m.row(index).fill(0.0);
             } else {
-                Vector dist = std::get<1>(UB(helper/sum, ubQ, ubV));
-                m.row(index).noalias() = dist * sum;
+                // Note that we do not normalize helper since we'd also have to
+                // multiply `dist` by the same probability. Instead we don't
+                // normalize, and we don't multiply, so we save some work.
+                Vector dist = std::get<1>(UB(helper, ubQ, ubV));
+                m.row(index).noalias() = dist;
             }
         };
 
@@ -444,19 +447,21 @@ namespace AIToolbox::POMDP {
                 return computeImmediateRewards(pomdp);
         }();
 
-        double val;
         for (size_t a = 0; a < pomdp.getA(); ++a) {
             const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, a);
+            double sum = 0.0;
             for (size_t o = 0; o < pomdp.getO(); ++o) {
                 Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
 
-                const auto sum = nextBelief.sum();
-                if (checkEqualSmall(sum, 0.0)) continue;
-                nextBelief /= sum;
-
-                val = std::get<0>(UB(nextBelief, ubQ, ubV));
-                qvals[a] += pomdp.getDiscount() * val * sum;
+                const auto prob = nextBelief.sum();
+                if (checkEqualSmall(prob, 0.0)) continue;
+                // Note that we do not normalize nextBelief since we'd also
+                // have to multiply the result by the same probability. Instead
+                // we don't normalize, and we don't multiply, so we save some
+                // work.
+                sum += std::get<0>(UB(nextBelief, ubQ, ubV));
             }
+            qvals[a] += pomdp.getDiscount() * sum;
         }
         size_t bestAction;
         double bestValue = qvals.maxCoeff(&bestAction);
