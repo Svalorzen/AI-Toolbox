@@ -41,8 +41,8 @@ namespace AIToolbox::POMDP {
 
             using UbVType = std::pair<std::vector<Belief>, std::vector<double>>;
 
-            // Queue sorted by gap.         belief,    gap,   prob,    depth,       path
-            using QueueElement = std::tuple<Belief, double, double, unsigned, std::vector<Belief>>;
+            // Queue sorted by gap.         belief,    gap,   prob,    lb,    ub,    depth,       path
+            using QueueElement = std::tuple<Belief, double, double, double, double, unsigned, std::vector<Belief>>;
 
             class GapTupleLess {
                 public:
@@ -489,10 +489,15 @@ namespace AIToolbox::POMDP {
         const auto maxNewBeliefs = std::max(20lu, (ubV.first.size() + lbVList.size()) / 5lu);
 
         // We initialize the queue with the initial belief.
-        queue.emplace(QueueElement(initialBelief, 0.0, 1.0, 1, {}));
+        {
+            double currentLowerBound;
+            findBestAtBelief(initialBelief, std::begin(lbVList), std::end(lbVList), &currentLowerBound);
+            const double currentUpperBound = std::get<0>(UB(initialBelief, ubQ, ubV));
+            queue.emplace(QueueElement(initialBelief, 0.0, 1.0, currentLowerBound, currentUpperBound, 1, {}));
+        }
 
         while (!queue.empty() && newBeliefs < maxNewBeliefs) {
-            const auto [belief, gap, beliefProbability, depth, path] = queue.top();
+            const auto [belief, gap, beliefProbability, currentLowerBound, currentUpperBound, depth, path] = queue.top();
             (void)gap; // ignore gap variable
             queue.pop();
 
@@ -542,24 +547,21 @@ namespace AIToolbox::POMDP {
                 return true;
             };
 
-            if (validForUb(belief)) {
-                const double currentUpperBound = std::get<0>(UB(belief, ubQ, ubV));
-                if (ubActionValue < currentUpperBound - epsilon_) {
-                    newUbBeliefs.push_back(belief);
-                    newUbValues.push_back(ubActionValue);
+            if (validForUb(belief) && ubActionValue < currentUpperBound - epsilon_) {
+                newUbBeliefs.push_back(belief);
+                newUbValues.push_back(ubActionValue);
 
-                    // Find all beliefs that brought us here we didn't already have.
-                    // Again, we don't consider corners.
-                    for (const auto & p : path) {
-                        if (validForUb(p)) {
-                            newUbBeliefs.push_back(p);
-                            newUbValues.push_back(std::get<0>(UB(p, ubQ, ubV)));
-                        }
+                // Find all beliefs that brought us here we didn't already have.
+                // Again, we don't consider corners.
+                for (const auto & p : path) {
+                    if (validForUb(p)) {
+                        newUbBeliefs.push_back(p);
+                        newUbValues.push_back(std::get<0>(UB(p, ubQ, ubV)));
                     }
-                    // Note we only count a single belief even if we added more via
-                    // the path (as per original code).
-                    ++newBeliefs;
                 }
+                // Note we only count a single belief even if we added more via
+                // the path (as per original code).
+                ++newBeliefs;
             }
 
             /***********************
@@ -583,24 +585,20 @@ namespace AIToolbox::POMDP {
                 return true;
             };
 
-            if (validForLb(belief)) {
-                double currentLowerBound;
-                findBestAtBelief(belief, std::begin(lbVList), std::end(lbVList), &currentLowerBound);
-                if (lbActionValue > currentLowerBound + epsilon_) {
-                    // We add the new belief, and the same is done for all
-                    // beliefs that led us to this one (if they're valid -
-                    // i.e., we didn't have them already).
-                    newLbBeliefs.push_back(belief);
+            if (validForLb(belief) && lbActionValue > currentLowerBound + epsilon_) {
+                // We add the new belief, and the same is done for all
+                // beliefs that led us to this one (if they're valid -
+                // i.e., we didn't have them already).
+                newLbBeliefs.push_back(belief);
 
-                    for (const auto & p : path) {
-                        if (validForLb(p)) {
-                            newLbBeliefs.push_back(p);
-                        }
+                for (const auto & p : path) {
+                    if (validForLb(p)) {
+                        newLbBeliefs.push_back(p);
                     }
-                    // Note we only count a single belief even if we added more via
-                    // the path (as per original code).
-                    ++newBeliefs;
                 }
+                // Note we only count a single belief even if we added more via
+                // the path (as per original code).
+                ++newBeliefs;
             }
 
             /***********************
@@ -644,14 +642,16 @@ namespace AIToolbox::POMDP {
                                 std::move(nextBelief),
                                 nextBeliefGap,
                                 nextBeliefOverallProbability,
+                                lbValue,
+                                ubValue,
                                 depth+1,
                                 newPath
-                        ); // To add: ubValue + lbValue; double paths
+                        );
                     } else {
                         auto handle = QueueType::s_handle_from_iterator(it);
                         std::get<1>(*handle) += nextBeliefGap;
                         std::get<2>(*handle) += nextBeliefOverallProbability;
-                        std::get<3>(*handle) = std::min(std::get<3>(*it), depth+1);
+                        std::get<5>(*handle) = std::min(std::get<5>(*handle), depth+1);
                         queue.increase(handle);
                     }
                 }
