@@ -39,7 +39,7 @@
  *
  * The max length of logs is capped at compile time. The variable `logBuffer`
  * is a char array which temporarily contains the message before it is passed
- * to your function. By default, the length of this array is 100. If you need
+ * to your function. By default, the length of this array is 500. If you need
  * longer logs, feel free to change the length of the array and recompile.
  */
 
@@ -71,7 +71,7 @@ namespace AIToolbox {
 
     namespace Impl {
         // We use this to dump logs in.
-        inline char logBuffer[100] = {0};
+        inline char logBuffer[500] = {0};
     }
 }
 
