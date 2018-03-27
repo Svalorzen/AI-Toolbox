@@ -55,7 +55,7 @@ namespace AIToolbox::POMDP {
             std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
 
             template <typename M, typename = std::enable_if_t<is_model<M>::value>>
-            std::tuple<IntermediatePOMDP, Matrix4D> makeNewPomdp(const M& model, const MDP::QFunction &, const UbVType &);
+            std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction &, const UbVType &);
 
             template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV);
@@ -313,7 +313,7 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename M, typename>
-    std::tuple<GapMin::IntermediatePOMDP, Matrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV) {
+    std::tuple<GapMin::IntermediatePOMDP, SparseMatrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV) {
         size_t S = model.getS() + ubV.first.size();
 
         // First we build the new reward function. For normal states, this is
@@ -339,36 +339,37 @@ namespace AIToolbox::POMDP {
         Belief helper(model.getS()), corner(model.getS());
         corner.fill(0.0);
 
-        Matrix4D sosa( boost::extents[model.getA()][model.getO()] );
-        Matrix2D m(S, S);
-        const auto updateMatrix = [&](const Belief & b, size_t a, size_t o, size_t index) {
+        SparseMatrix4D sosa( boost::extents[model.getA()][model.getO()] );
+        const auto updateMatrix = [&](SparseMatrix2D & m, const Belief & b, size_t a, size_t o, size_t index) {
             updateBeliefUnnormalized(model, b, a, o, &helper);
             auto sum = helper.sum();
-            if (checkEqualSmall(sum, 0.0)) {
-                m.row(index).fill(0.0);
-            } else {
+            if (checkDifferentSmall(sum, 0.0)) {
                 // Note that we do not normalize helper since we'd also have to
                 // multiply `dist` by the same probability. Instead we don't
                 // normalize, and we don't multiply, so we save some work.
                 Vector dist = std::get<1>(UB(helper, ubQ, ubV));
-                m.row(index).noalias() = dist;
+                for (size_t i = 0; i < S; ++i)
+                    if (checkDifferentSmall(dist[i], 0.0))
+                        m.insert(index, i) = dist[i];
             }
         };
 
         for (size_t a = 0; a < model.getA(); ++a) {
             for (size_t o = 0; o < model.getO(); ++o) {
+                SparseMatrix2D m(S, S);
                 for (size_t s = 0; s < model.getS(); ++s) {
                     corner[s] = 1.0;
-                    updateMatrix(corner, a, o, s);
+                    updateMatrix(m, corner, a, o, s);
                     corner[s] = 0.0;
                 }
 
                 for (size_t b = 0; b < ubV.first.size(); ++b)
-                    updateMatrix(ubV.first[b], a, o, model.getS() + b);
+                    updateMatrix(m, ubV.first[b], a, o, model.getS() + b);
 
                 // After updating all rows of the matrix, we put it inside the
                 // SOSA table.
-                sosa[a][o] = m;
+                sosa[a][o] = std::move(m);
+                sosa[a][o].makeCompressed();
             }
         }
 

@@ -79,8 +79,6 @@ namespace AIToolbox::POMDP {
      */
     class FastInformedBound {
         public:
-            using SOSATable          = Matrix4D;
-
             /**
              * @brief Basic constructor.
              *
@@ -96,6 +94,9 @@ namespace AIToolbox::POMDP {
              * with. If you want to use it to act within a POMDP, check out
              * QMDP which can transform it into a VList, and from there into a
              * ValueFunction.
+             *
+             * This method creates a dense SOSA matrix for the input model, and
+             * uses it to create the bound.
              *
              * @param m The POMDP to be solved.
              * @param oldQ The QFunction to start iterating from.
@@ -120,6 +121,8 @@ namespace AIToolbox::POMDP {
              * and don't need to recompute it, you can call this method
              * directly.
              *
+             * You can use both sparse and dense Matrix4D for this method.
+             *
              * @param m The POMDP to be solved.
              * @param sosa The SOSA table of the input POMDP.
              * @param oldQ The QFunction to start iterating from.
@@ -127,8 +130,8 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         QFunction and the computed QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
-            std::tuple<double, MDP::QFunction> operator()(const M & m, const SOSATable & sosa, MDP::QFunction oldQ = {});
+            template <typename M, typename SOSA, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<double, MDP::QFunction> operator()(const M & m, const SOSA & sosa, MDP::QFunction oldQ = {});
 
             /**
              * @brief This function sets the epsilon parameter.
@@ -176,8 +179,8 @@ namespace AIToolbox::POMDP {
         return operator()(m, makeSOSA(m), oldQ);
     }
 
-    template <typename M, typename>
-    std::tuple<double, MDP::QFunction> FastInformedBound::operator()(const M & m, const SOSATable & sosa, MDP::QFunction oldQ) {
+    template <typename M, typename SOSA, typename>
+    std::tuple<double, MDP::QFunction> FastInformedBound::operator()(const M & m, const SOSA & sosa, MDP::QFunction oldQ) {
         const auto & ir = [&]{
             if constexpr (is_model_eigen<M>::value) return m.getRewardFunction();
             else return computeImmediateRewards(m);

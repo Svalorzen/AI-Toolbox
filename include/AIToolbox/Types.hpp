@@ -24,6 +24,7 @@ namespace AIToolbox {
     using SparseMatrix3DLong = std::vector<SparseMatrix2DLong>;
 
     using Matrix4D = boost::multi_array<Matrix2D, 2>;
+    using SparseMatrix4D = boost::multi_array<SparseMatrix2D, 2>;
 
     // This is used to store a probability vector (sums to one, every element >= 0, <= 1)
     using ProbabilityVector = Vector;
