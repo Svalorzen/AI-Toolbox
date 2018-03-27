@@ -7,48 +7,6 @@
 #include <AIToolbox/POMDP/Types.hpp>
 
 #include "Utils/TigerProblem.hpp"
-#include <AIToolbox/Impl/Logging.hpp>
-
-#include <iostream>
-
-enum class Color {
-    FG_DEFAULT = 39,
-    FG_BLACK = 30,
-    FG_RED = 31,
-    FG_GREEN = 32,
-    FG_YELLOW = 33,
-    FG_BLUE = 34,
-    FG_MAGENTA = 35,
-    FG_CYAN = 36,
-    FG_LIGHT_GRAY = 37,
-    FG_DARK_GRAY = 90,
-    FG_LIGHT_RED = 91,
-    FG_LIGHT_GREEN = 92,
-    FG_LIGHT_YELLOW = 93,
-    FG_LIGHT_BLUE = 94,
-    FG_LIGHT_MAGENTA = 95,
-    FG_LIGHT_CYAN = 96,
-    FG_WHITE = 97,
-    BG_RED = 41,
-    BG_GREEN = 42,
-    BG_BLUE = 44,
-    BG_DEFAULT = 49
-};
-
-std::ostream & operator<<(std::ostream& os, const Color& mod) {
-    return os << "\033[" << static_cast<int>(mod) << "m";
-}
-
-void print(int severity, const char * msg) {
-    if (severity != 101) return;
-    // switch (severity) {
-    //     case AI_SEVERITY_ERROR:   std::cout << Color::FG_RED; break;
-    //     case AI_SEVERITY_WARNING: std::cout << Color::FG_YELLOW; break;
-    //     case AI_SEVERITY_INFO:    std::cout << Color::FG_DEFAULT; break;
-    //     case AI_SEVERITY_DEBUG:   std::cout << Color::FG_LIGHT_GRAY; break;
-    // }
-    std::cout << msg << std::endl;
-}
 
 using MModel = AIToolbox::MDP::Model;
 using PModel = AIToolbox::POMDP::Model<MModel>;
@@ -145,26 +103,17 @@ PModel ejs4() {
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox::POMDP;
-#if AI_LOGGING_ENABLED == 1
-    AIToolbox::AILogger = print;
-#endif
 
     GapMin gm(0.005, 3);
 
-    //auto model = makeTigerProblem();
-    //model.setDiscount(0.95);
-
     auto model = chengD35();
-    // auto model = ejs4();
 
     Belief initialBelief(model.getS());
     initialBelief.fill(1.0 / model.getS());
 
     const auto [lb, ub, vlist, qfun] = gm(model, initialBelief);
 
-    std::cout << "LB = " << lb << "; UB = " << ub << "\n";
-    std::cout << "Gap = " << ub - lb << "\n";
-    std::cout << "VList entries =\n" << vlist.size() << "\n";
-    std::cout << "QFun =\n" << qfun << "\n";
+    BOOST_CHECK(9.0 < ub - lb && ub - lb < 11.0);
     (void)vlist;
+    (void)qfun;
 }
