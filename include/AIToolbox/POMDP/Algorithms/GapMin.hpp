@@ -266,7 +266,6 @@ namespace AIToolbox::POMDP {
         } while (i != 0 && ubV.first.size() > 1);
         // If all beliefs are useful, we're done.
         if (toRemove.size() == 0) return;
-        std::reverse(std::begin(toRemove), std::end(toRemove));
 
         // Here we do a bit of fancy dance in order to do as little operations
         // as possible to remove the unneeded rows from fibQ. Additionally, we
@@ -292,15 +291,15 @@ namespace AIToolbox::POMDP {
         size_t beginTarget = S;
         size_t toCopy;
 
-        i = 0;
-        while (i < toRemove.size()) {
-            while (i < toRemove.size() && toRemove[i] == beginSource) ++i, ++beginSource;
+        i = toRemove.size();
+        while (i > 0) {
+            while (i > 0 && toRemove[i-1] == beginSource) --i, ++beginSource;
 
-            if (i == toRemove.size()) {
+            if (i == 0) {
                 if (beginSource > oldRows - S) break;
                 toCopy = oldRows - S - beginSource;
             } else {
-                toCopy = toRemove[i] - beginSource;
+                toCopy = toRemove[i-1] - beginSource;
             }
 
             newFibQ.block(beginTarget, 0, toCopy, cols).noalias() = fibQ.block(beginSource + S, 0, toCopy, cols);
