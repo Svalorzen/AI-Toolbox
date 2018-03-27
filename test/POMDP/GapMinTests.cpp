@@ -40,13 +40,14 @@ std::ostream & operator<<(std::ostream& os, const Color& mod) {
 }
 
 void print(int severity, const char * msg) {
-    switch (severity) {
-        case AI_SEVERITY_ERROR:   std::cout << Color::FG_RED; break;
-        case AI_SEVERITY_WARNING: std::cout << Color::FG_YELLOW; break;
-        case AI_SEVERITY_INFO:    std::cout << Color::FG_DEFAULT; break;
-        case AI_SEVERITY_DEBUG:   std::cout << Color::FG_LIGHT_GRAY; break;
-    }
-    std::cout << msg << '\n';
+    if (severity != 101) return;
+    // switch (severity) {
+    //     case AI_SEVERITY_ERROR:   std::cout << Color::FG_RED; break;
+    //     case AI_SEVERITY_WARNING: std::cout << Color::FG_YELLOW; break;
+    //     case AI_SEVERITY_INFO:    std::cout << Color::FG_DEFAULT; break;
+    //     case AI_SEVERITY_DEBUG:   std::cout << Color::FG_LIGHT_GRAY; break;
+    // }
+    std::cout << msg << std::endl;
 }
 
 using MModel = AIToolbox::MDP::Model;
@@ -102,6 +103,45 @@ PModel chengD35() {
     return PModel(AIToolbox::NO_CHECK, O, std::move(o), AIToolbox::NO_CHECK, S, A, std::move(t), std::move(r), 0.999);
 }
 
+PModel ejs4() {
+    constexpr size_t S = 3, A = 2, O = 2;
+
+    MModel::TransitionTable t(A);
+    MModel::RewardTable r(S, A);
+    PModel::ObservationTable o(A);
+
+    for (size_t a = 0; a < A; ++a) {
+        t[a] = AIToolbox::Matrix2D(S, S);
+        o[a] = AIToolbox::Matrix2D(S, O);
+    }
+    t[0] <<
+        0.1, 0.1, 0.8,
+        0.2, 0.5, 0.3,
+        0.7, 0.1, 0.2;
+
+    t[1] <<
+        0.1, 0.8, 0.1,
+        0.7, 0.1, 0.2,
+        0.1, 0.9, 0.0;
+
+    o[0] <<
+        0.7, 0.3,
+        0.1, 0.9,
+        0.4, 0.6;
+
+    o[1] <<
+        0.2, 0.8,
+        0.4, 0.6,
+        0.3, 0.7;
+
+    r <<
+        -1.0, 0.0,
+         0.0,-1.0,
+         0.0, 0.0;
+
+    return PModel(AIToolbox::NO_CHECK, O, std::move(o), AIToolbox::NO_CHECK, S, A, std::move(t), std::move(r), 0.999);
+}
+
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox::POMDP;
@@ -109,19 +149,22 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     AIToolbox::AILogger = print;
 #endif
 
-    GapMin gm(0.0001);
+    GapMin gm(0.005, 3);
 
     //auto model = makeTigerProblem();
     //model.setDiscount(0.95);
 
     auto model = chengD35();
+    // auto model = ejs4();
 
     Belief initialBelief(model.getS());
     initialBelief.fill(1.0 / model.getS());
 
-    const auto [gap, vlist, qfun] = gm(model, initialBelief);
+    const auto [lb, ub, vlist, qfun] = gm(model, initialBelief);
 
-    std::cout << "Gap = " << gap << "\n";
+    std::cout << "LB = " << lb << "; UB = " << ub << "\n";
+    std::cout << "Gap = " << ub - lb << "\n";
+    std::cout << "VList entries =\n" << vlist.size() << "\n";
     std::cout << "QFun =\n" << qfun << "\n";
     (void)vlist;
 }
