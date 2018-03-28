@@ -15,6 +15,7 @@ void exportPOMDPRTBSS();
 void exportPOMDPAMDP();
 void exportPOMDPPERSEUS();
 void exportPOMDPPBVI();
+void exportPOMDPGapMin();
 
 void exportPOMDPPolicyInterface();
 void exportPOMDPPolicy();
@@ -38,6 +39,7 @@ BOOST_PYTHON_MODULE(POMDP)
     exportPOMDPAMDP();
     exportPOMDPPERSEUS();
     exportPOMDPPBVI();
+    exportPOMDPGapMin();
 
     exportPOMDPPolicyInterface();
     exportPOMDPPolicy();

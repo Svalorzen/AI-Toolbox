@@ -145,5 +145,6 @@ if (MAKE_POMDP)
         # Here we have surely passed in the MDP Python test branch, so we know
         # we have everything we need.
         AddTestPOMDPPython(IncrementalPruning)
+        AddTestPOMDPPython(GapMin)
     endif()
 endif()

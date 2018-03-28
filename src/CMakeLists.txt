@@ -165,6 +165,9 @@ if (MAKE_POMDP)
             LP/LpSolveWrapper.cpp
             POMDP/Utils.cpp
             POMDP/Algorithms/AMDP.cpp
+            POMDP/Algorithms/BlindStrategies.cpp
+            POMDP/Algorithms/FastInformedBound.cpp
+            POMDP/Algorithms/GapMin.cpp
             POMDP/Algorithms/IncrementalPruning.cpp
             POMDP/Algorithms/PBVI.cpp
             POMDP/Algorithms/PERSEUS.cpp
@@ -177,6 +180,7 @@ if (MAKE_POMDP)
             Python/POMDP/Model.cpp
             Python/POMDP/SparseModel.cpp
             Python/POMDP/Algorithms/POMCP.cpp
+            Python/POMDP/Algorithms/GapMin.cpp
             Python/POMDP/Algorithms/Witness.cpp
             Python/POMDP/Algorithms/IncrementalPruning.cpp
             Python/POMDP/Algorithms/QMDP.cpp
