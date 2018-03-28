@@ -83,14 +83,15 @@ namespace AIToolbox::POMDP {
      * @return The SOSA table for the input pomdp.
      */
     template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
-    Matrix4D makeSOSA(const M & m) {
-        Matrix4D retval( boost::extents[m.getA()][m.getO()] );
-
+    auto makeSOSA(const M & m) {
         if constexpr(is_model_eigen<M>::value) {
+            boost::multi_array<typename remove_cv_ref<decltype(m.getTransitionFunction(0))>::type, 2> retval( boost::extents[m.getA()][m.getO()] );
             for (size_t a = 0; a < m.getA(); ++a)
                 for (size_t o = 0; o < m.getO(); ++o)
-                    retval[a][o] = m.getTransitionFunction(a).cwiseProduct(m.getObservationFunction(a).col(o).transpose().replicate(m.getS(), 1));
+                    retval[a][o] = m.getTransitionFunction(a) * Vector(m.getObservationFunction(a).col(o)).asDiagonal();
+            return retval;
         } else {
+            Matrix4D retval( boost::extents[m.getA()][m.getO()] );
             for (size_t a = 0; a < m.getA(); ++a) {
                 for (size_t o = 0; o < m.getO(); ++o) {
                     retval[a][o].resize(m.getS(), m.getS());
@@ -99,9 +100,8 @@ namespace AIToolbox::POMDP {
                             retval[a][o](s, s1) = m.getTransitionProbability(s, a, s1) * m.getObservationProbability(s1, a, o);
                 }
             }
+            return retval;
         }
-
-        return retval;
     }
 
     /**

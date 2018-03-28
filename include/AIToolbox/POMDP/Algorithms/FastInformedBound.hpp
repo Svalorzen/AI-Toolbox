@@ -95,8 +95,8 @@ namespace AIToolbox::POMDP {
              * QMDP which can transform it into a VList, and from there into a
              * ValueFunction.
              *
-             * This method creates a dense SOSA matrix for the input model, and
-             * uses it to create the bound.
+             * This method creates a SOSA matrix for the input model, and uses
+             * it to create the bound.
              *
              * @param m The POMDP to be solved.
              * @param oldQ The QFunction to start iterating from.
@@ -189,10 +189,18 @@ namespace AIToolbox::POMDP {
 
         if (oldQ.size() == 0) {
             oldQ.resize(m.getS(), m.getA());
+
+            double max;
+            using Tmp = typename remove_cv_ref<decltype(ir)>::type;
+            if constexpr(std::is_base_of<Eigen::SparseMatrixBase<Tmp>, Tmp>::value)
+                max = Eigen::Map<const Vector>(ir.valuePtr(), ir.size()).maxCoeff();
+            else
+                max = ir.maxCoeff();
+
             // Note that here we take the max over all IR: since we're
             // computing an upper bound, we want to assume that we're going to
             // do the best possible thing after each action forever.
-            oldQ.fill(ir.maxCoeff() / std::max(0.0001, 1.0 - m.getDiscount()));
+            oldQ.fill(max / std::max(0.0001, 1.0 - m.getDiscount()));
         }
 
         unsigned timestep = 0;

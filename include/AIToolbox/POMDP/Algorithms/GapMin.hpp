@@ -414,7 +414,7 @@ namespace AIToolbox::POMDP {
             else return computeImmediateRewards(model);
         }();
 
-        R.topRows(model.getS()).noalias() = ir;
+        R.topRows(model.getS()) = ir;
         for (size_t b = 0; b < ubV.first.size(); ++b)
             R.row(model.getS()+b) = ubV.first[b].transpose() * ir;
 
