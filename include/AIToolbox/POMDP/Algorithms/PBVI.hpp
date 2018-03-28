@@ -60,7 +60,7 @@ namespace AIToolbox::POMDP {
              * @brief This function sets the epsilon parameter.
              *
              * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
+             * function will throw an std::runtime_error. The epsilon
              * parameter sets the convergence criterion. An epsilon of 0.0
              * forces PBVI to perform a number of iterations equal to
              * the horizon specified. Otherwise, PBVI will stop as soon
