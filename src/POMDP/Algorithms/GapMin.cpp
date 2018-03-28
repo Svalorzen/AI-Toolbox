@@ -3,7 +3,28 @@
 #include <AIToolbox/LP.hpp>
 
 namespace AIToolbox::POMDP {
-    GapMin::GapMin(const double epsilon, const unsigned digits) : epsilon_(epsilon), precisionDigits_(digits) {}
+    GapMin::GapMin(const double initialTolerance, const unsigned digits) :
+        precisionDigits_(digits)
+    {
+        setInitialTolerance(initialTolerance);
+    }
+
+    void GapMin::setInitialTolerance(double initialTolerance) {
+        if ( initialTolerance < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
+        initialTolerance_ = initialTolerance;
+    }
+
+    double GapMin::getInitialTolerance() const {
+        return initialTolerance_;
+    }
+
+    void GapMin::setPrecisionDigits(unsigned digits) {
+        precisionDigits_ = digits;
+    }
+
+    unsigned GapMin::getPrecisionDigits() const {
+        return precisionDigits_;
+    }
 
     bool GapMin::QueueElementLess::operator() (const QueueElement& arg1, const QueueElement& arg2) const
     {

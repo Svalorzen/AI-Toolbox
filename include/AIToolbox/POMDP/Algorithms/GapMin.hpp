@@ -54,10 +54,71 @@ namespace AIToolbox::POMDP {
              * The input parameters can heavily influence both the time and the
              * strictness of the resulting bound.
              *
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * function will throw an std::runtime_error.
+             *
+             * \sa setInitialTolerance(double)
+             * \sa setPrecisionDigits(unsigned)
+             *
              * @param initialTolerance The tolerance to compute the initial bounds.
              * @param precisionDigits The number of digits precision to stop the gap searching process.
              */
             GapMin(double initialTolerance, unsigned precisionDigits);
+
+            /**
+             * @brief This function sets the initial tolerance used to compute the initial bounds.
+             *
+             * This value is only used before having an initial bounds
+             * approximation. Once that has been established, the tolerance is
+             * dependent on the digits of precision parameter.
+             *
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * function will throw an std::runtime_error.
+             *
+             * \sa setPrecisionDigits(unsigned);
+             *
+             * @param initialTolerance The new initial tolerance.
+             */
+            void setInitialTolerance(double initialTolerance);
+
+            /**
+             * @brief This function returns the initial tolerance used to compute the initial bounds.
+             *
+             * @return The currently set initial tolerance.
+             */
+            double getInitialTolerance() const;
+
+            /**
+             * @brief This function sets the digits in precision for the returned solution.
+             *
+             * Depending on the values for the input model, the precision of
+             * the solution is automatically adjusted to the input precision
+             * digits.
+             *
+             * In particular, the return threshold is equal to:
+             *
+             *     std::pow(10, std::ceil(std::log10(std::max(std::fabs(ub), std::fabs(lb))))-precisionDigits);
+             *
+             * This is used in two ways:
+             *
+             * - To check for lower and upper bound convergence. If the bounds
+             *   difference is less than the threshold, the GapMin terminates.
+             * - To check for gap size converngence. If the gap has not reduced
+             *   by more than the threshold during the last iteration, GapMin
+             *   terminates.
+             *
+             * @param digits The number of digits of precision to use to test for convergence.
+             */
+            void setPrecisionDigits(unsigned digits);
+
+            /**
+             * @brief This function returns the currently set digits of precision.
+             *
+             * \sa setPrecisionDigits(unsigned);
+             *
+             * @return The currently set digits of precision to use to test for convergence.
+             */
+            unsigned getPrecisionDigits() const;
 
             /**
              * @brief This function efficiently computes bounds for the optimal value of the input belief for the input POMDP.
@@ -191,12 +252,16 @@ namespace AIToolbox::POMDP {
             std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
 
             double epsilon_;
+            double initialTolerance_;
             unsigned precisionDigits_;
     };
 
     template <typename M, typename>
     std::tuple<double, double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
+
+        // Reset epsilon to set parameter;
+        epsilon_ = initialTolerance_;
 
         // Helper methods
         BlindStrategies bs(infiniteHorizon, epsilon_);
