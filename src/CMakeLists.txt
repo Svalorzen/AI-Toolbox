@@ -142,6 +142,7 @@ if (MAKE_POMDP)
         POMDP/Utils.cpp
         POMDP/IO.cpp
         POMDP/Algorithms/AMDP.cpp
+        POMDP/Algorithms/GapMin.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
