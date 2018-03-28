@@ -27,11 +27,11 @@ namespace AIToolbox::POMDP {
      * optimal solution vectors (only uniqueness in the final set is
      * required, but it is way cheaper than linear programming).
      *
-     * The set of Beliefs are stochastically computed as to cover as much
-     * as possible of the belief space, to ensure minimization of the final
-     * error. The final solution will thus be correct 100% in the Beliefs
-     * that have been selected, and will (possibly) undershoot in
-     * non-covered Beliefs.
+     * The Beliefs can be given as input, or stochastically computed as to
+     * cover as much as possible of the belief space, to ensure minimization of
+     * the final error. The final solution will be correct 100% in the Beliefs
+     * that have been selected, and will (possibly) undershoot in non-covered
+     * Beliefs.
      *
      * In addition, the fact that we solve only for a fixed set of Beliefs
      * guarantees that our final solution is limited in size, which is
@@ -60,7 +60,7 @@ namespace AIToolbox::POMDP {
              * @brief This function sets the epsilon parameter.
              *
              * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
+             * function will throw an std::runtime_error. The epsilon
              * parameter sets the convergence criterion. An epsilon of 0.0
              * forces PBVI to perform a number of iterations equal to
              * the horizon specified. Otherwise, PBVI will stop as soon
@@ -129,11 +129,36 @@ namespace AIToolbox::POMDP {
              * @tparam M The type of POMDP model that needs to be solved.
              *
              * @param model The POMDP model that needs to be solved.
+             * @param v The ValueFunction to startup the process from, if needed.
              *
-             * @return True, and the computed ValueFunction up to the requested horizon.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-            std::tuple<bool, ValueFunction> operator()(const M & model);
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<double, ValueFunction> operator()(const M & model, ValueFunction v = {});
+
+            /**
+             * @brief This function solves a POMDP::Model approximately.
+             *
+             * This function uses and evaluates the input beliefs.
+             *
+             * The final solution will only contain ValueFunctions for those
+             * Beliefs and will interpolate them for points it did not solve
+             * for. Even though the resulting solution is approximate very
+             * often it is good enough, and this comes with an incredible
+             * increase in speed.
+             *
+             * @tparam M The type of POMDP model that needs to be solved.
+             *
+             * @param model The POMDP model that needs to be solved.
+             * @param beliefs The list of beliefs to evaluate.
+             * @param v The ValueFunction to startup the process from, if needed.
+             *
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction and the computed ValueFunction.
+             */
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<double, ValueFunction> operator()(const M & model, const std::vector<Belief> & bList, ValueFunction v = {});
 
         private:
             /**
@@ -165,13 +190,8 @@ namespace AIToolbox::POMDP {
             mutable std::default_random_engine rand_;
     };
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-    std::tuple<bool, ValueFunction> PBVI::operator()(const M & model) {
-        // Initialize "global" variables
-        S = model.getS();
-        A = model.getA();
-        O = model.getO();
-
+    template <typename M, typename>
+    std::tuple<double, ValueFunction> PBVI::operator()(const M & model, ValueFunction v) {
         // In this implementation we compute all beliefs in advance. This
         // is mostly due to the fact that I prefer counter parameters (how
         // many beliefs do you want?) versus timers (loop until time is
@@ -179,9 +199,18 @@ namespace AIToolbox::POMDP {
         // can be called multiple times to increase the size of the belief
         // vector.
         BeliefGenerator bGen(model);
-        const auto beliefs = bGen(beliefSize_);
+        return operator()(model, bGen(beliefSize_), v);
+    }
 
-        ValueFunction v(1, VList(1, makeVEntry(S)));
+    template <typename M, typename>
+    std::tuple<double, ValueFunction> PBVI::operator()(const M & model, const std::vector<Belief> & beliefs, ValueFunction v) {
+        // Initialize "global" variables
+        S = model.getS();
+        A = model.getA();
+        O = model.getO();
+
+        if (v.size() == 0)
+            v = makeValueFunction(S);
 
         unsigned timestep = 0;
 
@@ -197,7 +226,7 @@ namespace AIToolbox::POMDP {
             // This means that for each action-observation pair, we are going
             // to obtain the same number of possible outcomes as the number
             // of entries in our initial vector w.
-            auto projs = projecter(v[timestep-1]);
+            auto projs = projecter(v.back());
 
             size_t finalWSize = 0;
             // In this method we split the work by action, which will then
@@ -228,12 +257,11 @@ namespace AIToolbox::POMDP {
             v.emplace_back(std::move(w));
 
             // Check convergence
-            if ( useEpsilon ) {
-                variation = weakBoundDistance(v[timestep-1], v[timestep]);
-            }
+            if ( useEpsilon )
+                variation = weakBoundDistance(v[v.size()-2], v.back());
         }
 
-        return std::make_tuple(true, v);
+        return std::make_tuple(useEpsilon ? variation : 0.0, v);
     }
 
     template <typename ProjectionsRow>
@@ -250,8 +278,7 @@ namespace AIToolbox::POMDP {
                 const VList & projsO = projs[o];
                 auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
-                for ( size_t s = 0; s < S; ++s )
-                    v[s] += std::get<VALUES>(*bestMatch)[s];
+                v += std::get<VALUES>(*bestMatch);
 
                 obs[o] = std::get<OBS>(*bestMatch)[0];
             }

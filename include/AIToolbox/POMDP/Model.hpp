@@ -14,7 +14,7 @@ namespace AIToolbox::POMDP {
     class Model;
 
     // Declaration to warn the compiler that this is a template function
-    template <typename M, typename = typename std::enable_if<MDP::is_model<M>::value>::type>
+    template <typename M, typename = std::enable_if_t<MDP::is_model<M>::value>>
     std::istream& operator>>(std::istream &is, Model<M> & m);
 
     /**
@@ -114,7 +114,7 @@ namespace AIToolbox::POMDP {
              * @param parameters All arguments needed to build the parent Model.
              */
             // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
-            template <typename ObFun, typename... Args, typename = typename std::enable_if<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>::type>
+            template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>>
             Model(size_t o, ObFun && of, Args&&... parameters);
 
             /**
@@ -132,8 +132,26 @@ namespace AIToolbox::POMDP {
              * @tparam PM The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename PM, typename = typename std::enable_if<is_model<PM>::value && std::is_constructible<M,PM>::value, int>::type>
+            template <typename PM, typename = std::enable_if_t<is_model<PM>::value && std::is_constructible<M,PM>::value>>
             Model(const PM& model);
+
+            /**
+             * @brief Unchecked constructor.
+             *
+             * This constructor takes ownership of the data that it is passed
+             * to it to avoid any sorts of copies and additional work (sanity
+             * checks), in order to speed up as much as possible the process of
+             * building a new Model.
+             *
+             * Note that to use it you have to explicitly use the NO_CHECK tag
+             * parameter first.
+             *
+             * @param o The number of possible observations the agent could make.
+             * @param ot The observation probability table.
+             * @param parameters All arguments needed to build the parent Model.
+             */
+            template <typename... Args>
+            Model(NoCheck, size_t o, ObservationTable && ot, Args&&... parameters);
 
             /**
              * @brief This function replaces the Model observation function with the one provided.
@@ -206,17 +224,6 @@ namespace AIToolbox::POMDP {
             double getObservationProbability(size_t s1, size_t a, size_t o) const;
 
             /**
-             * @brief This function *computes* the probability of obtaining an observation given an action and an initial belief.
-             *
-             * @param b The initial belief state.
-             * @param a The action performed.
-             * @param o The resulting observation.
-             *
-             * @return The probability of obtaining the specified observation.
-             */
-            double getObservationProbability(const Belief & b, size_t o, size_t a) const;
-
-            /**
              * @brief This function returns the observation function for a given action.
              *
              * @param a The action requested.
@@ -269,6 +276,13 @@ namespace AIToolbox::POMDP {
     {
         setObservationFunction(of);
     }
+
+    template <typename M>
+    template <typename... Args>
+    Model<M>::Model(NoCheck, size_t o, ObservationTable && ot, Args&&... params) :
+            M(std::forward<Args>(params)...), O(o),
+            observations_(std::move(ot))
+    {}
 
     template <typename M>
     template <typename PM, typename>

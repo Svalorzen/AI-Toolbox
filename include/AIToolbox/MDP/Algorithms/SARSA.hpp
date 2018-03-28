@@ -73,7 +73,7 @@ namespace AIToolbox::MDP {
              * @param model The MDP model that SARSA will use as a base.
              * @param alpha The learning rate of the SARSA method.
              */
-            template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_generative_model<M>::value>>
             SARSA(const M& model, double alpha = 0.1);
 
             /**

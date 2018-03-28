@@ -53,21 +53,41 @@ namespace AIToolbox::POMDP {
             /**
              * @brief This function applies the QMDP algorithm on the input POMDP.
              *
-             * This function computes the MDP::ValueFunction of the underlying
-             * MDP of the input POMDP with the parameters set. It then converts
-             * this solution into the equivalent POMDP::ValueFunction. Finally
-             * it returns both (plus the boolean specifying whether the epsilon
-             * constraint requested is satisfied or not).
+             * This function computes the MDP::QFunction of the underlying MDP
+             * of the input POMDP with the parameters set using ValueIteration.
              *
-             * @tparam M The type of the input POMDP
+             * It then converts this solution into the equivalent
+             * POMDP::ValueFunction. Finally it returns both (plus the
+             * variation for the last iteration of ValueIteration).
+             *
+             * Note that no pruning is performed here, so some vectors might be
+             * dominated.
+             *
              * @param m The POMDP to be solved
              *
-             * @return A tuple containing a boolean value specifying
-             *         whether the specified epsilon bound was reached, a
-             *         POMDP::ValueFunction and the equivalent MDP::ValueFunction.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction, the computed ValueFunction and the
+             *         equivalent MDP::QFunction.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-            std::tuple<bool, ValueFunction, MDP::ValueFunction> operator()(const M & m);
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<double, ValueFunction, MDP::QFunction> operator()(const M & m);
+
+            /**
+             * @brief This function converts an MDP::QFunction into the equivalent POMDP VList.
+             *
+             * This function directly converts a QFunction into the equivalent
+             * VList.
+             *
+             * The function needs to know the observation space so that if
+             * needed the output can be used in a ValueFunction, and possibly
+             * with a Policy, without crashing.
+             *
+             * @param O The observation space of the POMDP to make a VList for.
+             * @param qfun The MDP QFunction from which to create a VList.
+             *
+             * @return A VList equivalent to the input QFunction.
+             */
+            static VList fromQFunction(size_t O, const MDP::QFunction & qfun);
 
             /**
              * @brief This function sets the epsilon parameter.
@@ -110,33 +130,15 @@ namespace AIToolbox::POMDP {
     };
 
     template <typename M, typename>
-    std::tuple<bool, ValueFunction, MDP::ValueFunction> QMDP::operator()(const M & m) {
+    std::tuple<double, ValueFunction, MDP::QFunction> QMDP::operator()(const M & m) {
         auto solution = solver_(m);
-        auto & mdpValueFunction = std::get<1>(solution);
-        const auto & mdpValues  = std::get<MDP::VALUES >(mdpValueFunction);
-        const auto & mdpActions = std::get<MDP::ACTIONS>(mdpValueFunction);
 
         const size_t S = m.getS();
 
-        VList w;
-        w.reserve(S);
+        auto v = makeValueFunction(S);
+        v.emplace_back(fromQFunction(m.getO(), std::get<2>(solution)));
 
-        // We simply create a VList where each entry is a slice of the MDP::ValueFunction.
-        // All in all, since an MDP is a subclass of POMDPs, what we are doing is writing the
-        // true representation of the MDP solution (where we know only the solutions for the
-        // corners of the belief space). The MDP::ValueFunction is simply a condensed form of
-        // the solution, since in an MDP the only "beliefs" we have are the corners.
-        for ( size_t s = 0; s < S; ++s ) {
-            MDP::Values v(S); v.fill(0.0);
-            v[s] = mdpValues[s];
-            // All observations are 0 since we go back to the horizon 0 entry, which is nil.
-            w.emplace_back(v, mdpActions[s], VObs(m.getO(), 0u));
-        }
-
-        ValueFunction vf(1, VList(1, makeVEntry(S)));
-        vf.emplace_back(std::move(w));
-
-        return std::make_tuple(std::get<0>(solution), vf, std::move(mdpValueFunction));
+        return std::make_tuple(std::get<0>(solution), v, std::move(std::get<2>(solution)));
     }
 }
 

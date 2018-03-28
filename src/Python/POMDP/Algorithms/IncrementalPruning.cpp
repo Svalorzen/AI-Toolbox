@@ -105,9 +105,8 @@ void exportPOMDPIncrementalPruning() {
                  "\n"
                  "@param model The POMDP model that needs to be solved.\n"
                  "\n"
-                 "@return A tuple containing a boolean value specifying whether\n"
-                 "the specified epsilon bound was reached and the computed\n"
-                 "ValueFunction."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction and the computed ValueFunction."
         , (arg("self"), "model"))
 
         .def("__call__",                    &IncrementalPruning::operator()<POMDPSparseModelBinded>,
@@ -124,8 +123,7 @@ void exportPOMDPIncrementalPruning() {
                  "\n"
                  "@param model The POMDP model that needs to be solved.\n"
                  "\n"
-                 "@return A tuple containing a boolean value specifying whether\n"
-                 "the specified epsilon bound was reached and the computed\n"
-                 "ValueFunction."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction and the computed ValueFunction."
         , (arg("self"), "model"));
 }

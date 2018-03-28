@@ -113,12 +113,11 @@ namespace AIToolbox::POMDP {
              *
              * @param model The POMDP model that needs to be solved.
              *
-             * @return A tuple containing a boolean value specifying whether
-             *         the specified epsilon bound was reached and the computed
-             *         ValueFunction.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-            std::tuple<bool, ValueFunction> operator()(const M & model);
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<double, ValueFunction> operator()(const M & model);
 
         private:
             /**
@@ -148,13 +147,13 @@ namespace AIToolbox::POMDP {
     };
 
     template <typename M, typename>
-    std::tuple<bool, ValueFunction> IncrementalPruning::operator()(const M & model) {
+    std::tuple<double, ValueFunction> IncrementalPruning::operator()(const M & model) {
         // Initialize "global" variables
         S = model.getS();
         A = model.getA();
         O = model.getO();
 
-        ValueFunction v(1, VList(1, makeVEntry(S))); // TODO: May take user input
+        auto v = makeValueFunction(S); // TODO: May take user input
 
         unsigned timestep = 0;
 
@@ -241,12 +240,11 @@ namespace AIToolbox::POMDP {
             v.emplace_back(std::move(w));
 
             // Check convergence
-            if ( useEpsilon ) {
+            if ( useEpsilon )
                 variation = weakBoundDistance(v[timestep-1], v[timestep]);
-            }
         }
 
-        return std::make_tuple(variation <= epsilon_, v);
+        return std::make_tuple(useEpsilon ? variation : 0.0, v);
     }
 }
 

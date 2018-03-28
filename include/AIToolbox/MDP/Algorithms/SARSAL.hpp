@@ -68,7 +68,7 @@ namespace AIToolbox::MDP {
              * @param lambda The lambda parameter for the eligibility traces.
              * @param epsilon The cutoff point for eligibility traces.
              */
-            template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_generative_model<M>::value>>
             SARSAL(const M& model, double alpha = 0.1, double lambda = 0.9, double epsilon = 0.001);
 
             /**

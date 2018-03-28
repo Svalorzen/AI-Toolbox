@@ -128,7 +128,12 @@ namespace AIToolbox::POMDP {
 
     template <typename M>
     void Projecter<M>::computeImmediateRewards() {
-        immediateRewards_ = MDP::computeImmediateRewards(model_).transpose();
+        immediateRewards_ = [&]{
+            if constexpr(MDP::is_model_eigen<M>::value)
+                return model_.getRewardFunction().transpose();
+            else
+                return MDP::computeImmediateRewards(model_).transpose();
+        }();
         // You can find out why this is divided in the incremental pruning paper =)
         // The idea is that at the end of all the cross sums it's going to add up to the correct value.
         immediateRewards_ /= static_cast<double>(O);

@@ -9,6 +9,10 @@
 // #include <AIToolbox/MDP/IO.hpp>
 // #include <fstream>
 
+BOOST_AUTO_TEST_CASE( eigen_model ) {
+    BOOST_CHECK(AIToolbox::MDP::is_model_eigen<AIToolbox::MDP::RLModel<AIToolbox::MDP::Experience>>::value);
+}
+
 BOOST_AUTO_TEST_CASE( construction ) {
     using namespace AIToolbox::MDP;
     const size_t S = 10, A = 8;
@@ -52,7 +56,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
         BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,1), 10.0 );
         BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,1), 10.0 );
         BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,1), 10.0 );
-        BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,4), 0.0 );
+        BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,4), 10.0 ); // Wasn't recorded, but by storing S,A we get this.
 
         BOOST_CHECK_EQUAL( model.getTransitionProbability(4,0,5), 0.0 ); // Not yet synced
         BOOST_CHECK_EQUAL( model.getExpectedReward(4,0,5),        0.0 ); // Not yet synced
@@ -64,10 +68,10 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     }
     // Full sync, manual or on construction
     {
-        RLModel<decltype(exp)> model(exp, 1.0, false);
+        RLModel model(exp, 1.0, false);
         model.sync();
 
-        RLModel<decltype(exp)> model2(exp, 1.0, true);
+        RLModel model2(exp, 1.0, true);
 
         BOOST_CHECK_EQUAL( model.getTransitionProbability (0,0,1), 1.0/3.0 );
         BOOST_CHECK_EQUAL( model2.getTransitionProbability(0,0,1), 1.0/3.0 );
@@ -79,7 +83,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
         exp.record(0,0,1,50);
         model.sync(0,0);
 
-        BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,1), 30.0 );
+        BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,1), (30.0 + 50.0) / 4 );
     }
 }
 

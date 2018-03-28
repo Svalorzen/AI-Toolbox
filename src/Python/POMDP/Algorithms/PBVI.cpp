@@ -95,7 +95,7 @@ void exportPOMDPPBVI() {
                  "This function returns the currently set number of support beliefs to use during a solve pass."
         , (arg("self")))
 
-        .def("__call__",                    &PBVI::operator()<POMDPModelBinded>,
+        .def("__call__",                    static_cast<std::tuple<double, ValueFunction>(PBVI::*)(const POMDPModelBinded&, ValueFunction)>(&PBVI::operator()<POMDPModelBinded>),
                  "This function solves a POMDP::Model approximately.\n"
                  "\n"
                  "This function computes a set of beliefs for which to solve\n"
@@ -116,11 +116,13 @@ void exportPOMDPPBVI() {
                  "definition.\n"
                  "\n"
                  "@param model The POMDP model that needs to be solved.\n"
+                 "@param v The ValueFunction to startup the process from, if needed.\n"
                  "\n"
-                 "@return True, and the computed ValueFunction up to the requested horizon.\n"
-        , (arg("self"), "model"))
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction and the computed ValueFunction."
+        , (arg("self"), "model", "v"))
 
-        .def("__call__",                    &PBVI::operator()<POMDPSparseModelBinded>,
+        .def("__call__",                    static_cast<std::tuple<double, ValueFunction>(PBVI::*)(const POMDPSparseModelBinded&, ValueFunction)>(&PBVI::operator()<POMDPSparseModelBinded>),
                  "This function solves a POMDP::Model approximately.\n"
                  "\n"
                  "This function computes a set of beliefs for which to solve\n"
@@ -141,7 +143,9 @@ void exportPOMDPPBVI() {
                  "definition.\n"
                  "\n"
                  "@param model The POMDP model that needs to be solved.\n"
+                 "@param v The ValueFunction to startup the process from, if needed.\n"
                  "\n"
-                 "@return True, and the computed ValueFunction up to the requested horizon.\n"
-        , (arg("self"), "model"));
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction and the computed ValueFunction."
+        , (arg("self"), "model", "v"));
 }

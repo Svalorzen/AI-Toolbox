@@ -58,7 +58,7 @@ class MDPPythonValueIterationTests(unittest.TestCase):
         vi = MDP.ValueIteration(1000000, 0.001)
         solution = vi(model)
 
-        self.assertEqual(solution[0], True)
+        self.assertEqual(solution[0] < vi.getEpsilon(), True)
 
         qfun = solution[2]
 

@@ -61,31 +61,33 @@ namespace AIToolbox::MDP {
     /**
      * @brief This function computes all immediate rewards (state and action) of the MDP once for improved speed.
      *
+     * This function pretty much creates the R(s,a) function for the input
+     * model. Normally we store the reward function as R(s,a,s'), but this table
+     * can be "compressed" into R(s,a) with no loss of meaningful information -
+     * with respect to the planning process.
+     *
      * Note that this function is more efficient with eigen models.
      *
      * @param m The MDP that needs to be solved.
      *
      * @return The Models's immediate rewards.
      */
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
-    QFunction computeImmediateRewards(const M & model) {
-        const auto S = model.getS();
-        const auto A = model.getA();
-
-        auto ir = QFunction(S, A);
-
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    Matrix2D computeImmediateRewards(const M & model) {
         if constexpr(is_model_eigen<M>::value) {
-            for ( size_t a = 0; a < A; ++a )
-                ir.col(a).noalias() = model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(S);
+            return model.getRewardFunction();
         } else {
+            const auto S = model.getS();
+            const auto A = model.getA();
+
+            auto ir = QFunction(S, A);
             ir.fill(0.0);
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )
                         ir(s, a) += model.getTransitionProbability(s,a,s1) * model.getExpectedReward(s,a,s1);
+            return ir;
         }
-
-        return ir;
     }
 
     /**
@@ -99,15 +101,15 @@ namespace AIToolbox::MDP {
      *
      * @return A new QFunction.
      */
-    template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     QFunction computeQFunction(const M & model, const Values & v, QFunction ir) {
-        const auto S = model.getS();
         const auto A = model.getA();
 
         if constexpr(is_model_eigen<M>::value) {
             for ( size_t a = 0; a < A; ++a )
                 ir.col(a).noalias() += model.getTransitionFunction(a) * v;
         } else {
+            const auto S = model.getS();
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )

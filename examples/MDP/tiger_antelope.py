@@ -298,7 +298,7 @@ def solve_mdp(horizon, epsilon, discount=0.9):
     solver = MDP.ValueIteration(horizon, epsilon)
     solution = solver(model)
 
-    print time.strftime("%H:%M:%S"), "- Converged:", solution[0]
+    print time.strftime("%H:%M:%S"), "- Converged:", solution[0] < solver.getEpsilon()
     _, value_function, q_function = solution
 
     policy = MDP.Policy(len(S), len(A), value_function)

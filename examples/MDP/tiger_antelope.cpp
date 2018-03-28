@@ -229,7 +229,8 @@ int main() {
     // Eigen is very very efficient in computing the values we need!
     auto solution = solver(model);
 
-    printCurrentTimeString(); std::cout << " - Converged: " << std::get<0>(solution) << "\n";
+    printCurrentTimeString();
+    std::cout << " - Converged: " << (std::get<0>(solution) < solver.getEpsilon()) << "\n";
 
     AIToolbox::MDP::Policy policy(world.getS(), world.getA(), std::get<1>(solution));
 

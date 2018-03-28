@@ -118,10 +118,11 @@ namespace AIToolbox::POMDP {
              * @param model The POMDP model that needs to be solved.
              * @param minReward The minimum reward obtainable from this model.
              *
-             * @return True, and the computed ValueFunction up to the requested horizon.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
-            std::tuple<bool, ValueFunction> operator()(const M & model, double minReward);
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            std::tuple<double, ValueFunction> operator()(const M & model, double minReward);
 
         private:
 
@@ -155,8 +156,8 @@ namespace AIToolbox::POMDP {
             mutable std::default_random_engine rand_;
     };
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
-    std::tuple<bool, ValueFunction> PERSEUS::operator()(const M & model, const double minReward) {
+    template <typename M, typename>
+    std::tuple<double, ValueFunction> PERSEUS::operator()(const M & model, const double minReward) {
         if ( model.getDiscount() == 1 ) throw std::invalid_argument("The model cannot have a discount of 1 in PERSEUS!");
         // Initialize "global" variables
         S = model.getS();
@@ -195,12 +196,11 @@ namespace AIToolbox::POMDP {
             v.emplace_back( crossSum( projs, beliefs, v[timestep-1] ) );
 
             // Check convergence
-            if ( useEpsilon ) {
+            if ( useEpsilon )
                 variation = weakBoundDistance(v[timestep-1], v[timestep]);
-            }
         }
 
-        return std::make_tuple(true, v);
+        return std::make_tuple(useEpsilon ? variation : 0.0, v);
     }
 
     template <typename ProjectionsTable>

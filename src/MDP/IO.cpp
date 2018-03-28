@@ -6,6 +6,8 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 
+#include <AIToolbox/Impl/Logging.hpp>
+
 namespace AIToolbox::MDP {
     // Global discrete policy writer
     std::ostream& operator<<(std::ostream &os, const PolicyInterface & p) {
@@ -33,7 +35,7 @@ namespace AIToolbox::MDP {
                 double rSum = 0.0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     if ( !(is >> e.visits_[s][a][s1] >> e.rewards_[s][a][s1] )) {
-                        std::cerr << "AIToolbox: Could not read Experience data.\n";
+                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
                         is.setstate(std::ios::failbit);
                         return is;
                     }
@@ -71,7 +73,7 @@ namespace AIToolbox::MDP {
                 double rSum = 0.0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     if ( !(is >> l >> d) ) {
-                        std::cerr << "AIToolbox: Could not read Experience data.\n";
+                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
                         is.setstate(std::ios::failbit);
                         return is;
                     }
@@ -104,16 +106,18 @@ namespace AIToolbox::MDP {
 
         Model in(S,A);
 
+        double tmp;
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
                 double sum = 0.0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    if ( !(is >> in.transitions_[a](s, s1) >> in.rewards_[a](s, s1) )) {
-                        std::cerr << "AIToolbox: Could not read Model data.\n";
+                    if ( !(is >> in.transitions_[a](s, s1) >> tmp)) {
+                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Model data at element " << s << ", " << a << ", " << s1);
                         is.setstate(std::ios::failbit);
                         return is;
                     }
                     sum += in.transitions_[a](s, s1);
+                    in.rewards_(s, a) += tmp * in.transitions_[a](s, s1);
                 }
 
                 // Verification/Sanitization
@@ -142,7 +146,7 @@ namespace AIToolbox::MDP {
                 double sum = 0.0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     if ( !(is >> p >> r )) {
-                        std::cerr << "AIToolbox: Could not read Model data.\n";
+                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Model data.");
                         is.setstate(std::ios::failbit);
                         return is;
                     }
@@ -150,9 +154,10 @@ namespace AIToolbox::MDP {
                         if ( checkDifferentSmall(0.0, p) ) {
                             sum += p;
                             in.transitions_[a].coeffRef(s, s1) = p;
+
+                            if ( checkDifferentSmall(0.0, r) )
+                                in.rewards_.coeffRef(s, a) += r * p;
                         }
-                        if ( checkDifferentSmall(0.0, r) )
-                            in.rewards_[a].coeffRef(s, s1) = r;
                     }
                 }
                 if ( checkDifferentSmall(sum, 0.0) )
@@ -180,15 +185,15 @@ namespace AIToolbox::MDP {
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
                 if ( ! ( is >> scheck >> acheck >> policy.policy_(s,a) ) ) {
-                    std::cerr << "AIToolbox: Could not read policy data.\n";
+                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read policy data.");
                     fail = true;
                 }
                 else if ( policy.policy_(s, a) < 0.0 || policy.policy_(s, a) > 1.0 ) {
-                    std::cerr << "AIToolbox: Input policy data contains non-probability values.\n";
+                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Input policy data contains non-probability values.");
                     fail = true;
                 }
                 else if ( scheck != s || acheck != a ) {
-                    std::cerr << "AIToolbox: Input policy data is not sorted by state and action.\n";
+                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Input policy data is not sorted by state and action.");
                     fail = true;
                 }
                 if ( fail ) {

@@ -3,7 +3,6 @@
 #include <lpsolve/lp_lib.h>
 
 namespace AIToolbox::POMDP {
-    // Row is initialized to cols+1 since lp_solve reads element from 1 onwards
     WitnessLP::WitnessLP(const size_t s) : S(s), lp_(s+2)
     {
         /*

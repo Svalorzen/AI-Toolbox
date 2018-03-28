@@ -190,13 +190,7 @@ namespace AIToolbox::MDP {
 
         // Update q[s][a]
         if constexpr(is_model_eigen<M>::value) {
-            // We use this to avoid continuous reallocations during the update
-            // of q[s][a]
-            static Values vector(S);
-
-            vector.noalias() = values * model_.getDiscount();
-            vector += model_.getRewardFunction(a).row(s).transpose();
-            qfun_(s,a) = model_.getTransitionFunction(a).row(s).dot(vector);
+            qfun_(s,a) = model_.getRewardFunction().coeff(s, a) + model_.getTransitionFunction(a).row(s).dot(values * model_.getDiscount());
         } else {
             double newQValue = 0;
             for ( size_t s1 = 0; s1 < S; ++s1 ) {

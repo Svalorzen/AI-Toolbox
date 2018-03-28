@@ -24,15 +24,27 @@ namespace AIToolbox::POMDP {
     bool operator<(const VEntry & lhs, const VEntry & rhs);
 
     /**
-     * @brief This function creates an empty VEntry.
+     * @brief This function creates a default ValueFunction.
+     *
+     * The default ValueFunction contains a single VList with inside a single
+     * VEntry: do action 0, with all value zeroes.
+     *
+     * The VList is a necessary byproduct that is needed when computing the
+     * whole ValueFunction recursively via dynamic programming.
+     *
+     * In the end, to act, it's not needed, but it's probably more hassle to
+     * remove the entry, and so we leave it there. So in general we always
+     * assume it's there.
+     *
+     * Another peculiarity of the default VEntry is that it's the only place
+     * where the observation id vector is empty, since nobody is ever supposed
+     * to go looking in there.
      *
      * @param S The number of possible states.
-     * @param a The action contained in the VEntry.
-     * @param O The size of the observations vector.
      *
-     * @return A new VEntry.
+     * @return A new ValueFunction.
      */
-    VEntry makeVEntry(size_t S, size_t a = 0, size_t O = 0);
+    ValueFunction makeValueFunction(size_t S);
 
     /**
      * @brief This function returns a weak measure of distance between two VLists.
@@ -53,73 +65,43 @@ namespace AIToolbox::POMDP {
     double weakBoundDistance(const VList & oldV, const VList & newV);
 
     /**
-     * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+     * @brief This function creates the SOSA table for the input POMDP.
      *
-     * This function needs to create a new belief since modifying a belief
-     * in place is not possible. This is because each cell update for the
-     * new belief requires all values from the previous belief.
+     * The SOSA table is a way to represent the observation and transition
+     * functions in a single function, at the same time.
      *
-     * @tparam M The type of the POMDP Model.
-     * @param model The model used to update the belief.
-     * @param b The old belief.
-     * @param a The action taken during the transition.
-     * @param o The observation registered.
+     * Each cell in this four-dimensional table contains the probability of
+     * getting to state s' while obtaining observation o when starting with
+     * state s and action a.
+     *
+     * This table is less space-efficient than storing both tables separately,
+     * but it can save you some time if you need its values multiple times in a
+     * loop (for example in the FastInformedBound algorithm).
+     *
+     * @param m The input POMDP to extract the SOSA table from.
+     *
+     * @return The SOSA table for the input pomdp.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
-    Belief updateBelief(const M & model, const Belief & b, const size_t a, const size_t o) {
-        Belief br(model.getS());
-        updateBelief(model, b, a, o, &br);
-        return br;
-    }
-
-    /**
-     * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
-     *
-     * This function writes directly into the provided Belief pointer. It assumes
-     * that the pointer points to a correctly sized Belief. It does a basic nullptr
-     * check.
-     *
-     * @tparam M The type of the POMDP Model.
-     * @param model The model used to update the belief.
-     * @param b The old belief.
-     * @param a The action taken during the transition.
-     * @param o The observation registered.
-     * @param bRet The output belief.
-     */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
-    void updateBelief(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
-        if (!bRet) return;
-
-        updateBeliefUnnormalized(model, b, a, o, bRet);
-
-        auto & br = *bRet;
-        const double totalSum = br.sum();
-
-        if ( checkEqualSmall(totalSum, 0.0) ) br[0] = 1.0;
-        else br /= totalSum;
-    }
-
-    /**
-     * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
-     *
-     * This function needs to create a new belief since modifying a belief
-     * in place is not possible. This is because each cell update for the
-     * new belief requires all values from the previous belief.
-     *
-     * This function will not normalize the output, nor is guaranteed
-     * to return a non-completely-zero vector.
-     *
-     * @tparam M The type of the POMDP Model.
-     * @param model The model used to update the belief.
-     * @param b The old belief.
-     * @param a The action taken during the transition.
-     * @param o The observation registered.
-     */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
-    Belief updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
-        Belief br(model.getS());
-        updateBeliefUnnormalized(model, b, a, o, &br);
-        return br;
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    auto makeSOSA(const M & m) {
+        if constexpr(is_model_eigen<M>::value) {
+            boost::multi_array<typename remove_cv_ref<decltype(m.getTransitionFunction(0))>::type, 2> retval( boost::extents[m.getA()][m.getO()] );
+            for (size_t a = 0; a < m.getA(); ++a)
+                for (size_t o = 0; o < m.getO(); ++o)
+                    retval[a][o] = m.getTransitionFunction(a) * Vector(m.getObservationFunction(a).col(o)).asDiagonal();
+            return retval;
+        } else {
+            Matrix4D retval( boost::extents[m.getA()][m.getO()] );
+            for (size_t a = 0; a < m.getA(); ++a) {
+                for (size_t o = 0; o < m.getO(); ++o) {
+                    retval[a][o].resize(m.getS(), m.getS());
+                    for (size_t s = 0; s < m.getS(); ++s)
+                        for (size_t s1 = 0; s1 < m.getS(); ++s1)
+                            retval[a][o](s, s1) = m.getTransitionProbability(s, a, s1) * m.getObservationProbability(s1, a, o);
+                }
+            }
+            return retval;
+        }
     }
 
     /**
@@ -139,7 +121,7 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     void updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
@@ -160,6 +142,277 @@ namespace AIToolbox::POMDP {
     }
 
     /**
+     * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+     *
+     * This function needs to create a new belief since modifying a belief
+     * in place is not possible. This is because each cell update for the
+     * new belief requires all values from the previous belief.
+     *
+     * This function will not normalize the output, nor is guaranteed
+     * to return a non-completely-zero vector.
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The old belief.
+     * @param a The action taken during the transition.
+     * @param o The observation registered.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    Belief updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
+        Belief br(model.getS());
+        updateBeliefUnnormalized(model, b, a, o, &br);
+        return br;
+    }
+
+    /**
+     * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+     *
+     * This function writes directly into the provided Belief pointer. It assumes
+     * that the pointer points to a correctly sized Belief. It does a basic nullptr
+     * check.
+     *
+     * NOTE: This function assumes that the update and the normalization are
+     * possible, i.e. that from the input belief and action it is possible to
+     * receive the input observation.
+     *
+     * If that cannot be guaranteed, use the updateBeliefUnnormalized()
+     * function and do the normalization yourself (and check for it).
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The old belief.
+     * @param a The action taken during the transition.
+     * @param o The observation registered.
+     * @param bRet The output belief.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    void updateBelief(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
+        if (!bRet) return;
+
+        updateBeliefUnnormalized(model, b, a, o, bRet);
+
+        auto & br = *bRet;
+        br /= br.sum();
+    }
+
+    /**
+     * @brief Creates a new belief reflecting changes after an action and observation for a particular Model.
+     *
+     * This function needs to create a new belief since modifying a belief
+     * in place is not possible. This is because each cell update for the
+     * new belief requires all values from the previous belief.
+     *
+     * NOTE: This function assumes that the update and the normalization are
+     * possible, i.e. that from the input belief and action it is possible to
+     * receive the input observation.
+     *
+     * If that cannot be guaranteed, use the updateBeliefUnnormalized()
+     * function and do the normalization yourself (and check for it).
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The old belief.
+     * @param a The action taken during the transition.
+     * @param o The observation registered.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    Belief updateBelief(const M & model, const Belief & b, const size_t a, const size_t o) {
+        Belief br(model.getS());
+        updateBelief(model, b, a, o, &br);
+        return br;
+    }
+
+    /**
+     * @brief This function partially updates a belief.
+     *
+     * This function is useful in case one needs to update a belief for all
+     * possible observations. In such a case, it is possible to avoid repeating
+     * the same operations by creating an intermediate belief, that only
+     * depends on the action and not on the observation.
+     *
+     * From this intermediate result it will be then possible to obtain the end
+     * belief by supplying the same action and the desired observation.
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The old belief.
+     * @param a The action taken during the transition.
+     * @param bRet The output belief.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    void updateBeliefPartial(const M & model, const Belief & b, const size_t a, Belief * bRet) {
+        if (!bRet) return;
+
+        auto & br = *bRet;
+
+        if constexpr(is_model_eigen<M>::value) {
+            br = (b.transpose() * model.getTransitionFunction(a)).transpose();
+        } else {
+            const size_t S = model.getS();
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                br[s1] = 0.0;
+                for ( size_t s = 0; s < S; ++s )
+                    br[s1] += model.getTransitionProbability(s,a,s1) * b[s];
+            }
+        }
+    }
+
+    /**
+     * @brief This function partially updates a belief.
+     *
+     * This function is useful in case one needs to update a belief for all
+     * possible observations. In such a case, it is possible to avoid repeating
+     * the same operations by creating an intermediate belief, that only
+     * depends on the action and not on the observation.
+     *
+     * From this intermediate result it will be then possible to obtain the end
+     * belief by supplying the same action and the desired observation.
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The old belief.
+     * @param a The action taken during the transition.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    Belief updateBeliefPartial(const M & model, const Belief & b, const size_t a) {
+        Belief bRet(model.getS());
+        updateBeliefPartial(model, b, a, &bRet);
+        return bRet;
+    }
+
+    /**
+     * @brief This function terminates the unnormalized update of a partially updated belief.
+     *
+     * This function is useful in case one needs to update a belief for all
+     * possible observations. In such a case, it is possible to avoid repeating
+     * the same operations by creating an intermediate belief, that only
+     * depends on the action and not on the observation.
+     *
+     * \sa updateBeliefPartial
+     *
+     * Note that the input action here must be the same one that produced the
+     * intermediate result.
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The intermediate belief.
+     * @param a The action taken during the transition.
+     * @param o The observation registered.
+     * @param bRet The output belief.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    void updateBeliefPartialUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
+        if (!bRet) return;
+
+        auto & br = *bRet;
+
+        if constexpr(is_model_eigen<M>::value) {
+            br = model.getObservationFunction(a).col(o).cwiseProduct(b);
+        } else {
+            const size_t S = model.getS();
+            for ( size_t s = 0; s < S; ++s )
+                br[s] = model.getObservationProbability(s, a, o) * b[s];
+        }
+    }
+
+    /**
+     * @brief This function terminates the unnormalized update of a partially updated belief.
+     *
+     * This function is useful in case one needs to update a belief for all
+     * possible observations. In such a case, it is possible to avoid repeating
+     * the same operations by creating an intermediate belief, that only
+     * depends on the action and not on the observation.
+     *
+     * \sa updateBeliefPartial
+     *
+     * Note that the input action here must be the same one that produced the
+     * intermediate result.
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The intermediate belief.
+     * @param a The action taken during the transition.
+     * @param o The observation registered.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    Belief updateBeliefPartialUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
+        Belief bRet(model.getS());
+        updateBeliefPartialUnnormalized(model, b, a, o, &bRet);
+        return bRet;
+    }
+
+    /**
+     * @brief This function terminates the normalized update of a partially updated belief.
+     *
+     * This function is useful in case one needs to update a belief for all
+     * possible observations. In such a case, it is possible to avoid repeating
+     * the same operations by creating an intermediate belief, that only
+     * depends on the action and not on the observation.
+     *
+     * \sa updateBeliefPartial
+     *
+     * Note that the input action here must be the same one that produced the
+     * intermediate result.
+     *
+     * NOTE: This function assumes that the update and the normalization are
+     * possible, i.e. that from the input belief and action it is possible to
+     * receive the input observation.
+     *
+     * If that cannot be guaranteed, use the updateBeliefUnnormalized()
+     * function and do the normalization yourself (and check for it).
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The intermediate belief.
+     * @param a The action taken during the transition.
+     * @param o The observation registered.
+     * @param bRet The output belief.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    void updateBeliefPartialNormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
+        if (!bRet) return;
+
+        auto & br = *bRet;
+
+        updateBeliefPartialUnnormalized(model, b, a, o, bRet);
+
+        br /= br.sum();
+    }
+
+    /**
+     * @brief This function terminates the normalized update of a partially updated belief.
+     *
+     * This function is useful in case one needs to update a belief for all
+     * possible observations. In such a case, it is possible to avoid repeating
+     * the same operations by creating an intermediate belief, that only
+     * depends on the action and not on the observation.
+     *
+     * \sa updateBeliefPartial
+     *
+     * Note that the input action here must be the same one that produced the
+     * intermediate result.
+     *
+     * NOTE: This function assumes that the update and the normalization are
+     * possible, i.e. that from the input belief and action it is possible to
+     * receive the input observation.
+     *
+     * If that cannot be guaranteed, use the updateBeliefUnnormalized()
+     * function and do the normalization yourself (and check for it).
+     *
+     * @tparam M The type of the POMDP Model.
+     * @param model The model used to update the belief.
+     * @param b The intermediate belief.
+     * @param a The action taken during the transition.
+     * @param o The observation registered.
+     */
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    Belief updateBeliefPartialNormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
+        auto newB = updateBeliefPartialUnnormalized(model, b, a, o);
+        newB /= newB.sum();
+        return newB;
+    }
+
+    /**
      * @brief This function computes an immediate reward based on a belief rather than a state.
      *
      * @param model The POMDP model to use.
@@ -168,10 +421,10 @@ namespace AIToolbox::POMDP {
      *
      * @return The immediate reward.
      */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
+    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
     double beliefExpectedReward(const M& model, const Belief & b, const size_t a) {
         if constexpr (is_model_eigen<M>::value) {
-            return (model.getTransitionFunction(a).cwiseProduct(model.getRewardFunction(a)) * Vector::Ones(model.getS())).dot(b);
+            return model.getRewardFunction().col(a).dot(b);
         } else {
             double rew = 0.0; const size_t S = model.getS();
             for ( size_t s = 0; s < S; ++s )
@@ -179,35 +432,6 @@ namespace AIToolbox::POMDP {
                     rew += model.getTransitionProbability(s, a, s1) * model.getExpectedReward(s, a, s1) * b[s];
 
             return rew;
-        }
-    }
-
-    /**
-     * @brief This function computes the probability of obtaining an observation from a belief and action.
-     *
-     * @param model The POMDP model to use.
-     * @param b The belief to start from.
-     * @param a The action performed.
-     * @param o The observation that should be received.
-     *
-     * @return The probability of getting the observation from that belief and action.
-     */
-    template <typename M, typename std::enable_if<is_model<M>::value>::type* = nullptr>
-    double beliefObservationProbability(const M& model, const Belief & b, const size_t a, const size_t o) {
-        if constexpr (is_model_eigen<M>::value) {
-            return (b.transpose() * model.getTransitionFunction(a) * model.getObservationFunction(a).col(o))(0);
-        } else {
-            double p = 0.0; const size_t S = model.getS();
-            // This is basically the same as a belief update, but unnormalized
-            // and we sum all elements together..
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                double sum = 0.0;
-                for ( size_t s = 0; s < S; ++s )
-                    sum += model.getTransitionProbability(s, a, s1) * b[s];
-
-                p += model.getObservationProbability(s1, a, o) * sum;
-            }
-            return p;
         }
     }
 
@@ -283,12 +507,12 @@ namespace AIToolbox::POMDP {
      *
      * @tparam Iterator An iterator, can be const or not, from VList.
      * @param bbegin The begin of the belief.
-     * @param bend   The end of the belief.
+     * @param bend The end of the belief.
      * @param begin The begin of the search range.
      * @param bound The begin of the 'useful' range.
      * @param end The range end to be checked. It is NOT included in the search.
      *
-     * @return The iterator pointing to the element with the highest dot product with the input belief.
+     * @return The new bound iterator.
      */
     template <typename Iterator>
     Iterator extractBestAtBelief(const Belief & b, Iterator begin, Iterator bound, Iterator end) {
@@ -331,6 +555,82 @@ namespace AIToolbox::POMDP {
                 std::iter_swap(bestMatch, bound++);
         }
         return bound;
+    }
+
+    /**
+     * @brief This function finds and moves all non-useful beliefs at the end of the input range.
+     *
+     * This function helps remove beliefs which do not support any VEntry and
+     * are thus not useful for improving the VList bounds.
+     *
+     * This function moves all non-useful beliefs at the end of the input
+     * range, and returns the resulting iterator pointing to the first
+     * non-useful belief.
+     *
+     * When multiple beliefs support the same VEntry, the ones with the best
+     * values are returned.
+     *
+     * The input VEntries may contain elements which are not supported by any
+     * of the input Beliefs (although if they exist they may slow down the
+     * function).
+     *
+     * @param it The beginning of the belief range to check.
+     * @param bend The end of the belief range to check.
+     * @param begin The beginning of the VEntry range to check against.
+     * @param end The end of the VEntry range to check against.
+     *
+     * @return An iterator pointing to the first non-useful belief.
+     */
+    template <typename BIterator, typename VIterator>
+    BIterator extractBestUsefulBeliefs(BIterator bbegin, BIterator bend, VIterator begin, VIterator end) {
+        const auto beliefsN = std::distance(bbegin, bend);
+        const auto entriesN = std::distance(begin, end);
+
+        std::vector<std::pair<BIterator, double>> bestValues(entriesN, {bend, std::numeric_limits<double>::lowest()});
+        const auto maxBound = beliefsN < entriesN ? bend : bbegin + entriesN;
+
+        // So the idea here is that we advance IT only if we found a belief
+        // which supports a previously unsupported VEntry. This allows us to
+        // avoid doing later work for compacting the beliefs before the bound.
+        //
+        // If instead the found belief takes into consideration an already
+        // supported VEntry, then it either is better or not. If it's better,
+        // we swap it with whatever was before. In both cases, the belief to
+        // discard ends up at the end and we decrease the bound.
+        auto it = bbegin;
+        auto bound = bend;
+        while (it < bound && it < maxBound) {
+            double value;
+            const auto vId = std::distance(begin, findBestAtBelief(*it, begin, end, &value));
+            if (bestValues[vId].second < value) {
+                if (bestValues[vId].first == bend) {
+                    bestValues[vId] = {it++, value};
+                    continue;
+                } else {
+                    bestValues[vId].second = value;
+                    std::iter_swap(bestValues[vId].first, it);
+                }
+            }
+            std::iter_swap(it, --bound);
+        }
+        if (it == bound) return it;
+
+        // If all VEntries have been supported by at least one belief, then we
+        // can finish up the rest with less swaps and checks. Here we only swap
+        // with the best if needed, otherwise we don't have to do anything.
+        //
+        // This is because we can return one belief per VEntry at the most, so
+        // if we're here the bound is not going to move anyway.
+        while (it < bound) {
+            double value;
+            const auto vId = std::distance(begin, findBestAtBelief(*it, begin, end, &value));
+            if (bestValues[vId].second < value) {
+                bestValues[vId].second = value;
+                std::iter_swap(bestValues[vId].first, it);
+            }
+            ++it;
+        }
+        return maxBound;
     }
 }
 

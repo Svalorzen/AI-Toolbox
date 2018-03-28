@@ -97,15 +97,18 @@ Policies:
 
 Algorithms:
 
-- [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf)
+- [Augmented MDP (AMDP)](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
+- [Blind Strategies](http://www.aaai.org/Papers/AAAI/1997/AAAI97-114.pdf)
+- [Fast Informed Bound](https://people.cs.pitt.edu/~milos/research/JAIR-2000.pdf)
+- [GapMin](https://cs.uwaterloo.ca/~ppoupart/publications/gapMin/gap-camera-ready.pdf)
 - [Incremental Pruning](http://arxiv.org/pdf/1302.1525.pdf)
+- [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf)
 - [Point Based Value Iteration (PBVI)](http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf)
 - [POMCP with UCB1](http://www0.cs.ucl.ac.uk/staff/d.silver/web/Applications_files/pomcp.pdf)
-- [rPOMCP](https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf)
 - [QMDP](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
+- [rPOMCP](https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf)
 - [Real-Time Belief State Search (RTBSS)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf)
-- [Augmented MDP (AMDP)](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
-- [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf)
+- [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf)
 
 Policies:
 
@@ -137,7 +140,7 @@ Dependencies
 
 To build the library you need:
 
-- [cmake](http://www.cmake.org/)
+- [cmake](http://www.cmake.org/) >= 3.9
 - the [boost library](http://www.boost.org/) >= 1.62
 - the [Eigen 3.3 library](http://eigen.tuxfamily.org/index.php?title=Main_Page).
 

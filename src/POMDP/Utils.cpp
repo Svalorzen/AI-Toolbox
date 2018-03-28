@@ -1,10 +1,11 @@
 #include <AIToolbox/POMDP/Utils.hpp>
 
 namespace AIToolbox::POMDP {
-    VEntry makeVEntry(const size_t S, const size_t a, const size_t O) {
+    ValueFunction makeValueFunction(const size_t S) {
         auto values = MDP::Values(S);
         values.fill(0.0);
-        return std::make_tuple(values, a, VObs(O, 0));
+
+        return ValueFunction(1, VList(1, std::make_tuple(values, 0, VObs())));
     }
 
     bool operator<(const VEntry & lhs, const VEntry & rhs) {

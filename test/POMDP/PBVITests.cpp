@@ -74,8 +74,6 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     POMDP::PBVI solver(1000, horizon, 0.01);
     auto solution = solver(model);
 
-    BOOST_CHECK_EQUAL(std::get<0>(solution), true);
-
     auto & vf = std::get<1>(solution);
     auto vlist = vf[horizon];
 

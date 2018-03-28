@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.9) # CMP0069 NEW
 
 project (AIToolbox)
 
@@ -44,57 +44,14 @@ add_definitions(
     -Wextra
 )
 
-# Do release linker and option optimizations
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-    # Use ld.gold if it is available and isn't disabled explicitly
-    option(USE_LD_GOLD "Use GNU gold linker" ON)
-    if (USE_LD_GOLD)
-        check_cxx_compiler_flag("-fuse-ld=gold" GOLD_IS_AVAILABLE)
-        if (NOT GOLD_IS_AVAILABLE)
-            message(WARNING "GNU gold linker isn't available, using the default system linker.")
-        endif ()
-    endif ()
+# Check for Link Time Optimizations with this compiler
+include(CheckIPOSupported)
+check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT LTO_ERROR)
 
-    # Per-compiler type optional options
-    if     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        # using Clang
-
-        if (GOLD_IS_AVAILABLE)
-            APPEND("-fuse-ld=gold" CMAKE_EXE_LINKER_FLAGS
-            CMAKE_MODULE_LINKER_FLAGS CMAKE_SHARED_LINKER_FLAGS)
-
-            # Cannot enable lto in Clang since it explodes - it needs a gold version
-            # which supports plugins, and we'd have to check for that. AND it should
-            # have the clang-gold plugin available for use anyway.
-            #
-            # add_definitions( -flto )
-        endif()
-
-    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"  )
-        # using GCC
-        if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7)
-            message(FATAL_ERROR "g++ version required is at least 7")
-        endif()
-
-        # Add link time optimizations
-        add_definitions( -flto )
-        append("-flto" CMAKE_EXE_LINKER_FLAGS CMAKE
-            CMAKE_MODULE_LINKER_FLAGS CMAKE_SHARED_LINKER_FLAGS)
-        # Use gcc-ar so that we can optimize the static libraries
-        set(CMAKE_AR "gcc-ar")
-        set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> qcs <TARGET> <LINK_FLAGS> <OBJECTS>")
-        set(CMAKE_CXX_ARCHIVE_FINISH true)
-        # Try to use gold as it is faster if possible
-        if (GOLD_IS_AVAILABLE)
-            append("-fuse-ld=gold" CMAKE_EXE_LINKER_FLAGS
-            CMAKE_MODULE_LINKER_FLAGS CMAKE_SHARED_LINKER_FLAGS)
-        endif()
-
-    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-        # using Intel C++
-    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" )
-        # using Visual Studio C++
-    endif()
+if( LTO_SUPPORTED )
+    message(STATUS "IPO / LTO enabled")
+else()
+    message(STATUS "IPO / LTO not supported: <${LTO_ERROR}>")
 endif()
 
 ##############################
@@ -102,7 +59,7 @@ endif()
 ##############################
 
 # Default is to build everything
-IF (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_FMDP AND NOT MAKE_POMDP)
+if (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_FMDP AND NOT MAKE_POMDP)
     set(MAKE_ALL    1)
 endif()
 
@@ -123,6 +80,13 @@ elseif (MAKE_POMDP)
     set(MAKE_MDP        1)
 endif()
 
+# Check whether to enable logging
+if (${AI_LOGGING_ENABLED})
+    add_definitions(-DAI_LOGGING_ENABLED)
+    set(LOGGING_STATUS "ENABLED")
+else()
+    set(LOGGING_STATUS "DISABLED")
+endif()
 
 # For additional Find library scripts
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
@@ -155,6 +119,7 @@ set(MAP_MAKE_EXAMPLES   "# Building Examples")
 
 message("")
 message("Build type: " ${CMAKE_BUILD_TYPE})
+message("Logging is " ${LOGGING_STATUS})
 foreach(v MAKE_MDP;MAKE_FMDP;MAKE_POMDP;MAKE_PYTHON;MAKE_TESTS;MAKE_EXAMPLES)
     if (${${v}})
         message(${MAP_${v}})

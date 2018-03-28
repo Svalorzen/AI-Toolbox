@@ -1,10 +1,10 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 
 find_package(Boost 1.53 REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 find_package(Eigen3 3.2 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
 if (MAKE_PYTHON)
     find_package(PythonLibs 2.7 REQUIRED)
@@ -13,7 +13,7 @@ if (MAKE_PYTHON)
     STRING(REGEX REPLACE "[^0-9]+$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
     # Save version of python libs loaded to run tests later.
     set(PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING_STRIPPED} PARENT_SCOPE)
-    include_directories(${PYTHON_INCLUDE_DIRS})
+    include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
 endif()
 
 if (MAKE_MDP)
@@ -42,6 +42,7 @@ if (MAKE_MDP)
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
     )
+    set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     if (MAKE_PYTHON)
         add_library(MDP SHARED
@@ -93,8 +94,9 @@ if (MAKE_MDP)
             Python/MDP/Policies/EpsilonPolicy.cpp
             Python/MDP/Policies/WoLFPolicy.cpp
             Python/MDPWrappers.cpp)
-        target_link_libraries(MDP ${Boost_PYTHON_LIBRARY})
+        target_link_libraries(MDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")
+        set_target_properties(MDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
         add_library(Game SHARED
             Game/Policies/LRPPolicy.cpp
@@ -104,14 +106,15 @@ if (MAKE_MDP)
             Python/Game/Policies/ESRLPolicy.cpp
             Python/GameWrappers.cpp)
 
-        target_link_libraries(Game ${Boost_PYTHON_LIBRARY} MDP)
+        target_link_libraries(Game ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP)
         set_target_properties(Game PROPERTIES PREFIX "")
+        set_target_properties(Game PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
 endif()
 
 if (MAKE_FMDP OR MAKE_POMDP)
     find_package(LpSolve REQUIRED)
-    include_directories(${LPSOLVE_INCLUDE_DIR})
+    include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
 endif()
 
 if (MAKE_FMDP)
@@ -126,7 +129,9 @@ if (MAKE_FMDP)
         FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         FactoredMDP/Algorithms/Utils/FactoredLP.cpp
         FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
-        FactoredMDP/Algorithms/LLR.cpp)
+        FactoredMDP/Algorithms/LLR.cpp
+    )
+    set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
 endif()
@@ -135,15 +140,20 @@ if (MAKE_POMDP)
     add_library(AIToolboxPOMDP
         LP/LpSolveWrapper.cpp
         POMDP/Utils.cpp
+        POMDP/IO.cpp
+        POMDP/Algorithms/AMDP.cpp
+        POMDP/Algorithms/GapMin.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
-        POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
-        POMDP/Algorithms/AMDP.cpp
+        POMDP/Algorithms/BlindStrategies.cpp
+        POMDP/Algorithms/FastInformedBound.cpp
         POMDP/Algorithms/QMDP.cpp
+        POMDP/Algorithms/Witness.cpp
         POMDP/Algorithms/Utils/WitnessLP.cpp
-        POMDP/IO.cpp
-        POMDP/Policies/Policy.cpp)
+        POMDP/Policies/Policy.cpp
+    )
+    set_target_properties(AIToolboxPOMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     target_link_libraries(AIToolboxPOMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
 
@@ -154,19 +164,23 @@ if (MAKE_POMDP)
         add_library(POMDP SHARED
             LP/LpSolveWrapper.cpp
             POMDP/Utils.cpp
+            POMDP/Algorithms/AMDP.cpp
+            POMDP/Algorithms/BlindStrategies.cpp
+            POMDP/Algorithms/FastInformedBound.cpp
+            POMDP/Algorithms/GapMin.cpp
             POMDP/Algorithms/IncrementalPruning.cpp
-            POMDP/Algorithms/Witness.cpp
             POMDP/Algorithms/PBVI.cpp
             POMDP/Algorithms/PERSEUS.cpp
-            POMDP/Algorithms/AMDP.cpp
             POMDP/Algorithms/QMDP.cpp
-            POMDP/Policies/Policy.cpp
+            POMDP/Algorithms/Witness.cpp
             POMDP/Algorithms/Utils/WitnessLP.cpp
+            POMDP/Policies/Policy.cpp
             Python/POMDP/Types.cpp
             Python/POMDP/Utils.cpp
             Python/POMDP/Model.cpp
             Python/POMDP/SparseModel.cpp
             Python/POMDP/Algorithms/POMCP.cpp
+            Python/POMDP/Algorithms/GapMin.cpp
             Python/POMDP/Algorithms/Witness.cpp
             Python/POMDP/Algorithms/IncrementalPruning.cpp
             Python/POMDP/Algorithms/QMDP.cpp
@@ -177,8 +191,8 @@ if (MAKE_POMDP)
             Python/POMDP/Policies/PolicyInterface.cpp
             Python/POMDP/Policies/Policy.cpp
             Python/POMDPWrappers.cpp)
-        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} MDP
-            ${LPSOLVE_LIBRARIES})
+        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP ${LPSOLVE_LIBRARIES})
         set_target_properties(POMDP PROPERTIES PREFIX "")
+        set_target_properties(POMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
 endif()

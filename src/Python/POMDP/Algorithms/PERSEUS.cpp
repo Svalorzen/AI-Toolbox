@@ -105,7 +105,8 @@ void exportPOMDPPERSEUS() {
                  "@param model The POMDP model that needs to be solved.\n"
                  "@param minReward The minimum reward obtainable from this model.\n"
                  "\n"
-                 "@return True, and the computed ValueFunction up to the requested horizon."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction and the computed ValueFunction."
         , (arg("self"), "model", "minReward"))
 
         .def("__call__",                    &PERSEUS::operator()<POMDPSparseModelBinded>,
@@ -127,6 +128,7 @@ void exportPOMDPPERSEUS() {
                  "@param model The POMDP model that needs to be solved.\n"
                  "@param minReward The minimum reward obtainable from this model.\n"
                  "\n"
-                 "@return True, and the computed ValueFunction up to the requested horizon."
+                 "@return A tuple containing the maximum variation for the\n"
+                 "        ValueFunction and the computed ValueFunction."
         , (arg("self"), "model", "minReward"));
 }

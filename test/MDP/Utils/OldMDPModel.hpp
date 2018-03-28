@@ -141,7 +141,7 @@ class OldMDPModel {
          * @tparam M The type of the other model.
          * @param model The model that needs to be copied.
          */
-        template <typename M, typename std::enable_if<AIToolbox::MDP::is_model<M>::value, int>::type = 0>
+        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model<M>::value>>
         OldMDPModel(const M& model);
 
         /**
@@ -302,7 +302,7 @@ OldMDPModel::OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d)
     setRewardFunction(r);
 }
 
-template <typename M, typename std::enable_if<AIToolbox::MDP::is_model<M>::value, int>::type>
+template <typename M, typename>
 OldMDPModel::OldMDPModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
     rand_(AIToolbox::Impl::Seeder::getSeed())
 {

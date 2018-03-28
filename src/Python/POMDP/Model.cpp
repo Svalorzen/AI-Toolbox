@@ -142,7 +142,7 @@ void exportPOMDPModel() {
                  "This function returns the number of observations possible."
         , (arg("self")))
 
-        .def("getObservationProbability",   static_cast<double(POMDPModelBinded::*)(size_t,size_t,size_t) const>(&POMDPModelBinded::getObservationProbability),
+        .def("getObservationProbability",   &POMDPModelBinded::getObservationProbability,
                  "This function returns the stored observation probability for the specified state-action pair."
         , (arg("self"), "s", "a", "s1"));
 }

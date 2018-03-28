@@ -69,13 +69,15 @@ namespace AIToolbox::POMDP {
 
             const M& model_;
             size_t S, A;
+            mutable Belief helper1_, helper2_; // These are used to avoid reallocating memory all the time.
 
             mutable std::default_random_engine rand_;
     };
 
     template <typename M>
     BeliefGenerator<M>::BeliefGenerator(const M& model) :
-            model_(model), S(model_.getS()), A(model_.getA()), rand_(Impl::Seeder::getSeed()) {}
+            model_(model), S(model_.getS()), A(model_.getA()),
+            helper1_(S), helper2_(S), rand_(Impl::Seeder::getSeed()) {}
 
     template <typename M>
     typename BeliefGenerator<M>::BeliefList BeliefGenerator<M>::operator()(const size_t beliefNumber) const {
@@ -140,43 +142,41 @@ namespace AIToolbox::POMDP {
         };
 
         constexpr unsigned jMax = 20;
-        std::array<Belief, jMax> actionBuffer;
-        Belief helper(S); double distance;
+        std::array<size_t, jMax> observationBuffer;
         // We apply the discovery process also to all beliefs we discover
         // along the way. We start from the first good one, since the others
         // have already produced as much as they can.
         for (size_t i = firstProductiveBelief; i < bl.size(); ++i) {
             // Compute all new beliefs
             for ( size_t a = 0; a < A; ++a ) {
+                double distance = std::numeric_limits<double>::max();
                 distances[a] = 0.0;
                 size_t bufferFill = 0;
-                for ( unsigned j = 0; j < jMax; ++j ) {
+                updateBeliefPartial(model_, bl[i], a, &helper1_);
+                for (unsigned j = 0; j < jMax; ++j) {
                     const size_t s = sampleProbability(S, bl[i], rand_);
 
                     size_t o;
                     std::tie(std::ignore, o, std::ignore) = model_.sampleSOR(s, a);
-                    updateBelief(model_, bl[i], a, o, &helper);
 
-                    // Check the new guy against the ones we have already
+                    // Check the new observation against the ones we have already
                     // produced this round. If it passes, add it to them.
                     bool pass = true;
-                    distance = computeDistance(helper, bl[0]);
                     for ( unsigned k = 0; k < bufferFill; ++k ) {
-                        distance = std::min(distance, computeDistance(helper, actionBuffer[k]));
-                        if (distance <= distances[a]) {
+                        if (o == observationBuffer[k]) {
                             pass = false;
                             break;
                         }
                     }
-                    if (pass) {
-                        actionBuffer[bufferFill++] = helper;
-                    } else {
-                        continue;
-                    }
+                    if (!pass) continue;
 
-                    // Now check against all others.
+                    // If we haven't had this observation before, we can update the belief.
+                    observationBuffer[bufferFill++] = o;
+                    updateBeliefPartialNormalized(model_, helper1_, a, o, &helper2_);
+
+                    // Now check the new belief's distance against all others.
                     for (size_t k = 0; k < bl.size(); ++k) {
-                        distance = std::min(distance, computeDistance(helper, bl[k]));
+                        distance = std::min(distance, computeDistance(helper2_, bl[k]));
                         if (distance <= distances[a]) break;
                     }
                     // Select the best found over 20 times, or just set this one if
@@ -185,7 +185,7 @@ namespace AIToolbox::POMDP {
                     // saving us a lot of work).
                     if ( distance > distances[a] || distances[a] == 0.0) {
                         distances[a] = distance;
-                        newBeliefs[a] = helper;
+                        newBeliefs[a] = helper2_;
                     }
                 }
             }

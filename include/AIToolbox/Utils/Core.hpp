@@ -9,6 +9,8 @@
 #include <AIToolbox/Types.hpp>
 
 namespace AIToolbox {
+    constexpr auto equalEpsilonSmall = 0.000001;
+    constexpr auto equalEpsilonGeneral = 0.00000000001;
     /**
      * @brief Copies a 3d container into another 3d container.
      *
@@ -47,7 +49,7 @@ namespace AIToolbox {
      * @return True if the two numbers are close enough, false otherwise.
      */
     inline bool checkEqualSmall(const double a, const double b) {
-        return ( std::fabs(a - b) <= 5 * std::numeric_limits<double>::epsilon() );
+        return ( std::fabs(a - b) <= equalEpsilonSmall );
     }
 
     /**
@@ -77,7 +79,7 @@ namespace AIToolbox {
      */
     inline bool checkEqualGeneral(const double a, const double b) {
         if ( checkEqualSmall(a,b) ) return true;
-        return ( std::fabs(a - b) <= std::min(std::fabs(a), std::fabs(b)) * 5 * std::numeric_limits<double>::epsilon() );
+        return ( std::fabs(a - b) <= std::min(std::fabs(a), std::fabs(b)) * equalEpsilonGeneral );
     }
 
     /**

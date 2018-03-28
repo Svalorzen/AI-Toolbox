@@ -76,25 +76,7 @@ namespace AIToolbox::MDP {
     class SparseModel {
         public:
             using TransitionTable   = SparseMatrix3D;
-            using RewardTable       = SparseMatrix3D;
-
-            /**
-             * @brief This function creates a new SparseModel without any checks on the input values.
-             *
-             * This factory function takes ownership of the data that it is
-             * passed to it to avoid any sorts of copies and additional
-             * work, in order to speed up as much as possible the process
-             * of building a new SparseModel.
-             *
-             * @param s The state space of the SparseModel.
-             * @param a The action space of the SparseModel.
-             * @param t The transition function to be used in the SparseModel.
-             * @param r The reward function to be used in the SparseModel.
-             * @param d The discount factor for the SparseModel.
-             *
-             * @return The resulting SparseModel.
-             */
-            static SparseModel makeFromTrustedData(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d = 1.0);
+            using RewardTable       = SparseMatrix2D;
 
             /**
              * @brief Basic constructor.
@@ -170,8 +152,27 @@ namespace AIToolbox::MDP {
              * @tparam M The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             SparseModel(const M& model);
+
+            /**
+             * @brief Unchecked constructor.
+             *
+             * This constructor takes ownership of the data that it is passed
+             * to it to avoid any sorts of copies and additional work (sanity
+             * checks), in order to speed up as much as possible the process of
+             * building a new Model.
+             *
+             * Note that to use it you have to explicitly use the NO_CHECK tag
+             * parameter first.
+             *
+             * @param s The state space of the SparseModel.
+             * @param a The action space of the SparseModel.
+             * @param t The transition function to be used in the SparseModel.
+             * @param r The reward function to be used in the SparseModel.
+             * @param d The discount factor for the SparseModel.
+             */
+            SparseModel(NoCheck, size_t s, size_t a, TransitionTable && t, RewardTable && r, double d);
 
             /**
              * @brief This function replaces the transition function with the one provided.
@@ -220,7 +221,7 @@ namespace AIToolbox::MDP {
              *
              * @param t The external transitions container.
              */
-            void setTransitionFunction(const SparseMatrix3D & t);
+            void setTransitionFunction(const TransitionTable & t);
 
             /**
              * @brief This function replaces the reward function with the one provided.
@@ -254,16 +255,14 @@ namespace AIToolbox::MDP {
              * @brief This function replaces the reward function with the one provided.
              *
              * The dimensions of the container must match the ones provided
-             * as arguments (for three dimensions: S, S, A). BE CAREFUL.
-             * The sparse matrices MUST be SxS, while the std::vector
-             * containing them MUST represent A.
+             * as arguments (for two dimensions: S, A). BE CAREFUL.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
              *
              * @param r The external rewards container.
              */
-            void setRewardFunction(SparseMatrix3D r);
+            void setRewardFunction(const RewardTable & r);
 
             /**
              * @brief This function sets a new discount factor for the SparseModel.
@@ -359,15 +358,6 @@ namespace AIToolbox::MDP {
             const RewardTable &     getRewardFunction()     const;
 
             /**
-             * @brief This function returns the reward function for a given action.
-             *
-             * @param a The action requested.
-             *
-             * @return The reward function for the input action.
-             */
-            const SparseMatrix2D & getRewardFunction(size_t a) const;
-
-            /**
              * @brief This function returns whether a given state is a terminal.
              *
              * @param s The state examined.
@@ -377,21 +367,6 @@ namespace AIToolbox::MDP {
             bool isTerminal(size_t s) const;
 
         private:
-            /**
-             * @brief Unchecked constructor.
-             *
-             * This is the constructor used in the factory function makeFromTrustedData.
-             * It is private since we want the user to be aware when it is building a
-             * SparseModel with no checks at all.
-             *
-             * @param s The state space of the SparseModel.
-             * @param a The action space of the SparseModel.
-             * @param t The transition function to be used in the SparseModel.
-             * @param r The reward function to be used in the SparseModel.
-             * @param d The discount factor for the SparseModel.
-             */
-            SparseModel(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d);
-
             size_t S, A;
             double discount_;
 
@@ -406,17 +381,17 @@ namespace AIToolbox::MDP {
     template <typename T, typename R>
     SparseModel::SparseModel(const size_t s, const size_t a, const T & t, const R & r, const double d) :
             S(s), A(a), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(A, SparseMatrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(d);
         setTransitionFunction(t);
         setRewardFunction(r);
     }
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+    template <typename M, typename>
     SparseModel::SparseModel(const M& model) :
             S(model.getS()), A(model.getA()), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(A, SparseMatrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(model.getDiscount());
         for ( size_t s = 0; s < S; ++s )
@@ -426,14 +401,14 @@ namespace AIToolbox::MDP {
                 if ( p < 0.0 || p > 1.0 ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
                 if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
                 const double r = model.getExpectedReward(s, a, s1);
-                if ( checkDifferentSmall(0.0, r) ) rewards_[a].insert(s, s1) = r;
+                if ( checkDifferentSmall(0.0, r) ) rewards_.coeffRef(s, a) += r * p;
             }
             if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
         }
-        for ( size_t a = 0; a < A; ++a ) {
+
+        for ( size_t a = 0; a < A; ++a )
             transitions_[a].makeCompressed();
-            rewards_[a].makeCompressed();
-        }
+        rewards_.makeCompressed();
     }
 
     template <typename T>
@@ -458,16 +433,16 @@ namespace AIToolbox::MDP {
 
     template <typename R>
     void SparseModel::setRewardFunction( const R & r ) {
+        rewards_.setZero();
         for ( size_t a = 0; a < A; ++a ) {
-            rewards_[a].setZero();
-
             for ( size_t s = 0; s < S; ++s )
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
                 const double w = r[s][a][s1];
-                if ( checkDifferentSmall(0.0, w) ) rewards_[a].insert(s, s1) = w;
+                const double p = transitions_[a].coeff(s, s1);
+                if ( checkDifferentSmall(0.0, w) && checkDifferentSmall(0.0, p) ) rewards_.coeffRef(s, a) += w * p;
             }
-            rewards_[a].makeCompressed();
         }
+        rewards_.makeCompressed();
     }
 }
 

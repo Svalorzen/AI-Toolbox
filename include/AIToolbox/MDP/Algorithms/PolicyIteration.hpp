@@ -39,7 +39,7 @@ namespace AIToolbox::MDP {
              * @param m The MDP that needs to be solved.
              * @return The QFunction of the optimal policy found.
              */
-            template <typename M, typename = typename std::enable_if<is_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             QFunction operator()(const M & m);
 
             /**

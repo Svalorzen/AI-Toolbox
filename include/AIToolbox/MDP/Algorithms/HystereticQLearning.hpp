@@ -87,7 +87,7 @@ namespace AIToolbox::MDP {
              * @param alpha The learning rate of the HystereticQLearning method.
              * @param beta The learning rate for negative updates.
              */
-            template <typename M, typename = typename std::enable_if<is_generative_model<M>::value>::type>
+            template <typename M, typename = std::enable_if_t<is_generative_model<M>::value>>
             HystereticQLearning(const M& model, double alpha = 0.1, double beta = 0.01);
 
             /**

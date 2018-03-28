@@ -69,25 +69,7 @@ namespace AIToolbox::MDP {
     class Model {
         public:
             using TransitionTable   = Matrix3D;
-            using RewardTable       = Matrix3D;
-
-            /**
-             * @brief This function creates a new Model without any checks on the input values.
-             *
-             * This factory function takes ownership of the data that it is
-             * passed to it to avoid any sorts of copies and additional
-             * work, in order to speed up as much as possible the process
-             * of building a new Model.
-             *
-             * @param s The state space of the Model.
-             * @param a The action space of the Model.
-             * @param t The transition function to be used in the Model.
-             * @param r The reward function to be used in the Model.
-             * @param d The discount factor for the Model.
-             *
-             * @return The resulting Model.
-             */
-            static Model makeFromTrustedData(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d = 1.0);
+            using RewardTable       = Matrix2D;
 
             /**
              * @brief Basic constructor.
@@ -155,8 +137,27 @@ namespace AIToolbox::MDP {
              * @tparam M The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename M, typename std::enable_if<is_model<M>::value, int>::type = 0>
+            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
             Model(const M& model);
+
+            /**
+             * @brief Unchecked constructor.
+             *
+             * This constructor takes ownership of the data that it is passed
+             * to it to avoid any sorts of copies and additional work (sanity
+             * checks), in order to speed up as much as possible the process of
+             * building a new Model.
+             *
+             * Note that to use it you have to explicitly use the NO_CHECK tag
+             * parameter first.
+             *
+             * @param s The state space of the Model.
+             * @param a The action space of the Model.
+             * @param t The transition function to be used in the Model.
+             * @param r The reward function to be used in the Model.
+             * @param d The discount factor for the Model.
+             */
+            Model(NoCheck, size_t s, size_t a, TransitionTable && t, RewardTable && r, double d);
 
             /**
              * @brief This function replaces the Model transition function with the one provided.
@@ -197,7 +198,7 @@ namespace AIToolbox::MDP {
              *
              * @param t The external transitions container.
              */
-            void setTransitionFunction(const Matrix3D & t);
+            void setTransitionFunction(const TransitionTable & t);
 
             /**
              * @brief This function replaces the Model reward function with the one provided.
@@ -223,16 +224,14 @@ namespace AIToolbox::MDP {
              * @brief This function replaces the reward function with the one provided.
              *
              * The dimensions of the container must match the ones provided
-             * as arguments (for three dimensions: S, S, A). BE CAREFUL.
-             * The sparse matrices MUST be SxS, while the std::vector
-             * containing them MUST represent A.
+             * as arguments (for three dimensions: S, A). BE CAREFUL.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
              *
              * @param r The external rewards container.
              */
-            void setRewardFunction(const Matrix3D & r);
+            void setRewardFunction(const RewardTable & r);
 
             /**
              * @brief This function sets a new discount factor for the Model.
@@ -328,15 +327,6 @@ namespace AIToolbox::MDP {
             const RewardTable &     getRewardFunction()     const;
 
             /**
-             * @brief This function returns the reward function for a given action.
-             *
-             * @param a The action requested.
-             *
-             * @return The reward function for the input action.
-             */
-            const Matrix2D & getRewardFunction(size_t a) const;
-
-            /**
              * @brief This function returns whether a given state is a terminal.
              *
              * @param s The state examined.
@@ -346,21 +336,6 @@ namespace AIToolbox::MDP {
             bool isTerminal(size_t s) const;
 
         private:
-            /**
-             * @brief Unchecked constructor.
-             *
-             * This is the constructor used in the factory function makeFromTrustedData.
-             * It is private since we want the user to be aware when it is building a
-             * Model with no checks at all.
-             *
-             * @param s The state space of the Model.
-             * @param a The action space of the Model.
-             * @param t The transition function to be used in the Model.
-             * @param r The reward function to be used in the Model.
-             * @param d The discount factor for the Model.
-             */
-            Model(size_t s, size_t a, TransitionTable && t, RewardTable && r, double d);
-
             size_t S, A;
             double discount_;
 
@@ -375,24 +350,25 @@ namespace AIToolbox::MDP {
     template <typename T, typename R>
     Model::Model(const size_t s, const size_t a, const T & t, const R & r, const double d) :
             S(s), A(a), transitions_(A, Matrix2D(S, S)),
-            rewards_(A, Matrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(d);
         setTransitionFunction(t);
         setRewardFunction(r);
     }
 
-    template <typename M, typename std::enable_if<is_model<M>::value, int>::type>
+    template <typename M, typename>
     Model::Model(const M& model) :
             S(model.getS()), A(model.getA()), transitions_(A, Matrix2D(S, S)),
-            rewards_(A, Matrix2D(S, S)), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(model.getDiscount());
+        rewards_.fill(0.0);
         for ( size_t a = 0; a < A; ++a )
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     transitions_[a](s, s1) = model.getTransitionProbability(s, a, s1);
-                    rewards_    [a](s, s1) = model.getExpectedReward       (s, a, s1);
+                    rewards_    (s, a)     += model.getExpectedReward       (s, a, s1) * transitions_[a](s, s1);
                 }
                 if ( !checkEqualSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
             }
@@ -412,10 +388,11 @@ namespace AIToolbox::MDP {
 
     template <typename R>
     void Model::setRewardFunction(const R & r) {
+        rewards_.fill(0.0);
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
                 for ( size_t s1 = 0; s1 < S; ++s1 )
-                    rewards_[a](s, s1) = r[s][a][s1];
+                    rewards_(s, a) += r[s][a][s1] * transitions_[a](s, s1);
     }
 }
 

@@ -4,7 +4,7 @@
 
 namespace AIToolbox::POMDP {
     Policy::Policy(const size_t s, const size_t a, const size_t o) :
-            Base(s, a), O(o), H(0), policy_(1, VList(1, makeVEntry(S))) {}
+            Base(s, a), O(o), H(0), policy_(makeValueFunction(S)) {}
 
     Policy::Policy(const size_t s, const size_t a, const size_t o, const ValueFunction & v) :
             Base(s, a), O(o), H(v.size()-1), policy_(v)
@@ -35,6 +35,8 @@ namespace AIToolbox::POMDP {
 
     std::tuple<size_t, size_t> Policy::sampleAction(const size_t id, const size_t o, const unsigned horizon) const {
         // Horizon + 1 means one step in the past.
+        // Note that the zero entry is never supposed to be used, and it's just
+        // a byproduct of the computing process.
         const auto & vlist = policy_[horizon+1];
 
         const size_t newId  = std::get<OBS>(vlist[id])[o];

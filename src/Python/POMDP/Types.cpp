@@ -30,5 +30,7 @@ void exportPOMDPTypes() {
     // possible.
 
     // IncrementalPruning return value
-    TupleToPython<std::tuple<bool, POMDP::ValueFunction>>();
+    TupleToPython<std::tuple<double, POMDP::ValueFunction>>();
+    // GapMin return value
+    TupleToPython<std::tuple<double, double, POMDP::VList, MDP::QFunction>>();
 }

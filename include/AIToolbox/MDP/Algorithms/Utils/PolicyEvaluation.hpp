@@ -57,11 +57,11 @@ namespace AIToolbox::MDP {
              * The algorithm is constrained by the currently set parameters.
              *
              * @param p The policy to be evaluated.
-             * @return A tuple containing a boolean value specifying whether
-             *         the specified epsilon bound was reached and the
-             *         Values and QFunction for the Model and policy.
+             * @return A tuple containing the maximum variation for the
+             *         ValueFunction, the ValueFunction and the QFunction for
+             *         the Model and policy.
              */
-            std::tuple<bool, Values, QFunction> operator()(const PolicyInterface & p);
+            std::tuple<double, Values, QFunction> operator()(const PolicyInterface & p);
 
             /**
              * @brief This function sets the epsilon parameter.
@@ -141,11 +141,13 @@ namespace AIToolbox::MDP {
         S = model_.getS();
         A = model_.getA();
 
-        immediateRewards_ = computeImmediateRewards(m);
+        // Only compute the immediate rewards if we need them.
+        if constexpr (!is_model_eigen<M>::value)
+            immediateRewards_ = computeImmediateRewards(m);
     }
 
     template <typename M>
-    std::tuple<bool, Values, QFunction> PolicyEvaluation<M>::operator()(const PolicyInterface & policy) {
+    std::tuple<double, Values, QFunction> PolicyEvaluation<M>::operator()(const PolicyInterface & policy) {
         {
             // Verify that parameter value function is compatible.
             const size_t size = vParameter_.size();
@@ -177,7 +179,12 @@ namespace AIToolbox::MDP {
 
             // We apply the discount directly on the values vector.
             v1_ *= model_.getDiscount();
-            q = computeQFunction(model_, v1_, immediateRewards_);
+            // We use the implicit reward function if it is available,
+            // otherwise we use the one we computed beforehand.
+            if constexpr(is_model_eigen<M>::value)
+                q = computeQFunction(model_, v1_, model_.getRewardFunction());
+            else
+                q = computeQFunction(model_, v1_, immediateRewards_);
 
             // Compute the values for this policy
             for ( size_t s = 0; s < S; ++s )
@@ -191,7 +198,7 @@ namespace AIToolbox::MDP {
 
         // We do not guarantee that the Value/QFunctions are the perfect
         // ones, as we stop within epsilon.
-        return std::make_tuple(variation <= epsilon_, std::move(v1_), std::move(q));
+        return std::make_tuple(useEpsilon ? variation : 0.0, std::move(v1_), std::move(q));
     }
 
     template <typename M>

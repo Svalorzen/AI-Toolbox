@@ -44,15 +44,16 @@ namespace AIToolbox {
     {
         // Make lp shut up. Could redirect stream to /dev/null if needed.
         set_verbose(lp_.get(), SEVERE /*or CRITICAL*/);
+        // set_verbose(lp_.get(), FULL);
 
         set_simplextype(lp_.get(), SIMPLEX_DUAL_DUAL);
 
         // This makes adding row constraints faster, but then we'd have to turn
         // it off before solving.. and can never turn it on again..
-        // set_add_rowmode(lp.get(), true);
+        // set_add_rowmode(lp_.get(), true);
 
         // Not included in Debian package, speeds around 3x, but also crashes
-        // set_BFP(lp.get(), "../../libbfp_etaPFI.so");
+        // set_BFP(lp_.get(), "../../libbfp_etaPFI.so");
     }
 
     void LP::LP_impl::resize(const size_t vars) {
@@ -92,7 +93,7 @@ namespace AIToolbox {
         }
     }
 
-    // TODO: Implement this version of pushRow to improve performances.
+    // TODO: Implement this version of pushRow to improve performance.
     // void LP::pushRow(const std::vector<int> & ids, const Constraint c, const double value) {
     //     add_constraintex(pimpl_->lp_.get(), ids.size(), pimpl_->data_.get(), ids.data(), toLpSolveConstraint(c), static_cast<REAL>(value));
     // }
@@ -125,7 +126,7 @@ namespace AIToolbox {
         // boost..
         default_basis(lp);
 
-        // print_lp(lp.get());
+        // print_lp(pimpl_->lp_.get());
         const auto result = ::solve(lp);
 
         REAL * vp;

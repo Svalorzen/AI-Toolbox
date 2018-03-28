@@ -12,7 +12,7 @@
 
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.
-        template <typename M, typename = typename std::enable_if<AIToolbox::MDP::is_model<M>::value>::type>
+        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model<M>::value>>
         class OldPOMDPModel;
 #endif
 
@@ -110,7 +110,7 @@ class OldPOMDPModel<M> : public M {
          * @param parameters All arguments needed to build the parent Model.
          */
         // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
-        template <typename ObFun, typename... Args, typename = typename std::enable_if<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>::type>
+        template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>>
         OldPOMDPModel(size_t o, ObFun && of, Args&&... parameters);
 
         /**
@@ -128,7 +128,7 @@ class OldPOMDPModel<M> : public M {
          * @tparam PM The type of the other model.
          * @param model The model that needs to be copied.
          */
-        template <typename PM, typename = typename std::enable_if<AIToolbox::POMDP::is_model<PM>::value && std::is_constructible<M,PM>::value, int>::type>
+        template <typename PM, typename = std::enable_if_t<AIToolbox::POMDP::is_model<PM>::value && std::is_constructible<M,PM>::value>>
         OldPOMDPModel(const PM& model);
 
         /**
@@ -200,17 +200,6 @@ class OldPOMDPModel<M> : public M {
          * @return The probability of the specified observation.
          */
         double getObservationProbability(size_t s1, size_t a, size_t o) const;
-
-        /**
-         * @brief This function *computes* the probability of obtaining an observation given an action and an initial belief.
-         *
-         * @param b The initial belief state.
-         * @param a The action performed.
-         * @param o The resulting observation.
-         *
-         * @return The probability of obtaining the specified observation.
-         */
-        double getObservationProbability(const AIToolbox::POMDP::Belief & b, size_t o, size_t a) const;
 
         /**
          * @brief This function returns the number of observations possible.

@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     auto truth = ipsolver(model);
     POMDP::Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
 
-    POMDP::AMDP converter(6000, 70);
+    POMDP::AMDP converter(4000, 70);
     const auto [simplerModel, beliefConverter] = converter.discretizeDense(model);
 
     MDP::ValueIteration solver(horizon);
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     auto truth = ipsolver(model);
     POMDP::Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
 
-    POMDP::AMDP converter(6000, 70);
+    POMDP::AMDP converter(4000, 70);
     const auto [simplerModel, beliefConverter] = converter.discretizeSparse(sparseModel);
 
     MDP::ValueIteration solver(horizon);
