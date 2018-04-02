@@ -4,7 +4,6 @@
 #include <iostream>
 #include <iomanip>
 
-#include <AIToolbox/Impl/CassandraParser.hpp>
 #include <AIToolbox/MDP/IO.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
@@ -23,13 +22,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The parsed model.
      */
-    Model<MDP::Model> parseCassandra(std::istream & input) {
-        Impl::CassandraParser parser;
-
-        const auto & [S, A, O, T, R, W, discount] = parser.parsePOMDP(input);
-
-        return Model<MDP::Model>(O, W, S, A, T, R, discount);
-    }
+    Model<MDP::Model> parseCassandra(std::istream & input);
 
     /**
      * @brief This function prints any POMDP model to a file.
