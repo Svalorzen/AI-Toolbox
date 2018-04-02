@@ -53,7 +53,12 @@ find out what parameters to set to get the algorithm variant you want.
 Features
 ========
 
-### Python bindings! ###
+### Cassandra POMDP Format Parsing ###
+
+We parse a reasonable subset of Cassandra's POMDP format, which allows to reuse
+already defined problems with this library.
+
+### Python Bindings! ###
 
 Since Python does not allow templates, the classes are binded with as many
 as possible instantiations. This toolbox does lose quite a bit of power in
