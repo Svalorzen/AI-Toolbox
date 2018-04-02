@@ -100,3 +100,24 @@ BOOST_AUTO_TEST_CASE( files ) {
         std::remove(outputFilename.c_str());
     }
 }
+
+BOOST_AUTO_TEST_CASE( cassandraCorner ) {
+    GridWorld grid(2, 2);
+
+    auto m = makeCornerProblem(grid);
+    size_t S = m.getS(), A = m.getA();
+
+    std::string inputFilename  = "./data/corner.MDP";
+
+    std::ifstream inputFile(inputFilename);
+    if ( !inputFile ) BOOST_FAIL("Data to perform test could not be loaded: " + inputFilename);
+
+    auto m2 = AIToolbox::MDP::parseCassandra(inputFile);
+
+    for ( size_t a = 0; a < A; ++a )
+    for ( size_t s = 0; s < S; ++s )
+    for ( size_t s1 = 0; s1 < S; ++s1 ) {
+        BOOST_CHECK(AIToolbox::checkEqualSmall(m.getTransitionProbability(s, a, s1), m2.getTransitionProbability(s, a, s1)));
+        BOOST_CHECK(AIToolbox::checkEqualGeneral(m.getExpectedReward(s, a, s1), m2.getExpectedReward(s, a, s1)));
+    }
+}
