@@ -8,6 +8,7 @@
 #include <AIToolbox/POMDP/Model.hpp>
 
 #include "Utils/TigerProblem.hpp"
+#include "Utils/Models.hpp"
 
 #include <fstream>
 
@@ -126,5 +127,53 @@ BOOST_AUTO_TEST_CASE( files ) {
     // Cleanup
     {
         std::remove(outputFilename.c_str());
+    }
+}
+
+BOOST_AUTO_TEST_CASE( cassandraCheng ) {
+    auto m = chengD35();
+    size_t S = m.getS(), A = m.getA(), O = m.getO();
+
+    std::string inputFilename  = "./data/cheng.D3-5.POMDP";
+
+    std::ifstream inputFile(inputFilename);
+    if ( !inputFile ) BOOST_FAIL("Data to perform test could not be loaded: " + inputFilename);
+
+    auto m2 = AIToolbox::POMDP::parseCassandra(inputFile);
+
+    for ( size_t s = 0; s < S; ++s ) {
+        for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                BOOST_CHECK(AIToolbox::checkEqualSmall(m.getTransitionProbability(s, a, s1), m2.getTransitionProbability(s, a, s1)));
+                BOOST_CHECK(AIToolbox::checkEqualGeneral(m.getExpectedReward(s, a, s1), m2.getExpectedReward(s, a, s1)));
+            }
+            for ( size_t o = 0; o < O; ++o ) {
+                BOOST_CHECK(AIToolbox::checkEqualSmall(m.getObservationProbability(s, a, o), m2.getObservationProbability(s, a, o)));
+            }
+        }
+    }
+}
+
+BOOST_AUTO_TEST_CASE( cassandraEjs4 ) {
+    auto m = ejs4();
+    size_t S = m.getS(), A = m.getA(), O = m.getO();
+
+    std::string inputFilename  = "./data/ejs4.POMDP";
+
+    std::ifstream inputFile(inputFilename);
+    if ( !inputFile ) BOOST_FAIL("Data to perform test could not be loaded: " + inputFilename);
+
+    auto m2 = AIToolbox::POMDP::parseCassandra(inputFile);
+
+    for ( size_t s = 0; s < S; ++s ) {
+        for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                BOOST_CHECK(AIToolbox::checkEqualSmall(m.getTransitionProbability(s, a, s1), m2.getTransitionProbability(s, a, s1)));
+                BOOST_CHECK(AIToolbox::checkEqualGeneral(m.getExpectedReward(s, a, s1), m2.getExpectedReward(s, a, s1)));
+            }
+            for ( size_t o = 0; o < O; ++o ) {
+                BOOST_CHECK(AIToolbox::checkEqualSmall(m.getObservationProbability(s, a, o), m2.getObservationProbability(s, a, o)));
+            }
+        }
     }
 }
