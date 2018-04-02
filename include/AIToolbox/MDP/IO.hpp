@@ -6,8 +6,21 @@
 
 #include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/Model.hpp>
 
 namespace AIToolbox::MDP {
+    /**
+     * @brief This function parses an MDP from a Cassandra formatted stream.
+     *
+     * This function may throw std::runtime_errors depending on whether the
+     * input is correctly formed or not.
+     *
+     * @param input The input stream.
+     *
+     * @return The parsed model.
+     */
+    Model parseCassandra(std::istream & input);
+
     /**
      * @brief This function prints any MDP model to a file.
      *

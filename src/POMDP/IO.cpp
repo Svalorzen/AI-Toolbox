@@ -2,7 +2,17 @@
 
 #include <AIToolbox/POMDP/Utils.hpp>
 
+#include <AIToolbox/Impl/CassandraParser.hpp>
+
 namespace AIToolbox::POMDP {
+    Model<MDP::Model> parseCassandra(std::istream & input) {
+        Impl::CassandraParser parser;
+
+        const auto & [S, A, O, T, R, W, discount] = parser.parsePOMDP(input);
+
+        return Model<MDP::Model>(O, W, S, A, T, R, discount);
+    }
+
     std::ostream& operator<<(std::ostream &os, const Policy & p) {
         const auto & vf = p.getValueFunction();
 

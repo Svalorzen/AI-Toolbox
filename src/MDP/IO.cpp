@@ -6,9 +6,20 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 
+#include <AIToolbox/Impl/CassandraParser.hpp>
 #include <AIToolbox/Impl/Logging.hpp>
 
+#include <iostream>
+
 namespace AIToolbox::MDP {
+    Model parseCassandra(std::istream & input) {
+        Impl::CassandraParser parser;
+
+        const auto & [S, A, T, R, discount] = parser.parseMDP(input);
+
+        return Model(S, A, T, R, discount);
+    }
+
     // Global discrete policy writer
     std::ostream& operator<<(std::ostream &os, const PolicyInterface & p) {
         size_t S = p.getS();
