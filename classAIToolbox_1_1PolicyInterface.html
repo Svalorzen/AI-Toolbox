@@ -122,7 +122,8 @@ class AIToolbox::PolicyInterface&lt; State, Sampling, Action &gt;</h3>
 
 <p>This class represents the base interface for policies. </p>
 <p>This class represents an interface that all policies must conform to. The interface is generic as different methods may have very different ways to store and compute policies, and this interface simply asks for a way to sample them.</p>
-<p>This class is templatized since it works as an interface for both <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> and <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> policies. In the case of MDPs, the template parameter State is of type size_t, which represents the states from which we are sampling. In case of POMDPs, the template parameter is of type Belief, which allows us to sample the policy from different beliefs.</p>
+<p>This class is templatized in order to work with as many problem classes as possible. It doesn't really implement any specific functionality, but should be used as a guide in order to decide which methods a new policy should have.</p>
+<p>The State and Sampling parameters are separate since in POMDPs we still have "integer" states, but we often want to sample from beliefs. Having two separate parameters allows for this. In the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> case they are both the same.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">State</td><td>This defines the type that is used to store the state space. </td></tr>
@@ -269,7 +270,7 @@ template&lt;typename State, typename Sampling, typename Action&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The probability of taking the selected action in the specified state. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a4ccf5911044790a3c57e03931be3b61f">AIToolbox::MDP::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ae7928b72817a695dbbedb11a805b3c21">AIToolbox::MDP::WoLFPolicy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; size_t, size_t, size_t &gt;</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; State, State, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#a075bf06beafcf5f293a9899284f41f06">AIToolbox::MDP::QSoftmaxPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a76f2a6021d04a5e325a9e38844c573d4">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a4ccf5911044790a3c57e03931be3b61f">AIToolbox::MDP::Policy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ae7928b72817a695dbbedb11a805b3c21">AIToolbox::MDP::WoLFPolicy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; size_t, size_t, size_t &gt;</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; State, State, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#a075bf06beafcf5f293a9899284f41f06">AIToolbox::MDP::QSoftmaxPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a76f2a6021d04a5e325a9e38844c573d4">AIToolbox::MDP::QGreedyPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1RandomPolicy.html#ae527353aea47af8fdda8679971118845">AIToolbox::MDP::RandomPolicy</a>.</p>
 
 </div>
 </div>
@@ -330,7 +331,7 @@ template&lt;typename State, typename Sampling, typename Action&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a593b773da1a808f6ee52e1befc95bca5">AIToolbox::MDP::Policy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#abad70f10b1461617509e747bf8b192df">AIToolbox::MDP::WoLFPolicy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3de6cda287c7b1422197923eb70eea99">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3de6cda287c7b1422197923eb70eea99">AIToolbox::EpsilonPolicyInterface&lt; size_t, size_t, size_t &gt;</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3de6cda287c7b1422197923eb70eea99">AIToolbox::EpsilonPolicyInterface&lt; State, State, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#af41b39ff3946d06dc56b353c5c9791e4">AIToolbox::MDP::QSoftmaxPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a9f094d8cb872e504631cf9971685aea0">AIToolbox::MDP::QGreedyPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a593b773da1a808f6ee52e1befc95bca5">AIToolbox::MDP::Policy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#abad70f10b1461617509e747bf8b192df">AIToolbox::MDP::WoLFPolicy</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3de6cda287c7b1422197923eb70eea99">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3de6cda287c7b1422197923eb70eea99">AIToolbox::EpsilonPolicyInterface&lt; size_t, size_t, size_t &gt;</a>, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3de6cda287c7b1422197923eb70eea99">AIToolbox::EpsilonPolicyInterface&lt; State, State, Action &gt;</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#af41b39ff3946d06dc56b353c5c9791e4">AIToolbox::MDP::QSoftmaxPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a9f094d8cb872e504631cf9971685aea0">AIToolbox::MDP::QGreedyPolicy</a>, and <a class="el" href="classAIToolbox_1_1MDP_1_1RandomPolicy.html#a8ea8e2f862e8a511805472ec6d56dca0">AIToolbox::MDP::RandomPolicy</a>.</p>
 
 </div>
 </div>
@@ -413,7 +414,7 @@ template&lt;typename State, typename Sampling, typename Action&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

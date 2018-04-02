@@ -97,14 +97,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:addb43f5189068a3b1a124033c15692b4"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#addb43f5189068a3b1a124033c15692b4">Model</a> (size_t o, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:addb43f5189068a3b1a124033c15692b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#addb43f5189068a3b1a124033c15692b4">More...</a><br /></td></tr>
 <tr class="separator:addb43f5189068a3b1a124033c15692b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a155784e16bef9198534e9fa94886bae6"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = typename std::enable_if&lt;std::is_constructible&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:a155784e16bef9198534e9fa94886bae6"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = std::enable_if_t&lt;std::is_constructible&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;::value&gt;&gt; </td></tr>
 <tr class="memitem:a155784e16bef9198534e9fa94886bae6"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#a155784e16bef9198534e9fa94886bae6">Model</a> (size_t o, ObFun &amp;&amp;of, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:a155784e16bef9198534e9fa94886bae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a155784e16bef9198534e9fa94886bae6">More...</a><br /></td></tr>
 <tr class="separator:a155784e16bef9198534e9fa94886bae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb04060833b5398a256d783f5b3006fb"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = typename std::enable_if&lt;is_model&lt;PM&gt;::value &amp;&amp; std::is_constructible&lt;M,PM&gt;::value, int&gt;::type&gt; </td></tr>
+<tr class="memitem:adb04060833b5398a256d783f5b3006fb"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = std::enable_if_t&lt;is_model&lt;PM&gt;::value &amp;&amp; std::is_constructible&lt;M,PM&gt;::value&gt;&gt; </td></tr>
 <tr class="memitem:adb04060833b5398a256d783f5b3006fb"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#adb04060833b5398a256d783f5b3006fb">Model</a> (const PM &amp;model)</td></tr>
 <tr class="memdesc:adb04060833b5398a256d783f5b3006fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="#adb04060833b5398a256d783f5b3006fb">More...</a><br /></td></tr>
 <tr class="separator:adb04060833b5398a256d783f5b3006fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa129184899a291e735bcf0726b265e64"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:aa129184899a291e735bcf0726b265e64"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#aa129184899a291e735bcf0726b265e64">Model</a> (<a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>, size_t o, <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#abe80a9bd07ff46557f7e009d6c0ff16d">ObservationTable</a> &amp;&amp;ot, Args &amp;&amp;... parameters)</td></tr>
+<tr class="memdesc:aa129184899a291e735bcf0726b265e64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unchecked constructor.  <a href="#aa129184899a291e735bcf0726b265e64">More...</a><br /></td></tr>
+<tr class="separator:aa129184899a291e735bcf0726b265e64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49f9b49962fe702d073324a063abbc63"><td class="memTemplParams" colspan="2">template&lt;typename ObFun &gt; </td></tr>
 <tr class="memitem:a49f9b49962fe702d073324a063abbc63"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#a49f9b49962fe702d073324a063abbc63">setObservationFunction</a> (const ObFun &amp;of)</td></tr>
 <tr class="memdesc:a49f9b49962fe702d073324a063abbc63"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a> observation function with the one provided.  <a href="#a49f9b49962fe702d073324a063abbc63">More...</a><br /></td></tr>
@@ -118,9 +122,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae981495300eb50500a1f4ebb73f0d573"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#ae981495300eb50500a1f4ebb73f0d573">getObservationProbability</a> (size_t s1, size_t a, size_t o) const</td></tr>
 <tr class="memdesc:ae981495300eb50500a1f4ebb73f0d573"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored observation probability for the specified state-action pair.  <a href="#ae981495300eb50500a1f4ebb73f0d573">More...</a><br /></td></tr>
 <tr class="separator:ae981495300eb50500a1f4ebb73f0d573"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34f59f81a7dd7e922fa21c30e3fdd663"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#a34f59f81a7dd7e922fa21c30e3fdd663">getObservationProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t o, size_t a) const</td></tr>
-<tr class="memdesc:a34f59f81a7dd7e922fa21c30e3fdd663"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function <em>computes</em> the probability of obtaining an observation given an action and an initial belief.  <a href="#a34f59f81a7dd7e922fa21c30e3fdd663">More...</a><br /></td></tr>
-<tr class="separator:a34f59f81a7dd7e922fa21c30e3fdd663"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea51f6f6ec6fc105881a51cdbf612243"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#aea51f6f6ec6fc105881a51cdbf612243">getObservationFunction</a> (size_t a) const</td></tr>
 <tr class="memdesc:aea51f6f6ec6fc105881a51cdbf612243"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the observation function for a given action.  <a href="#aea51f6f6ec6fc105881a51cdbf612243">More...</a><br /></td></tr>
 <tr class="separator:aea51f6f6ec6fc105881a51cdbf612243"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -173,7 +174,7 @@ template&lt;typename M&gt; </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="addb43f5189068a3b1a124033c15692b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addb43f5189068a3b1a124033c15692b4">&#9670;&nbsp;</a></span>Model() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#addb43f5189068a3b1a124033c15692b4">&#9670;&nbsp;</a></span>Model() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +222,7 @@ template&lt;typename... Args&gt; </div>
 </div>
 </div>
 <a id="a155784e16bef9198534e9fa94886bae6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a155784e16bef9198534e9fa94886bae6">&#9670;&nbsp;</a></span>Model() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a155784e16bef9198534e9fa94886bae6">&#9670;&nbsp;</a></span>Model() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,7 +283,7 @@ template&lt;typename ObFun, typename... Args, typename &gt; </div>
 </div>
 </div>
 <a id="adb04060833b5398a256d783f5b3006fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb04060833b5398a256d783f5b3006fb">&#9670;&nbsp;</a></span>Model() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adb04060833b5398a256d783f5b3006fb">&#9670;&nbsp;</a></span>Model() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -313,6 +314,62 @@ template&lt;typename PM, typename &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>The model that needs to be copied. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa129184899a291e735bcf0726b265e64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa129184899a291e735bcf0726b265e64">&#9670;&nbsp;</a></span>Model() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">AIToolbox::POMDP::Model</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">Model</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>o</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#abe80a9bd07ff46557f7e009d6c0ff16d">ObservationTable</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>ot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unchecked constructor. </p>
+<p>This constructor takes ownership of the data that it is passed to it to avoid any sorts of copies and additional work (sanity checks), in order to speed up as much as possible the process of building a new <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a>.</p>
+<p>Note that to use it you have to explicitly use the NO_CHECK tag parameter first.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">o</td><td>The number of possible observations the agent could make. </td></tr>
+    <tr><td class="paramname">ot</td><td>The observation probability table. </td></tr>
+    <tr><td class="paramname">parameters</td><td>All arguments needed to build the parent <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -394,7 +451,7 @@ template&lt;typename M &gt; </div>
 </div>
 </div>
 <a id="ae981495300eb50500a1f4ebb73f0d573"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae981495300eb50500a1f4ebb73f0d573">&#9670;&nbsp;</a></span>getObservationProbability() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae981495300eb50500a1f4ebb73f0d573">&#9670;&nbsp;</a></span>getObservationProbability()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -437,53 +494,6 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The probability of the specified observation. </dd></dl>
-
-</div>
-</div>
-<a id="a34f59f81a7dd7e922fa21c30e3fdd663"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34f59f81a7dd7e922fa21c30e3fdd663">&#9670;&nbsp;</a></span>getObservationProbability() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">double <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">AIToolbox::POMDP::Model</a>&lt; M &gt;::getObservationProbability </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>o</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function <em>computes</em> the probability of obtaining an observation given an action and an initial belief. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">b</td><td>The initial belief state. </td></tr>
-    <tr><td class="paramname">a</td><td>The action performed. </td></tr>
-    <tr><td class="paramname">o</td><td>The resulting observation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The probability of obtaining the specified observation. </dd></dl>
 
 </div>
 </div>
@@ -677,7 +687,7 @@ template&lt;typename M&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

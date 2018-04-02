@@ -9,5 +9,5 @@ var searchData=
   ['factorgraph',['FactorGraph',['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html',1,'AIToolbox::FactoredMDP']]],
   ['factorgraph_3c_20rules_20_3e',['FactorGraph&lt; Rules &gt;',['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html',1,'AIToolbox::FactoredMDP']]],
   ['factornode',['FactorNode',['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph_1_1FactorNode.html',1,'AIToolbox::FactoredMDP::FactorGraph']]],
-  ['fakelogger',['FakeLogger',['../structAIToolbox_1_1Impl_1_1FakeLogger.html',1,'AIToolbox::Impl']]]
+  ['fastinformedbound',['FastInformedBound',['../classAIToolbox_1_1POMDP_1_1FastInformedBound.html',1,'AIToolbox::POMDP']]]
 ];

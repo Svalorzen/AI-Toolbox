@@ -92,11 +92,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a78358cf6817fae0a9637a809d918519a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a78358cf6817fae0a9637a809d918519a">OldPOMDPModel</a> (size_t o, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:a78358cf6817fae0a9637a809d918519a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a78358cf6817fae0a9637a809d918519a">More...</a><br /></td></tr>
 <tr class="separator:a78358cf6817fae0a9637a809d918519a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb67488e57aef994c9139e13a2ff7069"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = typename std::enable_if&lt;std::is_constructible&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:abb67488e57aef994c9139e13a2ff7069"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = std::enable_if_t&lt;std::is_constructible&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;::value&gt;&gt; </td></tr>
 <tr class="memitem:abb67488e57aef994c9139e13a2ff7069"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#abb67488e57aef994c9139e13a2ff7069">OldPOMDPModel</a> (size_t o, ObFun &amp;&amp;of, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:abb67488e57aef994c9139e13a2ff7069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#abb67488e57aef994c9139e13a2ff7069">More...</a><br /></td></tr>
 <tr class="separator:abb67488e57aef994c9139e13a2ff7069"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dec65454c376ddc4346dd5767c97185"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = typename std::enable_if&lt;AIToolbox::POMDP::is_model&lt;PM&gt;::value &amp;&amp; std::is_constructible&lt;M,PM&gt;::value, int&gt;::type&gt; </td></tr>
+<tr class="memitem:a1dec65454c376ddc4346dd5767c97185"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = std::enable_if_t&lt;AIToolbox::POMDP::is_model&lt;PM&gt;::value &amp;&amp; std::is_constructible&lt;M,PM&gt;::value&gt;&gt; </td></tr>
 <tr class="memitem:a1dec65454c376ddc4346dd5767c97185"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a1dec65454c376ddc4346dd5767c97185">OldPOMDPModel</a> (const PM &amp;model)</td></tr>
 <tr class="memdesc:a1dec65454c376ddc4346dd5767c97185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid POMDP model.  <a href="#a1dec65454c376ddc4346dd5767c97185">More...</a><br /></td></tr>
 <tr class="separator:a1dec65454c376ddc4346dd5767c97185"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,9 +113,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a564e56ba7d929a8ab0a8baa3a84f7c7f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a564e56ba7d929a8ab0a8baa3a84f7c7f">getObservationProbability</a> (size_t s1, size_t a, size_t o) const</td></tr>
 <tr class="memdesc:a564e56ba7d929a8ab0a8baa3a84f7c7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored observation probability for the specified state-action pair.  <a href="#a564e56ba7d929a8ab0a8baa3a84f7c7f">More...</a><br /></td></tr>
 <tr class="separator:a564e56ba7d929a8ab0a8baa3a84f7c7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e5aa23d26350a6ed0524d2219665d12"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a9e5aa23d26350a6ed0524d2219665d12">getObservationProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">AIToolbox::POMDP::Belief</a> &amp;b, size_t o, size_t a) const</td></tr>
-<tr class="memdesc:a9e5aa23d26350a6ed0524d2219665d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function <em>computes</em> the probability of obtaining an observation given an action and an initial belief.  <a href="#a9e5aa23d26350a6ed0524d2219665d12">More...</a><br /></td></tr>
-<tr class="separator:a9e5aa23d26350a6ed0524d2219665d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2618fb77379499e271d6ae4efc509841"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a2618fb77379499e271d6ae4efc509841">getO</a> () const</td></tr>
 <tr class="memdesc:a2618fb77379499e271d6ae4efc509841"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of observations possible.  <a href="#a2618fb77379499e271d6ae4efc509841">More...</a><br /></td></tr>
 <tr class="separator:a2618fb77379499e271d6ae4efc509841"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -351,7 +348,7 @@ template&lt;typename M &gt; </div>
 </div>
 </div>
 <a id="a564e56ba7d929a8ab0a8baa3a84f7c7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a564e56ba7d929a8ab0a8baa3a84f7c7f">&#9670;&nbsp;</a></span>getObservationProbability() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a564e56ba7d929a8ab0a8baa3a84f7c7f">&#9670;&nbsp;</a></span>getObservationProbability()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -394,53 +391,6 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The probability of the specified observation. </dd></dl>
-
-</div>
-</div>
-<a id="a9e5aa23d26350a6ed0524d2219665d12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e5aa23d26350a6ed0524d2219665d12">&#9670;&nbsp;</a></span>getObservationProbability() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">double <a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a78358cf6817fae0a9637a809d918519a">OldPOMDPModel</a>&lt; M &gt;::getObservationProbability </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">AIToolbox::POMDP::Belief</a> &amp;&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>o</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function <em>computes</em> the probability of obtaining an observation given an action and an initial belief. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">b</td><td>The initial belief state. </td></tr>
-    <tr><td class="paramname">a</td><td>The action performed. </td></tr>
-    <tr><td class="paramname">o</td><td>The resulting observation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The probability of obtaining the specified observation. </dd></dl>
 
 </div>
 </div>
@@ -578,7 +528,7 @@ template&lt;typename ObFun &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

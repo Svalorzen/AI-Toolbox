@@ -64,23 +64,22 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Logging.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;sstream&gt;</code><br />
+</div>
 <p><a href="Logging_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Impl_1_1FakeLogger.html">AIToolbox::Impl::FakeLogger</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
+<tr class="memitem:namespaceAIToolbox"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceAIToolbox_1_1Impl"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Impl.html">AIToolbox::Impl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -88,14 +87,27 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a9b0d10889d15bd23198797c5cfb54669"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#a9b0d10889d15bd23198797c5cfb54669">AI_SEVERITY_DEBUG</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a9b0d10889d15bd23198797c5cfb54669"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5949f8d2ef621037489b2f7bf49684f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#ab5949f8d2ef621037489b2f7bf49684f">AI_SEVERITY_INFO</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ab5949f8d2ef621037489b2f7bf49684f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#ab5949f8d2ef621037489b2f7bf49684f">AI_SEVERITY_INFO</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:ab5949f8d2ef621037489b2f7bf49684f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9751b62b73855d71d0240e3b95cf5ce2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#a9751b62b73855d71d0240e3b95cf5ce2">AI_SEVERITY_WARNING</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:a9751b62b73855d71d0240e3b95cf5ce2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#a9751b62b73855d71d0240e3b95cf5ce2">AI_SEVERITY_WARNING</a>&#160;&#160;&#160;2</td></tr>
 <tr class="separator:a9751b62b73855d71d0240e3b95cf5ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75e85f44052fb2528aa760a2a0744aa4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#a75e85f44052fb2528aa760a2a0744aa4">AI_SEVERITY_ERROR</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:a75e85f44052fb2528aa760a2a0744aa4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#a75e85f44052fb2528aa760a2a0744aa4">AI_SEVERITY_ERROR</a>&#160;&#160;&#160;3</td></tr>
 <tr class="separator:a75e85f44052fb2528aa760a2a0744aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d38261fbd93323a5175b971c488b5ce"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8hpp.html#a2d38261fbd93323a5175b971c488b5ce">AI_LOGGER</a>(SEV,  ARGS)</td></tr>
 <tr class="separator:a2d38261fbd93323a5175b971c488b5ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:af6eb1f8c89dcca62cbe9912b6ec77d33"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#af6eb1f8c89dcca62cbe9912b6ec77d33">AIToolbox::AILoggerFun</a> = void(int, const char *)</td></tr>
+<tr class="separator:af6eb1f8c89dcca62cbe9912b6ec77d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7ac7114c76d8082333e9222fd1aac187"><td class="memItemLeft" align="right" valign="top">AILoggerFun *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187">AIToolbox::AILogger</a> = nullptr</td></tr>
+<tr class="memdesc:a7ac7114c76d8082333e9222fd1aac187"><td class="mdescLeft">&#160;</td><td class="mdescRight">This pointer defines the function used to log.  <a href="namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187">More...</a><br /></td></tr>
+<tr class="separator:a7ac7114c76d8082333e9222fd1aac187"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ecc31e68f94a738b47f2f29ae165abc"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Impl.html#a9ecc31e68f94a738b47f2f29ae165abc">AIToolbox::Impl::logBuffer</a> [500] = {0}</td></tr>
+<tr class="separator:a9ecc31e68f94a738b47f2f29ae165abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a2d38261fbd93323a5175b971c488b5ce"></a>
@@ -123,7 +135,9 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">while</span> (<span class="keyword">false</span>) {                                     \</div><div class="line">        AIToolbox::Impl::FakeLogger(SEV) &lt;&lt; ARGS;       \</div><div class="line">    }</div></div><!-- fragment -->
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> {                                                    \</div><div class="line">        if (<a class="code" href="namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187">AILogger</a>) {                                     \</div><div class="line">            std::stringstream internal_stringstream_;       \</div><div class="line">            internal_stringstream_.rdbuf()-&gt;pubsetbuf(      \</div><div class="line">                <a class="code" href="namespaceAIToolbox_1_1Impl.html#a9ecc31e68f94a738b47f2f29ae165abc">AIToolbox::Impl::logBuffer</a>,                 \</div><div class="line">                <span class="keyword">sizeof</span>(<a class="code" href="namespaceAIToolbox_1_1Impl.html#a9ecc31e68f94a738b47f2f29ae165abc">AIToolbox::Impl::logBuffer</a>) - 1      \</div><div class="line">            );                                              \</div><div class="line">            internal_stringstream_ &lt;&lt; ARGS &lt;&lt; <span class="charliteral">&#39;\0&#39;</span>;         \</div><div class="line">            AILogger(SEV, <a class="code" href="namespaceAIToolbox_1_1Impl.html#a9ecc31e68f94a738b47f2f29ae165abc">AIToolbox::Impl::logBuffer</a>);      \</div><div class="line">        }                                                   \</div><div class="line">    } <span class="keywordflow">while</span>(0)</div><div class="ttc" id="namespaceAIToolbox_1_1Impl_html_a9ecc31e68f94a738b47f2f29ae165abc"><div class="ttname"><a href="namespaceAIToolbox_1_1Impl.html#a9ecc31e68f94a738b47f2f29ae165abc">AIToolbox::Impl::logBuffer</a></div><div class="ttdeci">char logBuffer[500]</div><div class="ttdef"><b>Definition:</b> Logging.hpp:74</div></div>
+<div class="ttc" id="namespaceAIToolbox_html_a7ac7114c76d8082333e9222fd1aac187"><div class="ttname"><a href="namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187">AIToolbox::AILogger</a></div><div class="ttdeci">AILoggerFun * AILogger</div><div class="ttdoc">This pointer defines the function used to log. </div><div class="ttdef"><b>Definition:</b> Logging.hpp:70</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a9b0d10889d15bd23198797c5cfb54669"></a>
@@ -147,7 +161,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define AI_SEVERITY_ERROR&#160;&#160;&#160;0</td>
+          <td class="memname">#define AI_SEVERITY_ERROR&#160;&#160;&#160;3</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -161,7 +175,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define AI_SEVERITY_INFO&#160;&#160;&#160;0</td>
+          <td class="memname">#define AI_SEVERITY_INFO&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -175,7 +189,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define AI_SEVERITY_WARNING&#160;&#160;&#160;0</td>
+          <td class="memname">#define AI_SEVERITY_WARNING&#160;&#160;&#160;2</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -185,7 +199,7 @@ Macros</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

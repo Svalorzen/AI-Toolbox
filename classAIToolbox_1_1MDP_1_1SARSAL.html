@@ -64,6 +64,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classAIToolbox_1_1MDP_1_1SARSAL-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -76,12 +77,19 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="SARSAL_8hpp_source.html">SARSAL.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ae5cb425a80db48828bde436d4574c117"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#ae5cb425a80db48828bde436d4574c117">Trace</a> = std::tuple&lt; size_t, size_t, double &gt;</td></tr>
+<tr class="separator:ae5cb425a80db48828bde436d4574c117"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecda3052358bc9c5eed68e10d829bcb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0">Traces</a> = std::vector&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#ae5cb425a80db48828bde436d4574c117">Trace</a> &gt;</td></tr>
+<tr class="separator:aecda3052358bc9c5eed68e10d829bcb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d7d34d7c88105f4a05b44e845c79438"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a5d7d34d7c88105f4a05b44e845c79438">SARSAL</a> (size_t S, size_t A, double discount=1.0, double alpha=0.1, double lambda=0.9, double epsilon=0.001)</td></tr>
 <tr class="memdesc:a5d7d34d7c88105f4a05b44e845c79438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a5d7d34d7c88105f4a05b44e845c79438">More...</a><br /></td></tr>
 <tr class="separator:a5d7d34d7c88105f4a05b44e845c79438"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacb212ac45a4cbe1307acbf53822659e"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = typename std::enable_if&lt;is_generative_model&lt;M&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:aacb212ac45a4cbe1307acbf53822659e"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_generative_model&lt;M&gt;::value&gt;&gt; </td></tr>
 <tr class="memitem:aacb212ac45a4cbe1307acbf53822659e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aacb212ac45a4cbe1307acbf53822659e">SARSAL</a> (const M &amp;model, double alpha=0.1, double lambda=0.9, double epsilon=0.001)</td></tr>
 <tr class="memdesc:aacb212ac45a4cbe1307acbf53822659e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aacb212ac45a4cbe1307acbf53822659e">More...</a><br /></td></tr>
 <tr class="separator:aacb212ac45a4cbe1307acbf53822659e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,6 +120,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6e7d147b86033ebe670a58f9d5e9d247"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a6e7d147b86033ebe670a58f9d5e9d247">stepUpdateQ</a> (size_t s, size_t a, size_t s1, size_t a1, double rew)</td></tr>
 <tr class="memdesc:a6e7d147b86033ebe670a58f9d5e9d247"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the internal QFunction using the discount set during construction.  <a href="#a6e7d147b86033ebe670a58f9d5e9d247">More...</a><br /></td></tr>
 <tr class="separator:a6e7d147b86033ebe670a58f9d5e9d247"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d0eb982f9abd1c22d7986d71a99c9b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a2d0eb982f9abd1c22d7986d71a99c9b0">clearTraces</a> ()</td></tr>
+<tr class="memdesc:a2d0eb982f9abd1c22d7986d71a99c9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function clears the already set traces.  <a href="#a2d0eb982f9abd1c22d7986d71a99c9b0">More...</a><br /></td></tr>
+<tr class="separator:a2d0eb982f9abd1c22d7986d71a99c9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5dc32c07c5241aa4f67120d332822e4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0">Traces</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#ab5dc32c07c5241aa4f67120d332822e4">getTraces</a> () const</td></tr>
+<tr class="memdesc:ab5dc32c07c5241aa4f67120d332822e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set traces.  <a href="#ab5dc32c07c5241aa4f67120d332822e4">More...</a><br /></td></tr>
+<tr class="separator:ab5dc32c07c5241aa4f67120d332822e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa902cf06619a169e0e6190bcf4589552"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aa902cf06619a169e0e6190bcf4589552">setTraces</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0">Traces</a> &amp;t)</td></tr>
+<tr class="memdesc:aa902cf06619a169e0e6190bcf4589552"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the currently set traces.  <a href="#aa902cf06619a169e0e6190bcf4589552">More...</a><br /></td></tr>
+<tr class="separator:aa902cf06619a169e0e6190bcf4589552"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82fd0b984f223802a64ff981615512db"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a82fd0b984f223802a64ff981615512db">getS</a> () const</td></tr>
 <tr class="memdesc:a82fd0b984f223802a64ff981615512db"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states on which <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> is working.  <a href="#a82fd0b984f223802a64ff981615512db">More...</a><br /></td></tr>
 <tr class="separator:a82fd0b984f223802a64ff981615512db"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,6 +138,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab82d09e456a540f668e4764e26a4f14c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#ab82d09e456a540f668e4764e26a4f14c">getQFunction</a> () const</td></tr>
 <tr class="memdesc:ab82d09e456a540f668e4764e26a4f14c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal QFunction.  <a href="#ab82d09e456a540f668e4764e26a4f14c">More...</a><br /></td></tr>
 <tr class="separator:ab82d09e456a540f668e4764e26a4f14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9c19cb27639380d7d4a81b9df9cca74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#ae9c19cb27639380d7d4a81b9df9cca74">setQFunction</a> (const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;qfun)</td></tr>
+<tr class="memdesc:ae9c19cb27639380d7d4a81b9df9cca74"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function allows to directly set the internal QFunction.  <a href="#ae9c19cb27639380d7d4a81b9df9cca74">More...</a><br /></td></tr>
+<tr class="separator:ae9c19cb27639380d7d4a81b9df9cca74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> algorithm. </p>
@@ -129,7 +149,36 @@ Public Member Functions</h2></td></tr>
 <p>In order to more effectively use the data obtained, <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> keeps a list of previously visited state/action pairs, which are updated together with the last experienced transition. The updates all use the same value, with the difference that state/action pairs experienced more in the past are updated less (by discount*lambda per each previous timestep). Once this reducing coefficient falls below a certain threshold, the old state/action pair is forgotten and not updated anymore. If instead the pair is visited again, the coefficient is once again increased.</p>
 <p>The idea is to be able to give credit to past actions for current reward in an efficient manner. This reduces the amount of data needed in order to backpropagate rewards, and allows <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> to learn faster.</p>
 <p>This particular version of the algorithm implements capped traces: every time an action/state pair is witnessed, its eligibility trace is reset to 1.0. This avoids potentially diverging values which can happen with the normal eligibility traces. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="ae5cb425a80db48828bde436d4574c117"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5cb425a80db48828bde436d4574c117">&#9670;&nbsp;</a></span>Trace</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#ae5cb425a80db48828bde436d4574c117">AIToolbox::MDP::SARSAL::Trace</a> =  std::tuple&lt;size_t, size_t, double&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aecda3052358bc9c5eed68e10d829bcb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecda3052358bc9c5eed68e10d829bcb0">&#9670;&nbsp;</a></span>Traces</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0">AIToolbox::MDP::SARSAL::Traces</a> =  std::vector&lt;<a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#ae5cb425a80db48828bde436d4574c117">Trace</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5d7d34d7c88105f4a05b44e845c79438"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5d7d34d7c88105f4a05b44e845c79438">&#9670;&nbsp;</a></span>SARSAL() <span class="overload">[1/2]</span></h2>
 
@@ -252,6 +301,25 @@ template&lt;typename M , typename &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2d0eb982f9abd1c22d7986d71a99c9b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d0eb982f9abd1c22d7986d71a99c9b0">&#9670;&nbsp;</a></span>clearTraces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::SARSAL::clearTraces </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function clears the already set traces. </p>
+
+</div>
+</div>
 <a id="adb106525fc3d5aec23202730778bf58d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb106525fc3d5aec23202730778bf58d">&#9670;&nbsp;</a></span>getA()</h2>
 
@@ -393,6 +461,26 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
+<a id="ab5dc32c07c5241aa4f67120d332822e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5dc32c07c5241aa4f67120d332822e4">&#9670;&nbsp;</a></span>getTraces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0">Traces</a>&amp; AIToolbox::MDP::SARSAL::getTraces </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the currently set traces. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set traces. </dd></dl>
+
+</div>
+</div>
 <a id="aeddc202b7e11fc39afa0db368b670e98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeddc202b7e11fc39afa0db368b670e98">&#9670;&nbsp;</a></span>setDiscount()</h2>
 
@@ -506,6 +594,61 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
+<a id="ae9c19cb27639380d7d4a81b9df9cca74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9c19cb27639380d7d4a81b9df9cca74">&#9670;&nbsp;</a></span>setQFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::SARSAL::setQFunction </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;&#160;</td>
+          <td class="paramname"><em>qfun</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function allows to directly set the internal QFunction. </p>
+<p>This can be useful in order to use a QFunction that has already been computed elsewhere. <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> will then continue building upon it.</p>
+<p>This is used for example in the <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html" title="This class represents the Dyna2 algorithm. ">Dyna2</a> algorithm.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">qfun</td><td>The new QFunction to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa902cf06619a169e0e6190bcf4589552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa902cf06619a169e0e6190bcf4589552">&#9670;&nbsp;</a></span>setTraces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::SARSAL::setTraces </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0">Traces</a> &amp;&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function sets the currently set traces. </p>
+<p>This method is provided in case you have a need to tinker with the internal traces. You generally don't unless you are building on top of <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> in order to do something more complicated.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>The currently set traces. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a6e7d147b86033ebe670a58f9d5e9d247"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e7d147b86033ebe670a58f9d5e9d247">&#9670;&nbsp;</a></span>stepUpdateQ()</h2>
 
@@ -572,7 +715,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

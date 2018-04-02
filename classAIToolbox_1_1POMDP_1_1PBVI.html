@@ -99,16 +99,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af756d47c7d506bcbc1b39eefe7355b51"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#af756d47c7d506bcbc1b39eefe7355b51">getBeliefSize</a> () const</td></tr>
 <tr class="memdesc:af756d47c7d506bcbc1b39eefe7355b51"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set number of support beliefs to use during a solve pass.  <a href="#af756d47c7d506bcbc1b39eefe7355b51">More...</a><br /></td></tr>
 <tr class="separator:af756d47c7d506bcbc1b39eefe7355b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afba5259060af28012ff4cfce63b8faa7"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </td></tr>
-<tr class="memitem:afba5259060af28012ff4cfce63b8faa7"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#afba5259060af28012ff4cfce63b8faa7">operator()</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:afba5259060af28012ff4cfce63b8faa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately.  <a href="#afba5259060af28012ff4cfce63b8faa7">More...</a><br /></td></tr>
-<tr class="separator:afba5259060af28012ff4cfce63b8faa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7dd382931ca9b619d999d73d61c9c26"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model&lt;M&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:aa7dd382931ca9b619d999d73d61c9c26"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#aa7dd382931ca9b619d999d73d61c9c26">operator()</a> (const M &amp;model, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> v={})</td></tr>
+<tr class="memdesc:aa7dd382931ca9b619d999d73d61c9c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately.  <a href="#aa7dd382931ca9b619d999d73d61c9c26">More...</a><br /></td></tr>
+<tr class="separator:aa7dd382931ca9b619d999d73d61c9c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model&lt;M&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#abc0ef4a6da34dd78af2cf7d4c960bd7d">operator()</a> (const M &amp;model, const std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &gt; &amp;bList, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> v={})</td></tr>
+<tr class="memdesc:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately.  <a href="#abc0ef4a6da34dd78af2cf7d4c960bd7d">More...</a><br /></td></tr>
+<tr class="separator:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Point Based Value Iteration algorithm. </p>
 <p>The idea behind this algorithm is to solve a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a> approximately. When computing a perfect solution, the main problem is pruning the resulting ValueFunction in order to contain only a parsimonious representation. What this means is that many vectors inside can be dominated by others, and so they do not add any additional information, while at the same time occupying memory and computational time.</p>
 <p>The way this method tries to fix the problem is by solving the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a> in a set of specified Beliefs. Doing so results in no need for pruning at all, since every belief uniquely identifies one of the optimal solution vectors (only uniqueness in the final set is required, but it is way cheaper than linear programming).</p>
-<p>The set of Beliefs are stochastically computed as to cover as much as possible of the belief space, to ensure minimization of the final error. The final solution will thus be correct 100% in the Beliefs that have been selected, and will (possibly) overshoot in non-covered Beliefs.</p>
+<p>The Beliefs can be given as input, or stochastically computed as to cover as much as possible of the belief space, to ensure minimization of the final error. The final solution will be correct 100% in the Beliefs that have been selected, and will (possibly) undershoot in non-covered Beliefs.</p>
 <p>In addition, the fact that we solve only for a fixed set of Beliefs guarantees that our final solution is limited in size, which is useful since even small <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> true solutions can explode in size with high horizons, for very little gain.</p>
 <p>There is no convergence guarantee of this method, but the error is bounded. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -218,20 +222,30 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="afba5259060af28012ff4cfce63b8faa7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afba5259060af28012ff4cfce63b8faa7">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="aa7dd382931ca9b619d999d73d61c9c26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7dd382931ca9b619d999d73d61c9c26">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type &gt; </div>
+template&lt;typename M , typename &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::tuple&lt; bool, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::PBVI::operator() </td>
+          <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::PBVI::operator() </td>
           <td>(</td>
           <td class="paramtype">const M &amp;&#160;</td>
-          <td class="paramname"><em>model</em></td><td>)</td>
+          <td class="paramname"><em>model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a>&#160;</td>
+          <td class="paramname"><em>v</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -247,11 +261,67 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model that needs to be solved.</td></tr>
+    <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model that needs to be solved. </td></tr>
+    <tr><td class="paramname">v</td><td>The ValueFunction to startup the process from, if needed.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True, and the computed ValueFunction up to the requested horizon. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A tuple containing the maximum variation for the ValueFunction and the computed ValueFunction. </dd></dl>
+
+</div>
+</div>
+<a id="abc0ef4a6da34dd78af2cf7d4c960bd7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc0ef4a6da34dd78af2cf7d4c960bd7d">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M , typename &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::PBVI::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const M &amp;&#160;</td>
+          <td class="paramname"><em>model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>bList</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a>&#160;</td>
+          <td class="paramname"><em>v</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> approximately. </p>
+<p>This function uses and evaluates the input beliefs.</p>
+<p>The final solution will only contain ValueFunctions for those Beliefs and will interpolate them for points it did not solve for. Even though the resulting solution is approximate very often it is good enough, and this comes with an incredible increase in speed.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">M</td><td>The type of <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model that needs to be solved.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model that needs to be solved. </td></tr>
+    <tr><td class="paramname">beliefs</td><td>The list of beliefs to evaluate. </td></tr>
+    <tr><td class="paramname">v</td><td>The ValueFunction to startup the process from, if needed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A tuple containing the maximum variation for the ValueFunction and the computed ValueFunction. </dd></dl>
 
 </div>
 </div>
@@ -298,7 +368,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><div class="memdoc">
 
 <p>This function sets the epsilon parameter. </p>
-<p>The epsilon parameter must be &gt;= 0.0, otherwise the constructor will throw an std::runtime_error. The epsilon parameter sets the convergence criterion. An epsilon of 0.0 forces <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm. ">PBVI</a> to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm. ">PBVI</a> will stop as soon as the difference between two iterations is less than the epsilon specified.</p>
+<p>The epsilon parameter must be &gt;= 0.0, otherwise the function will throw an std::runtime_error. The epsilon parameter sets the convergence criterion. An epsilon of 0.0 forces <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm. ">PBVI</a> to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm. ">PBVI</a> will stop as soon as the difference between two iterations is less than the epsilon specified.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>The new epsilon parameter. </td></tr>
@@ -340,7 +410,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

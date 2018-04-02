@@ -73,6 +73,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html">Dyna2</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html" title="This class represents the Dyna2 algorithm. ">Dyna2</a> algorithm.  <a href="classAIToolbox_1_1MDP_1_1Dyna2.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html">DynaQ</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html" title="This class represents the DynaQ algorithm. ">DynaQ</a> algorithm.  <a href="classAIToolbox_1_1MDP_1_1DynaQ.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -83,6 +86,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html">Experience</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class keeps track of registered events and rewards.  <a href="classAIToolbox_1_1MDP_1_1Experience.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html">HystereticQLearning</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Hysteretic <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> algorithm.  <a href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__experience.html">is_experience</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for an experience recorder.  <a href="structAIToolbox_1_1MDP_1_1is__experience.html#details">More...</a><br /></td></tr>
@@ -132,6 +138,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html">QSoftmaxPolicy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models a softmax policy through a QFunction.  <a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RandomPolicy.html">RandomPolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a random policy.  <a href="classAIToolbox_1_1MDP_1_1RandomPolicy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html">RLModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process.  <a href="classAIToolbox_1_1MDP_1_1RLModel.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,14 +168,17 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </td></tr>
+<tr class="memitem:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">parseCassandra</a> (std::istream &amp;input)</td></tr>
+<tr class="memdesc:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> from a Cassandra formatted stream.  <a href="#a08930c6fa40a80c9d5b0094f0f720ce6">More...</a><br /></td></tr>
+<tr class="separator:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4">operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
 <tr class="memdesc:a76cf690877bec652996d9f930878c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model to a file.  <a href="#a76cf690877bec652996d9f930878c6d4">More...</a><br /></td></tr>
 <tr class="separator:a76cf690877bec652996d9f930878c6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520c34d1f4f6a6e55da9455643386f29"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html">PolicyInterface</a> &amp;p)</td></tr>
 <tr class="memdesc:a520c34d1f4f6a6e55da9455643386f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="#a520c34d1f4f6a6e55da9455643386f29">More...</a><br /></td></tr>
 <tr class="separator:a520c34d1f4f6a6e55da9455643386f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , typename std::enable_if&lt; is_experience&lt; E &gt;::value, int &gt;::type  = 0&gt; </td></tr>
+<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , std::enable_if_t&lt; is_experience&lt; E &gt;::value, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a848bcd05ba792e8065107b34277e83a4">operator&lt;&lt;</a> (std::ostream &amp;os, const E &amp;exp)</td></tr>
 <tr class="memdesc:a848bcd05ba792e8065107b34277e83a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints an <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> to a stream.  <a href="#a848bcd05ba792e8065107b34277e83a4">More...</a><br /></td></tr>
 <tr class="separator:a848bcd05ba792e8065107b34277e83a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,11 +206,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a5874e2f218962bc345b9f6cb945b7e48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a5874e2f218962bc345b9f6cb945b7e48">bellmanOperatorInline</a> (const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;q, <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a> *v)</td></tr>
 <tr class="memdesc:a5874e2f218962bc345b9f6cb945b7e48"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function converts a QFunction into the equivalent optimal ValueFunction.  <a href="#a5874e2f218962bc345b9f6cb945b7e48">More...</a><br /></td></tr>
 <tr class="separator:a5874e2f218962bc345b9f6cb945b7e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb2515dc56dd74903a4d1dda7d89d679"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt;::value&gt;::type&gt; </td></tr>
-<tr class="memitem:adb2515dc56dd74903a4d1dda7d89d679"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#adb2515dc56dd74903a4d1dda7d89d679">computeImmediateRewards</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:adb2515dc56dd74903a4d1dda7d89d679"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes all immediate rewards (state and action) of the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> once for improved speed.  <a href="#adb2515dc56dd74903a4d1dda7d89d679">More...</a><br /></td></tr>
-<tr class="separator:adb2515dc56dd74903a4d1dda7d89d679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a442bfec64e706836fced231402c50309">computeImmediateRewards</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:a442bfec64e706836fced231402c50309"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes all immediate rewards (state and action) of the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> once for improved speed.  <a href="#a442bfec64e706836fced231402c50309">More...</a><br /></td></tr>
+<tr class="separator:a442bfec64e706836fced231402c50309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#afebfc75837c7c99176255562a38cd34a">computeQFunction</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">Values</a> &amp;v, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> ir)</td></tr>
 <tr class="memdesc:afebfc75837c7c99176255562a38cd34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>'s QFunction from the values of a ValueFunction.  <a href="#afebfc75837c7c99176255562a38cd34a">More...</a><br /></td></tr>
 <tr class="separator:afebfc75837c7c99176255562a38cd34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -366,16 +378,16 @@ MDP Value Types</h2></td></tr>
 
 </div>
 </div>
-<a id="adb2515dc56dd74903a4d1dda7d89d679"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb2515dc56dd74903a4d1dda7d89d679">&#9670;&nbsp;</a></span>computeImmediateRewards()</h2>
+<a id="a442bfec64e706836fced231402c50309"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a442bfec64e706836fced231402c50309">&#9670;&nbsp;</a></span>computeImmediateRewards()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt;::value&gt;::type&gt; </div>
+template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> AIToolbox::MDP::computeImmediateRewards </td>
+          <td class="memname"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a> AIToolbox::MDP::computeImmediateRewards </td>
           <td>(</td>
           <td class="paramtype">const M &amp;&#160;</td>
           <td class="paramname"><em>model</em></td><td>)</td>
@@ -385,6 +397,7 @@ template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt
 </div><div class="memdoc">
 
 <p>This function computes all immediate rewards (state and action) of the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> once for improved speed. </p>
+<p>This function pretty much creates the R(s,a) function for the input model. Normally we store the reward function as R(s,a,s'), but this table can be "compressed" into R(s,a) with no loss of meaningful information - with respect to the planning process.</p>
 <p>Note that this function is more efficient with eigen models.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -402,7 +415,7 @@ template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt;::value&gt;::type&gt; </div>
+template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> AIToolbox::MDP::computeQFunction </td>
@@ -436,7 +449,7 @@ template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt
   <table class="params">
     <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> that needs to be solved. </td></tr>
     <tr><td class="paramname">v</td><td>The values of the ValueFunction for the future of the QFunction. </td></tr>
-    <tr><td class="paramname">ir</td><td>The immediate rewards of the model, as created by <a class="el" href="namespaceAIToolbox_1_1MDP.html#adb2515dc56dd74903a4d1dda7d89d679" title="This function computes all immediate rewards (state and action) of the MDP once for improved speed...">computeImmediateRewards()</a></td></tr>
+    <tr><td class="paramname">ir</td><td>The immediate rewards of the model, as created by <a class="el" href="namespaceAIToolbox_1_1MDP.html#a442bfec64e706836fced231402c50309" title="This function computes all immediate rewards (state and action) of the MDP once for improved speed...">computeImmediateRewards()</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -517,7 +530,7 @@ template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </div>
+template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::ostream&amp; AIToolbox::MDP::operator&lt;&lt; </td>
@@ -604,7 +617,7 @@ template&lt;typename M , typename std::enable_if&lt; is_model&lt; M &gt;::value,
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename E , typename std::enable_if&lt; is_experience&lt; E &gt;::value, int &gt;::type  = 0&gt; </div>
+template&lt;typename E , std::enable_if_t&lt; is_experience&lt; E &gt;::value, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::ostream&amp; AIToolbox::MDP::operator&lt;&lt; </td>
@@ -813,10 +826,38 @@ template&lt;typename E , typename std::enable_if&lt; is_experience&lt; E &gt;::v
 
 </div>
 </div>
+<a id="a08930c6fa40a80c9d5b0094f0f720ce6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08930c6fa40a80c9d5b0094f0f720ce6">&#9670;&nbsp;</a></span>parseCassandra()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a> AIToolbox::MDP::parseCassandra </td>
+          <td>(</td>
+          <td class="paramtype">std::istream &amp;&#160;</td>
+          <td class="paramname"><em>input</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function parses an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> from a Cassandra formatted stream. </p>
+<p>This function may throw std::runtime_errors depending on whether the input is correctly formed or not.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>The input stream.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The parsed model. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

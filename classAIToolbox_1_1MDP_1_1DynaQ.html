@@ -81,9 +81,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acaa11f7ae6d8b2076681251fca81390d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#acaa11f7ae6d8b2076681251fca81390d">DynaQ</a> (const M &amp;m, double alpha=0.5, unsigned n=50)</td></tr>
 <tr class="memdesc:acaa11f7ae6d8b2076681251fca81390d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#acaa11f7ae6d8b2076681251fca81390d">More...</a><br /></td></tr>
 <tr class="separator:acaa11f7ae6d8b2076681251fca81390d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a172c2bf08eecbcc75d81e54ccace093a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a172c2bf08eecbcc75d81e54ccace093a">stepUpdateQ</a> (size_t s, size_t s1, size_t a, double rew)</td></tr>
-<tr class="memdesc:a172c2bf08eecbcc75d81e54ccace093a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the internal QFunction.  <a href="#a172c2bf08eecbcc75d81e54ccace093a">More...</a><br /></td></tr>
-<tr class="separator:a172c2bf08eecbcc75d81e54ccace093a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90b01f7dd1eb0a0cc4b9e330ac08268c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a90b01f7dd1eb0a0cc4b9e330ac08268c">stepUpdateQ</a> (size_t s, size_t a, size_t s1, double rew)</td></tr>
+<tr class="memdesc:a90b01f7dd1eb0a0cc4b9e330ac08268c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the internal QFunction.  <a href="#a90b01f7dd1eb0a0cc4b9e330ac08268c">More...</a><br /></td></tr>
+<tr class="separator:a90b01f7dd1eb0a0cc4b9e330ac08268c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a073bfb0e2b8f9ed93df99a79a8f91a01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a073bfb0e2b8f9ed93df99a79a8f91a01">batchUpdateQ</a> ()</td></tr>
 <tr class="memdesc:a073bfb0e2b8f9ed93df99a79a8f91a01"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates a QFunction based on simulated experience.  <a href="#a073bfb0e2b8f9ed93df99a79a8f91a01">More...</a><br /></td></tr>
 <tr class="separator:a073bfb0e2b8f9ed93df99a79a8f91a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -338,8 +338,8 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
-<a id="a172c2bf08eecbcc75d81e54ccace093a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a172c2bf08eecbcc75d81e54ccace093a">&#9670;&nbsp;</a></span>stepUpdateQ()</h2>
+<a id="a90b01f7dd1eb0a0cc4b9e330ac08268c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90b01f7dd1eb0a0cc4b9e330ac08268c">&#9670;&nbsp;</a></span>stepUpdateQ()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -356,13 +356,13 @@ template&lt;typename M &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s1</em>, </td>
+          <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
+          <td class="paramname"><em>s1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -385,8 +385,8 @@ template&lt;typename M &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The previous state. </td></tr>
-    <tr><td class="paramname">s1</td><td>The new state. </td></tr>
     <tr><td class="paramname">a</td><td>The action performed. </td></tr>
+    <tr><td class="paramname">s1</td><td>The new state. </td></tr>
     <tr><td class="paramname">rew</td><td>The reward obtained. </td></tr>
   </table>
   </dd>
@@ -400,7 +400,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

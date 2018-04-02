@@ -89,7 +89,7 @@ Inheritance diagram for AIToolbox::POMDP::Policy:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a4e7c54f4758266e231ed9a8d41f393c0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a4e7c54f4758266e231ed9a8d41f393c0">Base</a> = <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; size_t, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>, size_t &gt;</td></tr>
+<tr class="memitem:a4e7c54f4758266e231ed9a8d41f393c0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a4e7c54f4758266e231ed9a8d41f393c0">Base</a> = <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt; size_t, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>, size_t &gt;</td></tr>
 <tr class="separator:a4e7c54f4758266e231ed9a8d41f393c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -100,19 +100,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab5a3ff19b3c39be888609f8296371c05"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#ab5a3ff19b3c39be888609f8296371c05">Policy</a> (size_t s, size_t a, size_t o, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &amp;v)</td></tr>
 <tr class="memdesc:ab5a3ff19b3c39be888609f8296371c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constrctor.  <a href="#ab5a3ff19b3c39be888609f8296371c05">More...</a><br /></td></tr>
 <tr class="separator:ab5a3ff19b3c39be888609f8296371c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc70f63e9f02280efa2d6236c6574b28"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#afc70f63e9f02280efa2d6236c6574b28">sampleAction</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b) const override</td></tr>
+<tr class="memitem:afc70f63e9f02280efa2d6236c6574b28"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#afc70f63e9f02280efa2d6236c6574b28">sampleAction</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b) const override</td></tr>
 <tr class="memdesc:afc70f63e9f02280efa2d6236c6574b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for belief b, following the policy distribution.  <a href="#afc70f63e9f02280efa2d6236c6574b28">More...</a><br /></td></tr>
 <tr class="separator:afc70f63e9f02280efa2d6236c6574b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e96d69bd8a81a356858022ebd248bfa"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a6e96d69bd8a81a356858022ebd248bfa">sampleAction</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, unsigned horizon) const</td></tr>
+<tr class="memitem:a6e96d69bd8a81a356858022ebd248bfa"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a6e96d69bd8a81a356858022ebd248bfa">sampleAction</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, unsigned horizon) const</td></tr>
 <tr class="memdesc:a6e96d69bd8a81a356858022ebd248bfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for belief b when horizon steps are missing, following the policy distribution.  <a href="#a6e96d69bd8a81a356858022ebd248bfa">More...</a><br /></td></tr>
 <tr class="separator:a6e96d69bd8a81a356858022ebd248bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02c3d455a448322ec498d9066b2fe7c7"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a02c3d455a448322ec498d9066b2fe7c7">sampleAction</a> (size_t id, size_t o, unsigned horizon) const</td></tr>
 <tr class="memdesc:a02c3d455a448322ec498d9066b2fe7c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action after performing a sampled action and observing observation o, for a particular horizon.  <a href="#a02c3d455a448322ec498d9066b2fe7c7">More...</a><br /></td></tr>
 <tr class="separator:a02c3d455a448322ec498d9066b2fe7c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4782ecc2c1cbb5a769c1aed9dba169c"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#af4782ecc2c1cbb5a769c1aed9dba169c">getActionProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, const size_t &amp;a) const override</td></tr>
+<tr class="memitem:af4782ecc2c1cbb5a769c1aed9dba169c"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#af4782ecc2c1cbb5a769c1aed9dba169c">getActionProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t &amp;a) const override</td></tr>
 <tr class="memdesc:af4782ecc2c1cbb5a769c1aed9dba169c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified belief.  <a href="#af4782ecc2c1cbb5a769c1aed9dba169c">More...</a><br /></td></tr>
 <tr class="separator:af4782ecc2c1cbb5a769c1aed9dba169c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9502cc562479bb2af7877175289a0428"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a9502cc562479bb2af7877175289a0428">getActionProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;b, size_t a, unsigned horizon) const</td></tr>
+<tr class="memitem:a9502cc562479bb2af7877175289a0428"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a9502cc562479bb2af7877175289a0428">getActionProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, size_t a, unsigned horizon) const</td></tr>
 <tr class="memdesc:a9502cc562479bb2af7877175289a0428"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified belief.  <a href="#a9502cc562479bb2af7877175289a0428">More...</a><br /></td></tr>
 <tr class="separator:a9502cc562479bb2af7877175289a0428"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09d9665016569d0f06b3782ba0a88184"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a09d9665016569d0f06b3782ba0a88184">getO</a> () const</td></tr>
@@ -172,7 +172,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a4e7c54f4758266e231ed9a8d41f393c0">AIToolbox::POMDP::Policy::Base</a> =  <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt;size_t, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a>, size_t&gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a4e7c54f4758266e231ed9a8d41f393c0">AIToolbox::POMDP::Policy::Base</a> =  <a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a>&lt;size_t, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>, size_t&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -290,7 +290,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">virtual double AIToolbox::POMDP::Policy::getActionProbability </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;&#160;</td>
           <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
@@ -333,7 +333,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">double AIToolbox::POMDP::Policy::getActionProbability </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;&#160;</td>
           <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
@@ -443,7 +443,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">virtual size_t AIToolbox::POMDP::Policy::sampleAction </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;&#160;</td>
           <td class="paramname"><em>b</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -476,7 +476,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">std::tuple&lt;size_t, size_t&gt; AIToolbox::POMDP::Policy::sampleAction </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">Belief</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;&#160;</td>
           <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
@@ -610,7 +610,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

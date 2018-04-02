@@ -63,7 +63,8 @@ $(function() {
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">AIToolbox Namespace Reference</div>  </div>
 </div><!--header-->
@@ -72,6 +73,8 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceAIToolbox_1_1FactoredMDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html">FactoredMDP</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1Game"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Game.html">Game</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceAIToolbox_1_1Impl"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Impl.html">Impl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -91,8 +94,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html">LP</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class presents a common interface for solving Linear Programming problems.  <a href="classAIToolbox_1_1LP.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is used to tag functions that avoid runtime checks.  <a href="structAIToolbox_1_1NoCheck.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">PolicyInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the base interface for policies.  <a href="classAIToolbox_1_1PolicyInterface.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html">PolicyInterface&lt; void, void, Action &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the base interface for policies in games and bandits.  <a href="classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1remove__cv__ref.html">remove_cv_ref</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct is used to both remove references and all cv qualifiers.  <a href="structAIToolbox_1_1remove__cv__ref.html#details">More...</a><br /></td></tr>
@@ -100,6 +109,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:af6eb1f8c89dcca62cbe9912b6ec77d33"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#af6eb1f8c89dcca62cbe9912b6ec77d33">AILoggerFun</a> = void(int, const char *)</td></tr>
+<tr class="separator:af6eb1f8c89dcca62cbe9912b6ec77d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fa914363e6f779a2ba9f92ea654b90a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a7fa914363e6f779a2ba9f92ea654b90a">Table3D</a> = boost::multi_array&lt; double, 3 &gt;</td></tr>
 <tr class="separator:a7fa914363e6f779a2ba9f92ea654b90a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af774ebb18ec376e43d77e908e3854370"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#af774ebb18ec376e43d77e908e3854370">Table2D</a> = boost::multi_array&lt; double, 2 &gt;</td></tr>
@@ -118,6 +129,12 @@ Typedefs</h2></td></tr>
 <tr class="separator:a92d1ba8e10537e996faadb65f9c1fa77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c1d4d92e6349e16ab51cc2b3b328750"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a1c1d4d92e6349e16ab51cc2b3b328750">SparseMatrix3DLong</a> = std::vector&lt; <a class="el" href="namespaceAIToolbox.html#a8dac40c8fbdb76d149b6cbee1868b0c9">SparseMatrix2DLong</a> &gt;</td></tr>
 <tr class="separator:a1c1d4d92e6349e16ab51cc2b3b328750"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa7541eece4eef765b312dc4b686852d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#aaa7541eece4eef765b312dc4b686852d">Matrix4D</a> = boost::multi_array&lt; <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>, 2 &gt;</td></tr>
+<tr class="separator:aaa7541eece4eef765b312dc4b686852d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5615bfca915406da608cea51152cfe5b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a5615bfca915406da608cea51152cfe5b">SparseMatrix4D</a> = boost::multi_array&lt; <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a>, 2 &gt;</td></tr>
+<tr class="separator:a5615bfca915406da608cea51152cfe5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4149b71e91dee03ad9d0c8c207eddf0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> = <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a></td></tr>
+<tr class="separator:af4149b71e91dee03ad9d0c8c207eddf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -169,12 +186,45 @@ Functions</h2></td></tr>
 <tr class="memitem:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a31fb7fd3eb6b455f39a1bd388a5fd264">sampleProbability</a> (const size_t d, const SparseMatrix2D::ConstRowXpr &amp;in, G &amp;generator)</td></tr>
 <tr class="memdesc:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a sparse probability vector.  <a href="#a31fb7fd3eb6b455f39a1bd388a5fd264">More...</a><br /></td></tr>
 <tr class="separator:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a476a8ac48b42df366183a01594f78dac"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
+<tr class="memitem:a476a8ac48b42df366183a01594f78dac"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a476a8ac48b42df366183a01594f78dac">makeRandomProbability</a> (const size_t S, G &amp;generator)</td></tr>
+<tr class="memdesc:a476a8ac48b42df366183a01594f78dac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function generates a random probability vector.  <a href="#a476a8ac48b42df366183a01594f78dac">More...</a><br /></td></tr>
+<tr class="separator:a476a8ac48b42df366183a01594f78dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e60a055a590bbd22deb801d1a0121a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a0e60a055a590bbd22deb801d1a0121a6">checkEqualProbability</a> (const <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> &amp;lhs, const <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a0e60a055a590bbd22deb801d1a0121a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether two input ProbabilityVector are equal.  <a href="#a0e60a055a590bbd22deb801d1a0121a6">More...</a><br /></td></tr>
+<tr class="separator:a0e60a055a590bbd22deb801d1a0121a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea709246c227f35a91ffaa8de6e5c8d0"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
 <tr class="memitem:aea709246c227f35a91ffaa8de6e5c8d0"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#aea709246c227f35a91ffaa8de6e5c8d0">extractDominated</a> (const size_t N, Iterator begin, Iterator end)</td></tr>
 <tr class="memdesc:aea709246c227f35a91ffaa8de6e5c8d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds and moves all Vectors in the range that are dominated by others.  <a href="#aea709246c227f35a91ffaa8de6e5c8d0">More...</a><br /></td></tr>
 <tr class="separator:aea709246c227f35a91ffaa8de6e5c8d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7ac7114c76d8082333e9222fd1aac187"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#af6eb1f8c89dcca62cbe9912b6ec77d33">AILoggerFun</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187">AILogger</a> = nullptr</td></tr>
+<tr class="memdesc:a7ac7114c76d8082333e9222fd1aac187"><td class="mdescLeft">&#160;</td><td class="mdescRight">This pointer defines the function used to log.  <a href="#a7ac7114c76d8082333e9222fd1aac187">More...</a><br /></td></tr>
+<tr class="separator:a7ac7114c76d8082333e9222fd1aac187"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bc7257db498e0170e525c36cbf69443"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structAIToolbox_1_1NoCheck.html">AIToolbox::NoCheck</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a8bc7257db498e0170e525c36cbf69443">NO_CHECK</a></td></tr>
+<tr class="separator:a8bc7257db498e0170e525c36cbf69443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1f9a01714ce537de2ee3bed6bfbfc36"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ae1f9a01714ce537de2ee3bed6bfbfc36">equalEpsilonSmall</a> = 0.000001</td></tr>
+<tr class="separator:ae1f9a01714ce537de2ee3bed6bfbfc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a452863c2baf6a9e256844bccfd029623"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a452863c2baf6a9e256844bccfd029623">equalEpsilonGeneral</a> = 0.00000000001</td></tr>
+<tr class="separator:a452863c2baf6a9e256844bccfd029623"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a id="af6eb1f8c89dcca62cbe9912b6ec77d33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6eb1f8c89dcca62cbe9912b6ec77d33">&#9670;&nbsp;</a></span>AILoggerFun</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespaceAIToolbox.html#af6eb1f8c89dcca62cbe9912b6ec77d33">AIToolbox::AILoggerFun</a> = typedef void(int, const char *)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a9d66d3e9eba8d23aeef6c6b865b6965a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d66d3e9eba8d23aeef6c6b865b6965a">&#9670;&nbsp;</a></span>Matrix2D</h2>
 
@@ -197,6 +247,34 @@ Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94">AIToolbox::Matrix3D</a> = typedef std::vector&lt;<a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa7541eece4eef765b312dc4b686852d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa7541eece4eef765b312dc4b686852d">&#9670;&nbsp;</a></span>Matrix4D</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespaceAIToolbox.html#aaa7541eece4eef765b312dc4b686852d">AIToolbox::Matrix4D</a> = typedef boost::multi_array&lt;<a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>, 2&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4149b71e91dee03ad9d0c8c207eddf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4149b71e91dee03ad9d0c8c207eddf0">&#9670;&nbsp;</a></span>ProbabilityVector</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">AIToolbox::ProbabilityVector</a> = typedef <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -253,6 +331,20 @@ Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="namespaceAIToolbox.html#a1c1d4d92e6349e16ab51cc2b3b328750">AIToolbox::SparseMatrix3DLong</a> = typedef std::vector&lt;<a class="el" href="namespaceAIToolbox.html#a8dac40c8fbdb76d149b6cbee1868b0c9">SparseMatrix2DLong</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5615bfca915406da608cea51152cfe5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5615bfca915406da608cea51152cfe5b">&#9670;&nbsp;</a></span>SparseMatrix4D</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespaceAIToolbox.html#a5615bfca915406da608cea51152cfe5b">AIToolbox::SparseMatrix4D</a> = typedef boost::multi_array&lt;<a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a>, 2&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -473,6 +565,54 @@ template&lt;typename Iterator &gt; </div>
 
 </div>
 </div>
+<a id="a0e60a055a590bbd22deb801d1a0121a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e60a055a590bbd22deb801d1a0121a6">&#9670;&nbsp;</a></span>checkEqualProbability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AIToolbox::checkEqualProbability </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function checks whether two input ProbabilityVector are equal. </p>
+<p>This function is approximate. It assumes that the vectors are valid, so they must sum up to one, and each element must be between zero and one. The vector must also be of the same size.</p>
+<p>This function is approximate, as we're dealing with floating point.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left hand side to check. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right hand side to check.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the two ProbabilityVectors are the same. </dd></dl>
+
+</div>
+</div>
 <a id="a164ff36d8475927a491a18c990a9e199"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a164ff36d8475927a491a18c990a9e199">&#9670;&nbsp;</a></span>checkEqualSmall()</h2>
 
@@ -685,6 +825,48 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the container satisfies probability constraints, and false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a476a8ac48b42df366183a01594f78dac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a476a8ac48b42df366183a01594f78dac">&#9670;&nbsp;</a></span>makeRandomProbability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename G &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> AIToolbox::makeRandomProbability </td>
+          <td>(</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>S</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">G &amp;&#160;</td>
+          <td class="paramname"><em>generator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function generates a random probability vector. </p>
+<p>This function will sample uniformly from the simplex space with the specified number of dimensions.</p>
+<p>S must be at least one or we don't guarantee any behaviour.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">S</td><td>The number of entries of the output vector. </td></tr>
+    <tr><td class="paramname">generator</td><td>A random number generator.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new random probability vector. </dd></dl>
 
 </div>
 </div>
@@ -1016,10 +1198,78 @@ template&lt;typename V &gt; </div>
 
 </div>
 </div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a7ac7114c76d8082333e9222fd1aac187"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ac7114c76d8082333e9222fd1aac187">&#9670;&nbsp;</a></span>AILogger</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceAIToolbox.html#af6eb1f8c89dcca62cbe9912b6ec77d33">AILoggerFun</a>* AIToolbox::AILogger = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This pointer defines the function used to log. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="Logging.html">How to use AIToolbox logging facilities.</a> </dd></dl>
+
+</div>
+</div>
+<a id="a452863c2baf6a9e256844bccfd029623"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a452863c2baf6a9e256844bccfd029623">&#9670;&nbsp;</a></span>equalEpsilonGeneral</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto AIToolbox::equalEpsilonGeneral = 0.00000000001</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae1f9a01714ce537de2ee3bed6bfbfc36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1f9a01714ce537de2ee3bed6bfbfc36">&#9670;&nbsp;</a></span>equalEpsilonSmall</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto AIToolbox::equalEpsilonSmall = 0.000001</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8bc7257db498e0170e525c36cbf69443"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bc7257db498e0170e525c36cbf69443">&#9670;&nbsp;</a></span>NO_CHECK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structAIToolbox_1_1NoCheck.html">AIToolbox::NoCheck</a>  AIToolbox::NO_CHECK</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['rlmodel_2ehpp',['RLModel.hpp',['../RLModel_8hpp.html',1,'']]],
-  ['rpomcp_2ehpp',['rPOMCP.hpp',['../rPOMCP_8hpp.html',1,'']]],
-  ['rpomcpgraph_2ehpp',['rPOMCPGraph.hpp',['../rPOMCPGraph_8hpp.html',1,'']]],
-  ['rtbss_2ehpp',['RTBSS.hpp',['../RTBSS_8hpp.html',1,'']]]
+  ['qgreedypolicy_2ehpp',['QGreedyPolicy.hpp',['../FactoredMDP_2Policies_2QGreedyPolicy_8hpp.html',1,'(Global Namespace)'],['../MDP_2Policies_2QGreedyPolicy_8hpp.html',1,'(Global Namespace)']]],
+  ['qlearning_2ehpp',['QLearning.hpp',['../QLearning_8hpp.html',1,'']]],
+  ['qmdp_2ehpp',['QMDP.hpp',['../QMDP_8hpp.html',1,'']]],
+  ['qpolicyinterface_2ehpp',['QPolicyInterface.hpp',['../QPolicyInterface_8hpp.html',1,'']]],
+  ['qsoftmaxpolicy_2ehpp',['QSoftmaxPolicy.hpp',['../QSoftmaxPolicy_8hpp.html',1,'']]]
 ];

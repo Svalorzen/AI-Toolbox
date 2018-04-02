@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['utils_2ehpp',['Utils.hpp',['../include_2AIToolbox_2FactoredMDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../include_2AIToolbox_2MDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../include_2AIToolbox_2POMDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../src_2Python_2Utils_8hpp.html',1,'(Global Namespace)']]]
+  ['tigerproblem_2ehpp',['TigerProblem.hpp',['../TigerProblem_8hpp.html',1,'']]],
+  ['toroidalworld_2ehpp',['ToroidalWorld.hpp',['../ToroidalWorld_8hpp.html',1,'']]],
+  ['tutorial_2emd',['Tutorial.md',['../Tutorial_8md.html',1,'']]],
+  ['types_2ehpp',['Types.hpp',['../FactoredMDP_2Types_8hpp.html',1,'(Global Namespace)'],['../MDP_2Types_8hpp.html',1,'(Global Namespace)'],['../POMDP_2Algorithms_2Utils_2Types_8hpp.html',1,'(Global Namespace)'],['../POMDP_2Types_8hpp.html',1,'(Global Namespace)'],['../Types_8hpp.html',1,'(Global Namespace)']]]
 ];

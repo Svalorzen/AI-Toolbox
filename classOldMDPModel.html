@@ -90,7 +90,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa7cfcbab3d5cd16648d521b80e64b200"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldMDPModel.html#aa7cfcbab3d5cd16648d521b80e64b200">OldMDPModel</a> (size_t s, size_t a, const T &amp;t, const R &amp;r, double d=1.0)</td></tr>
 <tr class="memdesc:aa7cfcbab3d5cd16648d521b80e64b200"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aa7cfcbab3d5cd16648d521b80e64b200">More...</a><br /></td></tr>
 <tr class="separator:aa7cfcbab3d5cd16648d521b80e64b200"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac75f7674d14277553f9774e58e41dcf5"><td class="memTemplParams" colspan="2">template&lt;typename M , typename std::enable_if&lt; AIToolbox::MDP::is_model&lt; M &gt;::value, int &gt;::type  = 0&gt; </td></tr>
+<tr class="memitem:ac75f7674d14277553f9774e58e41dcf5"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;AIToolbox::MDP::is_model&lt;M&gt;::value&gt;&gt; </td></tr>
 <tr class="memitem:ac75f7674d14277553f9774e58e41dcf5"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldMDPModel.html#ac75f7674d14277553f9774e58e41dcf5">OldMDPModel</a> (const M &amp;model)</td></tr>
 <tr class="memdesc:ac75f7674d14277553f9774e58e41dcf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid MDP model.  <a href="#ac75f7674d14277553f9774e58e41dcf5">More...</a><br /></td></tr>
 <tr class="separator:ac75f7674d14277553f9774e58e41dcf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -305,7 +305,7 @@ template&lt;typename T , typename R &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename std::enable_if&lt; AIToolbox::MDP::is_model&lt; M &gt;::value, int &gt;::type &gt; </div>
+template&lt;typename M , typename &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">OldMDPModel::OldMDPModel </td>
@@ -815,7 +815,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

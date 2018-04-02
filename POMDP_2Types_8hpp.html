@@ -105,17 +105,23 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a36a1f291220f616df8db3c5b807e51d4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">AIToolbox::POMDP::Belief</a> = Vector</td></tr>
-<tr class="memdesc:a36a1f291220f616df8db3c5b807e51d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This represents a belief, which is a probability distribution over states.  <a href="namespaceAIToolbox_1_1POMDP.html#a36a1f291220f616df8db3c5b807e51d4">More...</a><br /></td></tr>
-<tr class="separator:a36a1f291220f616df8db3c5b807e51d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4522c5e35483fb30b2c43c271781e8bc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">AIToolbox::POMDP::Belief</a> = ProbabilityVector</td></tr>
+<tr class="memdesc:a4522c5e35483fb30b2c43c271781e8bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This represents a belief, which is a probability distribution over states.  <a href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">More...</a><br /></td></tr>
+<tr class="separator:a4522c5e35483fb30b2c43c271781e8bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
 POMDP Value Types</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p><a class="anchor" id="amgrpd40d29dd7a6ce2363439db942e3d718b"></a>POMDP ValueFunctions are complicated. In fact, they are trees. At each belief, you have a particular value function, which also depends on any future observation you might encounter, and must change "value" accordingly. For example, a high valued belief might in the end turn out bad due to repeated "bad" observations. At the same time, for each particular block of values, we want to save the single action that will result in the "actuation" of that particular value.</p>
 <p>We avoid storing a POMDP ValueFunction as a true tree, mostly due to the fact that most operations like search and update are done on a timestep basis, as in, specific tree depth. Thus the layout is arranged as follows:</p>
-<p>A VEntry contains the MDP::Values for its specific Belief range. At any belief it can be used to compute, via dot product, the true value of that belief. Together with it, it contains an action index, for the action that results in the actuation of those particular values, and a vector of indeces into the previous VList. There are going to be |O| entries in this vector. Some observations are however impossible from certain beliefs. In theory, those should never be accessed, and those entries will just keep the value of zero to keep things simple. This is also called an alpha vector in the literature, though here it contains more data than just that.</p>
-<p>A VList is a slice of the final tree with respect to depth, as in all ValueFunctions for a certain timestep t.</p>
-<p>A ValueFunction is the final tree keeping all VLists together.</p>
+<p>A VEntry contains:</p>
+<ul>
+<li>The MDP::Values for its specific Belief range. This is also called an alphavector in the literature. At any belief it can be used to compute, via dot product, the true value of that belief.</li>
+<li>An action index, for the action that results in the actuation of those particular values.</li>
+<li>A vector containing, for each possible observation, the index of the VEntry to look into for the next timestep/VList. Thus, there are going to be |O| entries in this vector (sometimes it's empty, when it doesn't matter). Some observations are however impossible from certain beliefs. In theory, those vector entries should never be accessed, so they will just keep the value of zero to keep things simple.</li>
+</ul>
+<p>A VList is a slice of the final tree with respect to depth, as in all ValueFunctions for a certain timestep t. Note that a VList can have an arbitrary number of VEntries inside - with an upper bound. Each VList can have at most A * size(VList_{t-1})^O.</p>
+<p>A ValueFunction is the final tree keeping all VLists together. A ValueFunction has always at least one element.</p>
+<p>The first element of a ValueFunction is technically useless, as it is a VList with just one VEntry that tells to perform action zero. It's the default from which all Dynamic Programming algorithm start. The values of the default entry are usually zeros, although some algorithms initialize them differently. The first entry otherwise is never used, not even for sampling for a policy, and it's simply an artifact that takes little space to keep, and it's expected in all the code.</p>
 <p>QFunctions may be defined later, however since POMDP ValueFunctions are already pretty costly in terms of space, in general there's little sense in storing them. </p>
 </td></tr>
 <tr class="memitem:a4ee8f7f75ac407c0506a523313dfd1bb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4ee8f7f75ac407c0506a523313dfd1bbae9a76df17db6e1782ba972f80ba04171">AIToolbox::POMDP::VALUES</a> = 0, 
@@ -154,7 +160,7 @@ POMDP Value Types</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

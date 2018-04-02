@@ -1,6 +1,7 @@
 var searchData=
 [
   ['eigenvectorfrompython',['EigenVectorFromPython',['../structEigenVectorFromPython.html',1,'EigenVectorFromPython'],['../structEigenVectorFromPython.html#ae8d496c65e16903193940befef674582',1,'EigenVectorFromPython::EigenVectorFromPython()']]],
+  ['ejs4',['ejs4',['../Models_8hpp.html#a29f1e9886c7a48093add15b2cc300449',1,'Models.hpp']]],
   ['emplace',['emplace',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#ac966e8367886d3a70bfff059875ae82a',1,'AIToolbox::FactoredMDP::FactoredContainer']]],
   ['emptystruct',['EmptyStruct',['../structAIToolbox_1_1Impl_1_1POMDP_1_1EmptyStruct.html',1,'AIToolbox::Impl::POMDP']]],
   ['end',['end',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a87e5650b0f343015162adbdb806ef931',1,'AIToolbox::FactoredMDP::FactoredContainer::end()'],['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#af75620678aec8b5e7df611f421d6e0c4',1,'AIToolbox::FactoredMDP::FactoredContainer::end() const'],['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#abd88bc2a3d4df22c0f9f26f8a3439a81',1,'AIToolbox::FactoredMDP::FactoredIterable::end()'],['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6f2407ddd7b395c0a7b83c594e3435ec',1,'AIToolbox::FactoredMDP::FactoredIterable::end() const'],['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1603b2904a869b7a032bc6b9cd975178',1,'AIToolbox::FactoredMDP::FactorGraph::end()'],['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a2bfd761b70e14691a30f6bffd7ef88a7',1,'AIToolbox::FactoredMDP::FactorGraph::end() const']]],
@@ -15,14 +16,19 @@ var searchData=
   ['epsilonpolicyinterface_3c_20size_5ft_2c_20size_5ft_2c_20size_5ft_20_3e',['EpsilonPolicyInterface&lt; size_t, size_t, size_t &gt;',['../classAIToolbox_1_1EpsilonPolicyInterface.html',1,'AIToolbox']]],
   ['epsilonpolicyinterface_3c_20state_2c_20state_2c_20action_20_3e',['EpsilonPolicyInterface&lt; State, State, Action &gt;',['../classAIToolbox_1_1EpsilonPolicyInterface.html',1,'AIToolbox']]],
   ['equal',['Equal',['../classAIToolbox_1_1LP.html#a224f6cac074e3884329d6f32daa9e67faf5f286e73bda105e538310b3190f75c5',1,'AIToolbox::LP']]],
+  ['equalepsilongeneral',['equalEpsilonGeneral',['../namespaceAIToolbox.html#a452863c2baf6a9e256844bccfd029623',1,'AIToolbox']]],
+  ['equalepsilonsmall',['equalEpsilonSmall',['../namespaceAIToolbox.html#ae1f9a01714ce537de2ee3bed6bfbfc36',1,'AIToolbox']]],
   ['erase',['erase',['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6d2a60087c4708a3365e1f9817b69f26',1,'AIToolbox::FactoredMDP::FactorGraph::erase(FactorIt it)'],['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#aef2a905920a66fd3c49be490316928f3',1,'AIToolbox::FactoredMDP::FactorGraph::erase(size_t variable)']]],
+  ['esrlpolicy',['ESRLPolicy',['../classAIToolbox_1_1Game_1_1ESRLPolicy.html',1,'AIToolbox::Game::ESRLPolicy'],['../classAIToolbox_1_1Game_1_1ESRLPolicy.html#a32132e827e81192106bf2c66c0845c07',1,'AIToolbox::Game::ESRLPolicy::ESRLPolicy()']]],
+  ['esrlpolicy_2ehpp',['ESRLPolicy.hpp',['../ESRLPolicy_8hpp.html',1,'']]],
   ['expectedsarsa',['ExpectedSARSA',['../classAIToolbox_1_1MDP_1_1ExpectedSARSA.html',1,'AIToolbox::MDP::ExpectedSARSA'],['../classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a0da3d133179c0cd5cba29ee51c18d65a',1,'AIToolbox::MDP::ExpectedSARSA::ExpectedSARSA(QFunction &amp;qfun, const PolicyInterface &amp;policy, double discount=0.0, double alpha=0.1)'],['../classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#ab3476556bf504f33859254fc4e77ed40',1,'AIToolbox::MDP::ExpectedSARSA::ExpectedSARSA(QFunction &amp;qfun, const PolicyInterface &amp;policy, const M &amp;model, double alpha=0.1)']]],
   ['expectedsarsa_2ehpp',['ExpectedSARSA.hpp',['../ExpectedSARSA_8hpp.html',1,'']]],
   ['experience',['Experience',['../classAIToolbox_1_1MDP_1_1Experience.html',1,'AIToolbox::MDP::Experience'],['../classAIToolbox_1_1MDP_1_1Experience.html#a2cec549e5db6f8656e4ae5b5d26b64e2',1,'AIToolbox::MDP::Experience::Experience()']]],
   ['experience_2ehpp',['Experience.hpp',['../Experience_8hpp.html',1,'']]],
+  ['extractbestatbelief',['extractBestAtBelief',['../namespaceAIToolbox_1_1POMDP.html#afe32c1ad966b8cb8e8fad8a208db263c',1,'AIToolbox::POMDP']]],
+  ['extractbestatsimplexcorners',['extractBestAtSimplexCorners',['../namespaceAIToolbox_1_1POMDP.html#a71661dd830a499d4bee42655c52baee1',1,'AIToolbox::POMDP']]],
+  ['extractbestusefulbeliefs',['extractBestUsefulBeliefs',['../namespaceAIToolbox_1_1POMDP.html#ae95d66a7f0c1d358b84fb8cb3ccf997e',1,'AIToolbox::POMDP']]],
   ['extractdominated',['extractDominated',['../namespaceAIToolbox.html#aea709246c227f35a91ffaa8de6e5c8d0',1,'AIToolbox']]],
   ['extractpythontuple',['ExtractPythonTuple',['../structTupleFromPython_1_1ExtractPythonTuple.html',1,'TupleFromPython']]],
-  ['extractpythontuple_3c_200_2c_20dummyforspecialization_20_3e',['ExtractPythonTuple&lt; 0, dummyForSpecialization &gt;',['../structTupleFromPython_1_1ExtractPythonTuple_3_010_00_01dummyForSpecialization_01_4.html',1,'TupleFromPython']]],
-  ['extractworstatbelief',['extractWorstAtBelief',['../namespaceAIToolbox_1_1POMDP.html#a3b462d4a6cc715e8184407f744aa1452',1,'AIToolbox::POMDP']]],
-  ['extractworstatsimplexcorners',['extractWorstAtSimplexCorners',['../namespaceAIToolbox_1_1POMDP.html#a62142e5eac8af594a6243656284bad94',1,'AIToolbox::POMDP']]]
+  ['extractpythontuple_3c_200_2c_20dummyforspecialization_20_3e',['ExtractPythonTuple&lt; 0, dummyForSpecialization &gt;',['../structTupleFromPython_1_1ExtractPythonTuple_3_010_00_01dummyForSpecialization_01_4.html',1,'TupleFromPython']]]
 ];

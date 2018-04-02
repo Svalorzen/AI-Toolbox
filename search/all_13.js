@@ -12,6 +12,8 @@ var searchData=
   ['topartialfactors',['toPartialFactors',['../namespaceAIToolbox_1_1FactoredMDP.html#a729a5fa9cb1feab27268567616a50ab0',1,'AIToolbox::FactoredMDP']]],
   ['toroidalworld_2ehpp',['ToroidalWorld.hpp',['../ToroidalWorld_8hpp.html',1,'']]],
   ['toroidalworldstate',['ToroidalWorldState',['../classToroidalWorldState.html',1,'ToroidalWorldState'],['../classToroidalWorldState.html#a6a26e7d736d2ea8fbbca8013ce067224',1,'ToroidalWorldState::ToroidalWorldState()']]],
+  ['trace',['Trace',['../classAIToolbox_1_1MDP_1_1SARSAL.html#ae5cb425a80db48828bde436d4574c117',1,'AIToolbox::MDP::SARSAL']]],
+  ['traces',['Traces',['../classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0',1,'AIToolbox::MDP::SARSAL']]],
   ['trackbelief',['TrackBelief',['../namespaceAIToolbox_1_1POMDP.html#ad867f06ad8946aa1b205a7f5f8fcb42e',1,'AIToolbox::POMDP']]],
   ['trackbelief_5f',['trackBelief_',['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#ac9aa972e9348588527f8f99f925f1889',1,'AIToolbox::POMDP::BeliefNode']]],
   ['transitiontable',['TransitionTable',['../classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5',1,'AIToolbox::MDP::Model::TransitionTable()'],['../classAIToolbox_1_1MDP_1_1RLModel.html#a17e36e2428911249676a4676ca6b379f',1,'AIToolbox::MDP::RLModel::TransitionTable()'],['../classAIToolbox_1_1MDP_1_1SparseModel.html#a6a745497d281534a598ec3f6dc475406',1,'AIToolbox::MDP::SparseModel::TransitionTable()'],['../classAIToolbox_1_1MDP_1_1SparseRLModel.html#a17ce52a164e7f2b8ba5fcfa6babaed1f',1,'AIToolbox::MDP::SparseRLModel::TransitionTable()'],['../classOldMDPModel.html#ac59c22e7f1cab441c4ddd93066fecad6',1,'OldMDPModel::TransitionTable()']]],

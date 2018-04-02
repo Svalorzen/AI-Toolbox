@@ -93,10 +93,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a31b1ca5fb3076e5d42648ac93eea9f19"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a31b1ca5fb3076e5d42648ac93eea9f19">getHorizon</a> () const</td></tr>
 <tr class="memdesc:a31b1ca5fb3076e5d42648ac93eea9f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set horizon parameter.  <a href="#a31b1ca5fb3076e5d42648ac93eea9f19">More...</a><br /></td></tr>
 <tr class="separator:a31b1ca5fb3076e5d42648ac93eea9f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae99091d5abd06399564f5ce2cd399084"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = typename std::enable_if&lt;is_model&lt;M&gt;::value&gt;::type&gt; </td></tr>
-<tr class="memitem:ae99091d5abd06399564f5ce2cd399084"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; bool, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#ae99091d5abd06399564f5ce2cd399084">operator()</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:ae99091d5abd06399564f5ce2cd399084"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> completely.  <a href="#ae99091d5abd06399564f5ce2cd399084">More...</a><br /></td></tr>
-<tr class="separator:ae99091d5abd06399564f5ce2cd399084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model&lt;M&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a5c6b1fb03f0c69dcd7ed67485be019c2">operator()</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> completely.  <a href="#a5c6b1fb03f0c69dcd7ed67485be019c2">More...</a><br /></td></tr>
+<tr class="separator:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Incremental Pruning algorithm. </p>
@@ -185,8 +185,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae99091d5abd06399564f5ce2cd399084"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae99091d5abd06399564f5ce2cd399084">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a5c6b1fb03f0c69dcd7ed67485be019c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c6b1fb03f0c69dcd7ed67485be019c2">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -194,7 +194,7 @@ Public Member Functions</h2></td></tr>
 template&lt;typename M , typename &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::tuple&lt; bool, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::IncrementalPruning::operator() </td>
+          <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::IncrementalPruning::operator() </td>
           <td>(</td>
           <td class="paramtype">const M &amp;&#160;</td>
           <td class="paramname"><em>model</em></td><td>)</td>
@@ -218,7 +218,7 @@ template&lt;typename M , typename &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A tuple containing a boolean value specifying whether the specified epsilon bound was reached and the computed ValueFunction. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A tuple containing the maximum variation for the ValueFunction and the computed ValueFunction. </dd></dl>
 
 </div>
 </div>
@@ -281,7 +281,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 12 2017 19:00:01 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

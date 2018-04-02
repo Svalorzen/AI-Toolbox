@@ -1,14 +1,17 @@
 var searchData=
 [
   ['eigenvectorfrompython',['EigenVectorFromPython',['../structEigenVectorFromPython.html#ae8d496c65e16903193940befef674582',1,'EigenVectorFromPython']]],
+  ['ejs4',['ejs4',['../Models_8hpp.html#a29f1e9886c7a48093add15b2cc300449',1,'Models.hpp']]],
   ['emplace',['emplace',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#ac966e8367886d3a70bfff059875ae82a',1,'AIToolbox::FactoredMDP::FactoredContainer']]],
   ['end',['end',['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#a87e5650b0f343015162adbdb806ef931',1,'AIToolbox::FactoredMDP::FactoredContainer::end()'],['../classAIToolbox_1_1FactoredMDP_1_1FactoredContainer.html#af75620678aec8b5e7df611f421d6e0c4',1,'AIToolbox::FactoredMDP::FactoredContainer::end() const'],['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#abd88bc2a3d4df22c0f9f26f8a3439a81',1,'AIToolbox::FactoredMDP::FactoredIterable::end()'],['../classAIToolbox_1_1FactoredMDP_1_1FactoredIterable.html#a6f2407ddd7b395c0a7b83c594e3435ec',1,'AIToolbox::FactoredMDP::FactoredIterable::end() const'],['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a1603b2904a869b7a032bc6b9cd975178',1,'AIToolbox::FactoredMDP::FactorGraph::end()'],['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a2bfd761b70e14691a30f6bffd7ef88a7',1,'AIToolbox::FactoredMDP::FactorGraph::end() const']]],
   ['epsilonpolicy',['EpsilonPolicy',['../classAIToolbox_1_1FactoredMDP_1_1EpsilonPolicy.html#a205a98e6b58ba7352105b53365dea0c7',1,'AIToolbox::FactoredMDP::EpsilonPolicy::EpsilonPolicy()'],['../classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a14600f43ad82aac0a0e9c396a561a699',1,'AIToolbox::MDP::EpsilonPolicy::EpsilonPolicy()']]],
   ['epsilonpolicyinterface',['EpsilonPolicyInterface',['../classAIToolbox_1_1EpsilonPolicyInterface.html#af3d4f464bf1a568fda4f7ca3c01eaa6d',1,'AIToolbox::EpsilonPolicyInterface']]],
   ['erase',['erase',['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#a6d2a60087c4708a3365e1f9817b69f26',1,'AIToolbox::FactoredMDP::FactorGraph::erase(FactorIt it)'],['../classAIToolbox_1_1FactoredMDP_1_1FactorGraph.html#aef2a905920a66fd3c49be490316928f3',1,'AIToolbox::FactoredMDP::FactorGraph::erase(size_t variable)']]],
+  ['esrlpolicy',['ESRLPolicy',['../classAIToolbox_1_1Game_1_1ESRLPolicy.html#a32132e827e81192106bf2c66c0845c07',1,'AIToolbox::Game::ESRLPolicy']]],
   ['expectedsarsa',['ExpectedSARSA',['../classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a0da3d133179c0cd5cba29ee51c18d65a',1,'AIToolbox::MDP::ExpectedSARSA::ExpectedSARSA(QFunction &amp;qfun, const PolicyInterface &amp;policy, double discount=0.0, double alpha=0.1)'],['../classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#ab3476556bf504f33859254fc4e77ed40',1,'AIToolbox::MDP::ExpectedSARSA::ExpectedSARSA(QFunction &amp;qfun, const PolicyInterface &amp;policy, const M &amp;model, double alpha=0.1)']]],
   ['experience',['Experience',['../classAIToolbox_1_1MDP_1_1Experience.html#a2cec549e5db6f8656e4ae5b5d26b64e2',1,'AIToolbox::MDP::Experience']]],
-  ['extractdominated',['extractDominated',['../namespaceAIToolbox.html#aea709246c227f35a91ffaa8de6e5c8d0',1,'AIToolbox']]],
-  ['extractworstatbelief',['extractWorstAtBelief',['../namespaceAIToolbox_1_1POMDP.html#a3b462d4a6cc715e8184407f744aa1452',1,'AIToolbox::POMDP']]],
-  ['extractworstatsimplexcorners',['extractWorstAtSimplexCorners',['../namespaceAIToolbox_1_1POMDP.html#a62142e5eac8af594a6243656284bad94',1,'AIToolbox::POMDP']]]
+  ['extractbestatbelief',['extractBestAtBelief',['../namespaceAIToolbox_1_1POMDP.html#afe32c1ad966b8cb8e8fad8a208db263c',1,'AIToolbox::POMDP']]],
+  ['extractbestatsimplexcorners',['extractBestAtSimplexCorners',['../namespaceAIToolbox_1_1POMDP.html#a71661dd830a499d4bee42655c52baee1',1,'AIToolbox::POMDP']]],
+  ['extractbestusefulbeliefs',['extractBestUsefulBeliefs',['../namespaceAIToolbox_1_1POMDP.html#ae95d66a7f0c1d358b84fb8cb3ccf997e',1,'AIToolbox::POMDP']]],
+  ['extractdominated',['extractDominated',['../namespaceAIToolbox.html#aea709246c227f35a91ffaa8de6e5c8d0',1,'AIToolbox']]]
 ];
