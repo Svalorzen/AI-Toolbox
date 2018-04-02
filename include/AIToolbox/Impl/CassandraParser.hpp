@@ -1,3 +1,6 @@
+#ifndef AI_TOOLBOX_IMPL_CASSANDRA_PARSER_HEADER_FILE
+#define AI_TOOLBOX_IMPL_CASSANDRA_PARSER_HEADER_FILE
+
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -187,3 +190,5 @@ namespace AIToolbox::Impl {
             IDMap observationMap_;
     };
 }
+
+#endif
