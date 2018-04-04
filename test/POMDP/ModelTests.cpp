@@ -141,6 +141,10 @@ BOOST_AUTO_TEST_CASE( cassandraCheng ) {
 
     auto m2 = AIToolbox::POMDP::parseCassandra(inputFile);
 
+    BOOST_CHECK_EQUAL(m.getS(), m2.getS());
+    BOOST_CHECK_EQUAL(m.getA(), m2.getA());
+    BOOST_CHECK_EQUAL(m.getO(), m2.getO());
+
     for ( size_t s = 0; s < S; ++s ) {
         for ( size_t a = 0; a < A; ++a ) {
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
@@ -164,6 +168,10 @@ BOOST_AUTO_TEST_CASE( cassandraEjs4 ) {
     if ( !inputFile ) BOOST_FAIL("Data to perform test could not be loaded: " + inputFilename);
 
     auto m2 = AIToolbox::POMDP::parseCassandra(inputFile);
+
+    BOOST_CHECK_EQUAL(m.getS(), m2.getS());
+    BOOST_CHECK_EQUAL(m.getA(), m2.getA());
+    BOOST_CHECK_EQUAL(m.getO(), m2.getO());
 
     for ( size_t s = 0; s < S; ++s ) {
         for ( size_t a = 0; a < A; ++a ) {

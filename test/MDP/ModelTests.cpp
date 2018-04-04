@@ -114,6 +114,9 @@ BOOST_AUTO_TEST_CASE( cassandraCorner ) {
 
     auto m2 = AIToolbox::MDP::parseCassandra(inputFile);
 
+    BOOST_CHECK_EQUAL(m.getS(), m2.getS());
+    BOOST_CHECK_EQUAL(m.getA(), m2.getA());
+
     for ( size_t a = 0; a < A; ++a )
     for ( size_t s = 0; s < S; ++s )
     for ( size_t s1 = 0; s1 < S; ++s1 ) {
