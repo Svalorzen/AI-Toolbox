@@ -19,6 +19,10 @@ install:
     - sudo apt-get install -qq --force-yes libeigen3-dev
     - sudo apt-get install -qq g++-7 # This is needed for clang too!!
     - if [ "$CC" = "clang" ]; then sudo apt-get install -qq clang-4.0; fi
+    - sed -e 's/trusty/artful/g' /etc/apt/sources.list | sudo tee /etc/apt/sources.list.d/artful.list # Enable packages from artful
+    - "echo -e \"Package: binutils\nPin: release n=precise\nPin-Priority: 990\" | sudo tee /etc/apt/preferences" # Use ld from artful to avoid bug, escaped for :
+    - sudo apt-get update -qq
+    - sudo apt-get install --only-upgrade binutils # Update ld
     - if [ "$CXX" = "g++" ]; then export CXX="g++-7" CC="gcc-7"; fi
     - if [ "$CC" = "clang" ]; then export CXX="clang++-4.0" CC="clang-4.0"; fi
 script:
