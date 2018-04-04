@@ -104,7 +104,7 @@ namespace AIToolbox::Impl {
             if (line == "") continue;
 
             bool parsed = false;
-            for (auto it : initMap_) {
+            for (const auto & it : initMap_) {
                 if (boost::starts_with(line, it.first)) {
                     it.second(line);
                     parsed = true;
@@ -117,7 +117,7 @@ namespace AIToolbox::Impl {
         }
     }
 
-    void CassandraParser::initMatrix(DumbMatrix3D & M, size_t D1, size_t D2, size_t D3) {
+    void CassandraParser::initMatrix(DumbMatrix3D & M, const size_t D1, const size_t D2, const size_t D3) {
         M.resize(D1);
         for (size_t i = 0; i < D1; ++i) {
             M[i].resize(D2);
@@ -140,8 +140,8 @@ namespace AIToolbox::Impl {
     size_t CassandraParser::extractIDs(const std::string & line, IDMap & map) {
         map.clear();
 
-        auto split = tokenize(line, ":");
-        auto ids = tokenize(split.at(1), " ");
+        const auto split = tokenize(line, ":");
+        const auto ids = tokenize(split.at(1), " ");
 
         // Try the number way
         if (ids.size() == 1) {
@@ -170,7 +170,7 @@ namespace AIToolbox::Impl {
         return tokens;
     }
 
-    std::vector<size_t> CassandraParser::parseIndeces(const std::string & str, const IDMap & map, size_t max) {
+    std::vector<size_t> CassandraParser::parseIndeces(const std::string & str, const IDMap & map, const size_t max) {
         std::vector<size_t> retval;
 
         if (str == "*") {
@@ -180,7 +180,7 @@ namespace AIToolbox::Impl {
             if (auto it = map.find(str); it != std::end(map)) {
                 retval.push_back(it->second);
             } else {
-                size_t val = std::stoul(str);
+                const size_t val = std::stoul(str);
                 if (val >= max) throw std::runtime_error("Input value too high");
                 retval.push_back(val);
             }
@@ -200,40 +200,40 @@ namespace AIToolbox::Impl {
     }
 
     CassandraParser::DumbMatrix1D CassandraParser::parseVector(const std::string & str, size_t N) {
-        auto tokens = tokenize(str, " ");
+        const auto tokens = tokenize(str, " ");
         return parseVector(std::begin(tokens), std::end(tokens), N);
     }
 
     void CassandraParser::processMatrix(DumbMatrix3D & M, const IDMap & d1map, const IDMap & d3map) {
         const std::string & str = lines_[i_];
 
-        size_t D1 = M.size();
-        size_t D3 = M[0][0].size();
+        const size_t D1 = M.size();
+        const size_t D3 = M[0][0].size();
 
         switch (std::count(std::begin(str), std::end(str), ':')) {
             case 3: {
                 // M: <action> : <start-state> : <end-state> <prob>
-                auto tokens = tokenize(str, ": ");
+                const auto tokens = tokenize(str, ": ");
 
                 // Action is first both in transition and observation
-                auto av  = parseIndeces(tokens[1], actionMap_, A);
-                auto d1v  = parseIndeces(tokens[2], d1map, D1);
-                auto d3v  = parseIndeces(tokens[3], d3map, D3);
-                auto val = std::stod(tokens.at(4));
+                const auto av  = parseIndeces(tokens.at(1), actionMap_, A);
+                const auto d1v = parseIndeces(tokens.at(2), d1map, D1);
+                const auto d3v = parseIndeces(tokens.at(3), d3map, D3);
+                const auto val = std::stod(tokens.at(4));
 
-                for (auto d1 : d1v)
-                    for (auto a : av)
-                        for (auto d3 : d3v)
+                for (const auto d1 : d1v)
+                    for (const auto a : av)
+                        for (const auto d3 : d3v)
                             M[d1][a][d3] = val;
                 break;
             }
             case 2: {
                 // M: <action> : <start-state>
                 // Here we need to read a vector
-                auto tokens = tokenize(str, ": ");
+                const auto tokens = tokenize(str, ": ");
 
-                auto av  = parseIndeces(tokens[1], actionMap_, A);
-                auto d1v  = parseIndeces(tokens[2], d1map, D1);
+                const auto av  = parseIndeces(tokens.at(1), actionMap_, A);
+                const auto d1v = parseIndeces(tokens.at(2), d1map, D1);
 
                 DumbMatrix1D v;
                 if (tokens.size() == 3 + D3) {
@@ -245,21 +245,21 @@ namespace AIToolbox::Impl {
                 } else {
                     std::runtime_error("Parsing error: wrong number of arguments in '" + str + "'");
                 }
-                for (auto d1 : d1v)
-                    for (auto a : av)
+                for (const auto d1 : d1v)
+                    for (const auto a : av)
                         M[d1][a] = v;
                 break;
             }
             case 1: {
                 // M: <action>
                 // Here we need to read a whole 2D table
-                auto tokens = tokenize(str, ": ");
-                auto av  = parseIndeces(tokens[1], actionMap_, A);
+                const auto tokens = tokenize(str, ": ");
+                const auto av  = parseIndeces(tokens.at(1), actionMap_, A);
 
                 for (size_t d1 = 0; d1 < D1; ++d1) {
-                    auto v = parseVector(lines_.at(++i_), D3);
+                    const auto v = parseVector(lines_.at(++i_), D3);
 
-                    for (auto a : av)
+                    for (const auto a : av)
                         M[d1][a] = v;
                 }
                 break;
@@ -274,17 +274,17 @@ namespace AIToolbox::Impl {
         switch (std::count(std::begin(str), std::end(str), ':')) {
             case 4: {
                 // R: <action> : <start-state> : <end-state> : <obs> <prob>
-                auto tokens = tokenize(str, ": ");
+                const auto tokens = tokenize(str, ": ");
 
                 // Action is first both in transition and observation
-                auto av   = parseIndeces(tokens[1], actionMap_, A);
-                auto sv   = parseIndeces(tokens[2], stateMap_,  S);
-                auto s1v  = parseIndeces(tokens[3], stateMap_,  S);
-                auto val = std::stod(tokens.at(5));
+                const auto av   = parseIndeces(tokens.at(1), actionMap_, A);
+                const auto sv   = parseIndeces(tokens.at(2), stateMap_,  S);
+                const auto s1v  = parseIndeces(tokens.at(3), stateMap_,  S);
+                const auto val = std::stod(tokens.at(5));
 
-                for (auto s : sv)
-                    for (auto a : av)
-                        for (auto s1 : s1v)
+                for (const auto s : sv)
+                    for (const auto a : av)
+                        for (const auto s1 : s1v)
                             R[s][a][s1] = val;
                 break;
             }
