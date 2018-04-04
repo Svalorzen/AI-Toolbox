@@ -30,5 +30,6 @@ script:
 branches:
   only:
     - master
+    - test
 notifications:
     email: false
