@@ -36,8 +36,8 @@ namespace AIToolbox::Impl {
         // Init matrices to store data.
         initMatrices();
 
-        for (i_ = 0; i_< lines_.size(); ++i_) {
-            auto & line = lines_[i_];
+        for (i_ = 0; i_ < lines_.size(); ++i_) {
+            const auto & line = lines_[i_];
 
             if (boost::starts_with(line, "T")) {
                 processMatrix(T, stateMap_, stateMap_);
@@ -64,7 +64,7 @@ namespace AIToolbox::Impl {
         initMatrices();
 
         for (i_ = 0; i_< lines_.size(); ++i_) {
-            auto & line = lines_[i_];
+            const auto & line = lines_[i_];
 
             if (boost::starts_with(line, "T")) {
                 processMatrix(T, stateMap_, stateMap_);
@@ -219,7 +219,7 @@ namespace AIToolbox::Impl {
                 auto av  = parseIndeces(tokens[1], actionMap_, A);
                 auto d1v  = parseIndeces(tokens[2], d1map, D1);
                 auto d3v  = parseIndeces(tokens[3], d3map, D3);
-                auto val = std::stod(tokens[4]);
+                auto val = std::stod(tokens.at(4));
 
                 for (auto d1 : d1v)
                     for (auto a : av)
@@ -280,7 +280,7 @@ namespace AIToolbox::Impl {
                 auto av   = parseIndeces(tokens[1], actionMap_, A);
                 auto sv   = parseIndeces(tokens[2], stateMap_,  S);
                 auto s1v  = parseIndeces(tokens[3], stateMap_,  S);
-                auto val = std::stod(tokens[5]);
+                auto val = std::stod(tokens.at(5));
 
                 for (auto s : sv)
                     for (auto a : av)
