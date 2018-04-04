@@ -156,13 +156,13 @@ namespace AIToolbox::Impl {
         return ids.size();
     }
 
-    std::vector<std::string> CassandraParser::tokenize(const std::string & str, const char * list) {
+    CassandraParser::Tokens CassandraParser::tokenize(const std::string & str, const char * list) {
         using Tokenizer = boost::tokenizer<boost::char_separator<char>>;
         boost::char_separator<char> sep(list);
 
         Tokenizer parser(str, sep);
 
-        std::vector<std::string> tokens;
+        Tokens tokens;
         std::copy(std::begin(parser), std::end(parser), std::back_inserter(tokens));
         for (auto & str : tokens)
             boost::trim(str);
@@ -188,7 +188,7 @@ namespace AIToolbox::Impl {
         return retval;
     }
 
-    CassandraParser::DumbMatrix1D CassandraParser::parseVector(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end, size_t N) {
+    CassandraParser::DumbMatrix1D CassandraParser::parseVector(Tokens::const_iterator begin, Tokens::const_iterator end, const size_t N) {
         if (std::distance(begin, end) != (int)N)
             throw std::runtime_error("Wrong number of elements when parsing vector.");
 

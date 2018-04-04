@@ -19,6 +19,8 @@ namespace AIToolbox::Impl {
             using MDPVals = std::tuple<size_t, size_t, const DumbMatrix3D &, const DumbMatrix3D &, double>;
             using POMDPVals = std::tuple<size_t, size_t, size_t, const DumbMatrix3D &, const DumbMatrix3D &, const DumbMatrix3D &, double>;
 
+            using Tokens = std::vector<std::string>;
+
         public:
             /**
              * @brief Basic constructor.
@@ -105,7 +107,7 @@ namespace AIToolbox::Impl {
              *
              * @return The list of obtained tokens.
              */
-            std::vector<std::string> tokenize(const std::string & str, const char * list);
+            Tokens tokenize(const std::string & str, const char * list);
 
             /**
              * @brief This function returns which indeces to set when parsing matrix declarations.
@@ -132,7 +134,7 @@ namespace AIToolbox::Impl {
              *
              * @return A vector with the parsed numbers.
              */
-            DumbMatrix1D parseVector(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end, size_t N);
+            DumbMatrix1D parseVector(Tokens::const_iterator begin, Tokens::const_iterator end, size_t N);
 
             /**
              * @brief This function parses a vector of length N from the input string.
