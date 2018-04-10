@@ -126,6 +126,7 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/VariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         Factored/Bandit/Algorithms/LLR.cpp
+        Factored/Bandit/Policies/QGreedyPolicy.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/SingleActionPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
