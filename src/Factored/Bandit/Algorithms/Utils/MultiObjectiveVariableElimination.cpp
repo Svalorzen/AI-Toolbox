@@ -1,11 +1,11 @@
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.hpp>
 
 #include <boost/iterator/transform_iterator.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Prune.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     using MOVE = MultiObjectiveVariableElimination;
 
     /**
