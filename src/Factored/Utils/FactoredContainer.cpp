@@ -1,6 +1,6 @@
-#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored {
     namespace {
         /**
          * @brief This class is used in the Trie in order easily merge id lists.

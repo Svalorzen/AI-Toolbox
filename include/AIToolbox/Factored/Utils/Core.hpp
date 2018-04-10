@@ -1,9 +1,9 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_UTILS_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_UTILS_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_UTILS_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_UTILS_HEADER_FILE
 
-#include <AIToolbox/FactoredMDP/Types.hpp>
+#include <AIToolbox/Factored/Types.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored {
     /**
      * @brief This function removes the specified factor from the input PartialFactors.
      *

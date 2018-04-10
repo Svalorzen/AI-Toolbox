@@ -1,9 +1,9 @@
 #ifndef AI_TOOLBOX_FACTORED_CONTAINER_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_CONTAINER_HEADER_FILE
 
-#include <AIToolbox/FactoredMDP/Types.hpp>
+#include <AIToolbox/Factored/Types.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored {
     /**
      * @brief This class organizes data ids as if in a trie.
      *

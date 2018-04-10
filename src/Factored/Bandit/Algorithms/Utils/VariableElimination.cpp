@@ -1,9 +1,9 @@
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 #include <AIToolbox/Utils/Probability.hpp>
-#include <AIToolbox/FactoredMDP/Utils.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     using VE = VariableElimination;
 
     /**

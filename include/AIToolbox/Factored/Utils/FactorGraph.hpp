@@ -5,11 +5,11 @@
 #include <list>
 #include <vector>
 
-#include <AIToolbox/FactoredMDP/Types.hpp>
+#include <AIToolbox/Factored/Types.hpp>
 #include <boost/functional/hash.hpp>
 #include <unordered_map>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored {
     /**
      * @brief This class offers a minimal interface to manager a factor graph.
      *

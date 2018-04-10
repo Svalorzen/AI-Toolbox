@@ -1,12 +1,11 @@
-#ifndef AI_TOOLBOX_FACTOREDMDP_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
-#define AI_TOOLBOX_FACTOREDMDP_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
 
-#include <stddef.h>
+#include <AIToolbox/Factored/Types.hpp>
+#include <AIToolbox/Factored/Bandit/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
 
-#include <AIToolbox/FactoredMDP/Types.hpp>
-#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
-
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This class represents the Learning with Linear Rewards algorithm.
      *

@@ -1,10 +1,10 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_VARIABLE_ELIMINATION_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_VARIABLE_ELIMINATION_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_VARIABLE_ELIMINATION_HEADER_FILE
 
-#include "AIToolbox/FactoredMDP/Types.hpp"
-#include "AIToolbox/FactoredMDP/FactorGraph.hpp"
+#include "AIToolbox/Factored/Bandit/Types.hpp"
+#include "AIToolbox/Factored/Utils/FactorGraph.hpp"
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This class represents the Variable Elimination process.
      *

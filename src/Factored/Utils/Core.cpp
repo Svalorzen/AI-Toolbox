@@ -1,8 +1,8 @@
-#include <AIToolbox/FactoredMDP/Utils.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored {
     PartialFactors removeFactor(const PartialFactors & pf, const size_t f) {
         size_t i = 0;
         while (i < pf.first.size() && pf.first[i] < f) ++i;

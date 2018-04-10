@@ -1,9 +1,9 @@
-#include <AIToolbox/FactoredMDP/Algorithms/LLR.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/LLR.hpp>
 
-#include <AIToolbox/FactoredMDP/Utils.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     LLR::LLR(Action a, const std::vector<Factors> & dependencies) :
             A(std::move(a)), L(1), timestep_(0), rules_(A)
     {
