@@ -1,9 +1,9 @@
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/FactoredLP.hpp>
+#include <AIToolbox/Factored/MDP/Algorithms/Utils/FactoredLP.hpp>
 
 #include <AIToolbox/LP.hpp>
-#include <AIToolbox/FactoredMDP/Utils.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     // Optimizations TODO:
     //     Use sparse pushRow to add rows.
     //     Add multiple columns at the same time.

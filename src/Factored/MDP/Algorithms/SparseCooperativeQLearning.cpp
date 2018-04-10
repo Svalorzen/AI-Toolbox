@@ -1,10 +1,10 @@
-#include <AIToolbox/FactoredMDP/Algorithms/SparseCooperativeQLearning.hpp>
+#include <AIToolbox/Factored/MDP/Algorithms/SparseCooperativeQLearning.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/FactoredMDP/Utils.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     SparseCooperativeQLearning::SparseCooperativeQLearning(State s, Action a, const double discount, const double alpha) :
             S(std::move(s)), A(std::move(a)), discount_(discount), alpha_(alpha), rules_(join(S, A)) {}
 
@@ -22,7 +22,7 @@ namespace AIToolbox::FactoredMDP {
     }
 
     Action SparseCooperativeQLearning::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & rew) {
-        VariableElimination ve(A);
+        Bandit::VariableElimination ve(A);
 
         const auto rules = rules_.filter(s1, 0); // Partial filter using only s1
         const auto a1 = std::get<0>(ve(rules));

@@ -2,9 +2,9 @@
 #define AI_TOOLBOX_FACTORED_MDP_SINGLE_ACTION_POLICY_HEADER_FILE
 
 #include <AIToolbox/PolicyInterface.hpp>
-#include <AIToolbox/FactoredMDP/Types.hpp>
+#include <AIToolbox/Factored/MDP/Types.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class represents a policy always picking the same action.
      *

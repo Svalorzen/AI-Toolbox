@@ -1,12 +1,12 @@
 #ifndef AI_TOOLBOX_FACTORED_MDP_FACTORED_LP_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_MDP_FACTORED_LP_HEADER_FILE
 
-#include <AIToolbox/FactoredMDP/Types.hpp>
-#include <AIToolbox/FactoredMDP/FactorGraph.hpp>
+#include <AIToolbox/Factored/MDP/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
 namespace AIToolbox { class LP; }
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class represents the Factored LP algorithm.
      *

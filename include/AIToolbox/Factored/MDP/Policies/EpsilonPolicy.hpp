@@ -1,10 +1,10 @@
 #ifndef AI_TOOLBOX_FACTORED_MDP_EPSILON_POLICY_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_MDP_EPSILON_POLICY_HEADER_FILE
 
-#include <AIToolbox/FactoredMDP/Types.hpp>
+#include <AIToolbox/Factored/MDP/Types.hpp>
 #include <AIToolbox/EpsilonPolicyInterface.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class represents an epsilon-greedy policy for Factored MDPs
      */

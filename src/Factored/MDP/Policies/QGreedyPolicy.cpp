@@ -1,15 +1,15 @@
-#include <AIToolbox/FactoredMDP/Policies/QGreedyPolicy.hpp>
+#include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/VariableElimination.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     QGreedyPolicy::QGreedyPolicy(State s, Action a, const FactoredContainer<QFunctionRule> & q) :
             Base(std::move(s), std::move(a)), q_(q) {}
 
     Action QGreedyPolicy::sampleAction(const State & s) const {
-        VariableElimination ve(A);
         const auto rules = q_.filter(s, 0); // Partial filter
+        Bandit::VariableElimination ve(A);
         return std::get<0>(ve(rules));
     }
 

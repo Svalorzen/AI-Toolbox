@@ -1,8 +1,8 @@
-#include <AIToolbox/FactoredMDP/Policies/SingleActionPolicy.hpp>
+#include <AIToolbox/Factored/MDP/Policies/SingleActionPolicy.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     SingleActionPolicy::SingleActionPolicy(State s, Action a) :
             Base(std::move(s), std::move(a)), currentAction_(A.size()) {}
 

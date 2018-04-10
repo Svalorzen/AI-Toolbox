@@ -1,12 +1,12 @@
-#ifndef AI_TOOLBOX_FACTOREDMDP_SPARSE_COOPERATIVE_QLEARNING_HEADER_FILE
-#define AI_TOOLBOX_FACTOREDMDP_SPARSE_COOPERATIVE_QLEARNING_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_MDP_SPARSE_COOPERATIVE_QLEARNING_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_MDP_SPARSE_COOPERATIVE_QLEARNING_HEADER_FILE
 
 #include <stddef.h>
 
-#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
-#include <AIToolbox/FactoredMDP/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/MDP/Types.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class represents the Sparse Cooperative QLearning algorithm.
      *

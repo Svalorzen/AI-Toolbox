@@ -1,8 +1,8 @@
-#include <AIToolbox/FactoredMDP/Policies/EpsilonPolicy.hpp>
+#include <AIToolbox/Factored/MDP/Policies/EpsilonPolicy.hpp>
 
-#include <AIToolbox/FactoredMDP/Utils.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     EpsilonPolicy::EpsilonPolicy(const Base::Base & p, double epsilon) :
             Base::Base(p.getS(), p.getA()), Base(p, epsilon)
     {

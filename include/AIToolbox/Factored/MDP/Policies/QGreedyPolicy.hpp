@@ -2,10 +2,10 @@
 #define AI_TOOLBOX_FACTORED_MDP_Q_GREEDY_POLICY_HEADER_FILE
 
 #include <AIToolbox/PolicyInterface.hpp>
-#include <AIToolbox/FactoredMDP/Types.hpp>
-#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
+#include <AIToolbox/Factored/MDP/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class models a greedy policy through a QFunction.
      *
