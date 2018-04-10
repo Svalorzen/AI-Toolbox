@@ -105,40 +105,6 @@ namespace AIToolbox {
      * @return An index in range [0,d-1].
      */
     template <typename G>
-    size_t sampleProbability(const size_t d, const SparseMatrix2D::RowXpr& in, G& generator) {
-        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
-        double p = sampleDistribution(generator);
-
-        for ( SparseMatrix2D::RowXpr::InnerIterator i(in, 0); ; ++i ) {
-            if ( i.value() > p ) return i.col();
-            p -= i.value();
-        }
-        return d-1;
-    }
-
-    /**
-     * @brief This function samples an index from a sparse probability vector.
-     *
-     * This function randomly samples an index between 0 and d, given a
-     * vector containing the probabilities of sampling each of the indexes.
-     *
-     * For performance reasons this function does not verify that the input
-     * container is effectively a probability.
-     *
-     * The generator has to be supplied to the function, so that different
-     * objects are able to maintain different generators, to reduce correlations
-     * between different samples. The generator has to be compatible with
-     * std::uniform_real_distribution<double>, since that is what is used
-     * to obtain the random sample.
-     *
-     * @tparam G The type of the generator used.
-     * @param in The external probability container.
-     * @param d The size of the supplied container.
-     * @param generator The generator used to sample.
-     *
-     * @return An index in range [0,d-1].
-     */
-    template <typename G>
     size_t sampleProbability(const size_t d, const SparseMatrix2D::ConstRowXpr& in, G& generator) {
         static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
         double p = sampleDistribution(generator);
