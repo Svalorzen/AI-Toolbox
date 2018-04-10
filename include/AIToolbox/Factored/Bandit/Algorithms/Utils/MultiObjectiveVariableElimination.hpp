@@ -77,7 +77,7 @@ namespace AIToolbox::Factored::Bandit {
             template <typename Iterable>
             Results operator()(const Iterable & inputRules) {
                 // Should we reset the graph?
-                for (const MOQFunctionRule & rule : inputRules) {
+                for (const auto & rule : inputRules) {
                     auto & rules = graph_.getFactor(rule.a_.first)->getData().rules_;
 
                     // Here we keep everything sorted since it will turn up

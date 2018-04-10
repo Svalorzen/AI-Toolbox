@@ -22,6 +22,21 @@ namespace AIToolbox::Factored::Bandit {
         QFunctionRule(PartialAction a, double v) :
                 a_(std::move(a)), value_(v) {}
     };
+
+    /**
+     * @brief This struct represents a single action/values pair.
+     *
+     * This struct can be used in place of a full-blown QFunction table for
+     * multi-objective bandits. Thus each action is linked with a vector of
+     * rewards, one for each possible objective.
+     */
+    struct MOQFunctionRule {
+        PartialAction a_;
+        Rewards values_;
+
+        MOQFunctionRule(PartialAction a, Rewards vs) :
+                a_(std::move(a)), values_(std::move(vs)) {}
+    };
 }
 
 #endif
