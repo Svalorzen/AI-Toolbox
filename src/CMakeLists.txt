@@ -121,16 +121,16 @@ endif()
 if (MAKE_FMDP)
     add_library(AIToolboxFMDP
         LP/LpSolveWrapper.cpp
-        FactoredMDP/FactoredContainer.cpp
-        FactoredMDP/Utils.cpp
-        FactoredMDP/Policies/EpsilonPolicy.cpp
-        FactoredMDP/Policies/SingleActionPolicy.cpp
-        FactoredMDP/Policies/QGreedyPolicy.cpp
-        FactoredMDP/Algorithms/Utils/VariableElimination.cpp
-        FactoredMDP/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
-        FactoredMDP/Algorithms/Utils/FactoredLP.cpp
-        FactoredMDP/Algorithms/SparseCooperativeQLearning.cpp
-        FactoredMDP/Algorithms/LLR.cpp
+        Factored/Utils/FactoredContainer.cpp
+        Factored/Utils/Core.cpp
+        Factored/Bandit/Algorithms/Utils/VariableElimination.cpp
+        Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
+        Factored/Bandit/Algorithms/LLR.cpp
+        Factored/MDP/Policies/EpsilonPolicy.cpp
+        Factored/MDP/Policies/SingleActionPolicy.cpp
+        Factored/MDP/Policies/QGreedyPolicy.cpp
+        Factored/MDP/Algorithms/Utils/FactoredLP.cpp
+        Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp
     )
     set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
