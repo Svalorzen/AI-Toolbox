@@ -1,8 +1,8 @@
-#include <AIToolbox/Game/Policies/LRPPolicy.hpp>
+#include <AIToolbox/Factored/Game/Policies/LRPPolicy.hpp>
 
 #include <AIToolbox/Utils/Probability.hpp>
 
-namespace AIToolbox::Game {
+namespace AIToolbox::Factored::Game {
     LRPPolicy::LRPPolicy(size_t A, double a, double b) :
         Base(A),
         a_(a), invB_(1.0 - b), divB_(b / (A - 1)), policy_(A)

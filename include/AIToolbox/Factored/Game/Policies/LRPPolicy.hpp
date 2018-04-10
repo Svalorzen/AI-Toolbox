@@ -1,10 +1,10 @@
-#ifndef AI_TOOLBOX_GAME_LRP_POLICY_HEADER_FILE
-#define AI_TOOLBOX_GAME_LRP_POLICY_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_GAME_LRP_POLICY_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_GAME_LRP_POLICY_HEADER_FILE
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Game/Policies/PolicyInterface.hpp>
+#include <AIToolbox/Factored/Game/Policies/PolicyInterface.hpp>
 
-namespace AIToolbox::Game {
+namespace AIToolbox::Factored::Game {
     /**
      * @brief This class models the Linear Reward Penalty algorithm.
      *

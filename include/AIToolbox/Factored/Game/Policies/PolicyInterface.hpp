@@ -1,10 +1,10 @@
-#ifndef AI_TOOLBOX_GAME_POLICY_INTERFACE_HEADER_FILE
-#define AI_TOOLBOX_GAME_POLICY_INTERFACE_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_GAME_POLICY_INTERFACE_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_GAME_POLICY_INTERFACE_HEADER_FILE
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/PolicyInterface.hpp>
 
-namespace AIToolbox::Game {
+namespace AIToolbox::Factored::Game {
     /**
      * @brief Simple typedef for most of a normal Game's policy needs.
      */

@@ -1,8 +1,8 @@
-#include <AIToolbox/Game/Policies/ESRLPolicy.hpp>
+#include <AIToolbox/Factored/Game/Policies/ESRLPolicy.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
 
-namespace AIToolbox::Game {
+namespace AIToolbox::Factored::Game {
     ESRLPolicy::ESRLPolicy(size_t A, double a, unsigned timesteps, unsigned explorationPhases, unsigned window) :
         Base(A),
         exploit_(false), bestAction_(0),
