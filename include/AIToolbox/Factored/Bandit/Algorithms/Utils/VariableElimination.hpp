@@ -72,7 +72,7 @@ namespace AIToolbox::FactoredMDP {
             template <typename Iterable>
             Result operator()(const Iterable & inputRules) {
                 // Should we reset the graph?
-                for (const QFunctionRule & rule : inputRules) {
+                for (const auto & rule : inputRules) {
                     auto it = graph_.getFactor(rule.a_.first);
                     it->getData().rules_.emplace_back(rule.a_, PartialAction(), rule.value_);
                 }
