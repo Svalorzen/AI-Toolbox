@@ -1,16 +1,17 @@
-#define BOOST_TEST_MODULE FactoredMDP_FactoredLP
+#define BOOST_TEST_MODULE Factored_MDP_FactoredLP
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/LP.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/FactoredLP.hpp>
+#include <AIToolbox/Factored/MDP/Algorithms/Utils/FactoredLP.hpp>
 
-namespace fm = AIToolbox::FactoredMDP;
+namespace aif = AIToolbox::Factored;
+namespace fm = AIToolbox::Factored::MDP;
 using FLP = fm::FactoredLP;
 
 BOOST_AUTO_TEST_CASE( test_1 ) {
-    fm::State s{2,2,2};
+    aif::State s{2,2,2};
 
     std::vector<fm::ValueFunctionRule> r1 {
         {{{0, 1}, {0, 0}}, 1.0},
@@ -68,7 +69,7 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
 }
 
 BOOST_AUTO_TEST_CASE( test_2 ) {
-    fm::State s{2,2,2};
+    aif::State s{2,2,2};
 
     std::vector<fm::ValueFunctionRule> r1 {
         {{{0, 1}, {0, 0}}, 10.0},

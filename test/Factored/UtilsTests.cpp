@@ -1,16 +1,16 @@
-#define BOOST_TEST_MODULE FactoredMDP_Utils
+#define BOOST_TEST_MODULE Factored_Utils
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/FactoredMDP/Utils.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 
 #include <algorithm>
 
-namespace fm = AIToolbox::FactoredMDP;
+namespace aif = AIToolbox::Factored;
 
 BOOST_AUTO_TEST_CASE( to_index_full_factors ) {
-    fm::Factors state = {3,2,5};
+    aif::Factors state = {3,2,5};
 
     std::vector<size_t> solution;
     solution.resize(3*2*5);
@@ -20,9 +20,9 @@ BOOST_AUTO_TEST_CASE( to_index_full_factors ) {
     std::vector<size_t> results;
     results.reserve(3*2*5);
 
-    fm::Factors f = {0,0,0};
+    aif::Factors f = {0,0,0};
     for (size_t i = 0; i < 3*2*5; ++i) {
-        results.push_back(fm::toIndex(state, f));
+        results.push_back(aif::toIndex(state, f));
 
         // Get next factor.
         ++f[0];
@@ -42,26 +42,26 @@ BOOST_AUTO_TEST_CASE( to_index_full_factors ) {
 }
 
 BOOST_AUTO_TEST_CASE( to_index_full_partial_factors ) {
-    fm::Factors state = {3,2,5};
+    aif::Factors state = {3,2,5};
 
-    fm::PartialFactorsEnumerator enumerator(state, {0, 2});
+    aif::PartialFactorsEnumerator enumerator(state, {0, 2});
 
     while (enumerator.isValid()) {
         auto val = *enumerator;
         // Copy the PartialFactors to Factors so we can use that logic to test
         // this one.
-        auto fullFactor = fm::Factors{0,0,0};
+        auto fullFactor = aif::Factors{0,0,0};
         for (size_t i = 0; i < val.first.size(); ++i)
             fullFactor[val.first[i]] = val.second[i];
 
-        BOOST_CHECK_EQUAL(fm::toIndex(state, val), fm::toIndex(state, fullFactor));
+        BOOST_CHECK_EQUAL(aif::toIndex(state, val), aif::toIndex(state, fullFactor));
 
         enumerator.advance();
     }
 }
 
 BOOST_AUTO_TEST_CASE( to_index_partial_ids_factors ) {
-    fm::Factors state = {3,2,5,4};
+    aif::Factors state = {3,2,5,4};
     std::vector<size_t> unusedids = {0, 2};
     std::vector<size_t> ids = {1, 3};
 
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE( to_index_partial_ids_factors ) {
     results.reserve(2*4);
 
     // We iterate over the useless factors to check they are not being used.
-    fm::Factors f = {0,0,0,0};
+    aif::Factors f = {0,0,0,0};
     for (size_t k = 0; k < 3*5; ++k) {
         // Reset results
         results.clear();
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE( to_index_partial_ids_factors ) {
             f[id] = 0;
         // Start testing
         for (size_t i = 0; i < 2*4; ++i) {
-            results.push_back(fm::toIndexPartial(ids, state, f));
+            results.push_back(aif::toIndexPartial(ids, state, f));
 
             // Get next factor.
             ++f[ids[0]];
@@ -114,28 +114,28 @@ BOOST_AUTO_TEST_CASE( to_index_partial_ids_factors ) {
 }
 
 BOOST_AUTO_TEST_CASE( to_index_partial_partial_factor ) {
-    fm::Factors state = {3,2,5,4};
-    fm::PartialFactorsEnumerator enumerator(state, {0, 2});
+    aif::Factors state = {3,2,5,4};
+    aif::PartialFactorsEnumerator enumerator(state, {0, 2});
 
     while (enumerator.isValid()) {
         auto val = *enumerator;
         // We can use toFactors here since we don't care about the value of
         // unneeded factors.
-        auto fullFactor = fm::toFactors(state.size(), val);
+        auto fullFactor = aif::toFactors(state.size(), val);
 
-        BOOST_CHECK_EQUAL(fm::toIndexPartial(state, val), fm::toIndexPartial(val.first, state, fullFactor));
+        BOOST_CHECK_EQUAL(aif::toIndexPartial(state, val), aif::toIndexPartial(val.first, state, fullFactor));
 
         enumerator.advance();
     }
 }
 
 BOOST_AUTO_TEST_CASE( partial_factor_merge ) {
-    fm::PartialFactors lhs = {{0, 3, 5, 6}, {0, 3, 5, 6}};
-    fm::PartialFactors rhs = {{1, 2, 4, 7}, {1, 2, 4, 7}};
+    aif::PartialFactors lhs = {{0, 3, 5, 6}, {0, 3, 5, 6}};
+    aif::PartialFactors rhs = {{1, 2, 4, 7}, {1, 2, 4, 7}};
 
-    fm::PartialFactors solution = {{0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}};
+    aif::PartialFactors solution = {{0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7}};
 
-    auto result1 = fm::merge(lhs, rhs);
+    auto result1 = aif::merge(lhs, rhs);
 
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution.first), std::end(solution.first),
                                   std::begin(result1.first), std::end(result1.first));
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE( partial_factor_merge ) {
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution.second), std::end(solution.second),
                                   std::begin(result1.second), std::end(result1.second));
 
-    auto result2 = fm::merge(rhs, lhs);
+    auto result2 = aif::merge(rhs, lhs);
 
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(solution.first), std::end(solution.first),
                                   std::begin(result2.first), std::end(result2.first));
@@ -153,10 +153,10 @@ BOOST_AUTO_TEST_CASE( partial_factor_merge ) {
 }
 
 BOOST_AUTO_TEST_CASE( partial_factor_enumerator_no_skip ) {
-    fm::Factors f{1,2,3,4,5};
-    fm::PartialFactorsEnumerator enumerator(f, {0, 2, 3});
+    aif::Factors f{1,2,3,4,5};
+    aif::PartialFactorsEnumerator enumerator(f, {0, 2, 3});
 
-    std::vector<fm::PartialAction> solution{
+    std::vector<aif::PartialAction> solution{
         {{0, 2, 3}, {0, 0, 0}},
         {{0, 2, 3}, {0, 1, 0}},
         {{0, 2, 3}, {0, 2, 0}},
@@ -185,11 +185,11 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_no_skip ) {
 }
 
 BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip ) {
-    fm::Factors f{1,2,3,4,5};
-    fm::PartialFactorsEnumerator enumerator(f, {1, 3, 4}, 3);
+    aif::Factors f{1,2,3,4,5};
+    aif::PartialFactorsEnumerator enumerator(f, {1, 3, 4}, 3);
     auto agentToSkip = enumerator.getFactorToSkipId();
 
-    std::vector<fm::PartialAction> solution{
+    std::vector<aif::PartialAction> solution{
         {{1, 3, 4}, {0, 0, 0}},
         {{1, 3, 4}, {1, 1, 0}},
         {{1, 3, 4}, {0, 2, 1}},
@@ -220,12 +220,12 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip ) {
 }
 
 BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_only_factor ) {
-    fm::Factors f{1,2,3,4,5};
-    fm::PartialFactorsEnumerator enumerator(f, {0}, 0);
+    aif::Factors f{1,2,3,4,5};
+    aif::PartialFactorsEnumerator enumerator(f, {0}, 0);
 
     auto agentToSkip = enumerator.getFactorToSkipId();
 
-    std::vector<fm::PartialAction> solution{
+    std::vector<aif::PartialAction> solution{
         {{0}, {0}},
     };
 

@@ -1,13 +1,13 @@
-#define BOOST_TEST_MODULE FactoredMDP_FactoredContainer
+#define BOOST_TEST_MODULE Factored_FactoredContainer
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
 #include <string>
 
 BOOST_AUTO_TEST_CASE( construction ) {
-    using namespace AIToolbox::FactoredMDP;
+    using namespace AIToolbox::Factored;
     Factors F{1,2,3};
 
     FactoredContainer<std::string> f(F);
@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
 }
 
 BOOST_AUTO_TEST_CASE( filtering ) {
-    using namespace AIToolbox::FactoredMDP;
+    using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
     FactoredContainer<std::string> f(F);
@@ -154,7 +154,7 @@ BOOST_AUTO_TEST_CASE( partial_filtering_partial_factors ) {
 }
 
 BOOST_AUTO_TEST_CASE( empty_filter ) {
-    using namespace AIToolbox::FactoredMDP;
+    using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
     FactoredContainer<std::string> f(F);
