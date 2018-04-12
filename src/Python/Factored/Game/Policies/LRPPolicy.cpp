@@ -2,7 +2,7 @@
 
 #include <boost/python.hpp>
 
-void exportGameLRPPolicy() {
+void exportFactoredGameLRPPolicy() {
     using namespace AIToolbox::Factored;
     using namespace boost::python;
 
