@@ -79,13 +79,7 @@ namespace AIToolbox::Factored::Bandit {
                 // Should we reset the graph?
                 for (const auto & rule : inputRules) {
                     auto & rules = graph_.getFactor(rule.a_.first)->getData().rules_;
-
-                    // Here we keep everything sorted since it will turn up
-                    // useful later when we have to crossSum and merge two
-                    // lists. Having them sorted makes us to less work later.
-                    auto newRule = std::make_tuple(rule.a_, Entries{std::make_tuple(PartialAction(), rule.values_)});
-                    const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, ruleComp);
-                    rules.emplace(pos, std::move(newRule));
+                    rules.emplace_back(rule.a_, Entries{std::make_tuple(PartialAction(), rule.values_)});
                 }
                 return start();
             }
@@ -122,21 +116,6 @@ namespace AIToolbox::Factored::Bandit {
              * @param agent The index of the agent to be removed from the graph.
              */
             void removeAgent(size_t agent);
-
-            /**
-             * @brief This function gives an order to Rules.
-             *
-             * This function may only be used on Rules for the same agents.
-             *
-             * This function sorts rules by the actions taken by their
-             * agents.
-             *
-             * @param lhs The left hand side.
-             * @param rhs The right hand side.
-             *
-             * @return True if lhs comes before rhs, false otherwise.
-             */
-            static bool ruleComp(const Rule & lhs, const Rule & rhs);
 
             Action A;
             Graph graph_;

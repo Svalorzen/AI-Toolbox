@@ -7,15 +7,6 @@ namespace AIToolbox::Factored::Bandit {
     using VE = VariableElimination;
 
     /**
-     * @brief This function finds the highest valued rule in the given rules.
-     *
-     * @param rules A vector of Rule with at least 1 element.
-     *
-     * @return The highest valued rule.
-     */
-    const VE::Rule & getBestRule(const VE::Rules & rules);
-
-    /**
      * @brief This function returns the sum of values of all rules matching the input action.
      *
      * @param rules The rules to be searched in.
@@ -35,11 +26,9 @@ namespace AIToolbox::Factored::Bandit {
 
         auto a_v = std::make_pair(Action(A.size()), 0.0);
         for (const auto & f : finalFactors_) {
-            const auto & pa_t_v = getBestRule(f);
-
-            a_v.second += std::get<2>(pa_t_v);
+            a_v.second += f.first;
             // Add tags together
-            const auto & tags = std::get<1>(pa_t_v);
+            const auto & tags = f.second;
             for (size_t i = 0; i < tags.first.size(); ++i)
                 a_v.first[tags.first[i]] = tags.second[i];
         }
@@ -54,6 +43,8 @@ namespace AIToolbox::Factored::Bandit {
         Rules newRules;
         PartialFactorsEnumerator jointActions(A, agents, agent);
         auto id = jointActions.getFactorToSkipId();
+
+        const bool isFinalFactor = agents.size() == 1;
 
         while (jointActions.isValid()) {
             auto & jointAction = *jointActions;
@@ -89,8 +80,13 @@ namespace AIToolbox::Factored::Bandit {
                     bestTag = std::move(newTag);
                 }
             }
-            if (checkDifferentGeneral(bestPayoff, std::numeric_limits<double>::lowest()))
-                newRules.emplace_back(removeFactor(jointAction, agent), std::move(bestTag), bestPayoff);
+            if (checkDifferentGeneral(bestPayoff, std::numeric_limits<double>::lowest())) {
+                if (!isFinalFactor) {
+                    newRules.emplace_back(removeFactor(jointAction, agent), Entry{bestPayoff, std::move(bestTag)});
+                } else {
+                    finalFactors_.emplace_back(bestPayoff, std::move(bestTag));
+                }
+            }
             jointActions.advance();
         }
 
@@ -99,7 +95,7 @@ namespace AIToolbox::Factored::Bandit {
         graph_.erase(agent);
 
         if (newRules.size() == 0) return;
-        if (agents.size() > 1) {
+        if (!isFinalFactor) {
             agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
 
             auto newFactor = graph_.getFactor(agents);
@@ -108,19 +104,7 @@ namespace AIToolbox::Factored::Bandit {
                     std::make_move_iterator(std::begin(newRules)),
                     std::make_move_iterator(std::end(newRules))
             );
-        } else {
-            finalFactors_.push_back(newRules);
         }
-    }
-
-    const VE::Rule & getBestRule(const VE::Rules & rules) {
-        const VE::Rule * bestRule = &rules[0];
-
-        for (const auto & rule : rules)
-            if (std::get<1>(rule) > std::get<1>(*bestRule))
-                bestRule = &rule;
-
-        return *bestRule;
     }
 
     double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags) {
@@ -131,8 +115,8 @@ namespace AIToolbox::Factored::Bandit {
         // actions.
         for (const auto & rule : rules) {
             if (match(jointAction, std::get<0>(rule))) {
-                result += std::get<2>(rule);
-                inplace_merge(tags, std::get<1>(rule));
+                result += std::get<1>(rule).first;
+                inplace_merge(tags, std::get<1>(rule).second);
             }
         }
         return result;

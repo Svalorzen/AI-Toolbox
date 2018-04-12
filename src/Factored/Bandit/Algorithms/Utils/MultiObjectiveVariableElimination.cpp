@@ -1,5 +1,7 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.hpp>
 
+#include <algorithm>
+
 #include <boost/iterator/transform_iterator.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
@@ -94,79 +96,68 @@ namespace AIToolbox::Factored::Bandit {
         PartialFactorsEnumerator jointActions(A, agents, agent);
         const auto id = jointActions.getFactorToSkipId();
 
-        if (factors.size() > 0) {
-            while (jointActions.isValid()) {
-                auto & jointAction = *jointActions;
+        const bool isFinalFactor = agents.size() == 1;
 
-                Rule newRule;
-                auto & values = std::get<1>(newRule);
-                for (size_t agentAction = 0; agentAction < A[agent]; ++agentAction) {
-                    jointAction.second[id] = agentAction;
+        while (jointActions.isValid()) {
+            auto & jointAction = *jointActions;
 
-                    Entries newEntries;
-                    for (const auto p : getPayoffs(factors[0]->getData().rules_, jointAction))
-                        newEntries.insert(std::end(newEntries), std::begin(*p), std::end(*p));
+            Entries values;
+            for (size_t agentAction = 0; agentAction < A[agent]; ++agentAction) {
+                jointAction.second[id] = agentAction;
 
-                    // So the idea here is that we are computing results for
-                    // this particular subset of agents. Here we are working
-                    // with a single action. However, we may have eliminated
-                    // agents already. This means that this factor will contain
-                    // a certain number of rules, which depend on different
-                    // "already taken" actions of the eliminated agents.
-                    //
-                    // During normal VE, we can simply add up all tags since
-                    // they can't possibly conflict (due to the max operator
-                    // which always makes us pick the best one). Here instead,
-                    // payoffs returned by the getPayoffs function can't get
-                    // squashed into a single one and summed, since their tags
-                    // are no longer guaranteed unique.
-                    //
-                    // Thus we get them all, and during the cross/sum we create
-                    // even more rules, joining their tags together, and
-                    // possibly merge them if we see equal ones.
-                    for (size_t i = 1; i < factors.size(); ++i) {
-                        newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules_, jointAction));
-                        // p3.prune(&newEntries);
-                    }
-
-                    if (newEntries.size() != 0) {
-                        // Add tags
-                        for (auto & nv : newEntries) {
-                            auto & first  = std::get<0>(nv).first;
-                            auto & second = std::get<0>(nv).second;
-
-                            size_t i = 0;
-                            while (i < first.size() && first[i] < agent) ++i;
-
-                            first.insert(std::begin(first) + i, agent);
-                            second.insert(std::begin(second) + i, agentAction);
-                        }
-                        values.insert(std::end(values), std::make_move_iterator(std::begin(newEntries)),
-                                                        std::make_move_iterator(std::end(newEntries)));
-                    }
+                Entries newEntries;
+                // So the idea here is that we are computing results for
+                // this particular subset of agents. Here we are working
+                // with a single action. However, we may have eliminated
+                // agents already. This means that this factor will contain
+                // a certain number of rules, which depend on different
+                // "already taken" actions of the eliminated agents.
+                //
+                // During normal VE, we can simply add up all tags since
+                // they can't possibly conflict (due to the max operator
+                // which always makes us pick the best one). Here instead,
+                // payoffs returned by the getPayoffs function can't get
+                // squashed into a single one and summed, since their tags
+                // are no longer guaranteed unique.
+                //
+                // Thus we get them all, and during the cross/sum we create
+                // even more rules, joining their tags together, and
+                // possibly merge them if we see equal ones.
+                for (size_t i = 0; i < factors.size(); ++i) {
+                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules_, jointAction));
+                    // p3.prune(&newEntries);
                 }
 
-                // p2.prune(&values);
+                if (newEntries.size() != 0) {
+                    // Add tags
+                    for (auto & nv : newEntries) {
+                        auto & first  = std::get<0>(nv).first;
+                        auto & second = std::get<0>(nv).second;
 
-                if (values.size() != 0) {
-                    // If this is a final factor we do the alternative path
-                    // here, to avoid copying joint actions which we won't
-                    // really need anymore.
-                    if (agents.size() > 1) {
-                        std::get<0>(newRule) = removeFactor(jointAction, agent);
+                        size_t i = 0;
+                        while (i < first.size() && first[i] < agent) ++i;
 
-                        // Our insertion needs to be sorted so that we can
-                        // merge efficiently later with rules in a factor.
-                        // Doing insertion sort here is hopefully faster
-                        // than quicksorting later the whole list.
-                        const auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, ruleComp);
-                        newRules.emplace(pos, std::move(newRule));
-                    } else {
-                        finalFactors_.emplace_back(std::move(values));
+                        first.insert(std::begin(first) + i, agent);
+                        second.insert(std::begin(second) + i, agentAction);
                     }
+                    values.insert(std::end(values), std::make_move_iterator(std::begin(newEntries)),
+                                                    std::make_move_iterator(std::end(newEntries)));
                 }
-                jointActions.advance();
             }
+
+            // p2.prune(&values);
+
+            if (values.size() != 0) {
+                // If this is a final factor we do the alternative path
+                // here, to avoid copying joint actions which we won't
+                // really need anymore.
+                if (!isFinalFactor) {
+                    newRules.emplace_back(removeFactor(jointAction, agent), std::move(values));
+                } else {
+                    finalFactors_.emplace_back(std::move(values));
+                }
+            }
+            jointActions.advance();
         }
 
         for (auto & it : factors)
@@ -174,7 +165,7 @@ namespace AIToolbox::Factored::Bandit {
         graph_.erase(agent);
 
         if (newRules.size() == 0) return;
-        if (agents.size() > 1) {
+        if (!isFinalFactor) {
             agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
 
             auto newFactor = graph_.getFactor(agents);
@@ -190,7 +181,7 @@ namespace AIToolbox::Factored::Bandit {
         }
     }
 
-    bool MOVE::ruleComp(const Rule & lhs, const Rule & rhs) {
+    bool ruleComp(const MOVE::Rule & lhs, const MOVE::Rule & rhs) {
         return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
     }
 
@@ -198,6 +189,9 @@ namespace AIToolbox::Factored::Bandit {
         MOVE::Rules retval;
         // We're going to have at least these rules.
         retval.reserve(lhs.size() + rhs.size());
+
+        std::sort(std::begin(lhs), std::end(lhs), ruleComp);
+        std::sort(std::begin(rhs), std::end(rhs), ruleComp);
 
         // Here we merge two lists of Rules. What we want is that if any of
         // them match, we need to crossSum them. Otherwise, just bring them
@@ -253,10 +247,10 @@ namespace AIToolbox::Factored::Bandit {
         if (!rhs.size()) return lhs;
         MOVE::Entries retval;
         retval.reserve(lhs.size() + rhs.size());
-        // We do the rhs first since they'll usually be shorter (due to
+        // We do the rhs last since they'll usually be shorter (due to
         // this class usage), so hopefully we can use the cache better.
-        for (const auto & rhsVal : rhs) {
-            for (const auto & lhsVal : lhs) {
+        for (const auto & lhsVal : lhs) {
+            for (const auto & rhsVal : rhs) {
                 auto tags = merge(std::get<0>(lhsVal), std::get<0>(rhsVal));
                 auto values = std::get<1>(lhsVal) + std::get<1>(rhsVal);
                 retval.emplace_back(std::move(tags), std::move(values));

@@ -41,7 +41,9 @@ namespace AIToolbox::Factored::Bandit {
     class VariableElimination {
         public:
             // action of subset of agents, tags of processed actions, value of rule
-            using Rule = std::tuple<PartialAction, PartialAction, double>;
+            using Entry = std::pair<double, PartialAction>;
+
+            using Rule = std::pair<PartialAction, Entry>;
             using Rules = std::vector<Rule>;
 
             using Result = std::tuple<Action, double>;
@@ -74,7 +76,7 @@ namespace AIToolbox::Factored::Bandit {
                 // Should we reset the graph?
                 for (const auto & rule : inputRules) {
                     auto it = graph_.getFactor(rule.a_.first);
-                    it->getData().rules_.emplace_back(rule.a_, PartialAction(), rule.value_);
+                    it->getData().rules_.emplace_back(rule.a_, Entry{rule.value_, PartialAction()});
                 }
                 return start();
             }
@@ -115,7 +117,7 @@ namespace AIToolbox::Factored::Bandit {
 
             Action A;
             Graph graph_;
-            std::vector<Rules> finalFactors_;
+            std::vector<Entry> finalFactors_;
     };
 }
 
