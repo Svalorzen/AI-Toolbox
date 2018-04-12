@@ -2,8 +2,8 @@
 
 #include <boost/python.hpp>
 
-void exportFactoredGameESRLPolicy() {
-    using namespace AIToolbox;
+void exportFactoredGamePolicyInterface() {
+    using namespace AIToolbox::Factored;
     using namespace boost::python;
 
     class_<Game::PolicyInterface, boost::noncopyable>{"PolicyInterface",

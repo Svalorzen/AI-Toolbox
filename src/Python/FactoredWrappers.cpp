@@ -1,6 +1,6 @@
 #include <boost/python.hpp>
 
-void exportGamePolicyInterface();
+void exportFactoredGamePolicyInterface();
 
 void exportFactoredGameLRPPolicy();
 void exportFactoredGameESRLPolicy();
