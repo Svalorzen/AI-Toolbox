@@ -17,7 +17,7 @@ namespace AIToolbox::Factored::Bandit {
             while (enumerator.isValid()) {
                 const auto & pAction = *enumerator;
 
-                rules_.emplace(pAction, PartialState{}, pAction, 0.0);
+                rules_.emplace(pAction, pAction, 0.0);
 
                 enumerator.advance();
             }
