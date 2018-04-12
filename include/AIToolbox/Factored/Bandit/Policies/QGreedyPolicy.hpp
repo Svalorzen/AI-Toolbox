@@ -17,8 +17,6 @@ namespace AIToolbox::Factored::Bandit {
      */
     class QGreedyPolicy : public PolicyInterface {
         public:
-            using Base = PolicyInterface;
-
             /**
              * @brief Basic constructor.
              *

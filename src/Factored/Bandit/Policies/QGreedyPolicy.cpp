@@ -1,6 +1,7 @@
 #include <AIToolbox/Factored/Bandit/Policies/QGreedyPolicy.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
