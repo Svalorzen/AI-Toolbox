@@ -242,8 +242,8 @@ if __name__ == "__main__":
         for m in man:
             print("%s%s" % (manhspacer, m))
 
-        print("Timestep missing: " + str(t))
-        print("Total reward:     " + str(totalReward))
+        print("Timestep missing: " + str(t) + "  ") # Print space after to clear
+        print("Total reward:     " + str(totalReward) + "  ")
 
         goup(3 * len(prize) + len(man) + 3)
 
