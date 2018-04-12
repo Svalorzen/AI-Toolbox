@@ -1,9 +1,9 @@
-#include <AIToolbox/Game/Policies/LRPPolicy.hpp>
+#include <AIToolbox/Factored/Game/Policies/LRPPolicy.hpp>
 
 #include <boost/python.hpp>
 
 void exportGameLRPPolicy() {
-    using namespace AIToolbox;
+    using namespace AIToolbox::Factored;
     using namespace boost::python;
 
     class_<Game::LRPPolicy, bases<Game::PolicyInterface>>{"LRPPolicy",

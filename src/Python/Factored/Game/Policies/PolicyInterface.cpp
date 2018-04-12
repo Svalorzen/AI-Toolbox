@@ -1,8 +1,8 @@
-#include <AIToolbox/Game/Policies/PolicyInterface.hpp>
+#include <AIToolbox/Factored/Game/Policies/PolicyInterface.hpp>
 
 #include <boost/python.hpp>
 
-void exportGamePolicyInterface() {
+void exportFactoredGameESRLPolicy() {
     using namespace AIToolbox;
     using namespace boost::python;
 

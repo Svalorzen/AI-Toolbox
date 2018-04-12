@@ -1,9 +1,9 @@
-#include <AIToolbox/Game/Policies/ESRLPolicy.hpp>
+#include <AIToolbox/Factored/Game/Policies/ESRLPolicy.hpp>
 
 #include <boost/python.hpp>
 
-void exportGameESRLPolicy() {
-    using namespace AIToolbox;
+void exportFactoredGameESRLPolicy() {
+    using namespace AIToolbox::Factored;
     using namespace boost::python;
 
     class_<Game::ESRLPolicy, bases<Game::PolicyInterface>>{"ESRLPolicy",
