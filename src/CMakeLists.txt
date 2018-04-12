@@ -20,8 +20,6 @@ if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
         Impl/CassandraParser.cpp
-        Game/Policies/LRPPolicy.cpp
-        Game/Policies/ESRLPolicy.cpp
         MDP/Experience.cpp
         MDP/Utils.cpp
         MDP/Model.cpp
@@ -98,18 +96,6 @@ if (MAKE_MDP)
         target_link_libraries(MDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY})
         set_target_properties(MDP PROPERTIES PREFIX "")
         set_target_properties(MDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
-
-        add_library(Game SHARED
-            Game/Policies/LRPPolicy.cpp
-            Game/Policies/ESRLPolicy.cpp
-            Python/Game/Policies/PolicyInterface.cpp
-            Python/Game/Policies/LRPPolicy.cpp
-            Python/Game/Policies/ESRLPolicy.cpp
-            Python/GameWrappers.cpp)
-
-        target_link_libraries(Game ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP)
-        set_target_properties(Game PROPERTIES PREFIX "")
-        set_target_properties(Game PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
 endif()
 
@@ -127,6 +113,8 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         Factored/Bandit/Algorithms/LLR.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
+        Factored/Game/Policies/LRPPolicy.cpp
+        Factored/Game/Policies/ESRLPolicy.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/SingleActionPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
@@ -136,6 +124,20 @@ if (MAKE_FMDP)
     set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
+
+    if (MAKE_PYTHON)
+        add_library(Factored SHARED
+            Factored/Game/Policies/LRPPolicy.cpp
+            Factored/Game/Policies/ESRLPolicy.cpp
+            Python/Factored/Game/Policies/PolicyInterface.cpp
+            Python/Factored/Game/Policies/LRPPolicy.cpp
+            Python/Factored/Game/Policies/ESRLPolicy.cpp
+            Python/FactoredWrappers.cpp)
+
+        target_link_libraries(Factored ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP)
+        set_target_properties(Factored PROPERTIES PREFIX "")
+        set_target_properties(Factored PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
+    endif()
 endif()
 
 if (MAKE_POMDP)
