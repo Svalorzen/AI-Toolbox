@@ -164,8 +164,8 @@ To build the library you need:
 
 In addition, full C++17 support is now required (**this means at least g++-7**)
 
-If you want to build the POMDP or Factored MDP part of the library you will also
-need:
+If you want to build the POMDP or Factored/Multi-Agent parts of the library you
+will also need:
 
 - the [lp\_solve library](http://lpsolve.sourceforge.net/5.5/) (a shared library
   must be available to compile the Python wrapper).
@@ -189,13 +189,13 @@ if building everything is not desirable. The following flags are available:
 ```bash
 CMAKE_BUILD_TYPE # Defines the build type
 MAKE_ALL         # Builds all there is to build in the project
-MAKE_LIB         # Builds the whole core C++ library (MDP, POMDP, etc..)
+MAKE_LIB         # Builds the whole core C++ libraries (MDP, POMDP, etc..)
 MAKE_MDP         # Builds only the core C++ MDP library
-MAKE_FMDP        # Builds only the core C++ Factored MDP and MDP library
-MAKE_POMDP       # Builds only the core C++ POMDP and MDP library
-MAKE_PYTHON      # Builds Python bindings for the compiled core library
-MAKE_TESTS       # Builds the library's tests for the compiled core library
-MAKE_EXAMPLES    # Builds the library's examples using the compiled core library
+MAKE_FMDP        # Builds only the core C++ Factored/Multi-Agent and MDP libraries
+MAKE_POMDP       # Builds only the core C++ POMDP and MDP libraries
+MAKE_PYTHON      # Builds Python bindings for the compiled core libraries
+MAKE_TESTS       # Builds the library's tests for the compiled core libraries
+MAKE_EXAMPLES    # Builds the library's examples using the compiled core libraries
 ```
 
 These flags can be combined as needed. For example:
