@@ -2,15 +2,21 @@
 
 void exportGamePolicyInterface();
 
-void exportGameLRPPolicy();
-void exportGameESRLPolicy();
+void exportFactoredGameLRPPolicy();
+void exportFactoredGameESRLPolicy();
 
-BOOST_PYTHON_MODULE(Game)
+class NamespaceGame{};
+
+BOOST_PYTHON_MODULE(Factored)
 {
     boost::python::docstring_options localDocstringOptions(true, true, false);
 
-    exportGamePolicyInterface();
+    // Game nested scope
+    {
+        boost::python::scope x = boost::python::class_<NamespaceGame>("Game");
+        exportFactoredGamePolicyInterface();
 
-    exportGameLRPPolicy();
-    exportGameESRLPolicy();
+        exportFactoredGameLRPPolicy();
+        exportFactoredGameESRLPolicy();
+    }
 }
