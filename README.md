@@ -65,13 +65,6 @@ as possible instantiations. This toolbox does lose quite a bit of power in
 terms of efficient customization when used from Python, but it allows to rapidly
 iterate in order to find out what works and what doesn't.
 
-### Normal Games: ###
-
-Policies:
-
-- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y)
-- [Exploring Selfish Reinforcement Learning (ESRL)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf)
-
 ### Single Agent MDP: ###
 
 Algorithms:
@@ -119,7 +112,16 @@ Policies:
 
 - Normal Policy
 
-### Factored/Multi-Agent MDP: ###
+### Factored/Multi-Agent: ###
+
+#### Normal Games: ####
+
+Policies:
+
+- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y)
+- [Exploring Selfish Reinforcement Learning (ESRL)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf)
+
+#### Bandits: ####
 
 Not in Python yet.
 
@@ -127,8 +129,19 @@ Algorithms:
 
 - [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf)
 - [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
-- [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf)
 - [Learning with Linear Rewards (LLR)](https://arxiv.org/pdf/1011.4748.pdf)
+
+Policies:
+
+- Q-Greedy Policy
+
+#### MDP: ####
+
+Not in Python yet.
+
+Algorithms:
+
+- [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf)
 - [FactoredLP](https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf)
 
 Policies:
