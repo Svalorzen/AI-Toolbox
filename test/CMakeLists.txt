@@ -8,14 +8,6 @@ function (AddTestGlobal name)
     set_target_properties(${exename}Tests PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 endfunction (AddTestGlobal)
 
-function (AddTestGame name)
-    set(exename Game_${name})
-    add_executable(${exename}Tests Game/${name}Tests.cpp)
-    target_link_libraries(${exename}Tests AIToolboxMDP ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
-    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
-    set_target_properties(${exename}Tests PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
-endfunction (AddTestGame)
-
 function (AddTestMDP name)
     set(exename MDP_${name})
     add_executable(${exename}Tests MDP/${name}Tests.cpp)
@@ -58,9 +50,6 @@ if (MAKE_MDP)
     include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
     AddTestGlobal(Utils)
-
-    AddTestGame(LRPPolicy)
-    AddTestGame(ESRLPolicy)
 
     AddTestMDP(Types)
 
@@ -116,6 +105,9 @@ if (MAKE_FMDP)
     AddTestFactored(FactorGraph)
 
     AddTestFactored(FactoredLP)
+
+    AddTestFactored(LRPPolicy)
+    AddTestFactored(ESRLPolicy)
 
     AddTestFactored(LLR)
     AddTestFactored(MultiObjectiveVariableElimination)

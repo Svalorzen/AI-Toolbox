@@ -1,10 +1,10 @@
-#define BOOST_TEST_MODULE Game_LRPPolicy
+#define BOOST_TEST_MODULE Factored_Game_LRPPolicy
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Impl/Seeder.hpp>
-#include <AIToolbox/Game/Policies/ESRLPolicy.hpp>
+#include <AIToolbox/Factored/Game/Policies/ESRLPolicy.hpp>
 
 double testGuessingGame(unsigned a, unsigned b, unsigned c) {
     // Normalized to 1.0
@@ -36,7 +36,7 @@ double testGuessingGame(unsigned a, unsigned b, unsigned c) {
 }
 
 BOOST_AUTO_TEST_CASE( guessing_game ) {
-    using namespace AIToolbox;
+    using namespace AIToolbox::Factored;
     constexpr size_t A = 3;
 
     Game::ESRLPolicy p1(A, 0.05, 2000, 7, 100);
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE( guessing_game ) {
     Game::ESRLPolicy p3(A, 0.05, 2000, 7, 100);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    std::default_random_engine rand(Impl::Seeder::getSeed());
+    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
 
     unsigned t = 0;
     while (!p1.isExploiting()) {

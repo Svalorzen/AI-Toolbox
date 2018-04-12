@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE( filtering ) {
 }
 
 BOOST_AUTO_TEST_CASE( partial_filtering_factors ) {
-    using namespace AIToolbox::FactoredMDP;
+    using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
     FactoredContainer<std::string> f(F);
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE( partial_filtering_factors ) {
 }
 
 BOOST_AUTO_TEST_CASE( partial_filtering_partial_factors ) {
-    using namespace AIToolbox::FactoredMDP;
+    using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
     FactoredContainer<std::string> f(F);
