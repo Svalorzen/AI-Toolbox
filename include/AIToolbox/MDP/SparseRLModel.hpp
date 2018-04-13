@@ -311,6 +311,9 @@ namespace AIToolbox::MDP {
         // Nothing to do
         const auto visitSum = experience_.getVisitsSum(s, a);
         if ( visitSum == 0ul ) return;
+        // Clear beginning's identity matrix
+        if ( visitSum == 1ul )
+            transitions_[a].coeffRef(s, s) = 0.0;
 
         // Create reciprocal for fast division
         const double visitSumReciprocal = 1.0 / visitSum;

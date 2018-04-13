@@ -85,6 +85,22 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     }
 }
 
+BOOST_AUTO_TEST_CASE( clearInitialTransition ) {
+    const size_t S = 2, A = 2;
+
+    AIToolbox::MDP::SparseExperience exp(S,A);
+    AIToolbox::MDP::SparseRLModel model(exp, 1.0, false);
+
+    exp.record(0,0,1,10);
+    model.sync(0,0);
+
+    BOOST_CHECK_EQUAL( model.getTransitionProbability(0,0,0), 0.0 );
+    BOOST_CHECK_EQUAL( model.getTransitionProbability(0,0,1), 1.0 );
+
+    BOOST_CHECK_EQUAL( model.getTransitionProbability(0,1,0), 1.0 );
+    BOOST_CHECK_EQUAL( model.getTransitionProbability(0,1,1), 0.0 );
+}
+
 BOOST_AUTO_TEST_CASE( sampling ) {
     const size_t S = 10, A = 8;
 
