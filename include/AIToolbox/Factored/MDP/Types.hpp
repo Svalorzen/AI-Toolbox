@@ -15,11 +15,11 @@ namespace AIToolbox::Factored::MDP {
      * inside a FactorGraph) or a set of basis functions.
      */
     struct ValueFunctionRule {
-        PartialState s_;
-        double value_;
+        PartialState state;
+        double value;
 
         ValueFunctionRule(PartialState s, double v) :
-                s_(std::move(s)), value_(v) {}
+                state(std::move(s)), value(v) {}
     };
 
     /**
@@ -30,12 +30,12 @@ namespace AIToolbox::Factored::MDP {
      * state/action/value tuples are stored and acted upon.
      */
     struct QFunctionRule {
-        PartialState s_;
-        PartialAction a_;
-        double value_;
+        PartialState state;
+        PartialAction action;
+        double value;
 
         QFunctionRule(PartialState s, PartialAction a, double v) :
-                s_(std::move(s)), a_(std::move(a)), value_(v) {}
+                state(std::move(s)), action(std::move(a)), value(v) {}
     };
 
     /**
@@ -46,12 +46,12 @@ namespace AIToolbox::Factored::MDP {
      * vector of rewards, one for each possible MDP objective.
      */
     struct MOQFunctionRule {
-        PartialState s_;
-        PartialAction a_;
-        Rewards values_;
+        PartialState state;
+        PartialAction action;
+        Rewards values;
 
         MOQFunctionRule(PartialState s, PartialAction a, Rewards vs) :
-                s_(std::move(s)), a_(std::move(a)), values_(std::move(vs)) {}
+                state(std::move(s)), action(std::move(a)), values(std::move(vs)) {}
     };
 }
 

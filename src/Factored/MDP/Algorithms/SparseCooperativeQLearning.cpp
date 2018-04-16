@@ -13,7 +13,7 @@ namespace AIToolbox::Factored::MDP {
     }
 
     void SparseCooperativeQLearning::insertRule(QFunctionRule rule) {
-        auto factor = join(S.size(), rule.s_, rule.a_);
+        auto factor = join(S.size(), rule.state, rule.action);
         rules_.emplace(factor, std::move(rule));
     }
 
@@ -33,7 +33,7 @@ namespace AIToolbox::Factored::MDP {
         const auto computeQ = [](const size_t agent, const decltype(rules_)::Iterable & rules) {
             double sum = 0.0;
             for (const auto & rule : rules)
-                sum += sequential_sorted_contains(rule.a_.first, agent) ? rule.value_ / rule.a_.first.size() : 0.0;
+                sum += sequential_sorted_contains(rule.action.first, agent) ? rule.value / rule.action.first.size() : 0.0;
             return sum;
         };
         // First we compute all updates since we don't want to risk
@@ -42,7 +42,7 @@ namespace AIToolbox::Factored::MDP {
         updates.reserve(beforeRules.size());
         for (const auto & br : beforeRules) {
             double sum = 0;
-            for (const auto agent : br.a_.first) {
+            for (const auto agent : br.action.first) {
                 sum += rew[agent];
                 sum += discount_ * computeQ(agent, afterRules);
                 sum -= computeQ(agent, beforeRules);
@@ -52,7 +52,7 @@ namespace AIToolbox::Factored::MDP {
         // Finally update the rules.
         size_t i = 0;
         for (auto & br : beforeRules)
-            br.value_ += updates[i++];
+            br.value += updates[i++];
 
         return a1;
     }

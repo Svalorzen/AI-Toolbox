@@ -43,9 +43,9 @@ namespace AIToolbox::Factored::Bandit {
         for (size_t i = 0; i < rules_.size(); ++i) {
             // We give rules we haven't seen yet a headstart so they'll get picked first
             if (averages_[i].count == 0)
-                rules_[i].value_ = 1000000.0;
+                rules_[i].value = 1000000.0;
             else
-                rules_[i].value_ = averages_[i].value + std::sqrt((L+1) * std::log(timestep_) / averages_[i].count);
+                rules_[i].value = averages_[i].value + std::sqrt((L+1) * std::log(timestep_) / averages_[i].count);
         }
 
         VariableElimination ve(A);
@@ -55,7 +55,7 @@ namespace AIToolbox::Factored::Bandit {
     FactoredContainer<QFunctionRule> LLR::getQFunctionRules() const {
         auto rulesCopy = rules_;
         for (size_t i = 0; i < rulesCopy.size(); ++i)
-            rulesCopy[i].value_ = averages_[i].value;
+            rulesCopy[i].value = averages_[i].value;
         return rulesCopy;
     }
 }
