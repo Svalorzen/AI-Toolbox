@@ -186,7 +186,7 @@ namespace AIToolbox::MDP {
 
     template <typename M>
     void PrioritizedSweeping<M>::stepUpdateQ(const size_t s, const size_t a) {
-        auto & values = std::get<VALUES>(vfun_);
+        auto & values = vfun_.values;
 
         // Update q[s][a]
         if constexpr(is_model_eigen<M>::value) {
@@ -204,7 +204,7 @@ namespace AIToolbox::MDP {
         double p = values[s];
         {
             // Update value and action
-            values[s] = qfun_.row(s).maxCoeff(&std::get<ACTIONS>(vfun_)[s]);
+            values[s] = qfun_.row(s).maxCoeff(&(vfun_.actions[s]));
         }
 
         p = std::fabs(values[s] - p);

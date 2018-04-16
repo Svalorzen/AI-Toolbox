@@ -42,10 +42,10 @@ namespace AIToolbox::MDP {
 
     using Values            = Vector;
     using Actions           = std::vector<size_t>;
-    using ValueFunction     = std::tuple<Values, Actions>;
-    enum {
-        VALUES = 0,
-        ACTIONS = 1,
+
+    struct ValueFunction {
+        Values values;
+        Actions actions;
     };
 
     using QFunction = Matrix2D;
