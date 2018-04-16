@@ -31,16 +31,16 @@ namespace AIToolbox::POMDP {
         // We can get the sizes of the observation vectors
         // outside since all VEntries for our input VLists
         // are guaranteed to be sized equally.
-        const auto O1size  = std::get<OBS>(l1[0]).size();
-        const auto O2size  = std::get<OBS>(l2[0]).size();
+        const auto O1size  = l1[0].observations.size();
+        const auto O2size  = l2[0].observations.size();
         for ( const auto & v1 : l1 ) {
-            const auto O1begin = std::begin(std::get<OBS>(v1));
-            const auto O1end   = std::end  (std::get<OBS>(v1));
+            const auto O1begin = std::begin(v1.observations);
+            const auto O1end   = std::end  (v1.observations);
             for ( const auto & v2 : l2 ) {
-                const auto O2begin = std::begin(std::get<OBS>(v2));
-                const auto O2end   = std::end  (std::get<OBS>(v2));
+                const auto O2begin = std::begin(v2.observations);
+                const auto O2end   = std::end  (v2.observations);
                 // Cross sum
-                auto v = std::get<VALUES>(v1) + std::get<VALUES>(v2);
+                auto v = v1.values + v2.values;
 
                 // This step now depends on which order the two lists
                 // are. This function is only used in this class, so we

@@ -63,11 +63,14 @@ namespace AIToolbox::POMDP {
      */
 
     using VObs          = std::vector<size_t>;
-    using VEntry        = std::tuple<MDP::Values, size_t, VObs>;
-    enum {
-        VALUES = 0,
-        ACTION = 1,
-        OBS    = 2,
+    struct VEntry {
+        MDP::Values values;
+        size_t action;
+        VObs observations;
+
+        VEntry() {}
+        VEntry(MDP::Values v, size_t a, VObs o) :
+                values(std::move(v)), action(a), observations(std::move(o)) {}
     };
     using VList         = std::vector<VEntry>;
     using ValueFunction = std::vector<VList>;

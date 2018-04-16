@@ -45,7 +45,7 @@ namespace AIToolbox::MDP {
              * @param epsilon The epsilon factor to stop the value iteration loop.
              * @param v The initial value function from which to start the loop.
              */
-            ValueIteration(unsigned horizon, double epsilon = 0.001, ValueFunction v = ValueFunction(Values(), Actions(0)));
+            ValueIteration(unsigned horizon, double epsilon = 0.001, ValueFunction v = {Values(), Actions(0)});
 
             /**
              * @brief This function applies value iteration on an MDP to solve it.
@@ -134,7 +134,7 @@ namespace AIToolbox::MDP {
 
         {
             // Verify that parameter value function is compatible.
-            const size_t size = std::get<VALUES>(vParameter_).size();
+            const size_t size = vParameter_.values.size();
             if ( size != S ) {
                 if ( size != 0 ) {
                     AI_LOGGER(AI_SEVERITY_WARNING, "Size of starting value function is incorrect, ignoring...");
@@ -155,7 +155,7 @@ namespace AIToolbox::MDP {
         double variation = epsilon_ * 2; // Make it bigger
 
         Values val0;
-        auto & val1 = std::get<VALUES>(v1_);
+        auto & val1 = v1_.values;
         QFunction q = makeQFunction(S, A);
 
         const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);

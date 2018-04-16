@@ -27,7 +27,7 @@ namespace AIToolbox::MDP {
     Policy::Policy(const size_t s, const size_t a, const ValueFunction & v) :
             PolicyInterface::Base(s, a), policy_(S, A)
     {
-        const auto & actions = std::get<ACTIONS>(v);
+        const auto & actions = v.actions;
         policy_.fill(0.0);
         for ( size_t s = 0; s < S; ++s )
             policy_(s, actions[s]) = 1.0;

@@ -124,7 +124,7 @@ namespace AIToolbox::Factored::Bandit {
                 // even more rules, joining their tags together, and
                 // possibly merge them if we see equal ones.
                 for (size_t i = 0; i < factors.size(); ++i) {
-                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules_, jointAction));
+                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules, jointAction));
                     // p3.prune(&newEntries);
                 }
 
@@ -177,7 +177,7 @@ namespace AIToolbox::Factored::Bandit {
             // they are grouped or not. Here elements are CROSS-summed,
             // which means we cannot simply dump stuff lest losing a
             // cross-summing step.
-            newFactor->getData().rules_ = mergePayoffs(std::move(newFactor->getData().rules_), std::move(newRules));
+            newFactor->getData().rules = mergePayoffs(std::move(newFactor->getData().rules), std::move(newRules));
         }
     }
 

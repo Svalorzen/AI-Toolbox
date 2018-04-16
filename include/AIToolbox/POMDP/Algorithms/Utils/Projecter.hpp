@@ -106,7 +106,7 @@ namespace AIToolbox::POMDP {
             // Otherwise we compute a projection for each ValueFunction supplied to us.
             MDP::Values vproj(S);
             for ( size_t i = 0; i < w.size(); ++i ) {
-                const auto & v = std::get<VALUES>(w[i]);
+                const auto & v = w[i].values;
                 // For each value function in the previous timestep, we compute the new value
                 // if we performed action a and obtained observation o.
                 // vproj_{a,o}[s] = R(s,a) / |O| + discount * sum_{s'} ( T(s,a,s') * O(s',a,o) * v_{t-1}(s') )

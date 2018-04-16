@@ -56,11 +56,9 @@ class MDPPythonValueIterationTests(unittest.TestCase):
         model.setRewardFunction(r)
 
         vi = MDP.ValueIteration(1000000, 0.001)
-        solution = vi(model)
+        bound, vfun, qfun = vi(model)
 
-        self.assertEqual(solution[0] < vi.getEpsilon(), True)
-
-        qfun = solution[2]
+        self.assertEqual(bound < vi.getEpsilon(), True)
 
         p = MDP.QGreedyPolicy(qfun)
 
@@ -94,9 +92,8 @@ class MDPPythonValueIterationTests(unittest.TestCase):
         self.assertEqual(p.getActionProbability(13, RIGHT), 1.0)
         self.assertEqual(p.getActionProbability(14, RIGHT), 1.0)
 
-        vfun = solution[1]
-        values = vfun[0]
-        actions = vfun[1]
+        values = vfun.values
+        actions = vfun.actions
 
         for s in xrange(0, 16):
             self.assertEqual( qfun[s, actions[s]], values[s] )

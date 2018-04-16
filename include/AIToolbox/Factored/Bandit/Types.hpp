@@ -16,11 +16,11 @@ namespace AIToolbox::Factored::Bandit {
      * action/value pairs are stored and acted upon.
      */
     struct QFunctionRule {
-        PartialAction a_;
-        double value_;
+        PartialAction action;
+        double value;
 
         QFunctionRule(PartialAction a, double v) :
-                a_(std::move(a)), value_(v) {}
+                action(std::move(a)), value(v) {}
     };
 
     /**
@@ -31,11 +31,11 @@ namespace AIToolbox::Factored::Bandit {
      * rewards, one for each possible objective.
      */
     struct MOQFunctionRule {
-        PartialAction a_;
-        Rewards values_;
+        PartialAction action;
+        Rewards values;
 
         MOQFunctionRule(PartialAction a, Rewards vs) :
-                a_(std::move(a)), values_(std::move(vs)) {}
+                action(std::move(a)), values(std::move(vs)) {}
     };
 }
 

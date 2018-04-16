@@ -44,7 +44,7 @@ namespace AIToolbox::POMDP {
         if ( !pw ) return;
         auto & w = *pw;
 
-        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
         const auto wbegin = boost::make_transform_iterator(std::begin(w), unwrap);
         const auto wend   = boost::make_transform_iterator(std::end  (w), unwrap);
 
@@ -71,7 +71,7 @@ namespace AIToolbox::POMDP {
             // Setup initial LP rows. Note that best can't be empty, since we have
             // at least one best for the simplex corners.
             for ( auto it = begin; it != bound; ++it )
-                lp.addOptimalRow(std::get<VALUES>(*it));
+                lp.addOptimalRow(it->values);
         }
 
         // For each of the remaining points now we try to find a witness
@@ -84,12 +84,12 @@ namespace AIToolbox::POMDP {
         //
         // That we do in the findWitnessPoint function.
         while ( bound < end ) {
-            const auto witness = lp.findWitness( std::get<VALUES>(*(end-1)) );
+            const auto witness = lp.findWitness((end-1)->values);
             // If we get a belief point, we search for the actual vector that provides
             // the best value on the belief point, we move it into the best vector.
             if ( witness ) {
                 bound = extractBestAtBelief(*witness, bound, bound, end);  // Advance bound with the next best
-                lp.addOptimalRow(std::get<VALUES>(*(bound-1)));             // Add the newly found vector to our lp.
+                lp.addOptimalRow((bound-1)->values);             // Add the newly found vector to our lp.
             }
             // We only advance if we did not find anything. Otherwise, we may have found a
             // witness point for the current value, but since we are not guaranteed to have

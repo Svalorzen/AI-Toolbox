@@ -22,6 +22,9 @@ namespace AIToolbox::POMDP {
      * @return True if lhs is less than rhs lexicographically, false otherwise.
      */
     bool operator<(const VEntry & lhs, const VEntry & rhs);
+    // This implementation is temporary until we can substitute both with the
+    // spaceship operator (<=>) in C++20.
+    bool operator==(const VEntry & lhs, const VEntry & rhs);
 
     /**
      * @brief This function creates a default ValueFunction.
@@ -453,12 +456,12 @@ namespace AIToolbox::POMDP {
     template <typename Iterator>
     Iterator findBestAtBelief(const Belief & b, Iterator begin, Iterator end, double * value = nullptr) {
         auto bestMatch = begin;
-        double bestValue = b.dot(std::get<VALUES>(*bestMatch));
+        double bestValue = b.dot(bestMatch->values);
 
         while ( (++begin) < end ) {
-            auto & v = std::get<VALUES>(*begin);
+            auto & v = begin->values;
             const double currValue = b.dot(v);
-            if ( currValue > bestValue || ( currValue == bestValue && ( AIToolbox::operator>(v, std::get<VALUES>(*bestMatch) )) ) ) {
+            if ( currValue > bestValue || ( currValue == bestValue && AIToolbox::operator>(v, bestMatch->values) ) ) {
                 bestMatch = begin;
                 bestValue = currValue;
             }
@@ -483,12 +486,12 @@ namespace AIToolbox::POMDP {
     template <typename Iterator>
     Iterator findBestAtSimplexCorner(const size_t corner, Iterator begin, Iterator end, double * value = nullptr) {
         auto bestMatch = begin;
-        double bestValue = std::get<VALUES>(*bestMatch)[corner];
+        double bestValue = bestMatch->values[corner];
 
         while ( (++begin) < end ) {
-            auto & v = std::get<VALUES>(*begin);
+            auto & v = begin->values;
             const double currValue = v[corner];
-            if ( currValue > bestValue || ( currValue == bestValue && ( AIToolbox::operator>(v, std::get<VALUES>(*bestMatch)) ) ) ) {
+            if ( currValue > bestValue || ( currValue == bestValue && AIToolbox::operator>(v, bestMatch->values) ) ) {
                 bestMatch = begin;
                 bestValue = currValue;
             }

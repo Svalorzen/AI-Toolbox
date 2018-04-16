@@ -48,8 +48,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         BOOST_CHECK(sizeEqual2);
         if ( !sizeEqual2 ) continue;
         for ( size_t j = 0; j < vf[i].size(); ++j ) {
-            BOOST_CHECK(std::get<POMDP::VALUES>(vf[i][j]) == std::get<POMDP::VALUES>(vt[i][j]));
-            BOOST_CHECK(std::get<POMDP::ACTION>(vf[i][j]) == std::get<POMDP::ACTION>(vt[i][j]));
+            BOOST_CHECK(vf[i][j].values == vt[i][j].values);
+            BOOST_CHECK(vf[i][j].action == vt[i][j].action);
             // Obs we can't check since we shuffle, they won't necessarily
             // be the same.
         }
@@ -81,22 +81,22 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     POMDP::VList truth = {
         // Action 10 here (which does not exist) is used to mark the values for which both listening or acting is a correct
         // action. We will not test those.
-        std::make_tuple((MDP::Values(2) << -101.0000000000000000000000000, 9.0000000000000000000000000   ).finished(), 10u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << -16.8500000000000014210854715 , 7.3499999999999996447286321   ).finished(), 0u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << -2.0000000000000000000000000  , -2.0000000000000000000000000  ).finished(), 0u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << 7.3499999999999996447286321   , -16.8500000000000014210854715 ).finished(), 0u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << 9.0000000000000000000000000   , -101.0000000000000000000000000).finished(), 10u, POMDP::VObs(0)),
+        {(MDP::Values(2) << -101.0000000000000000000000000, 9.0000000000000000000000000   ).finished(), 10u, POMDP::VObs(0)},
+        {(MDP::Values(2) << -16.8500000000000014210854715 , 7.3499999999999996447286321   ).finished(), 0u,  POMDP::VObs(0)},
+        {(MDP::Values(2) << -2.0000000000000000000000000  , -2.0000000000000000000000000  ).finished(), 0u,  POMDP::VObs(0)},
+        {(MDP::Values(2) << 7.3499999999999996447286321   , -16.8500000000000014210854715 ).finished(), 0u,  POMDP::VObs(0)},
+        {(MDP::Values(2) << 9.0000000000000000000000000   , -101.0000000000000000000000000).finished(), 10u, POMDP::VObs(0)},
     };
 
     // We check that all entries PBVI found exist in the ground truth.
     for ( size_t i = 0; i < vlist.size(); ++i ) {
-        auto & values = std::get<POMDP::VALUES>(vlist[i]);
+        auto & values = vlist[i].values;
         auto it = std::find_if(std::begin(truth), std::end(truth), [&](const POMDP::VEntry & ve) {
-            return std::get<POMDP::VALUES>(ve) == values;
+            return ve.values == values;
         });
         BOOST_CHECK( it != std::end(truth) );
 
-        if ( std::get<POMDP::ACTION>(*it) == 0u )
-            BOOST_CHECK_EQUAL(std::get<POMDP::ACTION>(vlist[i]), std::get<POMDP::ACTION>(*it));
+        if ( it->action == 0u )
+            BOOST_CHECK_EQUAL(vlist[i].action, it->action);
     }
 }

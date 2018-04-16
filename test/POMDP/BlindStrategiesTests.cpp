@@ -23,14 +23,14 @@ BOOST_AUTO_TEST_CASE( horizon1 ) {
 
     BOOST_CHECK_EQUAL(var, 42.75);
 
-    BOOST_CHECK_EQUAL(std::get<POMDP::VALUES>(vlist[A_LISTEN])[TIG_LEFT], -1.95);
-    BOOST_CHECK_EQUAL(std::get<POMDP::VALUES>(vlist[A_LISTEN])[TIG_RIGHT], -1.95);
+    BOOST_CHECK_EQUAL(vlist[A_LISTEN].values[TIG_LEFT], -1.95);
+    BOOST_CHECK_EQUAL(vlist[A_LISTEN].values[TIG_RIGHT], -1.95);
 
-    BOOST_CHECK_EQUAL(std::get<POMDP::VALUES>(vlist[A_LEFT])[TIG_LEFT],  -100.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
-    BOOST_CHECK_EQUAL(std::get<POMDP::VALUES>(vlist[A_LEFT])[TIG_RIGHT],   10.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
+    BOOST_CHECK_EQUAL(vlist[A_LEFT].values[TIG_LEFT],  -100.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
+    BOOST_CHECK_EQUAL(vlist[A_LEFT].values[TIG_RIGHT],   10.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
 
-    BOOST_CHECK_EQUAL(std::get<POMDP::VALUES>(vlist[A_RIGHT])[TIG_LEFT],   10.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
-    BOOST_CHECK_EQUAL(std::get<POMDP::VALUES>(vlist[A_RIGHT])[TIG_RIGHT],-100.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
+    BOOST_CHECK_EQUAL(vlist[A_RIGHT].values[TIG_LEFT],   10.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
+    BOOST_CHECK_EQUAL(vlist[A_RIGHT].values[TIG_RIGHT],-100.0 + 0.95 * (0.5 * 10.0 - 0.5 * 100));
 }
 
 BOOST_AUTO_TEST_CASE( infiniteHorizonSpeededUp ) {
@@ -60,29 +60,29 @@ BOOST_AUTO_TEST_CASE( infiniteHorizonSpeededUp ) {
     // other, we simply double the bound range and then it must hold.
 
     BOOST_CHECK(std::abs(
-        std::get<POMDP::VALUES>(vlistSpeed[A_LISTEN])[TIG_LEFT] -
-        std::get<POMDP::VALUES>(vlistNormal[A_LISTEN])[TIG_LEFT]
+        vlistSpeed[A_LISTEN].values[TIG_LEFT] -
+        vlistNormal[A_LISTEN].values[TIG_LEFT]
     ) <= (2 * epsilon) / (1 - discount));
     BOOST_CHECK(std::abs(
-        std::get<POMDP::VALUES>(vlistSpeed[A_LISTEN])[TIG_RIGHT] -
-        std::get<POMDP::VALUES>(vlistNormal[A_LISTEN])[TIG_RIGHT]
-    ) <= (2 * epsilon) / (1 - discount));
-
-    BOOST_CHECK(std::abs(
-        std::get<POMDP::VALUES>(vlistSpeed[A_LEFT])[TIG_LEFT] -
-        std::get<POMDP::VALUES>(vlistNormal[A_LEFT])[TIG_LEFT]
-    ) <= (2 * epsilon) / (1 - discount));
-    BOOST_CHECK(std::abs(
-        std::get<POMDP::VALUES>(vlistSpeed[A_LEFT])[TIG_RIGHT] -
-        std::get<POMDP::VALUES>(vlistNormal[A_LEFT])[TIG_RIGHT]
+        vlistSpeed[A_LISTEN].values[TIG_RIGHT] -
+        vlistNormal[A_LISTEN].values[TIG_RIGHT]
     ) <= (2 * epsilon) / (1 - discount));
 
     BOOST_CHECK(std::abs(
-        std::get<POMDP::VALUES>(vlistSpeed[A_RIGHT])[TIG_LEFT] -
-        std::get<POMDP::VALUES>(vlistNormal[A_RIGHT])[TIG_LEFT]
+        vlistSpeed[A_LEFT].values[TIG_LEFT] -
+        vlistNormal[A_LEFT].values[TIG_LEFT]
     ) <= (2 * epsilon) / (1 - discount));
     BOOST_CHECK(std::abs(
-        std::get<POMDP::VALUES>(vlistSpeed[A_RIGHT])[TIG_RIGHT] -
-        std::get<POMDP::VALUES>(vlistNormal[A_RIGHT])[TIG_RIGHT]
+        vlistSpeed[A_LEFT].values[TIG_RIGHT] -
+        vlistNormal[A_LEFT].values[TIG_RIGHT]
+    ) <= (2 * epsilon) / (1 - discount));
+
+    BOOST_CHECK(std::abs(
+        vlistSpeed[A_RIGHT].values[TIG_LEFT] -
+        vlistNormal[A_RIGHT].values[TIG_LEFT]
+    ) <= (2 * epsilon) / (1 - discount));
+    BOOST_CHECK(std::abs(
+        vlistSpeed[A_RIGHT].values[TIG_RIGHT] -
+        vlistNormal[A_RIGHT].values[TIG_RIGHT]
     ) <= (2 * epsilon) / (1 - discount));
 }

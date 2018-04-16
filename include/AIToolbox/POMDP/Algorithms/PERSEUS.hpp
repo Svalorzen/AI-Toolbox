@@ -174,8 +174,9 @@ namespace AIToolbox::POMDP {
         const auto beliefs = bGen(beliefSize_);
 
         // We initialize the ValueFunction to the "worst" case scenario.
-        ValueFunction v(1, VList(1, std::make_tuple(MDP::Values(S), 0, VObs(0))));
-        std::get<VALUES>(v[0][0]).fill(minReward / (1.0 - model.getDiscount()));
+        ValueFunction v = makeValueFunction(S);
+
+        v[0][0].values.fill(minReward / (1.0 - model.getDiscount()));
 
         unsigned timestep = 0;
 
@@ -228,9 +229,9 @@ namespace AIToolbox::POMDP {
                     const VList & projsO = projs[a][o];
                     auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
-                    v += std::get<VALUES>(*bestMatch);
+                    v += bestMatch->values;
 
-                    obs[o] = std::get<OBS>(*bestMatch)[0];
+                    obs[o] = bestMatch->observations[0];
                 }
                 helper.emplace_back(std::move(v), a, std::move(obs));
             }
@@ -238,7 +239,7 @@ namespace AIToolbox::POMDP {
             result.emplace_back(std::move(helper[0]));
             start = false;
         }
-        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
         const auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
         const auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
 

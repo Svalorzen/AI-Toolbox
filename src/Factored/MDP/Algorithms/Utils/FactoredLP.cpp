@@ -30,16 +30,16 @@ namespace AIToolbox::Factored::MDP {
             auto newFactor = graph_.getFactor(variables);
             for (const auto & entry : f->getData()) {
                 lp.row[currentRule] = -1.0;
-                lp.row[wi] = entry.value_;
+                lp.row[wi] = entry.value;
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule] = 0.0;
 
                 lp.row[currentRule+1] = -1.0;
-                lp.row[wi] = -entry.value_;
+                lp.row[wi] = -entry.value;
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule+1] = 0.0;
 
-                newFactor->getData().emplace_back(entry.s_, currentRule);
+                newFactor->getData().emplace_back(entry.state, currentRule);
                 currentRule += 2;
             }
             lp.row[wi++] = 0.0;
@@ -51,14 +51,14 @@ namespace AIToolbox::Factored::MDP {
             auto newFactor = graph_.getFactor(variables);
             for (const auto & entry : f->getData()) {
                 lp.row[currentRule] = 1.0;
-                lp.pushRow(LP::Constraint::Equal, -entry.value_);
+                lp.pushRow(LP::Constraint::Equal, -entry.value);
                 lp.row[currentRule] = 0.0;
 
                 lp.row[currentRule+1] = 1.0;
-                lp.pushRow(LP::Constraint::Equal, entry.value_);
+                lp.pushRow(LP::Constraint::Equal, entry.value);
                 lp.row[currentRule+1] = 0.0;
 
-                newFactor->getData().emplace_back(entry.s_, currentRule);
+                newFactor->getData().emplace_back(entry.state, currentRule);
                 currentRule += 2;
             }
         }

@@ -25,11 +25,10 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     // until convergence (infinite horizon).
     ValueIteration solver(1000000, 0.001);
 
-    auto solution = solver(model);
+    auto [bound, vfun, qfun] = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( std::get<0>(solution) <= solver.getEpsilon() );
+    BOOST_CHECK( bound <= solver.getEpsilon() );
     // Get best policy from QFunction
-    auto & qfun = std::get<2>(solution);
     QGreedyPolicy policy( qfun );
 
     // Check that solution agrees with that we'd like
@@ -96,9 +95,8 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     BOOST_CHECK_EQUAL( policy.getActionProbability(14, RIGHT), 1.0);
 
     // Verify that ValueFunction holds the correct actions.
-    auto & vfun = std::get<1>(solution);
-    auto & values = std::get<VALUES>(vfun);
-    auto & actions = std::get<ACTIONS>(vfun);
+    auto & values = vfun.values;
+    auto & actions = vfun.actions;
     for ( size_t s = 0; s < S; ++s ) {
         // We check that values correspond between Q and V
         BOOST_CHECK_EQUAL( qfun(s, actions[s]), values[s] );
@@ -121,11 +119,10 @@ BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
     // until convergence (infinite horizon).
     ValueIteration solver(1000000, 0.001);
 
-    auto solution = solver(model);
+    auto [bound, vfun, qfun] = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( std::get<0>(solution) <= solver.getEpsilon() );
+    BOOST_CHECK( bound <= solver.getEpsilon() );
     // Get best policy from QFunction
-    auto & qfun = std::get<2>(solution);
     QGreedyPolicy policy( qfun );
 
     // Check that solution agrees with that we'd like
@@ -192,9 +189,8 @@ BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
     BOOST_CHECK_EQUAL( policy.getActionProbability(14, RIGHT), 1.0);
 
     // Verify that ValueFunction holds the correct actions.
-    auto & vfun = std::get<1>(solution);
-    auto & values = std::get<VALUES>(vfun);
-    auto & actions = std::get<ACTIONS>(vfun);
+    auto & values = vfun.values;
+    auto & actions = vfun.actions;
     for ( size_t s = 0; s < S; ++s ) {
         // We check that values correspond between Q and V
         BOOST_CHECK_EQUAL( qfun(s, actions[s]), values[s] );
@@ -217,11 +213,10 @@ BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
     // until convergence (infinite horizon).
     ValueIteration solver(1000000, 0.001);
 
-    auto solution = solver(model);
+    auto [bound, vfun, qfun] = solver(model);
     // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( std::get<0>(solution) <= solver.getEpsilon() );
+    BOOST_CHECK( bound <= solver.getEpsilon() );
     // Get best policy from QFunction
-    auto & qfun = std::get<2>(solution);
     QGreedyPolicy policy( qfun );
 
     // Check that solution agrees with that we'd like
@@ -288,9 +283,8 @@ BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
     BOOST_CHECK_EQUAL( policy.getActionProbability(14, RIGHT), 1.0);
 
     // Verify that ValueFunction holds the correct actions.
-    auto & vfun = std::get<1>(solution);
-    auto & values = std::get<VALUES>(vfun);
-    auto & actions = std::get<ACTIONS>(vfun);
+    auto & values = vfun.values;
+    auto & actions = vfun.actions;
     for ( size_t s = 0; s < S; ++s ) {
         // We check that values correspond between Q and V
         BOOST_CHECK_EQUAL( qfun(s, actions[s]), values[s] );

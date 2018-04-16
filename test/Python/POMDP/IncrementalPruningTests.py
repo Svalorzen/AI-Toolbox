@@ -87,13 +87,14 @@ class POMDPPythonIncrementalPruningTests(unittest.TestCase):
             return 1
 
         truth = sorted(truth, sorter)
-        vlist = sorted(vlist, sorter)
+        vlist = sorted(vlist)
 
         # We check each entry by itself to avoid checking observations
         for i in xrange(0, len(vlist)):
-            self.assertEqual(vlist[i][1], truth[i][1])
+            self.assertEqual(vlist[i].action, truth[i][1])
 
-            values      = [vlist[i][0][0], vlist[i][0][1]]
+            values      = vlist[i].values
+            values      = [values[0], values[1]]
             truthValues = truth[i][0]
 
             self.assertEqual(values, truthValues)

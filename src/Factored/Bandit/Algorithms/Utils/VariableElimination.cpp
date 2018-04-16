@@ -72,7 +72,7 @@ namespace AIToolbox::Factored::Bandit {
                 // would have resolved together to a single rule), we can
                 // create a tag with their action by simply writing in it.
                 for (const auto factor : factors)
-                    newPayoff += getPayoff(factor->getData().rules_, jointAction, &newTag);
+                    newPayoff += getPayoff(factor->getData().rules, jointAction, &newTag);
 
                 // We only select the agent's best action.
                 if (newPayoff > bestPayoff) {
@@ -99,8 +99,8 @@ namespace AIToolbox::Factored::Bandit {
             agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
 
             auto newFactor = graph_.getFactor(agents);
-            newFactor->getData().rules_.insert(
-                    std::end(newFactor->getData().rules_),
+            newFactor->getData().rules.insert(
+                    std::end(newFactor->getData().rules),
                     std::make_move_iterator(std::begin(newRules)),
                     std::make_move_iterator(std::end(newRules))
             );

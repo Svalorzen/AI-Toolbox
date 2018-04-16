@@ -7,8 +7,9 @@ void exportMDPTypes() {
     using namespace boost::python;
 
     // MDP Value Function
-    TupleToPython<std::tuple<AIToolbox::Vector, std::vector<size_t>>>();
-    TupleFromPython<std::tuple<AIToolbox::Vector, std::vector<size_t>>>();
+    class_<MDP::ValueFunction>("ValueFunction")
+        .def_readwrite("values", &MDP::ValueFunction::values)
+        .def_readwrite("actions", &MDP::ValueFunction::actions);
 
     // Results of sampleSR
     TupleToPython<std::tuple<size_t, double>>();
