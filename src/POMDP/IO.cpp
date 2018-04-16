@@ -22,11 +22,11 @@ namespace AIToolbox::POMDP {
             // VEntries
             for ( auto & vv : vl ) {
                 // Values
-                os << std::get<VALUES>(vv).transpose() << ' ';
+                os << vv.values.transpose() << ' ';
                 // Action
-                os << std::get<ACTION>(vv) << ' ';
+                os << vv.action << ' ';
                 // Obs
-                for ( auto & o : std::get<OBS>(vv) )
+                for ( const auto & o : vv.observations )
                     os << o << ' ';
                 os << '\n';
             }
@@ -92,7 +92,7 @@ namespace AIToolbox::POMDP {
                 }
             }
 
-            vf.back().emplace_back(values, action, obs);
+            vf.back().emplace_back(std::move(values), action, std::move(obs));
 
             // Check if next char after whitespace is a @ that
             // marks a new horizon.

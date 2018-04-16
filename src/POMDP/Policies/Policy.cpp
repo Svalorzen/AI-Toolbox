@@ -18,7 +18,7 @@ namespace AIToolbox::POMDP {
 
         auto bestMatch = findBestAtBelief(b, std::begin(vlist), std::end(vlist));
 
-        return std::get<ACTION>(*bestMatch);
+        return bestMatch->action;
     }
 
     std::tuple<size_t, size_t> Policy::sampleAction(const Belief & b, const unsigned horizon) const {
@@ -27,7 +27,7 @@ namespace AIToolbox::POMDP {
         const auto begin     = std::begin(vlist);
         const auto bestMatch = findBestAtBelief(b, begin, std::end(vlist));
 
-        const size_t action = std::get<ACTION>(*bestMatch);
+        const size_t action = bestMatch->action;
         const size_t id     = std::distance(begin, bestMatch);
 
         return std::make_tuple(action, id);
@@ -39,8 +39,8 @@ namespace AIToolbox::POMDP {
         // a byproduct of the computing process.
         const auto & vlist = policy_[horizon+1];
 
-        const size_t newId  = std::get<OBS>(vlist[id])[o];
-        const size_t action = std::get<ACTION>(policy_[horizon][newId]);
+        const size_t newId  = vlist[id].observations[o];
+        const size_t action = policy_[horizon][newId].action;
 
         return std::make_tuple(action, newId);
     }

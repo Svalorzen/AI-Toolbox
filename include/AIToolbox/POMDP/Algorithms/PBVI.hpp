@@ -278,13 +278,13 @@ namespace AIToolbox::POMDP {
                 const VList & projsO = projs[o];
                 auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
 
-                v += std::get<VALUES>(*bestMatch);
+                v += bestMatch->values;
 
-                obs[o] = std::get<OBS>(*bestMatch)[0];
+                obs[o] = bestMatch->observations[0];
             }
             result.emplace_back(std::move(v), a, std::move(obs));
         }
-        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
         const auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
         const auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
 

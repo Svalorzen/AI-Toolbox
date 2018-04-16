@@ -49,8 +49,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
             auto begin     = std::begin(vlist);
             auto bestMatch = POMDP::findBestAtBelief(b, begin, std::end(vlist));
 
-            double trueValue = b.dot(std::get<POMDP::VALUES>(*bestMatch));
-            double trueAction = std::get<POMDP::ACTION>(*bestMatch);
+            double trueValue = b.dot(bestMatch->values);
+            double trueAction = bestMatch->action;
 
             BOOST_CHECK_EQUAL(trueAction, std::get<0>(a));
 
@@ -101,8 +101,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
             auto begin     = std::begin(vlist);
             auto bestMatch = POMDP::findBestAtBelief(b, begin, std::end(vlist));
 
-            double trueValue = b.dot(std::get<POMDP::VALUES>(*bestMatch));
-            double trueAction = std::get<POMDP::ACTION>(*bestMatch);
+            double trueValue = b.dot(bestMatch->values);
+            double trueAction = bestMatch->action;
 
             BOOST_CHECK_EQUAL(trueAction, std::get<0>(a));
 

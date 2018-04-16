@@ -272,7 +272,7 @@ namespace AIToolbox::POMDP {
         // initial lower bound.
         VList lbVList = std::get<1>(bs(pomdp, true));
         {
-            const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return std::get<VALUES>(ve);};
+            const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
             const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
             const auto rend   = boost::make_transform_iterator(std::end  (lbVList), unwrap);
 
@@ -517,7 +517,7 @@ namespace AIToolbox::POMDP {
 
                 auto it = findBestAtBelief(nextBelief, std::begin(lbVList), std::end(lbVList));
 
-                bpAlpha += pomdp.getObservationFunction(a).col(o).cwiseProduct(std::get<VALUES>(*it));
+                bpAlpha += pomdp.getObservationFunction(a).col(o).cwiseProduct(it->values);
             }
             ir.col(a) += pomdp.getDiscount() * pomdp.getTransitionFunction(a) * bpAlpha;
         }

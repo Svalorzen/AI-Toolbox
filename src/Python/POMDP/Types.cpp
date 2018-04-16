@@ -1,6 +1,7 @@
 #include "../Utils.hpp"
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/Utils.hpp>
 
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
@@ -14,7 +15,12 @@ void exportPOMDPTypes() {
     TupleToPython<std::tuple<size_t, size_t, double>>();
 
     // POMDP Value Function
-    TupleToPython<POMDP::VEntry>();
+    class_<POMDP::VEntry>("VEntry")
+        .def_readwrite("values", &POMDP::VEntry::values)
+        .def_readwrite("action", &POMDP::VEntry::action)
+        .def_readwrite("observations", &POMDP::VEntry::observations)
+        .def("__eq__", &POMDP::operator==)
+        .def("__lt__", &POMDP::operator<);
     // FIXME: Here we set the NoProxy parameter of the vector_indexing_suite to
     // true, otherwise there is a weird bug where the VEntry cannot be seen in
     // Python if it is extracted from the VList. This unfortunately means that

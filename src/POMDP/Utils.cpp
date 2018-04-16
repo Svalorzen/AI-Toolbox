@@ -5,15 +5,20 @@ namespace AIToolbox::POMDP {
         auto values = MDP::Values(S);
         values.fill(0.0);
 
-        return ValueFunction(1, VList(1, std::make_tuple(values, 0, VObs())));
+        return ValueFunction(1, VList(1, {values, 0, VObs()}));
     }
 
     bool operator<(const VEntry & lhs, const VEntry & rhs) {
-        auto cmp = veccmp(std::get<0>(lhs), std::get<0>(rhs));
+        auto cmp = veccmp(lhs.values, rhs.values);
         if (cmp != 0) return cmp < 0;
-        if (std::get<1>(lhs) != std::get<1>(rhs))
-            return std::get<1>(lhs) < std::get<1>(rhs);
-        return std::get<2>(lhs) < std::get<2>(rhs);
+        if (lhs.action != rhs.action)
+            return lhs.action < rhs.action;
+        return lhs.observations < rhs.observations;
+    }
+    bool operator==(const VEntry & lhs, const VEntry & rhs) {
+        return veccmp(lhs.values, rhs.values) == 0 &&
+               lhs.action == rhs.action &&
+               lhs.observations == rhs.observations;
     }
 
     double weakBoundDistance(const VList & oldV, const VList & newV) {
@@ -38,7 +43,7 @@ namespace AIToolbox::POMDP {
             double closestDistance = std::numeric_limits<double>::infinity();
             for ( const auto & oldVE : oldV ) {
                 // Compute the distance, we pick the max
-                double distance = (std::get<VALUES>(newVE) - std::get<VALUES>(oldVE)).cwiseAbs().maxCoeff();
+                double distance = (newVE.values - oldVE.values).cwiseAbs().maxCoeff();
 
                 // Keep the closest, we pick the min
                 closestDistance = std::min(closestDistance, distance);

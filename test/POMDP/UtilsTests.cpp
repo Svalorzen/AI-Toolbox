@@ -126,11 +126,11 @@ BOOST_AUTO_TEST_CASE( extractBestUsefulBeliefsTest ) {
     };
 
     POMDP::VList vl = {
-        std::make_tuple((MDP::Values(2) << 3, 3).finished(), 1u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << 4, 1).finished(), 1u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << 1, 4).finished(), 1u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << 5, -5).finished(), 1u, POMDP::VObs(0)),
-        std::make_tuple((MDP::Values(2) << -5, 5).finished(), 1u, POMDP::VObs(0)),
+        {(MDP::Values(2) << 3, 3).finished(), 1u, POMDP::VObs(0)},
+        {(MDP::Values(2) << 4, 1).finished(), 1u, POMDP::VObs(0)},
+        {(MDP::Values(2) << 1, 4).finished(), 1u, POMDP::VObs(0)},
+        {(MDP::Values(2) << 5, -5).finished(), 1u, POMDP::VObs(0)},
+        {(MDP::Values(2) << -5, 5).finished(), 1u, POMDP::VObs(0)},
     };
 
     auto bound = extractBestUsefulBeliefs(std::begin(beliefs), std::end(beliefs), std::begin(vl), std::end(vl));
