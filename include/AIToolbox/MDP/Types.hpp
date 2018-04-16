@@ -46,6 +46,10 @@ namespace AIToolbox::MDP {
     struct ValueFunction {
         Values values;
         Actions actions;
+
+        ValueFunction() {}
+        ValueFunction(Values v, Actions a) :
+                values(std::move(v)), actions(std::move(a)) {}
     };
 
     using QFunction = Matrix2D;
