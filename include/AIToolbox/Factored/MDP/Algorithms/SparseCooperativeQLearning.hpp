@@ -1,10 +1,9 @@
 #ifndef AI_TOOLBOX_FACTORED_MDP_SPARSE_COOPERATIVE_QLEARNING_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_MDP_SPARSE_COOPERATIVE_QLEARNING_HEADER_FILE
 
-#include <stddef.h>
+#include <AIToolbox/Factored/MDP/Types.hpp>
 
 #include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
-#include <AIToolbox/Factored/MDP/Types.hpp>
 
 namespace AIToolbox::Factored::MDP {
     /**
