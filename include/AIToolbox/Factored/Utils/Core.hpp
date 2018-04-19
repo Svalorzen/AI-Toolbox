@@ -254,6 +254,17 @@ namespace AIToolbox::Factored {
             PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors);
 
             /**
+             * @brief Basic constructor.
+             *
+             * This constructor initializes the internal PartialFactors with
+             * the factors obtained as inputs. This constructor can be used
+             * when one wants to iterate over all factors.
+             *
+             * @param f The factor space for the internal PartialFactors.
+             */
+            PartialFactorsEnumerator(Factors f);
+
+            /**
              * @brief Skip constructor.
              *
              * This constructor is the same as the basic one, but it
@@ -268,6 +279,23 @@ namespace AIToolbox::Factored {
              * @param factorToSkip The factor to skip.
              */
             PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors, size_t factorToSkip);
+
+            /**
+             * @brief Skip constructor.
+             *
+             * This constructor is the same as the basic one, but it
+             * additionally remembers that the input factorToSkip will not
+             * be enumerated, and will in fact be editable by the client.
+             *
+             * This constructor can be used to enumerate over all factors.
+             *
+             * The factorToSkip must be contained in the factors, or it
+             * will not be taken into consideration.
+             *
+             * @param f The factor space for the internal PartialFactors.
+             * @param factorToSkip The factor to skip.
+             */
+            PartialFactorsEnumerator(Factors f, size_t factorToSkip);
 
             /**
              * @brief This function returns the id of the factorToSkip inside the PartialFactors.
@@ -293,6 +321,11 @@ namespace AIToolbox::Factored {
              * @return True if we can still be dereferenced, false otherwise.
              */
             bool isValid() const;
+
+            /**
+             * @brief This function resets the enumerator to the valid beginning (a fully zero PartialFactor).
+             */
+            void reset();
 
             /**
              * @brief This operator returns the current iteration in the values of the PartialFactors.

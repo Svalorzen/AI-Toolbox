@@ -186,6 +186,14 @@ namespace AIToolbox::Factored {
         factors_.second.resize(factors_.first.size());
     }
 
+    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f) :
+        F(std::move(f)), factorToSkipId_(F.size())
+    {
+        factors_.first.resize(F.size());
+        std::iota(std::begin(factors_.first), std::end(factors_.first), 0);
+        factors_.second.resize(factors_.first.size());
+    }
+
     PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, std::vector<size_t> factors, const size_t factorToSkip) :
         PartialFactorsEnumerator(std::move(f), std::move(factors))
     {
@@ -196,6 +204,12 @@ namespace AIToolbox::Factored {
                 break;
             }
         }
+    }
+
+    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, const size_t factorToSkip) :
+        PartialFactorsEnumerator(std::move(f))
+    {
+        factorToSkipId_ = factorToSkip;
     }
 
     void PartialFactorsEnumerator::advance() {
@@ -214,6 +228,13 @@ namespace AIToolbox::Factored {
 
     bool PartialFactorsEnumerator::isValid() const {
         return factors_.second.size() > 0;
+    }
+
+    void PartialFactorsEnumerator::reset() {
+        if (factors_.second.size() == 0)
+            factors_.second.resize(factors_.first.size());
+        else
+            std::fill(std::begin(factors_.second), std::end(factors_.second), 0);
     }
 
     size_t PartialFactorsEnumerator::getFactorToSkipId() const { return factorToSkipId_; }
