@@ -2,10 +2,11 @@
 
 namespace AIToolbox::Factored::MDP {
     JointActionLearner::JointActionLearner(const size_t s, Action a, const size_t i, const double d, const double al) :
-            S(s), A(std::move(a)), id_(i),
-            discount_(d), alpha_(al), timestep_(0),
-            jointQFun_(s, factorSpace(A)), singleQFun_(s, A[id_]),
-            jointActions_(A, id_)
+            A(std::move(a)), id_(i),
+            timestep_(0),
+            singleQFun_(s, A[id_]),
+            jointActions_(A, id_),
+            qLearning_(s, factorSpace(A), d, al)
     {
         counts_.resize(A.size());
         for (size_t j = 0; j < A.size(); ++j)
@@ -20,7 +21,7 @@ namespace AIToolbox::Factored::MDP {
 
         // QLearning update
         const auto jointA = toIndex(A, a);
-        jointQFun_(s, jointA) += alpha_ * ( rew + discount_ * jointQFun_.row(s1).maxCoeff() - jointQFun_(s, jointA) );
+        qLearning_.stepUpdateQ(s, jointA, s1, rew);
     }
 
     void JointActionLearner::stepUpdateSingleQ(size_t s) {
@@ -28,7 +29,7 @@ namespace AIToolbox::Factored::MDP {
     }
 
     void JointActionLearner::stepUpdateSingleQ() {
-        updateSingleQFunction(0, S);
+        updateSingleQFunction(0, qLearning_.getS());
     }
 
     void JointActionLearner::updateSingleQFunction(size_t begin, size_t end) {
@@ -48,7 +49,7 @@ namespace AIToolbox::Factored::MDP {
                 const auto aa = toIndex(A, jointAction.second);
 
                 for (size_t s = begin; s < end; ++s)
-                    singleQFun_(s, ai) += jointQFun_(s, aa) * p;
+                    singleQFun_(s, ai) += qLearning_.getQFunction()(s, aa) * p;
             }
             jointActions_.advance();
         }

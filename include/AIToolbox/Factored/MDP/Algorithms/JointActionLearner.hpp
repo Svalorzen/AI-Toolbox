@@ -6,6 +6,8 @@
 
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
+#include <AIToolbox/MDP/Algorithms/QLearning.hpp>
+
 namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class represents a single Joint Action Learner agent.
@@ -120,15 +122,13 @@ namespace AIToolbox::Factored::MDP {
              */
             void updateSingleQFunction(size_t begin, size_t end);
 
-            size_t S;
             Action A;
             size_t id_;
-            double discount_, alpha_;
             unsigned timestep_;
             std::vector<std::vector<unsigned>> counts_;
-            AIToolbox::MDP::QFunction jointQFun_;
             AIToolbox::MDP::QFunction singleQFun_;
             PartialFactorsEnumerator jointActions_;
+            AIToolbox::MDP::QLearning qLearning_;
     };
 }
 
