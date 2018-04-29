@@ -112,6 +112,7 @@ if (MAKE_FMDP)
     AddTestFactored(LLR)
     AddTestFactored(MultiObjectiveVariableElimination)
     AddTestFactored(SparseCooperativeQLearning)
+    AddTestFactored(JointActionLearner)
     AddTestFactored(VariableElimination)
 endif()
 

@@ -120,6 +120,7 @@ if (MAKE_FMDP)
         Factored/MDP/Policies/QGreedyPolicy.cpp
         Factored/MDP/Algorithms/Utils/FactoredLP.cpp
         Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp
+        Factored/MDP/Algorithms/JointActionLearner.cpp
     )
     set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
