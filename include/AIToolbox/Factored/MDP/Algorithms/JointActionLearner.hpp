@@ -177,6 +177,13 @@ namespace AIToolbox::Factored::MDP {
              */
             Action getA() const;
 
+            /**
+             * @brief This function returns the id of the agent represented by this class.
+             *
+             * @return The id of this agent.
+             */
+            size_t getId() const;
+
         private:
             /**
              * @brief This function contains the implementation of the single agent QFunction update.
