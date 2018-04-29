@@ -54,4 +54,13 @@ namespace AIToolbox::Factored::MDP {
             jointActions_.advance();
         }
     }
+
+    const AIToolbox::MDP::QFunction & JointActionLearner::getJointQFunction() const { return qLearning_.getQFunction(); }
+    const AIToolbox::MDP::QFunction & JointActionLearner::getSingleQFunction() const { return singleQFun_; }
+    void JointActionLearner::setLearningRate(double a) { qLearning_.setLearningRate(a); }
+    double JointActionLearner::getLearningRate() const { return qLearning_.getLearningRate(); }
+    void JointActionLearner::setDiscount(double d) { qLearning_.setDiscount(d); }
+    double JointActionLearner::getDiscount() const { return qLearning_.getDiscount(); }
+    size_t JointActionLearner::getS() const { return qLearning_.getS(); }
+    Action JointActionLearner::getA() const { return A; }
 }
