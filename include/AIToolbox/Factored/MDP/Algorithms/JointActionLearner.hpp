@@ -135,7 +135,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The action space.
              */
-            Action getA() const;
+            const Action & getA() const;
 
             /**
              * @brief This function returns the id of the agent represented by this class.

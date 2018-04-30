@@ -64,6 +64,6 @@ namespace AIToolbox::Factored::MDP {
     void JointActionLearner::setDiscount(double d) { qLearning_.setDiscount(d); }
     double JointActionLearner::getDiscount() const { return qLearning_.getDiscount(); }
     size_t JointActionLearner::getS() const { return qLearning_.getS(); }
-    Action JointActionLearner::getA() const { return A; }
+    const Action & JointActionLearner::getA() const { return A; }
     size_t JointActionLearner::getId() const { return id_; }
 }
