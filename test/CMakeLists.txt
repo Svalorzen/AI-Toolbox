@@ -42,6 +42,11 @@ function (AddTestPOMDPPython name)
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/POMDP/${name}Tests.py)
 endfunction (AddTestPOMDPPython)
 
+function (AddTestFactoredPython name)
+    set(exename Factored_Python_${name})
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/Factored/${name}Tests.py)
+endfunction (AddTestFactoredPython)
+
 if (MAKE_MDP)
     find_package(Boost 1.53 COMPONENTS unit_test_framework REQUIRED)
     include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
@@ -114,6 +119,10 @@ if (MAKE_FMDP)
     AddTestFactored(SparseCooperativeQLearning)
     AddTestFactored(JointActionLearner)
     AddTestFactored(VariableElimination)
+
+    if (MAKE_PYTHON)
+        AddTestFactoredPython(JointActionLearner)
+    endif()
 endif()
 
 if (MAKE_POMDP)

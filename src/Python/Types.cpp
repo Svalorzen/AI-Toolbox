@@ -131,6 +131,7 @@ void exportTypes() {
     // std::vector<size_t> (actions...)
     class_<std::vector<size_t>>{"vec_size_t"}
         .def(vector_indexing_suite<std::vector<size_t>>());
+    VectorFromPython<size_t>();
 
     // Enable passing 3D tables from Python
     Vector3DFromPython<double>();

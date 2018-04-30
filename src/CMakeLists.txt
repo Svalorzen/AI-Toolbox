@@ -128,11 +128,14 @@ if (MAKE_FMDP)
 
     if (MAKE_PYTHON)
         add_library(Factored SHARED
+            Factored/Utils/Core.cpp
             Factored/Game/Policies/LRPPolicy.cpp
             Factored/Game/Policies/ESRLPolicy.cpp
+            Factored/MDP/Algorithms/JointActionLearner.cpp
             Python/Factored/Game/Policies/PolicyInterface.cpp
             Python/Factored/Game/Policies/LRPPolicy.cpp
             Python/Factored/Game/Policies/ESRLPolicy.cpp
+            Python/Factored/MDP/Algorithms/JointActionLearner.cpp
             Python/FactoredWrappers.cpp)
 
         target_link_libraries(Factored ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP)
