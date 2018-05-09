@@ -33,11 +33,11 @@ namespace AIToolbox::MDP {
     double QGreedyPolicy::getActionProbability(const size_t & s, const size_t & a) const {
         double max = q_(s, 0); unsigned count = 1;
         for ( size_t aa = 1; aa < A; ++aa ) {
-            if ( checkEqualGeneral(q_(s, aa), max) ) ++count;
-            else if ( q_(s, aa) > max ) {
+            if ( q_(s, aa) > max ) {
                 max = q_(s, aa);
                 count = 1;
             }
+            else if ( checkEqualGeneral(q_(s, aa), max) ) ++count;
         }
         if ( checkDifferentGeneral(q_(s, a), max) ) return 0.0;
 

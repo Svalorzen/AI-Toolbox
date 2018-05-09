@@ -15,4 +15,3 @@ namespace AIToolbox::Factored::Bandit {
 }
 
 #endif
-
