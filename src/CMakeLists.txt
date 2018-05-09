@@ -20,6 +20,8 @@ if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
         Impl/CassandraParser.cpp
+        Bandit/Policies/GreedyPolicy.cpp
+        Bandit/Policies/ThompsonSamplingPolicy.cpp
         MDP/Experience.cpp
         MDP/Utils.cpp
         MDP/Model.cpp

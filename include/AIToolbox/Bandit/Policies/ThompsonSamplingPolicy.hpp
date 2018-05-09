@@ -16,8 +16,8 @@ namespace AIToolbox::Bandit {
      * distribution centered on the average for the arm, with decreasing
      * variance as more experience is gathered.
      *
-     * Note that this class that the reward obtained is normalized into a [0,1]
-     * range (which it does not check).
+     * Note that this class assumes that the reward obtained is normalized into
+     * a [0,1] range (which it does not check).
      *
      * The usage of the Normal distribution best matches a Normally distributed
      * reward. Another implementation (not provided here) uses Beta

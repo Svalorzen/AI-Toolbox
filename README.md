@@ -65,6 +65,13 @@ as possible instantiations. This toolbox does lose quite a bit of power in
 terms of efficient customization when used from Python, but it allows to rapidly
 iterate in order to find out what works and what doesn't.
 
+### Single Agent Bandit: ###
+
+Policies:
+
+- [Greedy Policy](https://arxiv.org/pdf/1707.02038.pdf)
+- [Thompson Sampling (Normal distribution)](https://arxiv.org/pdf/1307.3400.pdf)
+
 ### Single Agent MDP: ###
 
 Algorithms:
