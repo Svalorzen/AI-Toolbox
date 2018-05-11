@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 
+set(BanditDependencies      AIToolboxMDP)
 set(MDPDependencies         AIToolboxMDP)
 set(POMDPDependencies       AIToolboxMDP AIToolboxPOMDP)
 set(FactoredDependencies    AIToolboxMDP AIToolboxFMDP)
@@ -33,6 +34,8 @@ if (MAKE_MDP)
     include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
     AddTestGlobal(Utils)
+
+    AddTest(Bandit GreedyPolicy)
 
     AddTest(MDP Types)
 
