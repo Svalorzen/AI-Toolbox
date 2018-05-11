@@ -1,11 +1,10 @@
-#include <AIToolbox/FactoredMDP/Algorithms/MAUCE.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/MAUCE.hpp>
 
-#include <AIToolbox/FactoredMDP/Utils.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 
 #include <AIToolbox/Impl/Logging.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     MAUCE::MAUCE(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies) :
             A(std::move(aa)), timestep_(0),
             averages_(A), logA_(0.0)
@@ -72,7 +71,7 @@ namespace AIToolbox::FactoredMDP {
         FactoredContainer<QFunctionRule>::ItemsContainer container;
 
         for (size_t i = 0; i < averages_.size(); ++i)
-            container.emplace_back(PartialState{}, std::get<0>(rules_[i]), averages_[i].value);
+            container.emplace_back(std::get<0>(rules_[i]), averages_[i].value);
 
         return FactoredContainer<QFunctionRule>(averages_.getTrie(), std::move(container));
     }

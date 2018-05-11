@@ -1,11 +1,11 @@
-#ifndef AI_TOOLBOX_FACTOREDMDP_MAUCE_HEADER_FILE
-#define AI_TOOLBOX_FACTOREDMDP_MAUCE_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_MAUCE_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_MAUCE_HEADER_FILE
 
-#include <AIToolbox/FactoredMDP/Types.hpp>
-#include <AIToolbox/FactoredMDP/FactoredContainer.hpp>
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
+#include <AIToolbox/Factored/Bandit/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/UCVE.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This class represents the Multi-Agent Upper Confidence Exploration algorithm.
      *
