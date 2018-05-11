@@ -20,14 +20,17 @@ namespace AIToolbox::Bandit {
         double bestValue = experience_[0].first; unsigned bestActionCount = 1;
         for ( size_t a = 1; a < A; ++a ) {
             auto & val = experience_[a].first;
-            if ( val > bestValue ) {
+            // The checkEqualGeneral is before the greater since we want to
+            // trap here things that may be equal (even if one is a tiny bit
+            // higher than the other).
+            if ( checkEqualGeneral(val, bestValue) ) {
+                bestActions_[bestActionCount] = a;
+                ++bestActionCount;
+            }
+            else if ( val > bestValue ) {
                 bestActions_[0] = a;
                 bestActionCount = 1;
                 bestValue = val;
-            }
-            else if ( checkEqualGeneral(val, bestValue) ) {
-                bestActions_[bestActionCount] = a;
-                ++bestActionCount;
             }
         }
 
@@ -41,11 +44,14 @@ namespace AIToolbox::Bandit {
         double max = experience_[0].first; unsigned count = 1;
         for ( size_t aa = 1; aa < A; ++aa ) {
             auto & val = experience_[aa].first;
-            if ( val > max ) {
+            // The checkEqualGeneral is before the greater since we want to
+            // trap here things that may be equal (even if one is a tiny bit
+            // higher than the other).
+            if ( checkEqualGeneral(val, max) ) ++count;
+            else if ( val > max ) {
                 max = val;
                 count = 1;
             }
-            else if ( checkEqualGeneral(val, max) ) ++count;
         }
         if ( checkDifferentGeneral(experience_[a].first, max) ) return 0.0;
 
