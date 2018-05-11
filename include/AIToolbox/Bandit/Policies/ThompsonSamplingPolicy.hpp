@@ -33,14 +33,15 @@ namespace AIToolbox::Bandit {
             ThompsonSamplingPolicy(size_t A);
 
             /**
-             * @brief This function updates the greedy policy based on the result of the action.
+             * @brief This function updates the policy based on the result of the action.
              *
              * We simply keep a rolling average for each action, which we
-             * update here. The ones with the best average are the ones which
-             * will be selected when sampling.
+             * update here. Each average and count will then be used as
+             * parameters for the Normal distribution used to decide which
+             * action to sample later.
              *
              * Note that we expect a normalized reward here in order to
-             * correctly compare the various actions.
+             * easily compare the various actions during Normal sampling.
              *
              * @param a The action taken.
              * @param r The reward obtained, in a [0,1] range.
