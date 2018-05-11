@@ -46,27 +46,21 @@ if (MAKE_MDP)
     set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
     if (MAKE_PYTHON)
-        add_library(MDP SHARED
+        add_library(Bandit SHARED
             Impl/Seeder.cpp
-            MDP/Utils.cpp
-            MDP/Experience.cpp
-            MDP/SparseExperience.cpp
-            MDP/Model.cpp
-            MDP/SparseModel.cpp
-            MDP/Algorithms/QLearning.cpp
-            MDP/Algorithms/HystereticQLearning.cpp
-            MDP/Algorithms/SARSA.cpp
-            MDP/Algorithms/ExpectedSARSA.cpp
-            MDP/Algorithms/SARSAL.cpp
-            MDP/Algorithms/ValueIteration.cpp
-            MDP/Algorithms/PolicyIteration.cpp
-            MDP/Policies/Policy.cpp
-            MDP/Policies/RandomPolicy.cpp
-            MDP/Policies/EpsilonPolicy.cpp
-            MDP/Policies/QPolicyInterface.cpp
-            MDP/Policies/QGreedyPolicy.cpp
-            MDP/Policies/QSoftmaxPolicy.cpp
-            MDP/Policies/WoLFPolicy.cpp
+            Bandit/Policies/GreedyPolicy.cpp
+            Bandit/Policies/ThompsonSamplingPolicy.cpp
+            Python/Utils.cpp
+            Python/Types.cpp
+            Python/Bandit/Policies/PolicyInterface.cpp
+            Python/Bandit/Policies/GreedyPolicy.cpp
+            Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
+            Python/BanditWrappers.cpp)
+        target_link_libraries(Bandit ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY})
+        set_target_properties(Bandit PROPERTIES PREFIX "")
+        set_target_properties(Bandit PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
+
+        add_library(MDP SHARED
             Python/Utils.cpp
             Python/Types.cpp
             Python/MDP/Utils.cpp
@@ -95,7 +89,7 @@ if (MAKE_MDP)
             Python/MDP/Policies/EpsilonPolicy.cpp
             Python/MDP/Policies/WoLFPolicy.cpp
             Python/MDPWrappers.cpp)
-        target_link_libraries(MDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY})
+        target_link_libraries(MDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} AIToolboxMDP)
         set_target_properties(MDP PROPERTIES PREFIX "")
         set_target_properties(MDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
@@ -130,17 +124,13 @@ if (MAKE_FMDP)
 
     if (MAKE_PYTHON)
         add_library(Factored SHARED
-            Factored/Utils/Core.cpp
-            Factored/Game/Policies/LRPPolicy.cpp
-            Factored/Game/Policies/ESRLPolicy.cpp
-            Factored/MDP/Algorithms/JointActionLearner.cpp
             Python/Factored/Game/Policies/PolicyInterface.cpp
             Python/Factored/Game/Policies/LRPPolicy.cpp
             Python/Factored/Game/Policies/ESRLPolicy.cpp
             Python/Factored/MDP/Algorithms/JointActionLearner.cpp
             Python/FactoredWrappers.cpp)
 
-        target_link_libraries(Factored ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP)
+        target_link_libraries(Factored ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} AIToolboxFMDP MDP)
         set_target_properties(Factored PROPERTIES PREFIX "")
         set_target_properties(Factored PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
@@ -172,19 +162,6 @@ if (MAKE_POMDP)
             message(WARNING "LpSolve libraries found could be static, linking against Python dynamic libraries may not work!")
         endif()
         add_library(POMDP SHARED
-            LP/LpSolveWrapper.cpp
-            POMDP/Utils.cpp
-            POMDP/Algorithms/AMDP.cpp
-            POMDP/Algorithms/BlindStrategies.cpp
-            POMDP/Algorithms/FastInformedBound.cpp
-            POMDP/Algorithms/GapMin.cpp
-            POMDP/Algorithms/IncrementalPruning.cpp
-            POMDP/Algorithms/PBVI.cpp
-            POMDP/Algorithms/PERSEUS.cpp
-            POMDP/Algorithms/QMDP.cpp
-            POMDP/Algorithms/Witness.cpp
-            POMDP/Algorithms/Utils/WitnessLP.cpp
-            POMDP/Policies/Policy.cpp
             Python/POMDP/Types.cpp
             Python/POMDP/Utils.cpp
             Python/POMDP/Model.cpp
@@ -201,7 +178,7 @@ if (MAKE_POMDP)
             Python/POMDP/Policies/PolicyInterface.cpp
             Python/POMDP/Policies/Policy.cpp
             Python/POMDPWrappers.cpp)
-        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} MDP ${LPSOLVE_LIBRARIES})
+        target_link_libraries(POMDP ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} AIToolboxPOMDP MDP ${LPSOLVE_LIBRARIES})
         set_target_properties(POMDP PROPERTIES PREFIX "")
         set_target_properties(POMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     endif()
