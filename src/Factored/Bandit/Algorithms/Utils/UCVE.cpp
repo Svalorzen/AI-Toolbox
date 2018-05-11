@@ -1,10 +1,10 @@
-#include <AIToolbox/FactoredMDP/Algorithms/Utils/UCVE.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/UCVE.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/FactoredMDP/Utils.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Impl/Logging.hpp>
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This function cross-sums the input lists.
      *
@@ -118,6 +118,8 @@ namespace AIToolbox::FactoredMDP {
         const auto factors = graph_.getNeighbors(agent);
         auto agents = graph_.getNeighbors(factors);
 
+        const bool isFinalFactor = agents.size() == 1;
+
         AI_LOGGER(AI_SEVERITY_DEBUG, "This agent has " << factors.size() << " factors.");
         AI_LOGGER(AI_SEVERITY_DEBUG, "Now building bounds...");
 
@@ -142,7 +144,7 @@ namespace AIToolbox::FactoredMDP {
                 }
                 double currMax = std::numeric_limits<double>::lowest();
                 double currMin = std::numeric_limits<double>::max();
-                for (const auto & rule : it->getData().rules_) {
+                for (const auto & rule : it->getData().rules) {
                     for (const auto & entry : std::get<1>(rule)) {
                         const auto & v = std::get<1>(entry);
                         currMax = std::max(currMax, v[1]);
@@ -165,18 +167,17 @@ namespace AIToolbox::FactoredMDP {
         while (jointActions.isValid()) {
             auto & jointAction = *jointActions;
 
-            Rule newRule;
-            auto & values = std::get<1>(newRule);
+            Entries values;
             for (size_t agentAction = 0; agentAction < A[agent]; ++agentAction) {
                 jointAction.second[id] = agentAction;
 
                 Entries newEntries;
-                for (const auto p : getPayoffs(factors[0]->getData().rules_, jointAction))
+                for (const auto p : getPayoffs(factors[0]->getData().rules, jointAction))
                     newEntries.insert(std::end(newEntries), std::begin(*p), std::end(*p));
 
                 auto entries = newEntries.size();
                 for (size_t i = 1; i < factors.size(); ++i) {
-                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules_, jointAction));
+                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules, jointAction));
                     // We remove the entries that cannot possibly be useful anymore
                     if (newEntries.size() > entries) {
                         newEntries.erase(boundPrune(std::begin(newEntries), std::end(newEntries), x_l, x_u, logtA_), std::end(newEntries));
@@ -205,16 +206,9 @@ namespace AIToolbox::FactoredMDP {
                 // If this is a final factor we do the alternative path
                 // here, to avoid copying joint actions which we won't
                 // really need anymore.
-                if (agents.size() > 1) {
+                if (!isFinalFactor) {
                     AI_LOGGER(AI_SEVERITY_DEBUG, "Found new rule...");
-                    std::get<0>(newRule) = removeFactor(jointAction, agent);
-
-                    // Our insertion needs to be sorted so that we can
-                    // merge efficiently later with rules in a factor.
-                    // Doing insertion sort here is hopefully faster
-                    // than quicksorting later the whole list.
-                    const auto pos = std::upper_bound(std::begin(newRules), std::end(newRules), newRule, ruleComp);
-                    newRules.emplace(pos, std::move(newRule));
+                    newRules.emplace_back(removeFactor(jointAction, agent), std::move(values));
                 } else {
                     AI_LOGGER(AI_SEVERITY_DEBUG, "Adding final factor...");
                     finalFactors_.emplace_back(std::move(values));
@@ -231,12 +225,12 @@ namespace AIToolbox::FactoredMDP {
         AI_LOGGER(AI_SEVERITY_DEBUG, "Done.");
 
         if (newRules.size() == 0) return;
-        if (agents.size() > 1) {
+        if (!isFinalFactor) {
             AI_LOGGER(AI_SEVERITY_DEBUG, "Non-end rule, adding it...");
             agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
 
             auto newFactor = graph_.getFactor(agents);
-            auto & fRules = newFactor->getData().rules_;
+            auto & fRules = newFactor->getData().rules;
 
             // Unfortunately here we cannot simply dump the new results in
             // the old factor as we do in the normal VariableElimination.
@@ -324,6 +318,9 @@ namespace AIToolbox::FactoredMDP {
         UCVE::Rules retval;
         // We're going to have at least these rules.
         retval.reserve(lhs.size() + rhs.size());
+
+        std::sort(std::begin(lhs), std::end(lhs), ruleComp);
+        std::sort(std::begin(rhs), std::end(rhs), ruleComp);
 
         // Here we merge two lists of Rules. What we want is that if any of
         // them match, we need to crossSum them. Otherwise, just bring them

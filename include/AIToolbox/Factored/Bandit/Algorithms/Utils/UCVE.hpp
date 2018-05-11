@@ -1,10 +1,10 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_UCVE_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_UCVE_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_UCVE_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_UCVE_HEADER_FILE
 
-#include "AIToolbox/FactoredMDP/Types.hpp"
-#include "AIToolbox/FactoredMDP/FactorGraph.hpp"
+#include "AIToolbox/Factored/Bandit/Types.hpp"
+#include "AIToolbox/Factored/Utils/FactorGraph.hpp"
 
-namespace AIToolbox::FactoredMDP {
+namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This class represents the UCVE process.
      *
@@ -39,7 +39,7 @@ namespace AIToolbox::FactoredMDP {
             using Result = Entry;
 
             struct Factor {
-                Rules rules_;
+                Rules rules;
             };
 
             using Graph = FactorGraph<Factor>;
@@ -70,14 +70,9 @@ namespace AIToolbox::FactoredMDP {
             Result operator()(const Iterable & inputRules) {
                 for (const Entry & rule : inputRules) {
                     const auto & a = std::get<0>(rule);
-                    auto & rules = graph_.getFactor(a.first)->getData().rules_;
+                    auto & rules = graph_.getFactor(a.first)->getData().rules;
 
-                    // Create new rule for this action (untagged)
-                    auto newRule = std::make_tuple(a, Entries{std::make_tuple(PartialAction(), std::get<1>(rule))});
-                    // In case there are multiple rules for this action,
-                    // insert it sorted so we can do merges later faster.
-                    const auto pos = std::upper_bound(std::begin(rules), std::end(rules), newRule, ruleComp);
-                    rules.emplace(pos, std::move(newRule));
+                    rules.emplace_back(a, Entries{std::make_tuple(PartialAction(), std::get<1>(rule))};
                 }
                 // Start solving process.
                 return start();
