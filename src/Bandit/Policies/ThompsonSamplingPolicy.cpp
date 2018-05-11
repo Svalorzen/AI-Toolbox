@@ -49,17 +49,17 @@ namespace AIToolbox::Bandit {
         std::vector<std::normal_distribution<double>> dists;
         dists.reserve(A);
 
-        for (size_t i = 0; i < A; ++i)
-            dists.emplace_back(experience_[a].first, 1.0 / (experience_[a].second + 1));
+        for (size_t aa = 0; aa < A; ++aa)
+            dists.emplace_back(experience_[aa].first, 1.0 / (experience_[aa].second + 1));
 
         for (size_t i = 0; i < trials; ++i) {
             size_t bestAction = 0;
             double bestValue = dists[0](rand_);
-            for ( size_t a = 1; a < A; ++a ) {
-                const auto val = dists[a](rand_);
+            for ( size_t aa = 1; aa < A; ++aa ) {
+                const auto val = dists[aa](rand_);
 
                 if ( val > bestValue ) {
-                    bestAction = a;
+                    bestAction = aa;
                     bestValue = val;
                 }
             }
