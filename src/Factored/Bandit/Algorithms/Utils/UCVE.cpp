@@ -102,7 +102,7 @@ namespace AIToolbox::Factored::Bandit {
         double max = std::numeric_limits<double>::lowest();
         Entries::iterator retval;
         for (auto it = std::begin(results); it != std::end(results); ++it) {
-            double itVal = computeValue(*it, 0.0, logtA_);
+            double itVal = computeValue(*it, 0.0, 0.0);
             if (itVal > max) {
                 max = itVal;
                 retval = it;
@@ -298,10 +298,10 @@ namespace AIToolbox::Factored::Bandit {
         if (!rhs.size()) return lhs;
         UCVE::Entries retval;
         retval.reserve(lhs.size() + rhs.size());
-        // We do the rhs first since they'll usually be shorter (due to
+        // We do the rhs last since they'll usually be shorter (due to
         // this class usage), so hopefully we can use the cache better.
-        for (const auto & rhsVal : rhs) {
-            for (const auto & lhsVal : lhs) {
+        for (const auto & lhsVal : lhs) {
+            for (const auto & rhsVal : rhs) {
                 auto tags = merge(std::get<0>(lhsVal), std::get<0>(rhsVal));
                 auto values = std::get<1>(lhsVal) + std::get<1>(rhsVal);
                 retval.emplace_back(std::move(tags), std::move(values));
@@ -310,7 +310,7 @@ namespace AIToolbox::Factored::Bandit {
         return retval;
     }
 
-    bool UCVE::ruleComp(const Rule & lhs, const Rule & rhs) {
+    bool ruleComp(const UCVE::Rule & lhs, const UCVE::Rule & rhs) {
         return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
     }
 
