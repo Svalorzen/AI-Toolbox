@@ -31,5 +31,3 @@ void exportFactoredGamePolicyInterface() {
              "@return The probability of taking the selected action.\n"
         , (arg("self"), "a"));
 }
-
-

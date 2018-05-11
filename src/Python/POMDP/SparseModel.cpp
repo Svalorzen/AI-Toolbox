@@ -14,7 +14,7 @@ void exportPOMDPSparseModel() {
 
     class_<POMDPSparseModelBinded, bases<AIToolbox::MDP::SparseModel>>{"SparseModel",
 
-        "@brief This class represents a Partially Observable Markov Decision Process.\n"
+        "This class represents a Partially Observable Markov Decision Process.\n"
         "\n"
         "This class inherits from any valid MDP model type, so that it can\n"
         "use its base methods, and it builds from those. Templated inheritance\n"
