@@ -1,5 +1,9 @@
 #include <boost/python.hpp>
 
+class NamespaceFactored{};
+class NamespaceFactoredGame{};
+class NamespaceFactoredMDP{};
+
 void exportFactoredGamePolicyInterface();
 
 void exportFactoredGameLRPPolicy();
@@ -7,16 +11,13 @@ void exportFactoredGameESRLPolicy();
 
 void exportFactoredMDPJointActionLearner();
 
-class NamespaceGame{};
-class NamespaceMDP{};
-
-BOOST_PYTHON_MODULE(Factored)
-{
-    boost::python::docstring_options localDocstringOptions(true, true, false);
+void exportFactored() {
+#ifdef AITOOLBOX_EXPORT_FACTORED
+    boost::python::scope x = boost::python::class_<NamespaceFactored>("Factored");
 
     // Game nested scope
     {
-        boost::python::scope x = boost::python::class_<NamespaceGame>("Game");
+        boost::python::scope x = boost::python::class_<NamespaceFactoredGame>("Game");
 
         exportFactoredGamePolicyInterface();
 
@@ -26,8 +27,9 @@ BOOST_PYTHON_MODULE(Factored)
 
     // MDP nested scope
     {
-        boost::python::scope x = boost::python::class_<NamespaceMDP>("MDP");
+        boost::python::scope x = boost::python::class_<NamespaceFactoredMDP>("MDP");
 
         exportFactoredMDPJointActionLearner();
     }
+#endif
 }

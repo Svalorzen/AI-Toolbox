@@ -3,7 +3,7 @@ import sys
 import os
 
 sys.path.append(os.getcwd())
-import MDP
+from AIToolbox import MDP
 
 UP = 0
 RIGHT = 1
