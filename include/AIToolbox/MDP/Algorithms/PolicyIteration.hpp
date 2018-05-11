@@ -82,10 +82,11 @@ namespace AIToolbox::MDP {
 
         {
 nextLoop:
-            auto solution = eval(p);
+            auto [bound, v, q] = eval(p);
+            (void)bound;
 
-            eval.setValues(std::move(std::get<1>(solution)));
-            qfun = std::move(std::get<2>(solution));
+            eval.setValues(std::move(v));
+            qfun = std::move(q);
 
             auto newTable = p.getPolicy();
             for (size_t s = 0; s < S; ++s) {
