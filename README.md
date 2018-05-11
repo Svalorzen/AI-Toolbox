@@ -258,12 +258,12 @@ otherwise it may result in `undefined reference` errors. The POMDP and Factored
 MDP libraries are not currently dependent on each other so their order does not
 matter.
 
-For Python, you just need to import the `MDP.so` and `POMDP.so` modules, and
-you'll be able to use the classes as exported to Python. All classes are
-documented, and you can run in the Python CLI
+For Python, you just need to import the `AIToolbox.so` module, and you'll be
+able to use the classes as exported to Python. All classes are documented, and
+you can run in the Python CLI
 
-    help(MDP)
-    help(POMDP)
+    help(AIToolbox.MDP)
+    help(AIToolbox.POMDP)
 
 to see the documentation for each specific class.
 
@@ -274,6 +274,6 @@ The latest documentation is available [here](http://svalorzen.github.io/AI-Toolb
 Keep in mind that it may not always be 100% up to date with the latest
 commits, while the one you compile yourself will of course be.
 
-For Python docs you can find them by typing `help(MDP)` or `help(MDP.SomeMDPClass)`
-from the interpreter. It should show the exported API for each class, along with
-any differences in input/output.
+For Python docs you can find them by typing `help(AIToolbox)` from the
+interpreter. It should show the exported API for each class, along with any
+differences in input/output.
