@@ -14,7 +14,7 @@ void exportMDPSparseModel() {
 
     class_<SparseModel>{"SparseModel",
 
-         "@brief This class represents a Markov Decision Process.\n"
+         "This class represents a Markov Decision Process.\n"
          "\n"
          "A Markov Decision Process (MDP) is a way to model decision making.\n"
          "The idea is that there is an agent situated in a stochastic\n"

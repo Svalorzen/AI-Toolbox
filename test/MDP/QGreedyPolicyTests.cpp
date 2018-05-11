@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     for (unsigned i = 0; i < 1000; ++i)
         BOOST_CHECK_EQUAL(p.sampleAction(0), 0);
 
-    std::array<unsigned, S> counts{{0,0,0}};
+    std::array<unsigned, A> counts{{0,0,0}};
     for (unsigned i = 0; i < 1000; ++i)
         ++counts[p.sampleAction(1)];
 

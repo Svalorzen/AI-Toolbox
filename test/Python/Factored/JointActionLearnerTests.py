@@ -3,8 +3,7 @@ import sys
 import os
 
 sys.path.append(os.getcwd())
-import MDP
-import Factored
+from AIToolbox import Factored
 
 class FactoredPythonJointActionLearnerTests(unittest.TestCase):
 

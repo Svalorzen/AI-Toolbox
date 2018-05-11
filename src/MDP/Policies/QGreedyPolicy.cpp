@@ -13,14 +13,19 @@ namespace AIToolbox::MDP {
         // This work is due to multiple max-valued actions
         double bestQValue = q_(s, 0); unsigned bestActionCount = 1;
         for ( size_t a = 1; a < A; ++a ) {
-            if ( q_(s, a) > bestQValue ) {
+            // The checkEqualGeneral is before the greater since we want to
+            // trap here things that may be equal (even if one is a tiny bit
+            // higher than the other).
+            if ( checkEqualGeneral(q_(s, a), bestQValue) ) {
+                bestActions_[bestActionCount] = a;
+                ++bestActionCount;
+            }
+            // In case the new element is really higher than the other, then we
+            // reset the counts.
+            else if ( q_(s, a) > bestQValue ) {
                 bestActions_[0] = a;
                 bestActionCount = 1;
                 bestQValue = q_(s, a);
-            }
-            else if ( checkEqualGeneral(q_(s, a), bestQValue) ) {
-                bestActions_[bestActionCount] = a;
-                ++bestActionCount;
             }
         }
 
@@ -33,7 +38,12 @@ namespace AIToolbox::MDP {
     double QGreedyPolicy::getActionProbability(const size_t & s, const size_t & a) const {
         double max = q_(s, 0); unsigned count = 1;
         for ( size_t aa = 1; aa < A; ++aa ) {
+            // The checkEqualGeneral is before the greater since we want to
+            // trap here things that may be equal (even if one is a tiny bit
+            // higher than the other).
             if ( checkEqualGeneral(q_(s, aa), max) ) ++count;
+            // In case the new element is really higher than the other, then we
+            // reset the counts.
             else if ( q_(s, aa) > max ) {
                 max = q_(s, aa);
                 count = 1;

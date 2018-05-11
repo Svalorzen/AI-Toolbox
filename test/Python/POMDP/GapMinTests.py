@@ -3,8 +3,8 @@ import sys
 import os
 
 sys.path.append(os.getcwd())
-import MDP
-import POMDP
+
+from AIToolbox import POMDP
 
 class POMDPPythonGapMin(unittest.TestCase):
 

@@ -1,6 +1,6 @@
 #include <boost/python.hpp>
 
-void exportTypes();
+class NamespaceMDP{};
 
 void exportMDPTypes();
 
@@ -31,11 +31,9 @@ void exportMDPWoLFPolicy();
 void exportMDPRandomPolicy();
 void exportMDPPolicy();
 
-BOOST_PYTHON_MODULE(MDP)
-{
-    boost::python::docstring_options localDocstringOptions(true, true, false);
-
-    exportTypes();
+void exportMDP() {
+#ifdef AITOOLBOX_EXPORT_MDP
+    boost::python::scope x = boost::python::class_<NamespaceMDP>("MDP");
 
     exportMDPTypes();
 
@@ -65,4 +63,5 @@ BOOST_PYTHON_MODULE(MDP)
     exportMDPWoLFPolicy();
     exportMDPRandomPolicy();
     exportMDPPolicy();
+#endif
 }

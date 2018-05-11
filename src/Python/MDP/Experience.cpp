@@ -90,7 +90,7 @@ void exportMDPExperience() {
         , (arg("self"), "s", "a", "s1"))
 
         .def("getRewardSum",    &Experience::getRewardSum,
-                 "@brief This function returns the total reward obtained from transitions that start with the specified state and action.\n"
+                 "This function returns the total reward obtained from transitions that start with the specified state and action.\n"
                  "\n"
                  "@param s     The initial state.\n"
                  "@param a     Performed action.\n"
@@ -99,13 +99,13 @@ void exportMDPExperience() {
         , (arg("self"), "s", "a"))
 
         .def("getS",            &Experience::getS,
-                 "@brief This function returns the number of states of the world.\n"
+                 "This function returns the number of states of the world.\n"
                  "\n"
                  "@return The total number of states."
         , (arg("self")))
 
         .def("getA",            &Experience::getA,
-                 "@brief This function returns the number of available actions to the agent.\n"
+                 "This function returns the number of available actions to the agent.\n"
                  "\n"
                  "@return The total number of actions."
         , (arg("self")));

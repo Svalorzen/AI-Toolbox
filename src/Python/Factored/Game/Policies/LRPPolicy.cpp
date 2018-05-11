@@ -8,7 +8,7 @@ void exportFactoredGameLRPPolicy() {
 
     class_<Game::LRPPolicy, bases<Game::PolicyInterface>>{"LRPPolicy",
 
-         "@brief This class models the Linear Reward Penalty algorithm.\n"
+         "This class models the Linear Reward Penalty algorithm.\n"
          "\n"
          "This algorithm performs direct policy updates depending on whether a\n"
          "given action was a success or a penalty.\n"
@@ -31,7 +31,7 @@ void exportFactoredGameLRPPolicy() {
          "    p(t + 1) = b / (|A| - 1) + (1 - b) * p(t) // For all other actions", no_init}
 
         .def(init<size_t, double, optional<double>>(
-                 "@brief Basic constructor.\n"
+                 "Basic constructor.\n"
                  "\n"
                  "These two parameters control learning. The 'a' parameter\n"
                  "controls the learning when an action results in a success, while\n"

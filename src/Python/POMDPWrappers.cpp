@@ -1,5 +1,7 @@
 #include <boost/python.hpp>
 
+class NamespacePOMDP{};
+
 void exportPOMDPTypes();
 
 void exportPOMDPUtils();
@@ -20,9 +22,9 @@ void exportPOMDPGapMin();
 void exportPOMDPPolicyInterface();
 void exportPOMDPPolicy();
 
-BOOST_PYTHON_MODULE(POMDP)
-{
-    boost::python::docstring_options localDocstringOptions(true, true, false);
+void exportPOMDP() {
+#ifdef AITOOLBOX_EXPORT_POMDP
+    boost::python::scope x = boost::python::class_<NamespacePOMDP>("POMDP");
 
     exportPOMDPTypes();
 
@@ -43,4 +45,5 @@ BOOST_PYTHON_MODULE(POMDP)
 
     exportPOMDPPolicyInterface();
     exportPOMDPPolicy();
+#endif
 }

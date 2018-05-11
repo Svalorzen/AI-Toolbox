@@ -1,4 +1,4 @@
-import POMDP
+from AIToolbox import POMDP
 
 A_LISTEN = 0
 A_LEFT   = 1
