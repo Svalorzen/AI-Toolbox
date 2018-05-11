@@ -36,6 +36,7 @@ if (MAKE_MDP)
     AddTestGlobal(Utils)
 
     AddTest(Bandit GreedyPolicy)
+    AddTest(Bandit ThompsonSamplingPolicy)
 
     AddTest(MDP Types)
 
