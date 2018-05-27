@@ -131,7 +131,9 @@ Algorithms:
 
 - [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf)
 - [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
+- [UCVE]()
 - [Learning with Linear Rewards (LLR)](https://arxiv.org/pdf/1011.4748.pdf)
+- [MAUCE]()
 
 Policies:
 
