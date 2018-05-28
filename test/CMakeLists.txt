@@ -37,6 +37,8 @@ if (MAKE_MDP)
 
     AddTest(Bandit GreedyPolicy)
     AddTest(Bandit ThompsonSamplingPolicy)
+    AddTest(Bandit LRPPolicy)
+    AddTest(Bandit ESRLPolicy)
 
     AddTest(MDP Types)
 
@@ -92,9 +94,6 @@ if (MAKE_FMDP)
     AddTest(Factored FactorGraph)
 
     AddTest(Factored FactoredLP)
-
-    AddTest(Factored LRPPolicy)
-    AddTest(Factored ESRLPolicy)
 
     AddTest(Factored LLR)
     AddTest(Factored MultiObjectiveVariableElimination)

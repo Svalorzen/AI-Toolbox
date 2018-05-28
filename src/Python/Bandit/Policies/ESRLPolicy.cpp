@@ -1,12 +1,12 @@
-#include <AIToolbox/Factored/Game/Policies/ESRLPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/ESRLPolicy.hpp>
 
 #include <boost/python.hpp>
 
-void exportFactoredGameESRLPolicy() {
-    using namespace AIToolbox::Factored;
+void exportBanditESRLPolicy() {
+    using namespace AIToolbox;
     using namespace boost::python;
 
-    class_<Game::ESRLPolicy, bases<Game::PolicyInterface>>{"ESRLPolicy",
+    class_<Bandit::ESRLPolicy, bases<Bandit::PolicyInterface>>{"ESRLPolicy",
 
          "This class models the Exploring Selfish Reinforcement Learning algorithm.\n"
          "\n"
@@ -46,7 +46,7 @@ void exportFactoredGameESRLPolicy() {
                  "@param window The last number of timesteps to consider to obtain the learned action value during a single exploration phase."
         , (arg("self"), "A", "a", "timesteps", "explorationPhases", "window")))
 
-        .def("stepUpdateP",             &Game::ESRLPolicy::stepUpdateP,
+        .def("stepUpdateP",             &Bandit::ESRLPolicy::stepUpdateP,
                  "This function updates the ESRL policy based on the result of the action.\n"
                  "\n"
                  "Note that ESRL works with binary rewards: either the action\n"
@@ -64,7 +64,7 @@ void exportFactoredGameESRLPolicy() {
                  "@param result Whether the action taken was a success, or not."
         , (arg("self"), "a", "result"))
 
-        .def("isExploiting",             &Game::ESRLPolicy::isExploiting,
+        .def("isExploiting",             &Bandit::ESRLPolicy::isExploiting,
                  "This function returns whether ESRL is now in the exploiting phase.\n"
                  "\n"
                  "This method returns whether ESRLPolicy has finished learning.\n"
@@ -78,7 +78,7 @@ void exportFactoredGameESRLPolicy() {
                  "@return Whether ESRLPolicy is in the exploiting phase."
         , (arg("self")))
 
-        .def("setAParam",                &Game::ESRLPolicy::setAParam,
+        .def("setAParam",                &Bandit::ESRLPolicy::setAParam,
                  "This function sets the a parameter.\n"
                  "\n"
                  "The a parameter determines the amount of learning on successful actions.\n"
@@ -86,43 +86,43 @@ void exportFactoredGameESRLPolicy() {
                  "@param a The new a parameter."
         , (arg("self"), "a"))
 
-        .def("getAParam",                &Game::ESRLPolicy::getAParam,
+        .def("getAParam",                &Bandit::ESRLPolicy::getAParam,
                  "This function will return the currently set a parameter.\n"
                  "\n"
                  "@return The currently set a parameter."
         , (arg("self")))
 
-        .def("setTimesteps",             &Game::ESRLPolicy::setTimesteps,
+        .def("setTimesteps",             &Bandit::ESRLPolicy::setTimesteps,
                  "This function sets the required number of timesteps per exploration phase.\n"
                  "\n"
                  "@param t The new number of timesteps."
         , (arg("self"), "t"))
 
-        .def("getTimesteps",             &Game::ESRLPolicy::getTimesteps,
+        .def("getTimesteps",             &Bandit::ESRLPolicy::getTimesteps,
                  "This function returns the currently set number of timesteps per exploration phase.\n"
                  "\n"
                  "@return The currently set number of timesteps."
         , (arg("self")))
 
-        .def("setExplorationPhases",     &Game::ESRLPolicy::setExplorationPhases,
+        .def("setExplorationPhases",     &Bandit::ESRLPolicy::setExplorationPhases,
                  "This function sets the required number of exploration phases before exploitation.\n"
                  "\n"
                  "@param p The new number of exploration phases."
         , (arg("self"), "p"))
 
-        .def("getExplorationPhases",     &Game::ESRLPolicy::getExplorationPhases,
+        .def("getExplorationPhases",     &Bandit::ESRLPolicy::getExplorationPhases,
                  "This function returns the currently set number of exploration phases before exploitation.\n"
                  "\n"
                  "@return The currently set number of exploration phases."
         , (arg("self")))
 
-        .def("setWindowSize",            &Game::ESRLPolicy::setWindowSize,
+        .def("setWindowSize",            &Bandit::ESRLPolicy::setWindowSize,
                  "This function sets the size of the timestep window to compute the value of the action that ESRL is converging to.\n"
                  "\n"
                  "@param window The new size of the average window."
         , (arg("self"), "p"))
 
-        .def("getWindowSize",            &Game::ESRLPolicy::getWindowSize,
+        .def("getWindowSize",            &Bandit::ESRLPolicy::getWindowSize,
                  "This function returns the currently set size of the timestep window to compute the value of an action.\n"
                  "\n"
                  "@return The currently set window size."

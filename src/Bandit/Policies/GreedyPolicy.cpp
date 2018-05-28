@@ -41,6 +41,24 @@ namespace AIToolbox::Bandit {
     }
 
     double GreedyPolicy::getActionProbability(const size_t & a) const {
+        const double max = experience_[a].first; unsigned count = 0;
+        for ( size_t aa = 0; aa < A; ++aa ) {
+            auto & val = experience_[aa].first;
+            // The checkEqualGeneral is before the greater since we want to
+            // trap here things that may be equal (even if one is a tiny bit
+            // higher than the other).
+            if ( checkEqualGeneral(val, max) ) ++count;
+            else if ( val > max ) {
+                return 0.0;
+            }
+        }
+
+        return 1.0 / count;
+    }
+
+    Vector GreedyPolicy::getPolicy() const {
+        Vector retval{A};
+
         double max = experience_[0].first; unsigned count = 1;
         for ( size_t aa = 1; aa < A; ++aa ) {
             auto & val = experience_[aa].first;
@@ -53,8 +71,13 @@ namespace AIToolbox::Bandit {
                 count = 1;
             }
         }
-        if ( checkDifferentGeneral(experience_[a].first, max) ) return 0.0;
+        for ( size_t aa = 0; aa < A; ++aa ) {
+            if ( checkEqualGeneral(experience_[aa].first, max) )
+                retval[aa] = 1.0 / count;
+            else
+                retval[aa] = 0.0;
+        }
 
-        return 1.0 / count;
+        return retval;
     }
 }

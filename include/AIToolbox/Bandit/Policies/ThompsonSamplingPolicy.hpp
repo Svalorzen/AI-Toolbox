@@ -72,6 +72,20 @@ namespace AIToolbox::Bandit {
              */
             virtual double getActionProbability(const size_t & a) const override;
 
+            /**
+             * @brief This function returns a vector containing all probabilities of the policy.
+             *
+             * Ideally this function can be called only when there is a
+             * repeated need to access the same policy values in an
+             * efficient manner.
+             *
+             * WARNING: This can be really expensive, as it does pretty much
+             * the same work as getActionProbability(). It shouldn't be slower
+             * than that call though, so if you do need the overall policy,
+             * do call this method.
+             */
+            virtual Vector getPolicy() const override;
+
         private:
             // Average reward/tries per action
             std::vector<std::pair<double, unsigned>> experience_;

@@ -4,7 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Impl/Seeder.hpp>
-#include <AIToolbox/Factored/Game/Policies/LRPPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/LRPPolicy.hpp>
 
 std::pair<double, double> testPrisonersDilemma(unsigned a, unsigned b) {
     // Normalized to 1.0
@@ -19,11 +19,11 @@ std::pair<double, double> testPrisonersDilemma(unsigned a, unsigned b) {
 }
 
 BOOST_AUTO_TEST_CASE( prisoners_dilemma ) {
-    using namespace AIToolbox::Factored;
+    using namespace AIToolbox::Bandit;
     constexpr size_t A = 2;
 
-    Game::LRPPolicy p1(A, 0.05);
-    Game::LRPPolicy p2(A, 0.05);
+    LRPPolicy p1(A, 0.05);
+    LRPPolicy p2(A, 0.05);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
     std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
@@ -55,11 +55,11 @@ std::pair<double, double> testRandomishGame(unsigned a, unsigned b) {
 }
 
 BOOST_AUTO_TEST_CASE( randomish_game ) {
-    using namespace AIToolbox::Factored;
+    using namespace AIToolbox::Bandit;
     constexpr size_t A = 3;
 
-    Game::LRPPolicy p1(A, 0.01);
-    Game::LRPPolicy p2(A, 0.01);
+    LRPPolicy p1(A, 0.01);
+    LRPPolicy p2(A, 0.01);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
     std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
