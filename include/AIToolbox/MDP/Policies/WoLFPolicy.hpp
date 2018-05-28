@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <AIToolbox/MDP/Policies/QPolicyInterface.hpp>
-#include <AIToolbox/MDP/Policies/Policy.hpp>
+#include <AIToolbox/MDP/Policies/PolicyWrapper.hpp>
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 
 namespace AIToolbox::MDP {
@@ -139,7 +139,8 @@ namespace AIToolbox::MDP {
             double deltaW_, deltaL_, scaling_;
 
             std::vector<unsigned> c_;
-            Policy avgPolicy_, actualPolicy_;
+            PolicyWrapper::PolicyTable avgPolicyTable_, actualPolicyTable_;
+            PolicyWrapper avgPolicy_, actualPolicy_;
     };
 }
 

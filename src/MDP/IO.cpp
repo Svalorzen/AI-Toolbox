@@ -188,18 +188,18 @@ namespace AIToolbox::MDP {
         const size_t S = p.getS();
         const size_t A = p.getA();
 
-        Policy policy(S, A);
+        Policy::PolicyTable policy(S, A);
 
         size_t scheck, acheck;
 
         bool fail = false;
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
-                if ( ! ( is >> scheck >> acheck >> policy.policy_(s,a) ) ) {
+                if ( ! ( is >> scheck >> acheck >> policy(s,a) ) ) {
                     AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read policy data.");
                     fail = true;
                 }
-                else if ( policy.policy_(s, a) < 0.0 || policy.policy_(s, a) > 1.0 ) {
+                else if ( policy(s, a) < 0.0 || policy(s, a) > 1.0 ) {
                     AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Input policy data contains non-probability values.");
                     fail = true;
                 }
@@ -214,7 +214,7 @@ namespace AIToolbox::MDP {
             }
         }
         // Read succeeded
-        p = policy;
+        p.policy_ = std::move(policy);
 
         return is;
     }

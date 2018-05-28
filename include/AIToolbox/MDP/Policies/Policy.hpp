@@ -5,7 +5,7 @@
 #include <tuple>
 
 #include <AIToolbox/MDP/Types.hpp>
-#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
+#include <AIToolbox/MDP/Policies/PolicyWrapper.hpp>
 
 namespace AIToolbox::MDP {
     /**
@@ -20,10 +20,12 @@ namespace AIToolbox::MDP {
      *
      * Building this object is somewhat expensive, so it should be done
      * mostly when it is known that the final solution won't change again.
-     * Otherwise you may want to build a wrapper around some data to
-     * extract the policy dynamically.
+     *
+     * Note that this class is meant to be read-only, after being constructed.
+     * If you are looking to manually modify the policy table you should save
+     * it on the side and use the PolicyWrapper class.
      */
-    class Policy : public PolicyInterface {
+    class Policy : public PolicyWrapper {
         public:
             using PolicyTable = Matrix2D;
 
@@ -92,70 +94,17 @@ namespace AIToolbox::MDP {
             Policy(size_t s, size_t a, const ValueFunction & v);
 
             /**
-             * @brief This function chooses a random action for state s, following the policy distribution.
+             * @brief Basic constructor.
              *
-             * @param s The sampled state of the policy.
+             * This constructor copies the input table inside the Policy.
              *
-             * @return The chosen action.
+             * This constructor checks whether the input is a valid set of
+             * probabilities. If not, it will throw an std::invalid_argument
+             * exception.
+             *
+             * @param p The policy table to copy.
              */
-            virtual size_t sampleAction(const size_t & s) const override;
-
-            /**
-             * @brief This function returns the probability of taking the specified action in the specified state.
-             *
-             * @param s The selected state.
-             * @param a The selected action.
-             *
-             * @return The probability of taking the selected action in the specified state.
-             */
-            virtual double getActionProbability(const size_t & s, const size_t & a) const override;
-
-            /**
-             * @brief This function returns a copy of a particular slice of the policy.
-             *
-             * @param s The requested state.
-             *
-             * @return The probabilities of choosing each action in state s.
-             */
-            Vector getStatePolicy(size_t s) const;
-
-            /**
-             * @brief This function sets the policy for a particular state.
-             *
-             * This function copies a correctly sized Vector into the
-             * policy. It does NOT normalize it, and will throw an
-             * exception if it does not sum to 1.0 (or close enough).
-             *
-             * @param s The state where the policy is being set.
-             * @param container The vector containing the new policy values.
-             */
-            void setStatePolicy(size_t s, const Vector & container);
-
-            /**
-             * @brief This function sets the policy for a particular state.
-             *
-             * This function represents an easier way to set a probability
-             * of 1 to execute a given action in a particular state, and
-             * setting all other probabilities to 0.
-             *
-             * @param s The state where the policy is being set.
-             * @param a The action that must be chosen in state s.
-             */
-            void setStatePolicy(size_t s, size_t a);
-
-            /**
-             * @brief This function enables inspection of the internal policy.
-             *
-             * @return A constant reference to the internal policy.
-             */
-            const PolicyTable & getPolicyTable() const;
-
-            /**
-             * @brief This function returns a matrix containing all probabilities of the policy.
-             *
-             * This is simply a copy of the internal policy.
-             */
-            virtual Matrix2D getPolicy() const override;
+            Policy(const PolicyTable & p);
 
         private:
             PolicyTable policy_;
