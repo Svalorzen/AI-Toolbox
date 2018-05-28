@@ -121,7 +121,7 @@ Policies:
 
 - Normal Policy
 
-### Factored/Joined Multi-Agent: ###
+### Factored/Joint Multi-Agent: ###
 
 #### Bandits: ####
 
