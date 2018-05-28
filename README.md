@@ -98,6 +98,7 @@ Policies:
 - Softmax Policy
 - Q-Greedy Policy
 - [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
+- [PGA-APP](https://pdfs.semanticscholar.org/5936/78c350e955f9fe4e0b1ac7f51a74b026709a.pdf)
 
 ### Single Agent POMDP: ###
 
