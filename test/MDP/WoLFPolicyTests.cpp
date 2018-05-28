@@ -43,8 +43,8 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
         solver.stepUpdateQ(0, a, 0, result);
         solver2.stepUpdateQ(0, b, 0, -result);
 
-        policy.updatePolicy(0);
-        policy2.updatePolicy(0);
+        policy.stepUpdateP(0);
+        policy2.stepUpdateP(0);
     }
 
     BOOST_CHECK(policy.getActionProbability(0,0) < 0.4333);
@@ -78,8 +78,8 @@ BOOST_AUTO_TEST_CASE( matching_pennies ) {
         solver.stepUpdateQ(0, a, 0, result);
         solver2.stepUpdateQ(0, b, 0, -result);
 
-        policy.updatePolicy(0);
-        policy2.updatePolicy(0);
+        policy.stepUpdateP(0);
+        policy2.stepUpdateP(0);
     }
 
     BOOST_CHECK(policy.getActionProbability(0,0) < 0.6);

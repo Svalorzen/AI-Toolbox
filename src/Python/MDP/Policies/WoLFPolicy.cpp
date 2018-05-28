@@ -32,7 +32,7 @@ void exportMDPWoLFPolicy() {
                  "@param deltal The learning rate if this policy is currently losing."
         , (arg("self"), "q", "deltaw", "deltal")))
 
-        .def("updatePolicy",    &WoLFPolicy::updatePolicy,
+        .def("stepUpdateP",    &WoLFPolicy::stepUpdateP,
                  "This function updates the WoLF policy based on changes in the QFunction.\n"
                  "\n"
                  "This function should be called between agent's actions,\n"

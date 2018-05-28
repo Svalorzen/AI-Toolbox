@@ -7,7 +7,7 @@ namespace AIToolbox::MDP {
             Base(q.rows(), q.cols()), QPolicyInterface(q), deltaW_(deltaw), deltaL_(deltal),
             scaling_(scaling), c_(S, 0), avgPolicy_(S,A), actualPolicy_(S,A) {}
 
-    void WoLFPolicy::updatePolicy(const size_t s) {
+    void WoLFPolicy::stepUpdateP(const size_t s) {
         ++c_[s];
 
         auto avgstate = avgPolicy_.getStatePolicy(s);

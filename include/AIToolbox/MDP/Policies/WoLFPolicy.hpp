@@ -44,7 +44,7 @@ namespace AIToolbox::MDP {
              *
              * @param s The state that needs to be updated.
              */
-            void updatePolicy(size_t s);
+            void stepUpdateP(size_t s);
 
             /**
              * @brief This function chooses an action for state s, following the policy distribution.
