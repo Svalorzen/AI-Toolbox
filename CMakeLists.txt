@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.9) # CMP0069 NEW
 
-project (AIToolbox)
+project (AIToolbox LANGUAGES CXX)
 
 # We define a series of variables for the user. They can be combined in order
 # to build exactly what is needed:
@@ -17,8 +17,6 @@ project (AIToolbox)
 ##############################
 ##  CMake helper functions  ##
 ##############################
-
-include(CheckCXXCompilerFlag)
 
 function(append value)
     foreach(variable ${ARGN})
@@ -38,8 +36,11 @@ if(NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif()
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 add_definitions(
-    -std=c++1z
     -Wall
     -Wextra
 )
@@ -96,17 +97,17 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
 # Add library directories
 include_directories(${PROJECT_SOURCE_DIR}/include)
-add_subdirectory (${PROJECT_SOURCE_DIR}/src)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 
 # If enabled, add tests
 if (MAKE_TESTS)
     include(CTest)
-    add_subdirectory (${PROJECT_SOURCE_DIR}/test)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/test)
 endif()
 
 # If enabled, add Python bindings
 if (MAKE_EXAMPLES)
-    add_subdirectory (${PROJECT_SOURCE_DIR}/examples)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/examples)
 endif()
 
 # Print what we're actually doing
