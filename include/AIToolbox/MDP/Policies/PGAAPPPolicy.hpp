@@ -1,8 +1,6 @@
 #ifndef AI_TOOLBOX_MDP_PGA_APP_POLICY_HEADER_FILE
 #define AI_TOOLBOX_MDP_PGA_APP_POLICY_HEADER_FILE
 
-#include <vector>
-
 #include <AIToolbox/MDP/Policies/QPolicyInterface.hpp>
 #include <AIToolbox/MDP/Policies/PolicyWrapper.hpp>
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
@@ -10,6 +8,15 @@
 namespace AIToolbox::MDP {
     /**
      * @brief This class models the PGA-APP learning algorithm.
+     *
+     * This class models a learning algorithm for stochastic games. The
+     * underlying idea is that rather than just modifying the policy over time
+     * following gradient descent, we can try to predict where the opponents'
+     * policies are going, and follow the gradient there. This should
+     * significantly speed up learning and convergence to a Nash equilibrium.
+     *
+     * In the original paper, the QFunction was learning with QLearning before
+     * tuning the policy with PGA-APP, so you might want to do the same.
      */
     class PGAAPPPolicy : public QPolicyInterface {
         public:
@@ -27,8 +34,9 @@ namespace AIToolbox::MDP {
             /**
              * @brief This function updates the policy based on changes in the QFunction.
              *
-             * This function should be called between agent's actions,
-             * using the agent's current state.
+             * This function assumes that the QFunction has been altered from
+             * last time with the provided input state. It then uses these
+             * changes in order to update the policy.
              *
              * @param s The state that needs to be updated.
              */
