@@ -138,6 +138,7 @@ if (MAKE_PYTHON AND MAKE_MDP)
         Python/MDP/Policies/QSoftmaxPolicy.cpp
         Python/MDP/Policies/EpsilonPolicy.cpp
         Python/MDP/Policies/WoLFPolicy.cpp
+        Python/MDP/Policies/PGAAPPPolicy.cpp
     )
     set(PYTHON_LINKS AIToolboxMDP)
     set(PYTHON_DEFINES -DAITOOLBOX_EXPORT_BANDIT -DAITOOLBOX_EXPORT_MDP)

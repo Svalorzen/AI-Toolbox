@@ -51,6 +51,7 @@ if (MAKE_MDP)
 
     AddTest(MDP QGreedyPolicy)
     AddTest(MDP WoLFPolicy)
+    AddTest(MDP PGAAPPPolicy)
 
     AddTest(MDP PrioritizedSweeping)
     AddTest(MDP QLearning)
