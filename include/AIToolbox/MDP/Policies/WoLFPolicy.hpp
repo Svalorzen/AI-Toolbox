@@ -33,6 +33,7 @@ namespace AIToolbox::MDP {
              * @param q The QFunction from which to extract policy updates.
              * @param deltaw The learning rate if this policy is currently winning.
              * @param deltal The learning rate if this policy is currently losing.
+             * @param scaling The initial scaling rate to progressively reduce the learning rates.
              */
             WoLFPolicy(const QFunction & q, double deltaw = 0.0125, double deltal = 0.05, double scaling = 5000.0);
 

@@ -29,8 +29,9 @@ void exportMDPWoLFPolicy() {
                  "\n"
                  "@param q The QFunction from which to extract policy updates.\n"
                  "@param deltaw The learning rate if this policy is currently winning.\n"
-                 "@param deltal The learning rate if this policy is currently losing."
-        , (arg("self"), "q", "deltaw", "deltal")))
+                 "@param deltal The learning rate if this policy is currently losing.\n"
+                 "@param scaling The initial scaling rate to progressively reduce the learning rates."
+        , (arg("self"), "q", "deltaw", "deltal", "scaling")))
 
         .def("stepUpdateP",    &WoLFPolicy::stepUpdateP,
                  "This function updates the WoLF policy based on changes in the QFunction.\n"
@@ -82,17 +83,6 @@ void exportMDPWoLFPolicy() {
                  "\n"
                  "@param scaling The new scaling factor."
         , (arg("self"), "scaling"))
-
-        .def("sampleAction", &WoLFPolicy::sampleAction,
-                 "This function chooses an action for state s, following the policy distribution.\n"
-                 "\n"
-                 "Note that to improve learning it may be useful to wrap this policy into an EpsilonPolicy\n"
-                 "in order to provide some exploration.\n"
-                 "\n"
-                 "@param s The sampled state of the policy.\n"
-                 "\n"
-                 "@return The chosen action."
-        , (arg("self"), "s"))
 
         .def("getScaling",      &WoLFPolicy::getScaling,
                  "This function returns the current scaling parameter."
