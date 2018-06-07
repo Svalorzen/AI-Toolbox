@@ -1,6 +1,7 @@
 #include <AIToolbox/MDP/Policies/PGAAPPPolicy.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::MDP {
     PGAAPPPolicy::PGAAPPPolicy(const QFunction & q, const double lRate, const double predictionLength) :
@@ -25,10 +26,10 @@ namespace AIToolbox::MDP {
                 delta = (q_(s, a) - avgR) / (1.0 - policyTable_(s, a));
 
             delta -= predictionLength_ * policyTable_(s, a) * std::fabs(delta);
-            policyTable_(s, a) = std::max(0.0, policyTable_(s, a) + lRate_ * delta);
+            policyTable_(s, a) += lRate_ * delta;
         }
 
-        policyTable_.row(s) /= policyTable_.row(s).sum();
+        policyTable_.row(s) = projectToProbability(policyTable_.row(s));
     }
 
     size_t PGAAPPPolicy::sampleAction(const size_t & s) const {
