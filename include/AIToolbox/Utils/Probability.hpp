@@ -191,6 +191,48 @@ namespace AIToolbox {
                 return false;
         return true;
     }
+
+    /**
+     * @brief This function projects the input vector to a valid probability space.
+     *
+     * This function solves an LP to find the closest valid ProbabilityVector
+     * to the input vector. The distance measure used here is the sum of the
+     * absolute values of the element-wise difference between the input and the
+     * output.
+     *
+     * @param v The vector to project to a valid probability space.
+     *
+     * @return The closes valid probability vector to the input.
+     */
+    inline ProbabilityVector projectToProbability(const Vector & v) {
+        ProbabilityVector retval(v.size());
+
+        double sum = 0.0;
+        size_t count = 0;
+        for (auto i = 0; i < v.size(); ++i) {
+            // Negative elements are converted to zero, as that's the best we
+            // can do.
+            if (v[i] < 0.0) retval[i] = 0.0;
+            else {
+                retval[i] = 1.0;
+                ++count;
+                sum += v[i];
+            }
+        }
+        if (checkEqualSmall(sum, 1.0)) return retval;
+        if (checkEqualSmall(sum, 0.0)) {
+            // Any solution here would do, but this seems nice.
+            retval.array() += 1.0 / v.size();
+        } else if (sum > 1.0) {
+            // We normalize the vector.
+            retval.array() *= v.array() / sum;
+        } else {
+            // We remove equally from all non-zero elements.
+            const auto diff = (1.0 - sum) / count;
+            retval.array() *= (v.array() + diff);
+        }
+        return retval;
+    }
 }
 
 #endif
