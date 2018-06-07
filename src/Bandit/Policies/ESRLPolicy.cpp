@@ -1,8 +1,8 @@
-#include <AIToolbox/Factored/Game/Policies/ESRLPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/ESRLPolicy.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
 
-namespace AIToolbox::Factored::Game {
+namespace AIToolbox::Bandit {
     ESRLPolicy::ESRLPolicy(size_t A, double a, unsigned timesteps, unsigned explorationPhases, unsigned window) :
         Base(A),
         exploit_(false), bestAction_(0),

@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <AIToolbox/MDP/Policies/QPolicyInterface.hpp>
-#include <AIToolbox/MDP/Policies/Policy.hpp>
+#include <AIToolbox/MDP/Policies/PolicyWrapper.hpp>
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 
 namespace AIToolbox::MDP {
@@ -33,6 +33,7 @@ namespace AIToolbox::MDP {
              * @param q The QFunction from which to extract policy updates.
              * @param deltaw The learning rate if this policy is currently winning.
              * @param deltal The learning rate if this policy is currently losing.
+             * @param scaling The initial scaling rate to progressively reduce the learning rates.
              */
             WoLFPolicy(const QFunction & q, double deltaw = 0.0125, double deltal = 0.05, double scaling = 5000.0);
 
@@ -44,7 +45,7 @@ namespace AIToolbox::MDP {
              *
              * @param s The state that needs to be updated.
              */
-            void updatePolicy(size_t s);
+            void stepUpdateP(size_t s);
 
             /**
              * @brief This function chooses an action for state s, following the policy distribution.
@@ -139,7 +140,8 @@ namespace AIToolbox::MDP {
             double deltaW_, deltaL_, scaling_;
 
             std::vector<unsigned> c_;
-            Policy avgPolicy_, actualPolicy_;
+            PolicyWrapper::PolicyTable avgPolicyTable_, actualPolicyTable_;
+            PolicyWrapper avgPolicy_, actualPolicy_;
     };
 }
 

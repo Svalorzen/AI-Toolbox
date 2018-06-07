@@ -1,12 +1,12 @@
-#include <AIToolbox/Factored/Game/Policies/LRPPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/LRPPolicy.hpp>
 
 #include <boost/python.hpp>
 
-void exportFactoredGameLRPPolicy() {
-    using namespace AIToolbox::Factored;
+void exportBanditLRPPolicy() {
+    using namespace AIToolbox;
     using namespace boost::python;
 
-    class_<Game::LRPPolicy, bases<Game::PolicyInterface>>{"LRPPolicy",
+    class_<Bandit::LRPPolicy, bases<Bandit::PolicyInterface>>{"LRPPolicy",
 
          "This class models the Linear Reward Penalty algorithm.\n"
          "\n"
@@ -49,7 +49,7 @@ void exportFactoredGameLRPPolicy() {
                  "@param b The learning parameter on failed actions."
         , (arg("self"), "A", "a", "b")))
 
-        .def("stepUpdateP",             &Game::LRPPolicy::stepUpdateP,
+        .def("stepUpdateP",             &Bandit::LRPPolicy::stepUpdateP,
                  "This function updates the LRP policy based on the result of the action.\n"
                  "\n"
                  "Note that LRP works with binary rewards: either the action\n"
@@ -64,7 +64,7 @@ void exportFactoredGameLRPPolicy() {
                  "@param result Whether the action taken was a success, or not."
         , (arg("self"), "a", "result"))
 
-        .def("setAParam",             &Game::LRPPolicy::setAParam,
+        .def("setAParam",             &Bandit::LRPPolicy::setAParam,
                  "This function sets the a parameter.\n"
                  "\n"
                  "The a parameter determines the amount of learning on successful actions.\n"
@@ -72,13 +72,13 @@ void exportFactoredGameLRPPolicy() {
                  "@param a The new a parameter."
         , (arg("self"), "a"))
 
-        .def("getAParam",             &Game::LRPPolicy::getAParam,
+        .def("getAParam",             &Bandit::LRPPolicy::getAParam,
                  "This function will return the currently set a parameter.\n"
                  "\n"
                  "@return The currently set a parameter."
         , (arg("self")))
 
-        .def("setBParam",             &Game::LRPPolicy::setBParam,
+        .def("setBParam",             &Bandit::LRPPolicy::setBParam,
                  "This function sets the b parameter.\n"
                  "\n"
                  "The b parameter determines the amount of learning on losing actions.\n"
@@ -86,7 +86,7 @@ void exportFactoredGameLRPPolicy() {
                  "@param a The new b parameter."
         , (arg("self"), "b"))
 
-        .def("getBParam",             &Game::LRPPolicy::getBParam,
+        .def("getBParam",             &Bandit::LRPPolicy::getBParam,
                  "This function will return the currently set b parameter.\n"
                  "\n"
                  "@return The currently set b parameter."

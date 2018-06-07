@@ -8,41 +8,7 @@ void exportMDPPolicy() {
 
     struct PolicyPickle : boost::python::pickle_suite {
         static boost::python::tuple getinitargs(const Policy& p) {
-            return make_tuple(p.getS(), p.getA());
-        }
-
-        static boost::python::tuple getstate(const Policy& p) {
             return make_tuple(p.getPolicy());
-        }
-
-        static void setstate(Policy& p, boost::python::tuple state) {
-            if (len(state) != 1) {
-                PyErr_SetObject(PyExc_ValueError,
-                    ("expected 1-item tuple in call to __setstate__; got %s" % state).ptr()
-                );
-                throw_error_already_set();
-            }
-
-            AIToolbox::Matrix2D table = extract<AIToolbox::Matrix2D>(state[0]);
-            if (static_cast<size_t>(table.rows()) != p.getS() ||
-                static_cast<size_t>(table.cols()) != p.getA())
-            {
-                PyErr_SetObject(PyExc_ValueError,
-                    ("state obtained in __setstate__ cannot be applied to this object; got %s" % state).ptr()
-                );
-                throw_error_already_set();
-            }
-
-            for (size_t s = 0; s < p.getS(); ++s) {
-                try {
-                    p.setStatePolicy(s, table.row(s));
-                } catch (const std::invalid_argument &) {
-                    PyErr_SetObject(PyExc_ValueError,
-                        ("state obtained in __setstate__ does not represent a correct policy; got %s" % state).ptr()
-                    );
-                    throw_error_already_set();
-                }
-            }
         }
     };
 

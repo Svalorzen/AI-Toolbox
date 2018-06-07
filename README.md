@@ -65,21 +65,22 @@ as possible instantiations. This toolbox does lose quite a bit of power in
 terms of efficient customization when used from Python, but it allows to rapidly
 iterate in order to find out what works and what doesn't.
 
-### Single Agent Bandit: ###
+### Bandit/Normal Games: ###
 
 Policies:
 
 - [Greedy Policy](https://arxiv.org/pdf/1707.02038.pdf)
 - [Thompson Sampling (Normal distribution)](https://arxiv.org/pdf/1307.3400.pdf)
+- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y)
+- [Exploring Selfish Reinforcement Learning (ESRL)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf)
 
-### Single Agent MDP: ###
+### Single Agent MDP/Stochastic Games: ###
 
 Algorithms:
 
 - [Policy Evaluation](http://incompleteideas.net/book/ebook/node41.html)
 - [Policy Iteration](http://incompleteideas.net/book/ebook/node43.html)
 - [Value Iteration](http://incompleteideas.net/book/ebook/node44.html)
-- [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
 - [Q-Learning](http://incompleteideas.net/book/ebook/node65.html)
 - [Hysteretic Q-Learning](https://hal.archives-ouvertes.fr/hal-00187279/document)
 - [SARSA](http://incompleteideas.net/book/ebook/node64.html)
@@ -96,7 +97,8 @@ Policies:
 - Epsilon-Greedy Policy
 - Softmax Policy
 - Q-Greedy Policy
-- [WoLF Policy](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
+- [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
+- [PGA-APP](https://pdfs.semanticscholar.org/5936/78c350e955f9fe4e0b1ac7f51a74b026709a.pdf)
 
 ### Single Agent POMDP: ###
 
@@ -119,14 +121,7 @@ Policies:
 
 - Normal Policy
 
-### Factored/Multi-Agent: ###
-
-#### Normal Games: ####
-
-Policies:
-
-- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y)
-- [Exploring Selfish Reinforcement Learning (ESRL)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf)
+### Factored/Joined Multi-Agent: ###
 
 #### Bandits: ####
 

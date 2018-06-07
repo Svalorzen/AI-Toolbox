@@ -12,6 +12,8 @@ if (MAKE_MDP)
         Impl/CassandraParser.cpp
         Bandit/Policies/GreedyPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
+        Bandit/Policies/LRPPolicy.cpp
+        Bandit/Policies/ESRLPolicy.cpp
         MDP/Experience.cpp
         MDP/Utils.cpp
         MDP/Model.cpp
@@ -25,6 +27,7 @@ if (MAKE_MDP)
         MDP/Algorithms/SARSAL.cpp
         MDP/Algorithms/ValueIteration.cpp
         MDP/Algorithms/PolicyIteration.cpp
+        MDP/Policies/PolicyWrapper.cpp
         MDP/Policies/Policy.cpp
         MDP/Policies/RandomPolicy.cpp
         MDP/Policies/EpsilonPolicy.cpp
@@ -32,6 +35,7 @@ if (MAKE_MDP)
         MDP/Policies/QGreedyPolicy.cpp
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
+        MDP/Policies/PGAAPPPolicy.cpp
     )
     set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 endif()
@@ -71,8 +75,6 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         Factored/Bandit/Algorithms/LLR.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
-        Factored/Game/Policies/LRPPolicy.cpp
-        Factored/Game/Policies/ESRLPolicy.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/SingleActionPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
@@ -95,11 +97,11 @@ if (MAKE_PYTHON AND MAKE_MDP)
 
     set(PYTHON_FILES
         # Wrappers -- if unused macros will skip them
-        ./Python/AIToolboxWrappers.cpp
-        ./Python/BanditWrappers.cpp
-        ./Python/MDPWrappers.cpp
-        ./Python/POMDPWrappers.cpp
-        ./Python/FactoredWrappers.cpp
+        Python/AIToolboxWrappers.cpp
+        Python/BanditWrappers.cpp
+        Python/MDPWrappers.cpp
+        Python/POMDPWrappers.cpp
+        Python/FactoredWrappers.cpp
         # Python Utilities
         Python/Utils.cpp
         Python/Types.cpp
@@ -107,6 +109,8 @@ if (MAKE_PYTHON AND MAKE_MDP)
         Python/Bandit/Policies/PolicyInterface.cpp
         Python/Bandit/Policies/GreedyPolicy.cpp
         Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
+        Python/Bandit/Policies/LRPPolicy.cpp
+        Python/Bandit/Policies/ESRLPolicy.cpp
         Python/BanditWrappers.cpp
         # MDP
         Python/MDP/Utils.cpp
@@ -134,6 +138,7 @@ if (MAKE_PYTHON AND MAKE_MDP)
         Python/MDP/Policies/QSoftmaxPolicy.cpp
         Python/MDP/Policies/EpsilonPolicy.cpp
         Python/MDP/Policies/WoLFPolicy.cpp
+        Python/MDP/Policies/PGAAPPPolicy.cpp
     )
     set(PYTHON_LINKS AIToolboxMDP)
     set(PYTHON_DEFINES -DAITOOLBOX_EXPORT_BANDIT -DAITOOLBOX_EXPORT_MDP)
@@ -166,9 +171,6 @@ if (MAKE_PYTHON AND MAKE_MDP)
 
     if (MAKE_FMDP)
         set(PYTHON_FILES ${PYTHON_FILES}
-            Python/Factored/Game/Policies/PolicyInterface.cpp
-            Python/Factored/Game/Policies/LRPPolicy.cpp
-            Python/Factored/Game/Policies/ESRLPolicy.cpp
             Python/Factored/MDP/Algorithms/JointActionLearner.cpp
         )
         set(PYTHON_LINKS AIToolboxFMDP ${PYTHON_LINKS})

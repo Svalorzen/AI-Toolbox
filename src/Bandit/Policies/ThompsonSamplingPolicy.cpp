@@ -67,4 +67,43 @@ namespace AIToolbox::Bandit {
         }
         return static_cast<double>(selected) / trials;
     }
+
+    Vector ThompsonSamplingPolicy::getPolicy() const {
+        // The true formula here would be:
+        //
+        // \int_{-infty, +infty} PDF(N(a)) * CDF(N(0)) * ... * CDF(N(A-1))
+        //
+        // Where N(x) means the normal distribution obtained from the
+        // parameters of that action.
+        //
+        // Instead we sample, which is easier and possibly faster if we just
+        // want a rough approximation.
+        constexpr unsigned trials = 100000;
+
+        Vector retval{A};
+        retval.fill(0.0);
+
+        // We avoid recreating the distributions thousands of times here.
+        std::vector<std::normal_distribution<double>> dists;
+        dists.reserve(A);
+
+        for (size_t aa = 0; aa < A; ++aa)
+            dists.emplace_back(experience_[aa].first, 1.0 / (experience_[aa].second + 1));
+
+        for (size_t i = 0; i < trials; ++i) {
+            size_t bestAction = 0;
+            double bestValue = dists[0](rand_);
+            for ( size_t aa = 1; aa < A; ++aa ) {
+                const auto val = dists[aa](rand_);
+
+                if ( val > bestValue ) {
+                    bestAction = aa;
+                    bestValue = val;
+                }
+            }
+            retval[bestAction] += 1.0;
+        }
+        retval /= retval.sum();
+        return retval;
+    }
 }

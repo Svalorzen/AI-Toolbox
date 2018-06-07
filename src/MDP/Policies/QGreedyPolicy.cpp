@@ -36,8 +36,8 @@ namespace AIToolbox::MDP {
     }
 
     double QGreedyPolicy::getActionProbability(const size_t & s, const size_t & a) const {
-        double max = q_(s, 0); unsigned count = 1;
-        for ( size_t aa = 1; aa < A; ++aa ) {
+        const double max = q_(s, a); unsigned count = 0;
+        for ( size_t aa = 0; aa < A; ++aa ) {
             // The checkEqualGeneral is before the greater since we want to
             // trap here things that may be equal (even if one is a tiny bit
             // higher than the other).
@@ -45,12 +45,9 @@ namespace AIToolbox::MDP {
             // In case the new element is really higher than the other, then we
             // reset the counts.
             else if ( q_(s, aa) > max ) {
-                max = q_(s, aa);
-                count = 1;
+                return 0.0;
             }
         }
-        if ( checkDifferentGeneral(q_(s, a), max) ) return 0.0;
-
         return 1.0 / count;
     }
 

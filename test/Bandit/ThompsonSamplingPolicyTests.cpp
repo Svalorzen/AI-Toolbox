@@ -69,8 +69,13 @@ BOOST_AUTO_TEST_CASE( probability ) {
     const auto p0 = p.getActionProbability(0);
     const auto p1 = p.getActionProbability(1);
     const auto p2 = p.getActionProbability(2);
+    const auto pol = p.getPolicy();
 
     BOOST_CHECK(0.100 < p0 && p0 < 0.180);
     BOOST_CHECK(0.375 < p1 && p1 < 0.485);
     BOOST_CHECK(0.375 < p2 && p2 < 0.485);
+
+    BOOST_CHECK(0.100 < pol[0] && pol[0] < 0.180);
+    BOOST_CHECK(0.375 < pol[1] && pol[1] < 0.485);
+    BOOST_CHECK(0.375 < pol[2] && pol[2] < 0.485);
 }
