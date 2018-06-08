@@ -130,10 +130,10 @@ Not in Python yet.
 Algorithms:
 
 - [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf)
-- [Multi-Objective Variable Elimination](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
-- [UCVE]()
+- [Multi-Objective Variable Elimination (MOVE)](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
+- [Upper Confidence Variable Elimination (UCVE)]()
 - [Learning with Linear Rewards (LLR)](https://arxiv.org/pdf/1011.4748.pdf)
-- [MAUCE]()
+- [Multi-Agent Upper Confidence Exploration (MAUCE)]()
 
 Policies:
 
