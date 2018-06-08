@@ -98,16 +98,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a604403a0668d30f8af32730dd0cbe518"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> completely.  <a href="#a604403a0668d30f8af32730dd0cbe518">More...</a><br /></td></tr>
 <tr class="separator:a604403a0668d30f8af32730dd0cbe518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0089ec98bb5e637a04545b167d61286"><td class="memTemplParams" colspan="2">template&lt;typename ProjectionsRow &gt; </td></tr>
-<tr class="memitem:af0089ec98bb5e637a04545b167d61286"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">POMDP::VEntry</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#af0089ec98bb5e637a04545b167d61286">crossSumBestAtBelief</a> (const ProjectionsRow &amp;projs, const size_t a, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b)</td></tr>
+<tr class="memitem:af0089ec98bb5e637a04545b167d61286"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">POMDP::VEntry</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#af0089ec98bb5e637a04545b167d61286">crossSumBestAtBelief</a> (const ProjectionsRow &amp;projs, const size_t a, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b)</td></tr>
 <tr class="separator:af0089ec98bb5e637a04545b167d61286"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> algorithm. </p>
 <p>This algorithm solves a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a> perfectly. It computes solutions for each horizon incrementally, every new solution building upon the previous one.</p>
-<p>The <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> algorithm tries to avoid creating all possible cross-sums of the projected vectors. Instead, it relies on a proof that states that if a VEntry is suboptimal, then we can at least find a better one by modifying a single subtree.</p>
-<p>Given this, the <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> algorithm starts off by finding a single optimal VEntry for a random belief. Then, using the theorem, it knows that if a better VEntry exists, then there must be at least one VEntry completely equal to the one we just found but for a subtree, and that one will be better. Thus, it adds to an agenda all possible variations of the found optimal VEntry.</p>
-<p>From there, it examines each one of them, trying to look for a witness point. Once found, again it produces an optimal VEntry for that point and adds to the agenda all of its possible variations. VEntry which do not have any witness points are removed from the agenda.</p>
-<p>In addition, <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> will not add to the agenda any VEntry which it has already added; it uses a set to keep track of which combinations of subtrees it has already tried. </p>
+<p>The <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> algorithm tries to avoid creating all possible cross-sums of the projected vectors. Instead, it relies on a proof that states that if a <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> is suboptimal, then we can at least find a better one by modifying a single subtree.</p>
+<p>Given this, the <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> algorithm starts off by finding a single optimal <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for a random belief. Then, using the theorem, it knows that if a better <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> exists, then there must be at least one <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> completely equal to the one we just found but for a subtree, and that one will be better. Thus, it adds to an agenda all possible variations of the found optimal <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.</p>
+<p>From there, it examines each one of them, trying to look for a witness point. Once found, again it produces an optimal <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for that point and adds to the agenda all of its possible variations. <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> which do not have any witness points are removed from the agenda.</p>
+<p>In addition, <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> will not add to the agenda any <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> which it has already added; it uses a set to keep track of which combinations of subtrees it has already tried. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae245a162b17965f9cef3552fb3297ffd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae245a162b17965f9cef3552fb3297ffd">&#9670;&nbsp;</a></span>Witness()</h2>
@@ -158,7 +158,7 @@ Public Member Functions</h2></td></tr>
 template&lt;typename ProjectionsRow &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">POMDP::VEntry</a> AIToolbox::POMDP::Witness::crossSumBestAtBelief </td>
+          <td class="memname"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">POMDP::VEntry</a> AIToolbox::POMDP::Witness::crossSumBestAtBelief </td>
           <td>(</td>
           <td class="paramtype">const ProjectionsRow &amp;&#160;</td>
           <td class="paramname"><em>projs</em>, </td>
@@ -321,7 +321,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

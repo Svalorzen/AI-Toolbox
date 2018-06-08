@@ -78,6 +78,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">AIToolbox::MDP::ValueFunction</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__generative__model.html">AIToolbox::MDP::is_generative_model&lt; M &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="structAIToolbox_1_1MDP_1_1is__generative__model.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,22 +106,17 @@ Macros</h2></td></tr>
 <tr class="memitem:aee33769855c8ca99ee2e02ad392e142f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MDP_2Types_8hpp.html#aee33769855c8ca99ee2e02ad392e142f">RETVAL_EXTRACTOR</a>(fun_name)</td></tr>
 <tr class="separator:aee33769855c8ca99ee2e02ad392e142f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-MDP Value Types</h2></td></tr>
-<tr><td class="ititle" colspan="2"><p><a class="anchor" id="amgrp9347bb1ec5cb0d47eac9be1b53c5ae44"></a>QFunctions and ValueFunctions are specific functions that are defined in terms of policies; as in, in any particular state, they can evaluate the performance that the policy will have. In general however here we do not specifically specify what the policy is, and since we are most probably interested in the best possible policy, we try to store as little information as possible in order to find that out.</p>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">MDP Value Types</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>QFunctions and ValueFunctions are specific functions that are defined in terms of policies; as in, in any particular state, they can evaluate the performance that the policy will have. In general however here we do not specifically specify what the policy is, and since we are most probably interested in the best possible policy, we try to store as little information as possible in order to find that out.</p>
 <p>A QFunction is a function that takes in a state and action, and returns the value for that particular pair. The higher the value is, the better we predict we will perform. Using a QFunction to obtain the perfect policy is straightforward, since at each state we can simply check which action will yeld the best value, and choose that one (assuming that all actions taken from that point are optimal, which we would like to assume since we are trying to find out the best).</p>
 <p>In theory, a ValueFunction is a function that is a max over actions of the QFunction, as in it takes a state and returns the best value obtainable from that state (following the implied policy). However, that is not very useful in a practical scenario. Thus we want to store not only that value, but also the action that resulted in that particular choice. Instead of storing, as it would make more intuitive sense, this function as a vector of tuples, we are going to store it as a tuple of vectors, to allow for easy manipulations of the underlying values (sums, products and so on). </p>
-</td></tr>
-<tr class="memitem:a87449a3e95621e29fe4257e5905b70be"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespaceAIToolbox_1_1MDP.html#a87449a3e95621e29fe4257e5905b70bead23a58e5e8528fbc8b2f366e62e20a24">AIToolbox::MDP::VALUES</a> = 0, 
-<a class="el" href="namespaceAIToolbox_1_1MDP.html#a87449a3e95621e29fe4257e5905b70bea9285b4826fb6fe43f75df0aed7db51fa">AIToolbox::MDP::ACTIONS</a> = 1
- }</td></tr>
-<tr class="separator:a87449a3e95621e29fe4257e5905b70be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</div></td></tr>
 <tr class="memitem:ae6bfccca3b00146c82eb345ca8490b74"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">AIToolbox::MDP::Values</a> = Vector</td></tr>
 <tr class="separator:ae6bfccca3b00146c82eb345ca8490b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42a6ee8b9f55d5503151441128736d14"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a42a6ee8b9f55d5503151441128736d14">AIToolbox::MDP::Actions</a> = std::vector&lt; size_t &gt;</td></tr>
 <tr class="separator:a42a6ee8b9f55d5503151441128736d14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acac3d826b851301eee267560352fe51b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">AIToolbox::MDP::ValueFunction</a> = std::tuple&lt; Values, Actions &gt;</td></tr>
-<tr class="separator:acac3d826b851301eee267560352fe51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7511ad35cec2e20bf392458125e28ebc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">AIToolbox::MDP::QFunction</a> = Matrix2D</td></tr>
 <tr class="separator:a7511ad35cec2e20bf392458125e28ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -145,7 +142,7 @@ MDP Value Types</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -72,9 +72,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:namespaceAIToolbox_1_1FactoredMDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1FactoredMDP.html">FactoredMDP</a></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1Bandit"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Bandit.html">Bandit</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespaceAIToolbox_1_1Game"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Game.html">Game</a></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1Factored"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored.html">Factored</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceAIToolbox_1_1Impl"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Impl.html">Impl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,10 +178,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ad73352f6ce65aa95f76b7399cf0d2cb0"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad73352f6ce65aa95f76b7399cf0d2cb0">sampleProbability</a> (const size_t d, const T &amp;in, G &amp;generator)</td></tr>
 <tr class="memdesc:ad73352f6ce65aa95f76b7399cf0d2cb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a probability vector.  <a href="#ad73352f6ce65aa95f76b7399cf0d2cb0">More...</a><br /></td></tr>
 <tr class="separator:ad73352f6ce65aa95f76b7399cf0d2cb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07bee222a80dcc928ff58471e7a8274c"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
-<tr class="memitem:a07bee222a80dcc928ff58471e7a8274c"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a07bee222a80dcc928ff58471e7a8274c">sampleProbability</a> (const size_t d, const SparseMatrix2D::RowXpr &amp;in, G &amp;generator)</td></tr>
-<tr class="memdesc:a07bee222a80dcc928ff58471e7a8274c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a sparse probability vector.  <a href="#a07bee222a80dcc928ff58471e7a8274c">More...</a><br /></td></tr>
-<tr class="separator:a07bee222a80dcc928ff58471e7a8274c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
 <tr class="memitem:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a31fb7fd3eb6b455f39a1bd388a5fd264">sampleProbability</a> (const size_t d, const SparseMatrix2D::ConstRowXpr &amp;in, G &amp;generator)</td></tr>
 <tr class="memdesc:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a sparse probability vector.  <a href="#a31fb7fd3eb6b455f39a1bd388a5fd264">More...</a><br /></td></tr>
@@ -193,6 +189,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a0e60a055a590bbd22deb801d1a0121a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a0e60a055a590bbd22deb801d1a0121a6">checkEqualProbability</a> (const <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> &amp;lhs, const <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> &amp;rhs)</td></tr>
 <tr class="memdesc:a0e60a055a590bbd22deb801d1a0121a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether two input ProbabilityVector are equal.  <a href="#a0e60a055a590bbd22deb801d1a0121a6">More...</a><br /></td></tr>
 <tr class="separator:a0e60a055a590bbd22deb801d1a0121a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1d02a7b4abada909d8d0b620496d381"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad1d02a7b4abada909d8d0b620496d381">projectToProbability</a> (const <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> &amp;v)</td></tr>
+<tr class="memdesc:ad1d02a7b4abada909d8d0b620496d381"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function projects the input vector to a valid probability space.  <a href="#ad1d02a7b4abada909d8d0b620496d381">More...</a><br /></td></tr>
+<tr class="separator:ad1d02a7b4abada909d8d0b620496d381"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea709246c227f35a91ffaa8de6e5c8d0"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
 <tr class="memitem:aea709246c227f35a91ffaa8de6e5c8d0"><td class="memTemplItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#aea709246c227f35a91ffaa8de6e5c8d0">extractDominated</a> (const size_t N, Iterator begin, Iterator end)</td></tr>
 <tr class="memdesc:aea709246c227f35a91ffaa8de6e5c8d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds and moves all Vectors in the range that are dominated by others.  <a href="#aea709246c227f35a91ffaa8de6e5c8d0">More...</a><br /></td></tr>
@@ -942,8 +941,44 @@ template&lt;typename G &gt; </div>
 
 </div>
 </div>
+<a id="ad1d02a7b4abada909d8d0b620496d381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1d02a7b4abada909d8d0b620496d381">&#9670;&nbsp;</a></span>projectToProbability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a> AIToolbox::projectToProbability </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function projects the input vector to a valid probability space. </p>
+<p>This function solves an <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a> to find the closest valid ProbabilityVector to the input vector. The distance measure used here is the sum of the absolute values of the element-wise difference between the input and the output.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>The vector to project to a valid probability space.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The closes valid probability vector to the input. </dd></dl>
+
+</div>
+</div>
 <a id="ad73352f6ce65aa95f76b7399cf0d2cb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad73352f6ce65aa95f76b7399cf0d2cb0">&#9670;&nbsp;</a></span>sampleProbability() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad73352f6ce65aa95f76b7399cf0d2cb0">&#9670;&nbsp;</a></span>sampleProbability() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -999,64 +1034,8 @@ template&lt;typename T , typename G &gt; </div>
 
 </div>
 </div>
-<a id="a07bee222a80dcc928ff58471e7a8274c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07bee222a80dcc928ff58471e7a8274c">&#9670;&nbsp;</a></span>sampleProbability() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename G &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t AIToolbox::sampleProbability </td>
-          <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
-          <td class="paramname"><em>d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const SparseMatrix2D::RowXpr &amp;&#160;</td>
-          <td class="paramname"><em>in</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">G &amp;&#160;</td>
-          <td class="paramname"><em>generator</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function samples an index from a sparse probability vector. </p>
-<p>This function randomly samples an index between 0 and d, given a vector containing the probabilities of sampling each of the indexes.</p>
-<p>For performance reasons this function does not verify that the input container is effectively a probability.</p>
-<p>The generator has to be supplied to the function, so that different objects are able to maintain different generators, to reduce correlations between different samples. The generator has to be compatible with std::uniform_real_distribution&lt;double&gt;, since that is what is used to obtain the random sample.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">G</td><td>The type of the generator used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">in</td><td>The external probability container. </td></tr>
-    <tr><td class="paramname">d</td><td>The size of the supplied container. </td></tr>
-    <tr><td class="paramname">generator</td><td>The generator used to sample.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An index in range [0,d-1]. </dd></dl>
-
-</div>
-</div>
 <a id="a31fb7fd3eb6b455f39a1bd388a5fd264"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31fb7fd3eb6b455f39a1bd388a5fd264">&#9670;&nbsp;</a></span>sampleProbability() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a31fb7fd3eb6b455f39a1bd388a5fd264">&#9670;&nbsp;</a></span>sampleProbability() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1269,7 +1248,7 @@ template&lt;typename V &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

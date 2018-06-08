@@ -83,6 +83,7 @@ Inheritance diagram for AIToolbox::MDP::Policy:</div>
  <div class="center">
   <img src="classAIToolbox_1_1MDP_1_1Policy.png" usemap="#AIToolbox::MDP::Policy_map" alt=""/>
   <map id="AIToolbox::MDP::Policy_map" name="AIToolbox::MDP::Policy_map">
+<area href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html" title="This class provides an MDP Policy interface around a Matrix2D. " alt="AIToolbox::MDP::PolicyWrapper" shape="rect" coords="0,112,297,136"/>
 <area href="classAIToolbox_1_1MDP_1_1PolicyInterface.html" title="Simple typedef for most of MDP&#39;s policy needs. " alt="AIToolbox::MDP::PolicyInterface" shape="rect" coords="0,56,297,80"/>
 <area href="classAIToolbox_1_1PolicyInterface.html" alt="AIToolbox::PolicyInterface&lt; size_t, size_t, size_t &gt;" shape="rect" coords="0,0,297,24"/>
 </map>
@@ -92,6 +93,9 @@ Inheritance diagram for AIToolbox::MDP::Policy:</div>
 Public Types</h2></td></tr>
 <tr class="memitem:a0b00a0834a613787c43bad66ffae5d9c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a0b00a0834a613787c43bad66ffae5d9c">PolicyTable</a> = <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a></td></tr>
 <tr class="separator:a0b00a0834a613787c43bad66ffae5d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classAIToolbox_1_1MDP_1_1PolicyWrapper')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html">AIToolbox::MDP::PolicyWrapper</a></td></tr>
+<tr class="memitem:ab23e78fc2ed00ebadb18fd650b7dee89 inherit pub_types_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ab23e78fc2ed00ebadb18fd650b7dee89">PolicyTable</a> = <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a></td></tr>
+<tr class="separator:ab23e78fc2ed00ebadb18fd650b7dee89 inherit pub_types_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classAIToolbox_1_1MDP_1_1PolicyInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classAIToolbox_1_1MDP_1_1PolicyInterface')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html">AIToolbox::MDP::PolicyInterface</a></td></tr>
 <tr class="memitem:ae10f920bd58bd6fa87355cbaf998192a inherit pub_types_classAIToolbox_1_1MDP_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html#ae10f920bd58bd6fa87355cbaf998192a">Base</a> = <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface</a>&lt; size_t, size_t, size_t &gt;</td></tr>
 <tr class="separator:ae10f920bd58bd6fa87355cbaf998192a inherit pub_types_classAIToolbox_1_1MDP_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,30 +111,28 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a156b5fc4a95d7ed3e458df26a83b5c53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a156b5fc4a95d7ed3e458df26a83b5c53">Policy</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html">PolicyInterface</a> &amp;p)</td></tr>
 <tr class="memdesc:a156b5fc4a95d7ed3e458df26a83b5c53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a156b5fc4a95d7ed3e458df26a83b5c53">More...</a><br /></td></tr>
 <tr class="separator:a156b5fc4a95d7ed3e458df26a83b5c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a001514303526cd7ad3e3dc0e8be3b4ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a001514303526cd7ad3e3dc0e8be3b4ac">Policy</a> (size_t s, size_t a, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a> &amp;v)</td></tr>
+<tr class="memitem:a001514303526cd7ad3e3dc0e8be3b4ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a001514303526cd7ad3e3dc0e8be3b4ac">Policy</a> (size_t s, size_t a, const <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a> &amp;v)</td></tr>
 <tr class="memdesc:a001514303526cd7ad3e3dc0e8be3b4ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a001514303526cd7ad3e3dc0e8be3b4ac">More...</a><br /></td></tr>
 <tr class="separator:a001514303526cd7ad3e3dc0e8be3b4ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a593b773da1a808f6ee52e1befc95bca5"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a593b773da1a808f6ee52e1befc95bca5">sampleAction</a> (const size_t &amp;s) const override</td></tr>
-<tr class="memdesc:a593b773da1a808f6ee52e1befc95bca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="#a593b773da1a808f6ee52e1befc95bca5">More...</a><br /></td></tr>
-<tr class="separator:a593b773da1a808f6ee52e1befc95bca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ccf5911044790a3c57e03931be3b61f"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a4ccf5911044790a3c57e03931be3b61f">getActionProbability</a> (const size_t &amp;s, const size_t &amp;a) const override</td></tr>
-<tr class="memdesc:a4ccf5911044790a3c57e03931be3b61f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a4ccf5911044790a3c57e03931be3b61f">More...</a><br /></td></tr>
-<tr class="separator:a4ccf5911044790a3c57e03931be3b61f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d424c6ab38d5bf5c81954dda6874284"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a3d424c6ab38d5bf5c81954dda6874284">getStatePolicy</a> (size_t s) const</td></tr>
-<tr class="memdesc:a3d424c6ab38d5bf5c81954dda6874284"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a copy of a particular slice of the policy.  <a href="#a3d424c6ab38d5bf5c81954dda6874284">More...</a><br /></td></tr>
-<tr class="separator:a3d424c6ab38d5bf5c81954dda6874284"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72afdc868989162952c5729631112aad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a72afdc868989162952c5729631112aad">setStatePolicy</a> (size_t s, const <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> &amp;container)</td></tr>
-<tr class="memdesc:a72afdc868989162952c5729631112aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the policy for a particular state.  <a href="#a72afdc868989162952c5729631112aad">More...</a><br /></td></tr>
-<tr class="separator:a72afdc868989162952c5729631112aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73d8d30a45e6c777d45824c04505a419"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a73d8d30a45e6c777d45824c04505a419">setStatePolicy</a> (size_t s, size_t a)</td></tr>
-<tr class="memdesc:a73d8d30a45e6c777d45824c04505a419"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the policy for a particular state.  <a href="#a73d8d30a45e6c777d45824c04505a419">More...</a><br /></td></tr>
-<tr class="separator:a73d8d30a45e6c777d45824c04505a419"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adaf4cb0d75b9fccd6e123908aeb21929"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a0b00a0834a613787c43bad66ffae5d9c">PolicyTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#adaf4cb0d75b9fccd6e123908aeb21929">getPolicyTable</a> () const</td></tr>
-<tr class="memdesc:adaf4cb0d75b9fccd6e123908aeb21929"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables inspection of the internal policy.  <a href="#adaf4cb0d75b9fccd6e123908aeb21929">More...</a><br /></td></tr>
-<tr class="separator:adaf4cb0d75b9fccd6e123908aeb21929"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a721440b5be29f3eb3023f58620b21241"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a721440b5be29f3eb3023f58620b21241">getPolicy</a> () const override</td></tr>
-<tr class="memdesc:a721440b5be29f3eb3023f58620b21241"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a matrix containing all probabilities of the policy.  <a href="#a721440b5be29f3eb3023f58620b21241">More...</a><br /></td></tr>
-<tr class="separator:a721440b5be29f3eb3023f58620b21241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33713de1ccb035019e99bf4a134c2f38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a33713de1ccb035019e99bf4a134c2f38">Policy</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a0b00a0834a613787c43bad66ffae5d9c">PolicyTable</a> &amp;p)</td></tr>
+<tr class="memdesc:a33713de1ccb035019e99bf4a134c2f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a33713de1ccb035019e99bf4a134c2f38">More...</a><br /></td></tr>
+<tr class="separator:a33713de1ccb035019e99bf4a134c2f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html">AIToolbox::MDP::PolicyWrapper</a></td></tr>
+<tr class="memitem:a19a2d7bf6f58515f051b41d36bbac99b inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#a19a2d7bf6f58515f051b41d36bbac99b">PolicyWrapper</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ab23e78fc2ed00ebadb18fd650b7dee89">PolicyTable</a> &amp;p)</td></tr>
+<tr class="memdesc:a19a2d7bf6f58515f051b41d36bbac99b inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#a19a2d7bf6f58515f051b41d36bbac99b">More...</a><br /></td></tr>
+<tr class="separator:a19a2d7bf6f58515f051b41d36bbac99b inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae15dd003171bdd4bc69f20ea233f028e inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ae15dd003171bdd4bc69f20ea233f028e">sampleAction</a> (const size_t &amp;s) const override</td></tr>
+<tr class="memdesc:ae15dd003171bdd4bc69f20ea233f028e inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ae15dd003171bdd4bc69f20ea233f028e">More...</a><br /></td></tr>
+<tr class="separator:ae15dd003171bdd4bc69f20ea233f028e inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace73cb0db34ceb11d17c11dc1c7b1aea inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ace73cb0db34ceb11d17c11dc1c7b1aea">getActionProbability</a> (const size_t &amp;s, const size_t &amp;a) const override</td></tr>
+<tr class="memdesc:ace73cb0db34ceb11d17c11dc1c7b1aea inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ace73cb0db34ceb11d17c11dc1c7b1aea">More...</a><br /></td></tr>
+<tr class="separator:ace73cb0db34ceb11d17c11dc1c7b1aea inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a19da36e361185ad29da5d5a60593b inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ab23e78fc2ed00ebadb18fd650b7dee89">PolicyTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#af6a19da36e361185ad29da5d5a60593b">getPolicyTable</a> () const</td></tr>
+<tr class="memdesc:af6a19da36e361185ad29da5d5a60593b inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables inspection of the internal policy.  <a href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#af6a19da36e361185ad29da5d5a60593b">More...</a><br /></td></tr>
+<tr class="separator:af6a19da36e361185ad29da5d5a60593b inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac023a15e52c182af762d6cd5ef2e500c inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ac023a15e52c182af762d6cd5ef2e500c">getPolicy</a> () const override</td></tr>
+<tr class="memdesc:ac023a15e52c182af762d6cd5ef2e500c inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a matrix containing all probabilities of the policy.  <a href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ac023a15e52c182af762d6cd5ef2e500c">More...</a><br /></td></tr>
+<tr class="separator:ac023a15e52c182af762d6cd5ef2e500c inherit pub_methods_classAIToolbox_1_1MDP_1_1PolicyWrapper"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classAIToolbox_1_1PolicyInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classAIToolbox_1_1PolicyInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; size_t, size_t, size_t &gt;</a></td></tr>
 <tr class="memitem:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">PolicyInterface</a> (size_t s, size_t a)</td></tr>
 <tr class="memdesc:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">More...</a><br /></td></tr>
@@ -165,7 +167,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>This class represents an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html" title="This class represents an MDP Policy. ">Policy</a>. </p>
 <p>This class is one of the many ways to represent an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html" title="This class represents an MDP Policy. ">Policy</a>. In particular, it maintains a 2 dimensional table of probabilities determining the probability of choosing an action in a given state.</p>
 <p>The class offers facilities to sample from these distributions, so that you can directly embed it into a decision-making process.</p>
-<p>Building this object is somewhat expensive, so it should be done mostly when it is known that the final solution won't change again. Otherwise you may want to build a wrapper around some data to extract the policy dynamically. </p>
+<p>Building this object is somewhat expensive, so it should be done mostly when it is known that the final solution won't change again.</p>
+<p>Note that this class is meant to be read-only, after being constructed. If you are looking to manually modify the policy table you should save it on the side and use the <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html" title="This class provides an MDP Policy interface around a Matrix2D. ">PolicyWrapper</a> class. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a0b00a0834a613787c43bad66ffae5d9c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0b00a0834a613787c43bad66ffae5d9c">&#9670;&nbsp;</a></span>PolicyTable</h2>
@@ -183,7 +186,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac717c8a330cd5248882297f0760c746d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac717c8a330cd5248882297f0760c746d">&#9670;&nbsp;</a></span>Policy() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac717c8a330cd5248882297f0760c746d">&#9670;&nbsp;</a></span>Policy() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +224,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="acd3485dfe377eb1dc8c878e202bc85ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd3485dfe377eb1dc8c878e202bc85ba">&#9670;&nbsp;</a></span>Policy() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acd3485dfe377eb1dc8c878e202bc85ba">&#9670;&nbsp;</a></span>Policy() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +252,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a156b5fc4a95d7ed3e458df26a83b5c53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a156b5fc4a95d7ed3e458df26a83b5c53">&#9670;&nbsp;</a></span>Policy() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a156b5fc4a95d7ed3e458df26a83b5c53">&#9670;&nbsp;</a></span>Policy() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +270,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Basic constructor. </p>
 <p>This constructor simply copies policy probability values from any other compatible <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html" title="Simple typedef for most of MDP&#39;s policy needs. ">PolicyInterface</a>, and stores them internally. This is probably the main way you may want to use this class.</p>
 <p>This may be a useful thing to do in case the policy that is being copied is very costly to use (for example, <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction. ">QGreedyPolicy</a>) and it is known that it will not change anymore.</p>
-<p>This is an optimized method using the <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a721440b5be29f3eb3023f58620b21241" title="This function returns a matrix containing all probabilities of the policy. ">getPolicy()</a> function of the input.</p>
+<p>This is an optimized method using the <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ac023a15e52c182af762d6cd5ef2e500c" title="This function returns a matrix containing all probabilities of the policy. ">getPolicy()</a> function of the input.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>The policy which is being copied. </td></tr>
@@ -278,7 +281,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a001514303526cd7ad3e3dc0e8be3b4ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a001514303526cd7ad3e3dc0e8be3b4ac">&#9670;&nbsp;</a></span>Policy() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a001514303526cd7ad3e3dc0e8be3b4ac">&#9670;&nbsp;</a></span>Policy() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,7 +301,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">ValueFunction</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a> &amp;&#160;</td>
           <td class="paramname"><em>v</em>&#160;</td>
         </tr>
         <tr>
@@ -310,251 +313,40 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>This constructor copies the implied policy contained in a ValueFunction. Keep in mind that the policy stored within a ValueFunction is non-stochastic in nature, since for each state it can only save a single action.</p>
+<p>This constructor copies the implied policy contained in a <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>. Keep in mind that the policy stored within a <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a> is non-stochastic in nature, since for each state it can only save a single action.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The number of states of the world. </td></tr>
     <tr><td class="paramname">a</td><td>The number of actions available to the agent. </td></tr>
-    <tr><td class="paramname">v</td><td>The ValueFunction used as a basis for the <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html" title="This class represents an MDP Policy. ">Policy</a>. </td></tr>
+    <tr><td class="paramname">v</td><td>The <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a> used as a basis for the <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html" title="This class represents an MDP Policy. ">Policy</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4ccf5911044790a3c57e03931be3b61f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ccf5911044790a3c57e03931be3b61f">&#9670;&nbsp;</a></span>getActionProbability()</h2>
+<a id="a33713de1ccb035019e99bf4a134c2f38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33713de1ccb035019e99bf4a134c2f38">&#9670;&nbsp;</a></span>Policy() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double AIToolbox::MDP::Policy::getActionProbability </td>
+          <td class="memname">AIToolbox::MDP::Policy::Policy </td>
           <td>(</td>
-          <td class="paramtype">const size_t &amp;&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a0b00a0834a613787c43bad66ffae5d9c">PolicyTable</a> &amp;&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const size_t &amp;&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>This function returns the probability of taking the specified action in the specified state. </p>
+<p>Basic constructor. </p>
+<p>This constructor copies the input table inside the <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html" title="This class represents an MDP Policy. ">Policy</a>.</p>
+<p>This constructor checks whether the input is a valid set of probabilities. If not, it will throw an std::invalid_argument exception.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>The selected state. </td></tr>
-    <tr><td class="paramname">a</td><td>The selected action.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The probability of taking the selected action in the specified state. </dd></dl>
-
-<p>Implements <a class="el" href="classAIToolbox_1_1PolicyInterface.html#abd87203abf911c7247ad769bf60db3f2">AIToolbox::PolicyInterface&lt; size_t, size_t, size_t &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a721440b5be29f3eb3023f58620b21241"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a721440b5be29f3eb3023f58620b21241">&#9670;&nbsp;</a></span>getPolicy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a> AIToolbox::MDP::Policy::getPolicy </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This function returns a matrix containing all probabilities of the policy. </p>
-<p>This is simply a copy of the internal policy. </p>
-
-<p>Implements <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html#ad79b9ffabb4fd29f6e2207fa12bc23ed">AIToolbox::MDP::PolicyInterface</a>.</p>
-
-</div>
-</div>
-<a id="adaf4cb0d75b9fccd6e123908aeb21929"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adaf4cb0d75b9fccd6e123908aeb21929">&#9670;&nbsp;</a></span>getPolicyTable()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a0b00a0834a613787c43bad66ffae5d9c">PolicyTable</a>&amp; AIToolbox::MDP::Policy::getPolicyTable </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function enables inspection of the internal policy. </p>
-<dl class="section return"><dt>Returns</dt><dd>A constant reference to the internal policy. </dd></dl>
-
-</div>
-</div>
-<a id="a3d424c6ab38d5bf5c81954dda6874284"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d424c6ab38d5bf5c81954dda6874284">&#9670;&nbsp;</a></span>getStatePolicy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> AIToolbox::MDP::Policy::getStatePolicy </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns a copy of a particular slice of the policy. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>The requested state.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The probabilities of choosing each action in state s. </dd></dl>
-
-</div>
-</div>
-<a id="a593b773da1a808f6ee52e1befc95bca5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a593b773da1a808f6ee52e1befc95bca5">&#9670;&nbsp;</a></span>sampleAction()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual size_t AIToolbox::MDP::Policy::sampleAction </td>
-          <td>(</td>
-          <td class="paramtype">const size_t &amp;&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This function chooses a random action for state s, following the policy distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>The sampled state of the policy.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
-
-<p>Implements <a class="el" href="classAIToolbox_1_1PolicyInterface.html#a460920496b63af5a7f71aa25dc3c35da">AIToolbox::PolicyInterface&lt; size_t, size_t, size_t &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a72afdc868989162952c5729631112aad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72afdc868989162952c5729631112aad">&#9670;&nbsp;</a></span>setStatePolicy() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AIToolbox::MDP::Policy::setStatePolicy </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> &amp;&#160;</td>
-          <td class="paramname"><em>container</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function sets the policy for a particular state. </p>
-<p>This function copies a correctly sized Vector into the policy. It does NOT normalize it, and will throw an exception if it does not sum to 1.0 (or close enough).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>The state where the policy is being set. </td></tr>
-    <tr><td class="paramname">container</td><td>The vector containing the new policy values. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a73d8d30a45e6c777d45824c04505a419"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73d8d30a45e6c777d45824c04505a419">&#9670;&nbsp;</a></span>setStatePolicy() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AIToolbox::MDP::Policy::setStatePolicy </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function sets the policy for a particular state. </p>
-<p>This function represents an easier way to set a probability of 1 to execute a given action in a particular state, and setting all other probabilities to 0.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>The state where the policy is being set. </td></tr>
-    <tr><td class="paramname">a</td><td>The action that must be chosen in state s. </td></tr>
+    <tr><td class="paramname">p</td><td>The policy table to copy. </td></tr>
   </table>
   </dd>
 </dl>
@@ -627,7 +419,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

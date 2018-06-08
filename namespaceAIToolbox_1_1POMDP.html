@@ -150,6 +150,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a Partially Observable Markov Decision Process.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html">Witness</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements the <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> algorithm.  <a href="classAIToolbox_1_1POMDP_1_1Witness.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -173,6 +175,26 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a4522c5e35483fb30b2c43c271781e8bc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> = <a class="el" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a></td></tr>
 <tr class="memdesc:a4522c5e35483fb30b2c43c271781e8bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This represents a belief, which is a probability distribution over states.  <a href="#a4522c5e35483fb30b2c43c271781e8bc">More...</a><br /></td></tr>
 <tr class="separator:a4522c5e35483fb30b2c43c271781e8bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">POMDP Value Types</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> ValueFunctions are complicated. In fact, they are trees. At each belief, you have a particular value function, which also depends on any future observation you might encounter, and must change "value" accordingly. For example, a high valued belief might in the end turn out bad due to repeated "bad" observations. At the same time, for each particular block of values, we want to save the single action that will result in the "actuation" of that particular value.</p>
+<p>We avoid storing a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> ValueFunction as a true tree, mostly due to the fact that most operations like search and update are done on a timestep basis, as in, specific tree depth. Thus the layout is arranged as follows:</p>
+<p>A <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> contains:</p>
+<ul>
+<li>The <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">MDP::Values</a> for its specific Belief range. This is also called an alphavector in the literature. At any belief it can be used to compute, via dot product, the true value of that belief.</li>
+<li>An action index, for the action that results in the actuation of those particular values.</li>
+<li>A vector containing, for each possible observation, the index of the <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> to look into for the next timestep/VList. Thus, there are going to be |O| entries in this vector (sometimes it's empty, when it doesn't matter). Some observations are however impossible from certain beliefs. In theory, those vector entries should never be accessed, so they will just keep the value of zero to keep things simple.</li>
+</ul>
+<p>A VList is a slice of the final tree with respect to depth, as in all ValueFunctions for a certain timestep t. Note that a VList can have an arbitrary number of VEntries inside - with an upper bound. Each VList can have at most A * size(VList_{t-1})^O.</p>
+<p>A ValueFunction is the final tree keeping all VLists together. A ValueFunction has always at least one element.</p>
+<p>The first element of a ValueFunction is technically useless, as it is a VList with just one <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> that tells to perform action zero. It's the default from which all Dynamic Programming algorithm start. The values of the default entry are usually zeros, although some algorithms initialize them differently. The first entry otherwise is never used, not even for sampling for a policy, and it's simply an artifact that takes little space to keep, and it's expected in all the code.</p>
+<p>QFunctions may be defined later, however since <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> ValueFunctions are already pretty costly in terms of space, in general there's little sense in storing them. </p>
+</div></td></tr>
+<tr class="memitem:a72aee7b57445d6b773012d9b54b85339"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a72aee7b57445d6b773012d9b54b85339">VObs</a> = std::vector&lt; size_t &gt;</td></tr>
+<tr class="separator:a72aee7b57445d6b773012d9b54b85339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5655ffd334a1e53622314eae70eab464"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> = std::vector&lt; <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &gt;</td></tr>
+<tr class="separator:a5655ffd334a1e53622314eae70eab464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1cada9fef241e48a9d14d36cb61dabb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> = std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &gt;</td></tr>
+<tr class="separator:ab1cada9fef241e48a9d14d36cb61dabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -201,9 +223,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a46eee8111107489e3d68d30055722ed8"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html">Policy</a> &amp;p)</td></tr>
 <tr class="memdesc:a46eee8111107489e3d68d30055722ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="#a46eee8111107489e3d68d30055722ed8">More...</a><br /></td></tr>
 <tr class="separator:a46eee8111107489e3d68d30055722ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3dd0669f710850fc93fe8f7b102fb1b6">operator&lt;</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> &amp;lhs, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> &amp;rhs)</td></tr>
+<tr class="memitem:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3dd0669f710850fc93fe8f7b102fb1b6">operator&lt;</a> (const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;lhs, const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;rhs)</td></tr>
 <tr class="memdesc:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function lexicographically sorts VEntries.  <a href="#a3dd0669f710850fc93fe8f7b102fb1b6">More...</a><br /></td></tr>
 <tr class="separator:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45f5d972365404bca4ddfbef575b1bd0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a45f5d972365404bca4ddfbef575b1bd0">operator==</a> (const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;lhs, const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;rhs)</td></tr>
+<tr class="separator:a45f5d972365404bca4ddfbef575b1bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f341f4ae91af26c67abd8e650522fdf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3f341f4ae91af26c67abd8e650522fdf">makeValueFunction</a> (size_t S)</td></tr>
 <tr class="memdesc:a3f341f4ae91af26c67abd8e650522fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a default ValueFunction.  <a href="#a3f341f4ae91af26c67abd8e650522fdf">More...</a><br /></td></tr>
 <tr class="separator:a3f341f4ae91af26c67abd8e650522fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -278,35 +302,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ae95d66a7f0c1d358b84fb8cb3ccf997e"><td class="memTemplItemLeft" align="right" valign="top">BIterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ae95d66a7f0c1d358b84fb8cb3ccf997e">extractBestUsefulBeliefs</a> (BIterator bbegin, BIterator bend, VIterator begin, VIterator end)</td></tr>
 <tr class="memdesc:ae95d66a7f0c1d358b84fb8cb3ccf997e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds and moves all non-useful beliefs at the end of the input range.  <a href="#ae95d66a7f0c1d358b84fb8cb3ccf997e">More...</a><br /></td></tr>
 <tr class="separator:ae95d66a7f0c1d358b84fb8cb3ccf997e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-POMDP Value Types</h2></td></tr>
-<tr><td class="ititle" colspan="2"><p><a class="anchor" id="amgrpd40d29dd7a6ce2363439db942e3d718b"></a><a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> ValueFunctions are complicated. In fact, they are trees. At each belief, you have a particular value function, which also depends on any future observation you might encounter, and must change "value" accordingly. For example, a high valued belief might in the end turn out bad due to repeated "bad" observations. At the same time, for each particular block of values, we want to save the single action that will result in the "actuation" of that particular value.</p>
-<p>We avoid storing a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> ValueFunction as a true tree, mostly due to the fact that most operations like search and update are done on a timestep basis, as in, specific tree depth. Thus the layout is arranged as follows:</p>
-<p>A VEntry contains:</p>
-<ul>
-<li>The <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">MDP::Values</a> for its specific Belief range. This is also called an alphavector in the literature. At any belief it can be used to compute, via dot product, the true value of that belief.</li>
-<li>An action index, for the action that results in the actuation of those particular values.</li>
-<li>A vector containing, for each possible observation, the index of the VEntry to look into for the next timestep/VList. Thus, there are going to be |O| entries in this vector (sometimes it's empty, when it doesn't matter). Some observations are however impossible from certain beliefs. In theory, those vector entries should never be accessed, so they will just keep the value of zero to keep things simple.</li>
-</ul>
-<p>A VList is a slice of the final tree with respect to depth, as in all ValueFunctions for a certain timestep t. Note that a VList can have an arbitrary number of VEntries inside - with an upper bound. Each VList can have at most A * size(VList_{t-1})^O.</p>
-<p>A ValueFunction is the final tree keeping all VLists together. A ValueFunction has always at least one element.</p>
-<p>The first element of a ValueFunction is technically useless, as it is a VList with just one VEntry that tells to perform action zero. It's the default from which all Dynamic Programming algorithm start. The values of the default entry are usually zeros, although some algorithms initialize them differently. The first entry otherwise is never used, not even for sampling for a policy, and it's simply an artifact that takes little space to keep, and it's expected in all the code.</p>
-<p>QFunctions may be defined later, however since <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> ValueFunctions are already pretty costly in terms of space, in general there's little sense in storing them. </p>
-</td></tr>
-<tr class="memitem:a4ee8f7f75ac407c0506a523313dfd1bb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4ee8f7f75ac407c0506a523313dfd1bbae9a76df17db6e1782ba972f80ba04171">VALUES</a> = 0, 
-<a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4ee8f7f75ac407c0506a523313dfd1bba1df302002902de201c09fc47c4bddc69">ACTION</a> = 1, 
-<a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4ee8f7f75ac407c0506a523313dfd1bbab21b7279adcaeea4b513579146191508">OBS</a> = 2
- }</td></tr>
-<tr class="separator:a4ee8f7f75ac407c0506a523313dfd1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72aee7b57445d6b773012d9b54b85339"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a72aee7b57445d6b773012d9b54b85339">VObs</a> = std::vector&lt; size_t &gt;</td></tr>
-<tr class="separator:a72aee7b57445d6b773012d9b54b85339"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3154731370885b97ddda7b1807e373dc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> = std::tuple&lt; <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">MDP::Values</a>, size_t, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a72aee7b57445d6b773012d9b54b85339">VObs</a> &gt;</td></tr>
-<tr class="separator:a3154731370885b97ddda7b1807e373dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5655ffd334a1e53622314eae70eab464"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> = std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> &gt;</td></tr>
-<tr class="separator:a5655ffd334a1e53622314eae70eab464"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1cada9fef241e48a9d14d36cb61dabb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> = std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &gt;</td></tr>
-<tr class="separator:ab1cada9fef241e48a9d14d36cb61dabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a97f123407d50846293c4e9b46d7fbd49"></a>
@@ -401,20 +396,6 @@ template&lt;bool UseEntropy&gt; </div>
 
 </div>
 </div>
-<a id="a3154731370885b97ddda7b1807e373dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3154731370885b97ddda7b1807e373dc">&#9670;&nbsp;</a></span>VEntry</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">AIToolbox::POMDP::VEntry</a> = typedef std::tuple&lt;<a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">MDP::Values</a>, size_t, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a72aee7b57445d6b773012d9b54b85339">VObs</a>&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a5655ffd334a1e53622314eae70eab464"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5655ffd334a1e53622314eae70eab464">&#9670;&nbsp;</a></span>VList</h2>
 
@@ -422,7 +403,7 @@ template&lt;bool UseEntropy&gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">AIToolbox::POMDP::VList</a> = typedef std::vector&lt;<a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a>&gt;</td>
+          <td class="memname">using <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">AIToolbox::POMDP::VList</a> = typedef std::vector&lt;<a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -440,26 +421,6 @@ template&lt;bool UseEntropy&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a4ee8f7f75ac407c0506a523313dfd1bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ee8f7f75ac407c0506a523313dfd1bb">&#9670;&nbsp;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a4ee8f7f75ac407c0506a523313dfd1bbae9a76df17db6e1782ba972f80ba04171"></a>VALUES&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4ee8f7f75ac407c0506a523313dfd1bba1df302002902de201c09fc47c4bddc69"></a>ACTION&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4ee8f7f75ac407c0506a523313dfd1bbab21b7279adcaeea4b513579146191508"></a>OBS&#160;</td><td class="fielddoc"></td></tr>
-</table>
 
 </div>
 </div>
@@ -719,16 +680,16 @@ template&lt;typename BIterator , typename VIterator &gt; </div>
 </div><div class="memdoc">
 
 <p>This function finds and moves all non-useful beliefs at the end of the input range. </p>
-<p>This function helps remove beliefs which do not support any VEntry and are thus not useful for improving the VList bounds.</p>
+<p>This function helps remove beliefs which do not support any <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> and are thus not useful for improving the VList bounds.</p>
 <p>This function moves all non-useful beliefs at the end of the input range, and returns the resulting iterator pointing to the first non-useful belief.</p>
-<p>When multiple beliefs support the same VEntry, the ones with the best values are returned.</p>
+<p>When multiple beliefs support the same <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>, the ones with the best values are returned.</p>
 <p>The input VEntries may contain elements which are not supported by any of the input Beliefs (although if they exist they may slow down the function).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">it</td><td>The beginning of the belief range to check. </td></tr>
     <tr><td class="paramname">bend</td><td>The end of the belief range to check. </td></tr>
-    <tr><td class="paramname">begin</td><td>The beginning of the VEntry range to check against. </td></tr>
-    <tr><td class="paramname">end</td><td>The end of the VEntry range to check against.</td></tr>
+    <tr><td class="paramname">begin</td><td>The beginning of the <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> range to check against. </td></tr>
+    <tr><td class="paramname">end</td><td>The end of the <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> range to check against.</td></tr>
   </table>
   </dd>
 </dl>
@@ -790,7 +751,7 @@ template&lt;typename Iterator &gt; </div>
     <tr><td class="paramname">bend</td><td>The end of the belief. </td></tr>
     <tr><td class="paramname">begin</td><td>The start of the range to look in. </td></tr>
     <tr><td class="paramname">end</td><td>The end of the range to look in (excluded). </td></tr>
-    <tr><td class="paramname">value</td><td>A pointer to double, which gets set to the value of the given belief with the found VEntry.</td></tr>
+    <tr><td class="paramname">value</td><td>A pointer to double, which gets set to the value of the given belief with the found <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -907,10 +868,10 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
 </div><div class="memdoc">
 
 <p>This function creates a default ValueFunction. </p>
-<p>The default ValueFunction contains a single VList with inside a single VEntry: do action 0, with all value zeroes.</p>
+<p>The default ValueFunction contains a single VList with inside a single <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>: do action 0, with all value zeroes.</p>
 <p>The VList is a necessary byproduct that is needed when computing the whole ValueFunction recursively via dynamic programming.</p>
 <p>In the end, to act, it's not needed, but it's probably more hassle to remove the entry, and so we leave it there. So in general we always assume it's there.</p>
-<p>Another peculiarity of the default VEntry is that it's the only place where the observation id vector is empty, since nobody is ever supposed to go looking in there.</p>
+<p>Another peculiarity of the default <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> is that it's the only place where the observation id vector is empty, since nobody is ever supposed to go looking in there.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">S</td><td>The number of possible states.</td></tr>
@@ -930,13 +891,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
         <tr>
           <td class="memname">bool AIToolbox::POMDP::operator&lt; </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3154731370885b97ddda7b1807e373dc">VEntry</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
           <td class="paramname"><em>rhs</em>&#160;</td>
         </tr>
         <tr>
@@ -1042,6 +1003,34 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The original stream. </dd></dl>
+
+</div>
+</div>
+<a id="a45f5d972365404bca4ddfbef575b1bd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45f5d972365404bca4ddfbef575b1bd0">&#9670;&nbsp;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AIToolbox::POMDP::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1890,7 +1879,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

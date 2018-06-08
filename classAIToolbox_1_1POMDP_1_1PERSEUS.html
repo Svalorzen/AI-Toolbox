@@ -106,7 +106,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html" title="This class implements the PERSEUS algorithm. ">PERSEUS</a> algorithm. </p>
-<p>The idea behind this algorithm is very similar to <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm. ">PBVI</a>. The thing that changes is how beliefs are considered; in <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html" title="This class implements the PERSEUS algorithm. ">PERSEUS</a> we only try to find as little VEntries as possible as to ensure that all beliefs considered are improved. This allows to skip generating VEntry for most beliefs considered, since usually few VEntry are responsible for supporting most of the beliefs.</p>
+<p>The idea behind this algorithm is very similar to <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm. ">PBVI</a>. The thing that changes is how beliefs are considered; in <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html" title="This class implements the PERSEUS algorithm. ">PERSEUS</a> we only try to find as little VEntries as possible as to ensure that all beliefs considered are improved. This allows to skip generating <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for most beliefs considered, since usually few <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> are responsible for supporting most of the beliefs.</p>
 <p>At the same time, this means that solutions found by <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html" title="This class implements the PERSEUS algorithm. ">PERSEUS</a> may be <em>extremely</em> approximate with respect to the true Value Functions. This is because as long as the values for all the particle beliefs are increased, no matter how slightly, the algorithm stops looking - in effect simply guaranteeing that the worst action is never taken. However for many problems the solution found is actually very good, also given that due to the increased performance <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html" title="This class implements the PERSEUS algorithm. ">PERSEUS</a> can do many more iterations than, for example, <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm. ">PBVI</a>.</p>
 <p>This method works best when it is allowed to iterate until convergence, and thus shouldn't be used on problems with finite horizons. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -350,7 +350,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

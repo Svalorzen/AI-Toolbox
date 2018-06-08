@@ -74,7 +74,7 @@ $(function() {
 <code>#include &lt;random&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;<a class="el" href="Types_8hpp_source.html">AIToolbox/Types.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="Core_8hpp_source.html">AIToolbox/Utils/Core.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="Utils_2Core_8hpp_source.html">AIToolbox/Utils/Core.hpp</a>&gt;</code><br />
 </div>
 <p><a href="Probability_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -93,10 +93,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ad73352f6ce65aa95f76b7399cf0d2cb0"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad73352f6ce65aa95f76b7399cf0d2cb0">AIToolbox::sampleProbability</a> (const size_t d, const T &amp;in, G &amp;generator)</td></tr>
 <tr class="memdesc:ad73352f6ce65aa95f76b7399cf0d2cb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a probability vector.  <a href="namespaceAIToolbox.html#ad73352f6ce65aa95f76b7399cf0d2cb0">More...</a><br /></td></tr>
 <tr class="separator:ad73352f6ce65aa95f76b7399cf0d2cb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07bee222a80dcc928ff58471e7a8274c"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
-<tr class="memitem:a07bee222a80dcc928ff58471e7a8274c"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a07bee222a80dcc928ff58471e7a8274c">AIToolbox::sampleProbability</a> (const size_t d, const SparseMatrix2D::RowXpr &amp;in, G &amp;generator)</td></tr>
-<tr class="memdesc:a07bee222a80dcc928ff58471e7a8274c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a sparse probability vector.  <a href="namespaceAIToolbox.html#a07bee222a80dcc928ff58471e7a8274c">More...</a><br /></td></tr>
-<tr class="separator:a07bee222a80dcc928ff58471e7a8274c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
 <tr class="memitem:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a31fb7fd3eb6b455f39a1bd388a5fd264">AIToolbox::sampleProbability</a> (const size_t d, const SparseMatrix2D::ConstRowXpr &amp;in, G &amp;generator)</td></tr>
 <tr class="memdesc:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a sparse probability vector.  <a href="namespaceAIToolbox.html#a31fb7fd3eb6b455f39a1bd388a5fd264">More...</a><br /></td></tr>
@@ -108,11 +104,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a0e60a055a590bbd22deb801d1a0121a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a0e60a055a590bbd22deb801d1a0121a6">AIToolbox::checkEqualProbability</a> (const ProbabilityVector &amp;lhs, const ProbabilityVector &amp;rhs)</td></tr>
 <tr class="memdesc:a0e60a055a590bbd22deb801d1a0121a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether two input ProbabilityVector are equal.  <a href="namespaceAIToolbox.html#a0e60a055a590bbd22deb801d1a0121a6">More...</a><br /></td></tr>
 <tr class="separator:a0e60a055a590bbd22deb801d1a0121a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1d02a7b4abada909d8d0b620496d381"><td class="memItemLeft" align="right" valign="top">ProbabilityVector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad1d02a7b4abada909d8d0b620496d381">AIToolbox::projectToProbability</a> (const Vector &amp;v)</td></tr>
+<tr class="memdesc:ad1d02a7b4abada909d8d0b620496d381"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function projects the input vector to a valid probability space.  <a href="namespaceAIToolbox.html#ad1d02a7b4abada909d8d0b620496d381">More...</a><br /></td></tr>
+<tr class="separator:ad1d02a7b4abada909d8d0b620496d381"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:55 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

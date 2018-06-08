@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['mcts',['MCTS',['../classAIToolbox_1_1MDP_1_1MCTS.html',1,'AIToolbox::MDP']]],
-  ['model',['Model',['../classAIToolbox_1_1POMDP_1_1Model.html',1,'AIToolbox::POMDP::Model&lt; M &gt;'],['../classAIToolbox_1_1MDP_1_1Model.html',1,'AIToolbox::MDP::Model']]],
-  ['moqfunctionrule',['MOQFunctionRule',['../structAIToolbox_1_1FactoredMDP_1_1MOQFunctionRule.html',1,'AIToolbox::FactoredMDP']]],
-  ['multiobjectivevariableelimination',['MultiObjectiveVariableElimination',['../classAIToolbox_1_1FactoredMDP_1_1MultiObjectiveVariableElimination.html',1,'AIToolbox::FactoredMDP']]]
+  ['llr',['LLR',['../classAIToolbox_1_1Factored_1_1Bandit_1_1LLR.html',1,'AIToolbox::Factored::Bandit']]],
+  ['lp',['LP',['../classAIToolbox_1_1LP.html',1,'AIToolbox']]],
+  ['lrppolicy',['LRPPolicy',['../classAIToolbox_1_1Bandit_1_1LRPPolicy.html',1,'AIToolbox::Bandit']]]
 ];

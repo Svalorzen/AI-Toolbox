@@ -92,9 +92,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5da7647741afda3a435534a1a423c5b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a5da7647741afda3a435534a1a423c5b2">WoLFPolicy</a> (const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;q, double deltaw=0.0125, double deltal=0.05, double scaling=5000.0)</td></tr>
 <tr class="memdesc:a5da7647741afda3a435534a1a423c5b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a5da7647741afda3a435534a1a423c5b2">More...</a><br /></td></tr>
 <tr class="separator:a5da7647741afda3a435534a1a423c5b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad428806fd6034c9acd435b2320e15e81"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ad428806fd6034c9acd435b2320e15e81">updatePolicy</a> (size_t s)</td></tr>
-<tr class="memdesc:ad428806fd6034c9acd435b2320e15e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the WoLF policy based on changes in the QFunction.  <a href="#ad428806fd6034c9acd435b2320e15e81">More...</a><br /></td></tr>
-<tr class="separator:ad428806fd6034c9acd435b2320e15e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfdbe8f719f98278f76370b915a262d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#acfdbe8f719f98278f76370b915a262d3">stepUpdateP</a> (size_t s)</td></tr>
+<tr class="memdesc:acfdbe8f719f98278f76370b915a262d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the WoLF policy based on changes in the QFunction.  <a href="#acfdbe8f719f98278f76370b915a262d3">More...</a><br /></td></tr>
+<tr class="separator:acfdbe8f719f98278f76370b915a262d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abad70f10b1461617509e747bf8b192df"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#abad70f10b1461617509e747bf8b192df">sampleAction</a> (const size_t &amp;s) const override</td></tr>
 <tr class="memdesc:abad70f10b1461617509e747bf8b192df"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses an action for state s, following the policy distribution.  <a href="#abad70f10b1461617509e747bf8b192df">More...</a><br /></td></tr>
 <tr class="separator:abad70f10b1461617509e747bf8b192df"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,6 +209,7 @@ Additional Inherited Members</h2></td></tr>
     <tr><td class="paramname">q</td><td>The QFunction from which to extract policy updates. </td></tr>
     <tr><td class="paramname">deltaw</td><td>The learning rate if this policy is currently winning. </td></tr>
     <tr><td class="paramname">deltal</td><td>The learning rate if this policy is currently losing. </td></tr>
+    <tr><td class="paramname">scaling</td><td>The initial scaling rate to progressively reduce the learning rates. </td></tr>
   </table>
   </dd>
 </dl>
@@ -409,7 +410,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function sets the new learning rate if losing. </p>
-<p>This is the amount that the policy is modified when the <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ad428806fd6034c9acd435b2320e15e81" title="This function updates the WoLF policy based on changes in the QFunction. ">updatePolicy()</a> function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class models the WoLF learning algorithm. ">WoLFPolicy</a> determines that it is currently losing based on the current QFunction.</p>
+<p>This is the amount that the policy is modified when the updatePolicy() function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class models the WoLF learning algorithm. ">WoLFPolicy</a> determines that it is currently losing based on the current QFunction.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">deltaL</td><td>The new learning rate during loss. </td></tr>
@@ -436,7 +437,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function sets the new learning rate if winning. </p>
-<p>This is the amount that the policy is modified when the <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#ad428806fd6034c9acd435b2320e15e81" title="This function updates the WoLF policy based on changes in the QFunction. ">updatePolicy()</a> function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class models the WoLF learning algorithm. ">WoLFPolicy</a> determines that it is currently winning based on the current QFunction.</p>
+<p>This is the amount that the policy is modified when the updatePolicy() function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class models the WoLF learning algorithm. ">WoLFPolicy</a> determines that it is currently winning based on the current QFunction.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">deltaW</td><td>The new learning rate during wins. </td></tr>
@@ -474,14 +475,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ad428806fd6034c9acd435b2320e15e81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad428806fd6034c9acd435b2320e15e81">&#9670;&nbsp;</a></span>updatePolicy()</h2>
+<a id="acfdbe8f719f98278f76370b915a262d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfdbe8f719f98278f76370b915a262d3">&#9670;&nbsp;</a></span>stepUpdateP()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::MDP::WoLFPolicy::updatePolicy </td>
+          <td class="memname">void AIToolbox::MDP::WoLFPolicy::stepUpdateP </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>s</em></td><td>)</td>
@@ -507,7 +508,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

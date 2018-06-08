@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['stand',['STAND',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaf422fb81d42ecd479de08e64b6533d18',1,'ToroidalWorld.hpp']]]
+  ['tig_5fleft',['TIG_LEFT',['../TigerProblem_8hpp.html#ac36f475ca5b446f4fde4c9b90bec77c8ae7db346161ae7a41f4113fc585cb6901',1,'TigerProblem.hpp']]],
+  ['tig_5fright',['TIG_RIGHT',['../TigerProblem_8hpp.html#ac36f475ca5b446f4fde4c9b90bec77c8a3b8e7fd024fa54f04e4de13d5bd7a93d',1,'TigerProblem.hpp']]]
 ];

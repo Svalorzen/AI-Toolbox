@@ -109,7 +109,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="textblock"><p>This class implements the <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html" title="This class implements the QMDP algorithm. ">QMDP</a> algorithm. </p>
 <p><a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html" title="This class implements the QMDP algorithm. ">QMDP</a> is a particular way to approach a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> problem and solve it approximately. The idea is to compute a solution that disregards the partial observability for all timesteps but the next one. Thus, we assume that after the next action the agent will suddenly be able to see the true state of the environment, and act accordingly. In doing so then, it will use an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> value function.</p>
 <p>Remember that only the solution process acts this way. When time to act the <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html" title="This class implements the QMDP algorithm. ">QMDP</a> solution is simply applied at every timestep, every time assuming that the partial observability is going to last one step.</p>
-<p>All in all, this class is pretty much a converter of an <a class="el" href="namespaceAIToolbox_1_1MDP.html#acac3d826b851301eee267560352fe51b">MDP::ValueFunction</a> into a <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">POMDP::ValueFunction</a>.</p>
+<p>All in all, this class is pretty much a converter of an <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">MDP::ValueFunction</a> into a <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">POMDP::ValueFunction</a>.</p>
 <p>Although the solution is approximate and overconfident (since we assume that partial observability is going to go away, we think we are going to get more reward), it is still good to obtain a closer upper bound on the true solution. This can be used, for example, to boost bounds on online methods, decreasing the time they take to converge.</p>
 <p>The solution returned by <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html" title="This class implements the QMDP algorithm. ">QMDP</a> will thus have only horizon 1, since the horizon requested is implicitly encoded in the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> part of the solution. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -331,7 +331,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 23:26:56 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
