@@ -37,6 +37,7 @@ namespace AIToolbox::Factored::Bandit {
             averages_[id].value += (rew[i++] - averages_[id].value) / (++averages_[id].count);
 
         ++timestep_;
+        const auto LtLog = (L+1) * std::log(timestep_);
 
         // Otherwise, recompute all rules' values based on the new timestep
         // and counts.
@@ -45,7 +46,7 @@ namespace AIToolbox::Factored::Bandit {
             if (averages_[i].count == 0)
                 rules_[i].value = 1000000.0;
             else
-                rules_[i].value = averages_[i].value + std::sqrt((L+1) * std::log(timestep_) / averages_[i].count);
+                rules_[i].value = averages_[i].value + std::sqrt(LtLog / averages_[i].count);
         }
 
         VariableElimination ve(A);

@@ -96,11 +96,14 @@ if (MAKE_FMDP)
 
     AddTest(Factored FactoredLP)
 
-    AddTest(Factored LLR)
+    AddTest(Factored VariableElimination)
     AddTest(Factored MultiObjectiveVariableElimination)
+    AddTest(Factored UCVE)
+    AddTest(Factored LLR)
+    AddTest(Factored MAUCE)
+
     AddTest(Factored SparseCooperativeQLearning)
     AddTest(Factored JointActionLearner)
-    AddTest(Factored VariableElimination)
 
     if (MAKE_PYTHON)
         AddTestPython(Factored JointActionLearner)

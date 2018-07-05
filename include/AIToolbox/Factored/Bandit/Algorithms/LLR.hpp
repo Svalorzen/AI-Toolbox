@@ -1,7 +1,6 @@
 #ifndef AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
 
-#include <AIToolbox/Factored/Types.hpp>
 #include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
 

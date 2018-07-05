@@ -197,6 +197,13 @@ namespace AIToolbox::Factored {
             CFactorIt begin() const;
 
             /**
+             * @brief This function provides a const iterator to the beginning of the internal factor list.
+             *
+             * @return A const iterator to the beginning of the internal factor range.
+             */
+            CFactorIt cbegin() const;
+
+            /**
              * @brief This function provides an editable interactor to the end of the internal factor list.
              *
              * \sa factorsBegin()
@@ -213,6 +220,15 @@ namespace AIToolbox::Factored {
              * @return A const iterator to the end of the internal factor range.
              */
             CFactorIt end() const;
+
+            /**
+             * @brief This function provides a const interactor to the end of the internal factor list.
+             *
+             * \sa factorsBegin() const
+             *
+             * @return A const iterator to the end of the internal factor range.
+             */
+            CFactorIt cend() const;
 
         private:
             FactorList factorAdjacencies_;
@@ -299,6 +315,10 @@ namespace AIToolbox::Factored {
     typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::begin() const { return std::begin(factorAdjacencies_); }
     template <typename Factor>
     typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::end() const { return std::end(factorAdjacencies_); }
+    template <typename Factor>
+    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::cbegin() const { return std::begin(factorAdjacencies_); }
+    template <typename Factor>
+    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::cend() const { return std::end(factorAdjacencies_); }
 }
 
 #endif
