@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.hpp>
+#include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Prune.hpp>
 
 namespace aif = AIToolbox::Factored;
@@ -19,17 +20,24 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
         {  {{0, 1}, {1, 0}},      (aif::Rewards(2) << 2.0, 3.0).finished()},
     };
 
-    const MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0, 1}, {0, 0}}, (aif::Rewards(2) << 9.0, 1.0).finished()),
-                               // std::make_tuple(aif::PartialAction{{0, 1}, {0, 1}}, (aif::Rewards(2) << 6.0, 2.0).finished()),
-                                  std::make_tuple(aif::PartialAction{{0, 1}, {1, 0}}, (aif::Rewards(2) << 7.0, 4.0).finished())};
-                               // std::make_tuple(aif::PartialAction{{0, 1}, {1, 1}}, (aif::Rewards(2) << 2.0, 2.0).finished())
+    MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0, 1}, {0, 0}}, (aif::Rewards(2) << 9.0, 1.0).finished()),
+                         // std::make_tuple(aif::PartialAction{{0, 1}, {0, 1}}, (aif::Rewards(2) << 6.0, 2.0).finished()),
+                            std::make_tuple(aif::PartialAction{{0, 1}, {1, 0}}, (aif::Rewards(2) << 7.0, 4.0).finished())};
+                         // std::make_tuple(aif::PartialAction{{0, 1}, {1, 1}}, (aif::Rewards(2) << 2.0, 2.0).finished())
+
+    auto comparer = [](const auto & lhs, const auto & rhs) {
+        return AIToolbox::veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
+    };
 
     const aif::Action a{2, 2};
 
     MOVE v(a);
-    const auto bestActions = v(rules);
+    auto bestActions = v(rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
+
+    std::sort(std::begin(solutions), std::end(solutions), comparer);
+    std::sort(std::begin(bestActions), std::end(bestActions), comparer);
 
     for (size_t i = 0; i < solutions.size(); ++i) {
         const auto & spa1 = std::get<0>(solutions[i]).first;
@@ -52,15 +60,22 @@ BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
         {  {{0, 1}, {1, 0}},      (aif::Rewards(2) << 2.0, 3.0).finished()},
     };
 
-    const MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0}, {0}},       (aif::Rewards(2) << 4.0, 0.0).finished()),
-                                  std::make_tuple(aif::PartialAction{{0, 1}, {1, 0}}, (aif::Rewards(2) << 2.0, 3.0).finished())};
+    MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0}, {0}},       (aif::Rewards(2) << 4.0, 0.0).finished()),
+                            std::make_tuple(aif::PartialAction{{0, 1}, {1, 0}}, (aif::Rewards(2) << 2.0, 3.0).finished())};
+
+    auto comparer = [](const auto & lhs, const auto & rhs) {
+        return AIToolbox::veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
+    };
 
     const aif::Action a{2, 2};
 
     MOVE v(a);
-    const auto bestActions = v(rules);
+    auto bestActions = v(rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
+
+    std::sort(std::begin(solutions), std::end(solutions), comparer);
+    std::sort(std::begin(bestActions), std::end(bestActions), comparer);
 
     for (size_t i = 0; i < solutions.size(); ++i) {
         const auto & spa1 = std::get<0>(solutions[i]).first;
@@ -117,13 +132,21 @@ BOOST_AUTO_TEST_CASE( radu_marinescu_graph ) {
     rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 1, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished()});
     rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 1, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished()});
 
-    const MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}, (aif::Rewards(2) << -7.0,  0.0).finished()),
-                                  std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 1, 0, 0}}, (aif::Rewards(2) << -3.0, -5.0).finished()),
-                                  std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 0, 0, 0}}, (aif::Rewards(2) << -4.0, -2.0).finished())};
+    MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}, (aif::Rewards(2) << -7.0,  0.0).finished()),
+                            std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 1, 0, 0}}, (aif::Rewards(2) << -3.0, -5.0).finished()),
+                            std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 0, 0, 0}}, (aif::Rewards(2) << -4.0, -2.0).finished())};
+
+    auto comparer = [](const auto & lhs, const auto & rhs) {
+        return AIToolbox::veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
+    };
+
     MOVE v(A);
-    const auto bestActions = v(rules);
+    auto bestActions = v(rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
+
+    std::sort(std::begin(solutions), std::end(solutions), comparer);
+    std::sort(std::begin(bestActions), std::end(bestActions), comparer);
 
     for (size_t i = 0; i < solutions.size(); ++i) {
         const auto & spa1 = std::get<0>(solutions[i]).first;
