@@ -28,34 +28,40 @@ namespace AIToolbox {
     Iterator extractDominated(const size_t N, Iterator begin, Iterator end) {
         if ( std::distance(begin, end) < 2 ) return end;
 
-        // We use this comparison operator to filter all dominated vectors.
-        // We define a vector to be dominated by an equal vector, so that
-        // we can remove duplicates in a single swoop. However, we avoid
-        // removing everything by returning false for comparison of the vector with itself.
-        struct {
-            const Vector * rhs;
-            size_t N;
-            bool operator()(const Vector & lhs) {
-                if ( &lhs == rhs ) return false;
-                for ( size_t i = 0; i < N; ++i )
-                    if ( (*rhs)[i] > lhs[i] ) return false;
-                return true;
+        auto dominates = [N](auto lhs, auto rhs) {
+            for ( size_t i = 0; i < N; ++i )
+                if ( (*rhs)[i] > (*lhs)[i] ) return false;
+            return true;
+        };
+
+        auto optEnd = begin, target = end - 1;
+        while (optEnd < end) {
+            target = end - 1; // The one we are checking whether it is dominated.
+            // Check against proven non-dominated vectors
+            for (auto iter = begin; iter < optEnd; ++iter) {
+                if (dominates(iter, target)) {
+                    --end;
+                    goto next;
+                }
             }
-        } dominates;
-
-        dominates.N = N;
-
-        // For each vector, if we find a vector that dominates it, then we remove it.
-        // Otherwise we continue, comparing every vector with every other non-dominated
-        // vector.
-        Iterator iter = begin, helper;
-        while ( iter < end ) {
-            dominates.rhs = &(*iter);
-            helper = std::find_if(begin, end, dominates);
-            if ( helper != end )
-                std::iter_swap( baseIter(iter), baseIter(--end) );
-            else
-                ++iter;
+            {
+                // Check against others and find another non-dominated. Here
+                // we go from the back so that we only swap with vectors we
+                // have already checked.
+                auto helper = target;
+                while (helper != optEnd) {
+                    --helper;
+                    // If dominated, remove it and continue from there.
+                    if (dominates(helper, target)) {
+                        std::iter_swap(baseIter(target), baseIter(--end));
+                        target = helper;
+                    }
+                }
+                // Add vector we found in the non-dominated group
+                std::iter_swap(baseIter(target), baseIter(optEnd));
+                ++optEnd;
+            }
+next:;
         }
         return end;
     }
