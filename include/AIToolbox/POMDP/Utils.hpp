@@ -461,7 +461,7 @@ namespace AIToolbox::POMDP {
         while ( (++begin) < end ) {
             auto & v = begin->values;
             const double currValue = b.dot(v);
-            if ( currValue > bestValue || ( currValue == bestValue && AIToolbox::operator>(v, bestMatch->values) ) ) {
+            if ( currValue > bestValue || ( currValue == bestValue && veccmp(v, bestMatch->values) > 0 ) ) {
                 bestMatch = begin;
                 bestValue = currValue;
             }
@@ -491,7 +491,7 @@ namespace AIToolbox::POMDP {
         while ( (++begin) < end ) {
             auto & v = begin->values;
             const double currValue = v[corner];
-            if ( currValue > bestValue || ( currValue == bestValue && AIToolbox::operator>(v, bestMatch->values) ) ) {
+            if ( currValue > bestValue || ( currValue == bestValue && veccmp(v, bestMatch->values) > 0 ) ) {
                 bestMatch = begin;
                 bestValue = currValue;
             }
