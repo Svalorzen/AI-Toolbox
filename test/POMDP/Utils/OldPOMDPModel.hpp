@@ -220,7 +220,7 @@ class OldPOMDPModel<M> : public M {
         ObservationTable observations_;
         // We need this because we don't know if our parent already has one,
         // and we wouldn't know how to access it!
-        mutable std::default_random_engine rand_;
+        mutable AIToolbox::RandomEngine rand_;
 };
 
 template <typename M>

@@ -288,7 +288,7 @@ class OldMDPModel {
         TransitionTable transitions_;
         RewardTable rewards_;
 
-        mutable std::default_random_engine rand_;
+        mutable AIToolbox::RandomEngine rand_;
 
         friend std::istream& operator>>(std::istream &is, OldMDPModel &);
 };

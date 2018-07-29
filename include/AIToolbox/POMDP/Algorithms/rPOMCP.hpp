@@ -183,7 +183,7 @@ namespace AIToolbox::POMDP {
             double exploration_;
             unsigned k_;
 
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
 
             HNode graph_;
 

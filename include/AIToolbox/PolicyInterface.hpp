@@ -1,10 +1,7 @@
 #ifndef AI_TOOLBOX_POLICYINTERFACE_HEADER_FILE
 #define AI_TOOLBOX_POLICYINTERFACE_HEADER_FILE
 
-#include <cstddef>
-#include <random>
-
-#include <iosfwd>
+#include <AIToolbox/Types.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox {
@@ -84,7 +81,7 @@ namespace AIToolbox {
             Action A;
 
             // This is mutable because sampling doesn't really change the policy
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
     };
 
     template <typename State, typename Sampling, typename Action>
@@ -151,7 +148,7 @@ namespace AIToolbox {
             Action A;
 
             // This is mutable because sampling doesn't really change the policy
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
     };
 
     template <typename Action>

@@ -160,7 +160,7 @@ namespace AIToolbox::MDP {
 
             StateNode graph_;
 
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
 
             // Private Methods
             size_t runSimulation(size_t s, unsigned horizon);

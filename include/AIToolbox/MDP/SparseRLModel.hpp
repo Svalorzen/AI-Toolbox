@@ -263,7 +263,7 @@ namespace AIToolbox::MDP {
             TransitionTable transitions_;
             RewardTable rewards_;
 
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
     };
 
     template <typename E>

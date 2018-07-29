@@ -205,7 +205,7 @@ namespace AIToolbox::POMDP {
             SampleBelief sampleBelief_;
             BeliefNode graph_;
 
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
 
             /**
              * @brief This function starts the simulation process.

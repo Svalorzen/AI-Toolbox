@@ -251,7 +251,7 @@ namespace AIToolbox::POMDP {
             ObservationTable observations_;
             // We need this because we don't know if our parent already has one,
             // and we wouldn't know how to access it!
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
 
             friend std::istream& operator>> <M>(std::istream &is, Model<M> &);
     };

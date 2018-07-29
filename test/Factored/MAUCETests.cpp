@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE( simple_example_small ) {
     fm::Rewards rew(2);
 
     auto getEvenReward = [](size_t a1, size_t a2){
-        static std::default_random_engine rand(0);
+        static AIToolbox::RandomEngine rand(0);
         constexpr double factorsNum = 2.0;
         if (!a1 && !a2) {
             std::bernoulli_distribution roll(0.75);
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE( simple_example_small ) {
     };
 
     auto getOddReward = [](size_t a1, size_t a2){
-        static std::default_random_engine rand(1);
+        static AIToolbox::RandomEngine rand(1);
         constexpr double factorsNum = 2.0;
         if (!a1 && !a2) {
             std::bernoulli_distribution roll(0.75);

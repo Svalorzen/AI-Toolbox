@@ -153,7 +153,7 @@ namespace AIToolbox::POMDP {
             unsigned horizon_;
             double epsilon_;
 
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
     };
 
     template <typename M, typename>

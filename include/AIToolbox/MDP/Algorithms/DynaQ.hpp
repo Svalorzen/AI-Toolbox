@@ -134,7 +134,7 @@ namespace AIToolbox::MDP {
             std::vector<std::pair<size_t,size_t>> visitedStatesActionsSampler_;
 
             // Stuff for batch update
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
     };
 
     template <typename M>

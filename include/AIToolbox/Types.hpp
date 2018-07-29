@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <random>
 
 #include <boost/multi_array.hpp>
 
@@ -10,6 +11,9 @@
 #include <Eigen/SparseCore>
 
 namespace AIToolbox {
+    // This should have decent properties.
+    using RandomEngine = std::mt19937;
+
     using Table3D = boost::multi_array<double, 3>;
     using Table2D = boost::multi_array<double, 2>;
 

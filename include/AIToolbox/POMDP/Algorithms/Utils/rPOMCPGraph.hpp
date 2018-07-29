@@ -100,7 +100,7 @@ namespace AIToolbox::POMDP {
             /**
              * @brief Basic constructor.
              */
-            HeadBeliefNode(size_t A, std::default_random_engine & rand);
+            HeadBeliefNode(size_t A, RandomEngine & rand);
             /**
              * @brief Constructor from belief.
              *
@@ -112,7 +112,7 @@ namespace AIToolbox::POMDP {
              * nodes (when we use rPOMCP for multiple timesteps). So we use a
              * particle belief in both cases.
              */
-            HeadBeliefNode(size_t A, size_t beliefSize, const AIToolbox::POMDP::Belief & b, std::default_random_engine & rand);
+            HeadBeliefNode(size_t A, size_t beliefSize, const AIToolbox::POMDP::Belief & b, RandomEngine & rand);
             /**
              * @brief Constructor from BeliefNode.
              *
@@ -120,14 +120,14 @@ namespace AIToolbox::POMDP {
              * node. It converts the track belief of the node into our sample
              * belief.
              */
-            HeadBeliefNode(size_t A, BeliefNode<UseEntropy> && bn, std::default_random_engine & rand);
+            HeadBeliefNode(size_t A, BeliefNode<UseEntropy> && bn, RandomEngine & rand);
 
             bool isSampleBeliefEmpty() const;     ///< Whether we have no particles in the sampling belief.
             size_t sampleBelief() const;          ///< Samples the internal sampling belief.
             size_t getMostCommonParticle() const; ///< Useful if the agents wants a guess of what the current state is.
 
         private:
-            std::default_random_engine * rand_;   ///< Normally we use the rPOMCP random engine;
+            RandomEngine * rand_;                 ///< Normally we use the rPOMCP random engine;
             SampleBelief sampleBelief_;           ///< This is a particle belief which is easy to sample
             size_t beliefSize_;                   ///< This is the total number of particles for this belief (sum of each count of the sample belief)
     };
@@ -175,12 +175,12 @@ namespace AIToolbox::POMDP {
     }
 
     template <bool UseEntropy>
-    HeadBeliefNode<UseEntropy>::HeadBeliefNode(const size_t A, std::default_random_engine & rand) : BeliefNode<UseEntropy>(), rand_(&rand) {
+    HeadBeliefNode<UseEntropy>::HeadBeliefNode(const size_t A, RandomEngine & rand) : BeliefNode<UseEntropy>(), rand_(&rand) {
         this->children.resize(A);
     }
 
     template <bool UseEntropy>
-    HeadBeliefNode<UseEntropy>::HeadBeliefNode(const size_t A, const size_t beliefSize, const AIToolbox::POMDP::Belief & b, std::default_random_engine & rand) :
+    HeadBeliefNode<UseEntropy>::HeadBeliefNode(const size_t A, const size_t beliefSize, const AIToolbox::POMDP::Belief & b, RandomEngine & rand) :
             BeliefNode<UseEntropy>(), rand_(&rand), beliefSize_(beliefSize)
     {
         this->children.resize(A);
@@ -200,7 +200,7 @@ namespace AIToolbox::POMDP {
     }
 
     template <bool UseEntropy>
-    HeadBeliefNode<UseEntropy>::HeadBeliefNode(const size_t A, BeliefNode<UseEntropy> && bn, std::default_random_engine& rand) :
+    HeadBeliefNode<UseEntropy>::HeadBeliefNode(const size_t A, BeliefNode<UseEntropy> && bn, RandomEngine & rand) :
             BeliefNode<UseEntropy>(std::move(bn)), rand_(&rand), beliefSize_(0)
     {
         this->children.resize(A);

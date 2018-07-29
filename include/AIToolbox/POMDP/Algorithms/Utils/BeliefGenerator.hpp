@@ -71,7 +71,7 @@ namespace AIToolbox::POMDP {
             size_t S, A;
             mutable Belief helper1_, helper2_; // These are used to avoid reallocating memory all the time.
 
-            mutable std::default_random_engine rand_;
+            mutable RandomEngine rand_;
     };
 
     template <typename M>

@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE( guessing_game ) {
     ESRLPolicy p3(A, 0.05, 2000, 7, 100);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
 
     unsigned t = 0;
     while (!p1.isExploiting()) {

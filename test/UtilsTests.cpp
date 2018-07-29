@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE( vector_comparisons ) {
 }
 
 BOOST_AUTO_TEST_CASE( probGeneration ) {
-    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
 
     for (size_t i = 0; i < 100; ++i) {
         const auto v = AIToolbox::makeRandomProbability(i+1, rand);

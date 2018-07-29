@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE( prisoners_dilemma ) {
     LRPPolicy p2(A, 0.05);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
 
     for ( unsigned i = 0; i < 1000; ++i ) {
         const size_t a = p1.sampleAction();
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE( randomish_game ) {
     LRPPolicy p2(A, 0.01);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
 
     for ( unsigned i = 0; i < 50000; ++i ) {
         const size_t a = p1.sampleAction();
