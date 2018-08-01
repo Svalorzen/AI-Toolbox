@@ -30,7 +30,7 @@ namespace AIToolbox {
 
         auto dominates = [N](auto lhs, auto rhs) {
             for ( size_t i = 0; i < N; ++i )
-                if ( (*rhs)[i] > (*lhs)[i] ) return false;
+                if ( rhs[i] > lhs[i] ) return false;
             return true;
         };
 
@@ -39,7 +39,7 @@ namespace AIToolbox {
             target = end - 1; // The one we are checking whether it is dominated.
             // Check against proven non-dominated vectors
             for (auto iter = begin; iter < optEnd; ++iter) {
-                if (dominates(iter, target)) {
+                if (dominates(*iter, *target)) {
                     --end;
                     goto next;
                 }
@@ -52,7 +52,7 @@ namespace AIToolbox {
                 while (helper != optEnd) {
                     --helper;
                     // If dominated, remove it and continue from there.
-                    if (dominates(helper, target)) {
+                    if (dominates(*helper, *target)) {
                         std::iter_swap(baseIter(target), baseIter(--end));
                         target = helper;
                     }
