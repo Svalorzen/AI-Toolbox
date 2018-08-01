@@ -100,6 +100,13 @@ BOOST_AUTO_TEST_CASE( dominationPrune ) {
         (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
         (Vector(2) << -100.000 ,  10.0000).finished(),
         (Vector(2) <<  10.0000 , -100.000).finished(),
+    }, {
+        // Test duplicates
+        (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
+        (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
+        (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
+        (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
+        (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
     }};
 
     std::vector<std::vector<Vector>> solutions {{
@@ -118,6 +125,8 @@ BOOST_AUTO_TEST_CASE( dominationPrune ) {
         (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
         (Vector(2) << -100.000 ,  10.0000).finished(),
         (Vector(2) <<  10.0000 , -100.000).finished(),
+    }, {
+        (Vector(2) <<  -1.0000 ,  -1.0000).finished(),
     }};
 
     for (size_t i = 0; i < data.size(); ++i) {
