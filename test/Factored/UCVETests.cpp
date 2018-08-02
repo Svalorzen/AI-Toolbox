@@ -41,6 +41,7 @@ BOOST_AUTO_TEST_CASE( testing ) {
     // Solve via bruteforce
     fm::PartialAction bestAction;
     fb::UCVE::V bestValue(2); bestValue.fill(0.0);
+    double bestV = 0.0;
 
     auto value = [](const auto & v) {
         return v[0] + std::sqrt(0.5 * v[1] * logtA);
@@ -56,9 +57,11 @@ BOOST_AUTO_TEST_CASE( testing ) {
             if (fm::match(std::get<0>(e), jointAction))
                 helper += std::get<1>(e);
 
-        if (value(helper) > value(bestValue)) {
+        double tmpV = value(helper);
+        if (tmpV > bestV) {
             bestValue = helper;
             bestAction = jointAction;
+            bestV = tmpV;
         }
 
         jointActions.advance();
