@@ -98,6 +98,23 @@ namespace AIToolbox::Factored::Bandit {
             void removeAgent(size_t agent);
 
             /**
+             * @brief This function performs UCB pruning on the input range of Entries.
+             *
+             * This function performs a comparison against the value vectors of
+             * each Entry, and moves those who are dominated in the context of UCB
+             * (so taking into account exploration bonuses) to the end of the
+             * range.
+             *
+             * @param begin An iterator to the beginning of an Entry range.
+             * @param end An iterator to the end of an Entry range.
+             * @param x_l The lower bound of UCB.
+             * @param x_u The upper bound of UCB.
+             *
+             * @return The iterator that separates dominated elements with the non-pruned.
+             */
+            Entries::iterator boundPrune(Entries::iterator begin, Entries::iterator end, double x_l, double x_u);
+
+            /**
              * @brief This function allows ordering and sorting of Rules to allow for merging.
              *
              * This function may only be used on Rules for the same agents.
