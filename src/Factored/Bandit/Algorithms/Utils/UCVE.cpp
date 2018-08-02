@@ -73,27 +73,26 @@ namespace AIToolbox::Factored::Bandit {
             removeAgent(graph_.variableSize() - 1);
 
         AI_LOGGER(AI_SEVERITY_DEBUG, "Done removing agents.");
-        Entries results;
         if (finalFactors_.size() == 0) return {};
 
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Cross-summing final factors...");
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Picking best final factors...");
+        Result retval; std::get<1>(retval).fill(0.0);
         for (const auto & fValue : finalFactors_) {
-            results = crossSum(results, fValue);
-            results.erase(boundPrune(std::begin(results), std::end(results), 0.0, 0.0), std::end(results));
-        }
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Now there are " << results.size() << " factors remaining.");
+            const auto begin = fValue.begin(), end = fValue.end();
 
-        double max = std::numeric_limits<double>::lowest();
-        Entries::iterator retval;
-        for (auto it = std::begin(results); it != std::end(results); ++it) {
-            double itVal = computeValue(*it, 0.0, 0.0);
-            if (itVal > max) {
-                max = itVal;
-                retval = it;
+            double max = computeValue(*begin, 0.0, logtA_);
+            auto maxIt = begin;
+            for (auto it = begin + 1; it != end; ++it) {
+                const auto tmp = computeValue(*it, 0.0, logtA_);
+                if (tmp > max) {
+                    max = tmp;
+                    maxIt = it;
+                }
             }
+            std::get<0>(retval) = merge(std::get<0>(retval), std::get<0>(*maxIt));
+            std::get<1>(retval) += std::get<1>(*maxIt);
         }
-
-        return *retval;
+        return retval;
     }
 
     void UCVE::removeAgent(const size_t agent) {
