@@ -298,7 +298,7 @@ namespace AIToolbox::Factored {
             PartialFactorsEnumerator(Factors f, size_t factorToSkip);
 
             /**
-             * @brief This function returns the id of the factorToSkip inside the PartialFactors.
+             * @brief This function returns the id of the factorToSkip inside the PartialFactorsEnumerator.
              *
              * This function is provided for convenience, since
              * PartialFactorsEnumerator has to compute this id anyway. It
@@ -306,12 +306,12 @@ namespace AIToolbox::Factored {
              * contained in the PartialFactors. This is useful so the
              * client can go and edit that particular element directly.
              *
-             * @return The id of the factorToSkip inside the PartialFactors.
+             * @return The id of the factorToSkip inside the PartialFactorsEnumerator.
              */
             size_t getFactorToSkipId() const;
 
             /**
-             * @brief This function advances the PartialFactors to the next possible combination.
+             * @brief This function advances the PartialFactorsEnumerator to the next possible combination.
              */
             void advance();
 
