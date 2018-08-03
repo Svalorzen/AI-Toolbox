@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_FACTORED_CONTAINER_HEADER_FILE
 
 #include <AIToolbox/Factored/Types.hpp>
+#include <AIToolbox/Utils/IndexMap.hpp>
 
 namespace AIToolbox::Factored {
     /**
@@ -131,9 +132,6 @@ namespace AIToolbox::Factored {
             std::vector<std::vector<size_t>> ids_;
     };
 
-    template <typename Container>
-    class FactoredIterable;
-
     /**
      * @brief This class is a container which uses PartialFactors as keys.
      *
@@ -148,8 +146,8 @@ namespace AIToolbox::Factored {
     class FactoredContainer {
         public:
             using ItemsContainer = std::vector<T>;
-            using Iterable = FactoredIterable<ItemsContainer>;
-            using ConstIterable = FactoredIterable<const ItemsContainer>;
+            using Iterable = IndexMap<std::vector<size_t>, ItemsContainer>;
+            using ConstIterable = IndexMap<std::vector<size_t>, const ItemsContainer>;
 
             /**
              * @brief Basic constructor.
@@ -379,118 +377,6 @@ namespace AIToolbox::Factored {
         private:
             Trie ids_;
             ItemsContainer items_;
-    };
-
-    /**
-     * @brief This class is an iterable construct on the filtered results over a FactoredContainer.
-     *
-     * @tparam FactoredContainer The type of the parent FactoredContainer.
-     */
-    template <typename Container>
-    class FactoredIterable {
-        public:
-            template <typename T>
-            class FactoredIterator;
-
-            using value_type = typename Container::value_type;
-            using iterator = FactoredIterator<typename copy_const<value_type, Container>::type>;
-            using const_iterator = FactoredIterator<const value_type>;
-
-            /**
-             * @brief Basic constructor.
-             *
-             * This constructor stores all the ids and items over which to
-             * iterate.
-             *
-             * Keep in mind that this object WILL be invalidated if the
-             * input item container is modified or destroyed.
-             *
-             * @param ids The ids to iterate over.
-             * @param items The items
-             */
-            FactoredIterable(std::vector<size_t> ids, Container & items) : ids_(std::move(ids)), items_(items) {}
-
-            /**
-             * @brief This function returns an iterator to the beginning of this filtered range.
-             */
-            iterator begin() { return ids_.size() ? iterator(this) : iterator(); }
-
-            /**
-             * @brief This function returns a const_iterator to the beginning of this filtered range.
-             */
-            const_iterator begin() const { return ids_.size() ? const_iterator(this) : const_iterator(); }
-
-            /**
-             * @brief This function returns an iterator to the end of this filtered range.
-             */
-            iterator end() { return iterator(); };
-
-            /**
-             * @brief This function returns a const_iterator to the end of this filtered range.
-             */
-            const_iterator end() const { return const_iterator(); }
-
-            /**
-             * @brief This function returns the size of the range covered.
-             */
-            size_t size() const { return ids_.size(); }
-
-        private:
-            friend iterator;
-            friend const_iterator;
-
-            const std::vector<size_t> ids_;
-            Container & items_;
-    };
-
-    /**
-     * @brief This class is a simple iterator to iterate over filtered values held in a FactoredIterable.
-     */
-    template <typename Container>
-    template <typename T>
-    class FactoredIterable<Container>::FactoredIterator {
-        private:
-            using Encloser = typename copy_const<FactoredIterable<Container>, T>::type;
-        public:
-            using value_type = T;
-
-            /**
-             * @brief Basic constructor for end iterators.
-             */
-            FactoredIterator() : currentId_(0), parent_(nullptr) {}
-
-            /**
-             * @brief Basic constructor for begin iterators.
-             *
-             * @param parent The parent iterable object holding ids and values.
-             */
-            FactoredIterator(Encloser * parent) : currentId_(0), parent_(parent) {}
-
-            value_type& operator*()  { return parent_->items_[parent_->ids_[currentId_]]; }
-            value_type* operator->() { return &(operator*()); }
-
-            /**
-             * @brief This function returns the equivalent item id of this iterator in its container.
-             */
-            size_t toContainerId() const { return parent_->ids_[currentId_]; }
-
-            void operator++() {
-                ++currentId_;
-                if ( currentId_ >= parent_->ids_.size() ) {
-                    currentId_ = 0;
-                    parent_ = nullptr;
-                }
-            }
-
-            bool operator==(const FactoredIterator & other) {
-                if ( parent_ == other.parent_ ) return currentId_ == other.currentId_;
-                return false;
-            }
-            bool operator!=(const FactoredIterator & other) { return !(*this == other); }
-
-        private:
-            size_t currentId_;
-            Encloser * parent_;
     };
 }
 
