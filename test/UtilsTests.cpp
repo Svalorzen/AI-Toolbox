@@ -8,6 +8,7 @@
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Utils/Prune.hpp>
+#include <AIToolbox/Utils/Combinatorics.hpp>
 
 BOOST_AUTO_TEST_CASE( vector_comparisons ) {
     using namespace AIToolbox;
@@ -143,4 +144,30 @@ BOOST_AUTO_TEST_CASE( dominationPrune ) {
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(s), std::end(s),
                                       std::begin(d), test);
     }
+}
+
+BOOST_AUTO_TEST_CASE( subset_enumeration ) {
+    std::vector<std::string> test{"aaa", "bbb", "ccc", "ddd"};
+    std::vector<std::vector<std::string>> solutions {
+        {"aaa", "bbb"},
+        {"aaa", "ccc"},
+        {"aaa", "ddd"},
+        {"bbb", "ccc"},
+        {"bbb", "ddd"},
+        {"ccc", "ddd"},
+    };
+    constexpr size_t size = 2;
+
+    AIToolbox::SubsetEnumerator e(test, size);
+
+    unsigned counter = 0;
+    while (e.isValid()) {
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(e), std::end(e),
+                                      std::begin(solutions[counter]), std::end(solutions[counter]));
+        ++counter;
+        e.advance();
+    }
+    BOOST_CHECK_EQUAL(counter, e.subsetNumber());
+    BOOST_CHECK_EQUAL(e.subsetNumber(), AIToolbox::nChooseK(test.size(), size));
+    BOOST_CHECK_EQUAL(solutions.size(), counter);
 }

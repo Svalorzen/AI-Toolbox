@@ -10,6 +10,7 @@ if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
         Impl/CassandraParser.cpp
+        Utils/Combinatorics.cpp
         Bandit/Policies/GreedyPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
         Bandit/Policies/LRPPolicy.cpp
