@@ -135,26 +135,24 @@ namespace AIToolbox::POMDP {
              * @brief This function adds a default cross-sum to the agenda, to start off the algorithm.
              *
              * @param projs The projections to use.
-             * @param a The action for the cross-sum.
              */
             template <typename ProjectionsRow>
-            void addDefaultEntry(const ProjectionsRow & projs, size_t a);
+            void addDefaultEntry(const ProjectionsRow & projs);
 
             /**
              * @brief This function adds all possible variations of a given VEntry to the agenda.
              *
              * @param projs The projections from which the VEntry was derived.
-             * @param a The action for the cross-sums.
              * @param variated The VEntry to use as a base.
              */
             template <typename ProjectionsRow>
-            void addVariations(const ProjectionsRow & projs, size_t a, const VEntry & variated);
+            void addVariations(const ProjectionsRow & projs, const VEntry & variated);
 
             size_t S, A, O;
             unsigned horizon_;
             double epsilon_;
 
-            VList agenda_;
+            std::vector<MDP::Values> agenda_;
             std::unordered_set<VObs, boost::hash<VObs>> triedVectors_;
     };
 
@@ -207,17 +205,17 @@ namespace AIToolbox::POMDP {
                 // We add the VEntry to startoff the whole process. This
                 // VEntry does not even need to be optimal, as we are going
                 // to compute the optimal one for the witness point anyway.
-                addDefaultEntry(projections[a], a);
+                addDefaultEntry(projections[a]);
 
                 // We check whether any element in the agenda improves what we have
                 while ( !agenda_.empty() ) {
-                    const auto witness = lp.findWitness(agenda_.back().values);
+                    const auto witness = lp.findWitness(agenda_.back());
                     if ( witness ) {
                         // If so, we generate the best vector for that particular belief point.
                         U[a].push_back(crossSumBestAtBelief(projections[a], a, *witness));
                         lp.addOptimalRow(U[a].back().values);
                         // We add to the agenda all possible "variations" of the VEntry found.
-                        addVariations(projections[a], a, U[a].back());
+                        addVariations(projections[a], U[a].back());
                         // We manually check memory for the lp, since this method
                         // cannot know in advance how many rows it'll need to do.
                         if ( ++counter == reserveSize ) {
@@ -270,20 +268,19 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename ProjectionsRow>
-    void Witness::addDefaultEntry(const ProjectionsRow & projs, const size_t a) {
+    void Witness::addDefaultEntry(const ProjectionsRow & projs) {
         MDP::Values v(S); v.fill(0.0);
-        VObs obs(O, 0);
 
         // We compute the crossSum between each best vector for the belief.
         for ( size_t o = 0; o < O; ++o )
             v.noalias() += projs[o][0].values;
 
-        triedVectors_.insert(obs);
-        agenda_.emplace_back(std::move(v), a, std::move(obs));
+        triedVectors_.emplace(O, 0);
+        agenda_.emplace_back(std::move(v));
     }
 
     template <typename ProjectionsRow>
-    void Witness::addVariations(const ProjectionsRow & projs, const size_t a, const VEntry & variated) {
+    void Witness::addVariations(const ProjectionsRow & projs, const VEntry & variated) {
         // We need to copy this one unfortunately
         auto vObs = variated.observations;
         const auto & vValues = variated.values;
@@ -300,7 +297,7 @@ namespace AIToolbox::POMDP {
                 triedVectors_.insert(vObs);
 
                 auto v = vValues - projs[o][skip].values + projs[o][i].values;
-                agenda_.emplace_back(std::move(v), a, vObs);
+                agenda_.emplace_back(std::move(v));
             }
             vObs[o] = skip;
         }
