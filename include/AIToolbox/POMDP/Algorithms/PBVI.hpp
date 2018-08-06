@@ -269,7 +269,7 @@ namespace AIToolbox::POMDP {
         VList result;
         result.reserve(bl.size());
 
-        for ( auto & b : bl )
+        for ( const auto & b : bl )
             result.emplace_back(crossSumBestAtBelief(b, projs, a));
 
         const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
