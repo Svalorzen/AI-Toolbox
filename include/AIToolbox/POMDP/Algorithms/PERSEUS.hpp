@@ -219,22 +219,11 @@ namespace AIToolbox::POMDP {
                 findBestAtBelief( b, std::begin(oldV),   std::end(oldV),   &oldValue     );
                 if ( currentValue >= oldValue ) continue;
             }
+
             helper.clear();
-            for ( size_t a = 0; a < A; ++a ) {
-                MDP::Values v(S); v.fill(0.0);
-                VObs obs(O);
+            for ( size_t a = 0; a < A; ++a )
+                helper.emplace_back(crossSumBestAtBelief(b, projs[a], a));
 
-                // We compute the crossSum between each best vector for the belief.
-                for ( size_t o = 0; o < O; ++o ) {
-                    const VList & projsO = projs[a][o];
-                    auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
-
-                    v += bestMatch->values;
-
-                    obs[o] = bestMatch->observations[0];
-                }
-                helper.emplace_back(std::move(v), a, std::move(obs));
-            }
             extractBestAtBelief(b, std::begin(helper), std::begin(helper), std::end(helper));
             result.emplace_back(std::move(helper[0]));
             start = false;

@@ -120,18 +120,6 @@ namespace AIToolbox::POMDP {
 
         private:
             /**
-             * @brief This function uses already computed projections to create the best possible cross-sum for a single belief.
-             *
-             * @param projs The projections to use.
-             * @param a The action for the cross-sum.
-             * @param b The belief to use.
-             *
-             * @return The best possible cross-sum for the provided belief.
-             */
-            template <typename ProjectionsRow>
-            VEntry crossSumBestAtBelief(const ProjectionsRow & projs, size_t a, const Belief & b);
-
-            /**
              * @brief This function adds a default cross-sum to the agenda, to start off the algorithm.
              *
              * @param projs The projections to use.
@@ -212,7 +200,7 @@ namespace AIToolbox::POMDP {
                     const auto witness = lp.findWitness(agenda_.back());
                     if ( witness ) {
                         // If so, we generate the best vector for that particular belief point.
-                        U[a].push_back(crossSumBestAtBelief(projections[a], a, *witness));
+                        U[a].push_back(crossSumBestAtBelief(*witness, projections[a], a));
                         lp.addOptimalRow(U[a].back().values);
                         // We add to the agenda all possible "variations" of the VEntry found.
                         addVariations(projections[a], U[a].back());
@@ -247,24 +235,6 @@ namespace AIToolbox::POMDP {
         }
 
         return std::make_tuple(useEpsilon ? variation : 0.0, v);
-    }
-
-    template <typename ProjectionsRow>
-    POMDP::VEntry Witness::crossSumBestAtBelief(const ProjectionsRow & projs, const size_t a, const Belief & b) {
-        MDP::Values v(S); v.fill(0.0);
-        VObs obs(O);
-
-        // We compute the crossSum between each best vector for the belief.
-        for ( size_t o = 0; o < O; ++o ) {
-            const VList & projsO = projs[o];
-            const auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
-
-            v.noalias() += bestMatch->values;
-
-            obs[o] = bestMatch->observations[0];
-        }
-
-        return {std::move(v), a, std::move(obs)};
     }
 
     template <typename ProjectionsRow>
