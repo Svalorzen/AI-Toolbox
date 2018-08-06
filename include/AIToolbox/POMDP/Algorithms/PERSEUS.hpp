@@ -220,12 +220,7 @@ namespace AIToolbox::POMDP {
                 if ( currentValue >= oldValue ) continue;
             }
 
-            helper.clear();
-            for ( size_t a = 0; a < A; ++a )
-                helper.emplace_back(crossSumBestAtBelief(b, projs[a], a));
-
-            extractBestAtBelief(b, std::begin(helper), std::begin(helper), std::end(helper));
-            result.emplace_back(std::move(helper[0]));
+            result.emplace_back(crossSumBestAtBelief(b, projs));
             start = false;
         }
         const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};

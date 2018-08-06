@@ -657,18 +657,50 @@ namespace AIToolbox::POMDP {
      * @return The best VEntry for the input belief.
      */
     template <typename ActionRow>
-    VEntry crossSumBestAtBelief(const Belief & b, const ActionRow & row, const size_t a) {
+    VEntry crossSumBestAtBelief(const Belief & b, const ActionRow & row, const size_t a, double * value = nullptr) {
         const size_t O = row.size();
         VEntry entry(b.size(), a, O);
+        double v = 0.0, tmp;
 
         // We compute the crossSum between each best vector for the belief.
         for ( size_t o = 0; o < O; ++o ) {
             const VList & rowO = row[o];
-            auto bestMatch = findBestAtBelief(b, std::begin(rowO), std::end(rowO));
+            auto bestMatch = findBestAtBelief(b, std::begin(rowO), std::end(rowO), &tmp);
 
             entry.values += bestMatch->values;
+            v += tmp;
 
             entry.observations[o] = bestMatch->observations[0];
+        }
+        if (value) *value = v;
+        return entry;
+    }
+
+    /**
+     * @brief This function computes the best VEntry for the input belief across all actions.
+     *
+     * This function needs the projections of the previous timestep's VLists in
+     * order to work. It will then compute the best VEntry for the input belief
+     * across all actions.
+     *
+     * @tparam Projections The type of the 2D array of VLists containing all the projections.
+     * @param b The belief to compute the VEntry for.
+     * @param projs The projections of the old VLists.
+     *
+     * @return The best VEntry for the input belief.
+     */
+    template <typename Projections>
+    VEntry crossSumBestAtBelief(const Belief & b, const Projections & projs) {
+        const size_t A = projs.size();
+        VEntry entry;
+
+        double bestValue = std::numeric_limits<double>::lowest(), tmp;
+        for ( size_t a = 0; a < A; ++a ) {
+            auto result = crossSumBestAtBelief(b, projs[a], a, &tmp);
+            if (tmp > bestValue) {
+                bestValue = tmp;
+                std::swap(entry, result);
+            }
         }
         return entry;
     }
