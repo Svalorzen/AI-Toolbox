@@ -81,13 +81,41 @@ namespace AIToolbox {
 
             /**
              * @brief This function advances the SubsetEnumerator to the next possible subset.
+             *
+             * This function iterates first on the last elements of the subset
+             * vector, and iterates over the previous ones once it reaches the
+             * end. For example, for a subset of length 3 over 6 elements the
+             * iteration will look like this:
+             *
+             * 0, 1, 2
+             * 0, 1, 3
+             * 0, 1, 4
+             * 0, 1, 5
+             * 0, 2, 3
+             * 0, 2, 4
+             * 0, 2, 5
+             * 1, 2, 3
+             * etc.
+             *
+             * The number returned by this function represents the id of the
+             * leftmost (lowest) element that has been changed by the advance.
+             * This may be useful in case you need to do some work for the
+             * elements that changed in the subset, and want to lose as little
+             * time as possible.
+             *
+             * @return The id of the leftmost element changed by the advance.
              */
-            void advance() {
+            auto advance() {
                 auto current = ids_.size() - 1;
                 auto limit = items_.size() - 1;
                 while (current && ids_[current] == limit) --current, --limit;
+
+                auto lowest = current; // Last element we need to change.
                 limit = ++ids_[current];
+
                 while (++current != ids_.size()) ids_[current] = ++limit;
+
+                return lowest;
             }
 
             /**
