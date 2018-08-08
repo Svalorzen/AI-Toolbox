@@ -158,7 +158,7 @@ BOOST_AUTO_TEST_CASE( subset_enumeration ) {
     };
     constexpr size_t size = 2;
 
-    AIToolbox::SubsetEnumerator e(test, size);
+    AIToolbox::SubsetMap e(size, test);
 
     unsigned counter = 0;
     while (e.isValid()) {
@@ -167,7 +167,7 @@ BOOST_AUTO_TEST_CASE( subset_enumeration ) {
         ++counter;
         e.advance();
     }
-    BOOST_CHECK_EQUAL(counter, e.subsetNumber());
-    BOOST_CHECK_EQUAL(e.subsetNumber(), AIToolbox::nChooseK(test.size(), size));
+    BOOST_CHECK_EQUAL(counter, e.getEnumerator().subsetsSize());
+    BOOST_CHECK_EQUAL(e.getEnumerator().subsetsSize(), AIToolbox::nChooseK(test.size(), size));
     BOOST_CHECK_EQUAL(solutions.size(), counter);
 }

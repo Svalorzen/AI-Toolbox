@@ -48,36 +48,19 @@ namespace AIToolbox {
     unsigned nonZeroBallsBins(unsigned balls, unsigned bins);
 
     /**
-     * @brief This class enumerates over all possible subsets of a container.
-     *
-     * This class iterates over all possible subsets of elements in a
-     * container. For each subset, it behaves as an iterable range over the
-     * elements of the current subset.
-     *
-     * Once advanced, all previous iterators are invalidated.
-     *
-     * @tparam Container The type of the container to be iterated over.
+     * @brief This class enumerates all possible vectors of finite subsets over N elements.
      */
-    template <typename Container>
     class SubsetEnumerator {
         public:
-            using value_type = typename Container::value_type;
-            using IdsStorage = std::vector<typename Container::size_type>;
-
-            using iterator       = IndexMapIterator<decltype(std::declval<IdsStorage>().begin()),  Container>;
-            using const_iterator = IndexMapIterator<decltype(std::declval<IdsStorage>().cbegin()), const Container>;
+            using IdsStorage = std::vector<size_t>;
 
             /**
              * @brief Default constructor.
              *
-             * @param items The items container to be iterated on.
-             * @param elementsN The number of elements that the subset should have (<= items.size()).
+             * @param elementsN The number of elements that the subset should have (<= limit);
+             * @param limit The upper bound for each element in the subset (excluded).
              */
-            SubsetEnumerator(Container & items, size_t elementsN) :
-                    ids_(elementsN), items_(items)
-            {
-                std::iota(std::begin(ids_), std::end(ids_), 0);
-            }
+            SubsetEnumerator(size_t elementsN, size_t limit);
 
             /**
              * @brief This function advances the SubsetEnumerator to the next possible subset.
@@ -105,35 +88,101 @@ namespace AIToolbox {
              *
              * @return The id of the leftmost element changed by the advance.
              */
+            size_t advance();
+
+            /**
+             * @brief This function returns whether there are more subsets to be enumerated.
+             */
+            bool isValid() const;
+
+            /**
+             * @brief This function resets the enumerator to the valid beginning.
+             */
+            void reset();
+
+            /**
+             * @brief This function returns the number of subsets enumerated over.
+             */
+            unsigned subsetsSize() const;
+
+            /**
+             * @brief This function returns the size of the range covered.
+             */
+            size_t size() const;
+
+            /**
+             * @brief This operator returns the current combination.
+             *
+             * This operator can be called only if isValid() is true.
+             * Otherwise behavior is undefined.
+             *
+             * @return The current combination.
+             */
+            const IdsStorage& operator*() const;
+
+            /**
+             * @brief This operator returns a pointer to the current combination.
+             *
+             * This operator can be called only if isValid() is true.
+             * Otherwise behavior is undefined.
+             *
+             * @return The current combination.
+             */
+            const IdsStorage* operator->() const;
+
+        private:
+            size_t limit_;
+            IdsStorage ids_;
+    };
+
+    /**
+     * @brief This class enumerates over all possible subsets of a container.
+     *
+     * This class iterates over all possible subsets of elements in a
+     * container. For each subset, it behaves as an iterable range over the
+     * elements of the current subset.
+     *
+     * Once advanced, all previous iterators are invalidated.
+     *
+     * @tparam Container The type of the container to be iterated over.
+     */
+    template <typename Container>
+    class SubsetMap {
+        public:
+            using value_type = typename Container::value_type;
+
+            using iterator       = IndexMapIterator<decltype(std::declval<SubsetEnumerator>()->begin()),  Container>;
+            using const_iterator = IndexMapIterator<decltype(std::declval<SubsetEnumerator>()->cbegin()), const Container>;
+
+            /**
+             * @brief Default constructor.
+             *
+             * @param elementsN The number of elements that the subset should have (<= items.size()).
+             * @param items The items container to be iterated on.
+             */
+            SubsetMap(size_t elementsN, Container & items) :
+                    ids_(elementsN, items.size()), items_(items) {}
+
+            /**
+             * @brief This function advances the SubsetMap to the next possible subset.
+             *
+             * \sa SubsetEnumerator::advance()
+             */
             auto advance() {
-                auto current = ids_.size() - 1;
-                auto limit = items_.size() - 1;
-                while (current && ids_[current] == limit) --current, --limit;
-
-                auto lowest = current; // Last element we need to change.
-                limit = ++ids_[current];
-
-                while (++current != ids_.size()) ids_[current] = ++limit;
-
-                return lowest;
+                return ids_.advance();
             }
 
             /**
              * @brief This function returns whether there are more subsets to be enumerated.
              */
-            bool isValid() {
-                return ids_.back() < items_.size();
+            bool isValid() const {
+                return ids_.isValid();
             }
-
-            /**
-             * @brief This function returns the number of subsets enumerated over.
-             */
-            auto subsetNumber() const { return nChooseK(items_.size(), ids_.size()); }
 
             /**
              * @brief This function returns an iterator to the beginning of the current subset.
              */
-            auto begin() { return iterator(ids_.begin(), items_); }
+            auto begin() { return iterator(ids_->begin(), items_); }
 
             /**
              * @brief This function returns a const_iterator to the beginning of the current subset.
@@ -143,12 +192,12 @@ namespace AIToolbox {
             /**
              * @brief This function returns a const_iterator to the beginning of the current subset.
              */
-            auto cbegin() const { return const_iterator(ids_.cbegin(), items_); }
+            auto cbegin() const { return const_iterator(ids_->cbegin(), items_); }
 
             /**
              * @brief This function returns an iterator to the end of the current subset.
              */
-            auto end() { return iterator(ids_.end(), items_); };
+            auto end() { return iterator(ids_->end(), items_); };
 
             /**
              * @brief This function returns a const_iterator to the end of the current subset.
@@ -158,7 +207,7 @@ namespace AIToolbox {
             /**
              * @brief This function returns a const_iterator to the end of the current subset.
              */
-            auto cend() const { return const_iterator(ids_.cend(), items_); }
+            auto cend() const { return const_iterator(ids_->cend(), items_); }
 
             /**
              * @brief This function returns the size of the range covered.
@@ -166,12 +215,12 @@ namespace AIToolbox {
             auto size() const { return ids_.size(); }
 
             /**
-             * @brief This function returns the ids of the current subset.
+             * @brief This function returns the enumerator over the subsets.
              */
-            const IdsStorage & currentSubset() const { return ids_; }
+            const SubsetEnumerator & getEnumerator() const { return ids_; }
 
         private:
-            IdsStorage ids_;
+            SubsetEnumerator ids_;
             Container & items_;
     };
 }
