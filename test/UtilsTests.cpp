@@ -146,6 +146,64 @@ BOOST_AUTO_TEST_CASE( dominationPrune ) {
     }
 }
 
+BOOST_AUTO_TEST_CASE( index_map ) {
+    std::vector<std::string> test{"aaa", "bbb", "ccc", "ddd"};
+    std::vector<std::vector<size_t>> lists {
+        {},
+        {3},
+        {0, 1},
+        {0, 3},
+        {1, 2},
+        {0, 2, 3},
+        {0, 1, 2, 3}
+    };
+    std::vector<std::vector<std::string>> solutions {
+        {},
+        {"ddd"},
+        {"aaa", "bbb"},
+        {"aaa", "ddd"},
+        {"bbb", "ccc"},
+        {"aaa", "ccc", "ddd"},
+        {"aaa", "bbb", "ccc", "ddd"},
+    };
+
+    for (size_t i = 0; i < lists.size(); ++i) {
+        AIToolbox::IndexMap e(lists[i], test);
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(e), std::end(e),
+                                      std::begin(solutions[i]), std::end(solutions[i]));
+    }
+}
+
+BOOST_AUTO_TEST_CASE( index_skip_map ) {
+    std::vector<std::string> test{"aaa", "bbb", "ccc", "ddd"};
+    std::vector<std::vector<size_t>> lists {
+        {},
+        {3},
+        {0, 1},
+        {0, 3},
+        {1, 2},
+        {0, 2, 3},
+        {0, 1, 2, 3}
+    };
+    std::vector<std::vector<std::string>> solutions {
+        {"aaa", "bbb", "ccc", "ddd"},
+        {"aaa", "bbb", "ccc"},
+        {"ccc", "ddd"},
+        {"bbb", "ccc"},
+        {"aaa", "ddd"},
+        {"bbb"},
+        {}
+    };
+
+    for (size_t i = 0; i < lists.size(); ++i) {
+        AIToolbox::IndexSkipMap e(lists[i], test);
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(e), std::end(e),
+                                      std::begin(solutions[i]), std::end(solutions[i]));
+    }
+}
+
 BOOST_AUTO_TEST_CASE( subset_enumeration ) {
     std::vector<std::string> test{"aaa", "bbb", "ccc", "ddd"};
     std::vector<std::vector<std::string>> solutions {
