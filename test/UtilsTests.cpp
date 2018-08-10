@@ -10,6 +10,10 @@
 #include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/Utils/Combinatorics.hpp>
 
+#include <boost/iterator/indirect_iterator.hpp>
+
+#include <iostream>
+
 BOOST_AUTO_TEST_CASE( vector_comparisons ) {
     using namespace AIToolbox;
 
@@ -204,7 +208,34 @@ BOOST_AUTO_TEST_CASE( index_skip_map ) {
     }
 }
 
-BOOST_AUTO_TEST_CASE( subset_enumeration ) {
+BOOST_AUTO_TEST_CASE( subset_enumeration_number ) {
+    std::vector<std::vector<int>> solutions {
+        {0, 1},
+        {0, 2},
+        {0, 3},
+        {1, 2},
+        {1, 3},
+        {2, 3}
+    };
+    constexpr size_t size = 2;
+
+    AIToolbox::SubsetEnumerator e(size, 0, 4);
+    auto begin = std::begin(*e),
+         end   = std::end(*e);
+
+    unsigned counter = 0;
+    while (e.isValid()) {
+        BOOST_CHECK_EQUAL_COLLECTIONS(begin, end,
+                                      std::begin(solutions[counter]), std::end(solutions[counter]));
+        ++counter;
+        e.advance();
+    }
+    BOOST_CHECK_EQUAL(counter, e.subsetsSize());
+    BOOST_CHECK_EQUAL(e.subsetsSize(), AIToolbox::nChooseK(4, size));
+    BOOST_CHECK_EQUAL(solutions.size(), counter);
+}
+
+BOOST_AUTO_TEST_CASE( subset_enumeration_it ) {
     std::vector<std::string> test{"aaa", "bbb", "ccc", "ddd"};
     std::vector<std::vector<std::string>> solutions {
         {"aaa", "bbb"},
@@ -216,16 +247,18 @@ BOOST_AUTO_TEST_CASE( subset_enumeration ) {
     };
     constexpr size_t size = 2;
 
-    AIToolbox::SubsetMap e(size, test);
+    AIToolbox::SubsetEnumerator e(size, std::begin(test), std::end(test));
+    auto begin = boost::make_indirect_iterator(std::begin(*e)),
+         end   = boost::make_indirect_iterator(std::end(*e));
 
     unsigned counter = 0;
     while (e.isValid()) {
-        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(e), std::end(e),
+        BOOST_CHECK_EQUAL_COLLECTIONS(begin, end,
                                       std::begin(solutions[counter]), std::end(solutions[counter]));
         ++counter;
         e.advance();
     }
-    BOOST_CHECK_EQUAL(counter, e.getEnumerator().subsetsSize());
-    BOOST_CHECK_EQUAL(e.getEnumerator().subsetsSize(), AIToolbox::nChooseK(test.size(), size));
+    BOOST_CHECK_EQUAL(counter, e.subsetsSize());
+    BOOST_CHECK_EQUAL(e.subsetsSize(), AIToolbox::nChooseK(test.size(), size));
     BOOST_CHECK_EQUAL(solutions.size(), counter);
 }
