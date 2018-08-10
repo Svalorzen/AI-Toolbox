@@ -10,41 +10,127 @@ namespace AIToolbox {
     template <typename IdsIterator, typename Container>
     class IndexMapIterator {
         public:
+            using iterator_category = typename IdsIterator::iterator_category;
             using value_type = typename Container::value_type;
+            using pointer = value_type *;
+            using reference = value_type &;
+            using difference_type = typename IdsIterator::difference_type;
 
             /**
-             * @brief Basic constructor for begin iterators.
+             * @brief Basic constructor to respect iterator interface.
+             */
+            IndexMapIterator() : items_(nullptr) {}
+
+            /**
+             * @brief Basic constructor.
              *
+             * @param id An iterator to an index range.
              * @param parent The parent iterable object holding ids and values.
              */
             IndexMapIterator(IdsIterator id, Container & items) :
-                    currentId_(id), items_(items) {}
-
-            auto& operator*()  { return items_[toContainerId()]; }
-            const auto& operator*() const { return items_[toContainerId()]; }
-
-            auto  operator->() { return &(operator*()); }
-            auto  operator->() const { return &(operator*()); }
+                    currentId_(id), items_(&items) {}
 
             /**
              * @brief This function returns the equivalent item id of this iterator in its container.
              */
             auto toContainerId() const { return *currentId_; }
 
+            // Input iterator methods
+            auto& operator*()  { return (*items_)[toContainerId()]; }
+            const auto& operator*() const { return (*items_)[toContainerId()]; }
+
+            auto  operator->() { return &(operator*()); }
+            auto  operator->() const { return &(operator*()); }
+
+            bool operator==(IndexMapIterator other) {
+                // Note that comparing against different containers is undefined.
+                return currentId_ == other.currentId_;
+            }
+            bool operator!=(IndexMapIterator other) { return !(*this == other); }
+
             auto operator++() {
                 ++currentId_;
                 return *this;
             }
 
-            bool operator==(const IndexMapIterator & other) {
-                return (&(items_) == &(other.items_)) &&
-                       (currentId_ == other.currentId_);
+            auto operator++(int) {
+                auto tmp = *this;
+                ++currentId_;
+                return tmp;
             }
-            bool operator!=(const IndexMapIterator & other) { return !(*this == other); }
+
+            // Bidirectional iterator methods
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::bidirectional_iterator_tag>>>
+            auto operator--() {
+                --currentId_;
+                return *this;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::bidirectional_iterator_tag>>>
+            auto operator--(int) {
+                auto tmp = *this;
+                --currentId_;
+                return tmp;
+            }
+
+            // Random access iterator methods
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            auto operator+(difference_type diff) {
+                currentId_ += diff;
+                return *this;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            auto operator+=(difference_type diff) {
+                currentId_ += diff;
+                return *this;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            auto operator-(difference_type diff) {
+                currentId_ -= diff;
+                return *this;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            auto operator-=(difference_type diff) {
+                currentId_ -= diff;
+                return *this;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            auto operator-(IndexMapIterator other) {
+                return currentId_ - other.currentId_;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            bool operator<(IndexMapIterator other) {
+                return currentId_ < other.currentId_;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            bool operator>(IndexMapIterator other) {
+                return currentId_ > other.currentId_;
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            bool operator<=(IndexMapIterator other) {
+                return !(currentId_ > other.currentId_ );
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            bool operator>=(IndexMapIterator other) {
+                return !(currentId_ < other.currentId_ );
+            }
+
+            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::random_access_iterator_tag>>>
+            auto operator[](difference_type diff) {
+                return (*items_)[*(currentId_ + diff)];
+            }
 
         private:
             IdsIterator currentId_;
-            Container & items_;
+            Container * items_;
     };
 
     /**
@@ -101,7 +187,7 @@ namespace AIToolbox {
              * @param ids The ids to iterate over.
              * @param items The items container.
              */
-            template <bool Tmp = OwnsIds, typename std::enable_if_t<Tmp, int> = 0>
+            template <bool Tmp = OwnsIds, std::enable_if_t<Tmp, int> = 0>
             IndexMap(IdsContainer ids, Container & items) : ids_(std::move(ids)), items_(items) {}
 
             /**
@@ -122,7 +208,7 @@ namespace AIToolbox {
              * @param ids The ids to iterate over.
              * @param items The items container.
              */
-            template <bool Tmp = OwnsIds, typename std::enable_if_t<!Tmp, int> = 0>
+            template <bool Tmp = OwnsIds, std::enable_if_t<!Tmp, int> = 0>
             IndexMap(IdsContainer ids, Container & items) : ids_(*ids), items_(items) {}
 
             /**
@@ -285,7 +371,7 @@ namespace AIToolbox {
              * @param ids The ids to iterate over.
              * @param items The items container.
              */
-            template <bool Tmp = OwnsIds, typename std::enable_if_t<Tmp, int> = 0>
+            template <bool Tmp = OwnsIds, std::enable_if_t<Tmp, int> = 0>
             IndexSkipMap(IdsContainer ids, Container & items) : ids_(std::move(ids)), items_(items) {}
 
             /**
@@ -306,7 +392,7 @@ namespace AIToolbox {
              * @param ids The ids to iterate over.
              * @param items The items container.
              */
-            template <bool Tmp = OwnsIds, typename std::enable_if_t<!Tmp, int> = 0>
+            template <bool Tmp = OwnsIds, std::enable_if_t<!Tmp, int> = 0>
             IndexSkipMap(IdsContainer ids, Container & items) : ids_(*ids), items_(items) {}
 
             /**

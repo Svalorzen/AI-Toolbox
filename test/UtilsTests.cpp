@@ -176,6 +176,13 @@ BOOST_AUTO_TEST_CASE( index_map ) {
 
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(e), std::end(e),
                                       std::begin(solutions[i]), std::end(solutions[i]));
+        // Test random iterators.
+        constexpr auto v1 = std::is_same_v<std::iterator_traits<decltype(e)::iterator>::iterator_category, std::random_access_iterator_tag>;
+        constexpr auto v2 = std::is_same_v<std::iterator_traits<decltype(e)::const_iterator>::iterator_category, std::random_access_iterator_tag>;
+        BOOST_CHECK(v1);
+        BOOST_CHECK(v2);
+
+        (void)(std::begin(e) + 3);
     }
 }
 
