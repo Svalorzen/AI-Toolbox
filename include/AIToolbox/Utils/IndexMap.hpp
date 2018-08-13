@@ -1,3 +1,6 @@
+#ifndef AI_TOOLBOX_UTILS_INDEX_MAP_HEADER_FILE
+#define AI_TOOLBOX_UTILS_INDEX_MAP_HEADER_FILE
+
 #include <AIToolbox/Types.hpp>
 
 #include <utility>
@@ -439,3 +442,5 @@ namespace AIToolbox {
             Container & items_;
     };
 }
+
+#endif
