@@ -1,3 +1,6 @@
+#ifndef AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
+#define AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
+
 #include <AIToolbox/Utils/IndexMap.hpp>
 
 namespace AIToolbox {
@@ -170,3 +173,5 @@ namespace AIToolbox {
             IdsStorage ids_;
     };
 }
+
+#endif
