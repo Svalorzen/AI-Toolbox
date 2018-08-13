@@ -123,6 +123,7 @@ if (MAKE_POMDP)
 
     AddTest(POMDP AMDP)
     AddTest(POMDP IncrementalPruning)
+    AddTest(POMDP LinearSupport)
     AddTest(POMDP PBVI)
     AddTest(POMDP POMCP)
     AddTest(POMDP BlindStrategies)
