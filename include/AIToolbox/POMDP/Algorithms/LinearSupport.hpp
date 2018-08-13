@@ -177,17 +177,17 @@ namespace AIToolbox::POMDP {
             // Note that the range we pass here is made by a single vector.
             auto newVertices = findVertices(goodBegin, goodBegin + 1, map.cbegin(), map.cend());
 
-            // Here we don't care about duplicates. Our current method only
-            // allows us to find vertices that are supported by at most 'd'
-            // surfaces (while in theory they could be more). Rather than
-            // looking back and checking if we already have the same vertex and
-            // merging the supports, we keep them all (the error at each point
-            // should still be the same). They will get cleaned up in time.
-            // Ideally when we improve the vertex finding algorithm we won't
-            // have this problem at all.
             for (auto && v : newVertices)
                 vertices.emplace_back(std::move(v));
         }
+        // Here we remove duplicates, although ideally when we improve the
+        // algorithm we won't have to do this.
+        std::sort(std::begin(vertices), std::end(vertices),
+                [](const std::pair<Belief, double> & lhs, const std::pair<Belief, double> & rhs) {
+                    return veccmp(lhs.first, rhs.first) < 0;
+                }
+        );
+        vertices.erase(std::unique(std::begin(vertices), std::end(vertices)), std::end(vertices));
 
         // BEGIN(loop)
 
@@ -261,16 +261,16 @@ namespace AIToolbox::POMDP {
 
     template <typename NewIt, typename OldIt>
     std::vector<std::pair<Belief, double>> findVertices(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd) {
-        size_t S;
         std::vector<std::pair<Belief, double>> vertices;
 
-        auto alphasSize = std::distance(alphasBegin, alphasEnd);
+        const size_t alphasSize = std::distance(alphasBegin, alphasEnd);
         if (alphasSize == 0) return vertices;
+        const size_t S = alphasBegin->values.size();
 
         // This enumerator allows us to compute all possible subsets of S-1
         // elements. We use it on both the alphas, and the boundaries, thus the
         // number of elements we iterate over is alphasSize + S.
-        SubsetEnumerator enumerator(S - 1, 0, alphasSize + S);
+        SubsetEnumerator enumerator(S - 1, 0ul, alphasSize + S);
 
         Matrix2D m(S + 1, S + 1);
         m.row(0)[S] = -1; // First row is always a vector
@@ -306,7 +306,7 @@ namespace AIToolbox::POMDP {
                     const auto index = (*enumerator)[i];
                     if (index < alphasSize) {
                         // Copy the right vector in the matrix.
-                        m.row(counter).head(S) = *std::advance(alphasBegin, index);
+                        m.row(counter).head(S) = std::next(alphasBegin, index)->values;
                         m.row(counter)[S] = -1;
                         ++counter;
                     } else {
@@ -337,7 +337,7 @@ namespace AIToolbox::POMDP {
                 // boundaries, but we don't care about those cases (since we
                 // assume we already have the corners of the simplex computed).
                 // Thus, terminate.
-                if (last >= alphasSize) break;
+                if ((*enumerator)[last] >= alphasSize) break;
             }
         }
         return vertices;
