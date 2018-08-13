@@ -9,7 +9,7 @@
 
 #include <set>
 #include <boost/container/flat_set.hpp>
-#include <boost/iterator/indirect_iterator.hpp>
+#include <boost/iterator/transform_iterator.hpp>
 
 #include <Eigen/Dense>
 #include <AIToolbox/Utils/Combinatorics.hpp>
@@ -125,6 +125,32 @@ namespace AIToolbox::POMDP {
             Agenda agenda_;
     };
 
+    /**
+     * @brief This function implements a naive vertex enumeration algorithm.
+     *
+     * This function goes through every subset of planes of size S, and finds
+     * all vertices it can. In particular, it goes through the first list one
+     * element at a time, and joins it with S-1 elements from the second list.
+     *
+     * Even more precisely, we take >= 1 elements from the second list. The
+     * remaining elements (so that in total we still use S-1) are simply the
+     * simplex boundaries, which allows us to find the corners located there.
+     *
+     * This method may find duplicate vertices (it does not bother to prune
+     * them), as a vertex can be in the convergence of more than S planes.
+     *
+     * The advantage is that we do not need any linear programming, and simple
+     * matrix decomposition techniques suffice.
+     *
+     * This function works on ranges of Vectors.
+     *
+     * @param beginNew The beginning of the range of the planes to find vertices for.
+     * @param endNew The end of the range of the planes to find vertices for.
+     * @param alphasBegin The beginning of the range of all other planes.
+     * @param alphasEnd The end of the range of all other planes.
+     *
+     * @return
+     */
     template <typename NewIt, typename OldIt>
     std::vector<std::pair<Belief, double>> findVertices(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd);
 
@@ -151,6 +177,9 @@ namespace AIToolbox::POMDP {
         std::vector<std::pair<Belief, double>> vertices;
         std::vector<Belief> triedVertices;
 
+        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
+        const auto unwrapIt = +[](auto & ve) -> MDP::Values & {return ve->values;};
+
         // For each corner belief, find its value and alphavector. Add the
         // alphavectors in a separate list, remove duplicates. Note: In theory
         // we must be able to find all alphas for each corner, not just a
@@ -173,9 +202,11 @@ namespace AIToolbox::POMDP {
         for (size_t i = 0; i < goodSupports.size(); ++i, ++goodBegin) {
             // For each alpha, we find its vertices against the others.
             IndexSkipMap map({i}, goodSupports);
+            const auto cbegin = boost::make_transform_iterator(map.cbegin(), unwrap);
+            const auto cend   = boost::make_transform_iterator(map.cend(), unwrap);
 
             // Note that the range we pass here is made by a single vector.
-            auto newVertices = findVertices(goodBegin, goodBegin + 1, map.cbegin(), map.cend());
+            auto newVertices = findVertices(goodBegin, goodBegin + 1, cbegin, cend);
 
             for (auto && v : newVertices)
                 vertices.emplace_back(std::move(v));
@@ -241,12 +272,11 @@ namespace AIToolbox::POMDP {
 
         // Find vertices between the best support of this belief and the list
         // we already have.
-        vertices = findVertices(
-                        boost::make_indirect_iterator(std::begin(best.supports)),
-                        boost::make_indirect_iterator(std::end(best.supports)),
-                        boost::make_indirect_iterator(std::begin(supportsToCheck)),
-                        boost::make_indirect_iterator(std::end(supportsToCheck))
-                   );
+        const auto supBegin = boost::make_transform_iterator(std::begin(best.supports), unwrapIt);
+        const auto supEnd   = boost::make_transform_iterator(std::end(best.supports), unwrapIt);
+        const auto chkBegin = boost::make_transform_iterator(std::begin(supportsToCheck), unwrapIt);
+        const auto chkEnd   = boost::make_transform_iterator(std::end(supportsToCheck), unwrapIt);
+        vertices = findVertices(supBegin, supEnd, chkBegin, chkEnd);
 
         // We now can add the support for this vertex to the main list.  We
         // don't need checks here because we are guaranteed that we are
@@ -265,7 +295,7 @@ namespace AIToolbox::POMDP {
 
         const size_t alphasSize = std::distance(alphasBegin, alphasEnd);
         if (alphasSize == 0) return vertices;
-        const size_t S = alphasBegin->values.size();
+        const size_t S = alphasBegin->size();
 
         // This enumerator allows us to compute all possible subsets of S-1
         // elements. We use it on both the alphas, and the boundaries, thus the
@@ -285,11 +315,9 @@ namespace AIToolbox::POMDP {
         // Common matrix/vector setups
 
         for (auto newVIt = beginNew; newVIt != endNew; ++newVIt) {
-            const auto & newV = *newVIt;
+            m.row(0).head(S) = *newVIt;
 
             enumerator.reset();
-
-            m.row(0).head(S) = newV.values;
 
             // Get subset of planes, find corner with LU
             size_t last = 0;
@@ -306,7 +334,7 @@ namespace AIToolbox::POMDP {
                     const auto index = (*enumerator)[i];
                     if (index < alphasSize) {
                         // Copy the right vector in the matrix.
-                        m.row(counter).head(S) = std::next(alphasBegin, index)->values;
+                        m.row(counter).head(S) = *std::next(alphasBegin, index);
                         m.row(counter)[S] = -1;
                         ++counter;
                     } else {

@@ -10,14 +10,15 @@
 #include <AIToolbox/Utils/Core.hpp>
 
 #include "Utils/TigerProblem.hpp"
+#include <iostream>
 
 BOOST_AUTO_TEST_CASE( vertex_enumeration ) {
     using namespace AIToolbox;
 
-    POMDP::VList alphas = {
-        {(MDP::Values(3) << 1.0, 0.0, 0.0).finished(), 0, POMDP::VObs(0)},
-        {(MDP::Values(3) << 0.0, 1.0, 0.0).finished(), 0, POMDP::VObs(0)},
-        {(MDP::Values(3) << 0.0, 0.0, 1.0).finished(), 0, POMDP::VObs(0)},
+    std::vector<Vector> alphas = {
+        {(MDP::Values(3) << 1.0, 0.0, 0.0).finished()},
+        {(MDP::Values(3) << 0.0, 1.0, 0.0).finished()},
+        {(MDP::Values(3) << 0.0, 0.0, 1.0).finished()},
     };
 
     std::vector<std::pair<POMDP::Belief, double>> solutions = {
@@ -38,7 +39,7 @@ BOOST_AUTO_TEST_CASE( vertex_enumeration ) {
     for (const auto & v : vertices) {
         bool found = false;
         for (const auto & s : solutions) {
-            if (v.first == s.first && v.second == s.second) {
+            if (veccmpSmall(v.first, s.first) == 0 && checkEqualSmall(v.second, s.second)) {
                 found = true;
                 break;
             }
@@ -49,7 +50,7 @@ BOOST_AUTO_TEST_CASE( vertex_enumeration ) {
     for (const auto & s : solutions) {
         bool found = false;
         for (const auto & v : vertices) {
-            if (v.first == s.first && v.second == s.second) {
+            if (veccmpSmall(v.first, s.first) == 0 && checkEqualSmall(v.second, s.second)) {
                 found = true;
                 break;
             }
