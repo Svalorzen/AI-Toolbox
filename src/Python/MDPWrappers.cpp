@@ -33,7 +33,14 @@ void exportMDPPolicy();
 
 void exportMDP() {
 #ifdef AITOOLBOX_EXPORT_MDP
-    boost::python::scope x = boost::python::class_<NamespaceMDP>("MDP");
+    namespace bp = boost::python;
+
+    // Create the module for this section
+    bp::object newModule(bp::handle<>(bp::borrowed(PyImport_AddModule("AIToolbox.MDP"))));
+    // Add the module to the parent's scope
+    bp::scope().attr("MDP") = newModule;
+    // Set the scope for the exports to the new module.
+    bp::scope currentScope = newModule;
 
     exportMDPTypes();
 

@@ -31,7 +31,7 @@ if build_dir not in sys.path:
     sys.path.append(build_dir)
 
 try:
-    import MDP
+    from AIToolbox import MDP
 except ImportError:
     raise ImportError("cannot find MDP, has it been built?")
 
