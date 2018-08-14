@@ -260,6 +260,25 @@ namespace AIToolbox::POMDP {
         // return big vlist, next loop timestep.
     }
 
+    /**
+     * @brief This function computes the optimistic value of a belief given known beliefs and values.
+     *
+     * This function computes an LP to determine the best possible value of a
+     * belief given all known best vertices around it.
+     *
+     * This function is needed in multi-objective settings (rather than
+     * POMDPs), since the step where we compute the optimal value for a given
+     * belief is extremely expensive (it requires solving a full MDP). Thus
+     * linear programming is used in order to determine an optimistic bound
+     * when deciding the next belief to extract from the queue during the
+     * linear support process.
+     *
+     * @param b The belief where we want to compute the best possible value.
+     * @param bvBegin The start of the range of belief-value pairs representing all vertices surrounding the belief.
+     * @param bvEnd The end of that same range.
+     *
+     * @return The best possible value that the input belief can have given the known vertices.
+     */
     template <typename It>
     double computeOptimisticValue(const Belief & b, It bvBegin, It bvEnd) {
         const size_t beliefNumber = std::distance(bvBegin, bvEnd);
