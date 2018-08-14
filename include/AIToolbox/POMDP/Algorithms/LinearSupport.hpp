@@ -261,57 +261,57 @@ namespace AIToolbox::POMDP {
     }
 
     /**
-     * @brief This function computes the optimistic value of a belief given known beliefs and values.
+     * @brief This function computes the optimistic value of a point given known vertices and values.
      *
      * This function computes an LP to determine the best possible value of a
-     * belief given all known best vertices around it.
+     * point given all known best vertices around it.
      *
      * This function is needed in multi-objective settings (rather than
      * POMDPs), since the step where we compute the optimal value for a given
-     * belief is extremely expensive (it requires solving a full MDP). Thus
+     * point is extremely expensive (it requires solving a full MDP). Thus
      * linear programming is used in order to determine an optimistic bound
-     * when deciding the next belief to extract from the queue during the
-     * linear support process.
+     * when deciding the next point to extract from the queue during the linear
+     * support process.
      *
-     * @param b The belief where we want to compute the best possible value.
-     * @param bvBegin The start of the range of belief-value pairs representing all vertices surrounding the belief.
+     * @param b The point where we want to compute the best possible value.
+     * @param bvBegin The start of the range of point-value pairs representing all surrounding vertices.
      * @param bvEnd The end of that same range.
      *
-     * @return The best possible value that the input belief can have given the known vertices.
+     * @return The best possible value that the input point can have given the known vertices.
      */
     template <typename It>
-    double computeOptimisticValue(const Belief & b, It bvBegin, It bvEnd) {
-        const size_t beliefNumber = std::distance(bvBegin, bvEnd);
-        if (beliefNumber == 0) return 0.0;
-        const size_t S = b.size();
+    double computeOptimisticValue(const Vector & p, It pvBegin, It pvEnd) {
+        const size_t vertexNumber = std::distance(pvBegin, pvEnd);
+        if (vertexNumber == 0) return 0.0;
+        const size_t S = p.size();
 
         LP lp(S);
 
         /*
-         * With this LP we are looking for an optimistic alphavector that can
+         * With this LP we are looking for an optimistic hyperplane that can
          * tightly fit all corners that we already have, and maximize the value
-         * at the input belief point.
+         * at the input point.
          *
          * Our constraints are of the form
          *
-         * belief[0][0]) * v0 + belief[0][1]) * v1 + ... <= belief[0].currentValue
-         * belief[1][0]) * v0 + belief[1][1]) * v1 + ... <= belief[1].currentValue
+         * vertex[0][0]) * h0 + vertex[0][1]) * h1 + ... <= vertex[0].currentValue
+         * vertex[1][0]) * h0 + vertex[1][1]) * h1 + ... <= vertex[1].currentValue
          * ...
          *
-         * Since we are looking for an optimistic alphavector, all variables
-         * are unbounded since the hyperplane may need to go negative at some
+         * Since we are looking for an optimistic hyperplane, all variables are
+         * unbounded since the hyperplane may need to go negative at some
          * states.
          *
          * Finally, our constraint is a row to maximize:
          *
          * b * v0 + b * v1 + ...
          *
-         * Which means we try to maximize the value of the input belief with
-         * the newly found hyperplane.
+         * Which means we try to maximize the value of the input point with the
+         * newly found hyperplane.
          */
 
         // Set objective to maximize
-        lp.row = b;
+        lp.row = p;
         lp.setObjective(true);
 
         // Set unconstrained to all variables
@@ -319,7 +319,7 @@ namespace AIToolbox::POMDP {
             lp.setUnbounded(s);
 
         // Set constraints for all input belief points and current values.
-        for (auto it = bvBegin; it != bvEnd; ++it) {
+        for (auto it = pvBegin; it != pvEnd; ++it) {
             lp.row = it->first;
             lp.pushRow(LP::Constraint::LessEqual, it->second);
         }
