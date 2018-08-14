@@ -12,6 +12,7 @@
 #include <boost/iterator/transform_iterator.hpp>
 
 #include <AIToolbox/Utils/VertexEnumeration.hpp>
+#include <AIToolbox/LP.hpp>
 
 namespace AIToolbox::POMDP {
     class LinearSupport {
@@ -257,6 +258,61 @@ namespace AIToolbox::POMDP {
         // END(loop)
 
         // return big vlist, next loop timestep.
+    }
+
+    template <typename It>
+    double computeOptimisticValue(const Belief & b, It bvBegin, It bvEnd) {
+        const size_t beliefNumber = std::distance(bvBegin, bvEnd);
+        if (beliefNumber == 0) return 0.0;
+        const size_t S = b.size();
+
+        LP lp(S);
+
+        /*
+         * With this LP we are looking for an optimistic alphavector that can
+         * tightly fit all corners that we already have, and maximize the value
+         * at the input belief point.
+         *
+         * Our constraints are of the form
+         *
+         * belief[0][0]) * v0 + belief[0][1]) * v1 + ... <= belief[0].currentValue
+         * belief[1][0]) * v0 + belief[1][1]) * v1 + ... <= belief[1].currentValue
+         * ...
+         *
+         * Since we are looking for an optimistic alphavector, all variables
+         * are unbounded since the hyperplane may need to go negative at some
+         * states.
+         *
+         * Finally, our constraint is a row to maximize:
+         *
+         * b * v0 + b * v1 + ...
+         *
+         * Which means we try to maximize the value of the input belief with
+         * the newly found hyperplane.
+         */
+
+        // Set objective to maximize
+        lp.row = b;
+        lp.setObjective(true);
+
+        // Set unconstrained to all variables
+        for (size_t s = 0; s < S; ++s)
+            lp.setUnbounded(s);
+
+        // Set constraints for all input belief points and current values.
+        for (auto it = bvBegin; it != bvEnd; ++it) {
+            lp.row = it->first;
+            lp.pushRow(LP::Constraint::LessEqual, it->second);
+        }
+
+        double retval;
+        // Note that we don't care about the optimistic alphavector, so we
+        // discard it. We check that everything went fine though, in theory
+        // there shouldn't be any problems here.
+        auto solution = lp.solve(0, &retval);
+        assert(solution);
+
+        return retval;
     }
 }
 
