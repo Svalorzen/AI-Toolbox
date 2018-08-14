@@ -40,6 +40,17 @@ struct TupleToPython {
     }
 };
 
+template <typename T>
+struct PairToPython {
+    PairToPython() {
+        boost::python::to_python_converter<T, PairToPython<T>>();
+    }
+
+    static PyObject* convert(const T& t) {
+        return boost::python::incref(boost::python::make_tuple(t.first, t.second).ptr());
+    }
+};
+
 // Python to C++
 
 template <typename T>
