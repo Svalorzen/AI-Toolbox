@@ -84,6 +84,16 @@ namespace AIToolbox {
         maximize_ = maximize;
     }
 
+    void LP::setObjective(const bool maximize) {
+        set_obj_fn(pimpl_->lp_.get(), pimpl_->conversionData());
+
+        if (maximize)
+            set_maxim(pimpl_->lp_.get());
+        else
+            set_minim(pimpl_->lp_.get());
+        maximize_ = maximize;
+    }
+
     void LP::pushRow(const Constraint c, const double value) {
         add_constraint(pimpl_->lp_.get(), pimpl_->conversionData(), toLpSolveConstraint(c), static_cast<REAL>(value));
     }
