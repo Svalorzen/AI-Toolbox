@@ -133,6 +133,11 @@ void exportTypes() {
         .def(vector_indexing_suite<std::vector<size_t>>());
     VectorFromPython<size_t>();
 
+    // vector of Vectors, because why not
+    class_<std::vector<Vector>>{"vec_eigen_v"}
+        .def(vector_indexing_suite<std::vector<Vector>>());
+    VectorFromPython<Vector>();
+
     // Enable passing 3D tables from Python
     Vector3DFromPython<double>();
     Vector3DFromPython<int>();

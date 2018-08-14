@@ -6,14 +6,20 @@
 #include <AIToolbox/POMDP/SparseModel.hpp>
 
 #include <boost/python.hpp>
-#include "../Utils.hpp"
 
 // Temporary until we find a place for these functions
 #include <AIToolbox/POMDP/Algorithms/LinearSupport.hpp>
+#include <AIToolbox/Utils/VertexEnumeration.hpp>
+#include "../Utils.hpp"
+#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 /// Wrapper for Python of the same named function
 double computeOptimisticValueWrapper(const AIToolbox::Vector & p, const std::vector<std::pair<AIToolbox::Vector, double>> & pvPairs) {
     return AIToolbox::POMDP::computeOptimisticValue(p, std::begin(pvPairs), std::end(pvPairs));
+}
+/// Wrapper for Python of the same named function
+std::vector<std::pair<AIToolbox::Vector, double>> findVerticesNaiveWrapper(const std::vector<AIToolbox::Vector> & tests, const std::vector<AIToolbox::Vector> & planes) {
+    return AIToolbox::findVerticesNaive(std::begin(tests), std::end(tests), std::begin(planes), std::end(planes));
 }
 
 using POMDPModelBinded = AIToolbox::POMDP::Model<AIToolbox::MDP::Model>;
@@ -49,7 +55,10 @@ void exportPOMDPUtils() {
     // We'll move the function below in another file at some point.
     using VVPair = std::pair<AIToolbox::Vector, double>;
     PairFromPython<VVPair>();
+    PairToPython<VVPair>();
     VectorFromPython<VVPair>();
+    class_<std::vector<VVPair>>{"VVVector"}
+        .def(vector_indexing_suite<std::vector<VVPair>, true>());
     def("computeOptimisticValue", computeOptimisticValueWrapper,
          "This function computes the optimistic value of a point given known vertices and values.\n"
          "\n"
@@ -69,4 +78,5 @@ void exportPOMDPUtils() {
          "@return The best possible value that the input point can have given the known vertices."
          , (arg("belief"), "bvPairs")
     );
+    def("findVerticesNaive", findVerticesNaiveWrapper);
 }
