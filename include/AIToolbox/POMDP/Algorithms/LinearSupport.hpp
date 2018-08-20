@@ -8,11 +8,12 @@
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
 #include <set>
-#include <boost/container/flat_set.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 
 #include <AIToolbox/Utils/VertexEnumeration.hpp>
 #include <AIToolbox/LP.hpp>
+
+#include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::POMDP {
     class LinearSupport {
@@ -79,18 +80,6 @@ namespace AIToolbox::POMDP {
 
         private:
             /**
-             * @brief This function uses already computed projections to create the best possible cross-sum for a single belief.
-             *
-             * @param projs The projections to use.
-             * @param a The action for the cross-sum.
-             * @param b The belief to use.
-             *
-             * @return The best possible cross-sum for the provided belief.
-             */
-            template <typename ProjectionsRow>
-            VEntry crossSumBestAtBelief(const ProjectionsRow & projs, size_t a, const Belief & b);
-
-            /**
              * @brief This function adds a default cross-sum to the agenda, to start off the algorithm.
              *
              * @param projs The projections to use.
@@ -109,18 +98,25 @@ namespace AIToolbox::POMDP {
             template <typename ProjectionsRow>
             void addVariations(const ProjectionsRow & projs, size_t a, const VEntry & variated);
 
-            size_t S, A, O;
             unsigned horizon_;
             double epsilon_;
 
+            using SupportSet = std::set<VEntry>;
+            struct Vertex;
+
+            struct Comparator {
+                bool operator() (const Belief & lhs, const Belief & rhs) const;
+                bool operator() (const Vertex & lhs, const Vertex & rhs) const;
+            };
+
             struct Vertex {
                 Belief belief;
-                boost::container::flat_set<std::set<VEntry>::iterator> supports;
+                SupportSet::iterator support;
                 double currentValue;
                 double error;
             };
 
-            using Agenda = boost::heap::fibonacci_heap<Vertex>;
+            using Agenda = boost::heap::fibonacci_heap<Vertex, boost::heap::compare<Comparator>>;
 
             Agenda agenda_;
     };
@@ -128,8 +124,8 @@ namespace AIToolbox::POMDP {
     template <typename M, typename>
     std::tuple<double, ValueFunction> LinearSupport::operator()(const M& model) {
         const auto S = model.getS();
-        const auto A = model.getA();
-        const auto O = model.getO();
+        // const auto A = model.getA();
+        // const auto O = model.getO();
 
         Projecter project(model);
         auto v = makeValueFunction(S); // TODO: May take user input
@@ -150,13 +146,12 @@ namespace AIToolbox::POMDP {
             // easy to check whether we already have one, and also each vertex can
             // keep references to them and we don't duplicate vectors all over the
             // place.
-            std::set<VEntry> allSupports;
+            SupportSet allSupports;
 
             std::vector<std::pair<Belief, double>> vertices;
-            std::vector<Belief> triedVertices;
+            std::set<Belief, Comparator> triedVertices;
 
-            const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
-            const auto unwrapIt = +[](auto & ve) -> MDP::Values & {return ve->values;};
+            const auto unwrap = +[](const VEntry & ve) -> const MDP::Values & {return ve.values;};
 
             // For each corner belief, find its value and alphavector. Add the
             // alphavectors in a separate list, remove duplicates. Note: In theory
@@ -176,7 +171,7 @@ namespace AIToolbox::POMDP {
             // Now we find for all the alphavectors we have found, the vertices of
             // the polytope that they created. These vertices will bootstrap the
             // algorithm.
-            auto goodBegin = goodSupports.begin();
+            auto goodBegin = boost::make_transform_iterator(goodSupports.cbegin(), unwrap);
             for (size_t i = 0; i < goodSupports.size(); ++i, ++goodBegin) {
                 // For each alpha, we find its vertices against the others.
                 IndexSkipMap map({i}, goodSupports);
@@ -186,85 +181,96 @@ namespace AIToolbox::POMDP {
                 // Note that the range we pass here is made by a single vector.
                 auto newVertices = findVerticesNaive(goodBegin, goodBegin + 1, cbegin, cend);
 
-                for (auto && v : newVertices)
-                    vertices.emplace_back(std::move(v));
+                vertices.insert(std::end(vertices),
+                        std::make_move_iterator(std::begin(newVertices)),
+                        std::make_move_iterator(std::end(newVertices))
+                );
             }
-            // Here we remove duplicates, although ideally when we improve the
-            // algorithm we won't have to do this.
-            std::sort(std::begin(vertices), std::end(vertices),
-                    [](const std::pair<Belief, double> & lhs, const std::pair<Belief, double> & rhs) {
-                        return veccmp(lhs.first, rhs.first) < 0;
+
+            do {
+                // For each corner, we find its true alphas and its best possible value.
+                // Then we compute the error between a corner's known true value and
+                // what we can do with the optimal alphas we already have.
+                // If the error is low enough, we don't need them. Otherwise we add
+                // them to the priority queue.
+                for (auto & vertex : vertices) {
+                    if (triedVertices.find(vertex.first) != std::end(triedVertices))
+                        continue;
+
+                    double trueValue;
+                    auto support = crossSumBestAtBelief(vertex.first, projections, &trueValue);
+
+                    double currentValue = vertex.second;
+                    // FIXME: As long as we use the naive way to find vertices,
+                    // we can't really trust the values that come out as they
+                    // may be lower than what we actually have. So we are
+                    // forced to recompute their value.
+                    findBestAtBelief(vertex.first, std::begin(goodSupports), std::end(goodSupports), &currentValue);
+
+                    auto diff = trueValue - currentValue;
+                    if (diff > epsilon_ && checkDifferentGeneral(diff, epsilon_)) {
+                        auto it = allSupports.insert(std::move(support));
+                        Vertex newVertex;
+                        newVertex.belief = vertex.first;
+                        newVertex.currentValue = currentValue;
+                        newVertex.support = it.first;
+                        newVertex.error = diff;
+                        agenda_.push(std::move(newVertex));
                     }
-            );
-            vertices.erase(std::unique(std::begin(vertices), std::end(vertices)), std::end(vertices));
 
-            // BEGIN(loop)
-
-            // For each corner, we find its true alphas and its best possible value.
-            // Then we compute the error between a corner's known true value and
-            // what we can do with the optimal alphas we already have.
-            // If the error is low enough, we don't need them. Otherwise we add
-            // them to the priority queue.
-            for (auto & vertex : vertices) {
-                double trueValue;
-                auto support = crossSumBestAtBelief(vertex.first, projections, &trueValue);
-
-                double currentValue = vertex.second;
-
-                auto diff = trueValue - currentValue;
-                if (diff < epsilon_) {
-                    triedVertices.emplace_back(std::move(vertex));
-                } else {
-                    // newVertices.add_if_not_duplicate(support);
-                    // agenda.emplace_back(diff | std::move(vertex), std::move(support), currentValue);
+                    triedVertices.insert(std::move(vertex.first));
                 }
-            }
 
-            if (agenda_.size() == 0) {} // break;
+                if (agenda_.size() == 0)
+                    break;
 
-            Vertex best = agenda_.top();
-            agenda_.pop();
+                Vertex best = agenda_.top();
+                agenda_.pop();
 
-            auto supportsToCheck = best.supports;
-            std::vector<Agenda::handle_type> verticesToRemove;
+                AI_LOGGER(AI_SEVERITY_INFO, "Selected Vertex " << best.belief.transpose() << " as best, with support: " << best.support->values.transpose() << ", action: " << best.support->action);
 
-            // For each element in the agenda, we need to check whether any would
-            // be made useless by the new supports that best is bringing in. If so,
-            // we can remove them from the queue.
-            for (auto it = agenda_.begin(); it != agenda_.end(); ++it) {
-                bool remove = false;
-                for (const auto & sIt : best.supports) {
+                std::vector<Agenda::handle_type> verticesToRemove;
+
+                // For each element in the agenda, we need to check whether any would
+                // be made useless by the new supports that best is bringing in. If so,
+                // we can remove them from the queue.
+                for (auto it = agenda_.begin(); it != agenda_.end(); ++it) {
                     // If so, *their* supports, plus the supports of best form the surface
                     // in which we need to find vertices.
-                    if (it->belief.dot(sIt->values) > it->currentValue) {
-                        remove = true;
-                        break;
-                    }
+                    if (it->belief.dot(best.support->values) > it->currentValue)
+                        verticesToRemove.push_back(Agenda::s_handle_from_iterator(it));
                 }
-                if (remove) verticesToRemove.push_back(Agenda::s_handle_from_iterator(it));
-            }
-            for (const auto & h : verticesToRemove) {
-                supportsToCheck.merge(std::move((*h).supports));
-                agenda_.erase(h);
-            }
 
-            // Find vertices between the best support of this belief and the list
-            // we already have.
-            const auto supBegin = boost::make_transform_iterator(std::begin(best.supports), unwrapIt);
-            const auto supEnd   = boost::make_transform_iterator(std::end(best.supports), unwrapIt);
-            const auto chkBegin = boost::make_transform_iterator(std::begin(supportsToCheck), unwrapIt);
-            const auto chkEnd   = boost::make_transform_iterator(std::end(supportsToCheck), unwrapIt);
-            vertices = findVerticesNaive(supBegin, supEnd, chkBegin, chkEnd);
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Removing " << verticesToRemove.size() << " vertices, as they are now obsolete.");
+                for (auto & h : verticesToRemove) {
+                    agenda_.erase(h);
+                }
 
-            // We now can add the support for this vertex to the main list.  We
-            // don't need checks here because we are guaranteed that we are
-            // improving the VList.
-            for (auto s : best.supports)
-                goodSupports.push_back(*s);
+                // Find vertices between the best support of this belief and the list
+                // we already have.
+                const auto bestAddr = &(*best.support);
+                const auto supBegin = boost::make_transform_iterator(bestAddr,                  unwrap);
+                const auto supEnd   = boost::make_transform_iterator(bestAddr + 1,              unwrap);
+                const auto chkBegin = boost::make_transform_iterator(std::cbegin(goodSupports), unwrap);
+                const auto chkEnd   = boost::make_transform_iterator(std::cend(goodSupports),   unwrap);
+                vertices = findVerticesNaive(supBegin, supEnd, chkBegin, chkEnd);
+
+                // We now can add the support for this vertex to the main list.  We
+                // don't need checks here because we are guaranteed that we are
+                // improving the VList.
+                goodSupports.push_back(*best.support);
+            }
+            while (true);
+
+            v.emplace_back(std::move(goodSupports));
+
+            // Check convergence
+            if ( useEpsilon ) {
+                variation = weakBoundDistance(v[timestep-1], v[timestep]);
+            }
         }
-        // END(loop)
 
-        return std::make_tuple(false, makeValueFunction(S));
+        return std::make_tuple(useEpsilon ? variation : 0.0, v);
     }
 
     /**
