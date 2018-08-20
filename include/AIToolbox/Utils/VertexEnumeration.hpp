@@ -22,6 +22,10 @@ namespace AIToolbox {
      * The advantage is that we do not need any linear programming, and simple
      * matrix decomposition techniques suffice.
      *
+     * Warning: the values of each vertex depends on the planes it has been
+     * found of, and thus may *not* be the true value if considering all planes
+     * at the same time!
+     *
      * This function works on ranges of Vectors.
      *
      * @param beginNew The beginning of the range of the planes to find vertices for.
@@ -97,9 +101,8 @@ namespace AIToolbox {
                 b[counter-1] = 0.0;
 
                 // Add to found only if valid, otherwise skip.
-                if (((result.head(S).array() >= 0) && (result.head(S).array() <= 1.0)).all()) {
+                if (((result.head(S).array() >= 0) && (result.head(S).array() <= 1.0)).all())
                     vertices.emplace_back(result.head(S), result[S]);
-                }
 
                 // Advance, and take the id of the first index changed in the
                 // next combination.
