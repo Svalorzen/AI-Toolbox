@@ -108,13 +108,9 @@ namespace AIToolbox::POMDP {
              * @brief This function solves a POMDP::Model completely.
              *
              * This function is pretty expensive (as are possibly all POMDP
-             * solvers). It generates for each new solved timestep the
-             * whole set of possible ValueFunctions, and prunes it
-             * incrementally, trying to reduce as much as possible the
-             * linear programming solves required.
-             *
-             * This function returns a tuple to be consistent with MDP
-             * solving methods, but it should always succeed.
+             * solvers). It evaluates all vertices in the ValueFunction surface
+             * in order to determine whether it is complete, otherwise it
+             * improves it incrementally.
              *
              * @tparam M The type of POMDP model that needs to be solved.
              *
