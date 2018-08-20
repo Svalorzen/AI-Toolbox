@@ -105,8 +105,6 @@ namespace AIToolbox::POMDP {
     template <typename M, typename>
     std::tuple<double, ValueFunction> LinearSupport::operator()(const M& model) {
         const auto S = model.getS();
-        // const auto A = model.getA();
-        // const auto O = model.getO();
 
         Projecter project(model);
         auto v = makeValueFunction(S); // TODO: May take user input
