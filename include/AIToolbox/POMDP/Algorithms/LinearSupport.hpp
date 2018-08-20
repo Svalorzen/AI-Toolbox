@@ -16,8 +16,56 @@
 #include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::POMDP {
+    /**
+     * @brief This class represents the LinearSupport algorithm.
+     *
+     * This method is similar in spirit to Witness. The idea is that we look at
+     * certain belief points, and we try to find the best alphavectors in those
+     * points. Rather than looking for them though, the idea here is that we
+     * *know* where they are, if there are any at all.
+     *
+     * As the ValueFunction is piecewise linear and convex, if there's any
+     * other hyperplane that we can add to improve it, the improvements are
+     * going to be maximal at one of the vertices of the original surface.
+     *
+     * The idea thus is the following: first we compute the set of alphavectors
+     * for the corners, so we can be sure about them. Then we find all vertices
+     * that those alphavectors create, and we compute the error between the
+     * true ValueFunction and their current values.
+     *
+     * If the error is greater than a certain amount, we allow their supporting
+     * alphavector to join the ValueFunction, and we increase the size of the
+     * vertex set by adding all new vertices that are created by adding the new
+     * surface (and removing the ones that are made useless by it).
+     *
+     * We repeat until we have checked all available vertices, and at that
+     * point we are done.
+     *
+     * While this can be a very inefficient algorithm, the fact that vertices
+     * are checked in an orderly fashion, from highest error to lowest, allows
+     * if one needs it to convert this algorithm into an anytime algorithm.
+     * Even if there is limited time to compute the solution, the algorithm is
+     * guaranteed to work in the areas with high error first, allowing one to
+     * compute good approximations even without a lot of resources.
+     */
     class LinearSupport {
         public:
+            /**
+             * @brief Basic constructor.
+             *
+             * This constructor sets the default horizon used to solve a POMDP::Model.
+             *
+             * The epsilon parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The epsilon
+             * parameter sets the convergence criterion. An epsilon of 0.0
+             * forces LinearSupport to perform a number of iterations equal to
+             * the horizon specified. Otherwise, LinearSupport will stop as soon
+             * as the difference between two iterations is less than the
+             * epsilon specified.
+             *
+             * @param h The horizon chosen.
+             * @param epsilon The epsilon factor to stop the value iteration loop.
+             */
             LinearSupport(unsigned horizon, double epsilon);
 
             /**
@@ -97,6 +145,7 @@ namespace AIToolbox::POMDP {
                 double error;
             };
 
+            // This is our priority queue with all the vertices.
             using Agenda = boost::heap::fibonacci_heap<Vertex, boost::heap::compare<Comparator>>;
 
             Agenda agenda_;
