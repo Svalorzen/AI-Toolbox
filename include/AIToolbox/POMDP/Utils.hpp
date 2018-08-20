@@ -653,6 +653,7 @@ namespace AIToolbox::POMDP {
      * @param b The belief to compute the VEntry for.
      * @param row The list of VLists, one per observation.
      * @param a The action this Ventry stands for.
+     * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
      *
      * @return The best VEntry for the input belief.
      */
@@ -686,11 +687,12 @@ namespace AIToolbox::POMDP {
      * @tparam Projections The type of the 2D array of VLists containing all the projections.
      * @param b The belief to compute the VEntry for.
      * @param projs The projections of the old VLists.
+     * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
      *
      * @return The best VEntry for the input belief.
      */
     template <typename Projections>
-    VEntry crossSumBestAtBelief(const Belief & b, const Projections & projs) {
+    VEntry crossSumBestAtBelief(const Belief & b, const Projections & projs, double * value = nullptr) {
         const size_t A = projs.size();
         VEntry entry;
 
@@ -702,6 +704,7 @@ namespace AIToolbox::POMDP {
                 std::swap(entry, result);
             }
         }
+        if (value) *value = bestValue;
         return entry;
     }
 }
