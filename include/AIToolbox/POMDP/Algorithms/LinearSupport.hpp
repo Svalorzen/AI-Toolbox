@@ -79,25 +79,6 @@ namespace AIToolbox::POMDP {
             std::tuple<double, ValueFunction> operator()(const M & model);
 
         private:
-            /**
-             * @brief This function adds a default cross-sum to the agenda, to start off the algorithm.
-             *
-             * @param projs The projections to use.
-             * @param a The action for the cross-sum.
-             */
-            template <typename ProjectionsRow>
-            void addDefaultEntry(const ProjectionsRow & projs, size_t a);
-
-            /**
-             * @brief This function adds all possible variations of a given VEntry to the agenda.
-             *
-             * @param projs The projections from which the VEntry was derived.
-             * @param a The action for the cross-sums.
-             * @param variated The VEntry to use as a base.
-             */
-            template <typename ProjectionsRow>
-            void addVariations(const ProjectionsRow & projs, size_t a, const VEntry & variated);
-
             unsigned horizon_;
             double epsilon_;
 
