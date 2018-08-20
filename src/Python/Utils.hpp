@@ -40,6 +40,17 @@ struct TupleToPython {
     }
 };
 
+template <typename T>
+struct PairToPython {
+    PairToPython() {
+        boost::python::to_python_converter<T, PairToPython<T>>();
+    }
+
+    static PyObject* convert(const T& t) {
+        return boost::python::incref(boost::python::make_tuple(t.first, t.second).ptr());
+    }
+};
+
 // Python to C++
 
 template <typename T>
@@ -76,6 +87,32 @@ struct TupleFromPython {
 
         // Copy item by item the tuple
         ExtractPythonTuple<std::tuple_size<T>::value - 1>()(t, tuple);
+
+        // Stash the memory chunk pointer for later use by boost.python
+        data->convertible = storage;
+    }
+};
+
+template <typename T>
+struct PairFromPython {
+    PairFromPython() {
+        boost::python::converter::registry::push_back(&PairFromPython::convertible, &PairFromPython::construct, boost::python::type_id<T>());
+    }
+
+    static void* convertible(PyObject* obj_ptr) {
+        if (!PyTuple_CheckExact(obj_ptr)) return 0;
+        return obj_ptr;
+    }
+
+    static void construct(PyObject* tuple, boost::python::converter::rvalue_from_python_stage1_data* data) {
+        // Grab pointer to memory into which to construct the new tuple
+        void* storage = ((boost::python::converter::rvalue_from_python_storage<T>*)data)->storage.bytes;
+
+        T& t = *(new (storage) T());
+
+        // Copy the pair in
+        t.first  = boost::python::extract<typename std::tuple_element<0, T>::type>(PyTuple_GetItem(tuple, 0));
+        t.second = boost::python::extract<typename std::tuple_element<1, T>::type>(PyTuple_GetItem(tuple, 1));
 
         // Stash the memory chunk pointer for later use by boost.python
         data->convertible = storage;

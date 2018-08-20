@@ -100,13 +100,8 @@ namespace AIToolbox::POMDP {
              * @brief This function solves a POMDP::Model completely.
              *
              * This function is pretty expensive (as are possibly all POMDP
-             * solvers).  It generates for each new solved timestep the
-             * whole set of possible ValueFunctions, and prunes it
-             * incrementally, trying to reduce as much as possible the
-             * linear programming solves required.
-             *
-             * This function returns a tuple to be consistent with MDP
-             * solving methods, but it should always succeed.
+             * solvers). It solves a series of LPs trying to find all possible
+             * beliefs where an alphavector has not yet been found.
              *
              * @tparam M The type of POMDP model that needs to be solved.
              *
@@ -120,41 +115,27 @@ namespace AIToolbox::POMDP {
 
         private:
             /**
-             * @brief This function uses already computed projections to create the best possible cross-sum for a single belief.
-             *
-             * @param projs The projections to use.
-             * @param a The action for the cross-sum.
-             * @param b The belief to use.
-             *
-             * @return The best possible cross-sum for the provided belief.
-             */
-            template <typename ProjectionsRow>
-            VEntry crossSumBestAtBelief(const ProjectionsRow & projs, size_t a, const Belief & b);
-
-            /**
              * @brief This function adds a default cross-sum to the agenda, to start off the algorithm.
              *
              * @param projs The projections to use.
-             * @param a The action for the cross-sum.
              */
             template <typename ProjectionsRow>
-            void addDefaultEntry(const ProjectionsRow & projs, size_t a);
+            void addDefaultEntry(const ProjectionsRow & projs);
 
             /**
              * @brief This function adds all possible variations of a given VEntry to the agenda.
              *
              * @param projs The projections from which the VEntry was derived.
-             * @param a The action for the cross-sums.
              * @param variated The VEntry to use as a base.
              */
             template <typename ProjectionsRow>
-            void addVariations(const ProjectionsRow & projs, size_t a, const VEntry & variated);
+            void addVariations(const ProjectionsRow & projs, const VEntry & variated);
 
             size_t S, A, O;
             unsigned horizon_;
             double epsilon_;
 
-            VList agenda_;
+            std::vector<MDP::Values> agenda_;
             std::unordered_set<VObs, boost::hash<VObs>> triedVectors_;
     };
 
@@ -207,17 +188,17 @@ namespace AIToolbox::POMDP {
                 // We add the VEntry to startoff the whole process. This
                 // VEntry does not even need to be optimal, as we are going
                 // to compute the optimal one for the witness point anyway.
-                addDefaultEntry(projections[a], a);
+                addDefaultEntry(projections[a]);
 
                 // We check whether any element in the agenda improves what we have
                 while ( !agenda_.empty() ) {
-                    const auto witness = lp.findWitness(agenda_.back().values);
+                    const auto witness = lp.findWitness(agenda_.back());
                     if ( witness ) {
                         // If so, we generate the best vector for that particular belief point.
-                        U[a].push_back(crossSumBestAtBelief(projections[a], a, *witness));
+                        U[a].push_back(crossSumBestAtBelief(*witness, projections[a], a));
                         lp.addOptimalRow(U[a].back().values);
                         // We add to the agenda all possible "variations" of the VEntry found.
-                        addVariations(projections[a], a, U[a].back());
+                        addVariations(projections[a], U[a].back());
                         // We manually check memory for the lp, since this method
                         // cannot know in advance how many rows it'll need to do.
                         if ( ++counter == reserveSize ) {
@@ -235,7 +216,7 @@ namespace AIToolbox::POMDP {
 
             // We put together all VEntries we found.
             for ( size_t a = 0; a < A; ++a )
-                std::move(std::begin(U[a]), std::end(U[a]), std::back_inserter(w));
+                w.insert(std::end(w), std::make_move_iterator(std::begin(U[a])), std::make_move_iterator(std::end(U[a])));
 
             // We have them all, and we prune one final time to be sure we have
             // computed the parsimonious set of value functions.
@@ -252,38 +233,19 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename ProjectionsRow>
-    POMDP::VEntry Witness::crossSumBestAtBelief(const ProjectionsRow & projs, const size_t a, const Belief & b) {
+    void Witness::addDefaultEntry(const ProjectionsRow & projs) {
         MDP::Values v(S); v.fill(0.0);
-        VObs obs(O);
-
-        // We compute the crossSum between each best vector for the belief.
-        for ( size_t o = 0; o < O; ++o ) {
-            const VList & projsO = projs[o];
-            const auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
-
-            v.noalias() += bestMatch->values;
-
-            obs[o] = bestMatch->observations[0];
-        }
-
-        return {std::move(v), a, std::move(obs)};
-    }
-
-    template <typename ProjectionsRow>
-    void Witness::addDefaultEntry(const ProjectionsRow & projs, const size_t a) {
-        MDP::Values v(S); v.fill(0.0);
-        VObs obs(O, 0);
 
         // We compute the crossSum between each best vector for the belief.
         for ( size_t o = 0; o < O; ++o )
             v.noalias() += projs[o][0].values;
 
-        triedVectors_.insert(obs);
-        agenda_.emplace_back(std::move(v), a, std::move(obs));
+        triedVectors_.emplace(O, 0);
+        agenda_.emplace_back(std::move(v));
     }
 
     template <typename ProjectionsRow>
-    void Witness::addVariations(const ProjectionsRow & projs, const size_t a, const VEntry & variated) {
+    void Witness::addVariations(const ProjectionsRow & projs, const VEntry & variated) {
         // We need to copy this one unfortunately
         auto vObs = variated.observations;
         const auto & vValues = variated.values;
@@ -300,7 +262,7 @@ namespace AIToolbox::POMDP {
                 triedVectors_.insert(vObs);
 
                 auto v = vValues - projs[o][skip].values + projs[o][i].values;
-                agenda_.emplace_back(std::move(v), a, vObs);
+                agenda_.emplace_back(std::move(v));
             }
             vObs[o] = skip;
         }

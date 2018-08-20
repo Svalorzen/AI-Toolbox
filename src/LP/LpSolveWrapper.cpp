@@ -7,32 +7,31 @@
 namespace AIToolbox {
     constexpr bool conversionNeeded = !std::is_same<REAL, double>::value;
 
-    template <bool realConversionNeeded>
+    template <typename Impl, bool realConversionNeeded>
     struct ConversionArray {
         ConversionArray(const size_t) {}
-        void resize(size_t) {}
-        double * conversionData(const Vector &) { return nullptr; }
+        void conversionResize(size_t) {}
+        double * conversionData() { return static_cast<Impl*>(this)->data_.get(); }
     };
 
-    template <>
-    struct ConversionArray<true> {
+    template <typename Impl>
+    struct ConversionArray<Impl, true> {
         ConversionArray(const size_t vars) : conv_(new REAL[vars + 1]) {}
-        REAL * conversionData(const Vector & row) {
-            for (int v = 0; v < row.size(); ++v )
-                conv_[v+1] = static_cast<REAL>(row[v]);
+        REAL * conversionData() {
+            auto & row = static_cast<Impl*>(this)->data_.get();
+            for (int v = 1; v < std::size(row); ++v )
+                conv_[v] = static_cast<REAL>(row[v]);
             return conv_.get();
         }
-        void resize(const size_t vars) {
+        void conversionResize(const size_t vars) {
             conv_.reset(new REAL[vars + 1]);
         }
         std::unique_ptr<REAL[]> conv_;
     };
 
-    struct LP::LP_impl : private ConversionArray<conversionNeeded> {
+    struct LP::LP_impl : public ConversionArray<LP_impl, conversionNeeded> {
         LP_impl(size_t vars);
         void resize(size_t vars);
-        // Used to switch from double to REAL if needed.
-        using ConversionArray<conversionNeeded>::conversionData;
 
         std::unique_ptr<lprec, void(*)(lprec*)> lp_;
         std::unique_ptr<double[]> data_;
@@ -58,7 +57,7 @@ namespace AIToolbox {
 
     void LP::LP_impl::resize(const size_t vars) {
         data_.reset(new double[vars + 1]);
-        ConversionArray<conversionNeeded>::resize(vars);
+        conversionResize(vars);
     }
 
     constexpr int toLpSolveConstraint(LP::Constraint c) {
@@ -85,17 +84,23 @@ namespace AIToolbox {
         maximize_ = maximize;
     }
 
+    void LP::setObjective(const bool maximize) {
+        set_obj_fn(pimpl_->lp_.get(), pimpl_->conversionData());
+
+        if (maximize)
+            set_maxim(pimpl_->lp_.get());
+        else
+            set_minim(pimpl_->lp_.get());
+        maximize_ = maximize;
+    }
+
     void LP::pushRow(const Constraint c, const double value) {
-        if constexpr (conversionNeeded) {
-            add_constraint(pimpl_->lp_.get(), pimpl_->conversionData(row), toLpSolveConstraint(c), static_cast<REAL>(value));
-        } else {
-            add_constraint(pimpl_->lp_.get(), pimpl_->data_.get(), toLpSolveConstraint(c), static_cast<REAL>(value));
-        }
+        add_constraint(pimpl_->lp_.get(), pimpl_->conversionData(), toLpSolveConstraint(c), static_cast<REAL>(value));
     }
 
     // TODO: Implement this version of pushRow to improve performance.
     // void LP::pushRow(const std::vector<int> & ids, const Constraint c, const double value) {
-    //     add_constraintex(pimpl_->lp_.get(), ids.size(), pimpl_->data_.get(), ids.data(), toLpSolveConstraint(c), static_cast<REAL>(value));
+    //     add_constraintex(pimpl_->lp_.get(), ids.size(), pimpl_->conversionData(), ids.data(), toLpSolveConstraint(c), static_cast<REAL>(value));
     // }
 
     void LP::popRow() {

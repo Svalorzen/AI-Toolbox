@@ -635,6 +635,78 @@ namespace AIToolbox::POMDP {
         }
         return maxBound;
     }
+
+    /**
+     * @brief This function computes the best VEntry for the input belief from the input VLists.
+     *
+     * This function computes the best alphavector for the input belief. It
+     * assumes as input a list of VLists, one per observation. You can produce
+     * them with the Projecter class, for example.
+     *
+     * For each observation it will select the match with the best value, and
+     * use it to compute the output VEntry.
+     *
+     * The action is not used to perform computations here, but it is fed
+     * directly into the returned VEntry.
+     *
+     * @tparam ActionRow The type of the list of VLists.
+     * @param b The belief to compute the VEntry for.
+     * @param row The list of VLists, one per observation.
+     * @param a The action this Ventry stands for.
+     * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
+     *
+     * @return The best VEntry for the input belief.
+     */
+    template <typename ActionRow>
+    VEntry crossSumBestAtBelief(const Belief & b, const ActionRow & row, const size_t a, double * value = nullptr) {
+        const size_t O = row.size();
+        VEntry entry(b.size(), a, O);
+        double v = 0.0, tmp;
+
+        // We compute the crossSum between each best vector for the belief.
+        for ( size_t o = 0; o < O; ++o ) {
+            const VList & rowO = row[o];
+            auto bestMatch = findBestAtBelief(b, std::begin(rowO), std::end(rowO), &tmp);
+
+            entry.values += bestMatch->values;
+            v += tmp;
+
+            entry.observations[o] = bestMatch->observations[0];
+        }
+        if (value) *value = v;
+        return entry;
+    }
+
+    /**
+     * @brief This function computes the best VEntry for the input belief across all actions.
+     *
+     * This function needs the projections of the previous timestep's VLists in
+     * order to work. It will then compute the best VEntry for the input belief
+     * across all actions.
+     *
+     * @tparam Projections The type of the 2D array of VLists containing all the projections.
+     * @param b The belief to compute the VEntry for.
+     * @param projs The projections of the old VLists.
+     * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
+     *
+     * @return The best VEntry for the input belief.
+     */
+    template <typename Projections>
+    VEntry crossSumBestAtBelief(const Belief & b, const Projections & projs, double * value = nullptr) {
+        const size_t A = projs.size();
+        VEntry entry;
+
+        double bestValue = std::numeric_limits<double>::lowest(), tmp;
+        for ( size_t a = 0; a < A; ++a ) {
+            auto result = crossSumBestAtBelief(b, projs[a], a, &tmp);
+            if (tmp > bestValue) {
+                bestValue = tmp;
+                std::swap(entry, result);
+            }
+        }
+        if (value) *value = bestValue;
+        return entry;
+    }
 }
 
 #endif

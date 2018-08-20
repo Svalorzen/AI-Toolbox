@@ -106,9 +106,6 @@ namespace AIToolbox::POMDP {
              * incrementally, trying to reduce as much as possible the
              * linear programming solves required.
              *
-             * This function returns a tuple to be consistent with MDP
-             * solving methods, but it should always succeed.
-             *
              * @tparam M The type of POMDP model that needs to be solved.
              *
              * @param model The POMDP model that needs to be solved.
@@ -231,7 +228,7 @@ namespace AIToolbox::POMDP {
 
             // Here we don't have to do fancy merging since no cross-summing is involved
             for ( size_t a = 0; a < A; ++a )
-                std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
+                w.insert(std::end(w), std::make_move_iterator(std::begin(projs[a][0])), std::make_move_iterator(std::end(projs[a][0])));
 
             // We have them all, and we prune one final time to be sure we have
             // computed the parsimonious set of value functions.

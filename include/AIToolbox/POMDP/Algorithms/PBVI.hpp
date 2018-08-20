@@ -241,7 +241,7 @@ namespace AIToolbox::POMDP {
             w.reserve(finalWSize);
 
             for ( size_t a = 0; a < A; ++a )
-                std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
+                w.insert(std::end(w), std::make_move_iterator(std::begin(projs[a][0])), std::make_move_iterator(std::end(projs[a][0])));
 
             auto begin = std::begin(w), bound = begin, end = std::end(w);
             for ( const auto & belief : beliefs )
@@ -269,21 +269,9 @@ namespace AIToolbox::POMDP {
         VList result;
         result.reserve(bl.size());
 
-        for ( auto & b : bl ) {
-            MDP::Values v(S); v.fill(0.0);
-            VObs obs(O);
+        for ( const auto & b : bl )
+            result.emplace_back(crossSumBestAtBelief(b, projs, a));
 
-            // We compute the crossSum between each best vector for the belief.
-            for ( size_t o = 0; o < O; ++o ) {
-                const VList & projsO = projs[o];
-                auto bestMatch = findBestAtBelief(b, std::begin(projsO), std::end(projsO));
-
-                v += bestMatch->values;
-
-                obs[o] = bestMatch->observations[0];
-            }
-            result.emplace_back(std::move(v), a, std::move(obs));
-        }
         const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
         const auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
         const auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);

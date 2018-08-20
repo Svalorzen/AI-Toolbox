@@ -71,6 +71,8 @@ namespace AIToolbox::POMDP {
         VEntry() {}
         VEntry(MDP::Values v, size_t a, VObs o) :
                 values(std::move(v)), action(a), observations(std::move(o)) {}
+        VEntry(size_t S, size_t a, size_t O) :
+                values(S), action(a), observations(O) { values.fill(0.0); }
     };
     using VList         = std::vector<VEntry>;
     using ValueFunction = std::vector<VList>;

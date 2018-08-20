@@ -73,6 +73,16 @@ namespace AIToolbox {
             void setObjective(size_t n, bool maximize);
 
             /**
+             * @brief This function uses the currently set row as the objective.
+             *
+             * In addition it allows to specify whether the objective should be
+             * maximized or minimized.
+             *
+             * @param maximize Whether the variable should be maximized (or minimized).
+             */
+            void setObjective(bool maximize);
+
+            /**
              * @brief This function adds a constraint to the LP.
              *
              * This function adds the current contents of the public field

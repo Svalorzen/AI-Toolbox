@@ -99,6 +99,10 @@ namespace AIToolbox {
     /**
      * @brief This function compares two general vectors of equal size lexicographically.
      *
+     * Note that veccmp reports equality only if the elements are all exactly
+     * the same. You should not use this function to compare floating point
+     * numbers unless you know what you are doing.
+     *
      * @param lhs The left hand size of the comparison.
      * @param rhs The right hand size of the comparison.
      *
@@ -110,6 +114,48 @@ namespace AIToolbox {
         for (decltype(lhs.size()) i = 0; i < lhs.size(); ++i) {
             if (lhs[i] > rhs[i]) return 1;
             if (lhs[i] < rhs[i]) return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * @brief This function compares two general vectors of equal size lexicographically.
+     *
+     * Note that veccmpSmall considers two elements equal using the
+     * checkEqualSmall function.
+     *
+     * @param lhs The left hand size of the comparison.
+     * @param rhs The right hand size of the comparison.
+     *
+     * @return 1 if the lhs is greater than the rhs, 0 if they are equal, -1 otherwise.
+     */
+    template <typename V>
+    int veccmpSmall(const V & lhs, const V & rhs) {
+        assert(lhs.size() == rhs.size());
+        for (decltype(lhs.size()) i = 0; i < lhs.size(); ++i) {
+            if (checkEqualSmall(lhs[i], rhs[i])) continue;
+            return lhs[i] > rhs[i] ? 1 : -1;
+        }
+        return 0;
+    }
+
+    /**
+     * @brief This function compares two general vectors of equal size lexicographically.
+     *
+     * Note that veccmpSmall considers two elements equal using the
+     * checkEqualGeneral function.
+     *
+     * @param lhs The left hand size of the comparison.
+     * @param rhs The right hand size of the comparison.
+     *
+     * @return 1 if the lhs is greater than the rhs, 0 if they are equal, -1 otherwise.
+     */
+    template <typename V>
+    int veccmpGeneral(const V & lhs, const V & rhs) {
+        assert(lhs.size() == rhs.size());
+        for (decltype(lhs.size()) i = 0; i < lhs.size(); ++i) {
+            if (checkEqualGeneral(lhs[i], rhs[i])) continue;
+            return lhs[i] > rhs[i] ? 1 : -1;
         }
         return 0;
     }

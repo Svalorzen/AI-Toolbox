@@ -54,6 +54,7 @@ if (MAKE_POMDP)
         POMDP/Algorithms/AMDP.cpp
         POMDP/Algorithms/GapMin.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
+        POMDP/Algorithms/LinearSupport.cpp
         POMDP/Algorithms/PBVI.cpp
         POMDP/Algorithms/PERSEUS.cpp
         POMDP/Algorithms/BlindStrategies.cpp
@@ -93,7 +94,9 @@ if (MAKE_PYTHON AND MAKE_MDP)
     find_package(PythonLibs 2.7 REQUIRED)
     find_package(Boost 1.53 COMPONENTS python REQUIRED)
     # Remove junk at the end of the version that breaks requiring the interpreter for tests later.
-    STRING(REGEX REPLACE "[^0-9]+$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
+    # The idea here is to remove any stuff that comes after a non-number, non-dot character.
+    # This allows us to remove random strings at the end, but also things like "rc2" at the end.
+    STRING(REGEX REPLACE "[^0-9\.].*$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
     # Save version of python libs loaded to run tests later.
     set(PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING_STRIPPED} PARENT_SCOPE)
     include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
@@ -160,6 +163,7 @@ if (MAKE_PYTHON AND MAKE_MDP)
             Python/POMDP/Algorithms/GapMin.cpp
             Python/POMDP/Algorithms/Witness.cpp
             Python/POMDP/Algorithms/IncrementalPruning.cpp
+            Python/POMDP/Algorithms/LinearSupport.cpp
             Python/POMDP/Algorithms/QMDP.cpp
             Python/POMDP/Algorithms/RTBSS.cpp
             Python/POMDP/Algorithms/AMDP.cpp

@@ -116,6 +116,7 @@ Algorithms:
 - [rPOMCP](https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf)
 - [Real-Time Belief State Search (RTBSS)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf)
 - [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf)
+- [Linear Support](https://open.library.ubc.ca/media/stream/pdf/831/1.0098252/1)
 
 Policies:
 

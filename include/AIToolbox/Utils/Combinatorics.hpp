@@ -1,3 +1,6 @@
+#ifndef AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
+#define AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
+
 #include <AIToolbox/Utils/IndexMap.hpp>
 
 namespace AIToolbox {
@@ -48,102 +51,127 @@ namespace AIToolbox {
     unsigned nonZeroBallsBins(unsigned balls, unsigned bins);
 
     /**
-     * @brief This class enumerates over all possible subsets of a container.
-     *
-     * This class iterates over all possible subsets of elements in a
-     * container. For each subset, it behaves as an iterable range over the
-     * elements of the current subset.
-     *
-     * Once advanced, all previous iterators are invalidated.
-     *
-     * @tparam Container The type of the container to be iterated over.
+     * @brief This class enumerates all possible vectors of finite subsets over N elements.
      */
-    template <typename Container>
+    template <typename Index>
     class SubsetEnumerator {
         public:
-            using value_type = typename Container::value_type;
-            using IdsStorage = std::vector<typename Container::size_type>;
-
-            using iterator       = IndexMapIterator<decltype(std::declval<IdsStorage>().begin()),  Container>;
-            using const_iterator = IndexMapIterator<decltype(std::declval<IdsStorage>().cbegin()), const Container>;
+            using IdsStorage = std::vector<Index>;
 
             /**
              * @brief Default constructor.
              *
-             * @param items The items container to be iterated on.
-             * @param elementsN The number of elements that the subset should have (<= items.size()).
+             * @param elementsN The number of elements that the subset should have (<= limit);
+             * @param limit The upper bound for each element in the subset (excluded).
              */
-            SubsetEnumerator(Container & items, size_t elementsN) :
-                    ids_(elementsN), items_(items)
+            SubsetEnumerator(size_t elementsN, Index lowerBound, Index upperBound) :
+                    lowerBound_(lowerBound), upperBound_(upperBound), ids_(elementsN)
             {
-                std::iota(std::begin(ids_), std::end(ids_), 0);
+                assert(elementsN >= 0);
+                if constexpr (std::is_integral_v<Index>)
+                    assert(upperBound_ - lowerBound_ >= elementsN);
+                else
+                    assert(std::distance(lowerBound_, upperBound_) >= elementsN);
+                reset();
             }
 
             /**
              * @brief This function advances the SubsetEnumerator to the next possible subset.
+             *
+             * This function iterates first on the last elements of the subset
+             * vector, and iterates over the previous ones once it reaches the
+             * end. For example, for a subset of length 3 over 6 elements the
+             * iteration will look like this:
+             *
+             * 0, 1, 2
+             * 0, 1, 3
+             * 0, 1, 4
+             * 0, 1, 5
+             * 0, 2, 3
+             * 0, 2, 4
+             * 0, 2, 5
+             * 1, 2, 3
+             * etc.
+             *
+             * The number returned by this function represents the id of the
+             * leftmost (lowest) element that has been changed by the advance.
+             * This may be useful in case you need to do some work for the
+             * elements that changed in the subset, and want to lose as little
+             * time as possible.
+             *
+             * @return The id of the leftmost element changed by the advance.
              */
-            void advance() {
+            auto advance() {
                 auto current = ids_.size() - 1;
-                auto limit = items_.size() - 1;
-                while (current && ids_[current] == limit) --current, --limit;
-                limit = ++ids_[current];
-                while (++current != ids_.size()) ids_[current] = ++limit;
+                auto ub = upperBound_ - 1;
+                while (current && ids_[current] == ub) --current, --ub;
+
+                auto lowest = current; // Last element we need to change.
+                ub = ++ids_[current];
+
+                while (++current != ids_.size()) ids_[current] = ++ub;
+
+                return lowest;
             }
 
             /**
              * @brief This function returns whether there are more subsets to be enumerated.
              */
-            bool isValid() {
-                return ids_.back() < items_.size();
+            bool isValid() const {
+                return ids_.back() < upperBound_;
+            }
+
+            /**
+             * @brief This function resets the enumerator to the valid beginning.
+             */
+            void reset() {
+                std::iota(std::begin(ids_), std::end(ids_), lowerBound_);
             }
 
             /**
              * @brief This function returns the number of subsets enumerated over.
              */
-            auto subsetNumber() const { return nChooseK(items_.size(), ids_.size()); }
-
-            /**
-             * @brief This function returns an iterator to the beginning of the current subset.
-             */
-            auto begin() { return iterator(ids_.begin(), items_); }
-
-            /**
-             * @brief This function returns a const_iterator to the beginning of the current subset.
-             */
-            auto begin() const { return cbegin(); }
-
-            /**
-             * @brief This function returns a const_iterator to the beginning of the current subset.
-             */
-            auto cbegin() const { return const_iterator(ids_.cbegin(), items_); }
-
-            /**
-             * @brief This function returns an iterator to the end of the current subset.
-             */
-            auto end() { return iterator(ids_.end(), items_); };
-
-            /**
-             * @brief This function returns a const_iterator to the end of the current subset.
-             */
-            auto end() const { return cend(); }
-
-            /**
-             * @brief This function returns a const_iterator to the end of the current subset.
-             */
-            auto cend() const { return const_iterator(ids_.cend(), items_); }
+            auto subsetsSize() const {
+                if constexpr (std::is_integral_v<Index>)
+                    return nChooseK(upperBound_ - lowerBound_, ids_.size());
+                else
+                    return nChooseK(std::distance(lowerBound_, upperBound_), ids_.size());
+            }
 
             /**
              * @brief This function returns the size of the range covered.
              */
             auto size() const { return ids_.size(); }
 
+
             /**
-             * @brief This function returns the ids of the current subset.
+             * @brief This operator returns the current combination.
+             *
+             * This operator can be called only if isValid() is true.
+             * Otherwise behavior is undefined.
+             *
+             * @return The current combination.
              */
-            const IdsStorage & currentSubset() const { return ids_; }
+            const IdsStorage& operator*() const {
+                return ids_;
+            }
+
+            /**
+             * @brief This operator returns a pointer to the current combination.
+             *
+             * This operator can be called only if isValid() is true.
+             * Otherwise behavior is undefined.
+             *
+             * @return The current combination.
+             */
+            const IdsStorage* operator->() const {
+                return &ids_;
+            }
 
         private:
+            Index lowerBound_, upperBound_;
             IdsStorage ids_;
-            Container & items_;
     };
 }
+
+#endif

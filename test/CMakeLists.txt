@@ -37,7 +37,10 @@ if (MAKE_MDP)
     find_package(Eigen3 3.2.92 REQUIRED)
     include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
-    AddTestGlobal(Utils)
+    AddTestGlobal(UtilsCore)
+    AddTestGlobal(UtilsProbability)
+    AddTestGlobal(UtilsPrune)
+    AddTestGlobal(UtilsVertexEnumeration)
 
     AddTest(Bandit GreedyPolicy)
     AddTest(Bandit ThompsonSamplingPolicy)
@@ -84,7 +87,7 @@ if (MAKE_MDP)
     endif()
 
     add_custom_command(
-        TARGET Global_UtilsTests
+        TARGET Global_UtilsCoreTests
         POST_BUILD
         COMMAND rsync
         ARGS -r
@@ -123,6 +126,7 @@ if (MAKE_POMDP)
 
     AddTest(POMDP AMDP)
     AddTest(POMDP IncrementalPruning)
+    AddTest(POMDP LinearSupport)
     AddTest(POMDP PBVI)
     AddTest(POMDP POMCP)
     AddTest(POMDP BlindStrategies)

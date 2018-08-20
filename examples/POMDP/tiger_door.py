@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import time
-import MDP
-import POMDP
+from AIToolbox import MDP, POMDP
 
 # RENDERING
 

@@ -195,10 +195,12 @@ namespace AIToolbox {
     /**
      * @brief This function projects the input vector to a valid probability space.
      *
-     * This function solves an LP to find the closest valid ProbabilityVector
-     * to the input vector. The distance measure used here is the sum of the
-     * absolute values of the element-wise difference between the input and the
-     * output.
+     * This function finds the closest valid ProbabilityVector to the input
+     * vector. The distance measure used here is the sum of the absolute values
+     * of the element-wise difference between the input and the output.
+     *
+     * When it has a choice, it tries to preserve the "shape" of the input and
+     * not arbitrarily change elements around.
      *
      * @param v The vector to project to a valid probability space.
      *

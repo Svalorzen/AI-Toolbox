@@ -334,7 +334,7 @@ namespace AIToolbox::POMDP {
                     AI_LOGGER(AI_SEVERITY_DEBUG, "LB: - Belief: " << b.transpose());
                 // If we found something interesting for the lower bound, we
                 // add it to the beliefs we already had, and we rerun PBVI.
-                std::move(std::begin(newLbBeliefs), std::end(newLbBeliefs), std::back_inserter(lbBeliefs));
+                lbBeliefs.insert(std::end(lbBeliefs), std::make_move_iterator(std::begin(newLbBeliefs)), std::make_move_iterator(std::end(newLbBeliefs)));
 
                 // Then we remove all beliefs which don't actively support any
                 // alphaVectors.
