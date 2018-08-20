@@ -93,7 +93,9 @@ if (MAKE_PYTHON AND MAKE_MDP)
     find_package(PythonLibs 2.7 REQUIRED)
     find_package(Boost 1.53 COMPONENTS python REQUIRED)
     # Remove junk at the end of the version that breaks requiring the interpreter for tests later.
-    STRING(REGEX REPLACE "[^0-9]+$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
+    # The idea here is to remove any stuff that comes after a non-number, non-dot character.
+    # This allows us to remove random strings at the end, but also things like "rc2" at the end.
+    STRING(REGEX REPLACE "[^0-9\.].*$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
     # Save version of python libs loaded to run tests later.
     set(PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING_STRIPPED} PARENT_SCOPE)
     include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
