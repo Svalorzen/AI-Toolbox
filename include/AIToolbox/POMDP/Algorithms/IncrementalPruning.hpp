@@ -106,9 +106,6 @@ namespace AIToolbox::POMDP {
              * incrementally, trying to reduce as much as possible the
              * linear programming solves required.
              *
-             * This function returns a tuple to be consistent with MDP
-             * solving methods, but it should always succeed.
-             *
              * @tparam M The type of POMDP model that needs to be solved.
              *
              * @param model The POMDP model that needs to be solved.
