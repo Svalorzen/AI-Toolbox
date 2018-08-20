@@ -221,7 +221,7 @@ namespace AIToolbox::POMDP {
 
             // We put together all VEntries we found.
             for ( size_t a = 0; a < A; ++a )
-                std::move(std::begin(U[a]), std::end(U[a]), std::back_inserter(w));
+                w.insert(std::end(w), std::make_move_iterator(std::begin(U[a])), std::make_move_iterator(std::end(U[a])));
 
             // We have them all, and we prune one final time to be sure we have
             // computed the parsimonious set of value functions.

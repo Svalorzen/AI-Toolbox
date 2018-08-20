@@ -241,7 +241,7 @@ namespace AIToolbox::POMDP {
             w.reserve(finalWSize);
 
             for ( size_t a = 0; a < A; ++a )
-                std::move(std::begin(projs[a][0]), std::end(projs[a][0]), std::back_inserter(w));
+                w.insert(std::end(w), std::make_move_iterator(std::begin(projs[a][0])), std::make_move_iterator(std::end(projs[a][0])));
 
             auto begin = std::begin(w), bound = begin, end = std::end(w);
             for ( const auto & belief : beliefs )
