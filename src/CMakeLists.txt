@@ -163,6 +163,7 @@ if (MAKE_PYTHON AND MAKE_MDP)
             Python/POMDP/Algorithms/GapMin.cpp
             Python/POMDP/Algorithms/Witness.cpp
             Python/POMDP/Algorithms/IncrementalPruning.cpp
+            Python/POMDP/Algorithms/LinearSupport.cpp
             Python/POMDP/Algorithms/QMDP.cpp
             Python/POMDP/Algorithms/RTBSS.cpp
             Python/POMDP/Algorithms/AMDP.cpp

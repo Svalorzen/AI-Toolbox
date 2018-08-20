@@ -12,6 +12,7 @@ void exportPOMDPSparseModel();
 void exportPOMDPPOMCP();
 void exportPOMDPWitness();
 void exportPOMDPIncrementalPruning();
+void exportPOMDPLinearSupport();
 void exportPOMDPQMDP();
 void exportPOMDPRTBSS();
 void exportPOMDPAMDP();
@@ -43,6 +44,7 @@ void exportPOMDP() {
     exportPOMDPPOMCP();
     exportPOMDPWitness();
     exportPOMDPIncrementalPruning();
+    exportPOMDPLinearSupport();
     exportPOMDPQMDP();
     exportPOMDPRTBSS();
     exportPOMDPAMDP();
