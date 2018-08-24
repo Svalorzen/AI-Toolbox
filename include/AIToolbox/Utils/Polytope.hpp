@@ -1,8 +1,10 @@
-#ifndef AI_TOOLBOX_UTILS_VERTEX_ENUMERATION_HEADER_FILE
-#define AI_TOOLBOX_UTILS_VERTEX_ENUMERATION_HEADER_FILE
+#ifndef AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE
+#define AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE
 
 #include <AIToolbox/Utils/Combinatorics.hpp>
 #include <Eigen/Dense>
+
+#include <AIToolbox/LP.hpp>
 
 namespace AIToolbox {
     /**
@@ -116,6 +118,80 @@ namespace AIToolbox {
             }
         }
         return vertices;
+    }
+
+    /**
+     * @brief This function computes the optimistic value of a point given known vertices and values.
+     *
+     * This function computes an LP to determine the best possible value of a
+     * point given all known best vertices around it.
+     *
+     * This function is needed in multi-objective settings (rather than
+     * POMDPs), since the step where we compute the optimal value for a given
+     * point is extremely expensive (it requires solving a full MDP). Thus
+     * linear programming is used in order to determine an optimistic bound
+     * when deciding the next point to extract from the queue during the linear
+     * support process.
+     *
+     * @param b The point where we want to compute the best possible value.
+     * @param bvBegin The start of the range of point-value pairs representing all surrounding vertices.
+     * @param bvEnd The end of that same range.
+     *
+     * @return The best possible value that the input point can have given the known vertices.
+     */
+    template <typename It>
+    double computeOptimisticValue(const Vector & p, It pvBegin, It pvEnd) {
+        const size_t vertexNumber = std::distance(pvBegin, pvEnd);
+        if (vertexNumber == 0) return 0.0;
+        const size_t S = p.size();
+
+        LP lp(S);
+
+        /*
+         * With this LP we are looking for an optimistic hyperplane that can
+         * tightly fit all corners that we already have, and maximize the value
+         * at the input point.
+         *
+         * Our constraints are of the form
+         *
+         * vertex[0][0]) * h0 + vertex[0][1]) * h1 + ... <= vertex[0].currentValue
+         * vertex[1][0]) * h0 + vertex[1][1]) * h1 + ... <= vertex[1].currentValue
+         * ...
+         *
+         * Since we are looking for an optimistic hyperplane, all variables are
+         * unbounded since the hyperplane may need to go negative at some
+         * states.
+         *
+         * Finally, our constraint is a row to maximize:
+         *
+         * b * v0 + b * v1 + ...
+         *
+         * Which means we try to maximize the value of the input point with the
+         * newly found hyperplane.
+         */
+
+        // Set objective to maximize
+        lp.row = p;
+        lp.setObjective(true);
+
+        // Set unconstrained to all variables
+        for (size_t s = 0; s < S; ++s)
+            lp.setUnbounded(s);
+
+        // Set constraints for all input belief points and current values.
+        for (auto it = pvBegin; it != pvEnd; ++it) {
+            lp.row = it->first;
+            lp.pushRow(LP::Constraint::LessEqual, it->second);
+        }
+
+        double retval;
+        // Note that we don't care about the optimistic alphavector, so we
+        // discard it. We check that everything went fine though, in theory
+        // there shouldn't be any problems here.
+        auto solution = lp.solve(0, &retval);
+        assert(solution);
+
+        return retval;
     }
 }
 

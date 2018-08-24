@@ -1,11 +1,11 @@
-#define BOOST_TEST_MODULE UtilsVertexEnumeration
+#define BOOST_TEST_MODULE UtilsPolytope
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Utils/VertexEnumeration.hpp>
+#include <AIToolbox/Utils/Polytope.hpp>
 
 BOOST_AUTO_TEST_CASE( naive_vertex_enumeration ) {
     using namespace AIToolbox;
@@ -52,4 +52,23 @@ BOOST_AUTO_TEST_CASE( naive_vertex_enumeration ) {
         }
         BOOST_CHECK(found);
     }
+}
+
+BOOST_AUTO_TEST_CASE( optimistic_value_discovery ) {
+    using namespace AIToolbox;
+
+    std::vector<std::pair<Vector, double>> beliefs = {
+        {(Vector(3) << 1.0, 0.0, 0.0).finished(), 10.0},
+        {(Vector(3) << 0.0, 1.0, 0.0).finished(), 5.0},
+        {(Vector(3) << 0.0, 0.0, 1.0).finished(), -10.0},
+    };
+
+    Vector b(3);
+    b.fill(1.0/3.0);
+
+    constexpr double solution = (10.0 + 5.0 - 10.0) / 3.0;
+
+    const auto v = computeOptimisticValue(b, std::begin(beliefs), std::end(beliefs));
+
+    BOOST_CHECK(checkEqualGeneral(v, solution));
 }

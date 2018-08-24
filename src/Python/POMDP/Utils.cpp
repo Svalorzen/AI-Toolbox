@@ -7,15 +7,13 @@
 
 #include <boost/python.hpp>
 
-// Temporary until we find a place for these functions
-#include <AIToolbox/POMDP/Algorithms/LinearSupport.hpp>
-#include <AIToolbox/Utils/VertexEnumeration.hpp>
+#include <AIToolbox/Utils/Polytope.hpp>
 #include "../Utils.hpp"
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 /// Wrapper for Python of the same named function
 double computeOptimisticValueWrapper(const AIToolbox::Vector & p, const std::vector<std::pair<AIToolbox::Vector, double>> & pvPairs) {
-    return AIToolbox::POMDP::computeOptimisticValue(p, std::begin(pvPairs), std::end(pvPairs));
+    return AIToolbox::computeOptimisticValue(p, std::begin(pvPairs), std::end(pvPairs));
 }
 /// Wrapper for Python of the same named function
 std::vector<std::pair<AIToolbox::Vector, double>> findVerticesNaiveWrapper(const std::vector<AIToolbox::Vector> & tests, const std::vector<AIToolbox::Vector> & planes) {
