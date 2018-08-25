@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_MDP_MCTS_HEADER_FILE
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
 

@@ -6,6 +6,7 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>

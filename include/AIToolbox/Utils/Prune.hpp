@@ -5,6 +5,7 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/TypeTraits.hpp>
 
 namespace AIToolbox {
     /**

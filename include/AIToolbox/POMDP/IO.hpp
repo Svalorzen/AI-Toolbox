@@ -7,6 +7,7 @@
 #include <AIToolbox/MDP/IO.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 #include <AIToolbox/POMDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/Policies/Policy.hpp>

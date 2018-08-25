@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 
 namespace AIToolbox::MDP {
     /**

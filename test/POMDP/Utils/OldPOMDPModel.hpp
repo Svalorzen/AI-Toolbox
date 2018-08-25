@@ -8,7 +8,9 @@
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.

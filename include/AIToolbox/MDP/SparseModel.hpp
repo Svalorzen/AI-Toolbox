@@ -4,6 +4,7 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 
 #include <AIToolbox/Utils/Probability.hpp>
 

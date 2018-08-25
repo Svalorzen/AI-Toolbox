@@ -8,6 +8,7 @@
 
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 
 namespace AIToolbox::POMDP {
     /**

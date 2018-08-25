@@ -8,6 +8,7 @@
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 
 namespace AIToolbox::MDP {
     /**

@@ -8,6 +8,7 @@
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 
 namespace AIToolbox::POMDP {
     template <typename M>
