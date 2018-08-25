@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 
-set(GlobalDependencies
+set(GlobalFileDependencies
     ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Combinatorics.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Probability.cpp
     ${PROJECT_SOURCE_DIR}/src/LP/LpSolveWrapper.cpp
 )
+set(GlobalDependencies      ${LPSOLVE_LIBRARIES})
 set(BanditDependencies      AIToolboxMDP)
 set(MDPDependencies         AIToolboxMDP)
 set(POMDPDependencies       AIToolboxMDP AIToolboxPOMDP)
@@ -13,8 +14,8 @@ set(FactoredDependencies    AIToolboxMDP AIToolboxFMDP)
 
 function (AddTestGlobal name)
     set(exename Global_${name})
-    add_executable(${exename}Tests ${name}Tests.cpp ${GlobalDependencies})
-    target_link_libraries(${exename}Tests ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
+    add_executable(${exename}Tests ${name}Tests.cpp ${GlobalFileDependencies})
+    target_link_libraries(${exename}Tests ${GlobalDependencies} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${ARGN})
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND $<TARGET_FILE:${exename}Tests>)
     set_target_properties(${exename}Tests PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 endfunction (AddTestGlobal)
@@ -42,7 +43,7 @@ if (MAKE_MDP)
     AddTestGlobal(UtilsCore)
     AddTestGlobal(UtilsProbability)
     AddTestGlobal(UtilsPrune)
-    AddTestGlobal(UtilsPolytope ${LPSOLVE_LIBRARIES})
+    AddTestGlobal(UtilsPolytope )
 
     AddTest(Bandit GreedyPolicy)
     AddTest(Bandit ThompsonSamplingPolicy)

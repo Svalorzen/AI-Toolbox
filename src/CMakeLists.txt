@@ -6,6 +6,9 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 find_package(Eigen3 3.2.92 REQUIRED)
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
+find_package(LpSolve REQUIRED)
+include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
+
 if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
@@ -40,11 +43,6 @@ if (MAKE_MDP)
         MDP/Policies/PGAAPPPolicy.cpp
     )
     set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
-endif()
-
-if (MAKE_FMDP OR MAKE_POMDP)
-    find_package(LpSolve REQUIRED)
-    include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
 endif()
 
 if (MAKE_POMDP)
