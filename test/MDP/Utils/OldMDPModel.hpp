@@ -142,7 +142,7 @@ class OldMDPModel {
          * @tparam M The type of the other model.
          * @param model The model that needs to be copied.
          */
-        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model<M>::value>>
+        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model_v<M>>>
         OldMDPModel(const M& model);
 
         /**

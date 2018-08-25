@@ -11,7 +11,7 @@
 #include <fstream>
 
 BOOST_AUTO_TEST_CASE( eigen_model ) {
-    BOOST_CHECK(AIToolbox::MDP::is_model_eigen<AIToolbox::MDP::SparseModel>::value);
+    BOOST_CHECK(AIToolbox::MDP::is_model_eigen_v<AIToolbox::MDP::SparseModel>);
 }
 
 BOOST_AUTO_TEST_CASE( construction ) {

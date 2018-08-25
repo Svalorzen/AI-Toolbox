@@ -5,6 +5,7 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
@@ -86,7 +87,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A tuple containing a dense MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<MDP::Model, Discretizer> discretizeDense(const M& model);
 
             /**
@@ -97,7 +98,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A tuple containing a sparse MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<MDP::SparseModel, Discretizer> discretizeSparse(const M& model);
 
         private:

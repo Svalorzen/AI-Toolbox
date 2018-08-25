@@ -43,6 +43,8 @@ namespace AIToolbox::MDP {
         public:
             enum { value = test<M>(0) };
     };
+    template <typename M>
+    inline constexpr bool is_generative_model_v = is_generative_model<M>::value;
 
     /**
      * @brief This struct represents the required interface for a full MDP.
@@ -79,8 +81,10 @@ namespace AIToolbox::MDP {
             { return false; }
 
         public:
-            enum { value = test<M>(0) && is_generative_model<M>::value };
+            enum { value = test<M>(0) && is_generative_model_v<M> };
     };
+    template <typename M>
+    inline constexpr bool is_model_v = is_model<M>::value;
 
     /**
      * @brief This struct represents the required interface that allows MDP algorithms to leverage Eigen.
@@ -139,11 +143,13 @@ namespace AIToolbox::MDP {
 
         public:
             enum {
-                value = is_model<M>::value && test<M>(0) &&
-                        std::is_base_of<Eigen::EigenBase<F>, F>::value &&
-                        std::is_base_of<Eigen::EigenBase<R>, R>::value
+                value = is_model_v<M> && test<M>(0) &&
+                        std::is_base_of_v<Eigen::EigenBase<F>, F> &&
+                        std::is_base_of_v<Eigen::EigenBase<R>, R>
             };
     };
+    template <typename M>
+    inline constexpr bool is_model_eigen_v = is_model_eigen<M>::value;
 
     /**
      * @brief This struct verifies that a class satisfies the is_model interface but not the is_model_eigen interface.
@@ -153,8 +159,10 @@ namespace AIToolbox::MDP {
     template <typename M>
     struct is_model_not_eigen {
         public:
-            enum { value = is_model<M>::value && !is_model_eigen<M>::value };
+            enum { value = is_model_v<M> && !is_model_eigen_v<M> };
     };
+    template <typename M>
+    inline constexpr bool is_model_not_eigen_v = is_model_not_eigen<M>::value;
 
     /**
      * @brief This struct represents the required interface for an experience recorder.
@@ -194,6 +202,8 @@ namespace AIToolbox::MDP {
         public:
             enum { value = test<M>(0) };
     };
+    template <typename M>
+    inline constexpr bool is_experience_v = is_experience<M>::value;
 }
 
 #endif

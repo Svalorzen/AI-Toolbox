@@ -5,7 +5,7 @@
 #include <lpsolve/lp_lib.h>
 
 namespace AIToolbox {
-    constexpr bool conversionNeeded = !std::is_same<REAL, double>::value;
+    constexpr bool conversionNeeded = !std::is_same_v<REAL, double>;
 
     template <typename Impl, bool realConversionNeeded>
     struct ConversionArray {

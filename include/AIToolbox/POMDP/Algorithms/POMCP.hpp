@@ -59,7 +59,7 @@ namespace AIToolbox::POMDP {
      */
     template <typename M>
     class POMCP {
-        static_assert(is_generative_model<M>::value, "This class only works for generative POMDP models!");
+        static_assert(is_generative_model_v<M>, "This class only works for generative POMDP models!");
 
         public:
             using SampleBelief = std::vector<size_t>;

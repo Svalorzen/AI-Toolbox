@@ -27,7 +27,7 @@ namespace AIToolbox::POMDP {
     using ActionNodes = std::vector<ActionNode<UseEntropy>>;
 
     template <bool UseEntropy>
-    struct BeliefParticle : public std::conditional<UseEntropy, Impl::POMDP::BeliefParticleEntropyAddon, Impl::POMDP::EmptyStruct>::type {
+    struct BeliefParticle : public std::conditional_t<UseEntropy, Impl::POMDP::BeliefParticleEntropyAddon, Impl::POMDP::EmptyStruct> {
         unsigned N = 0;             ///< Number of particles for this particular type (state)
     };
 
@@ -46,7 +46,7 @@ namespace AIToolbox::POMDP {
      * @brief This is a belief node of the rPOMCP tree.
      */
     template <bool UseEntropy>
-    class BeliefNode : public std::conditional<UseEntropy, Impl::POMDP::EmptyStruct, Impl::POMDP::BeliefNodeNoEntropyAddon>::type {
+    class BeliefNode : public std::conditional_t<UseEntropy, Impl::POMDP::EmptyStruct, Impl::POMDP::BeliefNodeNoEntropyAddon> {
         public:
             BeliefNode();
 

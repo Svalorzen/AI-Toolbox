@@ -5,6 +5,7 @@
 
 #include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/BeliefGenerator.hpp>
@@ -121,7 +122,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<double, ValueFunction> operator()(const M & model, double minReward);
 
         private:

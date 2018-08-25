@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_MDP_DYNA2_HEADER_FILE
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Algorithms/SARSAL.hpp>
 #include <AIToolbox/MDP/Policies/RandomPolicy.hpp>
 
@@ -26,7 +27,7 @@ namespace AIToolbox::MDP {
      */
     template <typename M>
     class Dyna2 {
-        static_assert(is_generative_model<M>::value, "This class only works for generative MDP models!");
+        static_assert(is_generative_model_v<M>, "This class only works for generative MDP models!");
 
         public:
             /**

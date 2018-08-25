@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_POMDP_PROJECTER_HEADER_FILE
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox::POMDP {
@@ -10,7 +11,7 @@ namespace AIToolbox::POMDP {
      */
     template <typename M>
     class Projecter {
-        static_assert(is_model<M>::value, "This class only works for POMDP models!");
+        static_assert(is_model_v<M>, "This class only works for POMDP models!");
 
         public:
             using ProjectionsTable          = boost::multi_array<VList, 2>;
@@ -110,7 +111,7 @@ namespace AIToolbox::POMDP {
                 // For each value function in the previous timestep, we compute the new value
                 // if we performed action a and obtained observation o.
                 // vproj_{a,o}[s] = R(s,a) / |O| + discount * sum_{s'} ( T(s,a,s') * O(s',a,o) * v_{t-1}(s') )
-                if constexpr(is_model_eigen<M>::value) {
+                if constexpr(is_model_eigen_v<M>) {
                     vproj = model_.getTransitionFunction(a) * (v.cwiseProduct(model_.getObservationFunction(a).col(o)));
                 } else {
                     vproj.fill(0.0);
@@ -129,7 +130,7 @@ namespace AIToolbox::POMDP {
     template <typename M>
     void Projecter<M>::computeImmediateRewards() {
         immediateRewards_ = [&]{
-            if constexpr(MDP::is_model_eigen<M>::value)
+            if constexpr(MDP::is_model_eigen_v<M>)
                 return model_.getRewardFunction().transpose();
             else
                 return MDP::computeImmediateRewards(model_).transpose();

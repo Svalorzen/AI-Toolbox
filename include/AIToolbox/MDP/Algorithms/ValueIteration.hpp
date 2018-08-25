@@ -3,6 +3,7 @@
 
 #include <AIToolbox/Impl/Logging.hpp>
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 
@@ -58,7 +59,7 @@ namespace AIToolbox::MDP {
              *         ValueFunction, the ValueFunction and the QFunction for
              *         the Model.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<double, ValueFunction, QFunction> operator()(const M & m);
 
             /**
@@ -147,7 +148,7 @@ namespace AIToolbox::MDP {
         }
 
         const auto & ir = [&]{
-            if constexpr (is_model_eigen<M>::value) return model.getRewardFunction();
+            if constexpr (is_model_eigen_v<M>) return model.getRewardFunction();
             else return computeImmediateRewards(model);
         }();
 

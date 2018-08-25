@@ -16,7 +16,7 @@ namespace AIToolbox::POMDP {
      */
     template <typename WitnessLP>
     class Pruner {
-        static_assert(is_witness_lp<WitnessLP>::value, "This class only works for linear programming witness classes!");
+        static_assert(is_witness_lp_v<WitnessLP>, "This class only works for linear programming witness classes!");
 
         public:
             Pruner(size_t S);

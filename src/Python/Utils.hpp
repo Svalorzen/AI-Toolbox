@@ -32,7 +32,7 @@ struct TupleToPython {
     }
 
     static boost::python::tuple boostConvert(const T & t) {
-        return boostConvertImpl(t, typename generator<std::tuple_size<T>::value>::type());
+        return boostConvertImpl(t, typename generator<std::tuple_size_v<T>>::type());
     }
 
     static PyObject* convert(const T& t) {
@@ -67,7 +67,7 @@ struct TupleFromPython {
     template <size_t Id, bool = true>
     struct ExtractPythonTuple {
         void operator()(T & t, PyObject * tuple) {
-            std::get<Id>(t) = boost::python::extract<typename std::tuple_element<Id, T>::type>(PyTuple_GetItem(tuple, Id));
+            std::get<Id>(t) = boost::python::extract<std::tuple_element_t<Id, T>>(PyTuple_GetItem(tuple, Id));
             ExtractPythonTuple<Id - 1>()(t, tuple);
         }
     };
@@ -75,7 +75,7 @@ struct TupleFromPython {
     template <bool dummyForSpecialization>
     struct ExtractPythonTuple<0, dummyForSpecialization> {
         void operator()(T & t, PyObject * tuple) {
-            std::get<0>(t) = boost::python::extract<typename std::tuple_element<0, T>::type>(PyTuple_GetItem(tuple, 0));
+            std::get<0>(t) = boost::python::extract<std::tuple_element_t<0, T>>(PyTuple_GetItem(tuple, 0));
         }
     };
 
@@ -86,7 +86,7 @@ struct TupleFromPython {
         T& t = *(new (storage) T());
 
         // Copy item by item the tuple
-        ExtractPythonTuple<std::tuple_size<T>::value - 1>()(t, tuple);
+        ExtractPythonTuple<std::tuple_size_v<T> - 1>()(t, tuple);
 
         // Stash the memory chunk pointer for later use by boost.python
         data->convertible = storage;
@@ -111,8 +111,8 @@ struct PairFromPython {
         T& t = *(new (storage) T());
 
         // Copy the pair in
-        t.first  = boost::python::extract<typename std::tuple_element<0, T>::type>(PyTuple_GetItem(tuple, 0));
-        t.second = boost::python::extract<typename std::tuple_element<1, T>::type>(PyTuple_GetItem(tuple, 1));
+        t.first  = boost::python::extract<std::tuple_element_t<0, T>>(PyTuple_GetItem(tuple, 0));
+        t.second = boost::python::extract<std::tuple_element_t<1, T>>(PyTuple_GetItem(tuple, 1));
 
         // Stash the memory chunk pointer for later use by boost.python
         data->convertible = storage;

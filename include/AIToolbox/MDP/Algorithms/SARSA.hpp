@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox::MDP {
@@ -73,7 +74,7 @@ namespace AIToolbox::MDP {
              * @param model The MDP model that SARSA will use as a base.
              * @param alpha The learning rate of the SARSA method.
              */
-            template <typename M, typename = std::enable_if_t<is_generative_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_generative_model_v<M>>>
             SARSA(const M& model, double alpha = 0.1);
 
             /**

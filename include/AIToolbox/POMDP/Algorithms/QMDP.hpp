@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_POMDP_QMDP_HEADER_FILE
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
@@ -69,7 +70,7 @@ namespace AIToolbox::POMDP {
              *         ValueFunction, the computed ValueFunction and the
              *         equivalent MDP::QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<double, ValueFunction, MDP::QFunction> operator()(const M & m);
 
             /**

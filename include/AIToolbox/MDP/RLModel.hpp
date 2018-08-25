@@ -54,7 +54,7 @@ namespace AIToolbox::MDP {
      */
     template <typename E>
     class RLModel {
-        static_assert(is_experience<E>::value, "This class only works for MDP experiences!");
+        static_assert(is_experience_v<E>, "This class only works for MDP experiences!");
 
         public:
             using TransitionTable   = Matrix3D;

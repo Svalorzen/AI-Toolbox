@@ -6,6 +6,7 @@
 
 #include <AIToolbox/Impl/Logging.hpp>
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
@@ -25,7 +26,7 @@ namespace AIToolbox::MDP {
      */
     template <typename M>
     class PolicyEvaluation {
-        static_assert(is_model<M>::value, "This class only works for MDP models!");
+        static_assert(is_model_v<M>, "This class only works for MDP models!");
 
         public:
             /**
@@ -142,7 +143,7 @@ namespace AIToolbox::MDP {
         A = model_.getA();
 
         // Only compute the immediate rewards if we need them.
-        if constexpr (!is_model_eigen<M>::value)
+        if constexpr (!is_model_eigen_v<M>)
             immediateRewards_ = computeImmediateRewards(m);
     }
 
@@ -181,7 +182,7 @@ namespace AIToolbox::MDP {
             v1_ *= model_.getDiscount();
             // We use the implicit reward function if it is available,
             // otherwise we use the one we computed beforehand.
-            if constexpr(is_model_eigen<M>::value)
+            if constexpr(is_model_eigen_v<M>)
                 q = computeQFunction(model_, v1_, model_.getRewardFunction());
             else
                 q = computeQFunction(model_, v1_, immediateRewards_);

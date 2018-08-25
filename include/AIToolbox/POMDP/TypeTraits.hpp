@@ -40,8 +40,10 @@ namespace AIToolbox::POMDP {
             { return false; }
 
         public:
-            enum { value = test<M>(0) && MDP::is_generative_model<M>::value };
+            enum { value = test<M>(0) && MDP::is_generative_model_v<M> };
     };
+    template <typename M>
+    inline constexpr bool is_generative_model_v = is_generative_model<M>::value;
 
     /**
      * @brief This struct represents the required interface for a POMDP Model.
@@ -80,8 +82,10 @@ namespace AIToolbox::POMDP {
             { return false; }
 
         public:
-            enum { value = test<T>(0) && is_generative_model<T>::value && MDP::is_model<T>::value };
+            enum { value = test<T>(0) && is_generative_model_v<T> && MDP::is_model_v<T> };
     };
+    template <typename M>
+    inline constexpr bool is_model_v = is_model<M>::value;
 
     /**
      * @brief This struct represents the required interface that allows POMDP algorithms to leverage Eigen.
@@ -111,11 +115,11 @@ namespace AIToolbox::POMDP {
             // With this macro we can find out the return type of a given member function; we use it
             // so that we can check whether the class offers methods which return Eigen types, so we
             // can enable the high-performance algorithm variants.
-            #define RETVAL_EXTRACTOR(fun_name)                                                                                                  \
-                                                                                                                                                \
-            template <typename Z, typename ...Args> static auto fun_name##RetType(Z* z) ->                                                      \
-                                                                typename remove_cv_ref<decltype(z->fun_name(std::declval<Args>()...))>::type;   \
-                                                                                                                                                \
+            #define RETVAL_EXTRACTOR(fun_name)                                                                                      \
+                                                                                                                                    \
+            template <typename Z, typename ...Args> static auto fun_name##RetType(Z* z) ->                                          \
+                                                                remove_cv_ref_t<decltype(z->fun_name(std::declval<Args>()...))>;    \
+                                                                                                                                    \
             template <typename Z, typename ...Args> static auto fun_name##RetType(...) -> int
 
             RETVAL_EXTRACTOR(getObservationFunction);
@@ -137,9 +141,11 @@ namespace AIToolbox::POMDP {
             #undef RETVAL_EXTRACTOR
 
         public:
-            enum { value = is_model<M>::value && MDP::is_model_eigen<M>::value && test<M>(0) &&
-                           std::is_base_of<Eigen::EigenBase<O>, O>::value };
+            enum { value = is_model_v<M> && MDP::is_model_eigen_v<M> && test<M>(0) &&
+                           std::is_base_of_v<Eigen::EigenBase<O>, O> };
     };
+    template <typename M>
+    inline constexpr bool is_model_eigen_v = is_model_eigen<M>::value;
 
     /**
      * @brief This struct verifies that a class satisfies the is_model interface but not the is_model_eigen interface.
@@ -149,8 +155,10 @@ namespace AIToolbox::POMDP {
     template <typename M>
     struct is_model_not_eigen {
         public:
-            enum { value = is_model<M>::value && !is_model_eigen<M>::value };
+            enum { value = is_model_v<M> && !is_model_eigen_v<M> };
     };
+    template <typename M>
+    inline constexpr bool is_model_not_eigen_v = is_model_not_eigen<M>::value;
 }
 
 #endif

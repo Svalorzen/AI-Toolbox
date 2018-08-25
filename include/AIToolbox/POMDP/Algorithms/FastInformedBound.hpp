@@ -5,6 +5,7 @@
 
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 
 namespace AIToolbox::POMDP {
@@ -104,7 +105,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         QFunction and the computed QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<double, MDP::QFunction> operator()(const M & m, const MDP::QFunction & oldQ = {});
 
             /**
@@ -130,7 +131,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         QFunction and the computed QFunction.
              */
-            template <typename M, typename SOSA, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename SOSA, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<double, MDP::QFunction> operator()(const M & m, const SOSA & sosa, MDP::QFunction oldQ = {});
 
             /**
@@ -182,7 +183,7 @@ namespace AIToolbox::POMDP {
     template <typename M, typename SOSA, typename>
     std::tuple<double, MDP::QFunction> FastInformedBound::operator()(const M & m, const SOSA & sosa, MDP::QFunction oldQ) {
         const auto & ir = [&]{
-            if constexpr (is_model_eigen<M>::value) return m.getRewardFunction();
+            if constexpr (is_model_eigen_v<M>) return m.getRewardFunction();
             else return computeImmediateRewards(m);
         }();
         auto newQ = MDP::QFunction(m.getS(), m.getA());
@@ -191,8 +192,8 @@ namespace AIToolbox::POMDP {
             oldQ.resize(m.getS(), m.getA());
 
             double max;
-            using Tmp = typename remove_cv_ref<decltype(ir)>::type;
-            if constexpr(std::is_base_of<Eigen::SparseMatrixBase<Tmp>, Tmp>::value)
+            using Tmp = remove_cv_ref_t<decltype(ir)>;
+            if constexpr(std::is_base_of_v<Eigen::SparseMatrixBase<Tmp>, Tmp>)
                 max = Eigen::Map<const Vector>(ir.valuePtr(), ir.size()).maxCoeff();
             else
                 max = ir.maxCoeff();

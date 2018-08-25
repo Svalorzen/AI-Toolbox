@@ -31,7 +31,7 @@ namespace AIToolbox::MDP {
      * @return The resulting output stream.
      */
     // Here we use the =0 default template to avoid redefinition problems with other template ostream definitions.
-    template <typename M, std::enable_if_t<is_model<M>::value, int> = 0>
+    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
     std::ostream& operator<<(std::ostream &os, const M & model) {
         const size_t S = model.getS();
         const size_t A = model.getA();
@@ -81,7 +81,7 @@ namespace AIToolbox::MDP {
      *
      * @return The resulting output stream.
      */
-    template <typename E, std::enable_if_t<is_experience<E>::value, int> = 0>
+    template <typename E, std::enable_if_t<is_experience_v<E>, int> = 0>
     std::ostream& operator<<(std::ostream &os, const E & exp) {
         const size_t S = exp.getS();
         const size_t A = exp.getA();

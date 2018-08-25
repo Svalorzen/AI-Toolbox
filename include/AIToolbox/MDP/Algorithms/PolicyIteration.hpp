@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_MDP_POLICY_ITERATION_HEADER_FILE
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 #include <AIToolbox/MDP/Algorithms/Utils/PolicyEvaluation.hpp>
@@ -39,7 +40,7 @@ namespace AIToolbox::MDP {
              * @param m The MDP that needs to be solved.
              * @return The QFunction of the optimal policy found.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             QFunction operator()(const M & m);
 
             /**

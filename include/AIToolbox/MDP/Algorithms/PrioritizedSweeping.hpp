@@ -7,6 +7,7 @@
 #include <boost/heap/fibonacci_heap.hpp>
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
 #include <AIToolbox/Utils/Probability.hpp>
@@ -41,7 +42,7 @@ namespace AIToolbox::MDP {
      */
     template <typename M>
     class PrioritizedSweeping {
-        static_assert(is_model<M>::value, "This class only works for MDP models!");
+        static_assert(is_model_v<M>, "This class only works for MDP models!");
 
         public:
             /**
@@ -189,7 +190,7 @@ namespace AIToolbox::MDP {
         auto & values = vfun_.values;
 
         // Update q[s][a]
-        if constexpr(is_model_eigen<M>::value) {
+        if constexpr(is_model_eigen_v<M>) {
             qfun_(s,a) = model_.getRewardFunction().coeff(s, a) + model_.getTransitionFunction(a).row(s).dot(values * model_.getDiscount());
         } else {
             double newQValue = 0;

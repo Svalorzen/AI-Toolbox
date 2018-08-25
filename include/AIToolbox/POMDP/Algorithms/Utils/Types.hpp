@@ -3,6 +3,7 @@
 
 #include <optional>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -27,8 +28,10 @@ namespace AIToolbox::POMDP {
             template <typename Z> static auto test(...) -> std::false_type;
 
         public:
-            enum { value = std::is_same<decltype(test<LP>(0)),std::true_type>::value };
+            enum { value = std::is_same_v<decltype(test<LP>(0)),std::true_type> };
     };
+    template <typename LP>
+    inline constexpr bool is_witness_lp_v = is_witness_lp<LP>::value;
 }
 
 #endif

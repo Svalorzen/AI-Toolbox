@@ -10,7 +10,7 @@
 // #include <fstream>
 
 BOOST_AUTO_TEST_CASE( eigen_model ) {
-    BOOST_CHECK(AIToolbox::MDP::is_model_eigen<AIToolbox::MDP::RLModel<AIToolbox::MDP::Experience>>::value);
+    BOOST_CHECK(AIToolbox::MDP::is_model_eigen_v<AIToolbox::MDP::RLModel<AIToolbox::MDP::Experience>>);
 }
 
 BOOST_AUTO_TEST_CASE( construction ) {

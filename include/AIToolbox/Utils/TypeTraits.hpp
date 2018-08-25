@@ -30,8 +30,8 @@ namespace AIToolbox {
      * @return The base iterator of the input.
      */
     template <typename Iterator>
-    typename Impl::BaseIter<typename std::remove_reference<Iterator>::type>::BaseIterator baseIter(Iterator && it) {
-        return Impl::BaseIter<typename std::remove_reference<Iterator>::type>()(std::forward<Iterator>(it));
+    typename Impl::BaseIter<std::remove_reference_t<Iterator>>::BaseIterator baseIter(Iterator && it) {
+        return Impl::BaseIter<std::remove_reference_t<Iterator>>()(std::forward<Iterator>(it));
     }
 
     /**
@@ -39,9 +39,9 @@ namespace AIToolbox {
      */
     template <typename CopiedType, typename ConstReference>
     struct copy_const {
-        using type = typename std::conditional<std::is_const<ConstReference>::value,
-                                      typename std::add_const<CopiedType>::type,
-                                      typename std::remove_const<CopiedType>::type>::type;
+        using type = typename std::conditional_t<std::is_const_v<ConstReference>,
+                                      std::add_const_t<CopiedType>,
+                                      std::remove_const_t<CopiedType>>;
     };
     template <typename CopiedType, typename ConstReference>
     using copy_const_t = typename copy_const<CopiedType, ConstReference>::type;
@@ -50,7 +50,7 @@ namespace AIToolbox {
      * @brief This struct is used to both remove references and all cv qualifiers.
      */
     template <typename T>
-    struct remove_cv_ref { using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type; };
+    struct remove_cv_ref { using type = std::remove_cv_t<std::remove_reference_t<T>>; };
     template <typename T>
     using remove_cv_ref_t = typename remove_cv_ref<T>::type;
 }

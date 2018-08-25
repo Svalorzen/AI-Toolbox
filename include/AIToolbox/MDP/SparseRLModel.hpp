@@ -64,7 +64,7 @@ namespace AIToolbox::MDP {
      */
     template <typename E>
     class SparseRLModel {
-        static_assert(is_experience<E>::value, "This class only works for MDP experiences!");
+        static_assert(is_experience_v<E>, "This class only works for MDP experiences!");
 
         public:
             using TransitionTable   = SparseMatrix3D;

@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 #include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox::MDP {
@@ -68,7 +69,7 @@ namespace AIToolbox::MDP {
              * @param lambda The lambda parameter for the eligibility traces.
              * @param epsilon The cutoff point for eligibility traces.
              */
-            template <typename M, typename = std::enable_if_t<is_generative_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_generative_model_v<M>>>
             SARSAL(const M& model, double alpha = 0.1, double lambda = 0.9, double epsilon = 0.001);
 
             /**

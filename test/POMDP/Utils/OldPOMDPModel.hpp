@@ -14,7 +14,7 @@
 
 #ifndef DOXYGEN_SKIP
         // This is done to avoid bringing around the enable_if everywhere.
-        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model<M>::value>>
+        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model_v<M>>>
         class OldPOMDPModel;
 #endif
 
@@ -112,7 +112,7 @@ class OldPOMDPModel<M> : public M {
          * @param parameters All arguments needed to build the parent Model.
          */
         // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
-        template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>>
+        template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible_v<double,decltype(std::declval<ObFun>()[0][0][0])>>>
         OldPOMDPModel(size_t o, ObFun && of, Args&&... parameters);
 
         /**
@@ -130,7 +130,7 @@ class OldPOMDPModel<M> : public M {
          * @tparam PM The type of the other model.
          * @param model The model that needs to be copied.
          */
-        template <typename PM, typename = std::enable_if_t<AIToolbox::POMDP::is_model<PM>::value && std::is_constructible<M,PM>::value>>
+        template <typename PM, typename = std::enable_if_t<AIToolbox::POMDP::is_model_v<PM> && std::is_constructible_v<M,PM>>>
         OldPOMDPModel(const PM& model);
 
         /**

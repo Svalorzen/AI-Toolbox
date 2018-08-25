@@ -7,6 +7,7 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 
 #include <AIToolbox/POMDP/Algorithms/Utils/rPOMCPGraph.hpp>
 
@@ -52,7 +53,7 @@ namespace AIToolbox::POMDP {
      */
     template <typename M, bool UseEntropy>
     class rPOMCP {
-        static_assert(is_generative_model<M>::value, "This class only works for generative POMDP models!");
+        static_assert(is_generative_model_v<M>, "This class only works for generative POMDP models!");
 
         public:
             // Shorthands to avoid specifying UseEntropy everywhere.

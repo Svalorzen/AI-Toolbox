@@ -4,6 +4,7 @@
 #include <limits>
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 
@@ -34,7 +35,7 @@ namespace AIToolbox::POMDP {
      */
     template <typename M>
     class RTBSS {
-        static_assert(is_model<M>::value, "This class only works for POMDP models!");
+        static_assert(is_model_v<M>, "This class only works for POMDP models!");
 
         public:
 

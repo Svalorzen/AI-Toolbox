@@ -15,7 +15,7 @@ namespace AIToolbox::POMDP {
     class Model;
 
     // Declaration to warn the compiler that this is a template function
-    template <typename M, typename = std::enable_if_t<MDP::is_model<M>::value>>
+    template <typename M, typename = std::enable_if_t<MDP::is_model_v<M>>>
     std::istream& operator>>(std::istream &is, Model<M> & m);
 
     /**
@@ -66,7 +66,7 @@ namespace AIToolbox::POMDP {
      */
     template <typename M>
     class Model : public M {
-        static_assert(MDP::is_model<M>::value, "This class only works for MDP models!");
+        static_assert(MDP::is_model_v<M>, "This class only works for MDP models!");
 
         public:
             using ObservationTable = Matrix3D;
@@ -115,7 +115,7 @@ namespace AIToolbox::POMDP {
              * @param parameters All arguments needed to build the parent Model.
              */
             // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
-            template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible<double,decltype(std::declval<ObFun>()[0][0][0])>::value>>
+            template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible_v<double,decltype(std::declval<ObFun>()[0][0][0])>>>
             Model(size_t o, ObFun && of, Args&&... parameters);
 
             /**
@@ -133,7 +133,7 @@ namespace AIToolbox::POMDP {
              * @tparam PM The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename PM, typename = std::enable_if_t<is_model<PM>::value && std::is_constructible<M,PM>::value>>
+            template <typename PM, typename = std::enable_if_t<is_model_v<PM> && std::is_constructible_v<M,PM>>>
             Model(const PM& model);
 
             /**

@@ -8,6 +8,7 @@
 #include <AIToolbox/Impl/Logging.hpp>
 
 #include <AIToolbox/POMDP/Types.hpp>
+#include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 
@@ -128,7 +129,7 @@ namespace AIToolbox::POMDP {
              *
              * @return The lower and upper gap bounds, the lower bound VList, and the upper bound QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<double, double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
 
         private:
@@ -166,7 +167,7 @@ namespace AIToolbox::POMDP {
              *
              * @return Two lists of beliefs, for lower and upper bound respectively, and a list of values for the upper bound beliefs.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> selectReachableBeliefs(
                 const M & model,
                 const Belief & belief,
@@ -194,7 +195,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A pair with a reward-function only POMDP, and its associated SOSA matrix.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV);
 
             /**
@@ -212,7 +213,7 @@ namespace AIToolbox::POMDP {
              *
              * @return The best action-value pair.
              */
-            template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV);
 
             /**
@@ -410,7 +411,7 @@ namespace AIToolbox::POMDP {
         // reward function.
         Matrix2D R(S, model.getA());
         const auto & ir = [&]{
-            if constexpr (MDP::is_model_eigen<M>::value) return model.getRewardFunction();
+            if constexpr (MDP::is_model_eigen_v<M>) return model.getRewardFunction();
             else return computeImmediateRewards(model);
         }();
 
@@ -492,10 +493,10 @@ namespace AIToolbox::POMDP {
      *
      * @return The best action in the input belief with respect to the input VList.
      */
-    template <typename M, typename = std::enable_if_t<is_model<M>::value>>
+    template <typename M, typename = std::enable_if_t<is_model_v<M>>>
     std::tuple<size_t, double> bestConservativeAction(const M & pomdp, const Belief & initialBelief, const VList & lbVList) {
         MDP::QFunction ir = [&]{
-            if constexpr (MDP::is_model_eigen<M>::value)
+            if constexpr (MDP::is_model_eigen_v<M>)
                 return pomdp.getRewardFunction();
             else
                 return computeImmediateRewards(pomdp);
@@ -531,7 +532,7 @@ namespace AIToolbox::POMDP {
     template <typename M, typename>
     std::tuple<size_t, double> GapMin::bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV) {
         Vector qvals = belief.transpose() * [&]{
-            if constexpr (MDP::is_model_eigen<M>::value)
+            if constexpr (MDP::is_model_eigen_v<M>)
                 return pomdp.getRewardFunction();
             else
                 return computeImmediateRewards(pomdp);
