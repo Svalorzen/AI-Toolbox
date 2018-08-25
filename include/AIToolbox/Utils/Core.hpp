@@ -1,10 +1,8 @@
 #ifndef AI_TOOLBOX_UTILS_CORE_HEADER_FILE
 #define AI_TOOLBOX_UTILS_CORE_HEADER_FILE
 
-#include <cstddef>
 #include <cmath>
 #include <limits>
-#include <algorithm>
 
 #include <AIToolbox/Types.hpp>
 
@@ -182,35 +180,6 @@ namespace AIToolbox {
             return false;
         }
         return false;
-    }
-
-    namespace Impl {
-        template <typename Iterator, typename Check = void>
-        struct BaseIter {
-            using BaseIterator = Iterator;
-            Iterator operator()(Iterator it) { return it; }
-        };
-
-        template <typename Iterator>
-        struct BaseIter<Iterator, decltype(std::declval<Iterator*>()->base(), void())> {
-            using BaseIterator = decltype(std::declval<Iterator>().base());
-            BaseIterator operator()(const Iterator & it) { return it.base(); }
-        };
-    }
-
-    /**
-     * @brief This function returns the base iterator for any given iterator.
-     *
-     * A base iterator exists if the iterator implements the method base(). If
-     * not, a copy of the iterator itself is returned.
-     *
-     * @param it The iterator to return the base of.
-     *
-     * @return The base iterator of the input.
-     */
-    template <typename Iterator>
-    typename Impl::BaseIter<typename std::remove_reference<Iterator>::type>::BaseIterator baseIter(Iterator && it) {
-        return Impl::BaseIter<typename std::remove_reference<Iterator>::type>()(std::forward<Iterator>(it));
     }
 }
 
