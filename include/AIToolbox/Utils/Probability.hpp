@@ -243,7 +243,7 @@ namespace AIToolbox {
             template <typename G>
             size_t sampleProbability(G & generator) const {
                 const auto x = sampleDistribution_(generator);
-                const auto i = std::floor(x);
+                const int i = x;
                 const auto y = x - i;
 
                 if (y < prob_[i]) return i;
