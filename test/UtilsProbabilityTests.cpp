@@ -41,3 +41,24 @@ BOOST_AUTO_TEST_CASE( probProjection ) {
         BOOST_CHECK_EQUAL(AIToolbox::veccmp(projectToProbability(data[i]), solutions[i]), 0);
     }
 }
+
+BOOST_AUTO_TEST_CASE( vose_alias_sampling ) {
+    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
+
+    AIToolbox::ProbabilityVector p(7);
+    p << 1.0/8, 1.0/5, 1.0/10, 1.0/4, 1.0/10, 1.0/10, 1.0/8;
+
+    AIToolbox::VoseAliasSampler vose(p);
+
+    constexpr size_t trials = 100'000;
+    std::vector<size_t> counters(p.size());
+    for (size_t i = 0; i < trials; ++i)
+        ++counters[vose.sampleProbability(rand)];
+
+    constexpr double percentageErrorAllowed = 0.05;
+
+    for (size_t i = 0; i < counters.size(); ++i) {
+        const auto exactAmount = p[i] * trials;
+        BOOST_CHECK(std::abs(counters[i] - exactAmount) < percentageErrorAllowed * exactAmount);
+    }
+}

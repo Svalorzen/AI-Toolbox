@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 set(GlobalDependencies
     ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Combinatorics.cpp
+    ${PROJECT_SOURCE_DIR}/src/Utils/Probability.cpp
     ${PROJECT_SOURCE_DIR}/src/LP/LpSolveWrapper.cpp
 )
 set(BanditDependencies      AIToolboxMDP)

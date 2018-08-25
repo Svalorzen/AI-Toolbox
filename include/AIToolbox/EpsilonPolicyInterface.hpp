@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_EPSILON_POLICY_INTERFACE_HEADER_FILE
 
 #include <AIToolbox/PolicyInterface.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 #include <stdexcept>
 
@@ -112,20 +113,18 @@ namespace AIToolbox {
 
             const Base & policy_;
             double epsilon_;
-
-            mutable std::uniform_real_distribution<double> sampleDistribution_;
     };
 
     template <typename State, typename Sampling, typename Action>
     EpsilonPolicyInterface<State, Sampling, Action>::EpsilonPolicyInterface(const Base & p, const double e) :
-            policy_(p), sampleDistribution_(0.0, 1.0)
+            policy_(p)
     {
         setEpsilon(e);
     }
 
     template <typename State, typename Sampling, typename Action>
     Action EpsilonPolicyInterface<State, Sampling, Action>::sampleAction(const Sampling & s) const {
-        if ( sampleDistribution_(this->rand_) > epsilon_ )
+        if ( probabilityDistribution(this->rand_) > epsilon_ )
             return sampleRandomAction();
 
         return policy_.sampleAction(s);

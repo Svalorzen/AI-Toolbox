@@ -1,7 +1,6 @@
 #ifndef AI_TOOLBOX_UTILS_PROBABILITY_HEADER_FILE
 #define AI_TOOLBOX_UTILS_PROBABILITY_HEADER_FILE
 
-#include <cstddef>
 #include <random>
 #include <algorithm>
 
@@ -9,6 +8,8 @@
 #include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox {
+    static std::uniform_real_distribution<double> probabilityDistribution(0.0, 1.0);
+
     /**
      * @brief This function checks whether the supplied vector is a correct probability vector.
      *
@@ -72,8 +73,7 @@ namespace AIToolbox {
      */
     template <typename T, typename G>
     size_t sampleProbability(const size_t d, const T& in, G& generator) {
-        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
-        double p = sampleDistribution(generator);
+        double p = probabilityDistribution(generator);
 
         for ( size_t i = 0; i < d; ++i ) {
             if ( in[i] > p ) return i;
@@ -106,8 +106,7 @@ namespace AIToolbox {
      */
     template <typename G>
     size_t sampleProbability(const size_t d, const SparseMatrix2D::ConstRowXpr& in, G& generator) {
-        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
-        double p = sampleDistribution(generator);
+        double p = probabilityDistribution(generator);
 
         for ( SparseMatrix2D::ConstRowXpr::InnerIterator i(in, 0); ; ++i ) {
             if ( i.value() > p ) return i.col();
@@ -131,7 +130,6 @@ namespace AIToolbox {
      */
     template <typename G>
     ProbabilityVector makeRandomProbability(const size_t S, G & generator) {
-        static std::uniform_real_distribution<double> sampleDistribution(0.0, 1.0);
         ProbabilityVector b(S);
         double * bData = b.data();
         // The way this works is that we're going to generate S-1 numbers in
@@ -151,7 +149,7 @@ namespace AIToolbox {
         // containing 1.0.
         bData[0] = 0.0;
         for ( size_t s = 0; s < S-1; ++s )
-            bData[s] = sampleDistribution(generator);
+            bData[s] = probabilityDistribution(generator);
 
         // Sort all but the implied last 1.0 which we'll add later.
         std::sort(bData, bData + S - 1);
@@ -206,35 +204,57 @@ namespace AIToolbox {
      *
      * @return The closes valid probability vector to the input.
      */
-    inline ProbabilityVector projectToProbability(const Vector & v) {
-        ProbabilityVector retval(v.size());
+    ProbabilityVector projectToProbability(const Vector & v);
 
-        double sum = 0.0;
-        size_t count = 0;
-        for (auto i = 0; i < v.size(); ++i) {
-            // Negative elements are converted to zero, as that's the best we
-            // can do.
-            if (v[i] < 0.0) retval[i] = 0.0;
-            else {
-                retval[i] = 1.0;
-                ++count;
-                sum += v[i];
+    /**
+     * @brief This class represents the Alias sampling method.
+     *
+     * This is an O(1) way to sample from a fixed distribution. Construction
+     * takes O(N).
+     *
+     * The class takes two vectors of size N, and converts the input
+     * probability distribution into a set of N weighted coins, each of which
+     * represents a choice between two particular numbers.
+     *
+     * When sampled, the class simply decides which coin to use, and it rolls
+     * it. This is much faster than the sampleProbability method, which is
+     * O(N), as it needs to iterate over the input probability vector.
+     *
+     * This is the preferred method of sampling for distributions that
+     * generally do not change (as if the distribution changes, the instance of
+     * VoseAlias must be rebuilt).
+     */
+    class VoseAliasSampler {
+        public:
+            /**
+             * @brief Basic constructor.
+             *
+             * @param p The probability distribution to sample from.
+             */
+            VoseAliasSampler(const ProbabilityVector & p);
+
+            /**
+             * @brief This function samples a number that follows the distribution of the class.
+             *
+             * @param generator A random number generator.
+             *
+             * @return A number between 0 and the size of the original ProbabilityVector.
+             */
+            template <typename G>
+            size_t sampleProbability(G & generator) const {
+                const auto x = sampleDistribution_(generator);
+                const auto i = std::floor(x);
+                const auto y = x - i;
+
+                if (y < prob_[i]) return i;
+                return alias_[i];
             }
-        }
-        if (checkEqualSmall(sum, 1.0)) return retval;
-        if (checkEqualSmall(sum, 0.0)) {
-            // Any solution here would do, but this seems nice.
-            retval.array() += 1.0 / v.size();
-        } else if (sum > 1.0) {
-            // We normalize the vector.
-            retval.array() *= v.array() / sum;
-        } else {
-            // We remove equally from all non-zero elements.
-            const auto diff = (1.0 - sum) / count;
-            retval.array() *= (v.array() + diff);
-        }
-        return retval;
-    }
+
+        private:
+            Vector prob_;
+            std::vector<size_t> alias_;
+            mutable std::uniform_real_distribution<double> sampleDistribution_;
+    };
 }
 
 #endif

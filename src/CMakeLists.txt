@@ -11,6 +11,7 @@ if (MAKE_MDP)
         Impl/Seeder.cpp
         Impl/CassandraParser.cpp
         Utils/Combinatorics.cpp
+        Utils/Probability.cpp
         Bandit/Policies/GreedyPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
         Bandit/Policies/LRPPolicy.cpp
