@@ -7,6 +7,36 @@
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Polytope.hpp>
 
+BOOST_AUTO_TEST_CASE( extractBestUsefulPointsTest ) {
+    using namespace AIToolbox;
+
+    std::vector<Point> points = {
+        (Point(2) << 0.969799   , 0.0302013).finished(),
+        (Point(2) << 0.85       , 0.15).finished(),
+        (Point(2) << 0.00546559 , 0.994534).finished(),
+        (Point(2) << 0.15       , 0.85).finished(),
+        (Point(2) << 0.5        , 0.5).finished(),
+        (Point(2) << 0.0302013  , 0.969799).finished(),
+        (Point(2) << 0.994534   , 0.00546559).finished(),
+    };
+
+    std::vector<Hyperplane> vl = {
+        (Hyperplane(2) << 3, 3).finished(),
+        (Hyperplane(2) << 4, 1).finished(),
+        (Hyperplane(2) << 1, 4).finished(),
+        (Hyperplane(2) << 5, -5).finished(),
+        (Hyperplane(2) << -5, 5).finished(),
+    };
+
+    auto bound = extractBestUsefulPoints(std::begin(points), std::end(points), std::begin(vl), std::end(vl));
+
+    BOOST_CHECK_EQUAL(std::distance(std::begin(points), bound), vl.size());
+
+    BOOST_CHECK(checkEqualSmall((*bound)[0], 0.969799) || checkEqualSmall((*bound)[0], 0.0302013));
+    ++bound;
+    BOOST_CHECK(checkEqualSmall((*bound)[0], 0.969799) || checkEqualSmall((*bound)[0], 0.0302013));
+}
+
 BOOST_AUTO_TEST_CASE( naive_vertex_enumeration ) {
     using namespace AIToolbox;
 

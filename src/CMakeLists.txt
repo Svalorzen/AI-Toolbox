@@ -15,6 +15,7 @@ if (MAKE_MDP)
         Impl/CassandraParser.cpp
         Utils/Combinatorics.cpp
         Utils/Probability.cpp
+        Utils/Polytope.cpp
         Bandit/Policies/GreedyPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
         Bandit/Policies/LRPPolicy.cpp
@@ -60,7 +61,6 @@ if (MAKE_POMDP)
         POMDP/Algorithms/FastInformedBound.cpp
         POMDP/Algorithms/QMDP.cpp
         POMDP/Algorithms/Witness.cpp
-        POMDP/Algorithms/Utils/WitnessLP.cpp
         POMDP/Policies/Policy.cpp
     )
     set_target_properties(AIToolboxPOMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})

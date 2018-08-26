@@ -7,31 +7,34 @@
 namespace AIToolbox {
     namespace Impl {
         template <typename Iterator, typename Check = void>
-        struct BaseIter {
-            using BaseIterator = Iterator;
-            Iterator operator()(Iterator it) { return it; }
+        struct IterSwap {
+            void operator()(Iterator lhs, Iterator rhs) {
+                using std::swap;
+                swap(*lhs, *rhs);
+            }
         };
 
         template <typename Iterator>
-        struct BaseIter<Iterator, decltype(std::declval<Iterator*>()->base(), void())> {
-            using BaseIterator = decltype(std::declval<Iterator>().base());
-            BaseIterator operator()(const Iterator & it) { return it.base(); }
+        struct IterSwap<Iterator, decltype(std::declval<Iterator*>()->base(), void())> {
+            void operator()(Iterator lhs, Iterator rhs) {
+                using std::swap;
+                swap(*(lhs.base()), *(rhs.base()));
+            }
         };
     }
 
     /**
-     * @brief This function returns the base iterator for any given iterator.
+     * @brief This function swaps the objects pointed by the two iterators.
      *
-     * A base iterator exists if the iterator implements the method base(). If
-     * not, a copy of the iterator itself is returned.
-     *
-     * @param it The iterator to return the base of.
-     *
-     * @return The base iterator of the input.
+     * This function is needed in order to be able to treat in the same way
+     * normal iterators and proxy iterators (such as
+     * boost::transform_iterator). This allows us to write algorithms that
+     * operate on a specific part of the data, but can alter the original range
+     * as needed.
      */
     template <typename Iterator>
-    typename Impl::BaseIter<std::remove_reference_t<Iterator>>::BaseIterator baseIter(Iterator && it) {
-        return Impl::BaseIter<std::remove_reference_t<Iterator>>()(std::forward<Iterator>(it));
+    void iter_swap(Iterator lhs, Iterator rhs) {
+        return Impl::IterSwap<Iterator>()(lhs, rhs);
     }
 
     /**

@@ -213,20 +213,26 @@ namespace AIToolbox::POMDP {
         bool start = true;
         double currentValue, oldValue;
 
+        auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
+        auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
+        const auto obegin = boost::make_transform_iterator(std::begin(oldV), unwrap);
+        const auto oend   = boost::make_transform_iterator(std::end  (oldV), unwrap);
+
         for ( const auto & b : bl ) {
             if ( !start ) {
                 // If we have already improved this belief, skip it
-                findBestAtBelief( b, std::begin(result), std::end(result), &currentValue );
-                findBestAtBelief( b, std::begin(oldV),   std::end(oldV),   &oldValue     );
+                findBestAtPoint( b, rbegin, rend, &currentValue );
+                findBestAtPoint( b, obegin, oend,   &oldValue   );
                 if ( currentValue >= oldValue ) continue;
             }
 
             result.emplace_back(crossSumBestAtBelief(b, projs));
+
+            rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
+            rend   = boost::make_transform_iterator(std::end  (result), unwrap);
+
             start = false;
         }
-        const auto unwrap = +[](VEntry & ve) -> MDP::Values & {return ve.values;};
-        const auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
-        const auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
 
         result.erase(extractDominated(S, rbegin, rend).base(), std::end(result));
 

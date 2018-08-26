@@ -175,8 +175,6 @@ namespace AIToolbox::POMDP {
             std::vector<std::pair<Belief, double>> vertices;
             std::set<Belief, Comparator> triedVertices;
 
-            const auto unwrap = +[](const VEntry & ve) -> const MDP::Values & {return ve.values;};
-
             // For each corner belief, find its value and alphavector. Add the
             // alphavectors in a separate list, remove duplicates. Note: In theory
             // we must be able to find all alphas for each corner, not just a
@@ -229,7 +227,9 @@ namespace AIToolbox::POMDP {
                     // we can't really trust the values that come out as they
                     // may be lower than what we actually have. So we are
                     // forced to recompute their value.
-                    findBestAtBelief(vertex.first, std::begin(goodSupports), std::end(goodSupports), &currentValue);
+                    const auto gsBegin = boost::make_transform_iterator(std::cbegin(goodSupports), unwrap);
+                    const auto gsEnd   = boost::make_transform_iterator(std::cend(goodSupports),   unwrap);
+                    findBestAtPoint(vertex.first, gsBegin, gsEnd, &currentValue);
 
                     auto diff = trueValue - currentValue;
                     if (diff > epsilon_ && checkDifferentGeneral(diff, epsilon_)) {

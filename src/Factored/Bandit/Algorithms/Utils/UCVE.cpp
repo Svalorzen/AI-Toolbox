@@ -253,7 +253,7 @@ namespace AIToolbox::Factored::Bandit {
         }
         // Put the best first so we can use <= for the pruning (otherwise if we
         // didn't know we would be forced to use < to avoid removing the best)
-        std::iter_swap(begin, maxIt);
+        iter_swap(begin, maxIt);
         return std::remove_if(begin + 1, end, [max, x_u, logtA = logtA_](const UCVE::Entry & e) { return computeValue(e, x_u, logtA) <= max; });
     }
 

@@ -1,8 +1,6 @@
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
+#include <AIToolbox/Utils/Polytope.hpp>
 
-#include <lpsolve/lp_lib.h>
-
-namespace AIToolbox::POMDP {
+namespace AIToolbox {
     WitnessLP::WitnessLP(const size_t s) : S(s), lp_(s+2)
     {
         /*
@@ -33,9 +31,9 @@ namespace AIToolbox::POMDP {
          * best[1][0] * b0 + best[1][1] * b1 + ... - K + delta <= 0
          * ...
          *
-         * Where basically with the first constraint we are setting K
-         * to the value of v in the final belief, and we are forcing
-         * all other values to be less than that by forcing:
+         * Where basically with the first constraint we are setting K to the
+         * value of v in the final point, and we are forcing all other values
+         * to be less than that by forcing:
          *
          * delta > 0
          *
@@ -45,7 +43,7 @@ namespace AIToolbox::POMDP {
         // Goal: maximize delta.
         lp_.setObjective(S+1, true);
 
-        // CONSTRAINT: This is the simplex constraint (beliefs sum to 1)
+        // CONSTRAINT: This is the simplex constraint (coordinates sum to 1)
         {
             // Note: lp_solve reads elements from 1 onwards, so we don't set row[0]
             for ( size_t i = 0; i < S; ++i )
@@ -63,7 +61,7 @@ namespace AIToolbox::POMDP {
         lp_.row[S + 1] = +0.0;
     }
 
-    void WitnessLP::addOptimalRow(const MDP::Values & v) {
+    void WitnessLP::addOptimalRow(const Hyperplane & v) {
         for ( size_t i = 0; i < S; ++i )
             lp_.row[i] = v[i];
         // Temporarily set the delta constraint
@@ -73,7 +71,7 @@ namespace AIToolbox::POMDP {
         lp_.row[S+1] = 0.0;
     }
 
-    std::optional<POMDP::Belief> WitnessLP::findWitness(const MDP::Values & v) {
+    std::optional<Point> WitnessLP::findWitness(const Hyperplane & v) {
         // Add witness constraint
         for ( size_t i = 0; i < S; ++i )
             lp_.row[i] = v[i];
@@ -85,9 +83,10 @@ namespace AIToolbox::POMDP {
         // Remove it
         lp_.popRow();
 
-        // We have found a witness point if we have found a belief for which the value
-        // of the supplied ValueFunction is greater than ALL others. Thus we just need
-        // to verify that the variable we have maximixed is actually greater than 0.
+        // We have found a witness point if we have found a point where the
+        // value of the supplied hyperplane is greater than ALL others. Thus we
+        // just need to verify that the variable we have maximixed is actually
+        // greater than 0.
         if (deltaValue <= 0)
             solution.reset();
 

@@ -3,12 +3,13 @@
 
 #include <limits>
 
+#include <boost/iterator/transform_iterator.hpp>
+
 #include <AIToolbox/Utils/Probability.hpp>
+#include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Utils.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/Pruner.hpp>
-#include <AIToolbox/POMDP/Algorithms/Utils/WitnessLP.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
 namespace AIToolbox::POMDP {
@@ -155,7 +156,7 @@ namespace AIToolbox::POMDP {
 
         unsigned timestep = 0;
 
-        Pruner<WitnessLP> prune(S);
+        Pruner prune(S);
         Projecter projecter(model);
 
         const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
@@ -175,8 +176,11 @@ namespace AIToolbox::POMDP {
             for ( size_t a = 0; a < A; ++a ) {
                 // We prune each outcome separately to be sure
                 // we do not replicate work later.
-                for ( size_t o = 0; o < O; ++o )
-                    prune( &projs[a][o] );
+                for ( size_t o = 0; o < O; ++o ) {
+                    const auto begin = boost::make_transform_iterator(std::begin(projs[a][o]), unwrap);
+                    const auto end   = boost::make_transform_iterator(std::end  (projs[a][o]), unwrap);
+                    projs[a][o].erase(prune(begin, end).base(), std::end(projs[a][o]));
+                }
 
                 // Here we reduce at the minimum the cross-summing, by alternating
                 // merges. We pick matches like a reverse binary tree, so that
@@ -205,7 +209,9 @@ namespace AIToolbox::POMDP {
                 while ( elements > 1 ) {
                     for ( i = front; i != back; i += stepsize ) {
                         projs[a][i] = crossSum(projs[a][i], projs[a][i + diff], a, stepsize > 0);
-                        prune(&projs[a][i]);
+                        const auto begin = boost::make_transform_iterator(std::begin(projs[a][i]), unwrap);
+                        const auto end   = boost::make_transform_iterator(std::end  (projs[a][i]), unwrap);
+                        projs[a][i].erase(prune(begin, end).base(), std::end(projs[a][i]));
                         --elements;
                     }
 
@@ -233,7 +239,9 @@ namespace AIToolbox::POMDP {
 
             // We have them all, and we prune one final time to be sure we have
             // computed the parsimonious set of value functions.
-            prune( &w );
+            const auto begin = boost::make_transform_iterator(std::begin(w), unwrap);
+            const auto end   = boost::make_transform_iterator(std::end  (w), unwrap);
+            w.erase(prune(begin, end).base(), std::end(w));
 
             v.emplace_back(std::move(w));
 
