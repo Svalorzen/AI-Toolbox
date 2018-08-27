@@ -34,12 +34,6 @@ function (AddTestPython type name)
 endfunction (AddTestPython)
 
 if (MAKE_MDP)
-    find_package(Boost 1.53 COMPONENTS unit_test_framework REQUIRED)
-    include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-
-    find_package(Eigen3 3.2.92 REQUIRED)
-    include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
-
     AddTestGlobal(UtilsCore)
     AddTestGlobal(UtilsProbability)
     AddTestGlobal(UtilsPrune)
@@ -77,10 +71,6 @@ if (MAKE_MDP)
     AddTest(MDP MCTS)
 
     if (MAKE_PYTHON)
-        # Normally one loads PythonInterp first, but since
-        # here the interpreter is only optional then libs
-        # come first. The version must be the same though.
-        find_package(PythonInterp ${PYTHONLIBS_VERSION_STRING_STRIPPED} EXACT)
         if (PYTHONINTERP_FOUND)
             AddTestPython(MDP Experience)
             AddTestPython(MDP QLearning)

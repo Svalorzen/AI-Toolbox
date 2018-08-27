@@ -173,7 +173,7 @@ Dependencies
 To build the library you need:
 
 - [cmake](http://www.cmake.org/) >= 3.9
-- the [boost library](http://www.boost.org/) >= 1.62
+- the [boost library](http://www.boost.org/) >= 1.54
 - the [Eigen 3.3 library](http://eigen.tuxfamily.org/index.php?title=Main_Page).
 - the [lp\_solve library](http://lpsolve.sourceforge.net/5.5/) (a shared library
   must be available to compile the Python wrapper).

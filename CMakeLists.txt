@@ -95,21 +95,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
-# Add library directories
-include_directories(${PROJECT_SOURCE_DIR}/include)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src)
-
-# If enabled, add tests
-if (MAKE_TESTS)
-    include(CTest)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/test)
-endif()
-
-# If enabled, add Python bindings
-if (MAKE_EXAMPLES)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/examples)
-endif()
-
 # Print what we're actually doing
 set(MAP_MAKE_MDP        "# Building MDP")
 set(MAP_MAKE_FMDP       "# Building Factored MDP")
@@ -127,3 +112,58 @@ foreach(v MAKE_MDP;MAKE_FMDP;MAKE_POMDP;MAKE_PYTHON;MAKE_TESTS;MAKE_EXAMPLES)
     endif()
 endforeach(v)
 message("")
+
+##############################
+##       Dependencies       ##
+##############################
+
+set(BOOST_VERSION_REQUIRED 1.54)
+set(EIGEN_VERSION_REQUIRED 3.2.92)
+
+find_package(Boost ${BOOST_VERSION_REQUIRED} REQUIRED)
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+
+find_package(Eigen3 ${EIGEN_VERSION_REQUIRED} REQUIRED)
+include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
+
+find_package(LpSolve REQUIRED)
+include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
+
+if (MAKE_PYTHON)
+    # Try to find out which version of Python we should be targeting depending
+    # on which interpreter is found.
+    find_package(PythonInterp)
+    if (${PYTHON_VERSION_MAJOR} EQUAL 3)
+        find_package(PythonInterp 3)
+        find_package(PythonLibs 3 REQUIRED)
+        find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python${PYTHON_VERSION_SUFFIX} REQUIRED)
+    else()
+        find_package(PythonLibs 2.7 REQUIRED)
+        find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python REQUIRED)
+    endif()
+
+    include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
+endif()
+
+if (MAKE_TESTS)
+    find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS unit_test_framework REQUIRED)
+endif()
+
+##############################
+##      Project Start       ##
+##############################
+
+# Add library directories
+include_directories(${PROJECT_SOURCE_DIR}/include)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src)
+
+# If enabled, add tests
+if (MAKE_TESTS)
+    include(CTest)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/test)
+endif()
+
+# If enabled, add Python bindings
+if (MAKE_EXAMPLES)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/examples)
+endif()

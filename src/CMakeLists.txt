@@ -1,14 +1,5 @@
 cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 
-find_package(Boost 1.53 REQUIRED)
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-
-find_package(Eigen3 3.2.92 REQUIRED)
-include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
-
-find_package(LpSolve REQUIRED)
-include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
-
 if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
@@ -89,19 +80,9 @@ if (MAKE_FMDP)
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
 endif()
 
-if (MAKE_PYTHON AND MAKE_MDP)
-    find_package(PythonLibs 2.7 REQUIRED)
-    find_package(Boost 1.53 COMPONENTS python REQUIRED)
-    # Remove junk at the end of the version that breaks requiring the interpreter for tests later.
-    # The idea here is to remove any stuff that comes after a non-number, non-dot character.
-    # This allows us to remove random strings at the end, but also things like "rc2" at the end.
-    STRING(REGEX REPLACE "[^0-9\.].*$" "" PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING})
-    # Save version of python libs loaded to run tests later.
-    set(PYTHONLIBS_VERSION_STRING_STRIPPED ${PYTHONLIBS_VERSION_STRING_STRIPPED} PARENT_SCOPE)
-    include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
-
+if (MAKE_PYTHON)
+    # Wrappers -- if unused macros will skip them
     set(PYTHON_FILES
-        # Wrappers -- if unused macros will skip them
         Python/AIToolboxWrappers.cpp
         Python/BanditWrappers.cpp
         Python/MDPWrappers.cpp
@@ -110,43 +91,48 @@ if (MAKE_PYTHON AND MAKE_MDP)
         # Python Utilities
         Python/Utils.cpp
         Python/Types.cpp
-        # Bandits
-        Python/Bandit/Policies/PolicyInterface.cpp
-        Python/Bandit/Policies/GreedyPolicy.cpp
-        Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
-        Python/Bandit/Policies/LRPPolicy.cpp
-        Python/Bandit/Policies/ESRLPolicy.cpp
-        Python/BanditWrappers.cpp
-        # MDP
-        Python/MDP/Utils.cpp
-        Python/MDP/Types.cpp
-        Python/MDP/Experience.cpp
-        Python/MDP/RLModel.cpp
-        Python/MDP/SparseExperience.cpp
-        Python/MDP/SparseRLModel.cpp
-        Python/MDP/Model.cpp
-        Python/MDP/SparseModel.cpp
-        Python/MDP/Algorithms/QLearning.cpp
-        Python/MDP/Algorithms/HystereticQLearning.cpp
-        Python/MDP/Algorithms/SARSA.cpp
-        Python/MDP/Algorithms/ExpectedSARSA.cpp
-        Python/MDP/Algorithms/SARSAL.cpp
-        Python/MDP/Algorithms/ValueIteration.cpp
-        Python/MDP/Algorithms/PolicyIteration.cpp
-        Python/MDP/Algorithms/PrioritizedSweeping.cpp
-        Python/MDP/Algorithms/MCTS.cpp
-        Python/MDP/Policies/PolicyInterface.cpp
-        Python/MDP/Policies/QPolicyInterface.cpp
-        Python/MDP/Policies/Policy.cpp
-        Python/MDP/Policies/RandomPolicy.cpp
-        Python/MDP/Policies/QGreedyPolicy.cpp
-        Python/MDP/Policies/QSoftmaxPolicy.cpp
-        Python/MDP/Policies/EpsilonPolicy.cpp
-        Python/MDP/Policies/WoLFPolicy.cpp
-        Python/MDP/Policies/PGAAPPPolicy.cpp
     )
-    set(PYTHON_LINKS AIToolboxMDP)
-    set(PYTHON_DEFINES -DAITOOLBOX_EXPORT_BANDIT -DAITOOLBOX_EXPORT_MDP)
+
+    if (MAKE_MDP)
+        set(PYTHON_FILES ${PYTHON_FILES}
+            # Bandits
+            Python/Bandit/Policies/PolicyInterface.cpp
+            Python/Bandit/Policies/GreedyPolicy.cpp
+            Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
+            Python/Bandit/Policies/LRPPolicy.cpp
+            Python/Bandit/Policies/ESRLPolicy.cpp
+            Python/BanditWrappers.cpp
+            # MDP
+            Python/MDP/Utils.cpp
+            Python/MDP/Types.cpp
+            Python/MDP/Experience.cpp
+            Python/MDP/RLModel.cpp
+            Python/MDP/SparseExperience.cpp
+            Python/MDP/SparseRLModel.cpp
+            Python/MDP/Model.cpp
+            Python/MDP/SparseModel.cpp
+            Python/MDP/Algorithms/QLearning.cpp
+            Python/MDP/Algorithms/HystereticQLearning.cpp
+            Python/MDP/Algorithms/SARSA.cpp
+            Python/MDP/Algorithms/ExpectedSARSA.cpp
+            Python/MDP/Algorithms/SARSAL.cpp
+            Python/MDP/Algorithms/ValueIteration.cpp
+            Python/MDP/Algorithms/PolicyIteration.cpp
+            Python/MDP/Algorithms/PrioritizedSweeping.cpp
+            Python/MDP/Algorithms/MCTS.cpp
+            Python/MDP/Policies/PolicyInterface.cpp
+            Python/MDP/Policies/QPolicyInterface.cpp
+            Python/MDP/Policies/Policy.cpp
+            Python/MDP/Policies/RandomPolicy.cpp
+            Python/MDP/Policies/QGreedyPolicy.cpp
+            Python/MDP/Policies/QSoftmaxPolicy.cpp
+            Python/MDP/Policies/EpsilonPolicy.cpp
+            Python/MDP/Policies/WoLFPolicy.cpp
+            Python/MDP/Policies/PGAAPPPolicy.cpp
+        )
+        set(PYTHON_LINKS AIToolboxMDP)
+        set(PYTHON_DEFINES -DAITOOLBOX_EXPORT_BANDIT -DAITOOLBOX_EXPORT_MDP)
+    endif()
 
     if (MAKE_POMDP)
         # This may need to be added to FMDP too if we port FactoredLP to Python.
