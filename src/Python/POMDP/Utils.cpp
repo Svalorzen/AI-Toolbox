@@ -76,5 +76,31 @@ void exportPOMDPUtils() {
          "@return The best possible value that the input point can have given the known vertices."
          , (arg("belief"), "bvPairs")
     );
-    def("findVerticesNaive", findVerticesNaiveWrapper);
+    def("findVerticesNaive", findVerticesNaiveWrapper,
+         "This function implements a naive vertex enumeration algorithm.\n"
+         "\n"
+         "This function goes through every subset of planes of size S, and finds\n"
+         "all vertices it can. In particular, it goes through the first list one\n"
+         "element at a time, and joins it with S-1 elements from the second list.\n"
+         "\n"
+         "Even more precisely, we take >= 1 elements from the second list. The\n"
+         "remaining elements (so that in total we still use S-1) are simply the\n"
+         "simplex boundaries, which allows us to find the corners located there.\n"
+         "\n"
+         "This method may find duplicate vertices (it does not bother to prune\n"
+         "them), as a vertex can be in the convergence of more than S planes.\n"
+         "\n"
+         "The advantage is that we do not need any linear programming, and simple\n"
+         "matrix decomposition techniques suffice.\n"
+         "\n"
+         "Warning: the values of each vertex depends on the planes it has been\n"
+         "found of, and thus may *not* be the true value if considering all planes\n"
+         "at the same time!\n"
+         "\n"
+         "@param tests The range of the planes to find vertices for.\n"
+         "@param planes The range of all other planes.\n"
+         "\n"
+         "@return A non-unique list of all the vertices found."
+        , (arg("tests"), "planes")
+    );
 }
