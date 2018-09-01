@@ -55,15 +55,23 @@ Features
 
 ### Cassandra POMDP Format Parsing ###
 
-We parse a reasonable subset of Cassandra's POMDP format, which allows to reuse
-already defined problems with this library.
+Cassandra's POMDP format is a type of text file that contains a definition of an
+MDP or POMDP model. You can find some examples
+[here](http://pomdp.org/examples/). While it is absolutely not necessary to use
+this format, and you can define models via code, we do parse a reasonable subset
+of Cassandra's POMDP format, which allows to reuse already defined problems with
+this library.
 
 ### Python Bindings! ###
 
-Since Python does not allow templates, the classes are binded with as many
-as possible instantiations. This toolbox does lose quite a bit of power in
-terms of efficient customization when used from Python, but it allows to rapidly
-iterate in order to find out what works and what doesn't.
+The user interface of the library is pretty much the same with Python than what
+you would get by using simply C++. See the `examples` folder to see just how
+much Python and C++ code resemble each other. Since Python does not allow
+templates, the classes are binded with as many as possible instantiations.
+
+That said, if you need to customize a specific implementation to make it perform
+better on your specific use-cases, or if you want to try something completely
+new, you will have to use C++.
 
 ### Bandit/Normal Games: ###
 
