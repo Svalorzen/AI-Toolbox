@@ -1,0 +1,93 @@
+#include <AIToolbox/MDP/Policies/Utils/OffPolicyTemplate.hpp>
+
+#include <AIToolbox/MDP/Utils.hpp>
+
+namespace AIToolbox::MDP {
+    namespace Impl {
+        OffPolicyTemplate::OffPolicyTemplate(const PolicyInterface & behaviour, const double discount, const double alpha, const double epsilon) :
+            S(behaviour.getS()), A(behaviour.getA()),
+            q_(makeQFunction(S, A)),
+            behaviour_(behaviour)
+        {
+            setDiscount(discount);
+            setLearningRate(alpha);
+            setEpsilon(epsilon);
+        }
+
+        void OffPolicyTemplate::updateTraces(const size_t s, const size_t a, const double error, const double traceDiscount) {
+            bool newTrace = true;
+
+            // So basically here we have in traces_ a non-ordered list of the old
+            // state/action pairs we have already seen. For each item in this list,
+            // we scale its "relevantness" back by gammaL_, and we update its
+            // q-value accordingly.
+            //
+            // If the current s-a are in the list already, their eligibility is
+            // directly updated to 1.0. Otherwise, they are added to the list.
+            //
+            // If any element would become too far away temporally to still be
+            // relevant, we extract it from the list. As the order is not important
+            // (it is implicit in the "el" element), we can use swap+pop.
+            for (size_t i = 0; i < traces_.size(); ++i) {
+                auto & [ss, aa, el] = traces_[i];
+                if (ss == s && aa == a) {
+                    el = 1.0;
+                    newTrace = false;
+                } else {
+                    el *= traceDiscount;
+                    if (el < epsilon_) {
+                        std::swap(traces_[i], traces_[traces_.size() - 1]);
+                        traces_.pop_back();
+                        --i;
+                        continue;
+                    }
+                }
+                q_(ss, aa) += error * el;
+            }
+            if (newTrace) {
+                traces_.emplace_back(s, a, 1.0);
+                q_(s, a) += error; // el is 1.0 here
+            }
+        }
+
+        void OffPolicyTemplate::clearTraces() {
+            traces_.clear();
+        }
+
+        const OffPolicyTemplate::Traces & OffPolicyTemplate::getTraces() const {
+            return traces_;
+        }
+
+        void OffPolicyTemplate::setTraces(const Traces & t) {
+            traces_ = t;
+        }
+
+        void OffPolicyTemplate::setLearningRate(const double a) {
+            if ( a <= 0.0 || a > 1.0 ) throw std::invalid_argument("Learning rate parameter must be in (0,1]");
+            alpha_ = a;
+        }
+
+        double OffPolicyTemplate::getLearningRate() const { return alpha_; }
+
+        void OffPolicyTemplate::setDiscount(const double d) {
+            if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
+            discount_ = d;
+        }
+
+        double OffPolicyTemplate::getDiscount() const { return discount_; }
+
+        void OffPolicyTemplate::setEpsilon(const double epsilon) {
+            epsilon_ = epsilon;
+        }
+
+        double OffPolicyTemplate::getEpsilon() const {
+            return epsilon_;
+        }
+
+        size_t OffPolicyTemplate::getS() const { return S; }
+        size_t OffPolicyTemplate::getA() const { return A; }
+
+        const QFunction & OffPolicyTemplate::getQFunction() const { return q_; }
+        void OffPolicyTemplate::setQFunction(const QFunction & qfun) { q_ = qfun; }
+    }
+}
