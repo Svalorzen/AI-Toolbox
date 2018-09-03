@@ -11,7 +11,7 @@ namespace AIToolbox::MDP {
     }
 
     void SARSAL::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const size_t a1, const double rew) {
-        auto error = alpha_ * ( rew + discount_ * q_(s1, a1) - q_(s, a) );
+        const auto error = alpha_ * ( rew + discount_ * q_(s1, a1) - q_(s, a) );
         bool newTrace = true;
 
         // So basically here we have in traces_ a non-ordered list of the old
