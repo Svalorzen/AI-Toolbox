@@ -9,7 +9,7 @@ namespace AIToolbox::MDP {
         /**
          * @brief This class contains all the boilerplates for off-policy methods.
          */
-        class OffPolicyTemplate {
+        class OffPolicyBase {
             public:
                 using Trace = std::tuple<size_t, size_t, double>;
                 using Traces = std::vector<Trace>;
@@ -22,7 +22,7 @@ namespace AIToolbox::MDP {
                  * @param alpha The learning rate.
                  * @param epsilon The cutoff point for eligibility traces.
                  */
-                OffPolicyTemplate(const PolicyInterface & behaviour, double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
+                OffPolicyBase(const PolicyInterface & behaviour, double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
 
                 /**
                  * @brief This function sets the learning rate parameter.
@@ -214,9 +214,9 @@ namespace AIToolbox::MDP {
      * ```
      */
     template <typename Derived>
-    class OffPolicyEvaluation : public Impl::OffPolicyTemplate {
+    class OffPolicyEvaluation : public Impl::OffPolicyBase {
         public:
-            using Parent = Impl::OffPolicyTemplate;
+            using Parent = Impl::OffPolicyBase;
 
             /**
              * @brief
@@ -297,9 +297,9 @@ namespace AIToolbox::MDP {
      * epsilon_ is already taken for trace cutoff unfortunately.
      */
     template <typename Derived>
-    class OffPolicyControl : public Impl::OffPolicyTemplate {
+    class OffPolicyControl : public Impl::OffPolicyBase {
         public:
-            using Parent = Impl::OffPolicyTemplate;
+            using Parent = Impl::OffPolicyBase;
 
             /**
              * @brief

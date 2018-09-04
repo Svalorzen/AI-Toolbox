@@ -4,7 +4,7 @@
 
 namespace AIToolbox::MDP {
     namespace Impl {
-        OffPolicyTemplate::OffPolicyTemplate(const PolicyInterface & behaviour, const double discount, const double alpha, const double epsilon) :
+        OffPolicyBase::OffPolicyBase(const PolicyInterface & behaviour, const double discount, const double alpha, const double epsilon) :
             S(behaviour.getS()), A(behaviour.getA()),
             q_(makeQFunction(S, A)),
             behaviour_(behaviour)
@@ -14,7 +14,7 @@ namespace AIToolbox::MDP {
             setEpsilon(epsilon);
         }
 
-        void OffPolicyTemplate::updateTraces(const size_t s, const size_t a, const double error, const double traceDiscount) {
+        void OffPolicyBase::updateTraces(const size_t s, const size_t a, const double error, const double traceDiscount) {
             bool newTrace = true;
 
             // So basically here we have in traces_ a non-ordered list of the old
@@ -50,44 +50,44 @@ namespace AIToolbox::MDP {
             }
         }
 
-        void OffPolicyTemplate::clearTraces() {
+        void OffPolicyBase::clearTraces() {
             traces_.clear();
         }
 
-        const OffPolicyTemplate::Traces & OffPolicyTemplate::getTraces() const {
+        const OffPolicyBase::Traces & OffPolicyBase::getTraces() const {
             return traces_;
         }
 
-        void OffPolicyTemplate::setTraces(const Traces & t) {
+        void OffPolicyBase::setTraces(const Traces & t) {
             traces_ = t;
         }
 
-        void OffPolicyTemplate::setLearningRate(const double a) {
+        void OffPolicyBase::setLearningRate(const double a) {
             if ( a <= 0.0 || a > 1.0 ) throw std::invalid_argument("Learning rate parameter must be in (0,1]");
             alpha_ = a;
         }
 
-        double OffPolicyTemplate::getLearningRate() const { return alpha_; }
+        double OffPolicyBase::getLearningRate() const { return alpha_; }
 
-        void OffPolicyTemplate::setDiscount(const double d) {
+        void OffPolicyBase::setDiscount(const double d) {
             if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
             discount_ = d;
         }
 
-        double OffPolicyTemplate::getDiscount() const { return discount_; }
+        double OffPolicyBase::getDiscount() const { return discount_; }
 
-        void OffPolicyTemplate::setEpsilon(const double epsilon) {
+        void OffPolicyBase::setEpsilon(const double epsilon) {
             epsilon_ = epsilon;
         }
 
-        double OffPolicyTemplate::getEpsilon() const {
+        double OffPolicyBase::getEpsilon() const {
             return epsilon_;
         }
 
-        size_t OffPolicyTemplate::getS() const { return S; }
-        size_t OffPolicyTemplate::getA() const { return A; }
+        size_t OffPolicyBase::getS() const { return S; }
+        size_t OffPolicyBase::getA() const { return A; }
 
-        const QFunction & OffPolicyTemplate::getQFunction() const { return q_; }
-        void OffPolicyTemplate::setQFunction(const QFunction & qfun) { q_ = qfun; }
+        const QFunction & OffPolicyBase::getQFunction() const { return q_; }
+        void OffPolicyBase::setQFunction(const QFunction & qfun) { q_ = qfun; }
     }
 }

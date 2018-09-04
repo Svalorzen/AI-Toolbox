@@ -33,6 +33,7 @@ if (MAKE_MDP)
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
         MDP/Policies/PGAAPPPolicy.cpp
+        MDP/Policies/Utils/OffPolicyTemplate.cpp
     )
     set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 endif()
