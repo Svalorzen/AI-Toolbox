@@ -361,7 +361,7 @@ namespace AIToolbox::MDP {
             expectedQ += q_(s1, a) * target_.getActionProbability(s1, a);
 
         const auto error = alpha_ * ( rew + discount_ * expectedQ - q_(s, a) );
-        const auto traceDiscount = static_cast<Derived*>(this)->getTraceDiscount(s, a, s1, rew);
+        const auto traceDiscount = discount_ * static_cast<Derived*>(this)->getTraceDiscount(s, a, s1, rew);
 
         updateTraces(s, a, error, traceDiscount);
     }
@@ -379,7 +379,7 @@ namespace AIToolbox::MDP {
         const auto expectedQ = q_.row(s1).sum() * (1.0 - exploration_) / A + q_.row(s1).maxCoeff(&maxA) * exploration_;
 
         const auto error = alpha_ * ( rew + discount_ * expectedQ - q_(s, a) );
-        const auto traceDiscount = static_cast<Derived*>(this)->getTraceDiscount(s, a, s1, rew, maxA);
+        const auto traceDiscount = discount_ * static_cast<Derived*>(this)->getTraceDiscount(s, a, s1, rew, maxA);
 
         updateTraces(s, a, error, traceDiscount);
     }
