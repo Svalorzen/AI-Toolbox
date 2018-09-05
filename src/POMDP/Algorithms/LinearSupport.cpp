@@ -3,11 +3,7 @@
 #include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox::POMDP {
-    bool LinearSupport::Comparator::operator()(const Belief & lhs, const Belief & rhs) const {
-        return veccmpSmall(lhs, rhs) < 0;
-    }
-
-    bool LinearSupport::Comparator::operator()(const Vertex & lhs, const Vertex & rhs) const {
+    bool LinearSupport::VertexComparator::operator()(const Vertex & lhs, const Vertex & rhs) const {
         return lhs.error < rhs.error;
     }
 

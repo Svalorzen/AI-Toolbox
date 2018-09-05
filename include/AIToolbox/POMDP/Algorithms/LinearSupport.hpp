@@ -8,8 +8,9 @@
 #include <AIToolbox/POMDP/Utils.hpp>
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
-#include <set>
+#include <unordered_set>
 #include <boost/iterator/transform_iterator.hpp>
+#include <boost/functional/hash.hpp>
 
 #include <AIToolbox/Utils/Polytope.hpp>
 
@@ -126,11 +127,10 @@ namespace AIToolbox::POMDP {
             unsigned horizon_;
             double epsilon_;
 
-            using SupportSet = std::set<VEntry>;
+            using SupportSet = std::unordered_set<VEntry, boost::hash<VEntry>>;
             struct Vertex;
 
-            struct Comparator {
-                bool operator() (const Belief & lhs, const Belief & rhs) const;
+            struct VertexComparator {
                 bool operator() (const Vertex & lhs, const Vertex & rhs) const;
             };
 
@@ -142,7 +142,7 @@ namespace AIToolbox::POMDP {
             };
 
             // This is our priority queue with all the vertices.
-            using Agenda = boost::heap::fibonacci_heap<Vertex, boost::heap::compare<Comparator>>;
+            using Agenda = boost::heap::fibonacci_heap<Vertex, boost::heap::compare<VertexComparator>>;
 
             Agenda agenda_;
     };
@@ -173,7 +173,7 @@ namespace AIToolbox::POMDP {
             SupportSet allSupports;
 
             std::vector<std::pair<Belief, double>> vertices;
-            std::set<Belief, Comparator> triedVertices;
+            std::unordered_set<Belief, boost::hash<Belief>> triedVertices;
 
             // For each corner belief, find its value and alphavector. Add the
             // alphavectors in a separate list, remove duplicates. Note: In theory
