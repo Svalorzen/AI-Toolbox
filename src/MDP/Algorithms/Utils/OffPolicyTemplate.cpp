@@ -1,4 +1,4 @@
-#include <AIToolbox/MDP/Policies/Utils/OffPolicyTemplate.hpp>
+#include <AIToolbox/MDP/Algorithms/Utils/OffPolicyTemplate.hpp>
 
 #include <AIToolbox/MDP/Utils.hpp>
 
