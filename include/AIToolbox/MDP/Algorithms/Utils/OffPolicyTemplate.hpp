@@ -202,7 +202,7 @@ namespace AIToolbox::MDP {
      * In addition, the child must define the function
      *
      * ```
-     *     double getTraceDiscount(size_t s, size_t a, size_t s1, double rew);
+     *     double getTraceDiscount(size_t s, size_t a, size_t s1, double rew) const;
      * ```
      *
      * This will then be automatically called here to compute the amount to
@@ -219,13 +219,13 @@ namespace AIToolbox::MDP {
             using Parent = Impl::OffPolicyBase;
 
             /**
-             * @brief
+             * @brief Basic constructor.
              *
-             * @param target
-             * @param behaviour
-             * @param discount
-             * @param alpha
-             * @param epsilon
+             * @param target The policy to be evaluated.
+             * @param behaviour The policy that is being followed.
+             * @param discount The discount of the environment.
+             * @param alpha The learning rate parameter.
+             * @param epsilon The trace cutoff parameter.
              */
             OffPolicyEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
                     double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
@@ -276,7 +276,7 @@ namespace AIToolbox::MDP {
      * In addition, the child must define the function
      *
      * ```
-     *     double getTraceDiscount(size_t s, size_t a, size_t s1, double rew, size_t maxA);
+     *     double getTraceDiscount(size_t s, size_t a, size_t s1, double rew, size_t maxA) const;
      * ```
      *
      * Where maxA is the already computed best greedy action for state s.
@@ -302,13 +302,13 @@ namespace AIToolbox::MDP {
             using Parent = Impl::OffPolicyBase;
 
             /**
-             * @brief
+             * @brief Basic constructor.
              *
-             * @param behaviour
-             * @param exploration
-             * @param discount
-             * @param alpha
-             * @param epsilon
+             * @param behaviour The policy that is being followed.
+             * @param exploration The exploration of the implied target greedy epsilon policy.
+             * @param discount The discount of the environment.
+             * @param alpha The learning rate parameter.
+             * @param epsilon The trace cutoff parameter.
              */
             OffPolicyControl(const PolicyInterface & behaviour, const double exploration = 0.9,
                     double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
