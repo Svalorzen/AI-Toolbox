@@ -19,7 +19,7 @@ namespace AIToolbox::MDP {
 
             QL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
                const double discount = 1.0, const double alpha = 0.1, const double epsilon = 0.001) :
-                Parent(behaviour, exploration, discount, alpha, epsilon)
+                    Parent(behaviour, exploration, discount, alpha, epsilon)
             {
                 setLambda(lambda);
             }
