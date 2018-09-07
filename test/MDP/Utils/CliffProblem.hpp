@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_MDP_CLIFF_PROBLEM
 #define AI_TOOLBOX_MDP_CLIFF_PROBLEM
 
-#include <AIToolbox/MDP/Model.hpp>
+#include <AIToolbox/MDP/SparseModel.hpp>
 #include "GridWorld.hpp"
 
 // The gist of this problem is a small grid where the agent is suppose to walk
@@ -46,7 +46,7 @@
 // To do this we use a grid above the cliff, and we attach two
 // states under it.
 
-inline AIToolbox::MDP::Model makeCliffProblem(const GridWorld & grid) {
+inline AIToolbox::MDP::SparseModel makeCliffProblem(const GridWorld & grid) {
     using namespace AIToolbox::MDP;
 
     size_t S = grid.getSizeX() * grid.getSizeY() + 2, A = 4;
@@ -108,7 +108,7 @@ inline AIToolbox::MDP::Model makeCliffProblem(const GridWorld & grid) {
         rewards    [s][DOWN][start] = failReward; // This goes into the cliff
     }
 
-    Model model(S, A, transitions, rewards, 1.0);
+    SparseModel model(S, A, transitions, rewards, 1.0);
 
     return model;
 }
