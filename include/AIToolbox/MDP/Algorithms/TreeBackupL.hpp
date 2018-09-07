@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_MDP_TBL_HEADER_FILE
-#define AI_TOOLBOX_MDP_TBL_HEADER_FILE
+#ifndef AI_TOOLBOX_MDP_TREE_BACKUP_L_HEADER_FILE
+#define AI_TOOLBOX_MDP_TREE_BACKUP_L_HEADER_FILE
 
 #include <AIToolbox/MDP/Algorithms/Utils/OffPolicyTemplate.hpp>
 
@@ -7,13 +7,13 @@ namespace AIToolbox::MDP {
     /**
      * @brief This class implements off-policy control via Tree Backup(lambda).
      *
-     * \sa TBLEvaluation
+     * \sa TreeBackupLEvaluation
      */
-    class TBL : public OffPolicyControl<TBL> {
+    class TreeBackupL : public OffPolicyControl<TreeBackupL> {
         public:
-            using Parent = OffPolicyControl<TBL>;
+            using Parent = OffPolicyControl<TreeBackupL>;
 
-            TBL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
+            TreeBackupL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
                const double discount = 1.0, const double alpha = 0.1, const double epsilon = 0.001) :
                 Parent(behaviour, exploration, discount, alpha, epsilon)
             {
@@ -64,9 +64,9 @@ namespace AIToolbox::MDP {
      * problem, this is inefficient in case the behaviour and target policies
      * are very similar.
      */
-    class TBLEvaluation : public OffPolicyEvaluation<TBLEvaluation> {
+    class TreeBackupLEvaluation : public OffPolicyEvaluation<TreeBackupLEvaluation> {
         public:
-            using Parent = OffPolicyEvaluation<TBLEvaluation>;
+            using Parent = OffPolicyEvaluation<TreeBackupLEvaluation>;
 
             /**
              * @brief Basic constructor.
@@ -78,7 +78,7 @@ namespace AIToolbox::MDP {
              * @param alpha Learning rate parameter.
              * @param epsilon Trace cutoff parameter.
              */
-            TBLEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
+            TreeBackupLEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
                          const double lambda, const double discount, const double alpha, const double epsilon) :
                     Parent(target, behaviour, discount, alpha, epsilon)
             {
