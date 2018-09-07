@@ -5,174 +5,172 @@
 #include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox::MDP {
-    namespace Impl {
-        /**
-         * @brief This class contains all the boilerplates for off-policy methods.
-         */
-        class OffPolicyBase {
-            public:
-                using Trace = std::tuple<size_t, size_t, double>;
-                using Traces = std::vector<Trace>;
+    /**
+     * @brief This class contains all the boilerplates for off-policy methods.
+     */
+    class OffPolicyBase {
+        public:
+            using Trace = std::tuple<size_t, size_t, double>;
+            using Traces = std::vector<Trace>;
 
-                /**
-                 * @brief Basic construtor.
-                 *
-                 * @param behaviour The policy we are following.
-                 * @param discount The discount of the environment.
-                 * @param alpha The learning rate.
-                 * @param epsilon The cutoff point for eligibility traces.
-                 */
-                OffPolicyBase(const PolicyInterface & behaviour, double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
+            /**
+             * @brief Basic construtor.
+             *
+             * @param behaviour The policy we are following.
+             * @param discount The discount of the environment.
+             * @param alpha The learning rate.
+             * @param epsilon The cutoff point for eligibility traces.
+             */
+            OffPolicyBase(const PolicyInterface & behaviour, double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
 
-                /**
-                 * @brief This function sets the learning rate parameter.
-                 *
-                 * The learning parameter determines the speed at which the
-                 * QFunction is modified with respect to new data. In fully
-                 * deterministic environments (such as an agent moving through
-                 * a grid, for example), this parameter can be safely set to
-                 * 1.0 for maximum learning.
-                 *
-                 * On the other side, in stochastic environments, in order to
-                 * converge this parameter should be higher when first starting
-                 * to learn, and decrease slowly over time.
-                 *
-                 * Otherwise it can be kept somewhat high if the environment
-                 * dynamics change progressively, and the algorithm will adapt
-                 * accordingly. The final behaviour is very dependent on this
-                 * parameter.
-                 *
-                 * The learning rate parameter must be > 0.0 and <= 1.0,
-                 * otherwise the function will throw an std::invalid_argument.
-                 *
-                 * @param a The new learning rate parameter.
-                 */
-                void setLearningRate(double a);
+            /**
+             * @brief This function sets the learning rate parameter.
+             *
+             * The learning parameter determines the speed at which the
+             * QFunction is modified with respect to new data. In fully
+             * deterministic environments (such as an agent moving through
+             * a grid, for example), this parameter can be safely set to
+             * 1.0 for maximum learning.
+             *
+             * On the other side, in stochastic environments, in order to
+             * converge this parameter should be higher when first starting
+             * to learn, and decrease slowly over time.
+             *
+             * Otherwise it can be kept somewhat high if the environment
+             * dynamics change progressively, and the algorithm will adapt
+             * accordingly. The final behaviour is very dependent on this
+             * parameter.
+             *
+             * The learning rate parameter must be > 0.0 and <= 1.0,
+             * otherwise the function will throw an std::invalid_argument.
+             *
+             * @param a The new learning rate parameter.
+             */
+            void setLearningRate(double a);
 
-                /**
-                 * @brief This function will return the current set learning rate parameter.
-                 *
-                 * @return The currently set learning rate parameter.
-                 */
-                double getLearningRate() const;
+            /**
+             * @brief This function will return the current set learning rate parameter.
+             *
+             * @return The currently set learning rate parameter.
+             */
+            double getLearningRate() const;
 
-                /**
-                 * @brief This function sets the new discount parameter.
-                 *
-                 * The discount parameter controls how much we care about future
-                 * rewards. If 1, then any reward is the same, if obtained now or
-                 * in a million timesteps. Thus the algorithm will optimize overall
-                 * reward accretion. When less than 1, rewards obtained in the
-                 * presents are valued more than future rewards.
-                 *
-                 * @param d The new discount factor.
-                 */
-                void setDiscount(double d);
+            /**
+             * @brief This function sets the new discount parameter.
+             *
+             * The discount parameter controls how much we care about future
+             * rewards. If 1, then any reward is the same, if obtained now or
+             * in a million timesteps. Thus the algorithm will optimize overall
+             * reward accretion. When less than 1, rewards obtained in the
+             * presents are valued more than future rewards.
+             *
+             * @param d The new discount factor.
+             */
+            void setDiscount(double d);
 
-                /**
-                 * @brief This function returns the currently set discount parameter.
-                 *
-                 * @return The currently set discount parameter.
-                 */
-                double getDiscount() const;
+            /**
+             * @brief This function returns the currently set discount parameter.
+             *
+             * @return The currently set discount parameter.
+             */
+            double getDiscount() const;
 
-                /**
-                 * @brief This function sets the trace cutoff parameter.
-                 *
-                 * This parameter determines when a trace is removed, as its
-                 * coefficient has become too small to bother updating its value.
-                 *
-                 * @param e The new trace cutoff value.
-                 */
-                void setEpsilon(double e);
+            /**
+             * @brief This function sets the trace cutoff parameter.
+             *
+             * This parameter determines when a trace is removed, as its
+             * coefficient has become too small to bother updating its value.
+             *
+             * @param e The new trace cutoff value.
+             */
+            void setEpsilon(double e);
 
-                /**
-                 * @brief This function returns the currently set trace cutoff parameter.
-                 *
-                 * @return The currently set trace cutoff parameter.
-                 */
-                double getEpsilon() const;
+            /**
+             * @brief This function returns the currently set trace cutoff parameter.
+             *
+             * @return The currently set trace cutoff parameter.
+             */
+            double getEpsilon() const;
 
-                /**
-                 * @brief This function clears the already set traces.
-                 */
-                void clearTraces();
+            /**
+             * @brief This function clears the already set traces.
+             */
+            void clearTraces();
 
-                /**
-                 * @brief This function returns the currently set traces.
-                 *
-                 * @return The currently set traces.
-                 */
-                const Traces & getTraces() const;
+            /**
+             * @brief This function returns the currently set traces.
+             *
+             * @return The currently set traces.
+             */
+            const Traces & getTraces() const;
 
-                /**
-                 * @brief This function sets the currently set traces.
-                 *
-                 * This method is provided in case you have a need to tinker with
-                 * the internal traces. You generally don't unless you are building
-                 * on top of this class in order to do something more complicated.
-                 *
-                 * @param t The currently set traces.
-                 */
-                void setTraces(const Traces & t);
+            /**
+             * @brief This function sets the currently set traces.
+             *
+             * This method is provided in case you have a need to tinker with
+             * the internal traces. You generally don't unless you are building
+             * on top of this class in order to do something more complicated.
+             *
+             * @param t The currently set traces.
+             */
+            void setTraces(const Traces & t);
 
-                /**
-                 * @brief This function returns the number of states on which QLearning is working.
-                 *
-                 * @return The number of states.
-                 */
-                size_t getS() const;
+            /**
+             * @brief This function returns the number of states on which QLearning is working.
+             *
+             * @return The number of states.
+             */
+            size_t getS() const;
 
-                /**
-                 * @brief This function returns the number of actions on which QLearning is working.
-                 *
-                 * @return The number of actions.
-                 */
-                size_t getA() const;
+            /**
+             * @brief This function returns the number of actions on which QLearning is working.
+             *
+             * @return The number of actions.
+             */
+            size_t getA() const;
 
-                /**
-                 * @brief This function returns a reference to the internal QFunction.
-                 *
-                 * The returned reference can be used to build Policies, for example
-                 * MDP::QGreedyPolicy.
-                 *
-                 * @return The internal QFunction.
-                 */
-                const QFunction & getQFunction() const;
+            /**
+             * @brief This function returns a reference to the internal QFunction.
+             *
+             * The returned reference can be used to build Policies, for example
+             * MDP::QGreedyPolicy.
+             *
+             * @return The internal QFunction.
+             */
+            const QFunction & getQFunction() const;
 
-                /**
-                 * @brief This function allows to directly set the internal QFunction.
-                 *
-                 * This can be useful in order to use a QFunction that has already
-                 * been computed elsewhere.
-                 *
-                 * @param qfun The new QFunction to set.
-                 */
-                void setQFunction(const QFunction & qfun);
+            /**
+             * @brief This function allows to directly set the internal QFunction.
+             *
+             * This can be useful in order to use a QFunction that has already
+             * been computed elsewhere.
+             *
+             * @param qfun The new QFunction to set.
+             */
+            void setQFunction(const QFunction & qfun);
 
-            protected:
-                size_t S, A;
-                double discount_, alpha_, epsilon_;
+        protected:
+            size_t S, A;
+            double discount_, alpha_, epsilon_;
 
-                /**
-                 * @brief This function updates the traces using the input data.
-                 *
-                 * This operation is basically identical to what SARSAL does.
-                 *
-                 * \sa SARSAL::stepUpdateQ
-                 *
-                 * @param s The state we were before.
-                 * @param a The action we did.
-                 * @param error The error used to update the QFunction.
-                 * @param traceDiscount The discount for all traces in memory.
-                 */
-                void updateTraces(size_t s, size_t a, double error, double traceDiscount);
+            /**
+             * @brief This function updates the traces using the input data.
+             *
+             * This operation is basically identical to what SARSAL does.
+             *
+             * \sa SARSAL::stepUpdateQ
+             *
+             * @param s The state we were before.
+             * @param a The action we did.
+             * @param error The error used to update the QFunction.
+             * @param traceDiscount The discount for all traces in memory.
+             */
+            void updateTraces(size_t s, size_t a, double error, double traceDiscount);
 
-                QFunction q_;
-                Traces traces_;
-                const PolicyInterface & behaviour_;
-        };
-    }
+            QFunction q_;
+            Traces traces_;
+            const PolicyInterface & behaviour_;
+    };
 
     /**
      * @brief This class is a general version of off-policy evaluation.
@@ -214,9 +212,9 @@ namespace AIToolbox::MDP {
      * ```
      */
     template <typename Derived>
-    class OffPolicyEvaluation : public Impl::OffPolicyBase {
+    class OffPolicyEvaluation : public OffPolicyBase {
         public:
-            using Parent = Impl::OffPolicyBase;
+            using Parent = OffPolicyBase;
 
             /**
              * @brief Basic constructor.
@@ -297,9 +295,9 @@ namespace AIToolbox::MDP {
      * epsilon_ is already taken for trace cutoff unfortunately.
      */
     template <typename Derived>
-    class OffPolicyControl : public Impl::OffPolicyBase {
+    class OffPolicyControl : public OffPolicyBase {
         public:
-            using Parent = Impl::OffPolicyBase;
+            using Parent = OffPolicyBase;
 
             /**
              * @brief Basic constructor.
