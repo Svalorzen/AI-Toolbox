@@ -14,8 +14,6 @@ namespace AIToolbox::MDP {
     }
 
     void OffPolicyBase::updateTraces(const size_t s, const size_t a, const double error, const double traceDiscount) {
-        bool newTrace = true;
-
         // So basically here we have in traces_ a non-ordered list of the old
         // state/action pairs we have already seen. For each item in this list,
         // we scale its "relevantness" back by gammaL_, and we update its
@@ -27,6 +25,7 @@ namespace AIToolbox::MDP {
         // If any element would become too far away temporally to still be
         // relevant, we extract it from the list. As the order is not important
         // (it is implicit in the "el" element), we can use swap+pop.
+        bool newTrace = true;
         for (size_t i = 0; i < traces_.size(); ++i) {
             auto & [ss, aa, el] = traces_[i];
             if (ss == s && aa == a) {

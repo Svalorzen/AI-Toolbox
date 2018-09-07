@@ -366,7 +366,6 @@ namespace AIToolbox::MDP {
 
     template <typename Derived>
     void OffPolicyControl<Derived>::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const double rew) {
-        size_t maxA;
         // The basic idea here is that differently from the evaluation, we want
         // to do a maximization. At the same time, to work we need to "round
         // the edges" a bit, and that's why we assume an epsilon-greedy policy.
@@ -374,7 +373,18 @@ namespace AIToolbox::MDP {
         // The expected value we can compute easily since each action has the
         // same probability of being chosen, but for the greedy one which is
         // more likely.
-        const auto expectedQ = q_.row(s1).sum() * (1.0 - exploration_) / A + q_.row(s1).maxCoeff(&maxA) * exploration_;
+        size_t maxA;
+        double expectedQ = 0.0;
+        double maxV = std::numeric_limits<double>::lowest();
+        for (size_t aa = 0; aa < A; ++aa) {
+            expectedQ += q_(s1, aa);
+            if (maxV < q_(s1, aa)) {
+                maxA = aa;
+                maxV = q_(s1, aa);
+            }
+        }
+        expectedQ *= (1.0 - exploration_) / A;
+        expectedQ += maxV * exploration_;
 
         const auto error = alpha_ * ( rew + discount_ * expectedQ - q_(s, a) );
         const auto traceDiscount = discount_ * static_cast<Derived*>(this)->getTraceDiscount(s, a, s1, rew, maxA);
