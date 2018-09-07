@@ -15,7 +15,12 @@ namespace AIToolbox::MDP {
 
             using Parent::Parent;
 
-            double getTraceDiscount(const size_t s, const size_t a, const size_t, const double, size_t maxA) const {
+            /**
+             * @brief This function returns the trace discount for the learning.
+             *
+             * This function returns the ratio between the assumed epsilon-greedy policy and the behaviour policy.
+             */
+            double getTraceDiscount(const size_t s, const size_t a, const size_t, const double, const size_t maxA) const {
                 const auto baseProb = (1.0 - exploration_) / A;
                 return (baseProb + (maxA == a) * exploration_) / behaviour_.getActionProbability(s, a);
             }
@@ -49,6 +54,11 @@ namespace AIToolbox::MDP {
 
             using Parent::Parent;
 
+            /**
+             * @brief This function returns the trace discount for the learning.
+             *
+             * This function returns the ratio between the target and the behaviour policy.
+             */
             double getTraceDiscount(const size_t s, const size_t a, const size_t, const double) const {
                 return target_.getActionProbability(s, a) / behaviour_.getActionProbability(s, a);
             }
