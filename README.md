@@ -77,27 +77,31 @@ new, you will have to use C++.
 
 Policies:
 
-- [Greedy Policy](https://arxiv.org/pdf/1707.02038.pdf)
-- [Thompson Sampling (Normal distribution)](https://arxiv.org/pdf/1307.3400.pdf)
-- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y)
 - [Exploring Selfish Reinforcement Learning (ESRL)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf)
+- [Greedy Policy](https://arxiv.org/pdf/1707.02038.pdf)
+- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y)
+- [Thompson Sampling (Normal distribution)](https://arxiv.org/pdf/1307.3400.pdf)
 
 ### Single Agent MDP/Stochastic Games: ###
 
 Algorithms:
 
-- [Policy Evaluation](http://incompleteideas.net/book/ebook/node41.html)
-- [Policy Iteration](http://incompleteideas.net/book/ebook/node43.html)
-- [Value Iteration](http://incompleteideas.net/book/ebook/node44.html)
-- [Q-Learning](http://incompleteideas.net/book/ebook/node65.html)
-- [Hysteretic Q-Learning](https://hal.archives-ouvertes.fr/hal-00187279/document)
-- [SARSA](http://incompleteideas.net/book/ebook/node64.html)
-- [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf)
-- [SARSA(λ)](http://incompleteideas.net/book/ebook/node77.html)
 - [Dyna-Q](http://incompleteideas.net/book/ebook/node96.html)
 - [Dyna2](http://www0.cs.ucl.ac.uk/staff/D.Silver/web/Applications_files/dyna2.pdf)
-- [Prioritized Sweeping](http://incompleteideas.net/book/ebook/node98.html)
+- [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf)
+- [Hysteretic Q-Learning](https://hal.archives-ouvertes.fr/hal-00187279/document)
+- [Importance Sampling](https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs)
 - [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf)
+- [Policy Evaluation](http://incompleteideas.net/book/ebook/node41.html)
+- [Policy Iteration](http://incompleteideas.net/book/ebook/node43.html)
+- [Prioritized Sweeping](http://incompleteideas.net/book/ebook/node98.html)
+- [Q-Learning](http://incompleteideas.net/book/ebook/node65.html)
+- [Q(λ)](https://arxiv.org/pdf/1602.04951.pdf)
+- [SARSA(λ)](http://incompleteideas.net/book/ebook/node77.html)
+- [SARSA](http://incompleteideas.net/book/ebook/node64.html)
+- [Retrace(λ)](https://arxiv.org/pdf/1606.02647.pdf)
+- [Tree Backup(λ)](https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs)
+- [Value Iteration](http://incompleteideas.net/book/ebook/node44.html)
 
 Policies:
 
@@ -105,8 +109,8 @@ Policies:
 - Epsilon-Greedy Policy
 - Softmax Policy
 - Q-Greedy Policy
-- [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
 - [PGA-APP](https://pdfs.semanticscholar.org/5936/78c350e955f9fe4e0b1ac7f51a74b026709a.pdf)
+- [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf)
 
 ### Single Agent POMDP: ###
 
@@ -117,14 +121,14 @@ Algorithms:
 - [Fast Informed Bound](https://people.cs.pitt.edu/~milos/research/JAIR-2000.pdf)
 - [GapMin](https://cs.uwaterloo.ca/~ppoupart/publications/gapMin/gap-camera-ready.pdf)
 - [Incremental Pruning](http://arxiv.org/pdf/1302.1525.pdf)
+- [Linear Support](https://open.library.ubc.ca/media/stream/pdf/831/1.0098252/1)
 - [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf)
-- [Point Based Value Iteration (PBVI)](http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf)
 - [POMCP with UCB1](http://www0.cs.ucl.ac.uk/staff/d.silver/web/Applications_files/pomcp.pdf)
+- [Point Based Value Iteration (PBVI)](http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf)
 - [QMDP](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf)
-- [rPOMCP](https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf)
 - [Real-Time Belief State Search (RTBSS)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf)
 - [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf)
-- [Linear Support](https://open.library.ubc.ca/media/stream/pdf/831/1.0098252/1)
+- [rPOMCP](https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf)
 
 Policies:
 
@@ -138,11 +142,11 @@ Not in Python yet.
 
 Algorithms:
 
-- [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf)
-- [Multi-Objective Variable Elimination (MOVE)](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
-- [Upper Confidence Variable Elimination (UCVE)](http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf)
 - [Learning with Linear Rewards (LLR)](https://arxiv.org/pdf/1011.4748.pdf)
 - [Multi-Agent Upper Confidence Exploration (MAUCE)](http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf)
+- [Multi-Objective Variable Elimination (MOVE)](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf)
+- [Upper Confidence Variable Elimination (UCVE)](http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf)
+- [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf)
 
 Policies:
 
@@ -154,9 +158,9 @@ Not in Python yet.
 
 Algorithms:
 
-- [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf)
-- [Joint Action Learners](https://www.aaai.org/Papers/AAAI/1998/AAAI98-106.pdf)
 - [FactoredLP](https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf)
+- [Joint Action Learners](https://www.aaai.org/Papers/AAAI/1998/AAAI98-106.pdf)
+- [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf)
 
 Policies:
 
