@@ -12,6 +12,7 @@
 #include <AIToolbox/POMDP/TypeTraits.hpp>
 
 #include <boost/iterator/transform_iterator.hpp>
+#include <boost/functional/hash.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -29,6 +30,17 @@ namespace AIToolbox::POMDP {
     // This implementation is temporary until we can substitute both with the
     // spaceship operator (<=>) in C++20.
     bool operator==(const VEntry & lhs, const VEntry & rhs);
+
+    /**
+     * @brief This function enables hashing of VEntries with boost::hash.
+     */
+    inline size_t hash_value(const VEntry & v) {
+        size_t seed = 0;
+        boost::hash_combine(seed, v.action);
+        boost::hash_combine(seed, v.observations);
+        boost::hash_combine(seed, v.values);
+        return seed;
+    }
 
     /**
      * @brief This function is used with transform iterators to obtain the Values of a VEntry.

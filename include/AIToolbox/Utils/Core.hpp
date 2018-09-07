@@ -6,6 +6,8 @@
 
 #include <AIToolbox/Types.hpp>
 
+#include <boost/functional/hash.hpp>
+
 namespace AIToolbox {
     constexpr auto equalEpsilonSmall = 0.000001;
     constexpr auto equalEpsilonGeneral = 0.00000000001;
@@ -180,6 +182,15 @@ namespace AIToolbox {
             return false;
         }
         return false;
+    }
+}
+
+namespace Eigen {
+    /**
+     * @brief This function enables hashing of Vectors with boost::hash.
+     */
+    inline size_t hash_value(const AIToolbox::Vector & v) {
+        return boost::hash_range(v.data(), v.data() + v.size());
     }
 }
 

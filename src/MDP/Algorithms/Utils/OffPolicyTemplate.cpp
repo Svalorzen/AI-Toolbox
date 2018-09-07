@@ -1,19 +1,19 @@
-#include <AIToolbox/MDP/Algorithms/SARSAL.hpp>
+#include <AIToolbox/MDP/Algorithms/Utils/OffPolicyTemplate.hpp>
+
+#include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox::MDP {
-    SARSAL::SARSAL(const size_t ss, const size_t aa, const double discount, const double alpha, const double lambda, const double epsilon) :
-            S(ss), A(aa), q_(makeQFunction(S, A))
+    OffPolicyBase::OffPolicyBase(const PolicyInterface & behaviour, const double discount, const double alpha, const double epsilon) :
+        S(behaviour.getS()), A(behaviour.getA()),
+        q_(makeQFunction(S, A)),
+        behaviour_(behaviour)
     {
         setDiscount(discount);
         setLearningRate(alpha);
-        setLambda(lambda);
         setEpsilon(epsilon);
     }
 
-    void SARSAL::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const size_t a1, const double rew) {
-        const auto error = alpha_ * ( rew + discount_ * q_(s1, a1) - q_(s, a) );
-        bool newTrace = true;
-
+    void OffPolicyBase::updateTraces(const size_t s, const size_t a, const double error, const double traceDiscount) {
         // So basically here we have in traces_ a non-ordered list of the old
         // state/action pairs we have already seen. For each item in this list,
         // we scale its "relevantness" back by gammaL_, and we update its
@@ -25,13 +25,14 @@ namespace AIToolbox::MDP {
         // If any element would become too far away temporally to still be
         // relevant, we extract it from the list. As the order is not important
         // (it is implicit in the "el" element), we can use swap+pop.
+        bool newTrace = true;
         for (size_t i = 0; i < traces_.size(); ++i) {
             auto & [ss, aa, el] = traces_[i];
             if (ss == s && aa == a) {
                 el = 1.0;
                 newTrace = false;
             } else {
-                el *= gammaL_;
+                el *= traceDiscount;
                 if (el < epsilon_) {
                     std::swap(traces_[i], traces_[traces_.size() - 1]);
                     traces_.pop_back();
@@ -47,55 +48,43 @@ namespace AIToolbox::MDP {
         }
     }
 
-    void SARSAL::clearTraces() {
+    void OffPolicyBase::clearTraces() {
         traces_.clear();
     }
 
-    const SARSAL::Traces & SARSAL::getTraces() const {
+    const OffPolicyBase::Traces & OffPolicyBase::getTraces() const {
         return traces_;
     }
 
-    void SARSAL::setTraces(const Traces & t) {
+    void OffPolicyBase::setTraces(const Traces & t) {
         traces_ = t;
     }
 
-    void SARSAL::setLearningRate(const double a) {
+    void OffPolicyBase::setLearningRate(const double a) {
         if ( a <= 0.0 || a > 1.0 ) throw std::invalid_argument("Learning rate parameter must be in (0,1]");
         alpha_ = a;
     }
 
-    double SARSAL::getLearningRate() const { return alpha_; }
+    double OffPolicyBase::getLearningRate() const { return alpha_; }
 
-    void SARSAL::setDiscount(const double d) {
+    void OffPolicyBase::setDiscount(const double d) {
         if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
         discount_ = d;
-        gammaL_ = lambda_ * discount_;
     }
 
-    double SARSAL::getDiscount() const { return discount_; }
+    double OffPolicyBase::getDiscount() const { return discount_; }
 
-    void SARSAL::setLambda(const double lambda) {
-        if ( lambda < 0.0 || lambda > 1.0 ) throw std::invalid_argument("Lambda parameter must be in [0,1]");
-
-        lambda_ = lambda;
-        gammaL_ = lambda_ * discount_;
-    }
-
-    double SARSAL::getLambda() const {
-        return lambda_;
-    }
-
-    void SARSAL::setEpsilon(const double epsilon) {
+    void OffPolicyBase::setEpsilon(const double epsilon) {
         epsilon_ = epsilon;
     }
 
-    double SARSAL::getEpsilon() const {
+    double OffPolicyBase::getEpsilon() const {
         return epsilon_;
     }
 
-    size_t SARSAL::getS() const { return S; }
-    size_t SARSAL::getA() const { return A; }
+    size_t OffPolicyBase::getS() const { return S; }
+    size_t OffPolicyBase::getA() const { return A; }
 
-    const QFunction & SARSAL::getQFunction() const { return q_; }
-    void SARSAL::setQFunction(const QFunction & qfun) { q_ = qfun; }
+    const QFunction & OffPolicyBase::getQFunction() const { return q_; }
+    void OffPolicyBase::setQFunction(const QFunction & qfun) { q_ = qfun; }
 }

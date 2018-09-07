@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     auto model = makeCliffProblem(grid);
 
-    mdp::QLearning solver(model);
+    mdp::QLearning solver(model, 0.5);
 
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
     mdp::EpsilonPolicy ePolicy(gPolicy, 0.9);
@@ -57,10 +57,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     size_t start = model.getS() - 2;
 
     size_t s, a;
-    // Sorry Sutton & Barto, but NO WAY IN HELL that
-    // QLearning is going to learn the best path in
-    // 50 episodes. Like, NO.
-    for ( int episode = 0; episode < 10000; ++episode ) {
+    for ( int episode = 0; episode < 100; ++episode ) {
         s = start;
         for ( int i = 0; i < 10000; ++i ) {
             a = ePolicy.sampleAction( s );

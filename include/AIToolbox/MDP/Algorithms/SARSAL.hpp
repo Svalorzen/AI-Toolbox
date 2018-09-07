@@ -73,6 +73,26 @@ namespace AIToolbox::MDP {
             SARSAL(const M& model, double alpha = 0.1, double lambda = 0.9, double epsilon = 0.001);
 
             /**
+             * @brief This function updates the internal QFunction using the discount set during construction.
+             *
+             * This function takes a single experience point and uses it to
+             * update the QFunction. This is a very efficient method to
+             * keep the QFunction up to date with the latest experience.
+             *
+             * Keep in mind that, since SARSAL needs to compute the
+             * QFunction for the currently used policy, it needs to know
+             * two consecutive state-action pairs, in order to correctly
+             * relate how the policy acts from state to state.
+             *
+             * @param s The previous state.
+             * @param a The action performed.
+             * @param s1 The new state.
+             * @param a1 The action performed in the new state.
+             * @param rew The reward obtained.
+             */
+            void stepUpdateQ(size_t s, size_t a, size_t s1, size_t a1, double rew);
+
+            /**
              * @brief This function sets the learning rate parameter.
              *
              * The learning parameter determines the speed at which the
@@ -168,26 +188,6 @@ namespace AIToolbox::MDP {
              * @return The currently set trace cutoff parameter.
              */
             double getEpsilon() const;
-
-            /**
-             * @brief This function updates the internal QFunction using the discount set during construction.
-             *
-             * This function takes a single experience point and uses it to
-             * update the QFunction. This is a very efficient method to
-             * keep the QFunction up to date with the latest experience.
-             *
-             * Keep in mind that, since SARSAL needs to compute the
-             * QFunction for the currently used policy, it needs to know
-             * two consecutive state-action pairs, in order to correctly
-             * relate how the policy acts from state to state.
-             *
-             * @param s The previous state.
-             * @param a The action performed.
-             * @param s1 The new state.
-             * @param a1 The action performed in the new state.
-             * @param rew The reward obtained.
-             */
-            void stepUpdateQ(size_t s, size_t a, size_t s1, size_t a1, double rew);
 
             /**
              * @brief This function clears the already set traces.

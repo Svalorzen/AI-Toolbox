@@ -24,6 +24,7 @@ if (MAKE_MDP)
         MDP/Algorithms/SARSAL.cpp
         MDP/Algorithms/ValueIteration.cpp
         MDP/Algorithms/PolicyIteration.cpp
+        MDP/Algorithms/Utils/OffPolicyTemplate.cpp
         MDP/Policies/PolicyWrapper.cpp
         MDP/Policies/Policy.cpp
         MDP/Policies/RandomPolicy.cpp
