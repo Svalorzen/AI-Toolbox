@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['a',['A',['../classAIToolbox_1_1PolicyInterface.html#aca23b903636afd69b099f8db7fc39658',1,'AIToolbox::PolicyInterface::A()'],['../classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a45db15d80fc8698fc3bde47c19e01e3a',1,'AIToolbox::PolicyInterface&lt; void, void, Action &gt;::A()']]],
+  ['a',['A',['../classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a2fcedced954a83fba13cf7acea6b235d',1,'AIToolbox::MDP::OffPolicyBase::A()'],['../classAIToolbox_1_1PolicyInterface.html#aca23b903636afd69b099f8db7fc39658',1,'AIToolbox::PolicyInterface::A()'],['../classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a45db15d80fc8698fc3bde47c19e01e3a',1,'AIToolbox::PolicyInterface&lt; void, void, Action &gt;::A()']]],
   ['a_5fleft',['A_LEFT',['../TigerProblem_8hpp.html#abc5c98fcc1211af2b80116dd6e0a035dadc9b7c1ae50f3ebac052bb14e6f5724f',1,'TigerProblem.hpp']]],
   ['a_5flisten',['A_LISTEN',['../TigerProblem_8hpp.html#abc5c98fcc1211af2b80116dd6e0a035da106019d070af235b1225932124742ea0',1,'TigerProblem.hpp']]],
   ['a_5fright',['A_RIGHT',['../TigerProblem_8hpp.html#abc5c98fcc1211af2b80116dd6e0a035da4b50bcc122a7fdaf412374c1fe2fff5f',1,'TigerProblem.hpp']]],
@@ -10,8 +10,8 @@ var searchData=
   ['actions',['actions',['../structAIToolbox_1_1MDP_1_1ValueFunction.html#ad4fde3f16968af4b01b582e70c2d17e6',1,'AIToolbox::MDP::ValueFunction::actions()'],['../namespaceAIToolbox_1_1MDP.html#a42a6ee8b9f55d5503151441128736d14',1,'AIToolbox::MDP::Actions()']]],
   ['actionsv',['actionsV',['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#a21fdfaed9c910fadee03508c0d1a20ac',1,'AIToolbox::POMDP::BeliefNode']]],
   ['addcolumn',['addColumn',['../classAIToolbox_1_1LP.html#afd4c4d7d75c9f4b3bb2b3e776e98bd0d',1,'AIToolbox::LP']]],
-  ['addoptimalrow',['addOptimalRow',['../classAIToolbox_1_1POMDP_1_1WitnessLP.html#ab263306c3dbe15e3bbc47bcff28bcf6e',1,'AIToolbox::POMDP::WitnessLP']]],
-  ['advance',['advance',['../classAIToolbox_1_1Factored_1_1PartialFactorsEnumerator.html#a3e62ded37feb181ca4c2a3884be10a07',1,'AIToolbox::Factored::PartialFactorsEnumerator']]],
+  ['addoptimalrow',['addOptimalRow',['../classAIToolbox_1_1WitnessLP.html#a131f5184dc461deae77a17cf5c6aba8b',1,'AIToolbox::WitnessLP']]],
+  ['advance',['advance',['../classAIToolbox_1_1Factored_1_1PartialFactorsEnumerator.html#a3e62ded37feb181ca4c2a3884be10a07',1,'AIToolbox::Factored::PartialFactorsEnumerator::advance()'],['../classAIToolbox_1_1SubsetEnumerator.html#a45ad2cbc0d886e3adab76934776aac24',1,'AIToolbox::SubsetEnumerator::advance()']]],
   ['ai_5flogger',['AI_LOGGER',['../Logging_8hpp.html#a2d38261fbd93323a5175b971c488b5ce',1,'Logging.hpp']]],
   ['ai_5fseverity_5fdebug',['AI_SEVERITY_DEBUG',['../Logging_8hpp.html#a9b0d10889d15bd23198797c5cfb54669',1,'Logging.hpp']]],
   ['ai_5fseverity_5ferror',['AI_SEVERITY_ERROR',['../Logging_8hpp.html#a75e85f44052fb2528aa760a2a0744aa4',1,'Logging.hpp']]],
@@ -20,7 +20,8 @@ var searchData=
   ['ailogger',['AILogger',['../namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187',1,'AIToolbox']]],
   ['ailoggerfun',['AILoggerFun',['../namespaceAIToolbox.html#af6eb1f8c89dcca62cbe9912b6ec77d33',1,'AIToolbox']]],
   ['aitoolbox',['AIToolbox',['../namespaceAIToolbox.html',1,'']]],
-  ['allocate',['allocate',['../classAIToolbox_1_1POMDP_1_1WitnessLP.html#afc041af4f411ecad68c83b1f92d04c52',1,'AIToolbox::POMDP::WitnessLP']]],
+  ['allocate',['allocate',['../classAIToolbox_1_1WitnessLP.html#adb8f2d32ce64a4c7d77e8c4687c3c8e9',1,'AIToolbox::WitnessLP']]],
+  ['alpha_5f',['alpha_',['../classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a26758dbc33eed8c8b606aed1b787a8cc',1,'AIToolbox::MDP::OffPolicyBase']]],
   ['amdp',['AMDP',['../classAIToolbox_1_1POMDP_1_1AMDP.html',1,'AIToolbox::POMDP::AMDP'],['../classAIToolbox_1_1POMDP_1_1AMDP.html#abaeeeb08dad0be6f1ebe3daa03c9938b',1,'AIToolbox::POMDP::AMDP::AMDP()']]],
   ['amdp_2ehpp',['AMDP.hpp',['../AMDP_8hpp.html',1,'']]],
   ['anode',['ANode',['../classAIToolbox_1_1POMDP_1_1rPOMCP.html#a6289d0cf16cd3a3dfb267504298128a7',1,'AIToolbox::POMDP::rPOMCP']]],

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['_7elp',['~LP',['../classAIToolbox_1_1LP.html#a39678bfcd50427d04ae992a791e9cbeb',1,'AIToolbox::LP']]],
-  ['_7epolicyinterface',['~PolicyInterface',['../classAIToolbox_1_1PolicyInterface.html#a9fccdc78f246f0da0e1d9cc64a1a846c',1,'AIToolbox::PolicyInterface::~PolicyInterface()'],['../classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a74c89c13db2053ab75dafbbfb0796130',1,'AIToolbox::PolicyInterface&lt; void, void, Action &gt;::~PolicyInterface()']]]
+  ['weakbounddistance',['weakBoundDistance',['../namespaceAIToolbox_1_1POMDP.html#a05e4fb4a18324709e70b42d66cf2054b',1,'AIToolbox::POMDP']]],
+  ['witness',['Witness',['../classAIToolbox_1_1POMDP_1_1Witness.html#ae245a162b17965f9cef3552fb3297ffd',1,'AIToolbox::POMDP::Witness']]],
+  ['witnesslp',['WitnessLP',['../classAIToolbox_1_1WitnessLP.html#a559d8ca0b794ff088a69389efe5a7330',1,'AIToolbox::WitnessLP']]],
+  ['wolfpolicy',['WoLFPolicy',['../classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a5da7647741afda3a435534a1a423c5b2',1,'AIToolbox::MDP::WoLFPolicy']]]
 ];

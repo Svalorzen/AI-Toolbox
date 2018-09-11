@@ -75,6 +75,7 @@ $(function() {
 <code>#include &lt;<a class="el" href="MDP_2IO_8hpp_source.html">AIToolbox/MDP/IO.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="MDP_2Model_8hpp_source.html">AIToolbox/MDP/Model.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2Types_8hpp_source.html">AIToolbox/POMDP/Types.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="POMDP_2TypeTraits_8hpp_source.html">AIToolbox/POMDP/TypeTraits.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2Model_8hpp_source.html">AIToolbox/POMDP/Model.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2SparseModel_8hpp_source.html">AIToolbox/POMDP/SparseModel.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2Policies_2Policy_8hpp_source.html">AIToolbox/POMDP/Policies/Policy.hpp</a>&gt;</code><br />
@@ -91,7 +92,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a184e91a2441d41ffc7c249c587bf415c"><td class="memItemLeft" align="right" valign="top">Model&lt; MDP::Model &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a184e91a2441d41ffc7c249c587bf415c">AIToolbox::POMDP::parseCassandra</a> (std::istream &amp;input)</td></tr>
 <tr class="memdesc:a184e91a2441d41ffc7c249c587bf415c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> from a Cassandra formatted stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a184e91a2441d41ffc7c249c587bf415c">More...</a><br /></td></tr>
 <tr class="separator:a184e91a2441d41ffc7c249c587bf415c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#af460a8a2b997c9c93e620e9f805fcaf3">AIToolbox::POMDP::operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
 <tr class="memdesc:af460a8a2b997c9c93e620e9f805fcaf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model to a file.  <a href="namespaceAIToolbox_1_1POMDP.html#af460a8a2b997c9c93e620e9f805fcaf3">More...</a><br /></td></tr>
 <tr class="separator:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,7 +114,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

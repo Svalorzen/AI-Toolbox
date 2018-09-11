@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['observations',['observations',['../structAIToolbox_1_1POMDP_1_1VEntry.html#a84c7389b6b1273623342cd521fee35c8',1,'AIToolbox::POMDP::VEntry']]]
+  ['maxs_5f',['maxS_',['../structAIToolbox_1_1Impl_1_1POMDP_1_1BeliefNodeNoEntropyAddon.html#a58163dcba9a40d4d4a2af39de62c8b3d',1,'AIToolbox::Impl::POMDP::BeliefNodeNoEntropyAddon']]]
 ];

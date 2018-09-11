@@ -98,6 +98,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7830df7fe01164c8514f6fe6715834ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#a7830df7fe01164c8514f6fe6715834ca">setObjective</a> (size_t n, bool maximize)</td></tr>
 <tr class="memdesc:a7830df7fe01164c8514f6fe6715834ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function selects the variable to use as objective.  <a href="#a7830df7fe01164c8514f6fe6715834ca">More...</a><br /></td></tr>
 <tr class="separator:a7830df7fe01164c8514f6fe6715834ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a73c41e1cac5251aceaaaade5eb140"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#a65a73c41e1cac5251aceaaaade5eb140">setObjective</a> (bool maximize)</td></tr>
+<tr class="memdesc:a65a73c41e1cac5251aceaaaade5eb140"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function uses the currently set row as the objective.  <a href="#a65a73c41e1cac5251aceaaaade5eb140">More...</a><br /></td></tr>
+<tr class="separator:a65a73c41e1cac5251aceaaaade5eb140"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa387ee6f450fe024c2e97881c885ea61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1LP.html#aa387ee6f450fe024c2e97881c885ea61">pushRow</a> (<a class="el" href="classAIToolbox_1_1LP.html#a224f6cac074e3884329d6f32daa9e67f">Constraint</a> c, double value)</td></tr>
 <tr class="memdesc:aa387ee6f450fe024c2e97881c885ea61"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function adds a constraint to the <a class="el" href="classAIToolbox_1_1LP.html" title="This class presents a common interface for solving Linear Programming problems. ">LP</a>.  <a href="#aa387ee6f450fe024c2e97881c885ea61">More...</a><br /></td></tr>
 <tr class="separator:aa387ee6f450fe024c2e97881c885ea61"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -351,7 +354,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a7830df7fe01164c8514f6fe6715834ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7830df7fe01164c8514f6fe6715834ca">&#9670;&nbsp;</a></span>setObjective()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7830df7fe01164c8514f6fe6715834ca">&#9670;&nbsp;</a></span>setObjective() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -381,6 +384,33 @@ Public Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td>The id of the variable to select as objective. </td></tr>
+    <tr><td class="paramname">maximize</td><td>Whether the variable should be maximized (or minimized). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a65a73c41e1cac5251aceaaaade5eb140"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65a73c41e1cac5251aceaaaade5eb140">&#9670;&nbsp;</a></span>setObjective() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::LP::setObjective </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>maximize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function uses the currently set row as the objective. </p>
+<p>In addition it allows to specify whether the objective should be maximized or minimized.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
     <tr><td class="paramname">maximize</td><td>Whether the variable should be maximized (or minimized). </td></tr>
   </table>
   </dd>
@@ -480,7 +510,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

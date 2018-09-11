@@ -72,6 +72,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="MDP_2Types_8hpp_source.html">AIToolbox/MDP/Types.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="MDP_2TypeTraits_8hpp_source.html">AIToolbox/MDP/TypeTraits.hpp</a>&gt;</code><br />
 </div>
 <p><a href="include_2AIToolbox_2MDP_2Utils_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -94,11 +95,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a5874e2f218962bc345b9f6cb945b7e48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a5874e2f218962bc345b9f6cb945b7e48">AIToolbox::MDP::bellmanOperatorInline</a> (const QFunction &amp;q, ValueFunction *v)</td></tr>
 <tr class="memdesc:a5874e2f218962bc345b9f6cb945b7e48"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function converts a QFunction into the equivalent optimal <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>.  <a href="namespaceAIToolbox_1_1MDP.html#a5874e2f218962bc345b9f6cb945b7e48">More...</a><br /></td></tr>
 <tr class="separator:a5874e2f218962bc345b9f6cb945b7e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplItemLeft" align="right" valign="top">Matrix2D&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a442bfec64e706836fced231402c50309">AIToolbox::MDP::computeImmediateRewards</a> (const M &amp;model)</td></tr>
 <tr class="memdesc:a442bfec64e706836fced231402c50309"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes all immediate rewards (state and action) of the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> once for improved speed.  <a href="namespaceAIToolbox_1_1MDP.html#a442bfec64e706836fced231402c50309">More...</a><br /></td></tr>
 <tr class="separator:a442bfec64e706836fced231402c50309"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplItemLeft" align="right" valign="top">QFunction&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#afebfc75837c7c99176255562a38cd34a">AIToolbox::MDP::computeQFunction</a> (const M &amp;model, const Values &amp;v, QFunction ir)</td></tr>
 <tr class="memdesc:afebfc75837c7c99176255562a38cd34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>'s QFunction from the values of a <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>.  <a href="namespaceAIToolbox_1_1MDP.html#afebfc75837c7c99176255562a38cd34a">More...</a><br /></td></tr>
 <tr class="separator:afebfc75837c7c99176255562a38cd34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,7 +107,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

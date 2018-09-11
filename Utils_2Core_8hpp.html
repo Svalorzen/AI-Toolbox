@@ -64,7 +64,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -72,26 +71,18 @@ $(function() {
 <div class="title">Core.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
+<div class="textblock"><code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;<a class="el" href="Types_8hpp_source.html">AIToolbox/Types.hpp</a>&gt;</code><br />
+<code>#include &lt;boost/functional/hash.hpp&gt;</code><br />
 </div>
 <p><a href="Utils_2Core_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Impl_1_1BaseIter.html">AIToolbox::Impl::BaseIter&lt; Iterator, Check &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Impl_1_1BaseIter_3_01Iterator_00_01decltype_07std_1_1declval_3_01Iterator_01_09a30e10749b65a626e2a810ceca898d.html">AIToolbox::Impl::declval&lt; Iterator * &gt;() -&gt;base(), void())&gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceAIToolbox"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespaceAIToolbox_1_1Impl"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Impl.html">AIToolbox::Impl</a></td></tr>
+<tr class="memitem:namespaceEigen"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceEigen.html">Eigen</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -114,20 +105,23 @@ Functions</h2></td></tr>
 <tr class="separator:a67f283ebe30cd11e1eead7a814057945"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a111282b4c465f34023497869fdeecd58"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
 <tr class="memitem:a111282b4c465f34023497869fdeecd58"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58">AIToolbox::veccmp</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
-<tr class="memdesc:a111282b4c465f34023497869fdeecd58"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two AIToolbox::Vectors of equal size.  <a href="namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58">More...</a><br /></td></tr>
+<tr class="memdesc:a111282b4c465f34023497869fdeecd58"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58">More...</a><br /></td></tr>
 <tr class="separator:a111282b4c465f34023497869fdeecd58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55704f3d804db6f45c52e6d2fb539d2c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a55704f3d804db6f45c52e6d2fb539d2c">AIToolbox::operator&lt;</a> (const Vector &amp;lhs, const Vector &amp;rhs)</td></tr>
-<tr class="separator:a55704f3d804db6f45c52e6d2fb539d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa38827c4e5e28f647a2cd272eadf52a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#aa38827c4e5e28f647a2cd272eadf52a1">AIToolbox::operator&gt;</a> (const Vector &amp;lhs, const Vector &amp;rhs)</td></tr>
-<tr class="separator:aa38827c4e5e28f647a2cd272eadf52a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad0927a8f10c7aa36aa7d341fab1834fc">AIToolbox::veccmpSmall</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
+<tr class="memdesc:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#ad0927a8f10c7aa36aa7d341fab1834fc">More...</a><br /></td></tr>
+<tr class="separator:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ad90c42f9cf72812707724c6a669161"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a2ad90c42f9cf72812707724c6a669161"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a2ad90c42f9cf72812707724c6a669161">AIToolbox::veccmpGeneral</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
+<tr class="memdesc:a2ad90c42f9cf72812707724c6a669161"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a2ad90c42f9cf72812707724c6a669161">More...</a><br /></td></tr>
+<tr class="separator:a2ad90c42f9cf72812707724c6a669161"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
 <tr class="memitem:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#aa39713f004f1572ab84fb4ab4d9f44f3">AIToolbox::sequential_sorted_contains</a> (const V &amp;v, decltype(v[0]) elem)</td></tr>
 <tr class="memdesc:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a sorted range contains a given element, via sequential scan.  <a href="namespaceAIToolbox.html#aa39713f004f1572ab84fb4ab4d9f44f3">More...</a><br /></td></tr>
 <tr class="separator:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e7063689f69c58c790c645ca9fd2f77"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:a9e7063689f69c58c790c645ca9fd2f77"><td class="memTemplItemLeft" align="right" valign="top">Impl::BaseIter&lt; typename std::remove_reference&lt; Iterator &gt;::type &gt;::BaseIterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a9e7063689f69c58c790c645ca9fd2f77">AIToolbox::baseIter</a> (Iterator &amp;&amp;it)</td></tr>
-<tr class="memdesc:a9e7063689f69c58c790c645ca9fd2f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the base iterator for any given iterator.  <a href="namespaceAIToolbox.html#a9e7063689f69c58c790c645ca9fd2f77">More...</a><br /></td></tr>
-<tr class="separator:a9e7063689f69c58c790c645ca9fd2f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ef63df268981b7fd9907b00ebfa273e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceEigen.html#a6ef63df268981b7fd9907b00ebfa273e">Eigen::hash_value</a> (const <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">AIToolbox::Vector</a> &amp;v)</td></tr>
+<tr class="memdesc:a6ef63df268981b7fd9907b00ebfa273e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables hashing of Vectors with boost::hash.  <a href="namespaceEigen.html#a6ef63df268981b7fd9907b00ebfa273e">More...</a><br /></td></tr>
+<tr class="separator:a6ef63df268981b7fd9907b00ebfa273e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -139,7 +133,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

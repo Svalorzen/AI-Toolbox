@@ -90,7 +90,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa7cfcbab3d5cd16648d521b80e64b200"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldMDPModel.html#aa7cfcbab3d5cd16648d521b80e64b200">OldMDPModel</a> (size_t s, size_t a, const T &amp;t, const R &amp;r, double d=1.0)</td></tr>
 <tr class="memdesc:aa7cfcbab3d5cd16648d521b80e64b200"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aa7cfcbab3d5cd16648d521b80e64b200">More...</a><br /></td></tr>
 <tr class="separator:aa7cfcbab3d5cd16648d521b80e64b200"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac75f7674d14277553f9774e58e41dcf5"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;AIToolbox::MDP::is_model&lt;M&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:ac75f7674d14277553f9774e58e41dcf5"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;AIToolbox::MDP::is_model_v&lt;M&gt;&gt;&gt; </td></tr>
 <tr class="memitem:ac75f7674d14277553f9774e58e41dcf5"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldMDPModel.html#ac75f7674d14277553f9774e58e41dcf5">OldMDPModel</a> (const M &amp;model)</td></tr>
 <tr class="memdesc:ac75f7674d14277553f9774e58e41dcf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid MDP model.  <a href="#ac75f7674d14277553f9774e58e41dcf5">More...</a><br /></td></tr>
 <tr class="separator:ac75f7674d14277553f9774e58e41dcf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,7 +140,7 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents a Markov Decision Process. </p>
-<p>This is the old class representing a Model in the <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> library. It was discontinued since it does not use Eigen internally, which makes it slower. We can still use it to test codepaths which do not rely on Eigen though.</p>
+<p>This is the old class representing a Model in the <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> library. It was discontinued since it does not use <a class="el" href="namespaceEigen.html">Eigen</a> internally, which makes it slower. We can still use it to test codepaths which do not rely on <a class="el" href="namespaceEigen.html">Eigen</a> though.</p>
 <p>A Markov Decision Process (MDP) is a way to model decision making. The idea is that there is an agent situated in a stochastic environment which changes in discrete "timesteps". The agent can influence the way the environment changes via "actions". For each action the agent can perform, the environment will transition from a state "s" to a state "s1" following a certain transition function. The transition function specifies, for each triple SxAxS' the probability that such a transition will happen.</p>
 <p>In addition, associated with transitions, the agent is able to obtain rewards. Thus, if it does good, the agent will obtain a higher reward than if it performed badly. The reward obtained by the agent is in addition associated with a "discount" factor: at every step, the possible reward that the agent can collect is multiplied by this factor, which is a number between 0 and 1. The discount factor is used to model the fact that often it is preferable to obtain something sooner, rather than later.</p>
 <p>Since all of this is governed by probabilities, it is possible to solve an MDP model in order to obtain an "optimal policy", which is a way to select an action from a state which will maximize the expected reward that the agent is going to collect during its life. The expected reward is computed as the sum of every reward the agent collects at every timestep, keeping in mind that at every timestep the reward is further and further discounted.</p>
@@ -815,7 +815,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

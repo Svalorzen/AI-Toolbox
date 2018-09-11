@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['epsilon_5f',['epsilon_',['../classAIToolbox_1_1EpsilonPolicyInterface.html#ae0b88613cdabcf4eddfda64076eeff21',1,'AIToolbox::EpsilonPolicyInterface']]],
-  ['equalepsilongeneral',['equalEpsilonGeneral',['../namespaceAIToolbox.html#a452863c2baf6a9e256844bccfd029623',1,'AIToolbox']]],
-  ['equalepsilonsmall',['equalEpsilonSmall',['../namespaceAIToolbox.html#ae1f9a01714ce537de2ee3bed6bfbfc36',1,'AIToolbox']]]
+  ['discount_5f',['discount_',['../classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a61ce909e3b8e3a8ccce065fab7244e7d',1,'AIToolbox::MDP::OffPolicyBase']]]
 ];

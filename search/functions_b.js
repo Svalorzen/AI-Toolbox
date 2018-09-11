@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['makecliffproblem',['makeCliffProblem',['../CliffProblem_8hpp.html#a4c197b9b827486783b9011e0e84d0e6c',1,'CliffProblem.hpp']]],
+  ['makecliffproblem',['makeCliffProblem',['../CliffProblem_8hpp.html#ac37e0488b34ba9e8db75834e0e4a9690',1,'CliffProblem.hpp']]],
   ['makecornerproblem',['makeCornerProblem',['../CornerProblem_8hpp.html#afc5f227e2c430c284d70c7b43e1bb0c7',1,'CornerProblem.hpp']]],
   ['makeqfunction',['makeQFunction',['../namespaceAIToolbox_1_1MDP.html#ab0aa05d69430fdb1ceeaa51dbed01c4c',1,'AIToolbox::MDP']]],
   ['makerandomprobability',['makeRandomProbability',['../namespaceAIToolbox.html#a476a8ac48b42df366183a01594f78dac',1,'AIToolbox']]],

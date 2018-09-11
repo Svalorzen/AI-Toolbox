@@ -92,11 +92,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a78358cf6817fae0a9637a809d918519a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a78358cf6817fae0a9637a809d918519a">OldPOMDPModel</a> (size_t o, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:a78358cf6817fae0a9637a809d918519a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a78358cf6817fae0a9637a809d918519a">More...</a><br /></td></tr>
 <tr class="separator:a78358cf6817fae0a9637a809d918519a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb67488e57aef994c9139e13a2ff7069"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = std::enable_if_t&lt;std::is_constructible&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:abb67488e57aef994c9139e13a2ff7069"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = std::enable_if_t&lt;std::is_constructible_v&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;&gt;&gt; </td></tr>
 <tr class="memitem:abb67488e57aef994c9139e13a2ff7069"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#abb67488e57aef994c9139e13a2ff7069">OldPOMDPModel</a> (size_t o, ObFun &amp;&amp;of, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:abb67488e57aef994c9139e13a2ff7069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#abb67488e57aef994c9139e13a2ff7069">More...</a><br /></td></tr>
 <tr class="separator:abb67488e57aef994c9139e13a2ff7069"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dec65454c376ddc4346dd5767c97185"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = std::enable_if_t&lt;AIToolbox::POMDP::is_model&lt;PM&gt;::value &amp;&amp; std::is_constructible&lt;M,PM&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:a1dec65454c376ddc4346dd5767c97185"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = std::enable_if_t&lt;AIToolbox::POMDP::is_model_v&lt;PM&gt; &amp;&amp; std::is_constructible_v&lt;M,PM&gt;&gt;&gt; </td></tr>
 <tr class="memitem:a1dec65454c376ddc4346dd5767c97185"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a1dec65454c376ddc4346dd5767c97185">OldPOMDPModel</a> (const PM &amp;model)</td></tr>
 <tr class="memdesc:a1dec65454c376ddc4346dd5767c97185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid POMDP model.  <a href="#a1dec65454c376ddc4346dd5767c97185">More...</a><br /></td></tr>
 <tr class="separator:a1dec65454c376ddc4346dd5767c97185"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -528,7 +528,7 @@ template&lt;typename ObFun &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

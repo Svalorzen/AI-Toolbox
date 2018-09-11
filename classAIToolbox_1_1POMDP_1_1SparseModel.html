@@ -97,11 +97,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaffc2edb08e6162df66acf8a5f2c92ab"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aaffc2edb08e6162df66acf8a5f2c92ab">SparseModel</a> (size_t o, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:aaffc2edb08e6162df66acf8a5f2c92ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aaffc2edb08e6162df66acf8a5f2c92ab">More...</a><br /></td></tr>
 <tr class="separator:aaffc2edb08e6162df66acf8a5f2c92ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32ef6de26e674529c428809650878a99"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = std::enable_if_t&lt;std::is_constructible&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:a32ef6de26e674529c428809650878a99"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args, typename  = std::enable_if_t&lt;std::is_constructible_v&lt;double,decltype(std::declval&lt;ObFun&gt;()[0][0][0])&gt;&gt;&gt; </td></tr>
 <tr class="memitem:a32ef6de26e674529c428809650878a99"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a32ef6de26e674529c428809650878a99">SparseModel</a> (size_t o, ObFun &amp;&amp;of, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:a32ef6de26e674529c428809650878a99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a32ef6de26e674529c428809650878a99">More...</a><br /></td></tr>
 <tr class="separator:a32ef6de26e674529c428809650878a99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a003a5b06c7cc0670a791876a30ac48b6"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = std::enable_if_t&lt;is_model&lt;PM&gt;::value &amp;&amp; std::is_constructible&lt;M,PM&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:a003a5b06c7cc0670a791876a30ac48b6"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = std::enable_if_t&lt;is_model_v&lt;PM&gt; &amp;&amp; std::is_constructible_v&lt;M,PM&gt;&gt;&gt; </td></tr>
 <tr class="memitem:a003a5b06c7cc0670a791876a30ac48b6"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a003a5b06c7cc0670a791876a30ac48b6">SparseModel</a> (const PM &amp;model)</td></tr>
 <tr class="memdesc:a003a5b06c7cc0670a791876a30ac48b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="#a003a5b06c7cc0670a791876a30ac48b6">More...</a><br /></td></tr>
 <tr class="separator:a003a5b06c7cc0670a791876a30ac48b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -738,7 +738,7 @@ template&lt;typename M&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:23 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -65,7 +65,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">AIToolbox::MDP Namespace Reference</div>  </div>
 </div><!--header-->
@@ -90,6 +91,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html">HystereticQLearning</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Hysteretic <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> algorithm.  <a href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ImportanceSampling.html">ImportanceSampling</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy control via importance sampling.  <a href="classAIToolbox_1_1MDP_1_1ImportanceSampling.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1ImportanceSamplingEvaluation.html">ImportanceSamplingEvaluation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy evaluation via importance sampling.  <a href="classAIToolbox_1_1MDP_1_1ImportanceSamplingEvaluation.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__experience.html">is_experience</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for an experience recorder.  <a href="structAIToolbox_1_1MDP_1_1is__experience.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -100,7 +107,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a full <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="structAIToolbox_1_1MDP_1_1is__model.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html">is_model_eigen</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface that allows <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> algorithms to leverage Eigen.  <a href="structAIToolbox_1_1MDP_1_1is__model__eigen.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface that allows <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> algorithms to leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="structAIToolbox_1_1MDP_1_1is__model__eigen.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html">is_model_not_eigen</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct verifies that a class satisfies the <a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html" title="This struct represents the required interface for a full MDP. ">is_model</a> interface but not the <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html" title="This struct represents the required interface that allows MDP algorithms to leverage Eigen...">is_model_eigen</a> interface.  <a href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html#details">More...</a><br /></td></tr>
@@ -110,6 +117,15 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a Markov Decision Process.  <a href="classAIToolbox_1_1MDP_1_1Model.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html">OffPolicyBase</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class contains all the boilerplates for off-policy methods.  <a href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyControl.html">OffPolicyControl</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is a general version of off-policy control.  <a href="classAIToolbox_1_1MDP_1_1OffPolicyControl.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyEvaluation.html">OffPolicyEvaluation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is a general version of off-policy evaluation.  <a href="classAIToolbox_1_1MDP_1_1OffPolicyEvaluation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html">PGAAPPPolicy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models the PGA-APP learning algorithm.  <a href="classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#details">More...</a><br /></td></tr>
@@ -135,8 +151,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html">QGreedyPolicy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models a greedy policy through a QFunction.  <a href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QL.html">QL</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy control via Q(lambda).  <a href="classAIToolbox_1_1MDP_1_1QL.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html">QLearning</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> algorithm.  <a href="classAIToolbox_1_1MDP_1_1QLearning.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLEvaluation.html">QLEvaluation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy evaluation via Q(lambda).  <a href="classAIToolbox_1_1MDP_1_1QLEvaluation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html">QPolicyInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is an interface to specify a policy through a QFunction.  <a href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html#details">More...</a><br /></td></tr>
@@ -146,6 +168,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RandomPolicy.html">RandomPolicy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a random policy.  <a href="classAIToolbox_1_1MDP_1_1RandomPolicy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RetraceL.html">RetraceL</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy control via Retrace(lambda).  <a href="classAIToolbox_1_1MDP_1_1RetraceL.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RetraceLEvaluation.html">RetraceLEvaluation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy evaluation via Retrace(lambda).  <a href="classAIToolbox_1_1MDP_1_1RetraceLEvaluation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html">RLModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process.  <a href="classAIToolbox_1_1MDP_1_1RLModel.html#details">More...</a><br /></td></tr>
@@ -164,6 +192,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseRLModel.html">SparseRLModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> as a Markov Decision Process.  <a href="classAIToolbox_1_1MDP_1_1SparseRLModel.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1TreeBackupL.html">TreeBackupL</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy control via Tree Backup(lambda).  <a href="classAIToolbox_1_1MDP_1_1TreeBackupL.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1TreeBackupLEvaluation.html">TreeBackupLEvaluation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements off-policy evaluation via Tree Backup(lambda).  <a href="classAIToolbox_1_1MDP_1_1TreeBackupLEvaluation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,14 +227,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">parseCassandra</a> (std::istream &amp;input)</td></tr>
 <tr class="memdesc:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> from a Cassandra formatted stream.  <a href="#a08930c6fa40a80c9d5b0094f0f720ce6">More...</a><br /></td></tr>
 <tr class="separator:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4">operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
 <tr class="memdesc:a76cf690877bec652996d9f930878c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model to a file.  <a href="#a76cf690877bec652996d9f930878c6d4">More...</a><br /></td></tr>
 <tr class="separator:a76cf690877bec652996d9f930878c6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520c34d1f4f6a6e55da9455643386f29"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html">PolicyInterface</a> &amp;p)</td></tr>
 <tr class="memdesc:a520c34d1f4f6a6e55da9455643386f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="#a520c34d1f4f6a6e55da9455643386f29">More...</a><br /></td></tr>
 <tr class="separator:a520c34d1f4f6a6e55da9455643386f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , std::enable_if_t&lt; is_experience&lt; E &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a848bcd05ba792e8065107b34277e83a4">operator&lt;&lt;</a> (std::ostream &amp;os, const E &amp;exp)</td></tr>
 <tr class="memdesc:a848bcd05ba792e8065107b34277e83a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints an <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> to a stream.  <a href="#a848bcd05ba792e8065107b34277e83a4">More...</a><br /></td></tr>
 <tr class="separator:a848bcd05ba792e8065107b34277e83a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,14 +262,32 @@ Functions</h2></td></tr>
 <tr class="memitem:a5874e2f218962bc345b9f6cb945b7e48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a5874e2f218962bc345b9f6cb945b7e48">bellmanOperatorInline</a> (const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;q, <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a> *v)</td></tr>
 <tr class="memdesc:a5874e2f218962bc345b9f6cb945b7e48"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function converts a QFunction into the equivalent optimal <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>.  <a href="#a5874e2f218962bc345b9f6cb945b7e48">More...</a><br /></td></tr>
 <tr class="separator:a5874e2f218962bc345b9f6cb945b7e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a442bfec64e706836fced231402c50309"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a442bfec64e706836fced231402c50309">computeImmediateRewards</a> (const M &amp;model)</td></tr>
 <tr class="memdesc:a442bfec64e706836fced231402c50309"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes all immediate rewards (state and action) of the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> once for improved speed.  <a href="#a442bfec64e706836fced231402c50309">More...</a><br /></td></tr>
 <tr class="separator:a442bfec64e706836fced231402c50309"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:afebfc75837c7c99176255562a38cd34a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#afebfc75837c7c99176255562a38cd34a">computeQFunction</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">Values</a> &amp;v, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> ir)</td></tr>
 <tr class="memdesc:afebfc75837c7c99176255562a38cd34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>'s QFunction from the values of a <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>.  <a href="#afebfc75837c7c99176255562a38cd34a">More...</a><br /></td></tr>
 <tr class="separator:afebfc75837c7c99176255562a38cd34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:abcbad20abfe19af677e6dd37335039fe"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:abcbad20abfe19af677e6dd37335039fe"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#abcbad20abfe19af677e6dd37335039fe">is_generative_model_v</a> = <a class="el" href="structAIToolbox_1_1MDP_1_1is__generative__model.html">is_generative_model</a>&lt;M&gt;::value</td></tr>
+<tr class="separator:abcbad20abfe19af677e6dd37335039fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f107f23a783e9626e3fb08d5d16e8e7"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:a9f107f23a783e9626e3fb08d5d16e8e7"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a9f107f23a783e9626e3fb08d5d16e8e7">is_model_v</a> = <a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html">is_model</a>&lt;M&gt;::value</td></tr>
+<tr class="separator:a9f107f23a783e9626e3fb08d5d16e8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8830726d2d24f52c3c758caf0b79fdd7"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:a8830726d2d24f52c3c758caf0b79fdd7"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a8830726d2d24f52c3c758caf0b79fdd7">is_model_eigen_v</a> = <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html">is_model_eigen</a>&lt;M&gt;::value</td></tr>
+<tr class="separator:a8830726d2d24f52c3c758caf0b79fdd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc8053813b967815457d399c3cfde264"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:adc8053813b967815457d399c3cfde264"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#adc8053813b967815457d399c3cfde264">is_model_not_eigen_v</a> = <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html">is_model_not_eigen</a>&lt;M&gt;::value</td></tr>
+<tr class="separator:adc8053813b967815457d399c3cfde264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4682bf37a8be34ba05441fc65d81177f"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:a4682bf37a8be34ba05441fc65d81177f"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a4682bf37a8be34ba05441fc65d81177f">is_experience_v</a> = <a class="el" href="structAIToolbox_1_1MDP_1_1is__experience.html">is_experience</a>&lt;M&gt;::value</td></tr>
+<tr class="separator:a4682bf37a8be34ba05441fc65d81177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a42a6ee8b9f55d5503151441128736d14"></a>
@@ -354,7 +406,7 @@ Functions</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </div>
+template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a> AIToolbox::MDP::computeImmediateRewards </td>
@@ -385,7 +437,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </div>
+template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> AIToolbox::MDP::computeQFunction </td>
@@ -454,7 +506,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
 </div><div class="memdoc">
 
 <p>This function creates and zeroes a QFunction. </p>
-<p>This function exists mostly to avoid remembering how to initialize Eigen matrices, and does nothing special.</p>
+<p>This function exists mostly to avoid remembering how to initialize <a class="el" href="namespaceEigen.html">Eigen</a> matrices, and does nothing special.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">S</td><td>The state space of the QFunction. </td></tr>
@@ -483,7 +535,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
 </div><div class="memdoc">
 
 <p>This function creates and zeroes a <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>. </p>
-<p>This function exists mostly to avoid remembering how to initialize Eigen vectors, and does nothing special.</p>
+<p>This function exists mostly to avoid remembering how to initialize <a class="el" href="namespaceEigen.html">Eigen</a> vectors, and does nothing special.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">S</td><td>The state space of the <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>.</td></tr>
@@ -500,7 +552,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </div>
+template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::ostream&amp; AIToolbox::MDP::operator&lt;&lt; </td>
@@ -587,7 +639,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &g
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename E , std::enable_if_t&lt; is_experience&lt; E &gt;::value, int &gt;  = 0&gt; </div>
+template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &gt;  = 0&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::ostream&amp; AIToolbox::MDP::operator&lt;&lt; </td>
@@ -824,10 +876,131 @@ template&lt;typename E , std::enable_if_t&lt; is_experience&lt; E &gt;::value, i
 
 </div>
 </div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a4682bf37a8be34ba05441fc65d81177f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4682bf37a8be34ba05441fc65d81177f">&#9670;&nbsp;</a></span>is_experience_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool AIToolbox::MDP::is_experience_v = <a class="el" href="structAIToolbox_1_1MDP_1_1is__experience.html">is_experience</a>&lt;M&gt;::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abcbad20abfe19af677e6dd37335039fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcbad20abfe19af677e6dd37335039fe">&#9670;&nbsp;</a></span>is_generative_model_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool AIToolbox::MDP::is_generative_model_v = <a class="el" href="structAIToolbox_1_1MDP_1_1is__generative__model.html">is_generative_model</a>&lt;M&gt;::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8830726d2d24f52c3c758caf0b79fdd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8830726d2d24f52c3c758caf0b79fdd7">&#9670;&nbsp;</a></span>is_model_eigen_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool AIToolbox::MDP::is_model_eigen_v = <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html">is_model_eigen</a>&lt;M&gt;::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adc8053813b967815457d399c3cfde264"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc8053813b967815457d399c3cfde264">&#9670;&nbsp;</a></span>is_model_not_eigen_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool AIToolbox::MDP::is_model_not_eigen_v = <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html">is_model_not_eigen</a>&lt;M&gt;::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f107f23a783e9626e3fb08d5d16e8e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f107f23a783e9626e3fb08d5d16e8e7">&#9670;&nbsp;</a></span>is_model_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool AIToolbox::MDP::is_model_v = <a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html">is_model</a>&lt;M&gt;::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

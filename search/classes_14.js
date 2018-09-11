@@ -7,5 +7,6 @@ var searchData=
   ['variablenode',['VariableNode',['../structAIToolbox_1_1Factored_1_1FactorGraph_1_1VariableNode.html',1,'AIToolbox::Factored::FactorGraph']]],
   ['vector3dfrompython',['Vector3DFromPython',['../structVector3DFromPython.html',1,'']]],
   ['vectorfrompython',['VectorFromPython',['../structVectorFromPython.html',1,'']]],
-  ['ventry',['VEntry',['../structAIToolbox_1_1POMDP_1_1VEntry.html',1,'AIToolbox::POMDP']]]
+  ['ventry',['VEntry',['../structAIToolbox_1_1POMDP_1_1VEntry.html',1,'AIToolbox::POMDP']]],
+  ['vosealiassampler',['VoseAliasSampler',['../classAIToolbox_1_1VoseAliasSampler.html',1,'AIToolbox']]]
 ];

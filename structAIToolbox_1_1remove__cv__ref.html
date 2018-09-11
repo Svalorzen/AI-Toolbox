@@ -74,12 +74,12 @@ $(function() {
 <p>This struct is used to both remove references and all cv qualifiers.  
  <a href="structAIToolbox_1_1remove__cv__ref.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Types_8hpp_source.html">Types.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Utils_2TypeTraits_8hpp_source.html">TypeTraits.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a1565209f227ed8f3533a44d64acc3d73"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a1565209f227ed8f3533a44d64acc3d73">type</a> = typename std::remove_cv&lt; typename std::remove_reference&lt; T &gt;::<a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a1565209f227ed8f3533a44d64acc3d73">type</a> &gt;::<a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a1565209f227ed8f3533a44d64acc3d73">type</a></td></tr>
-<tr class="separator:a1565209f227ed8f3533a44d64acc3d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d8457ea76ce40646a24c9b21228ff4c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a8d8457ea76ce40646a24c9b21228ff4c">type</a> = std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</td></tr>
+<tr class="separator:a8d8457ea76ce40646a24c9b21228ff4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
@@ -87,8 +87,8 @@ struct AIToolbox::remove_cv_ref&lt; T &gt;</h3>
 
 <p>This struct is used to both remove references and all cv qualifiers. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a1565209f227ed8f3533a44d64acc3d73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1565209f227ed8f3533a44d64acc3d73">&#9670;&nbsp;</a></span>type</h2>
+<a id="a8d8457ea76ce40646a24c9b21228ff4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d8457ea76ce40646a24c9b21228ff4c">&#9670;&nbsp;</a></span>type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -96,7 +96,7 @@ struct AIToolbox::remove_cv_ref&lt; T &gt;</h3>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structAIToolbox_1_1remove__cv__ref.html">AIToolbox::remove_cv_ref</a>&lt; T &gt;::<a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a1565209f227ed8f3533a44d64acc3d73">type</a> =  typename std::remove_cv&lt;typename std::remove_reference&lt;T&gt;::<a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a1565209f227ed8f3533a44d64acc3d73">type</a>&gt;::<a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a1565209f227ed8f3533a44d64acc3d73">type</a></td>
+          <td class="memname">using <a class="el" href="structAIToolbox_1_1remove__cv__ref.html">AIToolbox::remove_cv_ref</a>&lt; T &gt;::<a class="el" href="structAIToolbox_1_1remove__cv__ref.html#a8d8457ea76ce40646a24c9b21228ff4c">type</a> =  std::remove_cv_t&lt;std::remove_reference_t&lt;T&gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -104,12 +104,12 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/AIToolbox/<a class="el" href="Types_8hpp_source.html">Types.hpp</a></li>
+<li>include/AIToolbox/Utils/<a class="el" href="Utils_2TypeTraits_8hpp_source.html">TypeTraits.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -74,12 +74,12 @@ $(function() {
 <p>This struct is used to copy constness from one type to another.  
  <a href="structAIToolbox_1_1copy__const.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Types_8hpp_source.html">Types.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Utils_2TypeTraits_8hpp_source.html">TypeTraits.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a1d37a69f712bbbd5089ff8ab88c00e20"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a> = typename std::conditional&lt; std::is_const&lt; ConstReference &gt;::value, typename std::add_const&lt; CopiedType &gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a>, typename std::remove_const&lt; CopiedType &gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a> &gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a></td></tr>
-<tr class="separator:a1d37a69f712bbbd5089ff8ab88c00e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2de3527b8cc1916fb96b069a0ab1c6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1copy__const.html#ace2de3527b8cc1916fb96b069a0ab1c6">type</a> = typename std::conditional_t&lt; std::is_const_v&lt; ConstReference &gt;, std::add_const_t&lt; CopiedType &gt;, std::remove_const_t&lt; CopiedType &gt; &gt;</td></tr>
+<tr class="separator:ace2de3527b8cc1916fb96b069a0ab1c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename CopiedType, typename ConstReference&gt;<br />
@@ -87,8 +87,8 @@ struct AIToolbox::copy_const&lt; CopiedType, ConstReference &gt;</h3>
 
 <p>This struct is used to copy constness from one type to another. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a1d37a69f712bbbd5089ff8ab88c00e20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d37a69f712bbbd5089ff8ab88c00e20">&#9670;&nbsp;</a></span>type</h2>
+<a id="ace2de3527b8cc1916fb96b069a0ab1c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace2de3527b8cc1916fb96b069a0ab1c6">&#9670;&nbsp;</a></span>type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -96,7 +96,7 @@ struct AIToolbox::copy_const&lt; CopiedType, ConstReference &gt;</h3>
 template&lt;typename CopiedType, typename ConstReference&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structAIToolbox_1_1copy__const.html">AIToolbox::copy_const</a>&lt; CopiedType, ConstReference &gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a> =  typename std::conditional&lt;std::is_const&lt;ConstReference&gt;::value, typename std::add_const&lt;CopiedType&gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a>, typename std::remove_const&lt;CopiedType&gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a>&gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#a1d37a69f712bbbd5089ff8ab88c00e20">type</a></td>
+          <td class="memname">using <a class="el" href="structAIToolbox_1_1copy__const.html">AIToolbox::copy_const</a>&lt; CopiedType, ConstReference &gt;::<a class="el" href="structAIToolbox_1_1copy__const.html#ace2de3527b8cc1916fb96b069a0ab1c6">type</a> =  typename std::conditional_t&lt;std::is_const_v&lt;ConstReference&gt;, std::add_const_t&lt;CopiedType&gt;, std::remove_const_t&lt;CopiedType&gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -104,12 +104,12 @@ template&lt;typename CopiedType, typename ConstReference&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/AIToolbox/<a class="el" href="Types_8hpp_source.html">Types.hpp</a></li>
+<li>include/AIToolbox/Utils/<a class="el" href="Utils_2TypeTraits_8hpp_source.html">TypeTraits.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

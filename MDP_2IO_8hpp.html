@@ -88,14 +88,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memItemLeft" align="right" valign="top">Model&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">AIToolbox::MDP::parseCassandra</a> (std::istream &amp;input)</td></tr>
 <tr class="memdesc:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> from a Cassandra formatted stream.  <a href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">More...</a><br /></td></tr>
 <tr class="separator:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model&lt; M &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
 <tr class="memdesc:a76cf690877bec652996d9f930878c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model to a file.  <a href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4">More...</a><br /></td></tr>
 <tr class="separator:a76cf690877bec652996d9f930878c6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520c34d1f4f6a6e55da9455643386f29"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const PolicyInterface &amp;p)</td></tr>
 <tr class="memdesc:a520c34d1f4f6a6e55da9455643386f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">More...</a><br /></td></tr>
 <tr class="separator:a520c34d1f4f6a6e55da9455643386f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , std::enable_if_t&lt; is_experience&lt; E &gt;::value, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a848bcd05ba792e8065107b34277e83a4">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const E &amp;exp)</td></tr>
 <tr class="memdesc:a848bcd05ba792e8065107b34277e83a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints an <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> to a stream.  <a href="namespaceAIToolbox_1_1MDP.html#a848bcd05ba792e8065107b34277e83a4">More...</a><br /></td></tr>
 <tr class="separator:a848bcd05ba792e8065107b34277e83a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,7 +115,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:52 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

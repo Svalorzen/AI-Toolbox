@@ -93,13 +93,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab4b9195ec415f942840826ccf0d8732e"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#ab4b9195ec415f942840826ccf0d8732e">getHorizon</a> () const</td></tr>
 <tr class="memdesc:ab4b9195ec415f942840826ccf0d8732e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set horizon parameter.  <a href="#ab4b9195ec415f942840826ccf0d8732e">More...</a><br /></td></tr>
 <tr class="separator:ab4b9195ec415f942840826ccf0d8732e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a604403a0668d30f8af32730dd0cbe518"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model&lt;M&gt;::value&gt;&gt; </td></tr>
+<tr class="memitem:a604403a0668d30f8af32730dd0cbe518"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
 <tr class="memitem:a604403a0668d30f8af32730dd0cbe518"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#a604403a0668d30f8af32730dd0cbe518">operator()</a> (const M &amp;model)</td></tr>
 <tr class="memdesc:a604403a0668d30f8af32730dd0cbe518"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> completely.  <a href="#a604403a0668d30f8af32730dd0cbe518">More...</a><br /></td></tr>
 <tr class="separator:a604403a0668d30f8af32730dd0cbe518"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0089ec98bb5e637a04545b167d61286"><td class="memTemplParams" colspan="2">template&lt;typename ProjectionsRow &gt; </td></tr>
-<tr class="memitem:af0089ec98bb5e637a04545b167d61286"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">POMDP::VEntry</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#af0089ec98bb5e637a04545b167d61286">crossSumBestAtBelief</a> (const ProjectionsRow &amp;projs, const size_t a, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b)</td></tr>
-<tr class="separator:af0089ec98bb5e637a04545b167d61286"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm. ">Witness</a> algorithm. </p>
@@ -149,42 +146,6 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af0089ec98bb5e637a04545b167d61286"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0089ec98bb5e637a04545b167d61286">&#9670;&nbsp;</a></span>crossSumBestAtBelief()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ProjectionsRow &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">POMDP::VEntry</a> AIToolbox::POMDP::Witness::crossSumBestAtBelief </td>
-          <td>(</td>
-          <td class="paramtype">const ProjectionsRow &amp;&#160;</td>
-          <td class="paramname"><em>projs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const size_t&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a1ea123c96f6860517bf2fe3bdbfb5615"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ea123c96f6860517bf2fe3bdbfb5615">&#9670;&nbsp;</a></span>getEpsilon()</h2>
 
@@ -244,8 +205,7 @@ template&lt;typename M , typename &gt; </div>
 </div><div class="memdoc">
 
 <p>This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">POMDP::Model</a> completely. </p>
-<p>This function is pretty expensive (as are possibly all <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> solvers). It generates for each new solved timestep the whole set of possible ValueFunctions, and prunes it incrementally, trying to reduce as much as possible the linear programming solves required.</p>
-<p>This function returns a tuple to be consistent with <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> solving methods, but it should always succeed.</p>
+<p>This function is pretty expensive (as are possibly all <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> solvers). It solves a series of LPs trying to find all possible beliefs where an alphavector has not yet been found.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The type of <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model that needs to be solved.</td></tr>
@@ -321,7 +281,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 8 2018 12:06:53 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 11 2018 11:45:23 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
