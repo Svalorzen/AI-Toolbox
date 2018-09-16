@@ -55,8 +55,8 @@ void exportPOMDPQMDP() {
                  "bounds) are the same.\n"
                  "\n"
                  "@param horizon The maximum number of iterations to perform.\n"
-                 "@param epsilon The epsilon factor to stop the value iteration loop."
-        , (arg("self"), "horizon", "epsilon")))
+                 "@param tolerance The tolerance factor to stop the value iteration loop."
+        , (arg("self"), "horizon", "tolerance")))
 
         .def("__call__",                &QMDP::operator()<POMDPModelBinded>,
                  "This function applies the QMDP algorithm on the input POMDP.\n"
@@ -98,26 +98,26 @@ void exportPOMDPQMDP() {
                  "        equivalent MDP::QFunction."
         , (arg("self"), "m"))
 
-        .def("setEpsilon",              &QMDP::setEpsilon,
-                 "This function sets the epsilon parameter.\n"
+        .def("setTolerance",            &QMDP::setTolerance,
+                 "This function sets the tolerance parameter.\n"
                  "\n"
-                 "The epsilon parameter must be >= 0.0, otherwise the function\n"
-                 "will throw an std::invalid_argument. The epsilon parameter\n"
-                 "sets the convergence criterion. An epsilon of 0.0 forces the\n"
+                 "The tolerance parameter must be >= 0.0, otherwise the function\n"
+                 "will throw an std::invalid_argument. The tolerance parameter\n"
+                 "sets the convergence criterion. A tolerance of 0.0 forces the\n"
                  "internal ValueIteration to perform a number of iterations\n"
                  "equal to the horizon specified. Otherwise, ValueIteration\n"
                  "will stop as soon as the difference between two iterations\n"
-                 "is less than the epsilon specified.\n"
+                 "is less than the tolerance specified.\n"
                  "\n"
-                 "@param epsilon The new epsilon parameter."
-        , (arg("self"), "epsilon"))
+                 "@param tolerance The new tolerance parameter."
+        , (arg("self"), "tolerance"))
 
         .def("setHorizon",              &QMDP::setHorizon,
                  "This function sets the horizon parameter."
         , (arg("self"), "horizon"))
 
-        .def("getEpsilon",              &QMDP::getEpsilon,
-                 "This function returns the currently set epsilon parameter."
+        .def("getTolerance",            &QMDP::getTolerance,
+                 "This function returns the currently set tolerance parameter."
         , (arg("self")))
 
         .def("getHorizon",              &QMDP::getHorizon,

@@ -1,18 +1,18 @@
 #include <AIToolbox/POMDP/Algorithms/QMDP.hpp>
 
 namespace AIToolbox::POMDP {
-    QMDP::QMDP(const unsigned horizon, const double epsilon) :
-            solver_(horizon, epsilon) {}
+    QMDP::QMDP(const unsigned horizon, const double tolerance) :
+            solver_(horizon, tolerance) {}
 
-    void QMDP::setEpsilon(const double e) {
-        solver_.setTolerance(e);
+    void QMDP::setTolerance(const double t) {
+        solver_.setTolerance(t);
     }
 
     void QMDP::setHorizon(const unsigned h) {
         solver_.setHorizon(h);
     }
 
-    double QMDP::getEpsilon() const {
+    double QMDP::getTolerance() const {
         return solver_.getTolerance();
     }
 
