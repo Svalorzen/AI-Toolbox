@@ -19,9 +19,9 @@ namespace AIToolbox::MDP {
              * @param behaviour The policy we are following.
              * @param discount The discount of the environment.
              * @param alpha The learning rate.
-             * @param epsilon The cutoff point for eligibility traces.
+             * @param tolerance The cutoff point for eligibility traces.
              */
-            OffPolicyBase(const PolicyInterface & behaviour, double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
+            OffPolicyBase(const PolicyInterface & behaviour, double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
 
             /**
              * @brief This function sets the learning rate parameter.
@@ -81,16 +81,16 @@ namespace AIToolbox::MDP {
              * This parameter determines when a trace is removed, as its
              * coefficient has become too small to bother updating its value.
              *
-             * @param e The new trace cutoff value.
+             * @param t The new trace cutoff value.
              */
-            void setEpsilon(double e);
+            void setTolerance(double t);
 
             /**
              * @brief This function returns the currently set trace cutoff parameter.
              *
              * @return The currently set trace cutoff parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function clears the already set traces.
@@ -151,7 +151,7 @@ namespace AIToolbox::MDP {
 
         protected:
             size_t S, A;
-            double discount_, alpha_, epsilon_;
+            double discount_, alpha_, tolerance_;
 
             /**
              * @brief This function updates the traces using the input data.
@@ -223,10 +223,10 @@ namespace AIToolbox::MDP {
              * @param behaviour The policy that is being followed.
              * @param discount The discount of the environment.
              * @param alpha The learning rate parameter.
-             * @param epsilon The trace cutoff parameter.
+             * @param tolerance The trace cutoff parameter.
              */
             OffPolicyEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
-                    double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
+                    double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
 
             /**
              * @brief This function updates the internal QFunction using the discount set during construction.
@@ -306,10 +306,10 @@ namespace AIToolbox::MDP {
              * @param exploration The exploration of the implied target greedy epsilon policy.
              * @param discount The discount of the environment.
              * @param alpha The learning rate parameter.
-             * @param epsilon The trace cutoff parameter.
+             * @param tolerance The trace cutoff parameter.
              */
-            OffPolicyControl(const PolicyInterface & behaviour, const double exploration = 0.9,
-                    double discount = 1.0, double alpha = 0.1, double epsilon = 0.001);
+            OffPolicyControl(const PolicyInterface & behaviour, double exploration = 0.9,
+                    double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
 
             /**
              * @brief This function updates the internal QFunction using the discount set during construction.
@@ -395,17 +395,17 @@ namespace AIToolbox::MDP {
     template <typename Derived>
     OffPolicyEvaluation<Derived>::OffPolicyEvaluation(
         const PolicyInterface & target, const PolicyInterface & behaviour,
-        const double discount, const double alpha, const double epsilon
+        const double discount, const double alpha, const double tolerance
     ) :
-        Parent(behaviour, discount, alpha, epsilon),
+        Parent(behaviour, discount, alpha, tolerance),
         target_(target) {}
 
     template <typename Derived>
     OffPolicyControl<Derived>::OffPolicyControl(
         const PolicyInterface & behaviour, const double exploration,
-        const double discount, const double alpha, const double epsilon
+        const double discount, const double alpha, const double tolerance
     ) :
-        Parent(behaviour, discount, alpha, epsilon)
+        Parent(behaviour, discount, alpha, tolerance)
     {
         setExploration(exploration);
     }

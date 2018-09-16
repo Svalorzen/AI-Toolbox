@@ -3,14 +3,14 @@
 #include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox::MDP {
-    OffPolicyBase::OffPolicyBase(const PolicyInterface & behaviour, const double discount, const double alpha, const double epsilon) :
+    OffPolicyBase::OffPolicyBase(const PolicyInterface & behaviour, const double discount, const double alpha, const double tolerance) :
         S(behaviour.getS()), A(behaviour.getA()),
         q_(makeQFunction(S, A)),
         behaviour_(behaviour)
     {
         setDiscount(discount);
         setLearningRate(alpha);
-        setEpsilon(epsilon);
+        setTolerance(tolerance);
     }
 
     void OffPolicyBase::updateTraces(const size_t s, const size_t a, const double error, const double traceDiscount) {
@@ -33,7 +33,7 @@ namespace AIToolbox::MDP {
                 newTrace = false;
             } else {
                 el *= traceDiscount;
-                if (el < epsilon_) {
+                if (el < tolerance_) {
                     std::swap(traces_[i], traces_[traces_.size() - 1]);
                     traces_.pop_back();
                     --i;
@@ -74,12 +74,12 @@ namespace AIToolbox::MDP {
 
     double OffPolicyBase::getDiscount() const { return discount_; }
 
-    void OffPolicyBase::setEpsilon(const double epsilon) {
-        epsilon_ = epsilon;
+    void OffPolicyBase::setTolerance(const double t) {
+        tolerance_ = t;
     }
 
-    double OffPolicyBase::getEpsilon() const {
-        return epsilon_;
+    double OffPolicyBase::getTolerance() const {
+        return tolerance_;
     }
 
     size_t OffPolicyBase::getS() const { return S; }
