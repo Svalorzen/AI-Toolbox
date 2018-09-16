@@ -36,10 +36,10 @@ namespace AIToolbox::MDP {
              * @param m The model to be used to update the QFunction.
              * @param alpha The learning rate of the internal SARSAL methods.
              * @param lambda The lambda parameter for the eligibility traces.
-             * @param epsilon The cutoff point for eligibility traces.
+             * @param tolerance The cutoff point for eligibility traces.
              * @param n The number of sampling passes to do on the model upon batchUpdateQ().
              */
-            explicit Dyna2(const M & m, double alpha = 0.1, double lambda = 0.9, double epsilon = 0.001, unsigned n = 50);
+            explicit Dyna2(const M & m, double alpha = 0.1, double lambda = 0.9, double tolerance = 0.001, unsigned n = 50);
 
             /**
              * @brief This function updates the internal QFunction.
@@ -166,16 +166,16 @@ namespace AIToolbox::MDP {
              * This sets the parameter for both the transient and permanent
              * SARSAL.
              *
-             * @param e The new trace cutoff value.
+             * @param t The new trace cutoff value.
              */
-            void setEpsilon(double e);
+            void setTolerance(double t);
 
             /**
              * @brief This function returns the currently set trace cutoff parameter.
              *
              * @return The currently set trace cutoff parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function returns a reference to the internal permanent QFunction.
@@ -207,10 +207,10 @@ namespace AIToolbox::MDP {
     };
 
     template <typename M>
-    Dyna2<M>::Dyna2(const M & m, const double alpha, const double lambda, const double epsilon, const unsigned n) :
+    Dyna2<M>::Dyna2(const M & m, const double alpha, const double lambda, const double tolerance, const unsigned n) :
             N(n), model_(m),
-            permanentLearning_(model_, alpha, lambda, epsilon),
-            transientLearning_(model_, alpha, lambda, epsilon),
+            permanentLearning_(model_, alpha, lambda, tolerance),
+            transientLearning_(model_, alpha, lambda, tolerance),
             internalPolicy_(new RandomPolicy(model_.getS(), model_.getA()))
     {
     }
@@ -279,13 +279,13 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M>
-    void Dyna2<M>::setEpsilon(double e) {
-        transientLearning_.setTolerance(e);
-        permanentLearning_.setTolerance(e);
+    void Dyna2<M>::setTolerance(const double t) {
+        transientLearning_.setTolerance(t);
+        permanentLearning_.setTolerance(t);
     }
 
     template <typename M>
-    double Dyna2<M>::getEpsilon() const {
+    double Dyna2<M>::getTolerance() const {
         return permanentLearning_.getTolerance();
     }
 
