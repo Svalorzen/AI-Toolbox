@@ -172,7 +172,7 @@ namespace AIToolbox {
              *
              * No guarantees though!
              *
-             * @return The "epsilon" of precision that we hope the solutions, if found, should have.
+             * @return The precision that we hope the solutions, if found, should have.
              */
             static double getPrecision();
 
