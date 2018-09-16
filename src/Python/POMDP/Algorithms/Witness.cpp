@@ -51,38 +51,38 @@ void exportPOMDPWitness() {
                  "\n"
                  "This constructor sets the default horizon used to solve a POMDP::Model.\n"
                  "\n"
-                 "The epsilon parameter must be >= 0.0, otherwise the\n"
-                 "constructor will throw an std::runtime_error. The epsilon\n"
-                 "parameter sets the convergence criterion. An epsilon of 0.0\n"
+                 "The tolerance parameter must be >= 0.0, otherwise the\n"
+                 "constructor will throw an std::runtime_error. The tolerance\n"
+                 "parameter sets the convergence criterion. A tolerance of 0.0\n"
                  "forces Witness to perform a number of iterations equal to\n"
                  "the horizon specified. Otherwise, Witness will stop as soon\n"
                  "as the difference between two iterations is less than the\n"
-                 "epsilon specified.\n"
+                 "tolerance specified.\n"
                  "\n"
                  "@param h The horizon chosen.\n"
-                 "@param epsilon The epsilon factor to stop the value iteration loop."
-        , (arg("self"), "horizon", "epsilon")))
+                 "@param tolerance The tolerance factor to stop the value iteration loop."
+        , (arg("self"), "horizon", "tolerance")))
 
-        .def("setEpsilon",                  &Witness::setEpsilon,
-                 "This function sets the epsilon parameter.\n"
+        .def("setTolerance",                &Witness::setTolerance,
+                 "This function sets the tolerance parameter.\n"
                  "\n"
-                 "The epsilon parameter must be >= 0.0, otherwise the\n"
-                 "constructor will throw an std::runtime_error. The epsilon\n"
-                 "parameter sets the convergence criterion. An epsilon of 0.0\n"
+                 "The tolerance parameter must be >= 0.0, otherwise the\n"
+                 "constructor will throw an std::runtime_error. The tolerance\n"
+                 "parameter sets the convergence criterion. A tolerance of 0.0\n"
                  "forces Witness to perform a number of iterations equal to\n"
                  "the horizon specified. Otherwise, Witness will stop as soon\n"
                  "as the difference between two iterations is less than the\n"
-                 "epsilon specified.\n"
+                 "tolerance specified.\n"
                  "\n"
-                 "@param e The new epsilon parameter."
-        , (arg("self"), "e"))
+                 "@param t The new tolerance parameter."
+        , (arg("self"), "t"))
 
         .def("setHorizon",                  &Witness::setHorizon,
                  "This function allows setting the horizon parameter."
         , (arg("self"), "horizon"))
 
-        .def("getEpsilon",                  &Witness::getEpsilon,
-                 "This function returns the currently set epsilon parameter."
+        .def("getTolerance",                &Witness::getTolerance,
+                 "This function returns the currently set tolerance parameter."
         , (arg("self")))
 
         .def("getHorizon",                  &Witness::getHorizon,
