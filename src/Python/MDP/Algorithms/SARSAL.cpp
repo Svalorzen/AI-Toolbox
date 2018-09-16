@@ -51,8 +51,8 @@ void exportMDPSARSAL() {
                  "@param discount The discount of the underlying model.\n"
                  "@param alpha The learning rate of the SARSAL method.\n"
                  "@param lambda The lambda parameter for the eligibility traces.\n"
-                 "@param epsilon The cutoff point for eligibility traces."
-        , (arg("self"), "S", "A", "discount", "alpha", "lambda", "epsilon")))
+                 "@param tolerance The cutoff point for eligibility traces."
+        , (arg("self"), "S", "A", "discount", "alpha", "lambda", "tolerance")))
 
         .def(init<const RLModel<Experience>&, optional<double, double, double>>(
                  "Basic constructor for RLModel.\n"
@@ -68,8 +68,8 @@ void exportMDPSARSAL() {
                  "@param model The MDP model that SARSAL will use as a base.\n"
                  "@param alpha The learning rate of the SARSAL method.\n"
                  "@param lambda The lambda parameter for the eligibility traces.\n"
-                 "@param epsilon The cutoff point for eligibility traces."
-        , (arg("self"), "model", "alpha", "lambda", "epsilon")))
+                 "@param tolerance The cutoff point for eligibility traces."
+        , (arg("self"), "model", "alpha", "lambda", "tolerance")))
 
         .def(init<const SparseRLModel<SparseExperience>&, optional<double, double, double>>(
                  "Basic constructor for SparseRLModel.\n"
@@ -82,8 +82,8 @@ void exportMDPSARSAL() {
                  "@param model The MDP model that SARSAL will use as a base.\n"
                  "@param alpha The learning rate of the SARSAL method.\n"
                  "@param lambda The lambda parameter for the eligibility traces.\n"
-                 "@param epsilon The cutoff point for eligibility traces."
-        , (arg("self"), "model", "alpha", "lambda", "epsilon")))
+                 "@param tolerance The cutoff point for eligibility traces."
+        , (arg("self"), "model", "alpha", "lambda", "tolerance")))
 
         .def(init<const Model&, optional<double, double, double>>(
                  "Basic constructor for Model.\n"
@@ -96,8 +96,8 @@ void exportMDPSARSAL() {
                  "@param model The MDP model that SARSAL will use as a base.\n"
                  "@param alpha The learning rate of the SARSAL method.\n"
                  "@param lambda The lambda parameter for the eligibility traces.\n"
-                 "@param epsilon The cutoff point for eligibility traces."
-        , (arg("self"), "model", "alpha", "lambda", "epsilon")))
+                 "@param tolerance The cutoff point for eligibility traces."
+        , (arg("self"), "model", "alpha", "lambda", "tolerance")))
 
         .def(init<const SparseModel&, optional<double, double, double>>(
                  "Basic constructor for SparseModel.\n"
@@ -110,8 +110,8 @@ void exportMDPSARSAL() {
                  "@param model The MDP model that SARSAL will use as a base.\n"
                  "@param alpha The learning rate of the SARSAL method.\n"
                  "@param lambda The lambda parameter for the eligibility traces.\n"
-                 "@param epsilon The cutoff point for eligibility traces."
-        , (arg("self"), "model", "alpha", "lambda", "epsilon")))
+                 "@param tolerance The cutoff point for eligibility traces."
+        , (arg("self"), "model", "alpha", "lambda", "tolerance")))
 
         .def("setLearningRate",             &SARSAL::setLearningRate,
                  "This function sets the learning rate parameter.\n"
@@ -177,20 +177,20 @@ void exportMDPSARSAL() {
                  "This function returns the currently set lambda parameter."
         , (arg("self")))
 
-        .def("setEpsilon",                  &SARSAL::setEpsilon,
+        .def("setTolerance",                &SARSAL::setTolerance,
                  "This function sets the trace cutoff parameter.\n"
                  "\n"
                  "This parameter determines when a trace is removed, as its\n"
                  "coefficient has become too small to bother updating its value.\n"
                  "\n"
-                 "Note that the epsilon cutoff is performed on the overall\n"
+                 "Note that the trace cutoff is performed on the overall\n"
                  "discount*lambda value, and not only on lambda. So this parameter\n"
                  "is useful even when lambda is 1.\n"
                  "\n"
-                 "@param e The new trace cutoff value."
-        , (arg("self"), "epsilon"))
+                 "@param t The new trace cutoff value."
+        , (arg("self"), "t"))
 
-        .def("getEpsilon",                  &SARSAL::getEpsilon,
+        .def("getTolerance",                &SARSAL::getTolerance,
                  "This function returns the currently set trace cutoff parameter."
         , (arg("self")))
 

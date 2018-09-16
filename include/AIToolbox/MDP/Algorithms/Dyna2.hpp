@@ -280,13 +280,13 @@ namespace AIToolbox::MDP {
 
     template <typename M>
     void Dyna2<M>::setEpsilon(double e) {
-        transientLearning_.setEpsilon(e);
-        permanentLearning_.setEpsilon(e);
+        transientLearning_.setTolerance(e);
+        permanentLearning_.setTolerance(e);
     }
 
     template <typename M>
     double Dyna2<M>::getEpsilon() const {
-        return permanentLearning_.getEpsilon();
+        return permanentLearning_.getTolerance();
     }
 
     template <typename M>
