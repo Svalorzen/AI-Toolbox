@@ -9,23 +9,23 @@ namespace AIToolbox::POMDP {
 
     // -----
 
-    LinearSupport::LinearSupport(const unsigned h, const double e) : horizon_(h) {
-        setEpsilon(e);
+    LinearSupport::LinearSupport(const unsigned h, const double t) : horizon_(h) {
+        setTolerance(t);
     }
 
     void LinearSupport::setHorizon(const unsigned h) {
         horizon_ = h;
     }
-    void LinearSupport::setEpsilon(const double e) {
-        if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
-        epsilon_ = e;
+    void LinearSupport::setTolerance(const double t) {
+        if ( t < 0.0 ) throw std::invalid_argument("Tolerance must be >= 0");
+        tolerance_ = t;
     }
 
     unsigned LinearSupport::getHorizon() const {
         return horizon_;
     }
 
-    double LinearSupport::getEpsilon() const {
-        return epsilon_;
+    double LinearSupport::getTolerance() const {
+        return tolerance_;
     }
 }
