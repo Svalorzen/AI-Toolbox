@@ -1,22 +1,22 @@
 #include <AIToolbox/MDP/Algorithms/PolicyIteration.hpp>
 
 namespace AIToolbox::MDP {
-    PolicyIteration::PolicyIteration(unsigned horizon, double epsilon) :
+    PolicyIteration::PolicyIteration(const unsigned horizon, const double tolerance) :
             horizon_(horizon)
     {
-        setEpsilon(epsilon);
+        setTolerance(tolerance);
     }
 
-    void PolicyIteration::setEpsilon(const double e) {
-        if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
-        epsilon_ = e;
+    void PolicyIteration::setTolerance(const double t) {
+        if ( t < 0.0 ) throw std::invalid_argument("Tolerance must be >= 0");
+        tolerance_ = t;
     }
 
     void PolicyIteration::setHorizon(const unsigned h) {
         horizon_ = h;
     }
 
-    double PolicyIteration::getEpsilon()   const { return epsilon_; }
+    double PolicyIteration::getTolerance()   const { return tolerance_; }
 
     unsigned PolicyIteration::getHorizon() const { return horizon_; }
 }

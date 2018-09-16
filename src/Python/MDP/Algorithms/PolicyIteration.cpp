@@ -34,8 +34,8 @@ void exportMDPPolicyIteration() {
                 "Basic constructor.\n"
                 "\n"
                 "@param horizon The horizon parameter to use during the PolicyEvaluation phase.\n"
-                "@param epsilon The epsilon parameter to use during the PolicyEvaluation phase."
-        , (arg("self"), "horizon", "epsilon")))
+                "@param tolerance The tolerance parameter to use during the PolicyEvaluation phase."
+        , (arg("self"), "horizon", "tolerance")))
 
         .def("__call__",                &PolicyIteration::operator()<Model>,
                 "This function applies policy iteration on an MDP to solve it.\n"
@@ -73,18 +73,18 @@ void exportMDPPolicyIteration() {
                 "@return The QFunction of the optimal policy found."
         , (arg("self"), "m"))
 
-        .def("setEpsilon",              &PolicyIteration::setEpsilon,
-                "This function sets the epsilon parameter.\n"
+        .def("setTolerance",            &PolicyIteration::setTolerance,
+                "This function sets the tolerance parameter.\n"
                 "\n"
-                "The epsilon parameter must be >= 0 or the function will throw."
+                "The tolerance parameter must be >= 0 or the function will throw."
         , (arg("self"), "e"))
 
         .def("setHorizon",              &PolicyIteration::setHorizon,
                  "This function sets the horizon parameter."
         , (arg("self"), "horizon"))
 
-        .def("getEpsilon",              &PolicyIteration::getEpsilon,
-                 "This function will return the currently set epsilon parameter."
+        .def("getTolerance",            &PolicyIteration::getTolerance,
+                 "This function will return the currently set tolerance parameter."
         , (arg("self")))
 
         .def("getHorizon",              &PolicyIteration::getHorizon,
