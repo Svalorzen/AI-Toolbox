@@ -13,9 +13,19 @@ namespace AIToolbox::MDP {
         public:
             using Parent = OffPolicyControl<RetraceL>;
 
+            /**
+             * @brief Basic constructor.
+             *
+             * @param behaviour Behaviour policy
+             * @param lambda Lambda trace parameter.
+             * @param exploration The exploration of the implied target greedy epsilon policy.
+             * @param discount Discount for the problem.
+             * @param alpha Learning rate parameter.
+             * @param tolerance Trace cutoff parameter.
+             */
             RetraceL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
-                     const double discount = 1.0, const double alpha = 0.1, const double epsilon = 0.001) :
-                    Parent(behaviour, exploration, discount, alpha, epsilon)
+                     const double discount = 1.0, const double alpha = 0.1, const double tolerance = 0.001) :
+                    Parent(behaviour, exploration, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }
@@ -75,11 +85,11 @@ namespace AIToolbox::MDP {
              * @param lambda Lambda trace parameter.
              * @param discount Discount for the problem.
              * @param alpha Learning rate parameter.
-             * @param epsilon Trace cutoff parameter.
+             * @param tolerance Trace cutoff parameter.
              */
             RetraceLEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
-                               const double lambda, const double discount, const double alpha, const double epsilon) :
-                    Parent(target, behaviour, discount, alpha, epsilon)
+                               const double lambda, const double discount, const double alpha, const double tolerance) :
+                    Parent(target, behaviour, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }
