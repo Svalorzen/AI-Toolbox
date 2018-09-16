@@ -58,7 +58,7 @@ class MDPPythonValueIterationTests(unittest.TestCase):
         vi = MDP.ValueIteration(1000000, 0.001)
         bound, vfun, qfun = vi(model)
 
-        self.assertEqual(bound < vi.getEpsilon(), True)
+        self.assertEqual(bound < vi.getTolerance(), True)
 
         p = MDP.QGreedyPolicy(qfun)
 

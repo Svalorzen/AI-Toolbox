@@ -29,13 +29,13 @@ namespace AIToolbox::MDP {
             /**
              * @brief Basic constructor.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
-             * parameter sets the convergence criterion. An epsilon of 0.0
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The tolerance
+             * parameter sets the convergence criterion. A tolerance of 0.0
              * forces ValueIteration to perform a number of iterations
              * equal to the horizon specified. Otherwise, ValueIteration
              * will stop as soon as the difference between two iterations
-             * is less than the epsilon specified.
+             * is less than the tolerance specified.
              *
              * Note that the default value function size needs to match
              * the number of states of the Model. Otherwise it will
@@ -43,10 +43,10 @@ namespace AIToolbox::MDP {
              * to all zeroes.
              *
              * @param horizon The maximum number of iterations to perform.
-             * @param epsilon The epsilon factor to stop the value iteration loop.
+             * @param tolerance The tolerance factor to stop the value iteration loop.
              * @param v The initial value function from which to start the loop.
              */
-            ValueIteration(unsigned horizon, double epsilon = 0.001, ValueFunction v = {Values(), Actions(0)});
+            ValueIteration(unsigned horizon, double tolerance = 0.001, ValueFunction v = {Values(), Actions(0)});
 
             /**
              * @brief This function applies value iteration on an MDP to solve it.
@@ -63,19 +63,19 @@ namespace AIToolbox::MDP {
             std::tuple<double, ValueFunction, QFunction> operator()(const M & m);
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
-             * parameter sets the convergence criterion. An epsilon of 0.0
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The tolerance
+             * parameter sets the convergence criterion. A tolerance of 0.0
              * forces ValueIteration to perform a number of iterations
              * equal to the horizon specified. Otherwise, ValueIteration
              * will stop as soon as the difference between two iterations
-             * is less than the epsilon specified.
+             * is less than the tolerance specified.
              *
-             * @param e The new epsilon parameter.
+             * @param e The new tolerance parameter.
              */
-            void setEpsilon(double e);
+            void setTolerance(double e);
 
             /**
              * @brief This function sets the horizon parameter.
@@ -97,11 +97,11 @@ namespace AIToolbox::MDP {
             void setValueFunction(ValueFunction v);
 
             /**
-             * @brief This function will return the currently set epsilon parameter.
+             * @brief This function will return the currently set tolerance parameter.
              *
-             * @return The currently set epsilon parameter.
+             * @return The currently set tolerance parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function will return the current horizon parameter.
@@ -119,7 +119,7 @@ namespace AIToolbox::MDP {
 
         private:
             // Parameters
-            double epsilon_;
+            double tolerance_;
             unsigned horizon_;
             ValueFunction vParameter_;
 
@@ -153,14 +153,14 @@ namespace AIToolbox::MDP {
         }();
 
         unsigned timestep = 0;
-        double variation = epsilon_ * 2; // Make it bigger
+        double variation = tolerance_ * 2; // Make it bigger
 
         Values val0;
         auto & val1 = v1_.values;
         QFunction q = makeQFunction(S, A);
 
-        const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
-        while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
+        const bool useTolerance = checkDifferentSmall(tolerance_, 0.0);
+        while ( timestep < horizon_ && (!useTolerance || variation > tolerance_) ) {
             ++timestep;
             AI_LOGGER(AI_SEVERITY_DEBUG, "Processing timestep " << timestep);
 
@@ -173,14 +173,15 @@ namespace AIToolbox::MDP {
             // Compute the new value function (note that also val1 is overwritten)
             bellmanOperatorInline(q, &v1_);
 
-            // We do this only if the epsilon specified is positive, otherwise we
+            // We do this only if the tolerance specified is positive, otherwise we
             // continue for all the timesteps.
-            if ( useEpsilon )
+            if ( useTolerance )
                 variation = (val1 - val0).cwiseAbs().maxCoeff();
         }
 
-        // We do not guarantee that the Value/QFunctions are the perfect ones, as we stop as within epsilon.
-        return std::make_tuple(useEpsilon ? variation : 0.0, std::move(v1_), std::move(q));
+        // We do not guarantee that the Value/QFunctions are the perfect ones,
+        // as we stop as within the given tolerance.
+        return std::make_tuple(useTolerance ? variation : 0.0, std::move(v1_), std::move(q));
     }
 }
 

@@ -230,7 +230,7 @@ int main() {
     auto solution = solver(model);
 
     printCurrentTimeString();
-    std::cout << " - Converged: " << (std::get<0>(solution) < solver.getEpsilon()) << "\n";
+    std::cout << " - Converged: " << (std::get<0>(solution) < solver.getTolerance()) << "\n";
 
     AIToolbox::MDP::Policy policy(world.getS(), world.getA(), std::get<1>(solution));
 

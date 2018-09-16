@@ -5,7 +5,7 @@ namespace AIToolbox::POMDP {
             solver_(horizon, epsilon) {}
 
     void QMDP::setEpsilon(const double e) {
-        solver_.setEpsilon(e);
+        solver_.setTolerance(e);
     }
 
     void QMDP::setHorizon(const unsigned h) {
@@ -13,7 +13,7 @@ namespace AIToolbox::POMDP {
     }
 
     double QMDP::getEpsilon() const {
-        return solver_.getEpsilon();
+        return solver_.getTolerance();
     }
 
     unsigned QMDP::getHorizon() const {
