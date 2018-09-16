@@ -52,28 +52,28 @@ void exportPOMDPPBVI() {
         .def(init<size_t, unsigned, double>(
                  "Basic constructor.\n"
                  "\n"
-                 "This constructor sets the default horizon/epsilon used to\n"
+                 "This constructor sets the default horizon/tolerance used to\n"
                  "solve a POMDP::Model and the number of beliefs used to\n"
                  "approximate the ValueFunction.\n"
                  "\n"
                  "@param nBeliefs The number of support beliefs to use.\n"
                  "@param h The horizon chosen.\n"
-                 "@param epsilon The epsilon factor to stop the PBVI loop."
-        , (arg("self"), "nBeliefs", "h", "epsilon")))
+                 "@param tolerance The tolerance factor to stop the PBVI loop."
+        , (arg("self"), "nBeliefs", "h", "tolerance")))
 
-        .def("setEpsilon",                  &PBVI::setEpsilon,
-                 "This function sets the epsilon parameter.\n"
+        .def("setTolerance",                &PBVI::setTolerance,
+                 "This function sets the tolerance parameter.\n"
                  "\n"
-                 "The epsilon parameter must be >= 0.0, otherwise the\n"
-                 "constructor will throw an std::runtime_error. The epsilon\n"
-                 "parameter sets the convergence criterion. An epsilon of 0.0\n"
+                 "The tolerance parameter must be >= 0.0, otherwise the\n"
+                 "constructor will throw an std::runtime_error. The tolerance\n"
+                 "parameter sets the convergence criterion. A tolerance of 0.0\n"
                  "forces PBVI to perform a number of iterations equal to\n"
                  "the horizon specified. Otherwise, PBVI will stop as soon\n"
                  "as the difference between two iterations is less than the\n"
-                 "epsilon specified.\n"
+                 "tolerance specified.\n"
                  "\n"
-                 "@param e The new epsilon parameter."
-        , (arg("self"), "e"))
+                 "@param t The new tolerance parameter."
+        , (arg("self"), "t"))
 
         .def("setHorizon",                  &PBVI::setHorizon,
                  "This function sets a new horizon parameter."
@@ -83,8 +83,8 @@ void exportPOMDPPBVI() {
                 "This function sets a new number of support beliefs."
         , (arg("self"), "nBeliefs"))
 
-        .def("getEpsilon",                  &PBVI::getEpsilon,
-                 "This function returns the currently set epsilon parameter."
+        .def("getTolerance",                &PBVI::getTolerance,
+                 "This function returns the currently set tolerance parameter."
         , (arg("self")))
 
         .def("getHorizon",                  &PBVI::getHorizon,
