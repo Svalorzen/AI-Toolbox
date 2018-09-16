@@ -32,13 +32,13 @@ namespace AIToolbox::MDP {
             /**
              * @brief Basic constructor.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
-             * parameter sets the convergence criterion. An epsilon of 0.0
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The tolerance
+             * parameter sets the convergence criterion. A tolerance of 0.0
              * forces PolicyEvaluation to perform a number of iterations
              * equal to the horizon specified. Otherwise, PolicyEvaluation
              * will stop as soon as the difference between two iterations
-             * is less than the epsilon specified.
+             * is less than the tolerance specified.
              *
              * Note that the default value function size needs to match
              * the number of states of the Model. Otherwise it will
@@ -47,10 +47,10 @@ namespace AIToolbox::MDP {
              *
              * @param m The MDP to evaluate a policy for.
              * @param horizon The maximum number of iterations to perform.
-             * @param epsilon The epsilon factor to stop the value iteration loop.
+             * @param tolerance The tolerance factor to stop the policy evaluation loop.
              * @param v The initial value function from which to start the loop.
              */
-            PolicyEvaluation(const M & m, unsigned horizon, double epsilon = 0.001, Values v = Values());
+            PolicyEvaluation(const M & m, unsigned horizon, double tolerance = 0.001, Values v = Values());
 
             /**
              * @brief This function applies policy evaluation on a policy.
@@ -65,19 +65,19 @@ namespace AIToolbox::MDP {
             std::tuple<double, Values, QFunction> operator()(const PolicyInterface & p);
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
-             * parameter sets the convergence criterion. An epsilon of 0.0
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The tolerance
+             * parameter sets the convergence criterion. A tolerance of 0.0
              * forces PolicyEvaluation to perform a number of iterations
              * equal to the horizon specified. Otherwise, PolicyEvaluation
              * will stop as soon as the difference between two iterations
-             * is less than the epsilon specified.
+             * is less than the tolerance specified.
              *
-             * @param e The new epsilon parameter.
+             * @param e The new tolerance parameter.
              */
-            void setEpsilon(double e);
+            void setTolerance(double e);
 
             /**
              * @brief This function sets the horizon parameter.
@@ -99,11 +99,11 @@ namespace AIToolbox::MDP {
             void setValues(Values v);
 
             /**
-             * @brief This function will return the currently set epsilon parameter.
+             * @brief This function will return the currently set tolerance parameter.
              *
-             * @return The currently set epsilon parameter.
+             * @return The currently set tolerance parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function will return the current horizon parameter.
@@ -121,7 +121,7 @@ namespace AIToolbox::MDP {
 
         private:
             // Parameters
-            double epsilon_;
+            double tolerance_;
             unsigned horizon_;
             Values vParameter_;
             const M & model_;
@@ -133,10 +133,10 @@ namespace AIToolbox::MDP {
     };
 
     template <typename M>
-    PolicyEvaluation<M>::PolicyEvaluation(const M & m, unsigned horizon, double epsilon, Values v) :
-            horizon_(horizon), vParameter_(v), model_(m), S(0), A(0)
+    PolicyEvaluation<M>::PolicyEvaluation(const M & m, const unsigned horizon, const double tolerance, Values v) :
+            horizon_(horizon), vParameter_(std::move(v)), model_(m), S(0), A(0)
     {
-        setEpsilon(epsilon);
+        setTolerance(tolerance);
 
         // Extract necessary knowledge from model so we don't have to pass it around
         S = model_.getS();
@@ -165,14 +165,14 @@ namespace AIToolbox::MDP {
         }
 
         unsigned timestep = 0;
-        double variation = epsilon_ * 2; // Make it bigger
+        double variation = tolerance_ * 2; // Make it bigger
 
         Values val0;
         QFunction q = makeQFunction(S, A);
         const auto p = policy.getPolicy();
 
-        const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
-        while ( timestep < horizon_ && (!useEpsilon || variation > epsilon_) ) {
+        const bool useTolerance = checkDifferentSmall(tolerance_, 0.0);
+        while ( timestep < horizon_ && (!useTolerance || variation > tolerance_) ) {
             ++timestep;
             AI_LOGGER(AI_SEVERITY_DEBUG, "Processing timestep " << timestep);
 
@@ -191,21 +191,21 @@ namespace AIToolbox::MDP {
             for ( size_t s = 0; s < S; ++s )
                 v1_(s) = q.row(s) * p.row(s).transpose();
 
-            // We do this only if the epsilon specified is positive,
+            // We do this only if the tolerance specified is positive,
             // otherwise we continue for all the timesteps.
-            if ( useEpsilon )
+            if ( useTolerance )
                 variation = (v1_ - val0).cwiseAbs().maxCoeff();
         }
 
         // We do not guarantee that the Value/QFunctions are the perfect
-        // ones, as we stop within epsilon.
-        return std::make_tuple(useEpsilon ? variation : 0.0, std::move(v1_), std::move(q));
+        // ones, as we stop within the input tolerance.
+        return std::make_tuple(useTolerance ? variation : 0.0, std::move(v1_), std::move(q));
     }
 
     template <typename M>
-    void PolicyEvaluation<M>::setEpsilon(const double e) {
-        if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
-        epsilon_ = e;
+    void PolicyEvaluation<M>::setTolerance(const double t) {
+        if ( t < 0.0 ) throw std::invalid_argument("Tolerance must be >= 0");
+        tolerance_ = t;
     }
 
     template <typename M>
@@ -219,7 +219,7 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M>
-    double PolicyEvaluation<M>::getEpsilon()   const { return epsilon_; }
+    double PolicyEvaluation<M>::getTolerance()   const { return tolerance_; }
 
     template <typename M>
     unsigned PolicyEvaluation<M>::getHorizon() const { return horizon_; }
