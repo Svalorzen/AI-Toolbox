@@ -194,7 +194,7 @@ int main() {
     // we're just going to do one thing only, and we're done. 2 means we get to
     // do a single action, observe the result, and act again. And so on.
     unsigned horizon = 15;
-    // The 0.0 is the epsilon factor, used with high horizons. It gives a way
+    // The 0.0 is the tolerance factor, used with high horizons. It gives a way
     // to stop the computation if the policy has converged to something static.
     AIToolbox::POMDP::IncrementalPruning solver(horizon, 0.0);
 
