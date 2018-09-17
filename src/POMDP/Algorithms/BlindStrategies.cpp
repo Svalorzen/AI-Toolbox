@@ -1,21 +1,21 @@
 #include <AIToolbox/POMDP/Algorithms/BlindStrategies.hpp>
 
 namespace AIToolbox::POMDP {
-    BlindStrategies::BlindStrategies(const unsigned horizon, const double epsilon) :
+    BlindStrategies::BlindStrategies(const unsigned horizon, const double tolerance) :
             horizon_(horizon)
     {
-        setEpsilon(epsilon);
+        setTolerance(tolerance);
     }
 
-    void BlindStrategies::setEpsilon(const double e) {
-        if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
-        epsilon_ = e;
+    void BlindStrategies::setTolerance(const double t) {
+        if ( t < 0.0 ) throw std::invalid_argument("Tolerance must be >= 0");
+        tolerance_ = t;
     }
 
     void BlindStrategies::setHorizon(const unsigned h) {
         horizon_ = h;
     }
 
-    double BlindStrategies::getEpsilon()   const { return epsilon_; }
+    double BlindStrategies::getTolerance()   const { return tolerance_; }
     unsigned BlindStrategies::getHorizon() const { return horizon_; }
 }
