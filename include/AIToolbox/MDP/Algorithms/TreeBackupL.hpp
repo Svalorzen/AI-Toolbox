@@ -13,9 +13,19 @@ namespace AIToolbox::MDP {
         public:
             using Parent = OffPolicyControl<TreeBackupL>;
 
-            TreeBackupL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
-                        const double discount = 1.0, const double alpha = 0.1, const double epsilon = 0.001) :
-                    Parent(behaviour, exploration, discount, alpha, epsilon)
+            /**
+             * @brief Basic constructor.
+             *
+             * @param behaviour Behaviour policy
+             * @param lambda Lambda trace parameter.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
+             * @param discount Discount for the problem.
+             * @param alpha Learning rate parameter.
+             * @param tolerance Trace cutoff parameter.
+             */
+            TreeBackupL(const PolicyInterface & behaviour, const double lambda, const double epsilon = 0.1,
+                        const double discount = 1.0, const double alpha = 0.1, const double tolerance = 0.001) :
+                    Parent(behaviour, epsilon, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }
@@ -24,7 +34,7 @@ namespace AIToolbox::MDP {
              * @brief This function returns the trace discount for the learning.
              */
             double getTraceDiscount(const size_t, const size_t a, const size_t, const double, const size_t maxA) const {
-                const auto prob = (1.0 - exploration_) / A + (a == maxA) * exploration_;
+                const auto prob = epsilon_ / A + (a == maxA) * (1.0 - epsilon_);
                 return lambda_ * prob;
             }
 
@@ -76,11 +86,11 @@ namespace AIToolbox::MDP {
              * @param lambda Lambda trace parameter.
              * @param discount Discount for the problem.
              * @param alpha Learning rate parameter.
-             * @param epsilon Trace cutoff parameter.
+             * @param tolerance Trace cutoff parameter.
              */
             TreeBackupLEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
-                                  const double lambda, const double discount, const double alpha, const double epsilon) :
-                    Parent(target, behaviour, discount, alpha, epsilon)
+                                  const double lambda, const double discount, const double alpha, const double tolerance) :
+                    Parent(target, behaviour, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }

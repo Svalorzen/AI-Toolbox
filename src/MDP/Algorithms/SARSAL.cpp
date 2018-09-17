@@ -1,13 +1,13 @@
 #include <AIToolbox/MDP/Algorithms/SARSAL.hpp>
 
 namespace AIToolbox::MDP {
-    SARSAL::SARSAL(const size_t ss, const size_t aa, const double discount, const double alpha, const double lambda, const double epsilon) :
+    SARSAL::SARSAL(const size_t ss, const size_t aa, const double discount, const double alpha, const double lambda, const double tolerance) :
             S(ss), A(aa), q_(makeQFunction(S, A))
     {
         setDiscount(discount);
         setLearningRate(alpha);
         setLambda(lambda);
-        setEpsilon(epsilon);
+        setTolerance(tolerance);
     }
 
     void SARSAL::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const size_t a1, const double rew) {
@@ -32,7 +32,7 @@ namespace AIToolbox::MDP {
                 newTrace = false;
             } else {
                 el *= gammaL_;
-                if (el < epsilon_) {
+                if (el < tolerance_) {
                     std::swap(traces_[i], traces_[traces_.size() - 1]);
                     traces_.pop_back();
                     --i;
@@ -85,12 +85,12 @@ namespace AIToolbox::MDP {
         return lambda_;
     }
 
-    void SARSAL::setEpsilon(const double epsilon) {
-        epsilon_ = epsilon;
+    void SARSAL::setTolerance(const double tolerance) {
+        tolerance_ = tolerance;
     }
 
-    double SARSAL::getEpsilon() const {
-        return epsilon_;
+    double SARSAL::getTolerance() const {
+        return tolerance_;
     }
 
     size_t SARSAL::getS() const { return S; }

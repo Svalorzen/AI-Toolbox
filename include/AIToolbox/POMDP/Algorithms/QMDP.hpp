@@ -47,9 +47,9 @@ namespace AIToolbox::POMDP {
              * bounds) are the same.
              *
              * @param horizon The maximum number of iterations to perform.
-             * @param epsilon The epsilon factor to stop the value iteration loop.
+             * @param tolerance The tolerance factor to stop the value iteration loop.
              */
-            QMDP(unsigned horizon, double epsilon = 0.001);
+            QMDP(unsigned horizon, double tolerance = 0.001);
 
             /**
              * @brief This function applies the QMDP algorithm on the input POMDP.
@@ -91,19 +91,19 @@ namespace AIToolbox::POMDP {
             static VList fromQFunction(size_t O, const MDP::QFunction & qfun);
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the function
-             * will throw an std::invalid_argument. The epsilon parameter
-             * sets the convergence criterion. An epsilon of 0.0 forces the
+             * The tolerance parameter must be >= 0.0, otherwise the function
+             * will throw an std::invalid_argument. The tolerance parameter
+             * sets the convergence criterion. A tolerance of 0.0 forces the
              * internal ValueIteration to perform a number of iterations
              * equal to the horizon specified. Otherwise, ValueIteration
              * will stop as soon as the difference between two iterations
-             * is less than the epsilon specified.
+             * is less than the tolerance specified.
              *
-             * @param e The new epsilon parameter.
+             * @param t The new tolerance parameter.
              */
-            void setEpsilon(double e);
+            void setTolerance(double t);
 
             /**
              * @brief This function sets the horizon parameter.
@@ -113,11 +113,11 @@ namespace AIToolbox::POMDP {
             void setHorizon(unsigned h);
 
             /**
-             * @brief This function returns the currently set epsilon parameter.
+             * @brief This function returns the currently set tolerance parameter.
              *
-             * @return The currently set epsilon parameter.
+             * @return The currently set tolerance parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function returns the current horizon parameter.

@@ -21,13 +21,13 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     size_t S = model.getS(), A = model.getA();
 
     // We set the horizon to a very high value so that
-    // the epsilon bound will prevail, solving the problem
+    // the tolerance bound will prevail, solving the problem
     // until convergence (infinite horizon).
     ValueIteration solver(1000000, 0.001);
 
     auto [bound, vfun, qfun] = solver(model);
-    // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( bound <= solver.getEpsilon() );
+    // Check that the solution is bounded by tolerance and not the horizon
+    BOOST_CHECK( bound <= solver.getTolerance() );
     // Get best policy from QFunction
     QGreedyPolicy policy( qfun );
 
@@ -115,13 +115,13 @@ BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
     size_t S = model.getS(), A = model.getA();
 
     // We set the horizon to a very high value so that
-    // the epsilon bound will prevail, solving the problem
+    // the tolerance bound will prevail, solving the problem
     // until convergence (infinite horizon).
     ValueIteration solver(1000000, 0.001);
 
     auto [bound, vfun, qfun] = solver(model);
-    // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( bound <= solver.getEpsilon() );
+    // Check that the solution is bounded by tolerance and not the horizon
+    BOOST_CHECK( bound <= solver.getTolerance() );
     // Get best policy from QFunction
     QGreedyPolicy policy( qfun );
 
@@ -209,13 +209,13 @@ BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
     size_t S = model.getS(), A = model.getA();
 
     // We set the horizon to a very high value so that
-    // the epsilon bound will prevail, solving the problem
+    // the tolerance bound will prevail, solving the problem
     // until convergence (infinite horizon).
     ValueIteration solver(1000000, 0.001);
 
     auto [bound, vfun, qfun] = solver(model);
-    // Check that the solution is bounded by epsilon and not the horizon
-    BOOST_CHECK( bound <= solver.getEpsilon() );
+    // Check that the solution is bounded by tolerance and not the horizon
+    BOOST_CHECK( bound <= solver.getTolerance() );
     // Get best policy from QFunction
     QGreedyPolicy policy( qfun );
 

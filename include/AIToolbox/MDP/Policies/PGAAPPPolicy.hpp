@@ -3,7 +3,6 @@
 
 #include <AIToolbox/MDP/Policies/QPolicyInterface.hpp>
 #include <AIToolbox/MDP/Policies/PolicyWrapper.hpp>
-#include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 
 namespace AIToolbox::MDP {
     /**

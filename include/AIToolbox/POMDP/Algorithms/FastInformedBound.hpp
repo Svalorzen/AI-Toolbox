@@ -84,9 +84,9 @@ namespace AIToolbox::POMDP {
              * @brief Basic constructor.
              *
              * @param horizon The maximum number of iterations to perform.
-             * @param epsilon The epsilon factor to stop the value iteration loop.
+             * @param tolerance The tolerance factor to stop the value iteration loop.
              */
-            FastInformedBound(unsigned horizon, double epsilon = 0.001);
+            FastInformedBound(unsigned horizon, double tolerance = 0.001);
 
             /**
              * @brief This function computes the Fast Informed Bound for the input POMDP.
@@ -135,19 +135,19 @@ namespace AIToolbox::POMDP {
             std::tuple<double, MDP::QFunction> operator()(const M & m, const SOSA & sosa, MDP::QFunction oldQ = {});
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the function
-             * will throw an std::invalid_argument. The epsilon parameter sets
-             * the convergence criterion. An epsilon of 0.0 forces the internal
+             * The tolerance parameter must be >= 0.0, otherwise the function
+             * will throw an std::invalid_argument. The tolerance parameter sets
+             * the convergence criterion. A tolerance of 0.0 forces the internal
              * loop to perform a number of iterations equal to the horizon
              * specified. Otherwise, FastInformedBound will stop as soon as the
-             * difference between two iterations is less than the epsilon
+             * difference between two iterations is less than the tolerance
              * specified.
              *
-             * @param e The new epsilon parameter.
+             * @param tolerance The new tolerance parameter.
              */
-            void setEpsilon(double e);
+            void setTolerance(double tolerance);
 
             /**
              * @brief This function sets the horizon parameter.
@@ -157,11 +157,11 @@ namespace AIToolbox::POMDP {
             void setHorizon(unsigned h);
 
             /**
-             * @brief This function returns the currently set epsilon parameter.
+             * @brief This function returns the currently set tolerance parameter.
              *
-             * @return The currently set epsilon parameter.
+             * @return The currently set tolerance parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function returns the current horizon parameter.
@@ -172,7 +172,7 @@ namespace AIToolbox::POMDP {
 
         private:
             size_t horizon_;
-            double epsilon_;
+            double tolerance_;
     };
 
     template <typename M, typename>
@@ -205,9 +205,9 @@ namespace AIToolbox::POMDP {
         }
 
         unsigned timestep = 0;
-        const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
-        double variation = epsilon_ * 2; // Make it bigger
-        while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
+        const bool useTolerance = checkDifferentSmall(tolerance_, 0.0);
+        double variation = tolerance_ * 2; // Make it bigger
+        while ( timestep < horizon_ && ( !useTolerance || variation > tolerance_ ) ) {
             ++timestep;
             newQ.fill(0.0);
             // Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
@@ -217,12 +217,12 @@ namespace AIToolbox::POMDP {
             newQ *= m.getDiscount();
             newQ += ir;
 
-            if (useEpsilon)
+            if (useTolerance)
                 variation = (oldQ - newQ).cwiseAbs().maxCoeff();
 
             std::swap(oldQ, newQ);
         }
-        return std::make_tuple(useEpsilon ? variation : 0.0, std::move(oldQ));
+        return std::make_tuple(useTolerance ? variation : 0.0, std::move(oldQ));
     }
 }
 

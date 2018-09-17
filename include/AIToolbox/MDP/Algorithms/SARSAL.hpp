@@ -49,9 +49,9 @@ namespace AIToolbox::MDP {
              * @param discount The discount of the underlying model.
              * @param alpha The learning rate of the SARSAL method.
              * @param lambda The lambda parameter for the eligibility traces.
-             * @param epsilon The cutoff point for eligibility traces.
+             * @param tolerance The cutoff point for eligibility traces.
              */
-            SARSAL(size_t S, size_t A, double discount = 1.0, double alpha = 0.1, double lambda = 0.9, double epsilon = 0.001);
+            SARSAL(size_t S, size_t A, double discount = 1.0, double alpha = 0.1, double lambda = 0.9, double tolerance = 0.001);
 
             /**
              * @brief Basic constructor.
@@ -67,10 +67,10 @@ namespace AIToolbox::MDP {
              * @param model The MDP model that SARSAL will use as a base.
              * @param alpha The learning rate of the SARSAL method.
              * @param lambda The lambda parameter for the eligibility traces.
-             * @param epsilon The cutoff point for eligibility traces.
+             * @param tolerance The cutoff point for eligibility traces.
              */
             template <typename M, typename = std::enable_if_t<is_generative_model_v<M>>>
-            SARSAL(const M& model, double alpha = 0.1, double lambda = 0.9, double epsilon = 0.001);
+            SARSAL(const M& model, double alpha = 0.1, double lambda = 0.9, double tolerance = 0.001);
 
             /**
              * @brief This function updates the internal QFunction using the discount set during construction.
@@ -174,20 +174,20 @@ namespace AIToolbox::MDP {
              * This parameter determines when a trace is removed, as its
              * coefficient has become too small to bother updating its value.
              *
-             * Note that the epsilon cutoff is performed on the overall
+             * Note that the trace cutoff is performed on the overall
              * discount*lambda value, and not only on lambda. So this parameter
              * is useful even when lambda is 1.
              *
-             * @param e The new trace cutoff value.
+             * @param t The new trace cutoff value.
              */
-            void setEpsilon(double e);
+            void setTolerance(double t);
 
             /**
              * @brief This function returns the currently set trace cutoff parameter.
              *
              * @return The currently set trace cutoff parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function clears the already set traces.
@@ -253,7 +253,7 @@ namespace AIToolbox::MDP {
             size_t S, A;
             double alpha_;
             double discount_;
-            double lambda_, epsilon_;
+            double lambda_, tolerance_;
             // This is used to avoid multiplying the discount and lambda all the time.
             double gammaL_;
 
@@ -262,7 +262,7 @@ namespace AIToolbox::MDP {
     };
 
     template <typename M, typename>
-    SARSAL::SARSAL(const M& model, const double alpha, const double lambda, const double epsilon) :
-            SARSAL(model.getS(), model.getA(), model.getDiscount(), alpha, lambda, epsilon) {}
+    SARSAL::SARSAL(const M& model, const double alpha, const double lambda, const double tolerance) :
+            SARSAL(model.getS(), model.getA(), model.getDiscount(), alpha, lambda, tolerance) {}
 }
 #endif

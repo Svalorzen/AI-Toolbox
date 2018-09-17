@@ -41,14 +41,14 @@ BOOST_AUTO_TEST_CASE( infiniteHorizonSpeededUp ) {
     model.setDiscount(discount);
 
     constexpr unsigned horizon = 100000;
-    constexpr double epsilon = 0.0001;
-    POMDP::BlindStrategies solver(horizon, epsilon);
+    constexpr double tolerance = 0.0001;
+    POMDP::BlindStrategies solver(horizon, tolerance);
 
     const auto [varSpeed, vlistSpeed] = solver(model, true);
     const auto [varNormal, vlistNormal] = solver(model, false);
 
-    BOOST_CHECK(varSpeed < solver.getEpsilon());
-    BOOST_CHECK(varNormal < solver.getEpsilon());
+    BOOST_CHECK(varSpeed < solver.getTolerance());
+    BOOST_CHECK(varNormal < solver.getTolerance());
 
     // The following bounds hold because there exist a bound on how much the
     // error is over the final V* (which in this case is not optimal but it's
@@ -62,27 +62,27 @@ BOOST_AUTO_TEST_CASE( infiniteHorizonSpeededUp ) {
     BOOST_CHECK(std::abs(
         vlistSpeed[A_LISTEN].values[TIG_LEFT] -
         vlistNormal[A_LISTEN].values[TIG_LEFT]
-    ) <= (2 * epsilon) / (1 - discount));
+    ) <= (2 * tolerance) / (1 - discount));
     BOOST_CHECK(std::abs(
         vlistSpeed[A_LISTEN].values[TIG_RIGHT] -
         vlistNormal[A_LISTEN].values[TIG_RIGHT]
-    ) <= (2 * epsilon) / (1 - discount));
+    ) <= (2 * tolerance) / (1 - discount));
 
     BOOST_CHECK(std::abs(
         vlistSpeed[A_LEFT].values[TIG_LEFT] -
         vlistNormal[A_LEFT].values[TIG_LEFT]
-    ) <= (2 * epsilon) / (1 - discount));
+    ) <= (2 * tolerance) / (1 - discount));
     BOOST_CHECK(std::abs(
         vlistSpeed[A_LEFT].values[TIG_RIGHT] -
         vlistNormal[A_LEFT].values[TIG_RIGHT]
-    ) <= (2 * epsilon) / (1 - discount));
+    ) <= (2 * tolerance) / (1 - discount));
 
     BOOST_CHECK(std::abs(
         vlistSpeed[A_RIGHT].values[TIG_LEFT] -
         vlistNormal[A_RIGHT].values[TIG_LEFT]
-    ) <= (2 * epsilon) / (1 - discount));
+    ) <= (2 * tolerance) / (1 - discount));
     BOOST_CHECK(std::abs(
         vlistSpeed[A_RIGHT].values[TIG_RIGHT] -
         vlistNormal[A_RIGHT].values[TIG_RIGHT]
-    ) <= (2 * epsilon) / (1 - discount));
+    ) <= (2 * tolerance) / (1 - discount));
 }

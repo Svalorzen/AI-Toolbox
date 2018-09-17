@@ -35,17 +35,17 @@ void exportMDPValueIteration() {
         .def(init<unsigned, optional<double>>(
                  "Basic constructor.\n"
                  "\n"
-                 "The epsilon parameter must be >= 0.0, otherwise the\n"
-                 "constructor will throw an std::runtime_error. The epsilon\n"
-                 "parameter sets the convergence criterion. An epsilon of 0.0\n"
+                 "The tolerance parameter must be >= 0.0, otherwise the\n"
+                 "constructor will throw an std::runtime_error. The tolerance\n"
+                 "parameter sets the convergence criterion. A tolerance of 0.0\n"
                  "forces ValueIteration to perform a number of iterations\n"
                  "equal to the horizon specified. Otherwise, ValueIteration\n"
                  "will stop as soon as the difference between two iterations\n"
-                 "is less than the epsilon specified.\n"
+                 "is less than the tolerance specified.\n"
                  "\n"
                  "@param horizon The maximum number of iterations to perform.\n"
-                 "@param epsilon The epsilon factor to stop the value iteration loop."
-        , (arg("self"), "horizon", "epsilon")))
+                 "@param tolerance The tolerance factor to stop the value iteration loop."
+        , (arg("self"), "horizon", "tolerance")))
 
         .def("__call__",                &ValueIteration::operator()<Model>,
                  "This function applies value iteration on an MDP to solve it.\n"
@@ -91,26 +91,26 @@ void exportMDPValueIteration() {
                  "        QFunction for the Model."
         , (arg("self"), "m"))
 
-        .def("setEpsilon",              &ValueIteration::setEpsilon,
-                 "This function sets the epsilon parameter.\n"
+        .def("setTolerance",            &ValueIteration::setTolerance,
+                 "This function sets the tolerance parameter.\n"
                  "\n"
-                 "The epsilon parameter must be >= 0.0, otherwise the\n"
-                 "constructor will throw an std::runtime_error. The epsilon\n"
-                 "parameter sets the convergence criterion. An epsilon of 0.0\n"
+                 "The tolerance parameter must be >= 0.0, otherwise the\n"
+                 "constructor will throw an std::runtime_error. The tolerance\n"
+                 "parameter sets the convergence criterion. An tolerance of 0.0\n"
                  "forces ValueIteration to perform a number of iterations\n"
                  "equal to the horizon specified. Otherwise, ValueIteration\n"
                  "will stop as soon as the difference between two iterations\n"
-                 "is less than the epsilon specified.\n"
+                 "is less than the tolerance specified.\n"
                  "\n"
-                 "@param e The new epsilon parameter."
-        , (arg("self"), "e"))
+                 "@param t The new tolerance parameter."
+        , (arg("self"), "t"))
 
         .def("setHorizon",              &ValueIteration::setHorizon,
                  "This function sets the horizon parameter."
         , (arg("self"), "horizon"))
 
-        .def("getEpsilon",              &ValueIteration::getEpsilon,
-                 "This function will return the currently set epsilon parameter."
+        .def("getTolerance",            &ValueIteration::getTolerance,
+                 "This function will return the currently set tolerance parameter."
         , (arg("self")))
 
         .def("getHorizon",              &ValueIteration::getHorizon,

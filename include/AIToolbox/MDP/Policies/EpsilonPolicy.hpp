@@ -21,7 +21,7 @@ namespace AIToolbox::MDP {
              * @param p The policy that is being extended.
              * @param epsilon The parameter that controls the amount of exploration.
              */
-            EpsilonPolicy(const PolicyInterface & p, double epsilon = 0.9);
+            EpsilonPolicy(const PolicyInterface & p, double epsilon = 0.1);
 
             /**
              * @brief This function returns a matrix containing all probabilities of the policy.

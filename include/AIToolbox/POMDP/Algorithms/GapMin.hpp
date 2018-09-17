@@ -253,7 +253,7 @@ namespace AIToolbox::POMDP {
              */
             std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
 
-            double epsilon_;
+            double tolerance_;
             double initialTolerance_;
             unsigned precisionDigits_;
     };
@@ -262,13 +262,13 @@ namespace AIToolbox::POMDP {
     std::tuple<double, double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
 
-        // Reset epsilon to set parameter;
-        epsilon_ = initialTolerance_;
+        // Reset tolerance to set parameter;
+        tolerance_ = initialTolerance_;
 
         // Helper methods
-        BlindStrategies bs(infiniteHorizon, epsilon_);
-        FastInformedBound fib(infiniteHorizon, epsilon_);
-        PBVI pbvi(0, infiniteHorizon, epsilon_);
+        BlindStrategies bs(infiniteHorizon, tolerance_);
+        FastInformedBound fib(infiniteHorizon, tolerance_);
+        PBVI pbvi(0, infiniteHorizon, tolerance_);
 
         // Here we use the BlindStrategies in order to obtain a very simple
         // initial lower bound.
@@ -325,7 +325,7 @@ namespace AIToolbox::POMDP {
             if (checkEqualSmall(var, 0.0) || var < threshold)
                 break;
 
-            epsilon_ = threshold * (1.0 - pomdp.getDiscount()) / 2.0;
+            tolerance_ = threshold * (1.0 - pomdp.getDiscount()) / 2.0;
             // Now we find beliefs for both lower and upper bound where we
             // think we can improve. For the ub beliefs we also return their
             // values, since we need them to improve the ub.
@@ -409,7 +409,7 @@ namespace AIToolbox::POMDP {
             AI_LOGGER(AI_SEVERITY_INFO, "Updated bounds to " << lb << ", " << ub << " -- size LB: " << lbVList.size() << ", size UB " << ubV.first.size());
 
             // Stop if we didn't find anything new, or if we have converged the bounds.
-            if (newLbBeliefsSize + newUbBeliefsSize == 0 || std::fabs(var - oldVar) < epsilon_ * 5)
+            if (newLbBeliefsSize + newUbBeliefsSize == 0 || std::fabs(var - oldVar) < tolerance_ * 5)
                 break;
         }
         return std::make_tuple(lb, ub, lbVList, ubQ);
@@ -660,7 +660,7 @@ namespace AIToolbox::POMDP {
                 return true;
             };
 
-            if (validForUb(belief) && ubActionValue < currentUpperBound - epsilon_) {
+            if (validForUb(belief) && ubActionValue < currentUpperBound - tolerance_) {
                 newUbBeliefs.push_back(belief);
                 newUbValues.push_back(ubActionValue);
 
@@ -698,7 +698,7 @@ namespace AIToolbox::POMDP {
                 return true;
             };
 
-            if (validForLb(belief) && lbActionValue > currentLowerBound + epsilon_) {
+            if (validForLb(belief) && lbActionValue > currentLowerBound + tolerance_) {
                 // We add the new belief, and the same is done for all
                 // beliefs that led us to this one (if they're valid -
                 // i.e., we didn't have them already).
@@ -748,7 +748,7 @@ namespace AIToolbox::POMDP {
                     findBestAtPoint(nextBelief, rbegin, rend, &lbValue);
                 }
 
-                if ((ubValue - lbValue) * std::pow(pomdp.getDiscount(), depth) > epsilon_ * 20) {
+                if ((ubValue - lbValue) * std::pow(pomdp.getDiscount(), depth) > tolerance_ * 20) {
                     const auto nextBeliefOverallProbability = nextBeliefProbability * beliefProbability * pomdp.getDiscount();
                     const auto nextBeliefGap = nextBeliefOverallProbability * (ubValue - lbValue);
 

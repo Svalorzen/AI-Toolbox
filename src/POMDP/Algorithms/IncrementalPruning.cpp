@@ -1,26 +1,26 @@
 #include <AIToolbox/POMDP/Algorithms/IncrementalPruning.hpp>
 
 namespace AIToolbox::POMDP {
-    IncrementalPruning::IncrementalPruning(const unsigned h, const double e) :
+    IncrementalPruning::IncrementalPruning(const unsigned h, const double t) :
             horizon_(h)
     {
-        setEpsilon(e);
+        setTolerance(t);
     }
 
     void IncrementalPruning::setHorizon(const unsigned h) {
         horizon_ = h;
     }
-    void IncrementalPruning::setEpsilon(const double e) {
-        if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
-        epsilon_ = e;
+    void IncrementalPruning::setTolerance(const double t) {
+        if ( t < 0.0 ) throw std::invalid_argument("Tolerance must be >= 0");
+        tolerance_ = t;
     }
 
     unsigned IncrementalPruning::getHorizon() const {
         return horizon_;
     }
 
-    double IncrementalPruning::getEpsilon() const {
-        return epsilon_;
+    double IncrementalPruning::getTolerance() const {
+        return tolerance_;
     }
 
     VList IncrementalPruning::crossSum(const VList & l1, const VList & l2, const size_t a, const bool order) {

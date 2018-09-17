@@ -33,14 +33,14 @@ namespace AIToolbox::POMDP {
              * @brief Basic constructor.
              *
              * @param horizon The maximum number of iterations to perform.
-             * @param epsilon The epsilon factor to stop the value iteration loop.
+             * @param tolerance The tolerance factor to stop the value iteration loop.
              */
-            BlindStrategies(unsigned horizon, double epsilon = 0.001);
+            BlindStrategies(unsigned horizon, double tolerance = 0.001);
 
             /**
              * @brief This function computes the blind strategies for the input POMDP.
              *
-             * Here we return a simple VList for the specified horizon/epsilon.
+             * Here we return a simple VList for the specified horizon/tolerance.
              * Returning a ValueFunction would be pretty pointless, as the
              * implied policy here it's pretty obvious (always execute the same
              * action) so there's little sense in wrapping the bounds up.
@@ -70,19 +70,19 @@ namespace AIToolbox::POMDP {
             std::tuple<double, VList> operator()(const M & m, bool fasterConvergence);
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the function
-             * will throw an std::invalid_argument. The epsilon parameter sets
-             * the convergence criterion. An epsilon of 0.0 forces
+             * The tolerance parameter must be >= 0.0, otherwise the function
+             * will throw an std::invalid_argument. The tolerance parameter sets
+             * the convergence criterion. A tolerance of 0.0 forces
              * BlindStrategies to perform a number of iterations equal to the
              * horizon specified. Otherwise, BlindStrategies will stop as soon
              * as the difference between two iterations is less than the
-             * epsilon specified.
+             * tolerance specified.
              *
-             * @param e The new epsilon parameter.
+             * @param tolerance The new tolerance parameter.
              */
-            void setEpsilon(double e);
+            void setTolerance(double tolerance);
 
             /**
              * @brief This function sets the horizon parameter.
@@ -92,11 +92,11 @@ namespace AIToolbox::POMDP {
             void setHorizon(unsigned h);
 
             /**
-             * @brief This function returns the currently set epsilon parameter.
+             * @brief This function returns the currently set toleranc parameter.
              *
-             * @return The currently set epsilon parameter.
+             * @return The currently set tolerance parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function returns the current horizon parameter.
@@ -107,7 +107,7 @@ namespace AIToolbox::POMDP {
 
         private:
             size_t horizon_;
-            double epsilon_;
+            double tolerance_;
     };
 
 
@@ -123,7 +123,7 @@ namespace AIToolbox::POMDP {
         // action 1 assumes to take action 1, etc.).
         VList retval;
 
-        const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
+        const bool useTolerance = checkDifferentSmall(tolerance_, 0.0);
 
         double maxVariation = 0.0;
         for (size_t a = 0; a < m.getA(); ++a) {
@@ -139,8 +139,8 @@ namespace AIToolbox::POMDP {
                 oldAlpha = ir.row(a);
 
             unsigned timestep = 0;
-            double variation = epsilon_ * 2; // Make it bigger
-            while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
+            double variation = tolerance_ * 2; // Make it bigger
+            while ( timestep < horizon_ && ( !useTolerance || variation > tolerance_ ) ) {
                 ++timestep;
                 if constexpr(is_model_eigen_v<M>) {
                     newAlpha = ir.row(a) + (m.getDiscount() * m.getTransitionFunction(a) * oldAlpha).transpose();
@@ -154,7 +154,7 @@ namespace AIToolbox::POMDP {
                     }
                 }
 
-                if (useEpsilon)
+                if (useTolerance)
                     variation = (oldAlpha - newAlpha).cwiseAbs().maxCoeff();
 
                 oldAlpha = std::move(newAlpha);
@@ -162,7 +162,7 @@ namespace AIToolbox::POMDP {
             maxVariation = std::max(maxVariation, variation);
             retval.emplace_back(std::move(oldAlpha), a, VObs(0));
         }
-        return std::make_tuple(useEpsilon ? maxVariation : 0.0, std::move(retval));
+        return std::make_tuple(useTolerance ? maxVariation : 0.0, std::move(retval));
     }
 }
 

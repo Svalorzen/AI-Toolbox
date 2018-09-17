@@ -49,33 +49,33 @@ namespace AIToolbox::POMDP {
              *
              * This constructor sets the default horizon used to solve a POMDP::Model.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
-             * parameter sets the convergence criterion. An epsilon of 0.0
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The tolerance
+             * parameter sets the convergence criterion. A tolerance of 0.0
              * forces Witness to perform a number of iterations equal to
              * the horizon specified. Otherwise, Witness will stop as soon
              * as the difference between two iterations is less than the
-             * epsilon specified.
+             * tolerance specified.
              *
              * @param h The horizon chosen.
-             * @param epsilon The epsilon factor to stop the value iteration loop.
+             * @param tolerance The tolerance factor to stop the value iteration loop.
              */
-            Witness(unsigned horizon, double epsilon);
+            Witness(unsigned horizon, double tolerance);
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
-             * parameter sets the convergence criterion. An epsilon of 0.0
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The tolerance
+             * parameter sets the convergence criterion. A tolerance of 0.0
              * forces Witness to perform a number of iterations equal to
              * the horizon specified. Otherwise, Witness will stop as soon
              * as the difference between two iterations is less than the
-             * epsilon specified.
+             * tolerance specified.
              *
-             * @param e The new epsilon parameter.
+             * @param t The new tolerance parameter.
              */
-            void setEpsilon(double e);
+            void setTolerance(double t);
 
             /**
              * @brief This function allows setting the horizon parameter.
@@ -85,11 +85,11 @@ namespace AIToolbox::POMDP {
             void setHorizon(unsigned h);
 
             /**
-             * @brief This function will return the currently set epsilon parameter.
+             * @brief This function will return the currently set tolerance parameter.
              *
-             * @return The currently set epsilon parameter.
+             * @return The currently set tolerance parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function returns the currently set horizon parameter.
@@ -135,7 +135,7 @@ namespace AIToolbox::POMDP {
 
             size_t S, A, O;
             unsigned horizon_;
-            double epsilon_;
+            double tolerance_;
 
             std::vector<MDP::Values> agenda_;
             std::unordered_set<VObs, boost::hash<VObs>> triedVectors_;
@@ -164,9 +164,9 @@ namespace AIToolbox::POMDP {
         Pruner prune(S);
         WitnessLP lp(S);
 
-        const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
-        double variation = epsilon_ * 2; // Make it bigger
-        while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
+        const bool useTolerance = checkDifferentSmall(tolerance_, 0.0);
+        double variation = tolerance_ * 2; // Make it bigger
+        while ( timestep < horizon_ && ( !useTolerance || variation > tolerance_ ) ) {
             ++timestep;
 
             // As default, we allocate double the numbers of VEntries for last step.
@@ -229,12 +229,12 @@ namespace AIToolbox::POMDP {
             v.emplace_back(std::move(w));
 
             // Check convergence
-            if ( useEpsilon ) {
+            if ( useTolerance ) {
                 variation = weakBoundDistance(v[timestep-1], v[timestep]);
             }
         }
 
-        return std::make_tuple(useEpsilon ? variation : 0.0, v);
+        return std::make_tuple(useTolerance ? variation : 0.0, v);
     }
 
     template <typename ProjectionsRow>

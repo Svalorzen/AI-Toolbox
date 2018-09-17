@@ -3,16 +3,16 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox::POMDP {
-    PERSEUS::PERSEUS(const size_t nBeliefs, const unsigned h, const double e) :
+    PERSEUS::PERSEUS(const size_t nBeliefs, const unsigned h, const double t) :
             beliefSize_(nBeliefs), horizon_(h),
             rand_(Impl::Seeder::getSeed())
     {
-        setEpsilon(e);
+        setTolerance(t);
     }
 
-    void PERSEUS::setEpsilon(const double e) {
-        if ( e < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
-        epsilon_ = e;
+    void PERSEUS::setTolerance(const double t) {
+        if ( t < 0.0 ) throw std::invalid_argument("Tolerance must be >= 0");
+        tolerance_ = t;
     }
 
     void PERSEUS::setHorizon(const unsigned h) {
@@ -23,7 +23,7 @@ namespace AIToolbox::POMDP {
         beliefSize_ = nBeliefs;
     }
 
-    double PERSEUS::getEpsilon() const { return epsilon_; }
+    double PERSEUS::getTolerance() const { return tolerance_; }
     unsigned PERSEUS::getHorizon() const { return horizon_; }
     size_t PERSEUS::getBeliefSize() const { return beliefSize_; }
 }

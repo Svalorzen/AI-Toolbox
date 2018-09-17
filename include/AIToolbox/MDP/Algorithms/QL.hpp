@@ -10,16 +10,26 @@ namespace AIToolbox::MDP {
      * \sa QLEvaluation
      *
      * This method behaves as an inefficient QLearning if you set the lambda
-     * parameter to zero (effectively cutting all traces), and the exploration
+     * parameter to zero (effectively cutting all traces), and the epsilon
      * parameter to zero (forcing a perfectly greedy target policy).
      */
     class QL : public OffPolicyControl<QL> {
         public:
             using Parent = OffPolicyControl<QL>;
 
-            QL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
-               const double discount = 1.0, const double alpha = 0.1, const double epsilon = 0.001) :
-                    Parent(behaviour, exploration, discount, alpha, epsilon)
+            /**
+             * @brief Basic constructor.
+             *
+             * @param behaviour Behaviour policy
+             * @param lambda Lambda trace parameter.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
+             * @param discount Discount for the problem.
+             * @param alpha Learning rate parameter.
+             * @param tolerance Trace cutoff parameter.
+             */
+            QL(const PolicyInterface & behaviour, const double lambda, const double epsilon = 0.1,
+               const double discount = 1.0, const double alpha = 0.1, const double tolerance = 0.001) :
+                    Parent(behaviour, epsilon, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }
@@ -80,11 +90,11 @@ namespace AIToolbox::MDP {
              * @param lambda Lambda trace parameter.
              * @param discount Discount for the problem.
              * @param alpha Learning rate parameter.
-             * @param epsilon Trace cutoff parameter.
+             * @param tolerance Trace cutoff parameter.
              */
             QLEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
-                         const double lambda, const double discount, const double alpha, const double epsilon) :
-                    Parent(target, behaviour, discount, alpha, epsilon)
+                         const double lambda, const double discount, const double alpha, const double tolerance) :
+                    Parent(target, behaviour, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }

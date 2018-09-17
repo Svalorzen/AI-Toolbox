@@ -38,30 +38,30 @@ namespace AIToolbox::POMDP {
             /**
              * @brief Basic constructor.
              *
-             * This constructor sets the default horizon/epsilon used to
+             * This constructor sets the default horizon/tolerance used to
              * solve a POMDP::Model and the number of beliefs used to
              * approximate the ValueFunction.
              *
              * @param nBeliefs The number of support beliefs to use.
              * @param h The horizon chosen.
-             * @param epsilon The epsilon factor to stop the PERSEUS loop.
+             * @param tolerance The tolerance factor to stop the PERSEUS loop.
              */
-            PERSEUS(size_t nBeliefs, unsigned h, double epsilon);
+            PERSEUS(size_t nBeliefs, unsigned h, double tolerance);
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0.0, otherwise the
-             * constructor will throw an std::runtime_error. The epsilon
-             * parameter sets the convergence criterion. An epsilon of 0.0
+             * The tolerance parameter must be >= 0.0, otherwise the
+             * constructor will throw an std::runtime_error. The tolerance
+             * parameter sets the convergence criterion. A tolerance of 0.0
              * forces PERSEUS to perform a number of iterations equal to
              * the horizon specified. Otherwise, PERSEUS will stop as soon
              * as the difference between two iterations is less than the
-             * epsilon specified.
+             * tolerance specified.
              *
-             * @param e The new epsilon parameter.
+             * @param tolerance The new tolerance parameter.
              */
-            void setEpsilon(double epsilon);
+            void setTolerance(double tolerance);
 
             /**
              * @brief This function sets a new horizon parameter.
@@ -78,11 +78,11 @@ namespace AIToolbox::POMDP {
             void setBeliefSize(size_t nBeliefs);
 
             /**
-             * @brief This function returns the currently set epsilon parameter.
+             * @brief This function returns the currently set tolerance parameter.
              *
-             * @return The current epsilon.
+             * @return The current tolerance.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function returns the currently set horizon parameter.
@@ -152,7 +152,7 @@ namespace AIToolbox::POMDP {
 
             size_t S, A, O, beliefSize_;
             unsigned horizon_;
-            double epsilon_;
+            double tolerance_;
 
             mutable RandomEngine rand_;
     };
@@ -184,9 +184,9 @@ namespace AIToolbox::POMDP {
         Projecter projecter(model);
 
         // And off we go
-        const bool useEpsilon = checkDifferentSmall(epsilon_, 0.0);
-        double variation = epsilon_ * 2; // Make it bigger
-        while ( timestep < horizon_ && ( !useEpsilon || variation > epsilon_ ) ) {
+        const bool useTolerance = checkDifferentSmall(tolerance_, 0.0);
+        double variation = tolerance_ * 2; // Make it bigger
+        while ( timestep < horizon_ && ( !useTolerance || variation > tolerance_ ) ) {
             ++timestep;
             // Compute all possible outcomes, from our previous results.
             // This means that for each action-observation pair, we are going
@@ -198,11 +198,11 @@ namespace AIToolbox::POMDP {
             v.emplace_back( crossSum( projs, beliefs, v[timestep-1] ) );
 
             // Check convergence
-            if ( useEpsilon )
+            if ( useTolerance )
                 variation = weakBoundDistance(v[timestep-1], v[timestep]);
         }
 
-        return std::make_tuple(useEpsilon ? variation : 0.0, v);
+        return std::make_tuple(useTolerance ? variation : 0.0, v);
     }
 
     template <typename ProjectionsTable>

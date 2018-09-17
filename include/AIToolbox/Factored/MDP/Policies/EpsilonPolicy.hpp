@@ -24,7 +24,7 @@ namespace AIToolbox::Factored::MDP {
              * @param p The policy that is being extended.
              * @param epsilon The parameter that controls the amount of exploration.
              */
-            EpsilonPolicy(const Base::Base & p, double epsilon = 0.9);
+            EpsilonPolicy(const Base::Base & p, double epsilon = 0.1);
 
         protected:
             /**

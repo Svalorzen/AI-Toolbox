@@ -246,7 +246,7 @@ def printState(coord):
                 print ".",
         print ""
 
-def solve_mdp(horizon, epsilon, discount=0.9):
+def solve_mdp(horizon, tolerance, discount=0.9):
     """
     Construct the gridworld MDP, and solve it using value iteration. Print the
     best found policy for sample states.
@@ -291,14 +291,13 @@ def solve_mdp(horizon, epsilon, discount=0.9):
     model.setDiscount(discount)
 
     # Perform value iteration
-    print time.strftime("%H:%M:%S"), "- Solving MDP using ValueIteration(horizon={}, epsilon={})".format(
-        horizon, epsilon)
+    print time.strftime("%H:%M:%S"), "- Solving MDP using ValueIteration(horizon={}, tolerance={})".format(
+        horizon, tolerance)
 
-
-    solver = MDP.ValueIteration(horizon, epsilon)
+    solver = MDP.ValueIteration(horizon, tolerance)
     solution = solver(model)
 
-    print time.strftime("%H:%M:%S"), "- Converged:", solution[0] < solver.getEpsilon()
+    print time.strftime("%H:%M:%S"), "- Converged:", solution[0] < solver.getTolerance()
     _, value_function, q_function = solution
 
     policy = MDP.Policy(len(S), len(A), value_function)
@@ -334,11 +333,11 @@ if __name__ == "__main__":
                         help="Size of the square gridworld.")
     parser.add_argument('-ho', '--horizon', default=1000000, type=int,
                         help="Horizon parameter for value iteration")
-    parser.add_argument('-e', '--epsilon', default=0.001, type=float,
-                        help="Epsilon parameter for value iteration")
+    parser.add_argument('-t', '--tolerance', default=0.001, type=float,
+                        help="Tolerance parameter for value iteration")
     parser.add_argument('-d', '--discount', default=0.9, type=float,
                         help="Discount parameter for value iteration")
 
     args = parser.parse_args()
     SQUARE_SIZE = args.square_size
-    solve_mdp(horizon=args.horizon, epsilon=args.epsilon)
+    solve_mdp(horizon=args.horizon, tolerance=args.tolerance)

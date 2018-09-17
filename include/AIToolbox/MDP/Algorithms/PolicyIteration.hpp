@@ -28,9 +28,9 @@ namespace AIToolbox::MDP {
              * @brief Basic constructor.
              *
              * @param horizon The horizon parameter to use during the PolicyEvaluation phase.
-             * @param epsilon The epsilon parameter to use during the PolicyEvaluation phase.
+             * @param tolerance The tolerance parameter to use during the PolicyEvaluation phase.
              */
-            PolicyIteration(unsigned horizon, double epsilon = 0.001);
+            PolicyIteration(unsigned horizon, double tolerance = 0.001);
 
             /**
              * @brief This function applies policy iteration on an MDP to solve it.
@@ -44,11 +44,11 @@ namespace AIToolbox::MDP {
             QFunction operator()(const M & m);
 
             /**
-             * @brief This function sets the epsilon parameter.
+             * @brief This function sets the tolerance parameter.
              *
-             * The epsilon parameter must be >= 0 or the function will throw.
+             * The tolerance parameter must be >= 0 or the function will throw.
              */
-            void setEpsilon(double e);
+            void setTolerance(double t);
 
             /**
              * @brief This function sets the horizon parameter.
@@ -56,9 +56,9 @@ namespace AIToolbox::MDP {
             void setHorizon(unsigned h);
 
             /**
-             * @brief This function returns the currently set epsilon parameter.
+             * @brief This function returns the currently set tolerance parameter.
              */
-            double getEpsilon() const;
+            double getTolerance() const;
 
             /**
              * @brief This function returns the currently set horizon parameter.
@@ -67,7 +67,7 @@ namespace AIToolbox::MDP {
 
         private:
             unsigned horizon_;
-            double epsilon_;
+            double tolerance_;
     };
 
     template <typename M, typename>
@@ -75,7 +75,7 @@ namespace AIToolbox::MDP {
         const auto S = m.getS();
         const auto A = m.getA();
 
-        PolicyEvaluation<M> eval(m, horizon_, epsilon_);
+        PolicyEvaluation<M> eval(m, horizon_, tolerance_);
 
         auto qfun = makeQFunction(m.getS(), m.getA());
         QGreedyPolicy p(qfun);

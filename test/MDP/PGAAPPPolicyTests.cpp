@@ -27,8 +27,8 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
     // Other important thing: without exploration, the policies cannot
     // explore enough and won't end up converging. So we need to wrap
     // the policies in EpsilonPolicy in order to get good exploration.
-    MDP::EpsilonPolicy p(policy, 1.0 - 0.05);
-    MDP::EpsilonPolicy p2(policy2, 1.0 - 0.05);
+    MDP::EpsilonPolicy p(policy, 0.05);
+    MDP::EpsilonPolicy p2(policy2, 0.05);
 
     for ( unsigned i = 0; i < 150000; ++i ) {
         size_t a = p.sampleAction(0);
@@ -65,8 +65,8 @@ BOOST_AUTO_TEST_CASE( matching_pennies ) {
     MDP::PGAAPPPolicy policy2(solver2.getQFunction());
     // Here they're not really needed since there's only
     // two actions, but just to do things properly.
-    MDP::EpsilonPolicy p(policy, 1.0 - 0.05);
-    MDP::EpsilonPolicy p2(policy2, 1.0 - 0.05);
+    MDP::EpsilonPolicy p(policy, 0.05);
+    MDP::EpsilonPolicy p2(policy2, 0.05);
 
     for ( unsigned i = 0; i < 150000; ++i ) {
         size_t a = p.sampleAction(0);
