@@ -14,9 +14,9 @@ namespace AIToolbox {
      * automatic exploratory behaviour (e.g. epsilon-greedy policies).
      *
      * An epsilon-greedy policy is a policy that takes a greedy action a
-     * certain percentage of the time, and otherwise takes a random action.
-     * They are useful to force the agent to explore an unknown model, in order
-     * to gain new information to refine it and thus gain more reward.
+     * certain percentage of the time (1-epsilon), and otherwise takes a random
+     * action. They are useful to force the agent to explore an unknown model,
+     * in order to gain new information to refine it and thus gain more reward.
      *
      * Please note that to obtain an epsilon-greedy policy the wrapped
      * policy needs to already be greedy with respect to the model.
@@ -41,14 +41,14 @@ namespace AIToolbox {
              * @param p The policy that is being extended.
              * @param epsilon The parameter that controls the amount of exploration.
              */
-            EpsilonPolicyInterface(const Base & p, double epsilon = 0.9);
+            EpsilonPolicyInterface(const Base & p, double epsilon = 0.1);
 
             /**
              * @brief This function chooses a random action for state s, following the policy distribution and epsilon.
              *
-             * This function has a probability of (1 - epsilon) of selecting
-             * a random action. Otherwise, it selects an action according
-             * to the distribution specified by the wrapped policy.
+             * This function has a probability of `epsilon` of selecting a
+             * random action. Otherwise, it selects an action according to the
+             * distribution specified by the wrapped policy.
              *
              * @param s The sampled state of the policy.
              *
@@ -75,8 +75,8 @@ namespace AIToolbox {
              * The epsilon parameter determines the amount of exploration this
              * policy will enforce when selecting actions. In particular
              * actions are going to selected randomly with probability
-             * (1-epsilon), and are going to be selected following the
-             * underlying policy with probability epsilon.
+             * `epsilon`, and are going to be selected following the underlying
+             * policy with probability `1-epsilon`.
              *
              * The epsilon parameter must be >= 0.0 and <= 1.0,
              * otherwise the function will do throw std::invalid_argument.
@@ -132,8 +132,8 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     double EpsilonPolicyInterface<State, Sampling, Action>::getActionProbability(const Sampling & s, const Action & a) const {
-        //          Probability of taking old decision          Other probability
-        return epsilon_ * policy_.getActionProbability(s,a) + ( 1.0 - epsilon_ ) * getRandomActionProbability();
+        // Probability of taking old decision               Random action probability
+        return (1.0 - epsilon_)* policy_.getActionProbability(s,a) + epsilon_ * getRandomActionProbability();
     }
 
     template <typename State, typename Sampling, typename Action>

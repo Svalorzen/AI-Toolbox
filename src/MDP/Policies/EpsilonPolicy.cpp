@@ -17,8 +17,8 @@ namespace AIToolbox::MDP {
         const auto & wrapped = dynamic_cast<const PolicyInterface &>(policy_);
         auto p = wrapped.getPolicy();
 
-        p *= epsilon_;
-        p.array() += (1.0 - epsilon_) / A;
+        p *= (1.0 - epsilon_);
+        p.array() += epsilon_ / A;
 
         return p;
     }
