@@ -18,11 +18,11 @@ BOOST_AUTO_TEST_CASE( horizon1 ) {
     model.setDiscount(0.95);
 
     constexpr unsigned horizon = 1000000;
-    constexpr double epsilon = 0.001;
-    POMDP::FastInformedBound solver(horizon, epsilon);
+    constexpr double tolerance = 0.001;
+    POMDP::FastInformedBound solver(horizon, tolerance);
     const auto [var, qfun] = solver(model);
 
-    BOOST_CHECK(var < epsilon);
+    BOOST_CHECK(var < tolerance);
 
     // The solution values were taken directly from GapMin's code solution for this problem.
     MDP::QFunction solution(model.getS(), model.getA());
