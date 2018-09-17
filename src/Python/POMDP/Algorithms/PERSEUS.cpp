@@ -43,28 +43,28 @@ void exportPOMDPPERSEUS() {
         .def(init<size_t, unsigned, double>(
                  "Basic constructor.\n"
                  "\n"
-                 "This constructor sets the default horizon/epsilon used to\n"
+                 "This constructor sets the default horizon/tolerance used to\n"
                  "solve a POMDP::Model and the number of beliefs used to\n"
                  "approximate the ValueFunction.\n"
                  "\n"
                  "@param nBeliefs The number of support beliefs to use.\n"
                  "@param h The horizon chosen.\n"
-                 "@param epsilon The epsilon factor to stop the PERSEUS loop."
-        , (arg("self"), "nBeliefs", "h", "epsilon")))
+                 "@param tolerance The tolerance factor to stop the PERSEUS loop."
+        , (arg("self"), "nBeliefs", "h", "tolerance")))
 
-        .def("setEpsilon",                  &PERSEUS::setEpsilon,
-                 "This function sets the epsilon parameter.\n"
+        .def("setTolerance",                &PERSEUS::setTolerance,
+                 "This function sets the tolerance parameter.\n"
                  "\n"
-                 "The epsilon parameter must be >= 0.0, otherwise the\n"
-                 "constructor will throw an std::runtime_error. The epsilon\n"
-                 "parameter sets the convergence criterion. An epsilon of 0.0\n"
+                 "The tolerance parameter must be >= 0.0, otherwise the\n"
+                 "constructor will throw an std::runtime_error. The tolerance\n"
+                 "parameter sets the convergence criterion. A tolerance of 0.0\n"
                  "forces PERSEUS to perform a number of iterations equal to\n"
                  "the horizon specified. Otherwise, PERSEUS will stop as soon\n"
                  "as the difference between two iterations is less than the\n"
-                 "epsilon specified.\n"
+                 "tolerance specified.\n"
                  "\n"
-                 "@param e The new epsilon parameter."
-        , (arg("self"), "e"))
+                 "@param tolerance The new tolerance parameter."
+        , (arg("self"), "tolerance"))
 
         .def("setHorizon",                  &PERSEUS::setHorizon,
                  "This function sets a new horizon parameter."
@@ -74,8 +74,8 @@ void exportPOMDPPERSEUS() {
                 "This function sets a new number of support beliefs."
         , (arg("self"), "nBeliefs"))
 
-        .def("getEpsilon",                  &PERSEUS::getEpsilon,
-                 "This function returns the currently set epsilon parameter."
+        .def("getTolerance",                &PERSEUS::getTolerance,
+                 "This function returns the currently set tolerance parameter."
         , (arg("self")))
 
         .def("getHorizon",                  &PERSEUS::getHorizon,
