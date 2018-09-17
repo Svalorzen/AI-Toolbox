@@ -124,7 +124,7 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     Action EpsilonPolicyInterface<State, Sampling, Action>::sampleAction(const Sampling & s) const {
-        if ( probabilityDistribution(this->rand_) > epsilon_ )
+        if ( probabilityDistribution(this->rand_) <= epsilon_ )
             return sampleRandomAction();
 
         return policy_.sampleAction(s);
@@ -133,7 +133,7 @@ namespace AIToolbox {
     template <typename State, typename Sampling, typename Action>
     double EpsilonPolicyInterface<State, Sampling, Action>::getActionProbability(const Sampling & s, const Action & a) const {
         // Probability of taking old decision               Random action probability
-        return (1.0 - epsilon_)* policy_.getActionProbability(s,a) + epsilon_ * getRandomActionProbability();
+        return (1.0 - epsilon_) * policy_.getActionProbability(s,a) + epsilon_ * getRandomActionProbability();
     }
 
     template <typename State, typename Sampling, typename Action>
