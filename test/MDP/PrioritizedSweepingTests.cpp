@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     mdp::PrioritizedSweeping solver(learnedModel);
 
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
-    mdp::EpsilonPolicy ePolicy(gPolicy, 0.9);
+    mdp::EpsilonPolicy ePolicy(gPolicy, 0.1);
 
     size_t start = model.getS() - 2;
 

@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     mdp::SARSA solver(model, 0.4);
 
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
-    mdp::EpsilonPolicy ePolicy(gPolicy, 0.3);
+    mdp::EpsilonPolicy ePolicy(gPolicy, 0.7);
 
     size_t start = model.getS() - 2;
 

@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     constexpr auto episodes = 3000;
     size_t s, a;
     for ( int episode = 0; episode < episodes; ++episode ) {
-        solver.setExploration(0.9 + (0.1 / episodes) * episode);
+        solver.setEpsilon(0.1 - (0.1 / episodes) * episode);
         s = start;
         for ( int i = 0; i < 10000; ++i ) {
             a = behaviour.sampleAction( s );
