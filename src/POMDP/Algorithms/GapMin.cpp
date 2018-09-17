@@ -10,7 +10,7 @@ namespace AIToolbox::POMDP {
     }
 
     void GapMin::setInitialTolerance(double initialTolerance) {
-        if ( initialTolerance < 0.0 ) throw std::invalid_argument("Epsilon must be >= 0");
+        if ( initialTolerance < 0.0 ) throw std::invalid_argument("Initial tolerance must be >= 0");
         initialTolerance_ = initialTolerance;
     }
 
@@ -61,7 +61,7 @@ namespace AIToolbox::POMDP {
             const auto [v, dist] = UB(belief, ubQ, ubV);
             (void)dist;
 
-            if (value >= v - epsilon_) {
+            if (value >= v - tolerance_) {
                 toRemove.push_back(i);
             } else {
                 // Unpop and unswap, since we need to keep the order consistent
