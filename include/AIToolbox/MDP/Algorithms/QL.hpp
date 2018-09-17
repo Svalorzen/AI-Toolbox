@@ -10,7 +10,7 @@ namespace AIToolbox::MDP {
      * \sa QLEvaluation
      *
      * This method behaves as an inefficient QLearning if you set the lambda
-     * parameter to zero (effectively cutting all traces), and the exploration
+     * parameter to zero (effectively cutting all traces), and the epsilon
      * parameter to zero (forcing a perfectly greedy target policy).
      */
     class QL : public OffPolicyControl<QL> {
@@ -22,14 +22,14 @@ namespace AIToolbox::MDP {
              *
              * @param behaviour Behaviour policy
              * @param lambda Lambda trace parameter.
-             * @param exploration The exploration of the implied target greedy epsilon policy.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
              * @param discount Discount for the problem.
              * @param alpha Learning rate parameter.
              * @param tolerance Trace cutoff parameter.
              */
-            QL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
+            QL(const PolicyInterface & behaviour, const double lambda, const double epsilon = 0.1,
                const double discount = 1.0, const double alpha = 0.1, const double tolerance = 0.001) :
-                    Parent(behaviour, exploration, discount, alpha, tolerance)
+                    Parent(behaviour, epsilon, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }

@@ -284,15 +284,12 @@ namespace AIToolbox::MDP {
      * ImportanceSampling the function would return:
      *
      * ```
-     *     const auto baseProb = (1.0 - exploration_) / A;
-     *     return (baseProb + (maxA == a) * exploration_) / behaviour_.getActionProbability(s, a);
+     *     const auto prob = epsilon_ / A + (maxA == a) * (1.0 - epsilon_);
+     *     return prob / behaviour_.getActionProbability(s, a);
      * ```
      *
      * Note how this is different from the OffPolicyEvaluation case, as we
      * assume the target policy to be epsilon greedy.
-     *
-     * *WARNING*: Here we use exploration_, and not epsilon_! This is because
-     * epsilon_ is already taken for trace cutoff unfortunately.
      */
     template <typename Derived>
     class OffPolicyControl : public OffPolicyBase {
@@ -303,12 +300,12 @@ namespace AIToolbox::MDP {
              * @brief Basic constructor.
              *
              * @param behaviour The policy that is being followed.
-             * @param exploration The exploration of the implied target greedy epsilon policy.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
              * @param discount The discount of the environment.
              * @param alpha The learning rate parameter.
              * @param tolerance The trace cutoff parameter.
              */
-            OffPolicyControl(const PolicyInterface & behaviour, double exploration = 0.9,
+            OffPolicyControl(const PolicyInterface & behaviour, double epsilon = 0.1,
                     double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
 
             /**
@@ -326,9 +323,9 @@ namespace AIToolbox::MDP {
             void stepUpdateQ(const size_t s, const size_t a, const size_t s1, const double rew);
 
             /**
-             * @brief This function sets the exploration parameter.
+             * @brief This function sets the epsilon parameter.
              *
-             * The exploration parameter determines the amount of exploration
+             * The epsilon parameter determines the amount of epsilon
              * this policy will enforce when selecting actions. In particular
              * actions are going to selected randomly with probability
              * (1-epsilon), and are going to be selected following the
@@ -339,17 +336,17 @@ namespace AIToolbox::MDP {
              *
              * @param e The new epsilon parameter.
              */
-            void setExploration(double e);
+            void setEpsilon(double e);
 
             /**
              * @brief This function will return the currently set epsilon parameter.
              *
              * @return The currently set epsilon parameter.
              */
-            double getExploration() const;
+            double getEpsilon() const;
 
         protected:
-            double exploration_;
+            double epsilon_;
     };
 
     template <typename Derived>
@@ -383,8 +380,8 @@ namespace AIToolbox::MDP {
                 maxV = q_(s1, aa);
             }
         }
-        expectedQ *= (1.0 - exploration_) / A;
-        expectedQ += maxV * exploration_;
+        expectedQ *= epsilon_ / A;
+        expectedQ += (1.0 - epsilon_) * maxV;
 
         const auto error = alpha_ * ( rew + discount_ * expectedQ - q_(s, a) );
         const auto traceDiscount = discount_ * static_cast<Derived*>(this)->getTraceDiscount(s, a, s1, rew, maxA);
@@ -402,23 +399,23 @@ namespace AIToolbox::MDP {
 
     template <typename Derived>
     OffPolicyControl<Derived>::OffPolicyControl(
-        const PolicyInterface & behaviour, const double exploration,
+        const PolicyInterface & behaviour, const double epsilon,
         const double discount, const double alpha, const double tolerance
     ) :
         Parent(behaviour, discount, alpha, tolerance)
     {
-        setExploration(exploration);
+        setEpsilon(epsilon);
     }
 
     template <typename Derived>
-    void OffPolicyControl<Derived>::setExploration(const double e) {
-        if ( e < 0.0 || e > 1.0 ) throw std::invalid_argument("Exploration must be >= 0 and <= 1");
-        exploration_ = e;
+    void OffPolicyControl<Derived>::setEpsilon(const double e) {
+        if ( e < 0.0 || e > 1.0 ) throw std::invalid_argument("Epsilon must be >= 0 and <= 1");
+        epsilon_ = e;
     }
 
     template <typename Derived>
-    double OffPolicyControl<Derived>::getExploration() const {
-        return exploration_;
+    double OffPolicyControl<Derived>::getEpsilon() const {
+        return epsilon_;
     }
 }
 

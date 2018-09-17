@@ -18,14 +18,14 @@ namespace AIToolbox::MDP {
              *
              * @param behaviour Behaviour policy
              * @param lambda Lambda trace parameter.
-             * @param exploration The exploration of the implied target greedy epsilon policy.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
              * @param discount Discount for the problem.
              * @param alpha Learning rate parameter.
              * @param tolerance Trace cutoff parameter.
              */
-            TreeBackupL(const PolicyInterface & behaviour, const double lambda, const double exploration = 0.9,
+            TreeBackupL(const PolicyInterface & behaviour, const double lambda, const double epsilon = 0.1,
                         const double discount = 1.0, const double alpha = 0.1, const double tolerance = 0.001) :
-                    Parent(behaviour, exploration, discount, alpha, tolerance)
+                    Parent(behaviour, epsilon, discount, alpha, tolerance)
             {
                 setLambda(lambda);
             }
@@ -34,7 +34,7 @@ namespace AIToolbox::MDP {
              * @brief This function returns the trace discount for the learning.
              */
             double getTraceDiscount(const size_t, const size_t a, const size_t, const double, const size_t maxA) const {
-                const auto prob = (1.0 - exploration_) / A + (a == maxA) * exploration_;
+                const auto prob = epsilon_ / A + (a == maxA) * (1.0 - epsilon_);
                 return lambda_ * prob;
             }
 
