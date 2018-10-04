@@ -5,10 +5,18 @@
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 double getVectorItem(const AIToolbox::Vector& v, int index) {
+    if (index < 0 || index >= v.size()) {
+        PyErr_SetString(PyExc_IndexError, "index out of range");
+        boost::python::throw_error_already_set();
+    }
     return v(index);
 }
 
 void setVectorItem(AIToolbox::Vector& v, int index, double value) {
+    if (index < 0 || index >= v.size()) {
+        PyErr_SetString(PyExc_IndexError, "index out of range");
+        boost::python::throw_error_already_set();
+    }
     v(index) = value;
 }
 
