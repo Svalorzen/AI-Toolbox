@@ -74,7 +74,7 @@ void exportPOMDPUtils() {
          "@param pvPairs A list of point-value pairs representing all surrounding vertices.\n"
          "\n"
          "@return The best possible value that the input point can have given the known vertices."
-         , (arg("belief"), "bvPairs")
+         , (arg("p"), "pvPairs")
     );
     def("findVerticesNaive", findVerticesNaiveWrapper,
          "This function implements a naive vertex enumeration algorithm.\n"
