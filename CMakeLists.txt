@@ -131,15 +131,19 @@ include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
 
 if (MAKE_PYTHON)
     # Try to find out which version of Python we should be targeting depending
-    # on which interpreter is found.
-    find_package(PythonInterp)
-    if (${PYTHON_VERSION_MAJOR} EQUAL 3)
-        find_package(PythonInterp 3)
+    # on which interpreter is found. If the version has been selected
+    # explicitly we search for it directly.
+    find_package(PythonInterp ${PYTHON_VERSION})
+    set(PYTHON_VERSION ${PYTHON_VERSION_MAJOR})
+
+    if (${PYTHON_VERSION} EQUAL 3)
         find_package(PythonLibs 3 REQUIRED)
-        find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python${PYTHON_VERSION_SUFFIX} REQUIRED)
+        find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python3 REQUIRED)
+        set(BOOST_PYTHON_LIBRARY_NAME "Boost_PYTHON3_LIBRARY")
     else()
         find_package(PythonLibs 2.7 EXACT REQUIRED)
         find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python REQUIRED)
+        set(BOOST_PYTHON_LIBRARY_NAME "Boost_PYTHON_LIBRARY")
     endif()
 
     include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})

@@ -173,7 +173,7 @@ if (MAKE_PYTHON)
 
     add_library(AIToolbox SHARED ${PYTHON_FILES})
     target_compile_definitions(AIToolbox PUBLIC ${PYTHON_DEFINES})
-    target_link_libraries(AIToolbox ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${PYTHON_LINKS})
+    target_link_libraries(AIToolbox ${${BOOST_PYTHON_LIBRARY_NAME}} ${PYTHON_LIBRARY} ${PYTHON_LINKS})
     set_target_properties(AIToolbox PROPERTIES PREFIX "")
     set_target_properties(AIToolbox PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 endif()
