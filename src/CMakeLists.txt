@@ -112,6 +112,7 @@ if (MAKE_PYTHON)
             Python/MDP/SparseRLModel.cpp
             Python/MDP/Model.cpp
             Python/MDP/SparseModel.cpp
+            Python/MDP/GenerativeModelPython.cpp
             Python/MDP/Algorithms/QLearning.cpp
             Python/MDP/Algorithms/HystereticQLearning.cpp
             Python/MDP/Algorithms/SARSA.cpp

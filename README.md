@@ -69,6 +69,11 @@ you would get by using simply C++. See the `examples` folder to see just how
 much Python and C++ code resemble each other. Since Python does not allow
 templates, the classes are binded with as many as possible instantiations.
 
+Additionally, the library allows the usage of native Python generative models
+(where you don't need to specify the transition and reward functions, you only
+sample next state and reward). This allows for example to directly use OpenAI
+gym environments with minimal code writing.
+
 That said, if you need to customize a specific implementation to make it perform
 better on your specific use-cases, or if you want to try something completely
 new, you will have to use C++.

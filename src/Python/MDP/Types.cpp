@@ -14,6 +14,9 @@ void exportMDPTypes() {
     // Results of sampleSR
     TupleToPython<std::tuple<size_t, double>>();
 
+    // Get tuples for GenerativeModelPython
+    TupleFromPython<std::tuple<size_t, double>>();
+
     // We export method-specific types here since it is possible other methods
     // could use them in the future, and we don't want to duplicate them if
     // possible.

@@ -12,6 +12,7 @@ void exportMDPSparseExperience();
 void exportMDPSparseRLModel();
 void exportMDPModel();
 void exportMDPSparseModel();
+void exportMDPGenerativeModelPython();
 
 void exportMDPQLearning();
 void exportMDPHystereticQLearning();
@@ -52,6 +53,7 @@ void exportMDP() {
     exportMDPSparseRLModel();
     exportMDPModel();
     exportMDPSparseModel();
+    exportMDPGenerativeModelPython();
 
     exportMDPQLearning();
     exportMDPHystereticQLearning();

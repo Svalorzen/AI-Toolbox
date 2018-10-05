@@ -9,6 +9,7 @@
 #include <AIToolbox/MDP/SparseRLModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
+#include "../GenerativeModelPython.hpp"
 
 #include <boost/python.hpp>
 
@@ -136,4 +137,5 @@ void exportMDPMCTS() {
     exportMCTSByModel<SparseRLModel<SparseExperience>>("SparseRLModel");
     exportMCTSByModel<Model>("Model");
     exportMCTSByModel<SparseModel>("SparseModel");
+    exportMCTSByModel<GenerativeModelPython>("GenerativeModelPython");
 }
