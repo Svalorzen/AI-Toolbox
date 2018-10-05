@@ -29,8 +29,12 @@ function (AddTest type name)
 endfunction (AddTest)
 
 function (AddTestPython type name)
-    set(exename ${type}_Python_${name})
-    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/${type}/${name}Tests.py)
+    # Disable Python tests if no Python interpreter was found or we are using
+    # Python 3 since the tests are written in Python 2
+    if (PYTHONINTERP_FOUND AND PYTHON_VERSION EQUAL 2)
+        set(exename ${type}_Python_${name})
+        add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/${type}/${name}Tests.py)
+    endif()
 endfunction (AddTestPython)
 
 if (MAKE_MDP)
@@ -74,13 +78,11 @@ if (MAKE_MDP)
     AddTest(MDP ValueIteration)
 
     if (MAKE_PYTHON)
-        if (PYTHONINTERP_FOUND)
-            AddTestPython(MDP Experience)
-            AddTestPython(MDP PolicyIteration)
-            AddTestPython(MDP QLearning)
-            AddTestPython(MDP ValueIteration)
-            AddTestPython(MDP MCTS)
-        endif()
+        AddTestPython(MDP Experience)
+        AddTestPython(MDP PolicyIteration)
+        AddTestPython(MDP QLearning)
+        AddTestPython(MDP ValueIteration)
+        AddTestPython(MDP MCTS)
     endif()
 
     add_custom_command(
