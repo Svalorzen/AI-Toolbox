@@ -138,7 +138,7 @@ if (MAKE_PYTHON)
         find_package(PythonLibs 3 REQUIRED)
         find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python${PYTHON_VERSION_SUFFIX} REQUIRED)
     else()
-        find_package(PythonLibs 2.7 REQUIRED)
+        find_package(PythonLibs 2.7 EXACT REQUIRED)
         find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python REQUIRED)
     endif()
 
