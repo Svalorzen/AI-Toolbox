@@ -275,8 +275,11 @@ namespace AIToolbox::MDP {
         std::uniform_int_distribution<size_t> generator(0, A-1);
         for ( ; depth < maxDepth_; ++depth ) {
             std::tie( s, rew ) = model_.sampleSR( s, generator(rand_) );
-
             totalRew += gamma * rew;
+
+            if (model_.isTerminal(s))
+                return totalRew;
+
             gamma *= model_.getDiscount();
         }
         return totalRew;
