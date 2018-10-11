@@ -26,7 +26,7 @@ namespace AIToolbox::Factored::MDP {
      * @brief This struct represents a single state/action/value tuple.
      *
      * This struct can be used in place of a full-blown QFunction table
-     * when the QFunction matrix would be sparse. Instead, only intresting
+     * when the QFunction matrix would be sparse. Instead, only interesting
      * state/action/value tuples are stored and acted upon.
      */
     struct QFunctionRule {
