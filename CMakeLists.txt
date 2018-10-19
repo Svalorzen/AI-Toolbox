@@ -14,6 +14,21 @@ project (AIToolbox LANGUAGES CXX)
 # MAKE_TESTS:    Builds the library's tests for the compiled core library
 # MAKE_EXAMPLES: Builds the library's examples using the compiled core library
 
+# NOTE TO COMPILE ON WINDOWS:
+#
+# On Windows it is generally much less practical to actually look here for
+# folders and things we need, so you WILL probably need to pass paths to the
+# CMake call manually, and possibly even touch this script a bit.
+#
+# Some settings I found useful when compiling on Windows:
+#
+# -DCMAKE_GENERATOR_PLATFORM=x64
+# -DBOOST_LIBRARYDIR
+#
+# You may also want to force Boost to compile statically; you can change that
+# by uncommenting two lines in this script that you can find below (grep for
+# Boost and static).
+
 ##############################
 ##  CMake helper functions  ##
 ##############################
@@ -120,6 +135,11 @@ message("")
 set(BOOST_VERSION_REQUIRED 1.54)
 set(EIGEN_VERSION_REQUIRED 3.2.92)
 
+# Optional to force Boost to use static libraries. Can be useful on Windows.
+#
+# set(Boost_USE_STATIC_LIBS ON)
+# add_definitions(-DBOOST_PYTHON_STATIC_LIB)
+
 find_package(Boost ${BOOST_VERSION_REQUIRED} REQUIRED)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
@@ -136,6 +156,10 @@ if (MAKE_PYTHON)
     find_package(PythonInterp ${PYTHON_VERSION})
     set(PYTHON_VERSION ${PYTHON_VERSION_MAJOR})
 
+    # WARNING: The COMPONENTS parts of Boost here may need to be changed
+    # depending on your system. For example, you may need to rename `python3` to
+    # `python37`, depending on how your libraries are made.
+    # This setup works for Ubuntu, but feel free to change it in Windows.
     if (${PYTHON_VERSION} EQUAL 3)
         find_package(PythonLibs 3 REQUIRED)
         find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python3 REQUIRED)
