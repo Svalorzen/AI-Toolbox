@@ -313,7 +313,8 @@ OldMDPModel::OldMDPModel(const M& model) : S(model.getS()), A(model.getA()), dis
                 transitions_[s][a][s1] = model.getTransitionProbability(s, a, s1);
                 rewards_    [s][a][s1] = model.getExpectedReward       (s, a, s1);
             }
-            if ( ! AIToolbox::isProbability(S, transitions_[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+            if ( ! AIToolbox::isProbability(S, transitions_[s][a]) )
+                throw std::invalid_argument("Input transition table does not contain valid probabilities.");
         }
 }
 
@@ -321,7 +322,8 @@ template <typename T>
 void OldMDPModel::setTransitionFunction(const T & t) {
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
-            if ( ! AIToolbox::isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+            if ( ! AIToolbox::isProbability(S, t[s][a]) )
+                throw std::invalid_argument("Input transition table does not contain valid probabilities.");
 
     copyTable3D(t, transitions_, S, A, S);
 }

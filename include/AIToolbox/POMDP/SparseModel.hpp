@@ -317,10 +317,13 @@ namespace AIToolbox::POMDP {
             for ( size_t s1 = 0; s1 < this->getS(); ++s1 ) {
                 for ( size_t o = 0; o < O; ++o ) {
                     const double p = model.getObservationProbability(s1, a, o);
+                    if ( p < 0.0 || p > 1.0 )
+                        throw std::invalid_argument("Input observation table contains an invalid value.");
+
                     if ( checkDifferentSmall( p, 0.0 ) ) observations_[a].insert(s1, o) = p;
                 }
                 if ( checkDifferentSmall(1.0, observations_[a].row(s1).sum()) )
-                    throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input observation table contains an invalid row.");
             }
             observations_[a].makeCompressed();
         }
@@ -331,7 +334,7 @@ namespace AIToolbox::POMDP {
     void SparseModel<M>::setObservationFunction(const ObFun & of) {
         for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
             for ( size_t a = 0; a < this->getA(); ++a )
-                if ( ! isProbability(O, of[s1][a]) )
+                if ( !isProbability(O, of[s1][a]) )
                     throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
         for ( size_t s1 = 0; s1 < this->getS(); ++s1 )

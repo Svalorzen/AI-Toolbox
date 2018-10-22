@@ -61,7 +61,7 @@ namespace AIToolbox::MDP {
 
         private:
             // To avoid reallocating a vector every time for sampling.
-            mutable std::vector<unsigned> bestActions_;
+            mutable std::vector<size_t> bestActions_;
     };
 }
 

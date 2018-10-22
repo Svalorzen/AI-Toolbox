@@ -1,6 +1,8 @@
 #ifndef AI_TOOLBOX_POMDP_BELIEF_GENERATOR_HEADER_FILE
 #define AI_TOOLBOX_POMDP_BELIEF_GENERATOR_HEADER_FILE
 
+#include <array>
+
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>

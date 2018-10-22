@@ -371,15 +371,18 @@ namespace AIToolbox::MDP {
                     transitions_[a](s, s1) = model.getTransitionProbability(s, a, s1);
                     rewards_    (s, a)     += model.getExpectedReward       (s, a, s1) * transitions_[a](s, s1);
                 }
-                if ( !checkEqualSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                if ( !isProbability(S, transitions_[a].row(s)) )
+                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
             }
     }
 
     template <typename T>
     void Model::setTransitionFunction(const T & t) {
+        // First we check, then we set if it is good.
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
-                if ( ! isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                if ( !isProbability(S, t[s][a]) )
+                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
 
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )

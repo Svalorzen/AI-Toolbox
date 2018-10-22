@@ -399,12 +399,15 @@ namespace AIToolbox::MDP {
         for ( size_t a = 0; a < A; ++a ) {
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
                 const double p = model.getTransitionProbability(s, a, s1);
-                if ( p < 0.0 || p > 1.0 ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                if ( p < 0.0 || p > 1.0 )
+                    throw std::invalid_argument("Input transition table contains an invalid value.");
+
                 if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
                 const double r = model.getExpectedReward(s, a, s1);
                 if ( checkDifferentSmall(0.0, r) ) rewards_.coeffRef(s, a) += r * p;
             }
-            if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+            if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) )
+                throw std::invalid_argument("Input transition table contains an invalid row.");
         }
 
         for ( size_t a = 0; a < A; ++a )
@@ -416,8 +419,9 @@ namespace AIToolbox::MDP {
     void SparseModel::setTransitionFunction(const T & t) {
         // First we verify data, without modifying anything...
         for ( size_t s = 0; s < S; ++s )
-        for ( size_t a = 0; a < A; ++a )
-            if ( ! isProbability(S, t[s][a]) ) throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+            for ( size_t a = 0; a < A; ++a )
+                if ( !isProbability(S, t[s][a]) )
+                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
 
         // Then we copy.
         for ( size_t a = 0; a < A; ++a ) {

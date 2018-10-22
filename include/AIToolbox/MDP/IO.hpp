@@ -137,7 +137,7 @@ namespace AIToolbox::MDP {
      *
      * @return The input stream.
      */
-    std::istream& operator>>(std::istream &is, Model &);
+    std::istream& operator>>(std::istream &is, Model & m);
 
     class Policy;
     /**
@@ -147,11 +147,11 @@ namespace AIToolbox::MDP {
      * input model if the reading fails.
      *
      * @param is The input stream.
-     * @param m The model to write into.
+     * @param p The policy to write into.
      *
      * @return The input stream.
      */
-    std::istream& operator>>(std::istream &is, Policy &);
+    std::istream& operator>>(std::istream &is, Policy & p);
 }
 
 #endif

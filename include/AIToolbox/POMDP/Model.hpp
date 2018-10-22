@@ -296,7 +296,8 @@ namespace AIToolbox::POMDP {
                 for ( size_t o = 0; o < O; ++o ) {
                     observations_[a](s1, o) = model.getObservationProbability(s1, a, o);
                 }
-                if ( ! isProbability(O, observations_[a].row(s1)) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                if ( !isProbability(O, observations_[a].row(s1)) )
+                    throw std::invalid_argument("Input observation table does not contain valid probabilities.");
             }
     }
 
@@ -305,7 +306,8 @@ namespace AIToolbox::POMDP {
     void Model<M>::setObservationFunction(const ObFun & of) {
         for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
             for ( size_t a = 0; a < this->getA(); ++a )
-                if ( ! isProbability(O, of[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                if ( !isProbability(O, of[s1][a]) )
+                    throw std::invalid_argument("Input observation table does not contain valid probabilities.");
 
         for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
             for ( size_t a = 0; a < this->getA(); ++a )
