@@ -13,6 +13,29 @@ namespace AIToolbox::Factored::MDP {
         // C = set of basis functions
         // B = set of target functions
 
+        // So what we want to do here is to find the weights that minimize the
+        // max-norm difference over all states between Cw and b.
+        //
+        // We are going to do this using an LP, which is built following the
+        // steps of a variable elimination algorithm.
+        //
+        // This is because the key idea here is to minimize:
+        //
+        //     phi <= | Cw - b |
+        //
+        // Which is equivalent to
+        //
+        //     phi <= max | Cw - b |
+        //
+        // Thus, our LP construct will be built so that the constraints are
+        // basically going to refer to that max row where the difference is
+        // highest, and the LP is then going to try to squish that value to the
+        // lowest possible.
+        //
+        // Building this LP will require adding an unknown number of columns
+        // (in particular, two per each VE rule, as we want to maximize over an
+        // absolute value, so we do it "forward and backward").
+
         const auto phiId = C.factorSize(); // Skip ws since we want to extract those later.
         size_t startingVars = phiId + 1;   // ws + phi
         for (const auto & f : C) startingVars += f.getData().size() * 2;
@@ -23,6 +46,15 @@ namespace AIToolbox::Factored::MDP {
         lp.setObjective(phiId, false); // Minimize phi
         lp.row.fill(0.0);
 
+        // In this initial setup, we simply kind of give a "name"/"variable" to
+        // each assignment of the original Cw and b functions - note that all
+        // operators are equalities here. In the first loop we do C (which is
+        // thus associated with the weights), and in the second b (which is
+        // not).
+        //
+        // This is not strictly necessary and could be optimized away, but for
+        // now it is like this to make the removeState() code uniform as it
+        // just needs to reference the constraints in the graph_.
         size_t wi = 0;
         size_t currentRule = phiId + 1; // Skip ws + phi
         for (auto f = C.begin(); f != C.end(); ++f) {
@@ -66,6 +98,11 @@ namespace AIToolbox::Factored::MDP {
         // Now that the setup is done and we have internalized the inputs as
         // rules, we now create the rest mirroring the steps in variable
         // elimination.
+        //
+        // To do this, we basically eliminate a part of the state space (which
+        // is a vector) at a time, maximizing on one of the State components at
+        // a time. We don't really do anything here aside from creating new
+        // constraints in the LP, and giving them "names".
         while (graph_.variableSize())
             removeState(graph_.variableSize() - 1, lp);
 
