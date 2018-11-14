@@ -5,6 +5,7 @@
 
 #include <AIToolbox/LP.hpp>
 #include <AIToolbox/Factored/MDP/Algorithms/Utils/FactoredLP.hpp>
+#include <AIToolbox/Factored/Utils/Test.hpp>
 
 namespace aif = AIToolbox::Factored;
 namespace fm = AIToolbox::Factored::MDP;
@@ -13,43 +14,48 @@ using FLP = fm::FactoredLP;
 BOOST_AUTO_TEST_CASE( test_1 ) {
     aif::State s{2,2,2};
 
-    std::vector<fm::ValueFunctionRule> r1 {
-        {{{0, 1}, {0, 0}}, 1.0},
-        {{{0, 1}, {0, 1}}, 2.0},
-        {{{0, 1}, {1, 0}}, 3.0},
-        {{{0, 1}, {1, 1}}, 4.0},
+    AIToolbox::Factored::FactoredFunction<1> C {
+        {
+            { {0, 1} },
+            {
+              { {0, 0}, 1.0},
+              { {0, 1}, 2.0},
+              { {1, 0}, 3.0},
+              { {1, 1}, 4.0},
+            }
+        },{
+            { {0, 2} },
+            {
+              { {0, 0}, 7.0},
+              { {0, 1}, 8.0},
+              { {1, 0}, 9.0},
+              { {1, 1}, 10.0},
+            }
+        },
     };
 
-    std::vector<fm::ValueFunctionRule> r2 {
-        {{{0, 2}, {0, 0}}, 7.0},
-        {{{0, 2}, {0, 1}}, 8.0},
-        {{{0, 2}, {1, 0}}, 9.0},
-        {{{0, 2}, {1, 1}}, 10.0},
+    AIToolbox::Factored::FactoredFunction<1> b {
+        {
+            { {1,2} },
+            {
+              { {0, 0}, 7.0},
+              { {0, 1}, 6.0},
+              { {1, 0}, 10.0},
+              { {1, 1}, 9.0},
+            }
+        },{
+            { {0,2} },
+            {
+                {{0, 0}, 10.0},
+                {{0, 1}, 13.0},
+                {{1, 0}, 20.0},
+                {{1, 1}, 23.0},
+            }
+        }
     };
-
-    FLP::FactoredFunction C(3);
-    C.getFactor({0, 1})->getData() = r1;
-    C.getFactor({0, 2})->getData() = r2;
-
-    std::vector<fm::ValueFunctionRule> r3 {
-        {{{1, 2}, {0, 0}}, 7.0},
-        {{{1, 2}, {0, 1}}, 6.0},
-        {{{1, 2}, {1, 0}}, 10.0},
-        {{{1, 2}, {1, 1}}, 9.0},
-    };
-
-    std::vector<fm::ValueFunctionRule> r4 {
-        {{{0, 2}, {0, 0}}, 10.0},
-        {{{0, 2}, {0, 1}}, 13.0},
-        {{{0, 2}, {1, 0}}, 20.0},
-        {{{0, 2}, {1, 1}}, 23.0},
-    };
-
-    FLP::FactoredFunction b(3);
-    b.getFactor({1, 2})->getData() = r3;
-    b.getFactor({0, 2})->getData() = r4;
 
     fm::FactoredLP l(s);
+
     const auto result = l(C, b);
     const std::vector<double> solution{3.0, 2.0};
 
@@ -71,41 +77,45 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
 BOOST_AUTO_TEST_CASE( test_2 ) {
     aif::State s{2,2,2};
 
-    std::vector<fm::ValueFunctionRule> r1 {
-        {{{0, 1}, {0, 0}}, 10.0},
-        {{{0, 1}, {0, 1}}, 5.0},
-        {{{0, 1}, {1, 0}}, 2.0},
-        {{{0, 1}, {1, 1}}, 7.5},
+    AIToolbox::Factored::FactoredFunction<1> C {
+        {
+            { {0, 1} },
+            {
+              { {0, 0}, 10.0},
+              { {0, 1}, 5.0},
+              { {1, 0}, 2.0},
+              { {1, 1}, 7.5},
+            }
+        },{
+            { {0, 2} },
+            {
+              { {0, 0}, 4.5},
+              { {0, 1}, 2.0},
+              { {1, 0}, 6.0},
+              { {1, 1}, 3.5},
+            }
+        },
     };
 
-    std::vector<fm::ValueFunctionRule> r2 {
-        {{{0, 2}, {0, 0}}, 4.5},
-        {{{0, 2}, {0, 1}}, 2.0},
-        {{{0, 2}, {1, 0}}, 6.0},
-        {{{0, 2}, {1, 1}}, 3.5},
+    AIToolbox::Factored::FactoredFunction<1> b {
+        {
+            { {1,2} },
+            {
+              { {0, 0}, 26.5},
+              { {0, 1}, 19.0},
+              { {1, 0}, 21.75},
+              { {1, 1}, 14.25},
+            }
+        },{
+            { {0,1} },
+            {
+                {{0, 0}, 32.0},
+                {{0, 1}, 14.25},
+                {{1, 0},  0.5},
+                {{1, 1}, 30.0},
+            }
+        }
     };
-
-    FLP::FactoredFunction C(3);
-    C.getFactor({0, 1})->getData() = r1;
-    C.getFactor({0, 2})->getData() = r2;
-
-    std::vector<fm::ValueFunctionRule> r3 {
-        {{{1, 2}, {0, 0}}, 26.5},
-        {{{1, 2}, {0, 1}}, 19.0},
-        {{{1, 2}, {1, 0}}, 21.75},
-        {{{1, 2}, {1, 1}}, 14.25},
-    };
-
-    std::vector<fm::ValueFunctionRule> r4 {
-        {{{0, 1}, {0, 0}}, 32.0},
-        {{{0, 1}, {0, 1}}, 14.25},
-        {{{0, 1}, {1, 0}}, 0.5},
-        {{{0, 1}, {1, 1}}, 30.0},
-    };
-
-    FLP::FactoredFunction b(3);
-    b.getFactor({1, 2})->getData() = r3;
-    b.getFactor({0, 2})->getData() = r4;
 
     fm::FactoredLP l(s);
 

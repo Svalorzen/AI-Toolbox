@@ -155,9 +155,12 @@ namespace AIToolbox {
     double LP::getPrecision() {
         // I'm ignorant and cannot make much sense of the epsilons that can be
         // read from lp_solve (get_epsd, get_epsel, get_epsint, etc..) so I'm
-        // not sure which one would be best returned here. So I just return a
-        // number that I saw could make sense until somebody better than me
-        // comes along and fixes this.
-        return 1e-10;
+        // not sure which one would be best returned here.
+        // The number I return is the default minimal accuracy for a successful
+        // solve (IIUC).
+        return 5e-7;
+        // The equivalent call to obtain this number (can't work as a static
+        // method though) would be:
+        // return static_cast<double>(get_break_numeric_accuracy(pimpl_->lp_.get()));
     }
 }
