@@ -55,10 +55,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_definitions(
-    -Wall
-    -Wextra
-)
+if (NOT WIN32)
+    add_definitions(
+        -Wall
+        -Wextra
+    )
+endif()
 
 # Check for Link Time Optimizations with this compiler
 include(CheckIPOSupported)
