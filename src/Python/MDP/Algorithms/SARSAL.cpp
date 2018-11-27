@@ -226,5 +226,9 @@ void exportMDPSARSAL() {
                  "\n"
                  "The returned reference can be used to build Policies, for example\n"
                  "MDP::QGreedyPolicy."
+        , (arg("self")))
+
+        .def("getTraces",                   &SARSAL::getTraces, return_internal_reference<>(),
+                 "This function returns the currently set traces."
         , (arg("self")));
 }
