@@ -149,4 +149,11 @@ void exportTypes() {
     // Enable passing 3D tables from Python
     Vector3DFromPython<double>();
     Vector3DFromPython<int>();
+
+    // Some common tuples
+    TupleToPython<std::tuple<size_t, size_t>>();
+    TupleToPython<std::tuple<size_t, double>>();
+    TupleToPython<std::tuple<size_t, size_t, double>>();
+
+    TupleFromPython<std::tuple<size_t, double>>();
 }

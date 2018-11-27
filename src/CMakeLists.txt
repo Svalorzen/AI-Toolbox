@@ -118,6 +118,7 @@ if (MAKE_PYTHON)
             Python/MDP/Algorithms/SARSA.cpp
             Python/MDP/Algorithms/ExpectedSARSA.cpp
             Python/MDP/Algorithms/SARSAL.cpp
+            Python/MDP/Algorithms/QL.cpp
             Python/MDP/Algorithms/ValueIteration.cpp
             Python/MDP/Algorithms/PolicyIteration.cpp
             Python/MDP/Algorithms/PrioritizedSweeping.cpp

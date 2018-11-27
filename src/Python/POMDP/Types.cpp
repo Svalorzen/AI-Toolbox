@@ -9,11 +9,6 @@ void exportPOMDPTypes() {
     using namespace AIToolbox;
     using namespace boost::python;
 
-    // Results of POMDP policy with horizon
-    TupleToPython<std::tuple<size_t, size_t>>();
-    // Results of sampleSOR
-    TupleToPython<std::tuple<size_t, size_t, double>>();
-
     // POMDP Value Function
     class_<POMDP::VEntry>("VEntry")
         .def_readwrite("values", &POMDP::VEntry::values)
