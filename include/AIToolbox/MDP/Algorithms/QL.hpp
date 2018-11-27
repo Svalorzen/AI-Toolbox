@@ -35,13 +35,6 @@ namespace AIToolbox::MDP {
             }
 
             /**
-             * @brief This function returns the trace discount for the learning.
-             */
-            double getTraceDiscount(const size_t, const size_t, const size_t, const double, const size_t) const {
-                return lambda_;
-            }
-
-            /**
              * @brief This function sets the new lambda parameter.
              *
              * The lambda parameter must be >= 0.0 and <= 1.0, otherwise the
@@ -60,6 +53,14 @@ namespace AIToolbox::MDP {
             double getLambda() const { return lambda_; }
 
         private:
+            friend Parent;
+            /**
+             * @brief This function returns the trace discount for the learning.
+             */
+            double getTraceDiscount(const size_t, const size_t, const size_t, const double, const size_t) const {
+                return lambda_;
+            }
+
             double lambda_;
     };
 

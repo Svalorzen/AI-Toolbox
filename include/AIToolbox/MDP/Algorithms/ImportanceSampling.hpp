@@ -15,6 +15,8 @@ namespace AIToolbox::MDP {
 
             using Parent::Parent;
 
+        private:
+            friend Parent;
             /**
              * @brief This function returns the trace discount for the learning.
              *
