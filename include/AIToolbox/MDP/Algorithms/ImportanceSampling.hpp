@@ -13,7 +13,19 @@ namespace AIToolbox::MDP {
         public:
             using Parent = OffPolicyControl<ImportanceSampling>;
 
-            using Parent::Parent;
+            /**
+             * @brief Basic constructor.
+             *
+             * @param behaviour Behaviour policy
+             * @param discount Discount for the problem.
+             * @param alpha Learning rate parameter.
+             * @param tolerance Trace cutoff parameter.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
+             */
+            ImportanceSampling(const PolicyInterface & behaviour, const double discount = 1.0,
+                     const double alpha = 0.1, const double tolerance = 0.001, const double epsilon = 0.1) :
+                    Parent(behaviour.getS(), behaviour.getA(), discount, alpha, tolerance, epsilon),
+                    behaviour_(behaviour) {}
 
         private:
             friend Parent;
@@ -26,6 +38,8 @@ namespace AIToolbox::MDP {
                 const auto prob = epsilon_ / A + (a == maxA) * (1.0 - epsilon_);
                 return prob / behaviour_.getActionProbability(s, a);
             }
+
+            const PolicyInterface & behaviour_;
     };
 
     /**
@@ -54,8 +68,22 @@ namespace AIToolbox::MDP {
         public:
             using Parent = OffPolicyEvaluation<ImportanceSamplingEvaluation>;
 
-            using Parent::Parent;
+            /**
+             * @brief Basic constructor.
+             *
+             * @param target Target policy.
+             * @param behaviour Behaviour policy
+             * @param discount Discount for the problem.
+             * @param alpha Learning rate parameter.
+             * @param tolerance Trace cutoff parameter.
+             */
+            ImportanceSamplingEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
+                               const double discount, const double alpha, const double tolerance) :
+                    Parent(target, discount, alpha, tolerance),
+                    behaviour_(behaviour) {}
 
+        private:
+            friend Parent;
             /**
              * @brief This function returns the trace discount for the learning.
              *
@@ -64,6 +92,8 @@ namespace AIToolbox::MDP {
             double getTraceDiscount(const size_t s, const size_t a, const size_t, const double) const {
                 return target_.getActionProbability(s, a) / behaviour_.getActionProbability(s, a);
             }
+
+            const PolicyInterface & behaviour_;
     };
 }
 

@@ -17,15 +17,16 @@ namespace AIToolbox::MDP {
              * @brief Basic constructor.
              *
              * @param behaviour Behaviour policy
-             * @param lambda Lambda trace parameter.
-             * @param epsilon The epsilon of the implied target greedy epsilon policy.
              * @param discount Discount for the problem.
              * @param alpha Learning rate parameter.
+             * @param lambda Lambda trace parameter.
              * @param tolerance Trace cutoff parameter.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
              */
-            RetraceL(const PolicyInterface & behaviour, const double lambda, const double epsilon = 0.1,
-                     const double discount = 1.0, const double alpha = 0.1, const double tolerance = 0.001) :
-                    Parent(behaviour, epsilon, discount, alpha, tolerance)
+            RetraceL(const PolicyInterface & behaviour, const double discount = 1.0, const double alpha = 0.1,
+                        const double lambda = 0.9,const double tolerance = 0.001, const double epsilon = 0.1) :
+                    Parent(behaviour.getS(), behaviour.getA(), discount, alpha, tolerance, epsilon),
+                    behaviour_(behaviour)
             {
                 setLambda(lambda);
             }
@@ -59,6 +60,7 @@ namespace AIToolbox::MDP {
             }
 
             double lambda_;
+            const PolicyInterface & behaviour_;
     };
 
     /**
@@ -83,23 +85,17 @@ namespace AIToolbox::MDP {
              *
              * @param target Target policy.
              * @param behaviour Behaviour policy
-             * @param lambda Lambda trace parameter.
              * @param discount Discount for the problem.
              * @param alpha Learning rate parameter.
+             * @param lambda Lambda trace parameter.
              * @param tolerance Trace cutoff parameter.
              */
             RetraceLEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
-                               const double lambda, const double discount, const double alpha, const double tolerance) :
-                    Parent(target, behaviour, discount, alpha, tolerance)
+                               const double discount, const double alpha, const double lambda, const double tolerance) :
+                    Parent(target, discount, alpha, tolerance),
+                    behaviour_(behaviour)
             {
                 setLambda(lambda);
-            }
-
-            /**
-             * @brief This function returns the trace discount for the learning.
-             */
-            double getTraceDiscount(const size_t s, const size_t a, const size_t, const double) const {
-                return lambda_ * std::min(1.0, target_.getActionProbability(s, a) / behaviour_.getActionProbability(s, a));
             }
 
             /**
@@ -121,7 +117,17 @@ namespace AIToolbox::MDP {
             double getLambda() const { return lambda_; }
 
         private:
+            friend Parent;
+
+            /**
+             * @brief This function returns the trace discount for the learning.
+             */
+            double getTraceDiscount(const size_t s, const size_t a, const size_t, const double) const {
+                return lambda_ * std::min(1.0, target_.getActionProbability(s, a) / behaviour_.getActionProbability(s, a));
+            }
+
             double lambda_;
+            const PolicyInterface & behaviour_;
     };
 }
 

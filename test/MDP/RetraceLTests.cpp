@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     auto model = makeCliffProblem(grid);
 
     mdp::RandomPolicy behaviour(model.getS(), model.getA());
-    mdp::RetraceL solver(behaviour, 0.1);
+    mdp::RetraceL solver(behaviour);
 
     mdp::QGreedyPolicy gPolicy(solver.getQFunction());
 

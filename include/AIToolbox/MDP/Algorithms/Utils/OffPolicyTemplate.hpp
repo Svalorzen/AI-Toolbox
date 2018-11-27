@@ -16,12 +16,13 @@ namespace AIToolbox::MDP {
             /**
              * @brief Basic construtor.
              *
-             * @param behaviour The policy we are following.
+             * @param s The size of the state space.
+             * @param a The size of the action space.
              * @param discount The discount of the environment.
              * @param alpha The learning rate.
              * @param tolerance The cutoff point for eligibility traces.
              */
-            OffPolicyBase(const PolicyInterface & behaviour, double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
+            OffPolicyBase(size_t s, size_t a, double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
 
             /**
              * @brief This function sets the learning rate parameter.
@@ -169,7 +170,6 @@ namespace AIToolbox::MDP {
 
             QFunction q_;
             Traces traces_;
-            const PolicyInterface & behaviour_;
     };
 
     /**
@@ -220,13 +220,12 @@ namespace AIToolbox::MDP {
              * @brief Basic constructor.
              *
              * @param target The policy to be evaluated.
-             * @param behaviour The policy that is being followed.
              * @param discount The discount of the environment.
              * @param alpha The learning rate parameter.
              * @param tolerance The trace cutoff parameter.
              */
-            OffPolicyEvaluation(const PolicyInterface & target, const PolicyInterface & behaviour,
-                    double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
+            OffPolicyEvaluation(const PolicyInterface & target, double discount = 1.0,
+                    double alpha = 0.1, double tolerance = 0.001);
 
             /**
              * @brief This function updates the internal QFunction using the discount set during construction.
@@ -299,14 +298,15 @@ namespace AIToolbox::MDP {
             /**
              * @brief Basic constructor.
              *
-             * @param behaviour The policy that is being followed.
-             * @param epsilon The epsilon of the implied target greedy epsilon policy.
+             * @param s The size of the state space.
+             * @param a The size of the action space.
              * @param discount The discount of the environment.
              * @param alpha The learning rate parameter.
              * @param tolerance The trace cutoff parameter.
+             * @param epsilon The epsilon of the implied target greedy epsilon policy.
              */
-            OffPolicyControl(const PolicyInterface & behaviour, double epsilon = 0.1,
-                    double discount = 1.0, double alpha = 0.1, double tolerance = 0.001);
+            OffPolicyControl(size_t s, size_t a, double discount = 1.0, double alpha = 0.1,
+                        double tolerance = 0.001, double epsilon = 0.1);
 
             /**
              * @brief This function updates the internal QFunction using the discount set during construction.
@@ -391,18 +391,18 @@ namespace AIToolbox::MDP {
 
     template <typename Derived>
     OffPolicyEvaluation<Derived>::OffPolicyEvaluation(
-        const PolicyInterface & target, const PolicyInterface & behaviour,
+        const PolicyInterface & target,
         const double discount, const double alpha, const double tolerance
     ) :
-        Parent(behaviour, discount, alpha, tolerance),
+        Parent(target.getS(), target.getA(), discount, alpha, tolerance),
         target_(target) {}
 
     template <typename Derived>
     OffPolicyControl<Derived>::OffPolicyControl(
-        const PolicyInterface & behaviour, const double epsilon,
-        const double discount, const double alpha, const double tolerance
+        const size_t s, const size_t a, const double discount,
+        const double alpha, const double tolerance, const double epsilon
     ) :
-        Parent(behaviour, discount, alpha, tolerance)
+        Parent(s, a, discount, alpha, tolerance)
     {
         setEpsilon(epsilon);
     }

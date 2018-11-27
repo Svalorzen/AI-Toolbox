@@ -3,10 +3,8 @@
 #include <AIToolbox/MDP/Utils.hpp>
 
 namespace AIToolbox::MDP {
-    OffPolicyBase::OffPolicyBase(const PolicyInterface & behaviour, const double discount, const double alpha, const double tolerance) :
-        S(behaviour.getS()), A(behaviour.getA()),
-        q_(makeQFunction(S, A)),
-        behaviour_(behaviour)
+    OffPolicyBase::OffPolicyBase(const size_t s, const size_t a, const double discount, const double alpha, const double tolerance) :
+            S(s), A(a), q_(makeQFunction(S, A))
     {
         setDiscount(discount);
         setLearningRate(alpha);
