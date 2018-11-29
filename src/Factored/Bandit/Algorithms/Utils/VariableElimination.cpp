@@ -116,7 +116,7 @@ namespace AIToolbox::Factored::Bandit {
         for (const auto & rule : rules) {
             if (match(jointAction, std::get<0>(rule))) {
                 result += std::get<1>(rule).first;
-                inplace_merge(tags, std::get<1>(rule).second);
+                unsafe_join(tags, std::get<1>(rule).second);
             }
         }
         return result;

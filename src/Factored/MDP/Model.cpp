@@ -11,7 +11,7 @@ namespace AIToolbox::Factored::MDP {
         // applies to this transition, and we multiply all entries together.
         for (size_t i = 0; i < S.size(); ++i) {
             // Compute parent ID based on the parents of state factor 'i'
-            auto parentId = toIndexPartial(transitions_[a][i].factors, S, s);
+            auto parentId = toIndexPartial(transitions_[a][i].tag, S, s);
             p *= transitions_[a][i].matrix(parentId, s1[i]);
         }
 
@@ -23,7 +23,7 @@ namespace AIToolbox::Factored::MDP {
 
         // For each partial reward matrix, we sum all values that apply.
         for (size_t i = 0; i < rewards_.size(); ++i) {
-            auto id = toIndexPartial(rewards_[i].factors, S, s);
+            auto id = toIndexPartial(rewards_[i].tag, S, s);
             rew += rewards_[i].matrix(id, a);
         }
 

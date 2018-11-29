@@ -129,6 +129,41 @@ BOOST_AUTO_TEST_CASE( to_index_partial_partial_factor ) {
     }
 }
 
+BOOST_AUTO_TEST_CASE( partial_keys_merge ) {
+    std::vector<aif::PartialKeys> kl = {
+        {},
+        {},
+        {0, 3, 4},
+        {0, 3, 4},
+        {1, 2, 3, 4, 5},
+        {144, 200}
+    };
+
+    std::vector<aif::PartialKeys> kr = {
+        {},
+        {1, 3, 4},
+        {1, 2, 5},
+        {1, 3, 5},
+        {1, 2, 3, 4, 5},
+        {144, 198, 199}
+    };
+
+    std::vector<aif::PartialKeys> sol = {
+        {},
+        {1, 3, 4},
+        {0, 1, 2, 3, 4, 5},
+        {0, 1, 3, 4, 5},
+        {1, 2, 3, 4, 5},
+        {144, 198, 199, 200}
+    };
+
+    for (size_t i = 0; i < kl.size(); ++i) {
+        const auto result = aif::merge(kl[i], kr[i]);
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(sol[i]), std::end(sol[i]),
+                                      std::begin(result), std::end(result));
+    }
+}
+
 BOOST_AUTO_TEST_CASE( partial_factor_merge ) {
     aif::PartialFactors lhs = {{0, 3, 5, 6}, {0, 3, 5, 6}};
     aif::PartialFactors rhs = {{1, 2, 4, 7}, {1, 2, 4, 7}};

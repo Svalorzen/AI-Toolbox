@@ -58,34 +58,88 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
+    void unsafe_join(PartialFactors * lhsp, const PartialFactors & rhs) {
+        if (!lhsp) return;
+        auto & lhs = *lhsp;
+
+        lhs.first.insert(std::end(lhs.first), std::begin(rhs.first), std::end(rhs.first));
+        lhs.second.insert(std::end(lhs.second), std::begin(rhs.second), std::end(rhs.second));
+    }
+
+    void sort(PartialFactors & factors) {
+    }
+
     PartialFactors merge(const PartialFactors & lhs, const PartialFactors & rhs) {
         PartialFactors retval;
         retval.first.reserve(lhs.first.size() + rhs.first.size());
         retval.second.reserve(lhs.first.size() + rhs.first.size());
-        retval = lhs;
 
-        inplace_merge(&retval, rhs);
+        size_t i = 0, j = 0;
+        while (i < lhs.first.size() && j < rhs.first.size()) {
+            if (lhs.first[i] < rhs.first[j]) {
+                retval.first.push_back(lhs.first[i]);
+                retval.second.push_back(lhs.second[i]);
+                ++i;
+            } else {
+                retval.first.push_back(rhs.first[j]);
+                retval.second.push_back(rhs.second[j]);
+
+                if (lhs.first[i] == rhs.first[j]) ++i;
+                ++j;
+            }
+        }
+        retval.first.insert(std::end(retval.first),   std::begin(lhs.first) + i, std::end(lhs.first));
+        retval.second.insert(std::end(retval.second), std::begin(lhs.second) + i, std::end(lhs.second));
+
+        retval.first.insert(std::end(retval.first),   std::begin(rhs.first) + j, std::end(rhs.first));
+        retval.second.insert(std::end(retval.second), std::begin(rhs.second) + j, std::end(rhs.second));
 
         return retval;
     }
 
-    void inplace_merge(PartialFactors * plhs, const PartialFactors & rhs) {
-        if (!plhs) return;
-        auto & lhs = *plhs;
-
-        lhs.first.reserve(lhs.first.size() + rhs.first.size());
-        lhs.second.reserve(lhs.first.size() + rhs.first.size());
+    Factors merge(const PartialKeys & lhsk, const Factors & lhs, const PartialKeys & rhsk, const Factors & rhs) {
+        Factors retval;
+        retval.reserve(lhsk.size() + rhsk.size());
 
         size_t i = 0, j = 0;
-        while (i < lhs.first.size() && j < rhs.first.size()) {
-            if (lhs.first[i] < rhs.first[j]) { ++i; continue; }
-            lhs.first.insert(std::begin(lhs.first) + i, rhs.first[j]);
-            lhs.second.insert(std::begin(lhs.second) + i, rhs.second[j]);
-            ++i;
-            ++j;
+        while (i < lhsk.size() && j < rhsk.size()) {
+            if (lhsk[i] < rhsk[j]) {
+                retval.push_back(lhs[i]);
+                ++i;
+            } else {
+                retval.push_back(rhs[j]);
+
+                if (lhsk[i] == rhsk[j]) ++i;
+                ++j;
+            }
         }
-        lhs.first.insert(std::end(lhs.first), std::begin(rhs.first) + j, std::end(rhs.first));
-        lhs.second.insert(std::end(lhs.second), std::begin(rhs.second) + j, std::end(rhs.second));
+        retval.insert(std::end(retval), std::begin(lhs) + i, std::end(lhs));
+        retval.insert(std::end(retval), std::begin(rhs) + j, std::end(rhs));
+
+        return retval;
+    }
+
+    PartialKeys merge(const PartialKeys & lhs, const PartialKeys & rhs, std::vector<std::pair<size_t, size_t>> * matches) {
+        PartialKeys retval;
+        retval.reserve(lhs.size() + rhs.size());
+
+        size_t i = 0, j = 0;
+        while (i < lhs.size() && j < rhs.size()) {
+            if (lhs[i] == rhs[j]) {
+                if (matches) matches->emplace_back(i, j);
+                retval.push_back(lhs[i]);
+                ++i, ++j;
+            }
+            else if (lhs[i] < rhs[j])
+                retval.push_back(lhs[i++]);
+            else
+                retval.push_back(rhs[j++]);
+        }
+
+        retval.insert(std::end(retval), std::begin(lhs) + i, std::end(lhs));
+        retval.insert(std::end(retval), std::begin(rhs) + j, std::end(rhs));
+
+        return retval;
     }
 
     size_t factorSpace(const Factors & space) {
@@ -99,7 +153,7 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    size_t factorSpacePartial(const std::vector<size_t> & ids, const Factors & space) {
+    size_t factorSpacePartial(const PartialKeys & ids, const Factors & space) {
         size_t retval = 1;
         for (const auto id : ids) {
             // Detect wraparound
@@ -159,10 +213,21 @@ namespace AIToolbox::Factored {
         return result;
     }
 
-    size_t toIndexPartial(const std::vector<size_t> & ids, const Factors & space, const Factors & f) {
+    size_t toIndexPartial(const PartialKeys & ids, const Factors & space, const Factors & f) {
         size_t result = 0; size_t multiplier = 1;
         for (size_t i = 0; i < ids.size(); ++i) {
             result += multiplier * f[ids[i]];
+            multiplier *= space[ids[i]];
+        }
+        return result;
+    }
+
+    size_t toIndexPartial(const PartialKeys & ids, const Factors & space, const PartialFactors & pf) {
+        size_t result = 0; size_t multiplier = 1;
+        size_t j = 0;
+        for (size_t i = 0; i < ids.size(); ++i) {
+            while (pf.first[j] != ids[i]) ++j;
+            result += multiplier * pf.second[j];
             multiplier *= space[ids[i]];
         }
         return result;
@@ -179,7 +244,7 @@ namespace AIToolbox::Factored {
 
     // PartialFactorsEnumerator below.
 
-    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, std::vector<size_t> factors) :
+    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, PartialKeys factors) :
         F(std::move(f)), factorToSkipId_(factors.size())
     {
         factors_.first = std::move(factors);
@@ -194,7 +259,7 @@ namespace AIToolbox::Factored {
         factors_.second.resize(factors_.first.size());
     }
 
-    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, std::vector<size_t> factors, const size_t factorToSkip) :
+    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, PartialKeys factors, const size_t factorToSkip) :
         PartialFactorsEnumerator(std::move(f), std::move(factors))
     {
         // Set all used agents and find the skip id.
