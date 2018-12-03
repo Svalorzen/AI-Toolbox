@@ -81,6 +81,14 @@ namespace AIToolbox::Factored {
             // T: Matrix of |S| x |A| x |S|
             using Factored3DMatrix = boost::multi_array<FactoredMatrix, 2>;
 
+            inline double getValue(const Factors & space, const Factors & value, const FactoredVector & v) {
+                double retval = 0.0;
+                for (const auto & e : v) {
+                   auto id = toIndexPartial(e.tag, space, value);
+                   retval += e.values[id];
+                }
+                return retval;
+            }
 
             inline BasisFunction dot(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs) {
                 BasisFunction retval;
@@ -100,6 +108,32 @@ namespace AIToolbox::Factored {
                     auto rhsId = toIndexPartial(rhs.tag, space, *e);
 
                     retval.values[i] = lhs.values[lhsId] * rhs.values[rhsId];
+
+                    ++i;
+                    e.advance();
+                }
+
+                return retval;
+            }
+
+            inline BasisFunction plus(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs) {
+                BasisFunction retval;
+
+                // The output function will have the domain of both inputs.
+                retval.tag = merge(lhs.tag, rhs.tag);
+
+                retval.values.resize(toIndexPartial(retval.tag, space, space));
+                // No need to zero fill
+
+                size_t i = 0;
+                PartialFactorsEnumerator e(space, retval.tag);
+                while (e.isValid()) {
+                    // We don't need to compute the index for retval since it
+                    // increases sequentially anyway.
+                    auto lhsId = toIndexPartial(lhs.tag, space, *e);
+                    auto rhsId = toIndexPartial(rhs.tag, space, *e);
+
+                    retval.values[i] = lhs.values[lhsId] + rhs.values[rhsId];
 
                     ++i;
                     e.advance();
@@ -171,6 +205,39 @@ namespace AIToolbox::Factored {
                     rhsdomain.reset();
                 }
                 return retval;
+            }
+
+            inline FactoredVector backProject(const Factors & space, const Factored2DMatrix & lhs, const FactoredVector & rhs) {
+                FactoredVector retval;
+                retval.reserve(rhs.size());
+
+                for (const auto & basis : rhs)
+                    retval.emplace_back(backProject(space, lhs, basis));
+
+                return retval;
+            }
+
+            inline FactoredVector & operator*=(FactoredVector & lhs, const Vector & w) {
+                for (size_t i = 0; i < lhs.size(); ++i)
+                    lhs[i].values *= w[i];
+
+                return lhs;
+            }
+
+            inline FactoredVector & operator*=(FactoredVector & lhs, const double v) {
+                for (auto & l : lhs)
+                    l.values *= v;
+
+                return lhs;
+            }
+
+            // Performs the bellman equation on a single action
+            FactoredVector bellmanEquation(const Factors & S, double gamma, const Factored2DMatrix & P, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
+                FactoredVector Q = backProject(S, P, A);
+                Q *= w;
+                Q *= gamma;
+
+                return Q + R;
             }
 }
 
