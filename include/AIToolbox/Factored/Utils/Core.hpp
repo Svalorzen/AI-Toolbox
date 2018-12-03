@@ -23,6 +23,8 @@ namespace AIToolbox::Factored {
      * @return True if all factors in common between the inputs match in value, false otherwise.
      */
     bool match(const PartialFactors & lhs, const PartialFactors & rhs);
+    bool match(const PartialKeys & keys, const Factors & lhs, const Factors & rhs);
+    bool match(const std::vector<std::pair<size_t, size_t>> & matches, const Factors & lhs, const Factors & rhs);
 
     /**
      * @brief This function appends the rhs to the lhs, assuming the original Factor for lhs has S elements.
@@ -187,9 +189,26 @@ namespace AIToolbox::Factored {
      * @param space The factor space to consider.
      * @param id The integer uniquely identifying the factor.
      *
-     * @return
+     * @return The id's equivalent Factors.
      */
     Factors toFactors(const Factors & space, size_t id);
+
+    /**
+     * @brief This function converts an index into the equivalent Factors of the input keys, within the specified factor space.
+     *
+     * This function is the inverse of the toIndexPartial(const PartialKeys &,
+     * const Factors &, const Factors &) function.
+     *
+     * The input id shall not cause the output to exceed the input space
+     * (i.e. the id will always be lower than factorSpacePartial(ids, space)).
+     *
+     * @param ids The indeces to consider.
+     * @param space The global factors space to consider.
+     * @param id The integer uniquely identifying the factor.
+     *
+     * @return The id's equivalent Factors.
+     */
+    Factors toFactorsPartial(const PartialKeys & ids, const Factors & space, size_t id);
 
     /**
      * @brief This function converts the input factor in the input space to an unique index.

@@ -67,7 +67,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The coefficients used to linearly combine the basis functions.
              */
-            std::optional<Vector> operator()(const FactoredFunction<1> & C, const FactoredFunction<1> & b);
+            std::optional<Vector> operator()(const FactoredVector & C, const FactoredVector & b);
 
         private:
             using Rule = std::tuple<PartialState, size_t>;

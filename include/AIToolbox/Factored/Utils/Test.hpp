@@ -1,4 +1,5 @@
 #ifndef AI_TOOLBOX_FACTORED_TEST_HEADER_FILE
+
 #define AI_TOOLBOX_FACTORED_TEST_HEADER_FILE
 
 #include <AIToolbox/Utils/Core.hpp>
@@ -61,98 +62,73 @@ namespace AIToolbox::Factored {
                 double value;
             };
 
-            template <size_t N>
+            // Basis function (vector of size |S|)
             struct BasisFunction {
-                using TagType = std::conditional_t<N == 1, PartialKeys, std::array<PartialKeys, N>>;
-
-                struct FPartial {
-                    TagType tagValue;
-                    double value;
-                };
-
-                TagType tag;
-                std::vector<FPartial> elements;
+                PartialKeys tag;
+                Vector values;
             };
 
-            template <size_t N>
-            using FactoredFunction = std::vector<BasisFunction<N>>;
-            // TODO
-            // TODO: Do we ever need N != 1?
-            // TODO
-
+            // Qa, Ra, A: vector of size |S|, represented as linear sum of K basis functions.
+            using FactoredVector = std::vector<BasisFunction>;
+            // Q, R: Matrix of |S| x |A|. The vector is of size |A|
+            // std::vector<FactoredVector>;
 
             struct FactoredMatrix {
-                Factors tag;
+                PartialKeys tag;
                 Matrix2D matrix;
             };
             using Factored2DMatrix = std::vector<FactoredMatrix>;
+            // T: Matrix of |S| x |A| x |S|
             using Factored3DMatrix = boost::multi_array<FactoredMatrix, 2>;
 
 
-            // TODO:
-            //
-            // - assert: inputs must have the same dimensions. This is because
-            //           they have to reference to the same Factors.
-            // -
-            inline BasisFunction<1> operator*(const BasisFunction<1> & lhs, const BasisFunction<1> & rhs) {
-                BasisFunction<1> retval;
+            inline BasisFunction dot(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs) {
+                BasisFunction retval;
 
                 // The output function will have the domain of both inputs.
-                std::vector<std::pair<size_t, size_t>> overlap;
-                retval.tag = merge(lhs.tag, rhs.tag, &overlap);
+                retval.tag = merge(lhs.tag, rhs.tag);
 
-                // Note that we don't need to iterate on the domain here, as
-                // the input functions are zero where they are not defined.
-                // Since we are implementing the product, all resulting
-                // combinations that do not originate from both inputs are
-                // going to be zero, and, thus, we skip them.
-                retval.elements.reserve(lhs.elements.size() * (rhs.elements.size() - overlap.size()));
-                for (const auto & el : lhs.elements) {
-                    for (const auto & er : rhs.elements) {
-                        if (!overlap.size()) {
-                            // If there is no overlap, the new element is simply the product of each two elements.
-                            // FIXME: Replace with emplace with C++20 (p0960)
-                            retval.elements.push_back({merge(lhs.tag, el.tagValue, rhs.tag, er.tagValue), el.value * er.value});
-                        } else {
-                            // Otherwise, we need to check that the two
-                            // overlapping parts of the domain actually match,
-                            // or we would get an impossible combination.
-                            bool match = true;
-                            for (const auto & op : overlap) {
-                                if (el.tagValue[op.first] != er.tagValue[op.second]) {
-                                    match = false;
-                                    break;
-                                }
-                            }
-                            if (!match) continue;
-                            // And if they do, again the result is a simple product.
-                            retval.elements.push_back({merge(lhs.tag, el.tagValue, rhs.tag, er.tagValue), el.value * er.value});
-                        }
-                    }
+                retval.values.resize(toIndexPartial(retval.tag, space, space));
+                // No need to zero fill
+
+                size_t i = 0;
+                PartialFactorsEnumerator e(space, retval.tag);
+                while (e.isValid()) {
+                    // We don't need to compute the index for retval since it
+                    // increases sequentially anyway.
+                    auto lhsId = toIndexPartial(lhs.tag, space, *e);
+                    auto rhsId = toIndexPartial(rhs.tag, space, *e);
+
+                    retval.values[i] = lhs.values[lhsId] * rhs.values[rhsId];
+
+                    ++i;
+                    e.advance();
                 }
 
                 return retval;
             }
 
-            inline BasisFunction<1> backProject(const Factors & space, const Factored2DMatrix & lhs, const BasisFunction<1> & rhs) {
+            inline BasisFunction backProject(const Factors & space, const Factored2DMatrix & lhs, const BasisFunction & rhs) {
                 // Here we have the two function inputs, in this form:
                 //
                 //     lhs: [parents, child] -> value
                 //     rhs: [children] -> value
-                BasisFunction<1> retval;
+                BasisFunction retval;
 
                 // The domain here depends on the parents of all elements of
                 // the domain of the input basis.
                 for (auto d : rhs.tag)
                     merge(retval.tag, lhs[d].tag);
 
+                retval.values.resize(toIndexPartial(retval.tag, space, space));
+                // Don't need to zero fill
+
                 // Iterate over the domain, since the output basis is going to
                 // be dense pretty much.
+                size_t id = 0;
                 PartialFactorsEnumerator domain(space, retval.tag);
+                PartialFactorsEnumerator rhsdomain(space, rhs.tag);
                 while (domain.isValid()) {
-                    // The new basis will have a value for every possible
-                    // assignment of the domain.
-                    BasisFunction<1>::FPartial partial{(*domain).second, 0.0};
                     // For each domain assignment, we need to go over every
                     // possible children assignment. As we are computing
                     // products, it is sufficient to go over the elements
@@ -162,32 +138,37 @@ namespace AIToolbox::Factored {
                     // For each such assignment, we compute the product of the
                     // rhs there with the value of the lhs at the current
                     // domain & children.
-                    for (const auto & r : rhs.elements) {
+                    double currentVal = 0.0;
+                    size_t i = 0;
+                    while (rhsdomain.isValid()) {
                         // The rhs has a single value for this children
                         // assignment, so we just pick that.
-                        double x = r.value;
+                        double x = rhs.values[i];
+
                         // The lhs however is made up of one component per
                         // child, and we need to multiply all of them together.
                         // At each iteration we look at a different "child".
-                        for (size_t i = 0; i < rhs.tag.size(); ++i) {
+                        for (size_t j = 0; j < rhs.tag.size(); ++j) {
                             // Find the matrix relative to this child
-                            const auto & fun = lhs[rhs.tag[i]];
+                            const auto & fun = lhs[rhs.tag[j]];
                             // Select the parents for this child
                             const auto & dom = fun.tag;
                             // Compute the "dense" id for the needed parents
                             // from the current domain.
                             auto id = toIndexPartial(dom, space, *domain);
                             // Multiply the current value by the lhs value.
-                            x *= fun.matrix(id, r.tagValue[i]);
+                            x *= fun.matrix(id, (*rhsdomain).second[j]);
                         }
+                        currentVal += x;
 
-                        partial.value += x;
+                        ++i;
+                        rhsdomain.advance();
                     }
-                    // If it's not zero, we can add it to the result basis.
-                    if (checkDifferentGeneral(partial.value, 0.0))
-                        retval.elements.emplace_back(std::move(partial));
+                    retval.values[id] = currentVal;
 
+                    ++id;
                     domain.advance();
+                    rhsdomain.reset();
                 }
                 return retval;
             }

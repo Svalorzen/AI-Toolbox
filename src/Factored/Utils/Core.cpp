@@ -37,6 +37,20 @@ namespace AIToolbox::Factored {
         return true;
     }
 
+    bool match(const PartialKeys & keys, const Factors & lhs, const Factors & rhs) {
+        for (auto k : keys)
+            if (lhs[k] != rhs[k])
+                return false;
+        return true;
+    }
+
+    bool match(const std::vector<std::pair<size_t, size_t>> & matches, const Factors & lhs, const Factors & rhs) {
+        for (const auto & kk : matches)
+            if (lhs[kk.first] != rhs[kk.second])
+                return false;
+        return true;
+    }
+
     PartialFactors join(const size_t S, const PartialFactors & lhs, const PartialFactors & rhs) {
         PartialFactors retval;
         retval.first.reserve(lhs.first.size() + rhs.first.size());
@@ -64,9 +78,6 @@ namespace AIToolbox::Factored {
 
         lhs.first.insert(std::end(lhs.first), std::begin(rhs.first), std::end(rhs.first));
         lhs.second.insert(std::end(lhs.second), std::begin(rhs.second), std::end(rhs.second));
-    }
-
-    void sort(PartialFactors & factors) {
     }
 
     PartialFactors merge(const PartialFactors & lhs, const PartialFactors & rhs) {
@@ -188,6 +199,17 @@ namespace AIToolbox::Factored {
         for (size_t i = 0; i < space.size(); ++i) {
             f[i] = id % space[i];
             id /= space[i];
+        }
+        return f;
+    }
+
+    Factors toFactorsPartial(const PartialKeys & keys, const Factors & space, size_t id) {
+        Factors f(keys.size());
+        size_t i = 0;
+        for (auto key : keys) {
+            f[i] = id % space[key];
+            id /= space[key];
+            ++i;
         }
         return f;
     }

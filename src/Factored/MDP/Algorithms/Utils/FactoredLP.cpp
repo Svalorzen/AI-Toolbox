@@ -9,7 +9,7 @@ namespace AIToolbox::Factored::MDP {
     //     Add multiple columns at the same time.
     //     Remove initial variables - "paste" them in.
 
-    std::optional<Vector> FactoredLP::operator()(const FactoredFunction<1> & C, const FactoredFunction<1> & b) {
+    std::optional<Vector> FactoredLP::operator()(const FactoredVector & C, const FactoredVector & b) {
         // Clear everything so we can use this function multiple times.
         Graph graph(S.size());
         std::vector<size_t> finalFactors;
@@ -42,8 +42,8 @@ namespace AIToolbox::Factored::MDP {
 
         const auto phiId = C.size(); // Skip ws since we want to extract those later.
         size_t startingVars = phiId + 1;   // ws + phi
-        for (const auto & f : C) startingVars += f.elements.size() * 2;
-        for (const auto & f : b) startingVars += f.elements.size() * 2;
+        for (const auto & f : C) startingVars += f.values.size() * 2;
+        for (const auto & f : b) startingVars += f.values.size() * 2;
 
         // Init LP with starting variables
         LP lp(startingVars);
@@ -63,18 +63,18 @@ namespace AIToolbox::Factored::MDP {
         size_t currentRule = phiId + 1; // Skip ws + phi
         for (const auto & f : C) {
             auto newFactor = graph.getFactor(f.tag);
-            for (const auto & entry : f.elements) {
+            for (size_t i = 0; i < static_cast<size_t>(f.values.size()); ++i) {
                 lp.row[currentRule] = -1.0;
-                lp.row[wi] = entry.value;
+                lp.row[wi] = f.values[i];
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule] = 0.0;
 
                 lp.row[currentRule+1] = -1.0;
-                lp.row[wi] = -entry.value;
+                lp.row[wi] = -f.values[i];
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule+1] = 0.0;
 
-                newFactor->getData().emplace_back(std::make_pair(f.tag, entry.tagValue), currentRule);
+                newFactor->getData().emplace_back(std::make_pair(f.tag, toFactorsPartial(f.tag, S, i)), currentRule);
                 currentRule += 2;
             }
             lp.row[wi++] = 0.0;
@@ -83,16 +83,16 @@ namespace AIToolbox::Factored::MDP {
         // and (b - Cw)
         for (const auto & f : b) {
             auto newFactor = graph.getFactor(f.tag);
-            for (const auto & entry : f.elements) {
+            for (size_t i = 0; i < static_cast<size_t>(f.values.size()); ++i) {
                 lp.row[currentRule] = 1.0;
-                lp.pushRow(LP::Constraint::Equal, -entry.value);
+                lp.pushRow(LP::Constraint::Equal, -f.values[i]);
                 lp.row[currentRule] = 0.0;
 
                 lp.row[currentRule+1] = 1.0;
-                lp.pushRow(LP::Constraint::Equal, entry.value);
+                lp.pushRow(LP::Constraint::Equal, f.values[i]);
                 lp.row[currentRule+1] = 0.0;
 
-                newFactor->getData().emplace_back(std::make_pair(f.tag, entry.tagValue), currentRule);
+                newFactor->getData().emplace_back(std::make_pair(f.tag, toFactorsPartial(f.tag, S, i)), currentRule);
                 currentRule += 2;
             }
         }

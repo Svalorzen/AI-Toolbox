@@ -19,7 +19,7 @@ namespace AIToolbox::Factored::MDP {
             double discount_;
 
             Factored3DMatrix transitions_;
-            Factored2DMatrix rewards_;
+            std::vector<FactoredVector> rewards_;
     };
 }
 

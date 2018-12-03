@@ -14,45 +14,29 @@ using FLP = fm::FactoredLP;
 BOOST_AUTO_TEST_CASE( test_1 ) {
     aif::State s{2,2,2};
 
-    AIToolbox::Factored::FactoredFunction<1> C {
-        {
-            { {0, 1} },
-            {
-              { {0, 0}, 1.0},
-              { {0, 1}, 2.0},
-              { {1, 0}, 3.0},
-              { {1, 1}, 4.0},
-            }
-        },{
-            { {0, 2} },
-            {
-              { {0, 0}, 7.0},
-              { {0, 1}, 8.0},
-              { {1, 0}, 9.0},
-              { {1, 1}, 10.0},
-            }
-        },
-    };
+    aif::FactoredVector C;
+    aif::BasisFunction c1{{0,1}, {}};
+    c1.values.resize(4);
+    c1.values << 1.0, 3.0, 2.0, 4.0;
 
-    AIToolbox::Factored::FactoredFunction<1> b {
-        {
-            { {1,2} },
-            {
-              { {0, 0}, 7.0},
-              { {0, 1}, 6.0},
-              { {1, 0}, 10.0},
-              { {1, 1}, 9.0},
-            }
-        },{
-            { {0,2} },
-            {
-                {{0, 0}, 10.0},
-                {{0, 1}, 13.0},
-                {{1, 0}, 20.0},
-                {{1, 1}, 23.0},
-            }
-        }
-    };
+    aif::BasisFunction c2{{0,2}, {}};
+    c2.values.resize(4);
+    c2.values << 7.0, 9.0, 8.0, 10.0;
+
+    C.emplace_back(std::move(c1));
+    C.emplace_back(std::move(c2));
+
+    aif::FactoredVector b;
+    aif::BasisFunction b1{{1,2}, {}};
+    b1.values.resize(4);
+    b1.values << 7.0, 10.0, 6.0, 9.0;
+
+    aif::BasisFunction b2{{0,2}, {}};
+    b2.values.resize(4);
+    b2.values << 10.0, 20.0, 13.0, 23.0;
+
+    b.emplace_back(std::move(b1));
+    b.emplace_back(std::move(b2));
 
     fm::FactoredLP l(s);
 
@@ -70,52 +54,37 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
     // So we "cheat" and use a function that hopefully gives us the average
     // precision of LP solutions, so we can compare them and have working
     // tests.
-    for (size_t i = 0; i < solution.size(); ++i)
+    for (size_t i = 0; i < solution.size(); ++i) {
         BOOST_CHECK(std::fabs(solution[i] - (*result)[i]) < AIToolbox::LP::getPrecision());
+    }
 }
 
 BOOST_AUTO_TEST_CASE( test_2 ) {
     aif::State s{2,2,2};
 
-    AIToolbox::Factored::FactoredFunction<1> C {
-        {
-            { {0, 1} },
-            {
-              { {0, 0}, 10.0},
-              { {0, 1}, 5.0},
-              { {1, 0}, 2.0},
-              { {1, 1}, 7.5},
-            }
-        },{
-            { {0, 2} },
-            {
-              { {0, 0}, 4.5},
-              { {0, 1}, 2.0},
-              { {1, 0}, 6.0},
-              { {1, 1}, 3.5},
-            }
-        },
-    };
+    aif::FactoredVector C;
+    aif::BasisFunction c1{{0,1}, {}};
+    c1.values.resize(4);
+    c1.values << 10.0, 2.0, 5.0, 7.5;
 
-    AIToolbox::Factored::FactoredFunction<1> b {
-        {
-            { {1,2} },
-            {
-              { {0, 0}, 26.5},
-              { {0, 1}, 19.0},
-              { {1, 0}, 21.75},
-              { {1, 1}, 14.25},
-            }
-        },{
-            { {0,1} },
-            {
-                {{0, 0}, 32.0},
-                {{0, 1}, 14.25},
-                {{1, 0},  0.5},
-                {{1, 1}, 30.0},
-            }
-        }
-    };
+    aif::BasisFunction c2{{0,2}, {}};
+    c2.values.resize(4);
+    c2.values << 4.5, 6.0, 2.0, 3.5;
+
+    C.emplace_back(std::move(c1));
+    C.emplace_back(std::move(c2));
+
+    aif::FactoredVector b;
+    aif::BasisFunction b1{{1,2}, {}};
+    b1.values.resize(4);
+    b1.values << 26.5, 21.75, 19.0, 14.25;
+
+    aif::BasisFunction b2{{0,1}, {}};
+    b2.values.resize(4);
+    b2.values << 32.0, 0.5, 14.25, 30.0;
+
+    b.emplace_back(std::move(b1));
+    b.emplace_back(std::move(b2));
 
     fm::FactoredLP l(s);
 
