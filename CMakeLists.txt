@@ -155,7 +155,7 @@ if (MAKE_PYTHON)
     # Try to find out which version of Python we should be targeting depending
     # on which interpreter is found. If the version has been selected
     # explicitly we search for it directly.
-    find_package(PythonInterp ${PYTHON_VERSION})
+    find_package(PythonInterp ${PYTHON_VERSION} REQUIRED)
     set(PYTHON_VERSION ${PYTHON_VERSION_MAJOR})
 
     # WARNING: The COMPONENTS parts of Boost here may need to be changed
