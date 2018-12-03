@@ -1,6 +1,5 @@
 *.swp
-build/
-debugbuild/
+*build*/
 html/
 *Tests
 *.pyc
