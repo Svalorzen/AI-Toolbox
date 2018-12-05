@@ -27,7 +27,7 @@ namespace AIToolbox::Factored {
         size_t i = 0, j = 0;
         while (j < smaller->second.size()) {
             if (bigger->first[i] < smaller->first[j]) ++i;
-            else if (bigger->first[i] > smaller->first[j]) return false;
+            else if (bigger->first[i] > smaller->first[j]) ++j;
             else {
                 if (bigger->second[i] != smaller->second[j]) return false;
                 ++i;

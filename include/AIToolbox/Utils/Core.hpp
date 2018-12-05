@@ -188,6 +188,26 @@ namespace AIToolbox {
         }
         return false;
     }
+
+    /**
+     * @brief This function returns whether a sorted range contains another sorted range, via sequential scan.
+     *
+     * @tparam V The type of the vector to be scanned.
+     * @param v The vector to be scanned.
+     * @param elems The vector that must be contained.
+     *
+     * @return True if the vector contains all elements from the input, false otherwise.
+     */
+    template <typename V>
+    bool sequential_sorted_contains(const V & v, const V & elems) {
+        size_t i = 0, j = 0;
+        while (j < elems.size()) {
+            while (i < v.size() && v[i] < elems[j]) ++i;
+            if (i == v.size() || v[i] > elems[j]) return false;
+            ++i, ++j;
+        }
+        return j == elems.size();
+    }
 }
 
 namespace Eigen {

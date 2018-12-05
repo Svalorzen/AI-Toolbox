@@ -9,6 +9,56 @@
 
 namespace aif = AIToolbox::Factored;
 
+BOOST_AUTO_TEST_CASE( match ) {
+    std::vector<aif::PartialFactors> lhs = {
+        {{2,3,5}, {1,2,3}},
+        {{2,3,5}, {2,3,4}},
+        {{1,2,3,5,6}, {1,2,3,4,5}},
+        {{1,2,3}, {1,2,3}},
+        {{1,4,6}, {1,2,3}},
+        {{4,5,6}, {2,2,3}},
+        {{3},     {2}},
+
+        {{1,2,3}, {1,2,3}},
+        {{1,2,3}, {2,2,3}},
+        {{1,2,3}, {1,2,3}},
+        {{2},     {3}},
+    };
+    std::vector<aif::PartialFactors> rhs = {
+        {{2,3,5}, {1,2,3}},
+        {{1,2,3,5,6}, {1,2,3,4,5}},
+        {{2,3,5}, {2,3,4}},
+        {{4,5,6}, {1,2,3}},
+        {{4,5,6}, {2,2,3}},
+        {{1,4,6}, {1,2,3}},
+        {{2},     {3}},
+
+        {{1,2,3}, {2,2,3}},
+        {{1,2,3}, {1,2,3}},
+        {{2},     {3}},
+        {{1,2,3}, {1,2,3}},
+    };
+    std::vector<bool> solutions = {
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+
+        false,
+        false,
+        false,
+        false,
+    };
+
+    for (size_t i = 0; i < solutions.size(); ++i) {
+        BOOST_TEST_INFO(i);
+        BOOST_CHECK_EQUAL(solutions[i], aif::match(lhs[i], rhs[i]));
+    }
+}
+
 BOOST_AUTO_TEST_CASE( to_index_full_factors ) {
     aif::Factors state = {3,2,5};
 

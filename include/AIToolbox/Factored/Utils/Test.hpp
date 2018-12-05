@@ -1,5 +1,4 @@
 #ifndef AI_TOOLBOX_FACTORED_TEST_HEADER_FILE
-
 #define AI_TOOLBOX_FACTORED_TEST_HEADER_FILE
 
 #include <AIToolbox/Utils/Core.hpp>
@@ -142,6 +141,50 @@ namespace AIToolbox::Factored {
                 return retval;
             }
 
+            inline BasisFunction plusSubset(const Factors & space, BasisFunction retval, const BasisFunction & rhs) {
+                size_t i = 0;
+                PartialFactorsEnumerator e(space, retval.tag);
+                while (e.isValid()) {
+                    auto rhsId = toIndexPartial(rhs.tag, space, *e);
+
+                    retval.values[i] += rhs.values[rhsId];
+
+                    ++i;
+                    e.advance();
+                }
+
+                return retval;
+            }
+
+            inline FactoredVector plus(const Factors & space, FactoredVector retval, const FactoredVector & rhs) {
+                size_t initRetSize = retval.size();
+
+                // We try to merge all possible
+                for (const auto & basis : rhs) {
+                    bool merged = false;
+                    for (size_t i = 0; i < initRetSize; ++i) {
+                        if (basis.tag.size() == retval[i].tag.size() &&
+                            veccmp(basis.tag, retval[i].tag) == 0)
+                        {
+                            retval[i].values += basis.values;
+                            merged = true;
+                        } else {
+                            const auto & minBasis = basis.tag.size() < retval[i].tag.size() ? basis : retval[i];
+                            const auto & maxBasis = basis.tag.size() < retval[i].tag.size() ? retval[i] : basis;
+
+                            if (sequential_sorted_contains(maxBasis.tag, minBasis.tag)) {
+                                merged = true;
+                                retval[i] = plusSubset(space, retval[i], basis);
+                            }
+                        }
+                        if (merged) break;
+                    }
+                    if (!merged)
+                        retval.push_back(basis);
+                }
+                return retval;
+            }
+
             inline BasisFunction backProject(const Factors & space, const Factored2DMatrix & lhs, const BasisFunction & rhs) {
                 // Here we have the two function inputs, in this form:
                 //
@@ -232,12 +275,12 @@ namespace AIToolbox::Factored {
             }
 
             // Performs the bellman equation on a single action
-            FactoredVector bellmanEquation(const Factors & S, double gamma, const Factored2DMatrix & P, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
+            inline FactoredVector bellmanEquation(const Factors & S, double gamma, const Factored2DMatrix & P, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
                 FactoredVector Q = backProject(S, P, A);
                 Q *= w;
                 Q *= gamma;
 
-                return Q + R;
+                return plus(S, Q, R);
             }
 }
 
