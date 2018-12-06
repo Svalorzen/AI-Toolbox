@@ -7,6 +7,7 @@ namespace AIToolbox::Factored::MDP {
     // Optimizations TODO:
     //     Use sparse pushRow to add rows.
     //     Add multiple columns at the same time.
+    //     Reserve memory in advance for both rows and cols.
     //     Remove initial variables - "paste" them in.
 
     std::optional<Vector> FactoredLP::operator()(const FactoredVector & C, const FactoredVector & b) {
@@ -23,13 +24,17 @@ namespace AIToolbox::Factored::MDP {
         // We are going to do this using an LP, which is built following the
         // steps of a variable elimination algorithm.
         //
-        // This is because the key idea here is to minimize:
+        // This is because the key idea here is to maximize:
         //
-        //     phi <= | Cw - b |
+        //     phi >= | (Cw)_i - b_i |
         //
         // Which is equivalent to
         //
-        //     phi <= max | Cw - b |
+        //     phi >= max_i | (Cw)_i - b_i |
+        //
+        // And finally, as we actually do it here (with phi minimized):
+        //
+        //    max_i | (Cw)_i - b_i | - phi <= 0
         //
         // Thus, our LP construct will be built so that the constraints are
         // basically going to refer to that max row where the difference is

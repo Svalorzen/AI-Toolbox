@@ -237,9 +237,9 @@ namespace AIToolbox::Factored {
 
     size_t toIndexPartial(const PartialKeys & ids, const Factors & space, const Factors & f) {
         size_t result = 0; size_t multiplier = 1;
-        for (size_t i = 0; i < ids.size(); ++i) {
-            result += multiplier * f[ids[i]];
-            multiplier *= space[ids[i]];
+        for (auto id : ids) {
+            result += multiplier * f[id];
+            multiplier *= space[id];
         }
         return result;
     }
@@ -247,10 +247,10 @@ namespace AIToolbox::Factored {
     size_t toIndexPartial(const PartialKeys & ids, const Factors & space, const PartialFactors & pf) {
         size_t result = 0; size_t multiplier = 1;
         size_t j = 0;
-        for (size_t i = 0; i < ids.size(); ++i) {
-            while (pf.first[j] != ids[i]) ++j;
+        for (auto id : ids) {
+            while (pf.first[j] != id) ++j;
             result += multiplier * pf.second[j];
-            multiplier *= space[ids[i]];
+            multiplier *= space[id];
         }
         return result;
     }

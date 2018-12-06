@@ -8,6 +8,8 @@
 #include <array>
 #include <vector>
 
+#include <iostream>
+
 // This file is temporary to test the operations.
 namespace AIToolbox::Factored {
             // General TODO:
@@ -52,8 +54,6 @@ namespace AIToolbox::Factored {
             // argue that policy lists are compact and efficient), so we may
             // want to implement the down below operations in a sort of batch
             // way. It depends on how it actually works tho.
-            //
-            //
 
             template <size_t N>
             struct FactoredFunctionRule {
@@ -80,7 +80,7 @@ namespace AIToolbox::Factored {
             // T: Matrix of |S| x |A| x |S|
             using Factored3DMatrix = boost::multi_array<FactoredMatrix, 2>;
 
-            inline double getValue(const Factors & space, const Factors & value, const FactoredVector & v) {
+            inline double getValue(const Factors & space, const FactoredVector & v, const Factors & value) {
                 double retval = 0.0;
                 for (const auto & e : v) {
                    auto id = toIndexPartial(e.tag, space, value);
@@ -111,7 +111,6 @@ namespace AIToolbox::Factored {
                     ++i;
                     e.advance();
                 }
-
                 return retval;
             }
 
@@ -137,11 +136,10 @@ namespace AIToolbox::Factored {
                     ++i;
                     e.advance();
                 }
-
                 return retval;
             }
 
-            inline BasisFunction plusSubset(const Factors & space, BasisFunction retval, const BasisFunction & rhs) {
+            inline BasisFunction & plusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs) {
                 size_t i = 0;
                 PartialFactorsEnumerator e(space, retval.tag);
                 while (e.isValid()) {
@@ -152,36 +150,56 @@ namespace AIToolbox::Factored {
                     ++i;
                     e.advance();
                 }
+                return retval;
+            }
+
+            inline BasisFunction plusSubset(const Factors & space, BasisFunction retval, const BasisFunction & rhs) {
+                plusEqualSubset(space, retval, rhs);
+                return retval;
+            }
+
+            inline FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis) {
+                size_t initRetSize = retval.size();
+
+                // We try to merge all possible
+                bool merged = false;
+                for (size_t i = 0; i < initRetSize; ++i) {
+                    if (basis.tag.size() == retval[i].tag.size() &&
+                        veccmp(basis.tag, retval[i].tag) == 0)
+                    {
+                        retval[i].values += basis.values;
+                        merged = true;
+                    } else {
+                        const auto & minBasis = basis.tag.size() < retval[i].tag.size() ? basis : retval[i];
+                        const auto & maxBasis = basis.tag.size() < retval[i].tag.size() ? retval[i] : basis;
+
+                        if (sequential_sorted_contains(maxBasis.tag, minBasis.tag)) {
+                            merged = true;
+                            plusEqualSubset(space, retval[i], basis);
+                        }
+                    }
+                    if (merged) break;
+                }
+                if (!merged)
+                    retval.push_back(basis);
+
+                return retval;
+            }
+
+            inline FactoredVector plus(const Factors & space, FactoredVector retval, const BasisFunction & rhs) {
+                plusEqual(space, retval, rhs);
+                return retval;
+            }
+
+            inline FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs) {
+                for (const auto & basis : rhs)
+                    plusEqual(space, retval, basis);
 
                 return retval;
             }
 
             inline FactoredVector plus(const Factors & space, FactoredVector retval, const FactoredVector & rhs) {
-                size_t initRetSize = retval.size();
-
-                // We try to merge all possible
-                for (const auto & basis : rhs) {
-                    bool merged = false;
-                    for (size_t i = 0; i < initRetSize; ++i) {
-                        if (basis.tag.size() == retval[i].tag.size() &&
-                            veccmp(basis.tag, retval[i].tag) == 0)
-                        {
-                            retval[i].values += basis.values;
-                            merged = true;
-                        } else {
-                            const auto & minBasis = basis.tag.size() < retval[i].tag.size() ? basis : retval[i];
-                            const auto & maxBasis = basis.tag.size() < retval[i].tag.size() ? retval[i] : basis;
-
-                            if (sequential_sorted_contains(maxBasis.tag, minBasis.tag)) {
-                                merged = true;
-                                retval[i] = plusSubset(space, retval[i], basis);
-                            }
-                        }
-                        if (merged) break;
-                    }
-                    if (!merged)
-                        retval.push_back(basis);
-                }
+                plusEqual(space, retval, rhs);
                 return retval;
             }
 
@@ -195,9 +213,9 @@ namespace AIToolbox::Factored {
                 // The domain here depends on the parents of all elements of
                 // the domain of the input basis.
                 for (auto d : rhs.tag)
-                    merge(retval.tag, lhs[d].tag);
+                    retval.tag = merge(retval.tag, lhs[d].tag);
 
-                retval.values.resize(toIndexPartial(retval.tag, space, space));
+                retval.values.resize(factorSpacePartial(retval.tag, space));
                 // Don't need to zero fill
 
                 // Iterate over the domain, since the output basis is going to
@@ -254,8 +272,10 @@ namespace AIToolbox::Factored {
                 FactoredVector retval;
                 retval.reserve(rhs.size());
 
-                for (const auto & basis : rhs)
-                    retval.emplace_back(backProject(space, lhs, basis));
+                for (const auto & basis : rhs) {
+                    plusEqual(space, retval,
+                        backProject(space, lhs, basis));
+                }
 
                 return retval;
             }
@@ -267,6 +287,11 @@ namespace AIToolbox::Factored {
                 return lhs;
             }
 
+            inline FactoredVector operator*(FactoredVector lhs, const Vector & w) {
+                lhs *= w;
+                return lhs;
+            }
+
             inline FactoredVector & operator*=(FactoredVector & lhs, const double v) {
                 for (auto & l : lhs)
                     l.values *= v;
@@ -274,11 +299,42 @@ namespace AIToolbox::Factored {
                 return lhs;
             }
 
+            inline FactoredVector operator*(FactoredVector lhs, const double v) {
+                lhs *= v;
+                return lhs;
+            }
+
+            inline void printFV(const FactoredVector & v) {
+                for (const auto & e : v) {
+                    for (const auto i : e.tag)
+                        std::cout << i << " ";
+                    std::cout << ": " << e.values.transpose() << '\n';
+                }
+            }
+
+            inline void printF2D(const Factored2DMatrix & v) {
+                for (const auto & e : v) {
+                    for (const auto i : e.tag)
+                        std::cout << i << " ";
+                    std::cout << ": " << e.matrix << '\n';
+                }
+            }
+
             // Performs the bellman equation on a single action
             inline FactoredVector bellmanEquation(const Factors & S, double gamma, const Factored2DMatrix & P, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
-                FactoredVector Q = backProject(S, P, A);
-                Q *= w;
+                printFV(A);
+                std::cout << "####\n";
+                printF2D(P);
+                std::cout << "####\n";
+                std::cout << "####\n";
+                FactoredVector Q = backProject(S, P, A * w);
+                printFV(Q);
+                std::cout << "*= gamma ####\n";
                 Q *= gamma;
+                printFV(Q);
+                std::cout << "R ####\n";
+                printFV(R);
+                std::cout << "plus R ####\n";
 
                 return plus(S, Q, R);
             }

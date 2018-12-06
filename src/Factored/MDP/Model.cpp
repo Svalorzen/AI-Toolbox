@@ -19,6 +19,6 @@ namespace AIToolbox::Factored::MDP {
     }
 
     double Model::getExpectedReward(const State & s, size_t a, const State &) const {
-        return getValue(S, s, rewards_[a]);
+        return getValue(S, rewards_[a], s);
     }
 }
