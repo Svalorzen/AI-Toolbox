@@ -89,6 +89,25 @@ namespace AIToolbox::Factored {
                 return retval;
             }
 
+            inline double getValue(const Factors & space, const Factored2DMatrix & v, const PartialFactors & s, const PartialFactors & s1) {
+                double retval = 1.0;
+                // The matrix is made up of one component per child, and we
+                // need to multiply all of them together. At each iteration we
+                // look at a different "child".
+                for (size_t j = 0; j < s1.first.size(); ++j) {
+                    // Find the matrix relative to this child
+                    const auto & fun = v[s1.first[j]];
+                    // Select the parents for this child
+                    const auto & dom = fun.tag;
+                    // Compute the "dense" id for the needed parents
+                    // from the current domain.
+                    auto id = toIndexPartial(dom, space, s);
+                    // Multiply the current value by the lhs value.
+                    retval *= fun.matrix(id, s1.second[j]);
+                }
+                return retval;
+            }
+
             inline BasisFunction dot(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs) {
                 BasisFunction retval;
 
@@ -154,8 +173,7 @@ namespace AIToolbox::Factored {
             }
 
             inline BasisFunction plusSubset(const Factors & space, BasisFunction retval, const BasisFunction & rhs) {
-                plusEqualSubset(space, retval, rhs);
-                return retval;
+                return plusEqualSubset(space, retval, rhs);
             }
 
             inline FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis) {
@@ -169,16 +187,21 @@ namespace AIToolbox::Factored {
                     {
                         retval[i].values += basis.values;
                         merged = true;
+                        break;
                     } else {
-                        const auto & minBasis = basis.tag.size() < retval[i].tag.size() ? basis : retval[i];
-                        const auto & maxBasis = basis.tag.size() < retval[i].tag.size() ? retval[i] : basis;
+                        const auto retvalBigger = basis.tag.size() < retval[i].tag.size();
+                        const auto & minBasis = retvalBigger ? basis : retval[i];
+                        const auto & maxBasis = retvalBigger ? retval[i] : basis;
 
                         if (sequential_sorted_contains(maxBasis.tag, minBasis.tag)) {
+                            if (retvalBigger)
+                                plusEqualSubset(space, retval[i], basis);
+                            else
+                                retval[i] = plusSubset(space, basis, retval[i]);
                             merged = true;
-                            plusEqualSubset(space, retval[i], basis);
+                            break;
                         }
                     }
-                    if (merged) break;
                 }
                 if (!merged)
                     retval.push_back(basis);
@@ -187,8 +210,7 @@ namespace AIToolbox::Factored {
             }
 
             inline FactoredVector plus(const Factors & space, FactoredVector retval, const BasisFunction & rhs) {
-                plusEqual(space, retval, rhs);
-                return retval;
+                return plusEqual(space, retval, rhs);
             }
 
             inline FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs) {
@@ -199,8 +221,7 @@ namespace AIToolbox::Factored {
             }
 
             inline FactoredVector plus(const Factors & space, FactoredVector retval, const FactoredVector & rhs) {
-                plusEqual(space, retval, rhs);
-                return retval;
+                return plusEqual(space, retval, rhs);
             }
 
             inline BasisFunction backProject(const Factors & space, const Factored2DMatrix & lhs, const BasisFunction & rhs) {
@@ -222,7 +243,10 @@ namespace AIToolbox::Factored {
                 // be dense pretty much.
                 size_t id = 0;
                 PartialFactorsEnumerator domain(space, retval.tag);
+
                 PartialFactorsEnumerator rhsdomain(space, rhs.tag);
+                // PartialFactorsEnumerator rhsdomain(space);
+
                 while (domain.isValid()) {
                     // For each domain assignment, we need to go over every
                     // possible children assignment. As we are computing
@@ -236,29 +260,26 @@ namespace AIToolbox::Factored {
                     double currentVal = 0.0;
                     size_t i = 0;
                     while (rhsdomain.isValid()) {
-                        // The rhs has a single value for this children
-                        // assignment, so we just pick that.
-                        double x = rhs.values[i];
+                        currentVal += rhs.values[i] * getValue(space, lhs, *domain, *rhsdomain);
+                        
+                        std::cout << "Adding " << rhs.values[i] << " * " << getValue(space, lhs, *domain, *rhsdomain)
+                                  << " == " << rhs.values[i] * getValue(space, lhs, *domain, *rhsdomain)
+                                  << "\n";
 
-                        // The lhs however is made up of one component per
-                        // child, and we need to multiply all of them together.
-                        // At each iteration we look at a different "child".
-                        for (size_t j = 0; j < rhs.tag.size(); ++j) {
-                            // Find the matrix relative to this child
-                            const auto & fun = lhs[rhs.tag[j]];
-                            // Select the parents for this child
-                            const auto & dom = fun.tag;
-                            // Compute the "dense" id for the needed parents
-                            // from the current domain.
-                            auto id = toIndexPartial(dom, space, *domain);
-                            // Multiply the current value by the lhs value.
-                            x *= fun.matrix(id, (*rhsdomain).second[j]);
-                        }
-                        currentVal += x;
+                        // auto rhsvv = rhs.values[toIndexPartial(rhs.tag, space, *rhsdomain)];
+                        // currentVal += rhsvv * getValue(space, lhs, *domain, *rhsdomain);
+
+                        // std::cout << "Adding " << rhsvv << " * " << getValue(space, lhs, *domain, *rhsdomain)
+                        //           << " == " << rhsvv * getValue(space, lhs, *domain, *rhsdomain)
+                        //           << "\n";
 
                         ++i;
                         rhsdomain.advance();
                     }
+                    std::cout << "Total for state ";
+                    for (auto x : (*domain).second)
+                        std::cout << x << " ";
+                    std::cout << ":" << currentVal << "\n\n";
                     retval.values[id] = currentVal;
 
                     ++id;
@@ -321,22 +342,23 @@ namespace AIToolbox::Factored {
             }
 
             // Performs the bellman equation on a single action
-            inline FactoredVector bellmanEquation(const Factors & S, double gamma, const Factored2DMatrix & P, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
+            inline FactoredVector bellmanEquation(const Factors & S, double discount, const Factored2DMatrix & T, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
+                // Q = R + gamma * T * (A * w)
                 printFV(A);
                 std::cout << "####\n";
-                printF2D(P);
+                printF2D(T);
                 std::cout << "####\n";
                 std::cout << "####\n";
-                FactoredVector Q = backProject(S, P, A * w);
+                FactoredVector Q = backProject(S, T, A * w);
                 printFV(Q);
                 std::cout << "*= gamma ####\n";
-                Q *= gamma;
+                Q *= discount;
                 printFV(Q);
                 std::cout << "R ####\n";
                 printFV(R);
                 std::cout << "plus R ####\n";
 
-                return plus(S, Q, R);
+                return plusEqual(S, Q, R);
             }
 }
 
