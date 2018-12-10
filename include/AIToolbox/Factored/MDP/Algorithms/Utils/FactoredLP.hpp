@@ -5,7 +5,7 @@
 
 #include <AIToolbox/Factored/MDP/Types.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
-#include <AIToolbox/Factored/Utils/Test.hpp>
+#include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 
 namespace AIToolbox { class LP; }
 

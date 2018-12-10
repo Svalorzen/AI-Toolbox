@@ -67,6 +67,8 @@ if (MAKE_FMDP)
         LP/LpSolveWrapper.cpp
         Factored/Utils/FactoredContainer.cpp
         Factored/Utils/Core.cpp
+        Factored/Utils/FactoredMatrix.cpp
+        Factored/Utils/BayesianNetwork.cpp
         Factored/Bandit/Algorithms/Utils/VariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/UCVE.cpp

@@ -45,10 +45,10 @@ namespace AIToolbox::Factored::MDP {
         // (in particular, two per each VE rule, as we want to maximize over an
         // absolute value, so we do it "forward and backward").
 
-        const auto phiId = C.size(); // Skip ws since we want to extract those later.
+        const auto phiId = C.bases.size(); // Skip ws since we want to extract those later.
         size_t startingVars = phiId + 1;   // ws + phi
-        for (const auto & f : C) startingVars += f.values.size() * 2;
-        for (const auto & f : b) startingVars += f.values.size() * 2;
+        for (const auto & f : C.bases) startingVars += f.values.size() * 2;
+        for (const auto & f : b.bases) startingVars += f.values.size() * 2;
 
         // Init LP with starting variables
         LP lp(startingVars);
@@ -66,7 +66,7 @@ namespace AIToolbox::Factored::MDP {
         // just needs to reference the constraints in the graph.
         size_t wi = 0;
         size_t currentRule = phiId + 1; // Skip ws + phi
-        for (const auto & f : C) {
+        for (const auto & f : C.bases) {
             auto newFactor = graph.getFactor(f.tag);
             for (size_t i = 0; i < static_cast<size_t>(f.values.size()); ++i) {
                 lp.row[currentRule] = -1.0;
@@ -86,7 +86,7 @@ namespace AIToolbox::Factored::MDP {
         }
         // Here signs are opposite to those of C since we need to find (Cw - b)
         // and (b - Cw)
-        for (const auto & f : b) {
+        for (const auto & f : b.bases) {
             auto newFactor = graph.getFactor(f.tag);
             for (size_t i = 0; i < static_cast<size_t>(f.values.size()); ++i) {
                 lp.row[currentRule] = 1.0;

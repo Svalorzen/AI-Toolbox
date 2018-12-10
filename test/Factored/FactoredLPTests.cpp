@@ -5,9 +5,6 @@
 
 #include <AIToolbox/LP.hpp>
 #include <AIToolbox/Factored/MDP/Algorithms/Utils/FactoredLP.hpp>
-#include <AIToolbox/Factored/Utils/Test.hpp>
-
-#include <iostream>
 
 namespace aif = AIToolbox::Factored;
 namespace fm = AIToolbox::Factored::MDP;
@@ -25,55 +22,35 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
     c2.values.resize(4);
     c2.values << 7.0, 9.0, 8.0, 10.0;
 
+    // TODO: We should find out a way to make the commented test work, but
+    // without explicitly using the constant basis (as it makes VE not work
+    // basically).
     aif::BasisFunction c3{{0,1,2}, {}};
     c3.values.resize(8);
     c3.values << 1., 1., 1., 1., 1., 1., 1., 1.;
 
-    C.emplace_back(std::move(c1));
-    C.emplace_back(std::move(c2));
-    // C.emplace_back(std::move(c3));
+    C.bases.emplace_back(std::move(c1));
+    C.bases.emplace_back(std::move(c2));
+    // C.bases.emplace_back(std::move(c3));
 
     aif::FactoredVector b;
     aif::BasisFunction b1{{1,2}, {}};
     b1.values.resize(4);
-    b1.values << 6.0, 9.0, 5.0, 8.0;
+    b1.values << 7.0, 10.0, 6.0, 9.0;
+    // b1.values << 6.0, 9.0, 5.0, 8.0;
 
     aif::BasisFunction b2{{0,2}, {}};
     b2.values.resize(4);
-    b2.values << 9.0, 19.0, 12.0, 22.0;
+    b2.values << 10.0, 20.0, 13.0, 23.0;
+    // b2.values << 9.0, 19.0, 12.0, 22.0;
 
-    b.emplace_back(std::move(b1));
-    b.emplace_back(std::move(b2));
+    b.bases.emplace_back(std::move(b1));
+    b.bases.emplace_back(std::move(b2));
 
     fm::FactoredLP l(s);
 
     const auto result = l(C, b);
     const std::vector<double> solution{3.0, 2.0};
-
-    //TODO:REMOVE
-    aif::PartialFactorsEnumerator e(s);
-    while (e.isValid()) {
-        std::cout << "State: ";
-        for (auto s : (*e).second)
-            std::cout << s << " ";
-        std::cout << "; C: " << getValue(s, C, (*e).second);
-        std::cout << "; b: " << getValue(s, b, (*e).second);
-        std::cout << '\n';
-        e.advance();
-    }
-    std::cout << "####\n";
-    e.reset();
-    while (e.isValid()) {
-        std::cout << "State: ";
-        for (auto s : (*e).second)
-            std::cout << s << " ";
-        std::cout << "; C: " << getValue(s, C * *result, (*e).second);
-        std::cout << "; b: " << getValue(s, b, (*e).second);
-        std::cout << '\n';
-        e.advance();
-    }
-    std::cout << "####\n";
-    std::cout << "####\n";
 
     BOOST_CHECK(result);
     BOOST_CHECK_EQUAL(result->size(), 2);
@@ -87,6 +64,8 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
     // precision of LP solutions, so we can compare them and have working
     // tests.
     for (size_t i = 0; i < solution.size(); ++i) {
+        BOOST_TEST_INFO("Element " << i);
+        BOOST_TEST_INFO("Solution: " << solution[i] << "; Result: " << (*result)[i]);
         BOOST_CHECK(std::fabs(solution[i] - (*result)[i]) < AIToolbox::LP::getPrecision());
     }
 }
@@ -103,8 +82,8 @@ BOOST_AUTO_TEST_CASE( test_2 ) {
     c2.values.resize(4);
     c2.values << 4.5, 6.0, 2.0, 3.5;
 
-    C.emplace_back(std::move(c1));
-    C.emplace_back(std::move(c2));
+    C.bases.emplace_back(std::move(c1));
+    C.bases.emplace_back(std::move(c2));
 
     aif::FactoredVector b;
     aif::BasisFunction b1{{1,2}, {}};
@@ -115,38 +94,13 @@ BOOST_AUTO_TEST_CASE( test_2 ) {
     b2.values.resize(4);
     b2.values << 32.0, 0.5, 14.25, 30.0;
 
-    b.emplace_back(std::move(b1));
-    b.emplace_back(std::move(b2));
+    b.bases.emplace_back(std::move(b1));
+    b.bases.emplace_back(std::move(b2));
 
     fm::FactoredLP l(s);
 
     const auto result = l(C, b);
     const std::vector<double> solution{4.5, 3.0};
-
-    //TODO:REMOVE
-    aif::PartialFactorsEnumerator e(s);
-    while (e.isValid()) {
-        std::cout << "State: ";
-        for (auto s : (*e).second)
-            std::cout << s << " ";
-        std::cout << "; C: " << getValue(s, C, (*e).second);
-        std::cout << "; b: " << getValue(s, b, (*e).second);
-        std::cout << '\n';
-        e.advance();
-    }
-    std::cout << "####\n";
-    e.reset();
-    while (e.isValid()) {
-        std::cout << "State: ";
-        for (auto s : (*e).second)
-            std::cout << s << " ";
-        std::cout << "; C: " << getValue(s, C * *result, (*e).second);
-        std::cout << "; b: " << getValue(s, b, (*e).second);
-        std::cout << '\n';
-        e.advance();
-    }
-    std::cout << "####\n";
-    std::cout << "####\n";
 
     BOOST_CHECK(result);
     BOOST_CHECK_EQUAL(result->size(), 2);
@@ -159,6 +113,9 @@ BOOST_AUTO_TEST_CASE( test_2 ) {
     // So we "cheat" and use a function that hopefully gives us the average
     // precision of LP solutions, so we can compare them and have working
     // tests.
-    for (size_t i = 0; i < solution.size(); ++i)
+    for (size_t i = 0; i < solution.size(); ++i) {
+        BOOST_TEST_INFO("Element " << i);
+        BOOST_TEST_INFO("Solution: " << solution[i] << "; Result: " << (*result)[i]);
         BOOST_CHECK(std::fabs(solution[i] - (*result)[i]) < AIToolbox::LP::getPrecision());
+    }
 }
