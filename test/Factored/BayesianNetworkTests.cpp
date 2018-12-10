@@ -10,7 +10,7 @@
 namespace ai = AIToolbox;
 namespace aif = AIToolbox::Factored;
 
-BOOST_AUTO_TEST_CASE( test_1 ) {
+BOOST_AUTO_TEST_CASE( back_projection ) {
     aif::State s{3,3,3};
 
     aif::FactoredVector A;
@@ -25,8 +25,8 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
     A.bases.emplace_back(std::move(a1));
     A.bases.emplace_back(std::move(a2));
 
-    ai::Matrix2D p1(9, 3); // 0,1->0
-    p1 <<
+    ai::Matrix2D p(9, 3); // x,y->z
+    p <<
        0.90, 0.05, 0.05, // 0, 0
        0.70, 0.20, 0.10, // 0, 1
        0.20, 0.50, 0.30, // 0, 2
@@ -37,33 +37,9 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
        0.20, 0.10, 0.70, // 2, 1
        0.50, 0.10, 0.40  // 2, 2
     ;
-    ai::Matrix2D p2(9, 3);
-    p2 <<
-       0.90, 0.05, 0.05, // 0, 0
-       0.70, 0.20, 0.10, // 0, 1
-       0.20, 0.50, 0.30, // 0, 2
-       0.05, 0.90, 0.05, // 1, 0
-       0.10, 0.70, 0.20, // 1, 1
-       0.20, 0.50, 0.30, // 1, 2
-       0.05, 0.05, 0.90, // 2, 0
-       0.20, 0.10, 0.70, // 2, 1
-       0.50, 0.10, 0.40  // 2, 2
-    ;
-    ai::Matrix2D p3(9, 3);
-    p3 <<
-       0.90, 0.05, 0.05, // 0, 0
-       0.70, 0.20, 0.10, // 0, 1
-       0.20, 0.50, 0.30, // 0, 2
-       0.05, 0.90, 0.05, // 1, 0
-       0.10, 0.70, 0.20, // 1, 1
-       0.20, 0.50, 0.30, // 1, 2
-       0.05, 0.05, 0.90, // 2, 0
-       0.20, 0.10, 0.70, // 2, 1
-       0.50, 0.10, 0.40  // 2, 2
-    ;
-    aif::BayesianNode f1{{0,1}, p1};
-    aif::BayesianNode f2{{1,2}, p2};
-    aif::BayesianNode f3{{0,2}, p3};
+    aif::BayesianNode f1{{0,1}, p};
+    aif::BayesianNode f2{{1,2}, p};
+    aif::BayesianNode f3{{0,2}, p};
     auto T = aif::BayesianNetwork{{f1, f2, f3}};
 
     ai::Vector w(2); w << 2.0, 3.0;
@@ -92,3 +68,48 @@ BOOST_AUTO_TEST_CASE( test_1 ) {
     }
 }
 
+BOOST_AUTO_TEST_CASE( parametric ) {
+    aif::State s{3,3,3};
+    ai::Matrix2D p1(9, 3); // x,y->z
+    p1 <<
+       0.90, 0.05, 0.05, // 0, 0
+       0.70, 0.20, 0.10, // 0, 1
+       0.20, 0.50, 0.30, // 0, 2
+       0.05, 0.90, 0.05, // 1, 0
+       0.10, 0.70, 0.20, // 1, 1
+       0.20, 0.50, 0.30, // 1, 2
+       0.05, 0.05, 0.90, // 2, 0
+       0.20, 0.10, 0.70, // 2, 1
+       0.50, 0.10, 0.40  // 2, 2
+    ;
+
+    ai::Matrix2D p2(3, 3);
+    p2.setIdentity();
+
+    std::vector<aif::BayesianNode> f{
+        {{0,1}, p1},
+        {{1,2}, p1},
+        {{0,2}, p1}
+    };
+
+    aif::BayesianDiffNode d1{0, {{0}, p2}};
+    aif::BayesianDiffNode d2{1, {{1}, p2}};
+    aif::BayesianDiffNode d3{2, {{2}, p2}};
+
+    auto T = aif::ParametricBayesianNetwork({{d1}, {d2}, {d3}}, {{f[0], f[1], f[2]}});
+
+    for (size_t a = 0; a < 3; ++a) {
+        auto tmp = T.makeDiffTransition(a);
+
+        for (size_t i = 0; i < 3; ++i) {
+            if (i == a) {
+                BOOST_CHECK_EQUAL(tmp[i].matrix, p2);
+                BOOST_CHECK_EQUAL(tmp[i].tag.size(), 1);
+                BOOST_CHECK_EQUAL(tmp[i].tag[0], i);
+            } else {
+                BOOST_CHECK_EQUAL(tmp[i].matrix, p1);
+                BOOST_CHECK_EQUAL(ai::veccmp(tmp[i].tag, f[i].tag), 0);
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@
 namespace AIToolbox::Factored::MDP {
 
     double Model::getTransitionProbability(const State & s, size_t a, const State & s1) const {
-        return transitions_[a].getTransitionProbability(S, s, s1);
+        return transitions_.makeDiffTransition(a).getTransitionProbability(S, s, s1);
     }
 
     double Model::getExpectedReward(const State & s, size_t a, const State &) const {
