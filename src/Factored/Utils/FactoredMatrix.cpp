@@ -84,6 +84,10 @@ namespace AIToolbox::Factored {
     }
 
     BasisFunction & plusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs) {
+        if (retval.tag.size() == rhs.tag.size()) {
+            retval.values += rhs.values;
+            return retval;
+        }
         size_t i = 0;
         PartialFactorsEnumerator e(space, retval.tag);
         while (e.isValid()) {
@@ -105,25 +109,18 @@ namespace AIToolbox::Factored {
         bool merged = false;
         for (size_t i = 0; i < initRetSize; ++i) {
             auto & curBasis = retval.bases[i];
-            if (basis.tag.size() == curBasis.tag.size() &&
-                    veccmp(basis.tag, curBasis.tag) == 0)
-            {
-                retval.bases[i].values += basis.values;
+
+            const auto retvalBigger = basis.tag.size() <= curBasis.tag.size();
+            const auto & minBasis = retvalBigger ? basis : curBasis;
+            const auto & maxBasis = retvalBigger ? curBasis : basis;
+
+            if (sequential_sorted_contains(maxBasis.tag, minBasis.tag)) {
+                if (retvalBigger)
+                    plusEqualSubset(space, curBasis, basis);
+                else
+                    curBasis = plusSubset(space, basis, curBasis);
                 merged = true;
                 break;
-            } else {
-                const auto retvalBigger = basis.tag.size() < curBasis.tag.size();
-                const auto & minBasis = retvalBigger ? basis : curBasis;
-                const auto & maxBasis = retvalBigger ? curBasis : basis;
-
-                if (sequential_sorted_contains(maxBasis.tag, minBasis.tag)) {
-                    if (retvalBigger)
-                        plusEqualSubset(space, curBasis, basis);
-                    else
-                        curBasis = plusSubset(space, basis, curBasis);
-                    merged = true;
-                    break;
-                }
             }
         }
         if (!merged)

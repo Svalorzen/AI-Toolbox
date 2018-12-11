@@ -8,10 +8,6 @@ namespace AIToolbox::Factored {
                 BayesianNetwork<false> defaultTransition
             ) : diffs_(std::move(diffs)), defaultTransition_(std::move(defaultTransition)) {}
 
-    const BayesianNetwork<false> & ParametricBayesianNetwork::getDefaultTransition() const {
-        return defaultTransition_;
-    }
-
     BayesianNetwork<true> ParametricBayesianNetwork::makeDiffTransition(const size_t a) const {
         BayesianNetwork<true> retval;
         size_t j = 0;
@@ -24,5 +20,13 @@ namespace AIToolbox::Factored {
             }
         }
         return retval;
+    }
+
+    const BayesianNetwork<false> & ParametricBayesianNetwork::getDefaultTransition() const {
+        return defaultTransition_;
+    }
+
+    const std::vector<std::vector<BayesianDiffNode>> & ParametricBayesianNetwork::getDiffNodes() const {
+        return diffs_;
     }
 }

@@ -6,7 +6,8 @@
 
 namespace AIToolbox::Factored::MDP {
     // Performs the bellman equation on a single action
-    inline FactoredVector bellmanEquation(const Factors & S, double discount, const BayesianNetwork & T, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
+    template <bool UseReference>
+    inline FactoredVector bellmanEquation(const Factors & S, double discount, const BayesianNetwork<UseReference> & T, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
         // Q = R + gamma * T * (A * w)
         FactoredVector Q = backProject(S, T, A * w);
         Q *= discount;

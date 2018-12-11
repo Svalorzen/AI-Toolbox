@@ -108,6 +108,8 @@ namespace AIToolbox {
      * the same. You should not use this function to compare floating point
      * numbers unless you know what you are doing.
      *
+     * Note: This function assumes that the inputs are equally sized.
+     *
      * @param lhs The left hand size of the comparison.
      * @param rhs The right hand size of the comparison.
      *
@@ -129,6 +131,8 @@ namespace AIToolbox {
      * Note that veccmpSmall considers two elements equal using the
      * checkEqualSmall function.
      *
+     * Note: This function assumes that the inputs are equally sized.
+     *
      * @param lhs The left hand size of the comparison.
      * @param rhs The right hand size of the comparison.
      *
@@ -147,8 +151,10 @@ namespace AIToolbox {
     /**
      * @brief This function compares two general vectors of equal size lexicographically.
      *
-     * Note that veccmpSmall considers two elements equal using the
-     * checkEqualGeneral function.
+     * This function considers two elements equal using the checkEqualGeneral
+     * function.
+     *
+     * Note: This function assumes that the inputs are equally sized.
      *
      * @param lhs The left hand size of the comparison.
      * @param rhs The right hand size of the comparison.
@@ -192,6 +198,9 @@ namespace AIToolbox {
     /**
      * @brief This function returns whether a sorted range contains another sorted range, via sequential scan.
      *
+     * Note: This function assumes that the contained vector is smaller or
+     * equal in size of the vector to be searched.
+     *
      * @tparam V The type of the vector to be scanned.
      * @param v The vector to be scanned.
      * @param elems The vector that must be contained.
@@ -200,7 +209,12 @@ namespace AIToolbox {
      */
     template <typename V>
     bool sequential_sorted_contains(const V & v, const V & elems) {
-        size_t i = 0, j = 0;
+        assert(elems.size() <= v.size());
+
+        if (v.size() == elems.size())
+            return veccmp(v, elems) == 0;
+
+        decltype(v.size()) i = 0, j = 0;
         while (j < elems.size()) {
             while (i < v.size() && v[i] < elems[j]) ++i;
             if (i == v.size() || v[i] > elems[j]) return false;

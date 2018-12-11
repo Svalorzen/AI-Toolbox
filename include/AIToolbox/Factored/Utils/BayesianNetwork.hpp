@@ -122,13 +122,6 @@ namespace AIToolbox::Factored {
             );
 
             /**
-             * @brief This function returns the default transition model.
-             *
-             * @return The default transition model.
-             */
-            const BayesianNetwork<false> & getDefaultTransition() const;
-
-            /**
              * @brief This function construct a BayesianNetwork for the specified parameter.
              *
              * The output is a network that contains references to nodes owned
@@ -140,6 +133,18 @@ namespace AIToolbox::Factored {
              * @return The BayesianNetwork for the specified parameter.
              */
             BayesianNetwork<true> makeDiffTransition(const size_t a) const;
+
+            /**
+             * @brief This function returns the default transition model.
+             *
+             * @return The default transition model.
+             */
+            const BayesianNetwork<false> & getDefaultTransition() const;
+
+            /**
+             * @brief This function returns the diff nodes for this ParametricBayesianNetwork.
+             */
+            const std::vector<std::vector<BayesianDiffNode>> & getDiffNodes() const;
 
         private:
             std::vector<std::vector<BayesianDiffNode>> diffs_;
