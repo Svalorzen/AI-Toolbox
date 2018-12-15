@@ -99,15 +99,25 @@ namespace AIToolbox::Factored {
 
     BasisFunction dot(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs);
     BasisFunction plus(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs);
+    BasisFunction minus(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs);
 
     BasisFunction plusSubset(const Factors & space, BasisFunction retval, const BasisFunction & rhs);
+    BasisFunction minusSubset(const Factors & space, BasisFunction retval, const BasisFunction & rhs);
+
     BasisFunction & plusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs);
+    BasisFunction & minusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs);
 
     FactoredVector plus(const Factors & space, FactoredVector retval, const BasisFunction & rhs);
     FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis);
 
+    FactoredVector minus(const Factors & space, FactoredVector retval, const BasisFunction & rhs, bool clearZero = false);
+    FactoredVector & minusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis, bool clearZero = false);
+
     FactoredVector plus(const Factors & space, FactoredVector retval, const FactoredVector & rhs);
     FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs);
+
+    FactoredVector minus(const Factors & space, FactoredVector retval, const FactoredVector & rhs, bool clearZero = false);
+    FactoredVector & minusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs, bool clearZero = false);
 
     FactoredVector operator*(FactoredVector lhs, const Vector & w);
     FactoredVector operator*(const Vector & w, FactoredVector rhs);

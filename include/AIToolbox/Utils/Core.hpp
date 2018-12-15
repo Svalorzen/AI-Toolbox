@@ -102,6 +102,56 @@ namespace AIToolbox {
     }
 
     /**
+     * @brief This function checks whether a given vector only contains the stated value.
+     *
+     * This function compares using checkEqualSmall(double, double);
+     *
+     * @return True if all elements are compared equal to the input.
+     */
+    template <typename V>
+    bool checkEqualSmall(const V & v, const double d) {
+        for (decltype(v.size()) i = 0; i < v.size(); ++i)
+            if (!checkEqualSmall(v[i], d)) return false;
+
+        return true;
+    }
+
+    /**
+     * @brief This function checks whether a given vector does not contain only the stated value.
+     *
+     * @return True if not all elements are equal to the input.
+     */
+    template <typename V>
+    bool checkDifferentSmall(const V & v, const double d) {
+        return !checkEqualSmall(v, d);
+    }
+
+    /**
+     * @brief This function checks whether a given vector only contains the stated value.
+     *
+     * This function compares using checkEqualGeneral(double, double);
+     *
+     * @return True if all elements are compared equal to the input.
+     */
+    template <typename V>
+    bool checkEqualGeneral(const V & v, const double d) {
+        for (decltype(v.size()) i = 0; i < v.size(); ++i)
+            if (!checkEqualGeneral(v[i], d)) return false;
+
+        return true;
+    }
+
+    /**
+     * @brief This function checks whether a given vector does not contain only the stated value.
+     *
+     * @return True if not all elements are equal to the input.
+     */
+    template <typename V>
+    bool checkDifferentGeneral(const V & v, const double d) {
+        return !checkEqualGeneral(v, d);
+    }
+
+    /**
      * @brief This function compares two general vectors of equal size lexicographically.
      *
      * Note that veccmp reports equality only if the elements are all exactly
