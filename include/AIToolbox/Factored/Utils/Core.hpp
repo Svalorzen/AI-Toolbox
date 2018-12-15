@@ -23,7 +23,32 @@ namespace AIToolbox::Factored {
      * @return True if all factors in common between the inputs match in value, false otherwise.
      */
     bool match(const PartialFactors & lhs, const PartialFactors & rhs);
+
+    /**
+     * @brief This function checks whether the two input Factors match at the specified ids.
+     *
+     * @param keys The ids to check.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return Whether the two Factors match at the specified ids.
+     */
     bool match(const PartialKeys & keys, const Factors & lhs, const Factors & rhs);
+
+    /**
+     * @brief This function checks whether the two input Factors match at the specified ids.
+     *
+     * Each check is performed on a pair of ids: one for the left hand side,
+     * and its respective one for the right hand side.
+     *
+     * \sa merge(const PartialKeys &, const PartialKeys &, std::vector<std::pair<size_t, size_t>> *)
+     *
+     * @param matches The id pairs to check.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return Whether the two Factors match at the specified ids.
+     */
     bool match(const std::vector<std::pair<size_t, size_t>> & matches, const Factors & lhs, const Factors & rhs);
 
     /**
