@@ -10,7 +10,7 @@ namespace AIToolbox::Factored::MDP {
     //     Reserve memory in advance for both rows and cols.
     //     Remove initial variables - "paste" them in.
 
-    std::optional<Vector> FactoredLP::operator()(const FactoredVector & C, const FactoredVector & b) {
+    std::optional<Vector> FactoredLP::operator()(const FactoredVector & C, const FactoredVector & b, bool addConstantBasis) {
         // Clear everything so we can use this function multiple times.
         Graph graph(S.size());
         std::vector<size_t> finalFactors;
@@ -45,7 +45,8 @@ namespace AIToolbox::Factored::MDP {
         // (in particular, two per each VE rule, as we want to maximize over an
         // absolute value, so we do it "forward and backward").
 
-        const auto phiId = C.bases.size(); // Skip ws since we want to extract those later.
+        const auto phiId = C.bases.size() + (addConstantBasis); // Skip ws since we want to extract those later.
+
         size_t startingVars = phiId + 1;   // ws + phi
         for (const auto & f : C.bases) startingVars += f.values.size() * 2;
         for (const auto & f : b.bases) startingVars += f.values.size() * 2;
@@ -54,6 +55,10 @@ namespace AIToolbox::Factored::MDP {
         LP lp(startingVars);
         lp.setObjective(phiId, false); // Minimize phi
         lp.row.fill(0.0);
+
+        // Compute constant basis useful values (only used if needed)
+        const auto constBasisId = phiId - 1;
+        const double constBasisCoeff = 1.0 / C.bases.size();
 
         // In this initial setup, we simply kind of give a "name"/"variable" to
         // each assignment of the original Cw and b functions - note that all
@@ -71,11 +76,13 @@ namespace AIToolbox::Factored::MDP {
             for (size_t i = 0; i < static_cast<size_t>(f.values.size()); ++i) {
                 lp.row[currentRule] = -1.0;
                 lp.row[wi] = f.values[i];
+                if (addConstantBasis) lp.row[constBasisId] = constBasisCoeff;
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule] = 0.0;
 
                 lp.row[currentRule+1] = -1.0;
                 lp.row[wi] = -f.values[i];
+                if (addConstantBasis) lp.row[constBasisId] = -constBasisCoeff;
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule+1] = 0.0;
 
@@ -84,6 +91,8 @@ namespace AIToolbox::Factored::MDP {
             }
             lp.row[wi++] = 0.0;
         }
+        lp.row[constBasisId] = 0.0;
+
         // Here signs are opposite to those of C since we need to find (Cw - b)
         // and (b - Cw)
         for (const auto & f : b.bases) {

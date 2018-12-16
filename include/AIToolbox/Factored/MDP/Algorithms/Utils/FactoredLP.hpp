@@ -62,12 +62,22 @@ namespace AIToolbox::Factored::MDP {
              * algorithm calling us wants to do, so we defer responsibility to
              * it.
              *
+             * This function allows to optionally request the usage of a
+             * constant basis for C. A constant basis has a value of 1 for
+             * every possible state. We don't want to a constant basis
+             * explicitly to C as (1) VE won't work and (2) it requires
+             * specifying an explicit value of 1 for every possible state,
+             * which is infeasible. If a constant basis is requested, the
+             * return value will contain an additional coefficient at the end
+             * for the constant basis.
+             *
              * @param C The basis functions used to approximate the Value Function.
              * @param b The Value Function to approximate.
+             * @param addConstantBasis Whether we should include an impled constant basis for C.
              *
              * @return The coefficients used to linearly combine the basis functions.
              */
-            std::optional<Vector> operator()(const FactoredVector & C, const FactoredVector & b);
+            std::optional<Vector> operator()(const FactoredVector & C, const FactoredVector & b, bool addConstantBasis = false);
 
         private:
             using Rule = std::tuple<PartialState, size_t>;
