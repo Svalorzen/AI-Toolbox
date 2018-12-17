@@ -325,8 +325,10 @@ namespace AIToolbox::MDP {
             if (visits > 0)
                 transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
         }
-        if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
-            rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a) * visitSumReciprocal;
+
+        const double rewValue = experience_.getRewardSum(s, a) * visitSumReciprocal;
+        if (checkDifferentGeneral(rewValue, rewards_.coeff(s, a)))
+            rewards_.coeffRef(s, a) = rewValue;
     }
 
     template <typename E>
@@ -342,9 +344,10 @@ namespace AIToolbox::MDP {
                 rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a) / visitSum;
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
+            const double rewValue = experience_.getRewardSum(s, a) / visitSum;
 
-            if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
-                rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a) / visitSum;
+            if (checkDifferentGeneral(rewValue, rewards_.coeff(s, a)))
+                rewards_.coeffRef(s, a) = rewValue;
 
             const double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
             const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a].coeff(s, s1));

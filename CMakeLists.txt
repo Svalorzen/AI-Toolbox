@@ -134,7 +134,7 @@ message("")
 ##       Dependencies       ##
 ##############################
 
-set(BOOST_VERSION_REQUIRED 1.54)
+set(BOOST_VERSION_REQUIRED 1.59)
 set(EIGEN_VERSION_REQUIRED 3.2.92)
 
 # Optional to force Boost to use static libraries. Can be useful on Windows.

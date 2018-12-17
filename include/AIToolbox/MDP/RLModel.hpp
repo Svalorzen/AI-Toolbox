@@ -320,8 +320,8 @@ namespace AIToolbox::MDP {
         // while we reset those by forcing a true update using real data.
         if ( !(visitSum % 10000ul) ) return sync(s, a);
         if ( visitSum == 1ul ) {
-            transitions_[a].coeffRef(s, s) = 0.0;
-            transitions_[a].coeffRef(s, s1) = 1.0;
+            transitions_[a](s, s) = 0.0;
+            transitions_[a](s, s1) = 1.0;
             rewards_(s, a) = experience_.getReward(s, a, s1);
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));

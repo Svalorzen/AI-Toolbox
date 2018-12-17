@@ -141,6 +141,10 @@ void exportTypes() {
         .def(vector_indexing_suite<std::vector<size_t>>());
     VectorFromPython<size_t>();
 
+    // std::vector<unsigned> (counts...)
+    class_<std::vector<unsigned>>{"vec_uint"}
+        .def(vector_indexing_suite<std::vector<unsigned>>());
+
     // vector of Vectors, because why not
     class_<std::vector<Vector>>{"vec_eigen_v"}
         .def(vector_indexing_suite<std::vector<Vector>>());
