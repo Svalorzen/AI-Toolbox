@@ -2,6 +2,8 @@
 
 class NamespaceBandit{};
 
+void exportBanditRollingAverage();
+
 void exportBanditPolicyInterface();
 
 void exportBanditQGreedyPolicy();
@@ -20,6 +22,8 @@ void exportBandit() {
     bp::scope().attr("Bandit") = newModule;
     // Set the scope for the exports to the new module.
     bp::scope currentScope = newModule;
+
+    exportBanditRollingAverage();
 
     exportBanditPolicyInterface();
 

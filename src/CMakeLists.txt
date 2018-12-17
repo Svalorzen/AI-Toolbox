@@ -98,6 +98,7 @@ if (MAKE_PYTHON)
     if (MAKE_MDP)
         set(PYTHON_FILES ${PYTHON_FILES}
             # Bandits
+            Python/Bandit/Algorithms/RollingAverage.cpp
             Python/Bandit/Policies/PolicyInterface.cpp
             Python/Bandit/Policies/QGreedyPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
