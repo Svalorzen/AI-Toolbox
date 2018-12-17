@@ -9,7 +9,7 @@ namespace AIToolbox::Bandit {
     template <typename V, typename Gen>
     class QSoftmaxPolicyWrapper {
         public:
-            QSoftmaxPolicyWrapper(double t, V q, std::vector<size_t> & buffer, Gen & gen);
+            QSoftmaxPolicyWrapper(double t, V q, Vector & valueBuffer, std::vector<size_t> & buffer, Gen & gen);
 
             size_t sampleAction();
             double getActionProbability(size_t a) const;
@@ -19,21 +19,22 @@ namespace AIToolbox::Bandit {
         private:
             double temperature_;
             V q_;
+            Vector & valueBuffer_;
             std::vector<size_t> & buffer_;
             Gen & rand_;
     };
 
     // If we get a temporary, we copy it.
     template <typename V, typename Gen>
-    QSoftmaxPolicyWrapper(double, const V &&, std::vector<size_t>&, Gen &) -> QSoftmaxPolicyWrapper<V, Gen>;
+    QSoftmaxPolicyWrapper(double, const V &&, Vector &, std::vector<size_t>&, Gen &) -> QSoftmaxPolicyWrapper<V, Gen>;
 
     // If we get a reference, we store a reference.
     template <typename V, typename Gen>
-    QSoftmaxPolicyWrapper(double, const V &, std::vector<size_t>&, Gen &) -> QSoftmaxPolicyWrapper<const V &, Gen>;
+    QSoftmaxPolicyWrapper(double, const V &, Vector &, std::vector<size_t>&, Gen &) -> QSoftmaxPolicyWrapper<const V &, Gen>;
 
     template <typename V, typename Gen>
-    QSoftmaxPolicyWrapper<V, Gen>::QSoftmaxPolicyWrapper(double t, V q, std::vector<size_t> & buffer, Gen & gen)
-            : temperature_(t), q_(std::move(q)), buffer_(buffer), rand_(gen)
+    QSoftmaxPolicyWrapper<V, Gen>::QSoftmaxPolicyWrapper(double t, V q, Vector & vb, std::vector<size_t> & buffer, Gen & gen)
+            : temperature_(t), q_(std::move(q)), valueBuffer_(vb), buffer_(buffer), rand_(gen)
     {
         assert(q_.size() == buffer_.size());
     }
@@ -45,11 +46,11 @@ namespace AIToolbox::Bandit {
             return wrap.sampleAction();
         }
 
-        Vector actionValues = (q_ / temperature_).array().exp();
+        valueBuffer_ = (q_ / temperature_).array().exp();
 
         unsigned infinities = 0;
         for ( size_t a = 0; a < buffer_.size(); ++a )
-            if ( std::isinf(actionValues(a)) )
+            if ( std::isinf(valueBuffer_(a)) )
                 buffer_[infinities++] = a;
 
         if (infinities) {
@@ -58,9 +59,9 @@ namespace AIToolbox::Bandit {
 
             return buffer_[selection];
         } else {
-            actionValues /= actionValues.sum();
+            valueBuffer_ /= valueBuffer_.sum();
 
-            return sampleProbability(buffer_.size(), actionValues, rand_);
+            return sampleProbability(buffer_.size(), valueBuffer_, rand_);
         }
     }
 
@@ -71,12 +72,12 @@ namespace AIToolbox::Bandit {
             return wrap.getActionProbability(a);
         }
 
-        Vector actionValues = (q_ / temperature_).array().exp();
+        valueBuffer_ = (q_ / temperature_).array().exp();
 
         bool isAInfinite = false;
         unsigned infinities = 0;
         for ( size_t aa = 0; aa < buffer_.size(); ++aa ) {
-            if ( std::isinf(actionValues(aa)) ) {
+            if ( std::isinf(valueBuffer_(aa)) ) {
                 infinities++;
                 isAInfinite |= (aa == a);
             }
@@ -85,7 +86,7 @@ namespace AIToolbox::Bandit {
             if ( isAInfinite ) return 1.0 / infinities;
             return 0.0;
         }
-        return actionValues(a) / actionValues.sum();
+        return valueBuffer_(a) / valueBuffer_.sum();
     }
 
     template <typename V, typename Gen>

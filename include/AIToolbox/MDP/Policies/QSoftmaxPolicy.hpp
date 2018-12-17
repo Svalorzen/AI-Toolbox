@@ -103,6 +103,7 @@ namespace AIToolbox::MDP {
             double temperature_;
             // To avoid reallocating a vector every time for sampling.
             mutable std::vector<size_t> bestActions_;
+            mutable Vector vbuffer_;
     };
 }
 

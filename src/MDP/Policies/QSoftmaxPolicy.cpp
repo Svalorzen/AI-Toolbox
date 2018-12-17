@@ -5,18 +5,18 @@
 namespace AIToolbox::MDP {
     QSoftmaxPolicy::QSoftmaxPolicy(const QFunction & q, const double t) :
             PolicyInterface::Base(q.rows(), q.cols()), QPolicyInterface(q),
-            temperature_(t), bestActions_(A)
+            temperature_(t), bestActions_(A), vbuffer_(A)
     {
         if ( temperature_ < 0.0 ) throw std::invalid_argument("Temperature must be >= 0");
     }
 
     size_t QSoftmaxPolicy::sampleAction(const size_t & s) const {
-        auto wrap = Bandit::QSoftmaxPolicyWrapper(temperature_, q_.row(s), bestActions_, rand_);
+        auto wrap = Bandit::QSoftmaxPolicyWrapper(temperature_, q_.row(s), vbuffer_, bestActions_, rand_);
         return wrap.sampleAction();
     }
 
     double QSoftmaxPolicy::getActionProbability(const size_t & s, const size_t & a) const {
-        auto wrap = Bandit::QSoftmaxPolicyWrapper(temperature_, q_.row(s), bestActions_, rand_);
+        auto wrap = Bandit::QSoftmaxPolicyWrapper(temperature_, q_.row(s), vbuffer_, bestActions_, rand_);
         return wrap.getActionProbability(a);
     }
 
@@ -24,7 +24,7 @@ namespace AIToolbox::MDP {
         Matrix2D retval(S, A);
 
         for (size_t s = 0; s < S; ++s) {
-            auto wrap = Bandit::QSoftmaxPolicyWrapper(temperature_, q_.row(s), bestActions_, rand_);
+            auto wrap = Bandit::QSoftmaxPolicyWrapper(temperature_, q_.row(s), vbuffer_, bestActions_, rand_);
             wrap.getPolicy(retval.row(s));
         }
 
