@@ -6,16 +6,71 @@
 #include <AIToolbox/Bandit/Policies/Utils/QGreedyPolicyWrapper.hpp>
 
 namespace AIToolbox::Bandit {
+    /**
+     * @brief This class implements some basic softmax policy primitives.
+     *
+     * Since the basic operations on discrete vectors to select an action with
+     * softmax are the same both in Bandits and in MDPs, we implement them once
+     * here. This class operates on references, so that it does not need to
+     * allocate memory and we can keep using the most appropriate storage for
+     * whatever problem we are actually working on.
+     *
+     * Note that you shouldn't really need to specify the template parameters
+     * by hand.
+     */
     template <typename V, typename Gen>
     class QSoftmaxPolicyWrapper {
         public:
+            /**
+             * @brief Basic constructor.
+             *
+             * @param t The temperature to use.
+             * @param q A reference to the QFunction to use.
+             * @param valueBuffer A buffer to compute softmax values.
+             * @param buffer A buffer to determine which action to take in case of equalities.
+             * @param gen A random engine.
+             */
             QSoftmaxPolicyWrapper(double t, V q, Vector & valueBuffer, std::vector<size_t> & buffer, Gen & gen);
 
+            /**
+             * @brief This function chooses an action for state s with probability dependent on value.
+             *
+             * This class implements softmax through the Boltzmann
+             * distribution. Thus an action will be chosen with
+             * probability:
+             *
+             * \f[
+             *      P(a) = \frac{e^{(Q(a)/t)})}{\sum_b{e^{(Q(b)/t)}}}
+             * \f]
+             *
+             * where t is the temperature. This value is not cached anywhere, so
+             * continuous sampling may not be extremely fast.
+             *
+             * @return The chosen action.
+             */
             size_t sampleAction();
+
+            /**
+             * @brief This function returns the probability of taking the specified action in the specified state.
+             *
+             * \sa sampleAction();
+             *
+             * @param a The selected action.
+             *
+             * @return The probability of taking the specified action in the specified state.
+             */
             double getActionProbability(size_t a) const;
 
+            /**
+             * @brief This function writes in a vector all probabilities of the policy.
+             *
+             * Ideally this function can be called only when there is a
+             * repeated need to access the same policy values in an
+             * efficient manner.
+             */
             template <typename P>
             void getPolicy(P && p) const;
+
         private:
             double temperature_;
             V q_;

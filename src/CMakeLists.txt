@@ -102,6 +102,7 @@ if (MAKE_PYTHON)
             Python/Bandit/Algorithms/RollingAverage.cpp
             Python/Bandit/Policies/PolicyInterface.cpp
             Python/Bandit/Policies/QGreedyPolicy.cpp
+            Python/Bandit/Policies/QSoftmaxPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
             Python/Bandit/Policies/LRPPolicy.cpp
             Python/Bandit/Policies/ESRLPolicy.cpp

@@ -6,10 +6,17 @@
 
 namespace AIToolbox::Bandit {
     /**
-     * @brief This class models a simple softmax policy.
+     * @brief This class models a softmax policy through a QFunction.
      *
-     * This class always selects the greediest action with respect to the
-     * already obtained experience.
+     * A softmax policy is a policy that selects actions based on their
+     * expected reward: the more advantageous an action seems to be, the more
+     * probable its selection is. There are many ways to implement a softmax
+     * policy, this class implements selection using the most common method of
+     * sampling from a Boltzmann distribution.
+     *
+     * As the epsilon-policy, this type of policy is useful to force the agent
+     * to explore an unknown model, in order to gain new information to refine
+     * it and thus gain more reward.
      */
     class QSoftmaxPolicy : public PolicyInterface {
         public:
@@ -18,28 +25,34 @@ namespace AIToolbox::Bandit {
              *
              * @param A The size of the action space.
              */
-            QSoftmaxPolicy(const QFunction & q, double t);
+            QSoftmaxPolicy(const QFunction & q, double t = 1.0);
 
             /**
-             * @brief This function chooses the greediest action.
+             * @brief This function chooses an action for state s with probability dependent on value.
              *
-             * If multiple actions would be equally as greedy, a random one
-             * is returned.
+             * This class implements softmax through the Boltzmann
+             * distribution. Thus an action will be chosen with
+             * probability:
+             *
+             * \f[
+             *      P(a) = \frac{e^{(Q(a)/t)})}{\sum_b{e^{(Q(b)/t)}}}
+             * \f]
+             *
+             * where t is the temperature. This value is not cached anywhere, so
+             * continuous sampling may not be extremely fast.
              *
              * @return The chosen action.
              */
             virtual size_t sampleAction() const override;
 
             /**
-             * @brief This function returns the probability of taking the specified action.
+             * @brief This function returns the probability of taking the specified action in the specified state.
              *
-             * If multiple greedy actions exist, this function returns the
-             * correct probability of picking each one, since we return a
-             * random one with sampleAction().
+             * \sa sampleAction();
              *
              * @param a The selected action.
              *
-             * @return This function returns 0 if the action is not greedy, and 1/the number of greedy actions otherwise.
+             * @return The probability of taking the specified action in the specified state.
              */
             virtual double getActionProbability(const size_t & a) const override;
 
