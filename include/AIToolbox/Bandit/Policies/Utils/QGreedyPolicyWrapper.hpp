@@ -5,14 +5,60 @@
 #include <AIToolbox/Bandit/Types.hpp>
 
 namespace AIToolbox::Bandit {
+    /**
+     * @brief This class implements some basic greedy policy primitives.
+     *
+     * Since the basic operations on discrete vectors to select an action
+     * greedily are the same both in Bandits and in MDPs, we implement them
+     * once here. This class operates on references, so that it does not need
+     * to allocate memory and we can keep using the most appropriate storage
+     * for whatever problem we are actually working on.
+     *
+     * Note that you shouldn't really need to specify the template parameters
+     * by hand.
+     */
     template <typename V, typename Gen>
     class QGreedyPolicyWrapper {
         public:
+            /**
+             * @brief Basic constructor.
+             *
+             * @param q Reference to the QFunction to operate on.
+             * @param buffer A buffer space free to use (will be overwritten).
+             * @param gen A random number generator.
+             */
             QGreedyPolicyWrapper(V q, std::vector<size_t> & buffer, Gen & gen);
 
+            /**
+             * @brief This function chooses the greediest action.
+             *
+             * If multiple actions would be equally as greedy, a random one
+             * is returned.
+             *
+             * @return The chosen action.
+             */
             size_t sampleAction();
+
+            /**
+             * @brief This function returns the probability of taking the specified action.
+             *
+             * If multiple greedy actions exist, this function returns the
+             * correct probability of picking each one, since we return a
+             * random one with sampleAction().
+             *
+             * @param a The selected action.
+             *
+             * @return This function returns 0 if the action is not greedy, and 1/the number of greedy actions otherwise.
+             */
             double getActionProbability(size_t a) const;
 
+            /**
+             * @brief This function writes in a vector all probabilities of the policy.
+             *
+             * Ideally this function can be called only when there is a
+             * repeated need to access the same policy values in an
+             * efficient manner.
+             */
             template <typename P>
             void getPolicy(P && p) const;
 
@@ -22,9 +68,11 @@ namespace AIToolbox::Bandit {
             Gen & rand_;
     };
 
+    // If we get a temporary, we copy it.
     template <typename V, typename Gen>
     QGreedyPolicyWrapper(const V &&, std::vector<size_t>&, Gen &) -> QGreedyPolicyWrapper<V, Gen>;
 
+    // If we get a reference, we store a reference.
     template <typename V, typename Gen>
     QGreedyPolicyWrapper(const V &, std::vector<size_t>&, Gen &) -> QGreedyPolicyWrapper<const V &, Gen>;
 
