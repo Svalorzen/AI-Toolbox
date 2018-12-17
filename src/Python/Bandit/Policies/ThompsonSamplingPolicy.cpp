@@ -3,10 +3,10 @@
 #include <boost/python.hpp>
 
 void exportBanditThompsonSamplingPolicy() {
-    using namespace AIToolbox;
+    using namespace AIToolbox::Bandit;
     using namespace boost::python;
 
-    class_<Bandit::ThompsonSamplingPolicy, bases<Bandit::PolicyInterface>>{"ThompsonSamplingPolicy",
+    class_<ThompsonSamplingPolicy, bases<PolicyInterface>>{"ThompsonSamplingPolicy",
 
          "This class models a Thompson sampling policy.\n"
          "\n"
@@ -26,25 +26,11 @@ void exportBanditThompsonSamplingPolicy() {
          "reward. Another implementation (not provided here) uses Beta\n"
          "distributions to handle Bernoulli distributed rewards.", no_init}
 
-        .def(init<size_t>(
+        .def(init<const QFunction &, const std::vector<unsigned> &>(
                  "Basic constructor.\n"
                  "\n"
-                 "@param A The size of the action space."
-        , (arg("self"), "A")))
-
-        .def("stepUpdateP",             &Bandit::ThompsonSamplingPolicy::stepUpdateP,
-                 "This function updates the policy based on the result of the action.\n"
-                 "\n"
-                 "We simply keep a rolling average for each action, which we\n"
-                 "update here. Each average and count will then be used as\n"
-                 "parameters for the Normal distribution used to decide which\n"
-                 "action to sample later.\n"
-                 "\n"
-                 "Note that we expect a normalized reward here in order to\n"
-                 "easily compare the various actions during Normal sampling.\n"
-                 "\n"
-                 "@param a The action taken.\n"
-                 "@param r The reward obtained, in a [0,1] range."
-        , (arg("self"), "a", "r"));
+                 "@param q The QFunction to use for the means\n"
+                 "@param counts The counts for each tried action"
+        , (arg("self"), "q", "counts")));
 }
 

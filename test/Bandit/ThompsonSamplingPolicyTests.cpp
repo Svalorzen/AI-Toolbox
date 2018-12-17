@@ -5,13 +5,15 @@
 
 #include <array>
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Bandit/Algorithms/RollingAverage.hpp>
 #include <AIToolbox/Bandit/Policies/ThompsonSamplingPolicy.hpp>
 
 BOOST_AUTO_TEST_CASE( sampling ) {
     using namespace AIToolbox;
     constexpr size_t A = 3;
 
-    Bandit::ThompsonSamplingPolicy p(A);
+    Bandit::RollingAverage ra(A);
+    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getCounts());
 
     std::array<unsigned, A> counts{{0,0,0}};
     for (unsigned i = 0; i < 1000; ++i)
@@ -22,16 +24,16 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     BOOST_CHECK(counts[1] > 200);
     BOOST_CHECK(counts[2] > 200);
 
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
 
     // Reset counts
     std::fill(std::begin(counts), std::end(counts), 0);
@@ -48,23 +50,24 @@ BOOST_AUTO_TEST_CASE( probability ) {
     using namespace AIToolbox;
     constexpr size_t A = 3;
 
-    Bandit::ThompsonSamplingPolicy p(A);
+    Bandit::RollingAverage ra(A);
+    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getCounts());
 
     for (unsigned i = 0; i < A; ++i) {
         const auto pp = p.getActionProbability(i);
         BOOST_CHECK(0.30 < pp && pp < 0.35);
     }
 
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(1, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
-    p.stepUpdateP(2, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(1, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
+    ra.stepUpdateQ(2, 1.0);
 
     const auto p0 = p.getActionProbability(0);
     const auto p1 = p.getActionProbability(1);

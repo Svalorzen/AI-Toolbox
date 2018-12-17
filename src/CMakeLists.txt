@@ -7,7 +7,8 @@ if (MAKE_MDP)
         Utils/Combinatorics.cpp
         Utils/Probability.cpp
         Utils/Polytope.cpp
-        Bandit/Policies/GreedyPolicy.cpp
+        Bandit/Algorithms/RollingAverage.cpp
+        Bandit/Policies/QGreedyPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
         Bandit/Policies/LRPPolicy.cpp
         Bandit/Policies/ESRLPolicy.cpp
@@ -98,7 +99,7 @@ if (MAKE_PYTHON)
         set(PYTHON_FILES ${PYTHON_FILES}
             # Bandits
             Python/Bandit/Policies/PolicyInterface.cpp
-            Python/Bandit/Policies/GreedyPolicy.cpp
+            Python/Bandit/Policies/QGreedyPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
             Python/Bandit/Policies/LRPPolicy.cpp
             Python/Bandit/Policies/ESRLPolicy.cpp

@@ -4,7 +4,7 @@ class NamespaceBandit{};
 
 void exportBanditPolicyInterface();
 
-void exportBanditGreedyPolicy();
+void exportBanditQGreedyPolicy();
 void exportBanditThompsonSamplingPolicy();
 
 void exportBanditLRPPolicy();
@@ -23,7 +23,7 @@ void exportBandit() {
 
     exportBanditPolicyInterface();
 
-    exportBanditGreedyPolicy();
+    exportBanditQGreedyPolicy();
     exportBanditThompsonSamplingPolicy();
 
     exportBanditLRPPolicy();

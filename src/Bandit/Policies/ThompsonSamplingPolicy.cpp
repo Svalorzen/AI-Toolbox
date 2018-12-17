@@ -3,24 +3,18 @@
 #include <random>
 
 namespace AIToolbox::Bandit {
-    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const size_t A) : Base(A), experience_(A) {}
-
-    void ThompsonSamplingPolicy::stepUpdateP(const size_t a, const double reward) {
-        auto & [avg, tries] = experience_[a];
-        // Rolling average for this bandit arm
-        avg = (tries * avg + reward) / (tries + 1);
-        ++tries;
-    }
+    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const QFunction & q, const std::vector<unsigned> & counts) :
+            Base(q.size()), q_(q), counts_(counts) {}
 
     size_t ThompsonSamplingPolicy::sampleAction() const {
         size_t bestAction = 0;
         double bestValue;
         {
-            std::normal_distribution<double> dist(experience_[0].first, 1.0 / (experience_[0].second + 1));
+            std::normal_distribution<double> dist(q_[0], 1.0 / (counts_[0] + 1));
             bestValue = dist(rand_);
         }
         for ( size_t a = 1; a < A; ++a ) {
-            std::normal_distribution<double> dist(experience_[a].first, 1.0 / (experience_[a].second + 1));
+            std::normal_distribution<double> dist(q_[a], 1.0 / (counts_[a] + 1));
             const auto val = dist(rand_);
 
             if ( val > bestValue ) {
@@ -50,7 +44,7 @@ namespace AIToolbox::Bandit {
         dists.reserve(A);
 
         for (size_t aa = 0; aa < A; ++aa)
-            dists.emplace_back(experience_[aa].first, 1.0 / (experience_[aa].second + 1));
+            dists.emplace_back(q_[aa], 1.0 / (counts_[aa] + 1));
 
         for (size_t i = 0; i < trials; ++i) {
             size_t bestAction = 0;
@@ -88,7 +82,7 @@ namespace AIToolbox::Bandit {
         dists.reserve(A);
 
         for (size_t aa = 0; aa < A; ++aa)
-            dists.emplace_back(experience_[aa].first, 1.0 / (experience_[aa].second + 1));
+            dists.emplace_back(q_[aa], 1.0 / (counts_[aa] + 1));
 
         for (size_t i = 0; i < trials; ++i) {
             size_t bestAction = 0;

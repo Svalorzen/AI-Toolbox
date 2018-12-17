@@ -43,7 +43,7 @@ if (MAKE_MDP)
     AddTestGlobal(UtilsPrune)
     AddTestGlobal(UtilsPolytope)
 
-    AddTest(Bandit GreedyPolicy)
+    AddTest(Bandit QGreedyPolicy)
     AddTest(Bandit ThompsonSamplingPolicy)
     AddTest(Bandit LRPPolicy)
     AddTest(Bandit ESRLPolicy)

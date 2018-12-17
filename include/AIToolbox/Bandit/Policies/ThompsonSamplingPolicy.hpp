@@ -1,20 +1,19 @@
 #ifndef AI_TOOLBOX_BANDIT_THOMPSON_SAMPLING_POLICY_HEADER_FILE
 #define AI_TOOLBOX_BANDIT_THOMPSON_SAMPLING_POLICY_HEADER_FILE
 
+#include <random>
+
+#include <AIToolbox/Bandit/Types.hpp>
 #include <AIToolbox/Bandit/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::Bandit {
     /**
      * @brief This class models a Thompson sampling policy.
      *
-     * This class keeps a record of the rewards obtained by each action, and
-     * chooses them with a stochastic policy which is proportional to the
-     * goodness of each action.
-     *
-     * It uses the Normal distribution in order to estimate its certainty about
-     * each arm average reward. Thus, each arm is estimated through a Normal
-     * distribution centered on the average for the arm, with decreasing
-     * variance as more experience is gathered.
+     * This class uses the Normal distribution in order to estimate its
+     * certainty about each arm average reward. Thus, each arm is estimated
+     * through a Normal distribution centered on the average for the arm, with
+     * decreasing variance as more experience is gathered.
      *
      * Note that this class assumes that the reward obtained is normalized into
      * a [0,1] range (which it does not check).
@@ -28,25 +27,10 @@ namespace AIToolbox::Bandit {
             /**
              * @brief Basic constructor.
              *
-             * @param A The size of the action space.
+             * @param q The QFunction to use as means for each actions.
+             * @param counts The number of times each action has been tried before.
              */
-            ThompsonSamplingPolicy(size_t A);
-
-            /**
-             * @brief This function updates the policy based on the result of the action.
-             *
-             * We simply keep a rolling average for each action, which we
-             * update here. Each average and count will then be used as
-             * parameters for the Normal distribution used to decide which
-             * action to sample later.
-             *
-             * Note that we expect a normalized reward here in order to
-             * easily compare the various actions during Normal sampling.
-             *
-             * @param a The action taken.
-             * @param r The reward obtained, in a [0,1] range.
-             */
-            void stepUpdateP(size_t a, double r);
+            ThompsonSamplingPolicy(const QFunction & q, const std::vector<unsigned> & counts);
 
             /**
              * @brief This function chooses an action using Thompson sampling.
@@ -87,8 +71,8 @@ namespace AIToolbox::Bandit {
             virtual Vector getPolicy() const override;
 
         private:
-            // Average reward/tries per action
-            std::vector<std::pair<double, unsigned>> experience_;
+            const QFunction & q_;
+            const std::vector<unsigned> & counts_;
     };
 }
 

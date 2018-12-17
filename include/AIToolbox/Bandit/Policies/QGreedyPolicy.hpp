@@ -1,6 +1,7 @@
 #ifndef AI_TOOLBOX_BANDIT_GREEDY_POLICY_HEADER_FILE
 #define AI_TOOLBOX_BANDIT_GREEDY_POLICY_HEADER_FILE
 
+#include <AIToolbox/Bandit/Types.hpp>
 #include <AIToolbox/Bandit/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::Bandit {
@@ -10,26 +11,14 @@ namespace AIToolbox::Bandit {
      * This class always selects the greediest action with respect to the
      * already obtained experience.
      */
-    class GreedyPolicy : public PolicyInterface {
+    class QGreedyPolicy : public PolicyInterface {
         public:
             /**
              * @brief Basic constructor.
              *
              * @param A The size of the action space.
              */
-            GreedyPolicy(size_t A);
-
-            /**
-             * @brief This function updates the greedy policy based on the result of the action.
-             *
-             * We simply keep a rolling average for each action, which we
-             * update here. The ones with the best average are the ones which
-             * will be selected when sampling.
-             *
-             * @param a The action taken.
-             * @param r The reward obtained.
-             */
-            void stepUpdateP(size_t a, double r);
+            QGreedyPolicy(const QFunction & q);
 
             /**
              * @brief This function chooses the greediest action.
@@ -64,10 +53,9 @@ namespace AIToolbox::Bandit {
             virtual Vector getPolicy() const override;
 
         private:
-            // Average reward/tries per action
-            std::vector<std::pair<double, unsigned>> experience_;
+            const QFunction & q_;
             // To avoid reallocating a vector every time for sampling.
-            mutable std::vector<unsigned> bestActions_;
+            mutable std::vector<size_t> bestActions_;
     };
 }
 
