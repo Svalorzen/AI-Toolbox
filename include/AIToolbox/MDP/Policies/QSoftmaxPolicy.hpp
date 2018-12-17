@@ -101,7 +101,8 @@ namespace AIToolbox::MDP {
 
         private:
             double temperature_;
-            QGreedyPolicy greedy_;
+            // To avoid reallocating a vector every time for sampling.
+            mutable std::vector<size_t> bestActions_;
     };
 }
 
