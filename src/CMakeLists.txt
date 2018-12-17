@@ -9,6 +9,7 @@ if (MAKE_MDP)
         Utils/Polytope.cpp
         Bandit/Algorithms/RollingAverage.cpp
         Bandit/Policies/QGreedyPolicy.cpp
+        Bandit/Policies/QSoftmaxPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
         Bandit/Policies/LRPPolicy.cpp
         Bandit/Policies/ESRLPolicy.cpp
