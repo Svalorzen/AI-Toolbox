@@ -8,6 +8,7 @@ if (MAKE_MDP)
         Utils/Probability.cpp
         Utils/Polytope.cpp
         Bandit/Algorithms/RollingAverage.cpp
+        Bandit/Policies/EpsilonPolicy.cpp
         Bandit/Policies/QGreedyPolicy.cpp
         Bandit/Policies/QSoftmaxPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
@@ -101,6 +102,7 @@ if (MAKE_PYTHON)
             # Bandits
             Python/Bandit/Algorithms/RollingAverage.cpp
             Python/Bandit/Policies/PolicyInterface.cpp
+            Python/Bandit/Policies/EpsilonPolicy.cpp
             Python/Bandit/Policies/QGreedyPolicy.cpp
             Python/Bandit/Policies/QSoftmaxPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp

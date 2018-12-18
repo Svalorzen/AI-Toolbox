@@ -1,10 +1,10 @@
-#include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
-#include <AIToolbox/MDP/Policies/PolicyInterface.hpp>
+#include <AIToolbox/Bandit/Policies/EpsilonPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/PolicyInterface.hpp>
 
 #include <boost/python.hpp>
 
-void exportMDPEpsilonPolicy() {
-    using namespace AIToolbox::MDP;
+void exportBanditEpsilonPolicy() {
+    using namespace AIToolbox::Bandit;
     using namespace boost::python;
 
     class_<EpsilonPolicy, bases<PolicyInterface>>{"EpsilonPolicy",
@@ -42,22 +42,19 @@ void exportMDPEpsilonPolicy() {
              "a random action. Otherwise, it selects an action according\n"
              "to the distribution specified by the wrapped policy.\n"
              "\n"
-             "@param s The sampled state of the policy.\n"
-             "\n"
              "@return The chosen action."
-        , (arg("self"), "s"))
+        , (arg("self")))
 
         .def("getActionProbability",    &EpsilonPolicy::getActionProbability,
-             "This function returns the probability of taking the specified action in the specified state.\n"
+             "This function returns the probability of taking the specified action.\n"
              "\n"
              "This function takes into account parameter epsilon\n"
              "while computing the final probability.\n"
              "\n"
-             "@param s The selected state.\n"
              "@param a The selected action.\n"
              "\n"
-             "@return The probability of taking the selected action in the specified state."
-        , (arg("self"), "s", "a"))
+             "@return The probability of taking the selected action."
+        , (arg("self"), "a"))
 
         .def("setEpsilon",              &EpsilonPolicy::setEpsilon,
              "This function sets the epsilon parameter.\n"
