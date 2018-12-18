@@ -12,7 +12,7 @@ void exportBanditRollingAverage() {
          "\n"
          "This class can be used to compute the averages and counts for all\n"
          "actions in a Bandit problem over time.", no_init}
-    
+
         .def(init<size_t>(
                  "Basic constructor.\n"
                  "\n"
@@ -26,6 +26,10 @@ void exportBanditRollingAverage() {
                  "@param rew The reward obtained."
         , (arg("self"), "a", "rew"))
 
+        .def("reset",           &RollingAverage::reset,
+                 "This function resets the QFunction and counts to zero."
+        , (arg("self")))
+
         .def("getA",            &RollingAverage::getA,
                  "This function returns the size of the action space."
         , (arg("self")))
@@ -34,7 +38,7 @@ void exportBanditRollingAverage() {
                  "This function returns a reference to the internal QFunction."
         , (arg("self")))
 
-        .def("getCounts",    &RollingAverage::getCounts, return_internal_reference<>(),
+        .def("getCounts",       &RollingAverage::getCounts, return_internal_reference<>(),
                  "This function returns a reference for the counts for the actions"
         , (arg("self")));
 }

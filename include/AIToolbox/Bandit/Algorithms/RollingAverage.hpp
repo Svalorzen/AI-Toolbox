@@ -28,6 +28,11 @@ namespace AIToolbox::Bandit {
             void stepUpdateQ(size_t a, double rew);
 
             /**
+             * @brief This function resets the QFunction and counts to zero.
+             */
+            void reset();
+
+            /**
              * @brief This function returns the size of the action space.
              *
              * @return The size of the action space.
