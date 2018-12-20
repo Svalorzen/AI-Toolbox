@@ -5,9 +5,10 @@
 
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
-#include <AIToolbox/MDP/SparseModel.hpp>
 
 #include "Utils/CornerProblem.hpp"
+
+#include <AIToolbox/MDP/SparseModel.hpp>
 #include "Utils/OldMDPModel.hpp"
 
 #include <type_traits>

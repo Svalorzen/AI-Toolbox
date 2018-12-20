@@ -55,6 +55,7 @@ namespace AIToolbox::MDP {
              *
              * @tparam M The type of the solvable MDP.
              * @param m The MDP that needs to be solved.
+             *
              * @return A tuple containing the maximum variation for the
              *         ValueFunction, the ValueFunction and the QFunction for
              *         the Model.

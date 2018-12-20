@@ -4,6 +4,7 @@ if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
         Impl/CassandraParser.cpp
+        LP/LpSolveWrapper.cpp
         Utils/Combinatorics.cpp
         Utils/Probability.cpp
         Utils/Polytope.cpp
@@ -39,11 +40,11 @@ if (MAKE_MDP)
         MDP/Policies/PGAAPPPolicy.cpp
     )
     set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
+    target_link_libraries(AIToolboxMDP ${LPSOLVE_LIBRARIES})
 endif()
 
 if (MAKE_POMDP)
     add_library(AIToolboxPOMDP
-        LP/LpSolveWrapper.cpp
         POMDP/Utils.cpp
         POMDP/IO.cpp
         POMDP/Algorithms/AMDP.cpp
@@ -64,7 +65,6 @@ endif()
 
 if (MAKE_FMDP)
     add_library(AIToolboxFMDP
-        LP/LpSolveWrapper.cpp
         Factored/Utils/FactoredContainer.cpp
         Factored/Utils/Core.cpp
         Factored/Utils/FactoredMatrix.cpp
