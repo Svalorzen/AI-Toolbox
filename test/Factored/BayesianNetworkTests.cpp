@@ -37,10 +37,10 @@ BOOST_AUTO_TEST_CASE( back_projection ) {
        0.20, 0.10, 0.70, // 2, 1
        0.50, 0.10, 0.40  // 2, 2
     ;
-    aif::BayesianNode f1{{0,1}, p};
-    aif::BayesianNode f2{{1,2}, p};
-    aif::BayesianNode f3{{0,2}, p};
-    auto T = aif::BayesianNetwork{{f1, f2, f3}};
+    aif::DBN::Node f1{{0,1}, p};
+    aif::DBN::Node f2{{1,2}, p};
+    aif::DBN::Node f3{{0,2}, p};
+    auto T = aif::DynamicBayesianNetwork{{f1, f2, f3}};
 
     ai::Vector w(2); w << 2.0, 3.0;
 
@@ -86,17 +86,17 @@ BOOST_AUTO_TEST_CASE( parametric ) {
     ai::Matrix2D p2(3, 3);
     p2.setIdentity();
 
-    std::vector<aif::BayesianNode> f{
+    std::vector<aif::DBN::Node> f {
         {{0,1}, p1},
         {{1,2}, p1},
         {{0,2}, p1}
     };
 
-    aif::BayesianDiffNode d1{0, {{0}, p2}};
-    aif::BayesianDiffNode d2{1, {{1}, p2}};
-    aif::BayesianDiffNode d3{2, {{2}, p2}};
+    aif::CompactDDN::Node d1{0, {{0}, p2}};
+    aif::CompactDDN::Node d2{1, {{1}, p2}};
+    aif::CompactDDN::Node d3{2, {{2}, p2}};
 
-    auto T = aif::ParametricBayesianNetwork({{d1}, {d2}, {d3}}, {{f[0], f[1], f[2]}});
+    auto T = aif::CompactDDN({{d1}, {d2}, {d3}}, {f});
 
     for (size_t a = 0; a < 3; ++a) {
         auto tmp = T.makeDiffTransition(a);

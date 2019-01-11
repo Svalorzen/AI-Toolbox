@@ -17,7 +17,7 @@ namespace AIToolbox::Factored::MDP {
             State S; size_t A;
             double discount_;
 
-            ParametricBayesianNetwork transitions_;
+            CompactDDN transitions_;
             Factored2DMatrix rewards_;
     };
 }

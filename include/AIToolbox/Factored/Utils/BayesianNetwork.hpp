@@ -7,40 +7,32 @@
 
 namespace AIToolbox::Factored {
     /**
-     * @brief This struct represents a transition node in a Bayesian network.
+     * @brief This struct represents a Dynamic Bayesian Network.
      *
-     * This struct contains the parents and the transition matrix for a single
-     * variable in a BayesianNetwork. Note that the child is not specified, as
-     * its id depends on the position of this node within the BayesianNetwork.
-     *
-     * The number of rows in the matrix correspond to the number of possible
-     * combinations of the parents, while the number of columns corresponds to
-     * the number of possible values of the child. Each row in the matrix sums
-     * up to 1, and every element in it is positive (as the matrix contains
-     * conditional probabilities).
-     */
-    struct BayesianNode {
-        PartialKeys tag;
-        Matrix2D matrix;
-    };
-
-    /**
-     * @brief This struct representa a BayesianNetwork.
-     *
-     * This struct contains a list of BayesianNodes, where each contains the
+     * This struct contains a list of DynamicBayesianNodes, where each contains the
      * conditional probability table for a single variable. The index of each
      * node represents the index of the variable it is referring to.
-     *
-     * This class can either own the nodes, or just store references to them.
-     * This is because we can generate a BayesianNetwork on the fly from a
-     * default transition model and a set of BayesianDiffNodes. The resulting
-     * BayesianNetwork takes into account of the differences between the diff
-     * and the default, and substitutes the changed nodes in the final result.
-     *
-     * @tparam UseReference Whether we want to store references to BayesianNodes rather than own the nodes.
      */
-    template <bool UseReference>
-    struct BayesianNetwork {
+    struct DynamicBayesianNetwork {
+        /**
+         * @brief This struct represents a transition node in a Dynamic Bayesian network.
+         *
+         * This struct contains the parents and the transition matrix for a single
+         * variable in a DynamicBayesianNetwork. Note that the child is not
+         * specified, as its id depends on the position of this node within the
+         * DynamicBayesianNetwork.
+         *
+         * The number of rows in the matrix correspond to the number of possible
+         * combinations of the parents, while the number of columns corresponds to
+         * the number of possible values of the child. Each row in the matrix sums
+         * up to 1, and every element in it is positive (as the matrix contains
+         * conditional probabilities).
+         */
+        struct Node {
+            PartialKeys tag;
+            Matrix2D matrix;
+        };
+
         /**
          * @brief This function returns the probability of a transition from one state to another.
          *
@@ -68,35 +60,63 @@ namespace AIToolbox::Factored {
         double getTransitionProbability(const Factors & space, const PartialFactors & s, const PartialFactors & s1) const;
 
         /**
-         * @brief This function returns a reference to the ith BayesianNode in the network.
+         * @brief This function returns a reference to the ith DynamicBayesianNode in the network.
          *
-         * This can be used to bypass the reference wrappers easily.
+         * This is useful to write template code that uses both this and DynamicBayesianNetworkRef.
          */
-        const BayesianNode & operator[](size_t i) const;
-
-        using Node = std::conditional_t<UseReference, std::reference_wrapper<const BayesianNode>, BayesianNode>;
+        const Node & operator[](size_t i) const;
 
         std::vector<Node> nodes;
     };
 
-    BayesianNetwork() -> BayesianNetwork<false>;
-    BayesianNetwork(std::vector<BayesianNode>) -> BayesianNetwork<false>;
+    using DBN = DynamicBayesianNetwork;
 
     /**
-     * @brief This struct allows to change a default transition model in a compact manner.
+     * @brief This struct is a non-owning Dynamic Bayesian Network.
      *
-     * As we use BayesianNetworks in order to contain factored transition
-     * functions, each action usually denotes a separate network. However, the
-     * networks are usually similar, as each action only affects a subset of
-     * the states.
-     *
-     * This struct allows to define compactly such differences, by specifying
-     * only the nodes that are different from the default transition model.
+     * This class is useful to create DBNs on the fly from pre-existing
+     * DBN::Nodes, without the need to copy them. The interface is exactly the
+     * same as a DynamicBayesianNetwork, with the only difference that it
+     * stores std::reference_wrappers to the DBN::Nodes.
      */
-    struct BayesianDiffNode {
-        size_t id;
-        BayesianNode node;
+    struct DynamicBayesianNetworkRef {
+        /**
+         * @brief This function returns the probability of a transition from one state to another.
+         *
+         * @param space The factor space to use.
+         * @param s The initial factors to start with.
+         * @param s1 The factors we should end up with.
+         *
+         * @return The probability of the transition.
+         */
+        double getTransitionProbability(const Factors & space, const Factors & s, const Factors & s1) const;
+
+        /**
+         * @brief This function returns the probability of a transition from one state to another.
+         *
+         * This function allows to compute probabilities for subsets of
+         * factors. The initial factors MUST contain all parents of the
+         * children!
+         *
+         * @param space The factor space to use.
+         * @param s The initial factors to start with.
+         * @param s1 The factors we should end up with.
+         *
+         * @return The probability of the transition.
+         */
+        double getTransitionProbability(const Factors & space, const PartialFactors & s, const PartialFactors & s1) const;
+
+        /**
+         * @brief This function returns a reference to the ith DynamicBayesianNode in the network.
+         *
+         * This is useful to write template code that uses both this and DynamicBayesianNetwork.
+         */
+        const DBN::Node & operator[](size_t i) const;
+
+        std::vector<std::reference_wrapper<const DBN::Node>> nodes;
     };
+
+    using DBNRef = DynamicBayesianNetworkRef;
 
     /**
      * @brief This class represents compactly a set of similar BayesianNetworks.
@@ -108,17 +128,33 @@ namespace AIToolbox::Factored {
      * differences, which are applied on the fly to produce the correct
      * BayesianNetwork for every possible parameter.
      */
-    class ParametricBayesianNetwork {
+    class CompactDynamicDecisionNetwork {
         public:
+            /**
+             * @brief This struct allows to change a default transition model in a compact manner.
+             *
+             * As we use DynamicBayesianNetworks in order to contain factored transition
+             * functions, each action usually denotes a separate network. However, the
+             * networks are usually similar, as each action only affects a subset of
+             * the states.
+             *
+             * This struct allows to define compactly such differences, by specifying
+             * only the nodes that are different from the default transition model.
+             */
+            struct Node {
+                size_t id;
+                DBN::Node node;
+            };
+
             /**
              * @brief Basic constructor.
              *
              * @param diffs The differences for each parameter from the default transition.
              * @param defaultTransition The default transition model.
              */
-            ParametricBayesianNetwork(
-                std::vector<std::vector<BayesianDiffNode>> diffs,
-                BayesianNetwork<false> defaultTransition
+            CompactDynamicDecisionNetwork(
+                std::vector<std::vector<Node>> diffs,
+                DBN defaultTransition
             );
 
             /**
@@ -132,69 +168,29 @@ namespace AIToolbox::Factored {
              *
              * @return The BayesianNetwork for the specified parameter.
              */
-            BayesianNetwork<true> makeDiffTransition(const size_t a) const;
+            DBNRef makeDiffTransition(const size_t a) const;
 
             /**
              * @brief This function returns the default transition model.
              *
              * @return The default transition model.
              */
-            const BayesianNetwork<false> & getDefaultTransition() const;
+            const DBN & getDefaultTransition() const;
 
             /**
              * @brief This function returns the diff nodes for this ParametricBayesianNetwork.
              */
-            const std::vector<std::vector<BayesianDiffNode>> & getDiffNodes() const;
+            const std::vector<std::vector<Node>> & getDiffNodes() const;
 
         private:
-            std::vector<std::vector<BayesianDiffNode>> diffs_;
-            BayesianNetwork<false> defaultTransition_;
+            std::vector<std::vector<Node>> diffs_;
+            DBN defaultTransition_;
     };
 
-    template <bool Ref>
-    double BayesianNetwork<Ref>::getTransitionProbability(const Factors & space, const Factors & s, const Factors & s1) const {
-        double retval = 1.0;
+    using CompactDDN = CompactDynamicDecisionNetwork;
 
-        // For each partial transition matrix, we compute the entry which
-        // applies to this transition, and we multiply all entries together.
-        for (size_t i = 0; i < space.size(); ++i) {
-            // Compute parent ID based on the parents of state factor 'i'
-            auto parentId = toIndexPartial((*this)[i].tag, space, s);
-            retval *= (*this)[i].matrix(parentId, s1[i]);
-        }
-
-        return retval;
-    }
-
-    template <bool Ref>
-    double BayesianNetwork<Ref>::getTransitionProbability(const Factors & space, const PartialFactors & s, const PartialFactors & s1) const {
-        double retval = 1.0;
-        // The matrix is made up of one component per child, and we
-        // need to multiply all of them together. At each iteration we
-        // look at a different "child".
-        for (size_t j = 0; j < s1.first.size(); ++j) {
-            // Find the matrix relative to this child
-            const auto & node = (*this)[s1.first[j]];
-            // Compute the "dense" id for the needed parents
-            // from the current domain.
-            auto id = toIndexPartial(node.tag, space, s);
-            // Multiply the current value by the lhs value.
-            retval *= node.matrix(id, s1.second[j]);
-        }
-        return retval;
-    }
-
-    template <bool Ref>
-    const BayesianNode & BayesianNetwork<Ref>::operator[](size_t i) const {
-        if constexpr (Ref) {
-            return nodes[i].get();
-        } else {
-            return nodes[i];
-        }
-    }
-
-    template <bool Ref>
-    BasisFunction backProject(const Factors & space, const BayesianNetwork<Ref> & b, const BasisFunction & bf) {
+    template <typename Net>
+    BasisFunction backProject(const Factors & space, const Net & dbn, const BasisFunction & bf) {
         // Here we have the two function inputs, in this form:
         //
         //     lhs: [parents, child] -> value
@@ -204,7 +200,7 @@ namespace AIToolbox::Factored {
         // The domain here depends on the parents of all elements of
         // the domain of the input basis.
         for (auto d : bf.tag)
-            retval.tag = merge(retval.tag, b[d].tag);
+            retval.tag = merge(retval.tag, dbn[d].tag);
 
         retval.values.resize(factorSpacePartial(retval.tag, space));
         // Don't need to zero fill
@@ -230,7 +226,7 @@ namespace AIToolbox::Factored {
             double currentVal = 0.0;
             size_t i = 0;
             while (rhsdomain.isValid()) {
-                currentVal += bf.values[i] * b.getTransitionProbability(space, *domain, *rhsdomain);
+                currentVal += bf.values[i] * dbn.getTransitionProbability(space, *domain, *rhsdomain);
 
                 ++i;
                 rhsdomain.advance();
@@ -244,14 +240,14 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    template <bool Ref>
-    FactoredVector backProject(const Factors & space, const BayesianNetwork<Ref> & b, const FactoredVector & fv) {
+    template <typename Net>
+    FactoredVector backProject(const Factors & space, const Net & dbn, const FactoredVector & fv) {
         FactoredVector retval;
         retval.bases.reserve(fv.bases.size());
 
         for (const auto & basis : fv.bases) {
             plusEqual(space, retval,
-                    backProject(space, b, basis));
+                    backProject(space, dbn, basis));
         }
 
         return retval;
