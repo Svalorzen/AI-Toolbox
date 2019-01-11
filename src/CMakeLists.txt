@@ -8,6 +8,7 @@ if (MAKE_MDP)
         Utils/Combinatorics.cpp
         Utils/Probability.cpp
         Utils/Polytope.cpp
+        Tools/Statistics.cpp
         Bandit/Algorithms/RollingAverage.cpp
         Bandit/Policies/EpsilonPolicy.cpp
         Bandit/Policies/QGreedyPolicy.cpp
