@@ -12,7 +12,7 @@ namespace AIToolbox::Factored {
             // applies to this transition, and we multiply all entries together.
             for (size_t i = 0; i < space.size(); ++i) {
                 // Compute parent ID based on the parents of state factor 'i'
-                auto parentId = toIndexPartial(dbn[i].tag, space, s);
+                const auto parentId = toIndexPartial(dbn[i].tag, space, s);
                 retval *= dbn[i].matrix(parentId, s1[i]);
             }
 
@@ -30,7 +30,7 @@ namespace AIToolbox::Factored {
                 const auto & node = dbn[s1.first[j]];
                 // Compute the "dense" id for the needed parents
                 // from the current domain.
-                auto id = toIndexPartial(node.tag, space, s);
+                const auto id = toIndexPartial(node.tag, space, s);
                 // Multiply the current value by the lhs value.
                 retval *= node.matrix(id, s1.second[j]);
             }
@@ -66,7 +66,7 @@ namespace AIToolbox::Factored {
         return nodes[i].get();
     }
 
-    // --------------
+    // CompactDDN
 
     CompactDDN::CompactDynamicDecisionNetwork(
                 std::vector<std::vector<Node>> diffs,
@@ -75,6 +75,8 @@ namespace AIToolbox::Factored {
 
     DBNRef CompactDDN::makeDiffTransition(const size_t a) const {
         DBNRef retval;
+        retval.nodes.reserve(defaultTransition_.nodes.size());
+
         size_t j = 0;
         for (size_t i = 0; i < defaultTransition_.nodes.size(); ++i) {
             if (j < diffs_[a].size() && diffs_[a][j].id == i) {
@@ -93,5 +95,24 @@ namespace AIToolbox::Factored {
 
     const std::vector<std::vector<CompactDDN::Node>> & CompactDDN::getDiffNodes() const {
         return diffs_;
+    }
+
+    // FactoredDDN
+
+    double FactoredDDN::getTransitionProbability(const Factors & space, const Factors & actions, const Factors & s, const Factors & a, const Factors & s1) const {
+        double retval = 1.0;
+
+        // For each partial transition matrix, we compute the entry which
+        // applies to this transition, and we multiply all entries together.
+        for (size_t i = 0; i < space.size(); ++i) {
+            // Compute action ID based on the actions that affect state factor 'i'.
+            const auto actionId = toIndexPartial(nodes_[i].actionTag, actions, a);
+            // Compute parent ID based on the parents of state factor 'i' under this action.
+            const auto parentId = toIndexPartial(nodes_[i].nodes[actionId].tag, space, s);
+
+            retval *= nodes_[i].nodes[actionId].matrix(parentId, s1[i]);
+        }
+
+        return retval;
     }
 }

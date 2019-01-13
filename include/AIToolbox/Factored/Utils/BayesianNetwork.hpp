@@ -119,14 +119,20 @@ namespace AIToolbox::Factored {
     using DBNRef = DynamicBayesianNetworkRef;
 
     /**
-     * @brief This class represents compactly a set of similar BayesianNetworks.
+     * @brief This class represents a Dynamic Decision Network compactly.
      *
      * This class allows to represent in a compact manner a set of
-     * BayesianNetworks that all closely resemble a default transition model.
+     * DynamicBayesianNetworks that all closely resemble a default transition
+     * model.
      *
      * The default transition model is stored together with a set of
-     * differences, which are applied on the fly to produce the correct
-     * BayesianNetwork for every possible parameter.
+     * differences - one per action. When the DynamicBayesianNetwork for a
+     * particular action is requested, the correct diffs are applied on the fly
+     * to produce the correct DynamicBayesianNetwork.
+     *
+     * We actually produce a DynamicBayesianNetworkRef which contains
+     * references to the nodes, so that the construction does not require too
+     * much time nor space.
      */
     class CompactDynamicDecisionNetwork {
         public:
@@ -149,7 +155,7 @@ namespace AIToolbox::Factored {
             /**
              * @brief Basic constructor.
              *
-             * @param diffs The differences for each parameter from the default transition.
+             * @param diffs The differences for each action from the default transition.
              * @param defaultTransition The default transition model.
              */
             CompactDynamicDecisionNetwork(
@@ -158,15 +164,15 @@ namespace AIToolbox::Factored {
             );
 
             /**
-             * @brief This function construct a BayesianNetwork for the specified parameter.
+             * @brief This function constructs a DynamicBayesianNetworkRef for the specified action.
              *
              * The output is a network that contains references to nodes owned
              * by this class. Thus it is (relatively) cheap to create and to
              * copy, but its lifetime depends on the instance that created it.
              *
-             * @param a The parameter selecting the BayesianNetwork to create.
+             * @param a The desired action to use.
              *
-             * @return The BayesianNetwork for the specified parameter.
+             * @return The DynamicBayesianNetworkRef for the specified action.
              */
             DBNRef makeDiffTransition(const size_t a) const;
 
@@ -178,7 +184,7 @@ namespace AIToolbox::Factored {
             const DBN & getDefaultTransition() const;
 
             /**
-             * @brief This function returns the diff nodes for this ParametricBayesianNetwork.
+             * @brief This function returns the diff nodes for this CompactDynamicDecisionNetwork.
              */
             const std::vector<std::vector<Node>> & getDiffNodes() const;
 
@@ -188,6 +194,47 @@ namespace AIToolbox::Factored {
     };
 
     using CompactDDN = CompactDynamicDecisionNetwork;
+
+    /**
+     * @brief This class represents a Dynamic Decision Network with factored actions.
+     *
+     * This class is able to represent a Dynamic Decision Network with factored
+     * actions, where the parents of each factor of the state depend on a
+     * particular subset of actions.
+     */
+    class FactoredDynamicDecisionNetwork {
+        public:
+            /**
+             * @brief This struct contains the transition matrices for a particular factor.
+             *
+             * As the parents of each factor depend on a subset of actions,
+             * this struct contains the indeces of the factored actions that
+             * are needed in order to determine the parents, and a list
+             * containing a DBN::Node for every possible action combination.
+             */
+            struct ActionNode {
+                PartialKeys actionTag;
+                std::vector<DBN::Node> nodes;
+            };
+
+            /**
+             * @brief This function returns the probability of a transition from one state to another with the given action.
+             *
+             * @param space The factor space to use.
+             * @param actions The action space to use.
+             * @param s The initial factors to start with.
+             * @param a The selected action for the transition.
+             * @param s1 The factors we should end up with.
+             *
+             * @return The probability of the transition.
+             */
+            double getTransitionProbability(const Factors & space, const Factors & actions, const Factors & s, const Factors & a, const Factors & s1) const;
+
+        private:
+            std::vector<ActionNode> nodes_;
+    };
+
+    using FactoredDDN = FactoredDynamicDecisionNetwork;
 
     template <typename Net>
     BasisFunction backProject(const Factors & space, const Net & dbn, const BasisFunction & bf) {
