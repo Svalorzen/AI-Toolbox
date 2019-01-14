@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE( back_projection ) {
     }
 }
 
-BOOST_AUTO_TEST_CASE( parametric ) {
+BOOST_AUTO_TEST_CASE( compact_ddn ) {
     aif::State s{3,3,3};
     ai::Matrix2D p1(9, 3); // x,y->z
     p1 <<

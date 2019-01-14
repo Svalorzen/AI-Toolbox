@@ -105,12 +105,32 @@ namespace AIToolbox::Factored {
         // For each partial transition matrix, we compute the entry which
         // applies to this transition, and we multiply all entries together.
         for (size_t i = 0; i < space.size(); ++i) {
+            const auto & node = nodes_[i];
             // Compute action ID based on the actions that affect state factor 'i'.
-            const auto actionId = toIndexPartial(nodes_[i].actionTag, actions, a);
+            const auto actionId = toIndexPartial(node.actionTag, actions, a);
             // Compute parent ID based on the parents of state factor 'i' under this action.
-            const auto parentId = toIndexPartial(nodes_[i].nodes[actionId].tag, space, s);
+            const auto parentId = toIndexPartial(node.nodes[actionId].tag, space, s);
 
-            retval *= nodes_[i].nodes[actionId].matrix(parentId, s1[i]);
+            retval *= node.nodes[actionId].matrix(parentId, s1[i]);
+        }
+
+        return retval;
+    }
+
+    double FactoredDDN::getTransitionProbability(const Factors & space, const Factors & actions, const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const {
+        double retval = 1.0;
+
+        // The matrix is made up of one component per child, and we
+        // need to multiply all of them together. At each iteration we
+        // look at a different "child".
+        for (size_t j = 0; j < s1.first.size(); ++j) {
+            const auto & node = nodes_[s1.first[j]];
+            // Compute action ID based on the actions that affect state factor 'i'.
+            const auto actionId = toIndexPartial(node.actionTag, actions, a);
+            // Compute parent ID based on the parents of state factor 'i' under this action.
+            const auto parentId = toIndexPartial(node.nodes[actionId].tag, space, s);
+
+            retval *= node.nodes[actionId].matrix(parentId, s1.second[j]);
         }
 
         return retval;
