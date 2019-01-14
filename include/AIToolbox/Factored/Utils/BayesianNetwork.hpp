@@ -258,7 +258,6 @@ namespace AIToolbox::Factored {
         PartialFactorsEnumerator domain(space, retval.tag);
 
         PartialFactorsEnumerator rhsdomain(space, bf.tag);
-        // PartialFactorsEnumerator rhsdomain(space);
 
         while (domain.isValid()) {
             // For each domain assignment, we need to go over every
