@@ -115,4 +115,8 @@ namespace AIToolbox::Factored {
 
         return retval;
     }
+
+    const FactoredDDN::Node & FactoredDDN::operator[](size_t i) const {
+        return nodes_[i];
+    }
 }

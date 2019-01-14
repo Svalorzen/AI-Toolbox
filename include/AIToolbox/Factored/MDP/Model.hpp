@@ -18,7 +18,7 @@ namespace AIToolbox::Factored::MDP {
             double discount_;
 
             CompactDDN transitions_;
-            Factored2DMatrix rewards_;
+            std::vector<FactoredVector> rewards_;
     };
 }
 

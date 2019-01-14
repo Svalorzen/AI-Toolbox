@@ -212,7 +212,7 @@ namespace AIToolbox::Factored {
              * are needed in order to determine the parents, and a list
              * containing a DBN::Node for every possible action combination.
              */
-            struct ActionNode {
+            struct Node {
                 PartialKeys actionTag;
                 std::vector<DBN::Node> nodes;
             };
@@ -230,8 +230,32 @@ namespace AIToolbox::Factored {
              */
             double getTransitionProbability(const Factors & space, const Factors & actions, const Factors & s, const Factors & a, const Factors & s1) const;
 
+            /**
+             * @brief This function returns the probability of a transition from one state to another.
+             *
+             * This function allows to compute probabilities for subsets of
+             * factors. The initial factors MUST contain all parents of the
+             * children!
+             *
+             * @param space The factor space to use.
+             * @param actions The action space to use.
+             * @param s The initial factors to start with.
+             * @param a The selected action for the transition.
+             * @param s1 The factors we should end up with.
+             *
+             * @return The probability of the transition.
+             */
+            double getTransitionProbability(const Factors & space, const Factors & actions, const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const;
+
+            /**
+             * @brief This function returns a reference to the ith DynamicBayesianNode in the network.
+             *
+             * This is useful to write template code that uses both this and DynamicBayesianNetwork.
+             */
+            const Node & operator[](size_t i) const;
+
         private:
-            std::vector<ActionNode> nodes_;
+            std::vector<Node> nodes_;
     };
 
     using FactoredDDN = FactoredDynamicDecisionNetwork;
@@ -257,7 +281,7 @@ namespace AIToolbox::Factored {
         size_t id = 0;
         PartialFactorsEnumerator domain(space, retval.tag);
 
-        PartialFactorsEnumerator rhsdomain(space, bf.tag);
+        PartialFactorsEnumerator rhsDomain(space, bf.tag);
 
         while (domain.isValid()) {
             // For each domain assignment, we need to go over every
@@ -271,17 +295,17 @@ namespace AIToolbox::Factored {
             // domain & children.
             double currentVal = 0.0;
             size_t i = 0;
-            while (rhsdomain.isValid()) {
-                currentVal += bf.values[i] * dbn.getTransitionProbability(space, *domain, *rhsdomain);
+            while (rhsDomain.isValid()) {
+                currentVal += bf.values[i] * dbn.getTransitionProbability(space, *domain, *rhsDomain);
 
                 ++i;
-                rhsdomain.advance();
+                rhsDomain.advance();
             }
             retval.values[id] = currentVal;
 
             ++id;
             domain.advance();
-            rhsdomain.reset();
+            rhsDomain.reset();
         }
         return retval;
     }
@@ -294,6 +318,71 @@ namespace AIToolbox::Factored {
         for (const auto & basis : fv.bases) {
             plusEqual(space, retval,
                     backProject(space, dbn, basis));
+        }
+
+        return retval;
+    }
+
+    inline BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & bf) {
+        BasisMatrix retval;
+
+        for (auto d : bf.tag) {
+            retval.actionTag = merge(retval.actionTag, ddn[d].actionTag);
+            for (const auto & n : ddn[d].nodes)
+                retval.tag = merge(retval.tag, n.tag);
+        }
+
+        const size_t sizeA = factorSpacePartial(retval.actionTag, actions);
+        const size_t sizeS = factorSpacePartial(retval.tag, space);
+
+        retval.values.resize(sizeS, sizeA);
+
+        size_t sId = 0;
+        size_t aId = 0;
+
+        PartialFactorsEnumerator sDomain(space, retval.tag);
+        PartialFactorsEnumerator aDomain(actions, retval.actionTag);
+
+        PartialFactorsEnumerator rhsDomain(space, bf.tag);
+
+        while (sDomain.isValid()) {
+            while (aDomain.isValid()) {
+                // For each domain assignment, we need to go over every
+                // possible children assignment. As we are computing
+                // products, it is sufficient to go over the elements
+                // stored in the RHS (as all other children combinations
+                // are zero by definition).
+                //
+                // For each such assignment, we compute the product of the
+                // rhs there with the value of the lhs at the current
+                // domain & children.
+                double currentVal = 0.0;
+                size_t i = 0;
+                while (rhsDomain.isValid()) {
+                    currentVal += bf.values[i] * ddn.getTransitionProbability(space, actions, *sDomain, *aDomain, *rhsDomain);
+
+                    ++i;
+                    rhsDomain.advance();
+                }
+                retval.values(sId, aId) = currentVal;
+
+                ++aId;
+                aDomain.advance();
+                rhsDomain.reset();
+            }
+            ++sId;
+            sDomain.advance();
+        }
+        return retval;
+    }
+
+    inline Factored2DMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv) {
+        Factored2DMatrix retval;
+        retval.bases.reserve(fv.bases.size());
+
+        for (const auto & basis : fv.bases) {
+            plusEqual(space, actions, retval,
+                    backProject(space, actions, ddn, basis));
         }
 
         return retval;

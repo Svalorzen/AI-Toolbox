@@ -88,14 +88,50 @@ namespace AIToolbox::Factored {
     };
 
     /**
+     * @brief This struct represents a basis matrix.
+     *
+     * Note that the term "basis matrix" does not really exist in the
+     * literature, it's just a way to create a basis which depends on both
+     * state factors and action factors at the same time.
+     *
+     * A basis matrix here is simply a function defined on two subsets of
+     * factors. It maps each combination of values that can be taken by the
+     * factors with a double.
+     *
+     * The matrix is SxA; where S and A are the factorSpacePartial() of the two
+     * tags.
+     */
+    struct BasisMatrix {
+        PartialKeys tag;
+        PartialKeys actionTag;
+        Matrix2D values;
+    };
+
+    /**
      * @brief This class represents a factored 2D matrix.
      *
      * Note that we can't use a multi_array since each FactoredVector may have
      * a different number of BasisFunctions.
      */
-    using Factored2DMatrix = std::vector<FactoredVector>;
+    struct Factored2DMatrix {
+        /**
+         * @brief This function returns the value of the FactoredVector at the specified point.
+         *
+         * @param space The factor space to use.
+         * @param actions The action space to use.
+         * @param value The factor to compute the value for.
+         * @param action The action to compute the value for.
+         *
+         * @return The value of the FactoredVector at the specified point.
+         */
+        double getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action) const;
+
+        std::vector<BasisMatrix> bases;
+    };
 
     // @}
+
+    // BasisFunction - BasisFunction
 
     BasisFunction dot(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs);
     BasisFunction plus(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs);
@@ -107,17 +143,35 @@ namespace AIToolbox::Factored {
     BasisFunction & plusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs);
     BasisFunction & minusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs);
 
+    // BasisMatrix - BasisMatrix
+
+    BasisMatrix plus(const Factors & space, const BasisMatrix & lhs, const BasisMatrix & rhs);
+
+    // FactoredVector - BasisFunction
+
     FactoredVector plus(const Factors & space, FactoredVector retval, const BasisFunction & rhs);
     FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis);
+    // TODO
+    FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, BasisFunction && basis);
 
     FactoredVector minus(const Factors & space, FactoredVector retval, const BasisFunction & rhs, bool clearZero = false);
     FactoredVector & minusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis, bool clearZero = false);
+
+    // Factored2DMatrix - BasisMatrix
+
+    // TODO
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const BasisMatrix & basis);
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, BasisMatrix && basis);
+
+    // FactoredVector - FactoredVector
 
     FactoredVector plus(const Factors & space, FactoredVector retval, const FactoredVector & rhs);
     FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs);
 
     FactoredVector minus(const Factors & space, FactoredVector retval, const FactoredVector & rhs, bool clearZero = false);
     FactoredVector & minusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs, bool clearZero = false);
+
+    // Scalar ops
 
     FactoredVector operator*(FactoredVector lhs, const Vector & w);
     FactoredVector operator*(const Vector & w, FactoredVector rhs);

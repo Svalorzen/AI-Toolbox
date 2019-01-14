@@ -3,8 +3,10 @@
 
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 #include <AIToolbox/Factored/Utils/BayesianNetwork.hpp>
+#include <AIToolbox/LP.hpp>
 
 namespace AIToolbox::Factored::MDP {
     // TODO:
@@ -30,40 +32,61 @@ namespace AIToolbox::Factored::MDP {
     // BONUS - Think how to make QGreedyPolicy work with both
     // FactoredContainer<QFunctionRule> and a Factored2DMatrix!
 
-    // Rename to Factored2DMatrix, since the other one at this point does not
-    // count as it does not factorize actions. Add this as a comment on the
-    // structure, however it is made.
-    //
-    // Since backproject seems to return *dense* matrices over a tag e
-    // actiontag, maybe an equivalent basisfunction could be:
-    //
-    // PartialKeys tag;
-    // PartialKeys actionTag;
-    // Matrix2D values;
-    //
-    // And from THERE you get a Factored2DMatrix. Seems decent enough, and
-    // mirrors the FactoredVector which is cool.
-    using UltraFactored2DMatrix = int;
-
     // Since here the parents of bf can be actions (since we are
     // backpropagating in a DDN rather than a DBN), the output must also be a
     // 2d matrix. Worst case we can consider states and actions together, but
     // I'd prefer not to.
-    UltraFactored2DMatrix backProject(const Factors & space, const FactoredDDN & dbn, const BasisFunction & bf) {
-        // Domain of retval = for each d in bf.tag:
-        //                        retval.action_domain += dbn[d].actionTag;
-        //                        for node in dbn[d].nodes:
-        //                            retval.state_domain += node.tag;
-        //
-        // For every combA in retval.action_domain:
-        // For every combS in retval.state_domain:
-        //     V = 0.0
-        //     For every combS1 in bf.tag:
-        //         V += bf.getValue(combS1) * dbn.getTransitionProbability(space, actions, combS, combA, combS1);
-        //
-        //     retval[combS][combA] = V;
-        //
-        // return retval;
+   BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & bf) {
+       BasisMatrix retval;
+
+        for (auto d : bf.tag) {
+            retval.actionTag = merge(retval.actionTag, ddn[d].actionTag);
+            for (const auto & n : ddn[d].nodes)
+                retval.tag = merge(retval.tag, n.tag);
+        }
+
+        const size_t sizeA = factorSpacePartial(retval.actionTag, actions);
+        const size_t sizeS = factorSpacePartial(retval.tag, space);
+
+        retval.values.resize(sizeS, sizeA);
+
+        size_t sId = 0;
+        size_t aId = 0;
+
+        PartialFactorsEnumerator sDomain(space, retval.tag);
+        PartialFactorsEnumerator aDomain(actions, retval.actionTag);
+
+        PartialFactorsEnumerator rhsDomain(space, bf.tag);
+
+        while (sDomain.isValid()) {
+            while (aDomain.isValid()) {
+                // For each domain assignment, we need to go over every
+                // possible children assignment. As we are computing
+                // products, it is sufficient to go over the elements
+                // stored in the RHS (as all other children combinations
+                // are zero by definition).
+                //
+                // For each such assignment, we compute the product of the
+                // rhs there with the value of the lhs at the current
+                // domain & children.
+                double currentVal = 0.0;
+                size_t i = 0;
+                while (rhsDomain.isValid()) {
+                    currentVal += bf.values[i] * ddn.getTransitionProbability(space, actions, *sDomain, *aDomain, *rhsDomain);
+
+                    ++i;
+                    rhsDomain.advance();
+                }
+                retval.values(sId, aId) = currentVal;
+
+                ++aId;
+                aDomain.advance();
+                rhsDomain.reset();
+            }
+            ++sId;
+            sDomain.advance();
+        }
+        return retval;
     }
 
     // Performs the bellman equation on a single action
@@ -75,7 +98,7 @@ namespace AIToolbox::Factored::MDP {
         return plusEqual(S, Q, R);
     }
 
-    inline void makePolicy(const State & S, const CompactDDN & p, const Factored2DMatrix & q, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
+    inline void makePolicy(const State & S, const CompactDDN & p, const std::vector<FactoredVector> & q, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
         std::vector<std::tuple<PartialState, size_t, double>> retval;
 
         auto defaultQ = backProject(S, p.getDefaultTransition(), A * w);
@@ -100,7 +123,8 @@ namespace AIToolbox::Factored::MDP {
 
     std::optional<Vector> test()(const FactoredVector & C, const FactoredVector & b, bool addConstantBasis) {
         // Clear everything so we can use this function multiple times.
-        Graph graph(S.size());
+        using Graph = FactorGraph<int>;
+        Graph graph(1000);
         std::vector<size_t> finalFactors;
 
         // C = set of basis functions

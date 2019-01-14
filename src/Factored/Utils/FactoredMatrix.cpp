@@ -7,7 +7,7 @@ namespace AIToolbox::Factored {
     double FactoredVector::getValue(const Factors & space, const Factors & value) const {
         double retval = 0.0;
         for (const auto & e : bases) {
-           auto id = toIndexPartial(e.tag, space, value);
+           const auto id = toIndexPartial(e.tag, space, value);
            retval += e.values[id];
         }
         return retval;
@@ -25,6 +25,17 @@ namespace AIToolbox::Factored {
             b.values *= v;
 
         return *this;
+    }
+
+    double Factored2DMatrix::getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action) const {
+        double retval = 0.0;
+        for (const auto & e : bases) {
+           const auto fid = toIndexPartial(e.tag, space, value);
+           const auto aid = toIndexPartial(e.actionTag, actions, action);
+
+           retval += e.values(fid, aid);
+        }
+        return retval;
     }
 
     //------- FREE FUNCTIONS --------
