@@ -51,14 +51,14 @@ namespace AIToolbox::MDP {
         //
         // Then we minimize the sum of the variables, subject to:
         //
-        // sum_s' T(s,a,s') * [ R(s,a,s') + gamma * V*(s') ] <= V(s)
+        //     sum_s' T(s,a,s') * [ R(s,a,s') + gamma * V*(s') ] <= V(s)
         //
         // for every combination of s and a (so |S|*|A| constraints in the
         // end).
         //
         // Here we transform the constraints in the form:
         //
-        // V(s) - sum_s' gamma * T(s,a,s') * V*(s') >= sum_s' T(s,a,s') * R(s,a,s')
+        //     V(s) - sum_s' gamma * T(s,a,s') * V*(s') >= sum_s' T(s,a,s') * R(s,a,s')
         //
         // and we merge the V(s) with its appropriate V*(s') element.
         LP lp(S);
