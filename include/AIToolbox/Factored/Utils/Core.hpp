@@ -25,6 +25,22 @@ namespace AIToolbox::Factored {
     bool match(const PartialFactors & lhs, const PartialFactors & rhs);
 
     /**
+     * @brief This function returns whether the common factors in the inputs match in value.
+     *
+     * This function is equivalent to match(const PartialFactors & lhs, const
+     * PartialFactors & rhs). It is provided to avoid having to construct
+     * two PartialFactors when not needed.
+     *
+     * @param lhsK The keys of the lhs.
+     * @param lhs The values of the lhs.
+     * @param rhsK The keys of the rhs.
+     * @param rhs The values of the rhs.
+     *
+     * @return True if all factors in common between the inputs match in value, false otherwise.
+     */
+    bool match(const PartialKeys & lhsK, const PartialValues & lhs, const PartialKeys & rhsK, const PartialValues & rhs);
+
+    /**
      * @brief This function checks whether the two input Factors match at the specified ids.
      *
      * @param keys The ids to check.

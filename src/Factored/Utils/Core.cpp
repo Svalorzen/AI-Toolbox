@@ -21,15 +21,23 @@ namespace AIToolbox::Factored {
     }
 
     bool match(const PartialFactors & lhs, const PartialFactors & rhs) {
-        const PartialFactors * smaller = &rhs, * bigger = &lhs;
-        if (lhs.first.size() < rhs.first.size()) std::swap(smaller, bigger);
+        return match(lhs.first, lhs.second, rhs.first, rhs.second);
+    }
+
+    bool match(const PartialKeys & lhsK, const PartialValues & lhs, const PartialKeys & rhsK, const PartialValues & rhs) {
+        const PartialKeys * smallerK = &lhsK, * biggerK = &rhsK;
+        const PartialValues * smallerV = &lhs, * biggerV = &rhs;
+        if (lhsK.size() > rhsK.size()) {
+            std::swap(smallerK, biggerK);
+            std::swap(smallerV, biggerV);
+        }
 
         size_t i = 0, j = 0;
-        while (j < smaller->second.size()) {
-            if (bigger->first[i] < smaller->first[j]) ++i;
-            else if (bigger->first[i] > smaller->first[j]) ++j;
+        while (j < smallerK->size()) {
+            if ((*biggerK)[i] < (*smallerK)[j]) ++i;
+            else if ((*biggerK)[i] > (*smallerK)[j]) ++j;
             else {
-                if (bigger->second[i] != smaller->second[j]) return false;
+                if ((*biggerV)[i] != (*smallerV)[j]) return false;
                 ++i;
                 ++j;
             }

@@ -33,7 +33,7 @@ namespace AIToolbox::Factored::Bandit {
             using Entry = std::tuple<PartialAction, V>;
             using Entries = std::vector<Entry>;
             // Action -> (Tag + Vector)
-            using Rule = std::tuple<PartialAction, Entries>;
+            using Rule = std::pair<PartialValues, Entries>;
             using Rules = std::vector<Rule>;
 
             using Result = Entry;
@@ -72,7 +72,7 @@ namespace AIToolbox::Factored::Bandit {
                     const auto & a = std::get<0>(rule);
                     auto & rules = graph_.getFactor(a.first)->getData().rules;
 
-                    rules.emplace_back(a, Entries{std::make_tuple(PartialAction(), std::get<1>(rule))});
+                    rules.emplace_back(a.second, Entries{std::make_tuple(PartialAction(), std::get<1>(rule))});
                 }
                 // Start solving process.
                 return start();
