@@ -126,6 +126,15 @@ namespace AIToolbox::Factored {
          */
         double getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action) const;
 
+        /**
+         * @brief This function multiplies all bases with a scalar.
+         *
+         * @param v The scalar to multiply with.
+         *
+         * @return A reference to this FactoredVector.
+         */
+        Factored2DMatrix & operator*=(const double v);
+
         std::vector<BasisMatrix> bases;
     };
 
@@ -151,7 +160,6 @@ namespace AIToolbox::Factored {
 
     FactoredVector plus(const Factors & space, FactoredVector retval, const BasisFunction & rhs);
     FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis);
-    // TODO
     FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, BasisFunction && basis);
 
     FactoredVector minus(const Factors & space, FactoredVector retval, const BasisFunction & rhs, bool clearZero = false);
@@ -171,12 +179,21 @@ namespace AIToolbox::Factored {
     FactoredVector minus(const Factors & space, FactoredVector retval, const FactoredVector & rhs, bool clearZero = false);
     FactoredVector & minusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs, bool clearZero = false);
 
+    // Factored2DMatrix - Factored2DMatrix
+
+    // TODO
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const Factored2DMatrix & basis);
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, Factored2DMatrix && basis);
+
     // Scalar ops
 
     FactoredVector operator*(FactoredVector lhs, const Vector & w);
     FactoredVector operator*(const Vector & w, FactoredVector rhs);
     FactoredVector operator*(FactoredVector lhs, const double v);
     FactoredVector operator*(const double v, FactoredVector rhs);
+
+    Factored2DMatrix operator*(Factored2DMatrix lhs, const double v);
+    Factored2DMatrix operator*(const double v, Factored2DMatrix rhs);
 }
 
 #endif
