@@ -378,7 +378,7 @@ namespace AIToolbox::Factored {
              * @param f The factor space for the internal PartialFactors.
              * @param factors The factors to take into consideration.
              */
-            PartialFactorsEnumerator(Factors f, const PartialKeys factors);
+            PartialFactorsEnumerator(Factors f, PartialKeys factors);
 
             /**
              * @brief Basic constructor.
@@ -405,7 +405,7 @@ namespace AIToolbox::Factored {
              * @param factors The factors to take into considerations.
              * @param factorToSkip The factor to skip.
              */
-            PartialFactorsEnumerator(Factors f, const PartialKeys factors, size_t factorToSkip);
+            PartialFactorsEnumerator(Factors f, PartialKeys factors, size_t factorToSkip);
 
             /**
              * @brief Skip constructor.
@@ -453,6 +453,13 @@ namespace AIToolbox::Factored {
              * @brief This function resets the enumerator to the valid beginning (a fully zero PartialFactor).
              */
             void reset();
+
+            /**
+             * @brief This function returns the number of times that advance() can be called from the initial state.
+             *
+             * Warning: This operation is *NOT* cheap, as this number needs to be computed.
+             */
+            size_t size() const;
 
             /**
              * @brief This operator returns the current iteration in the values of the PartialFactors.

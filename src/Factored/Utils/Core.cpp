@@ -332,6 +332,15 @@ namespace AIToolbox::Factored {
             std::fill(std::begin(factors_.second), std::end(factors_.second), 0);
     }
 
+    size_t PartialFactorsEnumerator::size() const {
+        size_t retval = factors_.first.size() > 0;
+        for (size_t i = 0; i < factors_.first.size(); ++i) {
+            if (i == factorToSkipId_) continue;
+            retval *= F[factors_.first[i]];
+        }
+        return retval;
+    }
+
     size_t PartialFactorsEnumerator::getFactorToSkipId() const { return factorToSkipId_; }
 
     PartialFactors& PartialFactorsEnumerator::operator*() { return factors_; }
