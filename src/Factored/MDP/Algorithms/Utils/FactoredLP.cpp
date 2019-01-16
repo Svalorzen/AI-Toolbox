@@ -86,7 +86,7 @@ namespace AIToolbox::Factored::MDP {
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule+1] = 0.0;
 
-                newFactor->getData().emplace_back(std::make_pair(f.tag, toFactorsPartial(f.tag, S, i)), currentRule);
+                newFactor->getData().emplace_back(toFactorsPartial(f.tag, S, i), currentRule);
                 currentRule += 2;
             }
             lp.row[wi++] = 0.0;
@@ -106,7 +106,7 @@ namespace AIToolbox::Factored::MDP {
                 lp.pushRow(LP::Constraint::Equal, f.values[i]);
                 lp.row[currentRule+1] = 0.0;
 
-                newFactor->getData().emplace_back(std::make_pair(f.tag, toFactorsPartial(f.tag, S, i)), currentRule);
+                newFactor->getData().emplace_back(toFactorsPartial(f.tag, S, i), currentRule);
                 currentRule += 2;
             }
         }
@@ -179,7 +179,7 @@ namespace AIToolbox::Factored::MDP {
                 jointAction.second[id] = sAction;
                 for (const auto ruleIds : factors)
                     for (const auto ruleId : ruleIds->getData())
-                        if (match(jointAction, std::get<0>(ruleId)))
+                        if (match(ruleIds->getVariables(), ruleId.first, jointAction.first, jointAction.second))
                             lp.row[std::get<1>(ruleId)] = 1.0;
 
                 lp.pushRow(LP::Constraint::LessEqual, 0.0);
@@ -195,7 +195,7 @@ namespace AIToolbox::Factored::MDP {
             }
 
             if (!isFinalFactor)
-                newRules.emplace_back(*jointActions, newRuleId);
+                newRules.emplace_back(jointAction.second, newRuleId);
             else
                 finalFactors.push_back(newRuleId);
 

@@ -80,7 +80,7 @@ namespace AIToolbox::Factored::MDP {
             std::optional<Vector> operator()(const FactoredVector & C, const FactoredVector & b, bool addConstantBasis = false);
 
         private:
-            using Rule = std::tuple<PartialState, size_t>;
+            using Rule = std::pair<PartialValues, size_t>;
             using Rules = std::vector<Rule>;
             using Graph = FactorGraph<Rules>;
 
