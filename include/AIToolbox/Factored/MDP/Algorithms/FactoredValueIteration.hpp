@@ -98,30 +98,15 @@ namespace AIToolbox::Factored::MDP {
         return plusEqual(S, Q, R);
     }
 
-    inline void makePolicy(const State & S, const CompactDDN & p, const std::vector<FactoredVector> & q, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
-        std::vector<std::tuple<PartialState, size_t, double>> retval;
-
-        auto defaultQ = backProject(S, p.getDefaultTransition(), A * w);
-        // defaultQ *= discount;
-
-        const auto & x = p.getDiffNodes();
-
-        for (size_t a = 0; a < q.size(); ++a) {
-            std::vector<size_t> Ia;
-            // Compute the bases for which we actually need to compare in order
-            // to determine the delta of this action w.r.t. the default BN.
-            for (size_t i = 0; i < A.bases.size(); ++i) {
-                for (size_t j = 0; j < x[a].size(); ++j) {
-                    if (sequential_sorted_contains(A.bases[i].tag, x[a][j].id)) {
-                        Ia.push_back(i);
-                        break;
-                    }
-                }
-            }
-        }
+    // Performs the bellman equation on a single action
+    inline Factored2DMatrix bellmanEquation(const State & S, const Action & A, double discount, const FactoredDDN & T, const FactoredVector & V, const Vector & w, const Factored2DMatrix & R) {
+        // Q = R + gamma * T * (A * w)
+        Factored2DMatrix Q = backProject(S, A, T, V * w);
+        Q *= discount;
+        return plusEqual(S, A, Q, R);
     }
 
-    std::optional<Vector> test()(const FactoredVector & C, const FactoredVector & b, bool addConstantBasis) {
+    std::optional<Vector> test(const Factored2DMatrix & R, const Factored2DMatrix & g, const FactoredVector & h, bool addConstantBasis) {
         // Clear everything so we can use this function multiple times.
         using Graph = FactorGraph<int>;
         Graph graph(1000);
@@ -130,32 +115,70 @@ namespace AIToolbox::Factored::MDP {
         // C = set of basis functions
         // B = set of target functions
 
-        // So what we want to do here is to find the weights that minimize the
-        // max-norm difference over all states between Cw and b.
+        // Normally, to solve an MDP via linear programming we have a series of
+        // constraints for every possible s and a on the form of:
         //
-        // We are going to do this using an LP, which is built following the
-        // steps of a variable elimination algorithm.
+        //     R(s,a) + gamma * sum_s' T(s,a,s') * V*(s') <= V(s)
         //
-        // This is because the key idea here is to maximize:
+        // Since we are working in factored form (both in states and actions),
+        // we can convert these to:
         //
-        //     phi >= | (Cw)_i - b_i |
+        //     R(s,a) + gamma * sum_s' T(s,a,s') * [ sum_k w_k * h_k(s') ] <= sum_k w_k * h_k(s)
         //
-        // Which is equivalent to
+        // Where the 'h's stand for the basis functions that compose our
+        // factored V function. Note that T is instead the Dynamic Decision
+        // Network of our factored MDP.
         //
-        //     phi >= max_i | (Cw)_i - b_i |
+        // Before continuing, for simplicity of exposition, we're going to
+        // introduce a new function 'g', equal to:
         //
-        // And finally, as we actually do it here (with phi minimized):
+        //     g(s,a) = sum_s' T(s,a,s') * h_k(s')
         //
-        //    max_i | (Cw)_i - b_i | - phi <= 0
+        // Thus, g is simply the Factored2DMatrix returned from our
+        // backProject() operator, but does NOT include the weights!
         //
-        // Thus, our LP construct will be built so that the constraints are
-        // basically going to refer to that max row where the difference is
-        // highest, and the LP is then going to try to squish that value to the
-        // lowest possible.
+        // Continuing from where we left off, we rewrite the constraints using
+        // 'g' more compactly:
         //
-        // Building this LP will require adding an unknown number of columns
-        // (in particular, two per each VE rule, as we want to maximize over an
-        // absolute value, so we do it "forward and backward").
+        //     R(s,a) + gamma * sum_k w_k * g_k(s,a) <= sum_k w_k * h_k(s)
+        //     R(s,a) + sum_k w_k (gamma * g_k(s,a) - h_k(s)) <= 0
+        //
+        // We can finally use the max operator to obtain a single constraint,
+        // which will allow us to find the 'w' to best approximate the true V*:
+        //
+        //     max_s,a R(s,a) + sum_k w_k (gamma * g_k(s,a) - h_k(s)) <= 0
+        //
+        // As per the MDP::LinearProgramming class, we're trying to minimize:
+        //
+        //     minimize sum_s 1/S * V(s)
+        //
+        // Where the 1/S is the importance coefficient of a state, and here we
+        // consider them all equally. In the factored case, this becomes:
+        //
+        //     minimize sum_k 1/|h_k| * w_k
+        //
+        // So we actually want to minimize the weights.
+        //
+        // So now we need to create an LP which follows the construction of the
+        // FactoredLP class: our variables are S and A combined, and our
+        // functions are R, g and h.
+        //
+        // So we're going to add the following variables to the LP (for every
+        // possible s,a combination):
+        //
+        // - +R(s,a) # Note that R is also factorized
+        // - +w_k * (gamma * g_k(s,a))
+        // - -w_k * (h_k(s))
+        //
+        // Afterwards, we're just going to run VE and return the best w.
+
+        // NOTE: The removeState function from factoredLP can probably be reused.
+        //
+        // The question is: can we alter the API to build arbitrary functions?
+        // Could be done, like: some overloads of "addRules(matrix, +/-, useweights, addConstantBasis)"
+        // Then one can build whatever they want? But then one needs to be able to set the target as well.
+        //
+        // Leave this for later after seeing how this looks.
 
         const auto phiId = C.bases.size() + (addConstantBasis); // Skip ws since we want to extract those later.
 
@@ -262,6 +285,29 @@ namespace AIToolbox::Factored::MDP {
         // approximate b using C!
         return lp.solve(phiId);
     }
+
+    // inline void makePolicy(const State & S, const CompactDDN & p, const std::vector<FactoredVector> & q, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
+    //     std::vector<std::tuple<PartialState, size_t, double>> retval;
+
+    //     auto defaultQ = backProject(S, p.getDefaultTransition(), A * w);
+    //     // defaultQ *= discount;
+
+    //     const auto & x = p.getDiffNodes();
+
+    //     for (size_t a = 0; a < q.size(); ++a) {
+    //         std::vector<size_t> Ia;
+    //         // Compute the bases for which we actually need to compare in order
+    //         // to determine the delta of this action w.r.t. the default BN.
+    //         for (size_t i = 0; i < A.bases.size(); ++i) {
+    //             for (size_t j = 0; j < x[a].size(); ++j) {
+    //                 if (sequential_sorted_contains(A.bases[i].tag, x[a][j].id)) {
+    //                     Ia.push_back(i);
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 #endif
