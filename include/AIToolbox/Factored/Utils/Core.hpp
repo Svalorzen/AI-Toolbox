@@ -264,18 +264,20 @@ namespace AIToolbox::Factored {
     /**
      * @brief This function converts the input factor in the input space to an unique index.
      *
-     * This function returns an unique integer in range [0,
-     * factorSpace(space)). The function makes **no guarantees** as to what
-     * the conversion does, aside that from a unique factor it will return
-     * always the same unique number.
+     * This function returns an unique integer in range [0, factorSpace(space)).
+     *
+     * The conversion is implementation defined; the only guarantees is that
+     * the output can be converted back to the same Factors via the toFactors
+     * functions, and that the relative ordering of the ids is the same as the
+     * one iterated by the PartialFactorsEnumerator.
      *
      * So for example in a space (2,3), a *possible* equivalency would be:
      *
      * (0,0) -> 0
-     * (0,1) -> 1
-     * (0,2) -> 2
-     * (1,0) -> 3
-     * (1,1) -> 4
+     * (1,0) -> 1
+     * (0,1) -> 2
+     * (1,1) -> 3
+     * (0,2) -> 4
      * (1,2) -> 5
      *
      * This function does not perform bound checking. If the resulting
