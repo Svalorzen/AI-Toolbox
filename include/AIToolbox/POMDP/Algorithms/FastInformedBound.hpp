@@ -209,7 +209,7 @@ namespace AIToolbox::POMDP {
         double variation = tolerance_ * 2; // Make it bigger
         while ( timestep < horizon_ && ( !useTolerance || variation > tolerance_ ) ) {
             ++timestep;
-            newQ.fill(0.0);
+            newQ.setZero();
             // Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
             for (size_t a = 0; a < m.getA(); ++a)
                 for (size_t o = 0; o < m.getO(); ++o)

@@ -180,7 +180,7 @@ namespace AIToolbox::POMDP {
             // we must be able to find all alphas for each corner, not just a
             // single best but all best. Cassandra does not do that though.. maybe
             // we can avoid it? He uses the more powerful corner detection tho.
-            Belief corner(S); corner.fill(0.0);
+            Belief corner(S); corner.setZero();
             for (size_t s = 0; s < S; ++s) {
                 corner[s] = 1.0;
 

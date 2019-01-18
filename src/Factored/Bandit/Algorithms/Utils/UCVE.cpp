@@ -77,7 +77,7 @@ namespace AIToolbox::Factored::Bandit {
         if (finalFactors_.size() == 0) return {};
 
         AI_LOGGER(AI_SEVERITY_DEBUG, "Picking best final factors...");
-        Result retval; std::get<1>(retval).fill(0.0);
+        Result retval; std::get<1>(retval).setZero();
         for (const auto & fValue : finalFactors_) {
             const auto begin = fValue.begin(), end = fValue.end();
 

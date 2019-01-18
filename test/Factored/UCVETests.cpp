@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE( testing ) {
 
     // Solve via bruteforce
     fm::PartialAction bestAction;
-    fb::UCVE::V bestValue(2); bestValue.fill(0.0);
+    fb::UCVE::V bestValue(2); bestValue.setZero();
     double bestV = 0.0;
 
     auto value = [](const auto & v) {
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE( testing ) {
     fm::PartialFactorsEnumerator jointActions(A);
     while (jointActions.isValid()) {
         auto & jointAction = *jointActions;
-        helper.fill(0.0);
+        helper.setZero();
 
         for (const auto & e : ucveVectors)
             if (fm::match(std::get<0>(e), jointAction))

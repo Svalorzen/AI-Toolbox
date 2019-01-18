@@ -15,7 +15,7 @@ namespace AIToolbox::MDP {
         for ( size_t a = 0; a < A; ++a )
             transitions_[a].setIdentity();
 
-        rewards_.fill(0.0);
+        rewards_.setZero();
     }
 
     void Model::setTransitionFunction(const Matrix3D & t) {

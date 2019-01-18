@@ -117,7 +117,7 @@ namespace AIToolbox::POMDP {
 
         auto T = MDP::Model::TransitionTable   (A, Matrix2D::Zero(S1, S1));
         auto R = MDP::Model::RewardTable       (S1, A);
-        R.fill(0.0);
+        R.setZero();
 
         const auto discretizer = makeDiscretizer(S);
 

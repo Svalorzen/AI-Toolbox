@@ -92,7 +92,7 @@ namespace AIToolbox::POMDP {
 
         for ( size_t s = 0; s < S && s < beliefNumber; ++s ) {
             beliefs.emplace_back(S);
-            beliefs.back().fill(0.0); beliefs.back()(s) = 1.0;
+            beliefs.back().setZero(); beliefs.back()(s) = 1.0;
         }
 
         this->operator()(beliefNumber, &beliefs);

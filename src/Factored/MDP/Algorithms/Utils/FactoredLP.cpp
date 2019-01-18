@@ -54,7 +54,7 @@ namespace AIToolbox::Factored::MDP {
         // Init LP with starting variables
         LP lp(startingVars);
         lp.setObjective(phiId, false); // Minimize phi
-        lp.row.fill(0.0);
+        lp.row.setZero();
 
         // Compute constant basis useful values (only used if needed)
         const auto constBasisId = phiId - 1;
@@ -123,7 +123,7 @@ namespace AIToolbox::Factored::MDP {
             removeState(graph, graph.variableSize() - 1, lp, finalFactors);
 
         // Finally, add the two phi rules for all remaining factors.
-        lp.row.fill(0.0);
+        lp.row.setZero();
         lp.row[phiId] = -1.0;
 
         for (const auto ruleId : finalFactors)
@@ -173,7 +173,7 @@ namespace AIToolbox::Factored::MDP {
             const size_t newRuleId = lp.row.size() - 2;
 
             for (size_t sAction = 0; sAction < S[s]; ++sAction) {
-                lp.row.fill(0.0);
+                lp.row.setZero();
                 lp.row[newRuleId] = -1.0;
 
                 jointAction.second[id] = sAction;

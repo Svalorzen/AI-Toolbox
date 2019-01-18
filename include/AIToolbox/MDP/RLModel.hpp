@@ -264,7 +264,7 @@ namespace AIToolbox::MDP {
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(discount);
-        rewards_.fill(0.0);
+        rewards_.setZero();
 
         if ( toSync ) {
             sync();

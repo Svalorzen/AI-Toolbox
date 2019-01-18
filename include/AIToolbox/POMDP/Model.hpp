@@ -264,7 +264,7 @@ namespace AIToolbox::POMDP {
             observations_(this->getA(), Matrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
     {
         for ( size_t a = 0; a < this->getA(); ++a ) {
-            observations_[a].fill(0.0);
+            observations_[a].rightCols(O-1).setZero();
             observations_[a].col(0).fill(1.0);
         }
     }

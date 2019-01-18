@@ -12,7 +12,7 @@ namespace AIToolbox::Bandit {
         values_(A), allowedActions_(A),
         lri_(A, a)
     {
-        values_.fill(0.0);
+        values_.setZero();
         std::iota(std::begin(allowedActions_), std::end(allowedActions_), 0);
     }
 
@@ -97,7 +97,7 @@ namespace AIToolbox::Bandit {
 
     Vector ESRLPolicy::getPolicy() const {
         Vector retval(A);
-        retval.fill(0.0);
+        retval.setZero();
 
         if (exploit_) {
             retval[bestAction_] = 1.0;

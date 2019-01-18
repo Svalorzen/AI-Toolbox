@@ -440,7 +440,7 @@ namespace AIToolbox::POMDP {
         // This is done through the UB function, although I must admit I don't
         // fully understand the math behind of why it works.
         Belief helper(model.getS()), corner(model.getS());
-        corner.fill(0.0);
+        corner.setZero();
 
         SparseMatrix4D sosa( boost::extents[model.getA()][model.getO()] );
         const auto updateMatrix = [&](SparseMatrix2D & m, const Belief & b, size_t a, size_t o, size_t index) {
@@ -520,7 +520,7 @@ namespace AIToolbox::POMDP {
         for (size_t a = 0; a < pomdp.getA(); ++a) {
             const Belief intermediateBelief = updateBeliefPartial(pomdp, initialBelief, a);
 
-            bpAlpha.fill(0.0);
+            bpAlpha.setZero();
 
             for (size_t o = 0; o < pomdp.getO(); ++o) {
                 Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);

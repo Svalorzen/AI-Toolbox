@@ -114,7 +114,7 @@ namespace AIToolbox::POMDP {
                 if constexpr(is_model_eigen_v<M>) {
                     vproj = model_.getTransitionFunction(a) * (v.cwiseProduct(model_.getObservationFunction(a).col(o)));
                 } else {
-                    vproj.fill(0.0);
+                    vproj.setZero();
                     for ( size_t s = 0; s < S; ++s )
                         for ( size_t s1 = 0; s1 < S; ++s1 )
                             vproj[s] += model_.getTransitionProbability(s,a,s1) * model_.getObservationProbability(s1,a,o) * v[s1];

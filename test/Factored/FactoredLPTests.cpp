@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/LP.hpp>
+//#include <AIToolbox/Factored/MDP/Algorithms/FactoredValueIteration.hpp>
 #include <AIToolbox/Factored/MDP/Algorithms/Utils/FactoredLP.hpp>
 
 namespace aif = AIToolbox::Factored;

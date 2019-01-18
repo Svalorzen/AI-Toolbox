@@ -239,7 +239,7 @@ namespace AIToolbox::POMDP {
 
     template <typename ProjectionsRow>
     void Witness::addDefaultEntry(const ProjectionsRow & projs) {
-        MDP::Values v(S); v.fill(0.0);
+        MDP::Values v(S); v.setZero();
 
         // We compute the crossSum between each best vector for the belief.
         for ( size_t o = 0; o < O; ++o )

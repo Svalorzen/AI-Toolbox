@@ -158,7 +158,7 @@ namespace AIToolbox::MDP {
                 }
                 // Defaulting
                 v1_ = Values(S);
-                v1_.fill(0.0);
+                v1_.setZero();
             }
             else
                 v1_ = vParameter_;
