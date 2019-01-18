@@ -77,17 +77,6 @@ namespace AIToolbox::Factored {
     void join(size_t S, PartialFactors * lhs, const PartialFactors & rhs);
 
     /**
-     * @brief This function creates a new PartialFactors appending rhs to lhs, assuming lhs has S elements.
-     *
-     * @param S The number of factors the full Factor for lhs has.
-     * @param lhs The left hand side.
-     * @param rhs The right hand side.
-     *
-     * @return A new PartialFactors that contains all elements from lhs, and all elements from rhs shifted by S.
-     */
-    PartialFactors join(size_t S, const PartialFactors & lhs, const PartialFactors & rhs);
-
-    /**
      * @brief This function creates a new Factor appending rhs to lhs.
      *
      * @param lhs The left hand side.
@@ -96,6 +85,28 @@ namespace AIToolbox::Factored {
      * @return A new Factor containing all elements from lhs and rhs.
      */
     Factors join(const Factors & lhs, const Factors & rhs);
+
+    /**
+     * @brief This function appends rhs to lhs, assuming the full Factor for lhs has S elements.
+     *
+     * @param S The number of factors the full Factor for lhs has.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return The new joined PartialKeys.
+     */
+    PartialKeys join(size_t S, const PartialKeys & lhs, const PartialKeys & rhs);
+
+    /**
+     * @brief This function appends rhs to lhs, assuming the full Factor for lhs has S elements.
+     *
+     * @param S The number of factors the full Factor for lhs has.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return A new PartialFactors with all keys from rhs at the end and shifted by S.
+     */
+    PartialFactors join(size_t S, const PartialFactors & lhs, const PartialFactors & rhs);
 
     /**
      * @brief This function appends the rhs to the lhs.
@@ -127,26 +138,25 @@ namespace AIToolbox::Factored {
     PartialFactors merge(const PartialFactors & lhs, const PartialFactors & rhs);
 
     /**
-     * @brief This function merges two Factors together, using two PartialKeys as guides.
+     * @brief This function merges two PartialValues together, using two PartialKeys as guides.
      *
-     * This function is equivalent to merge(const PartialFactors&, const PartialFactors&).
-     *
-     * It merges two Factors using their PartialKeys as guides. The Factors
-     * must be of the same size as their respective PartialKeys.
+     * This function is equivalent to merge(const PartialFactors&, const
+     * PartialFactors&), with the only difference that it does not merge the
+     * keys.
      *
      * This function assumes that all elements in the PartialKeys are
      * different. If there are matches, the corrisponding element is inserted
      * once output, but its value is unspecified (it will be from one of the
-     * two input Factors).
+     * two input PartialValues).
      *
      * @param lhsk The left hand side keys.
      * @param lhs The left hand side.
      * @param rhsk The right hand side keys.
      * @param rhs The right hand side.
      *
-     * @return A new Factors containing all values from both inputs in the correct order.
+     * @return A new PartialValues containing all values from both inputs in the correct order.
      */
-    Factors merge(const PartialKeys & lhsk, const Factors & lhs, const PartialKeys & rhsk, const Factors & rhs);
+    PartialValues merge(const PartialKeys & lhsk, const PartialValues & lhs, const PartialKeys & rhsk, const PartialValues & rhs);
 
     /**
      * @brief This function merges two PartialKeys together.
@@ -477,6 +487,23 @@ namespace AIToolbox::Factored {
              * @return The current PartialFactors values.
              */
             PartialFactors& operator*();
+
+            /**
+             * @brief This operator returns the current iteration in the values of the PartialFactors.
+             *
+             * This operator can be called only if isValid() is true.
+             * Otherwise behavior is undefined.
+             *
+             * The PartialFactors returned are editable, so that the user
+             * can change the factorToSkip values. If other values are
+             * edited, and the resulting PartialFactors still has valid
+             * values (below the Factors ceiling), the next advance() call
+             * will continue from there. If advance() is called with an
+             * invalid PartialFactors behavior is undefined.
+             *
+             * @return The current PartialFactors values.
+             */
+            PartialFactors* operator->();
 
         private:
             Factors F;

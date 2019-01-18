@@ -59,24 +59,26 @@ namespace AIToolbox::Factored {
         return true;
     }
 
-    PartialFactors join(const size_t S, const PartialFactors & lhs, const PartialFactors & rhs) {
-        PartialFactors retval;
-        retval.first.reserve(lhs.first.size() + rhs.first.size());
-        retval.second.reserve(lhs.first.size() + rhs.first.size());
-        // lhs part is the same.
-        retval = lhs;
-        // rhs part is shifted by S elements (values are the same)
-        std::transform(std::begin(rhs.first), std::end(rhs.first), std::back_inserter(retval.first), [S](const size_t a){ return a + S; });
-        retval.second.insert(std::end(retval.second), std::begin(rhs.second), std::end(rhs.second));
-
-        return retval;
-    }
-
     Factors join(const Factors & lhs, const Factors & rhs) {
         Factors retval;
         retval.reserve(lhs.size() + rhs.size());
         retval.insert(std::end(retval), std::begin(lhs), std::end(lhs));
         retval.insert(std::end(retval), std::begin(rhs), std::end(rhs));
+        return retval;
+    }
+
+    PartialKeys join(const size_t S, const PartialKeys & lhs, const PartialKeys & rhs) {
+        PartialValues retval;
+        retval.reserve(lhs.size() + rhs.size());
+        retval.insert(std::end(retval), std::begin(lhs), std::end(lhs));
+        std::transform(std::begin(rhs), std::end(rhs), std::back_inserter(retval), [S](const size_t a){ return a + S; });
+        return retval;
+    }
+
+    PartialFactors join(const size_t S, const PartialFactors & lhs, const PartialFactors & rhs) {
+        PartialFactors retval;
+        retval.first = join(S, lhs.first, rhs.first);
+        retval.second = join(lhs.second, rhs.second);
         return retval;
     }
 
@@ -116,8 +118,8 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    Factors merge(const PartialKeys & lhsk, const Factors & lhs, const PartialKeys & rhsk, const Factors & rhs) {
-        Factors retval;
+    PartialValues merge(const PartialKeys & lhsk, const PartialValues & lhs, const PartialKeys & rhsk, const PartialValues & rhs) {
+        PartialValues retval;
         retval.reserve(lhsk.size() + rhsk.size());
 
         size_t i = 0, j = 0;
@@ -344,4 +346,5 @@ namespace AIToolbox::Factored {
     size_t PartialFactorsEnumerator::getFactorToSkipId() const { return factorToSkipId_; }
 
     PartialFactors& PartialFactorsEnumerator::operator*() { return factors_; }
+    PartialFactors* PartialFactorsEnumerator::operator->() { return &factors_; }
 }
