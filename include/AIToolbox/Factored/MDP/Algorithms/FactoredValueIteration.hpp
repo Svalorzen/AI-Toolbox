@@ -3,6 +3,7 @@
 
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Types.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 #include <AIToolbox/Factored/Utils/BayesianNetwork.hpp>
@@ -106,14 +107,15 @@ namespace AIToolbox::Factored::MDP {
         return plusEqual(S, A, Q, R);
     }
 
-    std::optional<Vector> test(const Factored2DMatrix & R, const Factored2DMatrix & g, const FactoredVector & h, bool addConstantBasis) {
-        // Clear everything so we can use this function multiple times.
-        using Graph = FactorGraph<int>;
-        Graph graph(1000);
-        std::vector<size_t> finalFactors;
+    using Rule = std::pair<PartialValues, size_t>;
+    using Rules = std::vector<Rule>;
+    using Graph = FactorGraph<Rules>;
 
-        // C = set of basis functions
-        // B = set of target functions
+    void removeState(const Factors & F, Graph & graph, size_t s, LP & lp, std::vector<size_t> & finalFactors);
+    std::optional<Vector> test(const State & S, const Action & A, double gamma, const Factored2DMatrix & R, const Factored2DMatrix & g, const FactoredVector & h, bool addConstantBasis) {
+        // Clear everything so we can use this function multiple times.
+        Graph graph(S.size() + A.size());
+        std::vector<size_t> finalFactors;
 
         // Normally, to solve an MDP via linear programming we have a series of
         // constraints for every possible s and a on the form of:
@@ -180,70 +182,112 @@ namespace AIToolbox::Factored::MDP {
         //
         // Leave this for later after seeing how this looks.
 
-        const auto phiId = C.bases.size() + (addConstantBasis); // Skip ws since we want to extract those later.
+        const size_t returnVars = h.bases.size() + (addConstantBasis);
 
-        size_t startingVars = phiId + 1;   // ws + phi
-        for (const auto & f : C.bases) startingVars += f.values.size() * 2;
-        for (const auto & f : b.bases) startingVars += f.values.size() * 2;
+        size_t startingVars = returnVars;
+        for (const auto & f : h.bases) startingVars += f.values.size();
+        for (const auto & f : g.bases) startingVars += f.values.size();
+        for (const auto & f : R.bases) startingVars += f.values.size();
+
+        // Compute constant basis useful values (only used if needed)
+        const auto constBasisId = h.bases.size();
+        const double constBasisCoeff = 1.0 / h.bases.size();
 
         // Init LP with starting variables
         LP lp(startingVars);
-        lp.setObjective(phiId, false); // Minimize phi
-        lp.row.fill(0.0);
 
-        // Compute constant basis useful values (only used if needed)
-        const auto constBasisId = phiId - 1;
-        const double constBasisCoeff = 1.0 / C.bases.size();
+        // Setup objective
+        for (size_t i = 0; i < h.bases.size(); ++i)
+            lp.row[i] = 1.0 / h.bases[i].values.size();
+        if (addConstantBasis) lp.row[constBasisId] = 1.0;
+        lp.row.tail(startingVars - h.bases.size() - 1).setZero();
+        lp.setObjective(false); // Minimize phi
+
+        lp.row.setZero();
 
         // In this initial setup, we simply kind of give a "name"/"variable" to
-        // each assignment of the original Cw and b functions - note that all
-        // operators are equalities here. In the first loop we do C (which is
-        // thus associated with the weights), and in the second b (which is
-        // not).
+        // each assignment of the inputs functions - note that all
+        // operators are equalities here.
         //
         // This is not strictly necessary and could be optimized away, but for
         // now it is like this to make the removeState() code uniform as it
         // just needs to reference the constraints in the graph.
-        size_t wi = 0;
-        size_t currentRule = phiId + 1; // Skip ws + phi
-        for (const auto & f : C.bases) {
+
+        // h setup: -w_k * (h_k(s))
+        size_t currentWeight = 0; // This is basically k
+        size_t currentRule = returnVars; // This is the "name" of the rule we are inserting in the graph
+        // Set constant basis for all of h rules
+        if (addConstantBasis) lp.row[constBasisId] = -constBasisCoeff;
+        for (const auto & f : h.bases) {
             auto newFactor = graph.getFactor(f.tag);
-            for (size_t i = 0; i < static_cast<size_t>(f.values.size()); ++i) {
-                lp.row[currentRule] = -1.0;
-                lp.row[wi] = f.values[i];
-                if (addConstantBasis) lp.row[constBasisId] = constBasisCoeff;
+            PartialFactorsEnumerator s(S, f.tag);
+            size_t i = 0;
+            while (s.isValid()) {
+                lp.row[currentRule] = -1.0; // Rule name for this value
+                lp.row[currentWeight] = -f.values[i];
                 lp.pushRow(LP::Constraint::Equal, 0.0);
                 lp.row[currentRule] = 0.0;
 
-                lp.row[currentRule+1] = -1.0;
-                lp.row[wi] = -f.values[i];
-                if (addConstantBasis) lp.row[constBasisId] = -constBasisCoeff;
-                lp.pushRow(LP::Constraint::Equal, 0.0);
-                lp.row[currentRule+1] = 0.0;
+                newFactor->getData().emplace_back(s->second, currentRule);
+                currentRule += 1;
 
-                newFactor->getData().emplace_back(std::make_pair(f.tag, toFactorsPartial(f.tag, S, i)), currentRule);
-                currentRule += 2;
+                ++i;
             }
-            lp.row[wi++] = 0.0;
+            lp.row[currentWeight++] = 0.0;
         }
         lp.row[constBasisId] = 0.0;
 
-        // Here signs are opposite to those of C since we need to find (Cw - b)
-        // and (b - Cw)
-        for (const auto & f : b.bases) {
-            auto newFactor = graph.getFactor(f.tag);
-            for (size_t i = 0; i < static_cast<size_t>(f.values.size()); ++i) {
-                lp.row[currentRule] = 1.0;
-                lp.pushRow(LP::Constraint::Equal, -f.values[i]);
-                lp.row[currentRule] = 0.0;
+        // g setup: +w_k * (gamma * g_k(s,a))
+        currentWeight = 0;
+        for (const auto & f : g.bases) {
+            auto newFactor = graph.getFactor(join(S.size(), f.tag, f.actionTag));
+            PartialFactorsEnumerator s(S, f.tag);
+            PartialFactorsEnumerator a(A, f.actionTag);
+            size_t sId = 0;
+            while (s.isValid()) {
+                size_t aId = 0;
+                while (a.isValid()) {
+                    lp.row[currentRule] = -1.0; // Rule name for this value
+                    lp.row[currentWeight] = +gamma * f.values(sId, aId);
+                    lp.pushRow(LP::Constraint::Equal, 0.0);
+                    lp.row[currentRule] = 0.0;
 
-                lp.row[currentRule+1] = 1.0;
-                lp.pushRow(LP::Constraint::Equal, f.values[i]);
-                lp.row[currentRule+1] = 0.0;
+                    newFactor->getData().emplace_back(join(s->second, a->second), currentRule);
+                    currentRule += 1;
 
-                newFactor->getData().emplace_back(std::make_pair(f.tag, toFactorsPartial(f.tag, S, i)), currentRule);
-                currentRule += 2;
+                    a.advance();
+                    ++aId;
+                }
+                s.advance();
+                ++sId;
             }
+            lp.row[currentWeight++] = 0.0;
+        }
+
+        // R setup: +R(s,a)
+        currentWeight = 0;
+        for (const auto & f : R.bases) {
+            auto newFactor = graph.getFactor(join(S.size(), f.tag, f.actionTag));
+            PartialFactorsEnumerator s(S, f.tag);
+            PartialFactorsEnumerator a(A, f.actionTag);
+            size_t sId = 0;
+            while (s.isValid()) {
+                size_t aId = 0;
+                while (a.isValid()) {
+                    lp.row[currentRule] = +1.0; // Rule name for this value
+                    lp.pushRow(LP::Constraint::Equal, f.values(sId, aId));
+                    lp.row[currentRule] = 0.0;
+
+                    newFactor->getData().emplace_back(join(s->second, a->second), currentRule);
+                    currentRule += 1;
+
+                    a.advance();
+                    ++aId;
+                }
+                s.advance();
+                ++sId;
+            }
+            lp.row[currentWeight++] = 0.0;
         }
 
         // Now that the setup is done and we have internalized the inputs as
@@ -254,27 +298,17 @@ namespace AIToolbox::Factored::MDP {
         // is a vector) at a time, maximizing on one of the State components at
         // a time. We don't really do anything here aside from creating new
         // constraints in the LP, and giving them "names".
+        auto F = join(S, A);
         while (graph.variableSize())
-            removeState(graph, graph.variableSize() - 1, lp, finalFactors);
+            removeState(F, graph, graph.variableSize() - 1, lp, finalFactors);
 
-        // Finally, add the two phi rules for all remaining factors.
+        // Finally, add the last inequalities for all remaining factors.
         lp.row.fill(0.0);
-        lp.row[phiId] = -1.0;
-
-        for (const auto ruleId : finalFactors)
+        for (const auto ruleId : finalFactors) {
             lp.row[ruleId] = 1.0;
-
-        lp.pushRow(LP::Constraint::LessEqual, 0.0);
-
-        // Now do the reverse for all opposite rules (same rules +1)
-        for (size_t i = lp.row.size() - 2; i > phiId; --i) {
-            if (lp.row[i] != 0.0) {
-                lp.row[i+1] = lp.row[i];
-                lp.row[i] = 0.0;
-            }
+            lp.pushRow(LP::Constraint::LessEqual, 0.0);
+            lp.row[ruleId] = 0.0;
         }
-
-        lp.pushRow(LP::Constraint::LessEqual, 0.0);
 
         // Set every variable we have added as unbounded, since they shouldn't
         // be limited to positive (which may be the default).
@@ -282,8 +316,68 @@ namespace AIToolbox::Factored::MDP {
             lp.setUnbounded(i);
 
         // Finally, try to solve the LP and find out the coefficients to
-        // approximate b using C!
-        return lp.solve(phiId);
+        // approximate V* using h!
+        return lp.solve(returnVars);
+    }
+
+    void removeState(const Factors & F, Graph & graph, size_t s, LP & lp, std::vector<size_t> & finalFactors) {
+        const auto factors = graph.getNeighbors(s);
+        auto variables = graph.getNeighbors(factors);
+
+        PartialFactorsEnumerator jointActions(F, variables, s);
+        const auto id = jointActions.getFactorToSkipId();
+        Rules newRules;
+
+        // We'll now create new rules that represent the elimination of the
+        // input variable for this round. For each possible assignment to the
+        // variables, we create two rules: one for (Cw - b) and one for (b -
+        // Cw).
+        const bool isFinalFactor = variables.size() == 1;
+
+        while (jointActions.isValid()) {
+            auto & jointAction = *jointActions;
+            lp.addColumn();
+
+            const size_t newRuleId = lp.row.size() - 2;
+
+            for (size_t sAction = 0; sAction < F[s]; ++sAction) {
+                lp.row.setZero();
+                lp.row[newRuleId] = -1.0;
+
+                jointAction.second[id] = sAction;
+                for (const auto ruleIds : factors)
+                    for (const auto ruleId : ruleIds->getData())
+                        if (match(ruleIds->getVariables(), ruleId.first, jointAction.first, jointAction.second))
+                            lp.row[std::get<1>(ruleId)] = 1.0;
+
+                lp.pushRow(LP::Constraint::LessEqual, 0.0);
+            }
+
+            if (!isFinalFactor)
+                newRules.emplace_back(jointAction.second, newRuleId);
+            else
+                finalFactors.push_back(newRuleId);
+
+            jointActions.advance();
+        }
+
+        // And finally as usual in variable elimination remove the variable
+        // from the graph and insert the newly created variable in.
+
+        for (const auto & it : factors)
+            graph.erase(it);
+        graph.erase(s);
+
+        if (!isFinalFactor) {
+            variables.erase(std::remove(std::begin(variables), std::end(variables), s), std::end(variables));
+
+            auto newFactor = graph.getFactor(variables);
+            newFactor->getData().insert(
+                    std::end(newFactor->getData()),
+                    std::make_move_iterator(std::begin(newRules)),
+                    std::make_move_iterator(std::end(newRules))
+            );
+        }
     }
 
     // inline void makePolicy(const State & S, const CompactDDN & p, const std::vector<FactoredVector> & q, const FactoredVector & A, const Vector & w, const FactoredVector & R) {
