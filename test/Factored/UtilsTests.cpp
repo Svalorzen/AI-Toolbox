@@ -330,3 +330,25 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_only_factor ) {
         ++counter;
     }
 }
+
+BOOST_AUTO_TEST_CASE( partial_factor_enumerator_api_compatibility ) {
+    aif::Factors f{1,2,3,4,5};
+    aif::PartialFactorsEnumerator enumerator(f);
+
+    size_t counter = 0;
+    while (enumerator.isValid()) {
+        const auto & val = enumerator->second;
+        auto cmp   = aif::toFactors(f, counter);
+
+        const auto cCmp  = aif::toIndex(f, *enumerator);
+
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val), std::end(val),
+                                      std::begin(cmp), std::end(cmp));
+
+        BOOST_CHECK_EQUAL(cCmp, counter);
+
+        enumerator.advance();
+        ++counter;
+    }
+}
