@@ -77,6 +77,7 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/MAUCE.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
         Factored/MDP/Model.cpp
+        Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/SingleActionPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
