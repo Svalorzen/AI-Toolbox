@@ -112,6 +112,7 @@ if (MAKE_FMDP)
     AddTest(Factored VariableElimination)
 
     AddTest(Factored SparseCooperativeQLearning)
+    AddTest(Factored LinearProgramming)
     AddTest(Factored JointActionLearner)
 
     if (MAKE_PYTHON)
