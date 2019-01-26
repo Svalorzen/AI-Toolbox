@@ -242,7 +242,7 @@ namespace AIToolbox::MDP {
             void setDiscount(double d);
 
             /**
-             * @brief This function samples the MDP for the specified state action pair.
+             * @brief This function samples the MDP with the specified state action pair.
              *
              * This function samples the model for simulated experience.
              * The transition and reward functions are used to produce,
