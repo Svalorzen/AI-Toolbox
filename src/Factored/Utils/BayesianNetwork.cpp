@@ -105,7 +105,7 @@ namespace AIToolbox::Factored {
         // For each partial transition matrix, we compute the entry which
         // applies to this transition, and we multiply all entries together.
         for (size_t i = 0; i < space.size(); ++i) {
-            const auto & node = nodes_[i];
+            const auto & node = nodes[i];
             // Compute action ID based on the actions that affect state factor 'i'.
             const auto actionId = toIndexPartial(node.actionTag, actions, a);
             // Compute parent ID based on the parents of state factor 'i' under this action.
@@ -124,7 +124,7 @@ namespace AIToolbox::Factored {
         // need to multiply all of them together. At each iteration we
         // look at a different "child".
         for (size_t j = 0; j < s1.first.size(); ++j) {
-            const auto & node = nodes_[s1.first[j]];
+            const auto & node = nodes[s1.first[j]];
             // Compute action ID based on the actions that affect state factor 'i'.
             const auto actionId = toIndexPartial(node.actionTag, actions, a);
             // Compute parent ID based on the parents of state factor 'i' under this action.
@@ -137,7 +137,7 @@ namespace AIToolbox::Factored {
     }
 
     const FactoredDDN::Node & FactoredDDN::operator[](size_t i) const {
-        return nodes_[i];
+        return nodes[i];
     }
 
     // Free functions
