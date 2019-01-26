@@ -206,11 +206,19 @@ namespace AIToolbox::Factored {
 
     Factors toFactors(const Factors & space, size_t id) {
         Factors f(space.size());
+        toFactors(space, id, &f);
+        return f;
+    }
+
+    void toFactors(const Factors & space, size_t id, Factors * out) {
+        assert(out);
+
+        auto & f = *out;
+
         for (size_t i = 0; i < space.size(); ++i) {
             f[i] = id % space[i];
             id /= space[i];
         }
-        return f;
     }
 
     Factors toFactorsPartial(const PartialKeys & keys, const Factors & space, size_t id) {

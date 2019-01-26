@@ -245,6 +245,20 @@ namespace AIToolbox::Factored {
     Factors toFactors(const Factors & space, size_t id);
 
     /**
+     * @brief This function converts an index into the equivalent Factors, within the specified factor space.
+     *
+     * This function is equivalent to toFactors(const Factors & space, size_t
+     * id), but does its work on the input Factors.
+     *
+     * Note: this function does NOT check for nullptr.
+     *
+     * @param space The factor space to consider.
+     * @param id The integer uniquely identifying the factor.
+     * @param out The id's equivalent Factors.
+     */
+    void toFactors(const Factors & space, size_t id, Factors * out);
+
+    /**
      * @brief This function converts an index into the equivalent Factors of the input keys, within the specified factor space.
      *
      * This function is the inverse of the toIndexPartial(const PartialKeys &,
