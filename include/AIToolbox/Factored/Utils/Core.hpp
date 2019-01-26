@@ -280,12 +280,13 @@ namespace AIToolbox::Factored {
      *
      * This function returns an unique integer in range [0, factorSpace(space)).
      *
-     * The conversion is implementation defined; the only guarantees is that
-     * the output can be converted back to the same Factors via the toFactors
-     * functions, and that the relative ordering of the ids is the same as the
-     * one iterated by the PartialFactorsEnumerator.
+     * The conversion guarantees that the output can be converted back to the
+     * same Factors via the toFactors functions, and that the relative ordering
+     * of the ids is the same as the one iterated by the
+     * PartialFactorsEnumerator.
      *
-     * So for example in a space (2,3), a *possible* equivalency would be:
+     * In particular, iterating over factors is always done from the lowest id
+     * first. So for example in a space (2,3), the equivalency is:
      *
      * (0,0) -> 0
      * (1,0) -> 1
@@ -390,6 +391,16 @@ namespace AIToolbox::Factored {
      * values of a PartialFactors for the specific input factors. An
      * additional separate factor index can be specified in order to skip
      * that factor, to allow the user to modify that freely.
+     *
+     * The iteration is *always* done by increasing the lowest id first. So for
+     * example in a space (2,3), we iterate in the following order:
+     *
+     * (0,0)
+     * (1,0)
+     * (0,1)
+     * (1,1)
+     * (0,2)
+     * (1,2)
      */
     class PartialFactorsEnumerator {
         public:
