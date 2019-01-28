@@ -49,6 +49,25 @@ namespace AIToolbox::Factored::MDP {
             std::tuple<State, double> sampleSR(const State & s, const Action & a) const;
 
             /**
+             * @brief This function samples the MDP with the specified state action pair.
+             *
+             * This function is equivalent to sampleSR(const State &, const Action &).
+             *
+             * The only difference is that it allows to output the new State
+             * into a pre-allocated State, avoiding the need for an allocation
+             * at every sample.
+             *
+             * NO CHECKS for nullptr are done.
+             *
+             * @param s The state that needs to be sampled.
+             * @param a The action that needs to be sampled.
+             * @param s1 The new state.
+             *
+             * @return The reward for the sampled transition.
+             */
+            double sampleSR(const State & s, const Action & a, State * s1) const;
+
+            /**
              * @brief This function sets a new discount factor for the Model.
              *
              * @param d The new discount factor for the Model.

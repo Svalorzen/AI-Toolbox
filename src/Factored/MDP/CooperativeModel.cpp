@@ -12,6 +12,13 @@ namespace AIToolbox::Factored::MDP {
 
     std::tuple<State, double> CooperativeModel::sampleSR(const State & s, const Action & a) const {
         State s1(S.size());
+        const double reward = sampleSR(s, a, &s1);
+
+        return std::make_tuple(s1, reward);
+    }
+
+    double CooperativeModel::sampleSR(const State & s, const Action & a, State * s1p) const {
+        State & s1 = *s1p;
 
         for (size_t i = 0; i < S.size(); ++i) {
             const auto actionId = toIndexPartial(transitions_[i].actionTag, A, a);
@@ -24,8 +31,9 @@ namespace AIToolbox::Factored::MDP {
             s1[i] = newS;
         }
 
-        return std::make_tuple(s1, rewards_.getValue(S, A, s, a));
+        return rewards_.getValue(S, A, s, a);
     }
+
     double CooperativeModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {
         return transitions_.getTransitionProbability(S, A, s, a, s1);
     }
