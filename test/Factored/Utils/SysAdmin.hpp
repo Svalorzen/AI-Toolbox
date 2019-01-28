@@ -104,7 +104,7 @@ ai::Matrix2D makeA1MatrixLoad() {
     return retval;
 }
 
-afm::CooperativeModel makeSysAdminRing(unsigned agents,
+afm::CooperativeModel makeSysAdminBiRing(unsigned agents,
     // Status transition params.
     double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus,
     // Load transition params.
@@ -157,6 +157,113 @@ afm::CooperativeModel makeSysAdminRing(unsigned agents,
         }
         else {
             sa0.tag = {(a - 1) * 2, a * 2, (a + 1) * 2};
+            neighborId = 1;
+        }
+        sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+
+        aif::DBN::Node sa1{{a * 2}, sa1Matrix};
+
+        nodeStatus.nodes.emplace_back(std::move(sa0));
+        nodeStatus.nodes.emplace_back(std::move(sa1));
+
+        aif::FactoredDDN::Node nodeLoad{{a}, {}};
+
+        // Here we only depend on our own previous load state
+        aif::DBN::Node la0{{a * 2, (a * 2) + 1}, la0Matrix};
+        aif::DBN::Node la1{{(a * 2) + 1}, la1Matrix};
+
+        nodeLoad.nodes.emplace_back(std::move(la0));
+        nodeLoad.nodes.emplace_back(std::move(la1));
+
+        ddn.nodes.emplace_back(std::move(nodeStatus));
+        ddn.nodes.emplace_back(std::move(nodeLoad));
+    }
+
+    // All reward matrices for all agents are the same, so we build it here
+    // once.
+    //
+    // In particular, we get 1 reward each time we get to a Done state.
+    // However, our matrix of rewards is SxA (with no end states), so we need
+    // to convert our definition of reward into SxA format.
+    //
+    // This means that we need to see which dependencies the Load state has:
+    // both the previous Load and previous Status.
+    ai::Matrix2D rewardMatrix(3 * 3, 2);
+    rewardMatrix.setZero();
+
+    // Basically, the only way we can get reward is by:
+    // - Starting from the Load state (since it's the only one that can complete)
+    // - Doing action 0;
+    // - And ending up in the Done state.
+    //
+    // Remember that R(s,a) = sum_s1 T(s,a,s1) * R(s,a,s1)
+    rewardMatrix(Load * 3 + Good, 0) = la0Matrix(Load * 3 + Good, Done) * 1.0;
+    rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * 1.0;
+    rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * 1.0;
+
+    aif::Factored2DMatrix rewards;
+    for (size_t a = 0; a < agents; ++a) {
+        // Now we set all of them with the correct dependencies.
+        aif::BasisMatrix basis;
+        basis.tag = {a * 2 + 1}; // We depend on the before load state;
+        basis.actionTag = {a};   // And on our action.
+        basis.values = rewardMatrix;
+
+        rewards.bases.emplace_back(std::move(basis));
+    }
+
+    return afm::CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards));
+}
+
+afm::CooperativeModel makeSysAdminUniRing(unsigned agents,
+    // Status transition params.
+    double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus,
+    // Load transition params.
+    double pLoad, double pDoneG, double pDoneF)
+{
+    // Parameters for this network type:
+    // In this ring we have 1 neighbor.
+    constexpr unsigned neighbors = 1;
+
+    // We factor the state space into two variables per each agent: status and
+    // load. Each of them can assume 3 different values.
+    aif::State S(agents * 2);
+    std::fill(std::begin(S), std::end(S), 3);
+
+    // Each agent has a single action, so the size of the action space is equal
+    // to the number of agents.
+    aif::Action A(agents);
+    std::fill(std::begin(A), std::end(A), 2);
+
+    // All matrices but the a0 status transitions do not depend on the
+    // neighbors, so we can create them only once and just copy them when we
+    // need them.
+    const auto sa1Matrix = makeA1MatrixStatus();
+    const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
+    const auto la1Matrix = makeA1MatrixStatus();
+
+    auto ddn = aif::FactoredDDN();
+    for (size_t a = 0; a < agents; ++a) {
+        // Here, for each action, we have to create two transition nodes: one
+        // for the status of the machine, and another for the load.
+        // Both nodes only depend on the action of its agent.
+
+        // Status node, only depends on the action of 'a'
+        aif::FactoredDDN::Node nodeStatus{{a}, {}};
+
+        // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
+        // Node that the transition node for action 0 depends on the neighbors,
+        // since whether they are failing or not affects whether this machine
+        // will fail or not. If we reset, we don't really care.
+        aif::DBN::Node sa0{{}, {}};
+        unsigned neighborId;
+        // Set the correct dependencies for the ring
+        if (a == 0) {
+            sa0.tag = {0, (agents - 1) * 2};
+            neighborId = 0;
+        }
+        else {
+            sa0.tag = {(a - 1) * 2, a * 2};
             neighborId = 1;
         }
         sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);

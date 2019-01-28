@@ -8,7 +8,7 @@
 #include "Utils/SysAdmin.hpp"
 
 BOOST_AUTO_TEST_CASE( construction ) {
-    auto model = makeSysAdminRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
+    auto model = makeSysAdminBiRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
     aif::State s{3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
     aif::State a{2, 2, 2, 2, 2, 2, 2};
 
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     // Load transition params.
     double pLoad = 0.2, pDoneG = 0.2, pDoneF = 0.1;
 
-    auto problem = makeSysAdminRing(5, pFailBase, pFailBonus, pDeadBase,
+    auto problem = makeSysAdminBiRing(5, pFailBase, pFailBonus, pDeadBase,
             pDeadBonus, pLoad, pDoneG, pDoneF);
 
     aif::State s{
