@@ -45,10 +45,17 @@ namespace AIToolbox::Factored {
      * This representation is used, for example, to represent each Qa, or Ra in
      * factored MDPs.
      *
-     * Note that we always try to avoid duplicate BasisFunctions in here; i.e.
-     * BasisFunctions with equal tag, or where the tag of one is a strict
-     * superset of another. Such BasisFunctions can be simply merged, and thus
-     * we avoid them to keep the representation as simple as possible.
+     * Note that, in most cases, one should try to avoid duplicate
+     * BasisFunctions in here; i.e.  BasisFunctions with equal tag, or where
+     * the tag of one is a strict superset of another. Such BasisFunctions can
+     * simply be merged, thus keeping the representation as simple as possible.
+     *
+     * At the same time, sometimes duplicates are needed: for example when
+     * specifying the BasisFunctions of a factored ValueFunction. This is
+     * because usually a factored ValueFunction is composed of two components:
+     * the BasisFunctions, and a set of weight. Being able to assign separate
+     * weights to two different BasisFunctions, even if defined over the same
+     * tag, is important, so we don't completely forbid duplicates.
      */
     struct FactoredVector {
         /**
