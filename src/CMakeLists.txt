@@ -84,6 +84,7 @@ if (MAKE_FMDP)
         Factored/MDP/Algorithms/Utils/FactoredLP.cpp
         Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp
         Factored/MDP/Algorithms/JointActionLearner.cpp
+        Factored/MDP/Algorithms/LinearProgramming.cpp
     )
     set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
