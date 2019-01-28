@@ -122,7 +122,7 @@ afm::CooperativeModel makeSysAdminRing(unsigned agents,
     // Each agent has a single action, so the size of the action space is equal
     // to the number of agents.
     aif::Action A(agents);
-    std::fill(std::begin(S), std::end(S), 2);
+    std::fill(std::begin(A), std::end(A), 2);
 
     // All matrices but the a0 status transitions do not depend on the
     // neighbors, so we can create them only once and just copy them when we
@@ -144,14 +144,22 @@ afm::CooperativeModel makeSysAdminRing(unsigned agents,
         // Node that the transition node for action 0 depends on the neighbors,
         // since whether they are failing or not affects whether this machine
         // will fail or not. If we reset, we don't really care.
-        aif::DBN::Node sa0{{}, makeA0MatrixStatus(neighbors, a, pFailBase, pFailBonus, pDeadBase, pDeadBonus)};
+        aif::DBN::Node sa0{{}, {}};
+        unsigned neighborId;
         // Set the correct dependencies for the ring
-        if (a == 0)
+        if (a == 0) {
             sa0.tag = {0, 2, (agents - 1) * 2};
-        else if (a == agents - 1)
+            neighborId = 0;
+        }
+        else if (a == agents - 1) {
             sa0.tag = {0, (a - 1) * 2, a * 2};
-        else
+            neighborId = 2;
+        }
+        else {
             sa0.tag = {(a - 1) * 2, a * 2, (a + 1) * 2};
+            neighborId = 1;
+        }
+        sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
 
         aif::DBN::Node sa1{{a * 2}, sa1Matrix};
 
@@ -161,7 +169,7 @@ afm::CooperativeModel makeSysAdminRing(unsigned agents,
         aif::FactoredDDN::Node nodeLoad{{a}, {}};
 
         // Here we only depend on our own previous load state
-        aif::DBN::Node la0{{(a * 2) + 1}, la0Matrix};
+        aif::DBN::Node la0{{a * 2, (a * 2) + 1}, la0Matrix};
         aif::DBN::Node la1{{(a * 2) + 1}, la1Matrix};
 
         nodeLoad.nodes.emplace_back(std::move(la0));
