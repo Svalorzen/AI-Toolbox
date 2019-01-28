@@ -105,6 +105,8 @@ if (MAKE_FMDP)
 
     AddTest(Factored FactoredLP)
 
+    AddTest(Factored CooperativeModel)
+
     AddTest(Factored LLR)
     AddTest(Factored MAUCE)
     AddTest(Factored MultiObjectiveVariableElimination)
