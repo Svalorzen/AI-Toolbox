@@ -215,4 +215,83 @@ afm::CooperativeModel makeSysAdminRing(unsigned agents,
     return afm::CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards));
 }
 
+unsigned ceil(unsigned x, unsigned y) {
+    return (x + y - 1) / y;
+}
+
+char printMachineStatus(unsigned s) {
+    switch (s) {
+        case 0: return 'g';
+        case 1: return 'f';
+        default: return 'd';
+    }
+}
+
+char printMachineLoad(unsigned l) {
+    switch (l) {
+        case 0: return 'i';
+        case 1: return 'l';
+        default: return 'd';
+    }
+}
+
+std::string printSysAdminRing(const aif::State & s) {
+    std::string retval;
+
+    const size_t agents = s.size() / 2;
+
+    const unsigned height = agents == 1 ? 1 : ceil(agents, 4) + 1;
+    const unsigned width = agents == 1 ? 1 :
+                           agents < 7 ? 2 :
+                           ceil(agents - height * 2, 2) + 2;
+
+    unsigned printRightId = 0;
+    unsigned printLeftId = agents - 1;
+    for (unsigned h = 0; h < height; ++h) {
+        for (unsigned w = 0; w < width; ++w) {
+            // Check if we need to print linkage or space
+            if (w != 0 && (h == 0 || h == (height - 1)))
+                retval += " -- ";
+            else
+                retval += "    ";
+
+            // Check if we are in a printing spot
+            if (h == 0 || h == (height - 1) ||
+                w == 0 || w == (width - 1)) {
+                // If we are, check that there's stuff to print
+                if (agents != 1 && printLeftId == printRightId && w != width - 1) {
+                    if (w == 0)
+                        retval += "+-";
+                    else
+                        retval += "--";
+                } else {
+                    unsigned idToPrint;
+                    if (h == 0 || w != 0)
+                        idToPrint = printRightId++;
+                    else
+                        idToPrint = printLeftId--;
+                    idToPrint *= 2;
+                    // retval += '0' + idToPrint;
+                    // retval += '0' + idToPrint;
+                    retval += printMachineStatus(s[idToPrint]);
+                    retval += printMachineLoad(s[idToPrint+1]);
+                }
+            // If we are not, fill with space
+            } else {
+                retval += "  ";
+            }
+        }
+        retval += '\n';
+        if (h != height - 1) {
+            retval += "    | ";
+            for (unsigned w = 0; w + 2 < width; ++w) {
+                retval += "      ";
+            }
+            retval += "     |\n";
+        }
+    }
+
+    return retval;
+}
+
 #endif
