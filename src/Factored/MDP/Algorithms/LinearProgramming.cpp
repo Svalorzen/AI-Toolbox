@@ -127,6 +127,7 @@ namespace AIToolbox::Factored::MDP {
                 newFactor->getData().emplace_back(s->second, currentRule);
                 currentRule += 1;
 
+                s.advance();
                 ++i;
             }
             lp.row[currentWeight++] = 0.0;

@@ -199,8 +199,7 @@ namespace AIToolbox::Factored {
             retval.bases.reserve(fv.bases.size());
 
             for (const auto & basis : fv.bases) {
-                plusEqual(space, retval,
-                        backProject(space, dbn, basis));
+                retval.bases.emplace_back(backProject(space, dbn, basis));
             }
 
             return retval;
@@ -278,8 +277,7 @@ namespace AIToolbox::Factored {
         retval.bases.reserve(fv.bases.size());
 
         for (const auto & basis : fv.bases) {
-            plusEqual(space, actions, retval,
-                    backProject(space, actions, ddn, basis));
+            retval.bases.emplace_back(backProject(space, actions, ddn, basis));
         }
 
         return retval;
