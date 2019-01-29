@@ -42,8 +42,9 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     aif::State s1 = s;
     std::vector<unsigned> counters{0,0,0,0,0};
     constexpr auto trials = 10000;
+    double totReward = 0.0;
     for (size_t i = 0; i < trials; ++i) {
-        problem.sampleSR(s, a, &s1);
+        totReward += problem.sampleSR(s, a, &s1);
 
         // Status checks
         counters[0] += s1[0];
@@ -88,4 +89,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
 
     BOOST_CHECK(counters[3] < solutions[3] + tolerance);
     BOOST_CHECK(counters[3] > solutions[3] - tolerance);
+
+    BOOST_CHECK(totReward < 10000 * pDoneF + 100);
+    BOOST_CHECK(totReward > 10000 * pDoneF - 100);
 }

@@ -82,8 +82,8 @@ namespace AIToolbox::MDP {
                     // time setting the coefficients for the various variables.
                     rhs = 0.0;
                     for (size_t s1 = 0; s1 < S; ++s1) {
-                        rhs += model.getTransitionProbability(s, a, s1) * model.getExpectedReward(s, a, s1);
                         lp.row[s1] = -model.getDiscount() * model.getTransitionProbability(s, a, s1);
+                        rhs += model.getTransitionProbability(s, a, s1) * model.getExpectedReward(s, a, s1);
                     }
                 }
                 // Finally we add the V(s) at its place.

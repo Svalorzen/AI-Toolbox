@@ -42,8 +42,8 @@ namespace AIToolbox {
             data_(new double[vars + 1])
     {
         // Make lp shut up. Could redirect stream to /dev/null if needed.
-        set_verbose(lp_.get(), SEVERE /*or CRITICAL*/);
-        // set_verbose(lp_.get(), FULL);
+        // set_verbose(lp_.get(), SEVERE /*or CRITICAL*/);
+        set_verbose(lp_.get(), FULL);
 
         set_simplextype(lp_.get(), SIMPLEX_DUAL_DUAL);
 

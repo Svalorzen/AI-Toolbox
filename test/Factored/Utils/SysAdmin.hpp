@@ -212,7 +212,7 @@ afm::CooperativeModel makeSysAdminBiRing(unsigned agents,
         rewards.bases.emplace_back(std::move(basis));
     }
 
-    return afm::CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards));
+    return afm::CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
 }
 
 afm::CooperativeModel makeSysAdminUniRing(unsigned agents,
@@ -319,7 +319,7 @@ afm::CooperativeModel makeSysAdminUniRing(unsigned agents,
         rewards.bases.emplace_back(std::move(basis));
     }
 
-    return afm::CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards));
+    return afm::CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
 }
 
 unsigned ceil(unsigned x, unsigned y) {
