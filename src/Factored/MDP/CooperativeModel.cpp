@@ -45,10 +45,11 @@ namespace AIToolbox::Factored::MDP {
         if (transitions_.nodes.size() != S.size())
             throw std::invalid_argument("Input DDN has an incorrect number of nodes!");
 
+        TagErrors error;
         for (size_t s = 0; s < S.size(); ++s) {
             const auto & node = transitions_.nodes[s];
 
-            auto [error, id] = checkTag(A, node.actionTag);
+            std::tie(error, std::ignore) = checkTag(A, node.actionTag);
             switch (error) {
                 case TagErrors::NoElements:
                     throw std::invalid_argument("Input DDN contains action tags with no elements!");
@@ -70,7 +71,7 @@ namespace AIToolbox::Factored::MDP {
             for (size_t a = 0; a < node.nodes.size(); ++a) {
                 const auto & subnode = node.nodes[a];
 
-                auto [error, id] = checkTag(S, subnode.tag);
+                std::tie(error, std::ignore) = checkTag(S, subnode.tag);
                 switch (error) {
                     case TagErrors::NoElements:
                         throw std::invalid_argument("Input DDN contains subnode tags with no elements!");
