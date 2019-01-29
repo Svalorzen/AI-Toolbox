@@ -205,7 +205,7 @@ afm::CooperativeModel makeSysAdminBiRing(unsigned agents,
     for (size_t a = 0; a < agents; ++a) {
         // Now we set all of them with the correct dependencies.
         aif::BasisMatrix basis;
-        basis.tag = {a * 2 + 1}; // We depend on the before load state;
+        basis.tag = {a * 2, a * 2 + 1}; // We depend on the before status and load;
         basis.actionTag = {a};   // And on our action.
         basis.values = rewardMatrix;
 
@@ -312,7 +312,7 @@ afm::CooperativeModel makeSysAdminUniRing(unsigned agents,
     for (size_t a = 0; a < agents; ++a) {
         // Now we set all of them with the correct dependencies.
         aif::BasisMatrix basis;
-        basis.tag = {a * 2 + 1}; // We depend on the before load state;
+        basis.tag = {a * 2, a * 2 + 1}; // We depend on the before status and load;
         basis.actionTag = {a};   // And on our action.
         basis.values = rewardMatrix;
 
