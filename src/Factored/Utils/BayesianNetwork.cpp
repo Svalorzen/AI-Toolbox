@@ -219,10 +219,10 @@ namespace AIToolbox::Factored {
         return Impl::backProject(space, dbn, fv);
     }
 
-    BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & bf) {
+    BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & rhs) {
         BasisMatrix retval;
 
-        for (auto d : bf.tag) {
+        for (auto d : rhs.tag) {
             retval.actionTag = merge(retval.actionTag, ddn[d].actionTag);
             for (const auto & n : ddn[d].nodes)
                 retval.tag = merge(retval.tag, n.tag);
@@ -235,11 +235,11 @@ namespace AIToolbox::Factored {
 
         size_t sId = 0;
         size_t aId = 0;
+        size_t rId = 0;
 
         PartialFactorsEnumerator sDomain(space, retval.tag);
         PartialFactorsEnumerator aDomain(actions, retval.actionTag);
-
-        PartialFactorsEnumerator rhsDomain(space, bf.tag);
+        PartialFactorsEnumerator rDomain(space, rhs.tag);
 
         while (sDomain.isValid()) {
             while (aDomain.isValid()) {
@@ -253,19 +253,23 @@ namespace AIToolbox::Factored {
                 // rhs there with the value of the lhs at the current
                 // domain & children.
                 double currentVal = 0.0;
-                size_t i = 0;
-                while (rhsDomain.isValid()) {
-                    currentVal += bf.values[i] * ddn.getTransitionProbability(space, actions, *sDomain, *aDomain, *rhsDomain);
+                while (rDomain.isValid()) {
+                    currentVal += rhs.values[rId] * ddn.getTransitionProbability(space, actions, *sDomain, *aDomain, *rDomain);
 
-                    ++i;
-                    rhsDomain.advance();
+                    ++rId;
+                    rDomain.advance();
                 }
+                rId = 0;
+                rDomain.reset();
+
                 retval.values(sId, aId) = currentVal;
 
                 ++aId;
                 aDomain.advance();
-                rhsDomain.reset();
             }
+            aId = 0;
+            aDomain.reset();
+
             ++sId;
             sDomain.advance();
         }
