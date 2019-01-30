@@ -69,12 +69,29 @@ namespace AIToolbox::Factored {
         double getValue(const Factors & space, const Factors & value) const;
 
         /**
+         * @brief This function returns the value of the FactoredVector multiplied by the input weights.
+         *
+         * Note that if the weights contain an additional element, it will be
+         * added to the value as a constant basis.
+         *
+         * @param space The factor space to use.
+         * @param value The value of the factor space to compute the value for.
+         * @param weights The weights to multiply the bases with, with an optional constant basis.
+         *
+         * @return The value of the FactoredVector at the specified point.
+         */
+        double getValue(const Factors & space, const Factors & value, const Vector & weights) const;
+
+        /**
          * @brief This function multiplies each basis function with a weight.
          *
          * The input Vector *must* have the same number of elements as the
-         * number of bases in this FactoredVector.
+         * number of bases in this FactoredVector, or one optional more.
          *
-         * Each basis is multiplied by its respective scalar.
+         * Each basis is multiplied by its respective scalar. If an additional
+         * weight is present in the input, it is divided by the number of bases
+         * and added to each of them. Note that if the FactoredVector contains
+         * duplicate tags this is probably *not* what you want!!
          *
          * @param w The weights to multiply with.
          *
@@ -117,28 +134,59 @@ namespace AIToolbox::Factored {
     /**
      * @brief This class represents a factored 2D matrix.
      *
-     * Note that we can't use a multi_array since each FactoredVector may have
-     * a different number of BasisFunctions.
+     * Note that we can't use a multi_array since each Factored2DMatrix may have
+     * a different number of BasisMatrices.
      */
     struct Factored2DMatrix {
         /**
-         * @brief This function returns the value of the FactoredVector at the specified point.
+         * @brief This function returns the value of the Factored2DMatrix at the specified point.
          *
          * @param space The factor space to use.
          * @param actions The action space to use.
          * @param value The factor to compute the value for.
          * @param action The action to compute the value for.
          *
-         * @return The value of the FactoredVector at the specified point.
+         * @return The value of the Factored2DMatrix at the specified point.
          */
         double getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action) const;
+
+        /**
+         * @brief This function returns the value of the Factored2DMatrix multiplied by the input weights.
+         *
+         * Note that if the weights contain an additional element, it will be
+         * added to the value as a constant basis.
+         *
+         * @param space The factor space to use.
+         * @param value The value of the factor space to compute the value for.
+         * @param weights The weights to multiply the bases with, with an optional constant basis.
+         *
+         * @return The value of the Factored2DMatrix at the specified point.
+         */
+        double getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action, const Vector & weights) const;
+
+        /**
+         * @brief This function multiplies each basis function with a weight.
+         *
+         * The input Vector *must* have the same number of elements as the
+         * number of bases in this FactoredVector, or one optional more.
+         *
+         * Each basis is multiplied by its respective scalar. If an additional
+         * weight is present in the input, it is divided by the number of bases
+         * and added to each of them. Note that if the Factored2DMatrix contains
+         * duplicate tags this is probably *not* what you want!!
+         *
+         * @param w The weights to multiply with.
+         *
+         * @return A reference to this Factored2DMatrix.
+         */
+        Factored2DMatrix & operator*=(const Vector & w);
 
         /**
          * @brief This function multiplies all bases with a scalar.
          *
          * @param v The scalar to multiply with.
          *
-         * @return A reference to this FactoredVector.
+         * @return A reference to this Factored2DMatrix.
          */
         Factored2DMatrix & operator*=(const double v);
 
@@ -147,6 +195,7 @@ namespace AIToolbox::Factored {
 
     // @}
 
+    // This stuff is in FactoredVectorOps.cpp
     // BasisFunction - BasisFunction
 
     BasisFunction dot(const Factors & space, const BasisFunction & lhs, const BasisFunction & rhs);
@@ -159,10 +208,6 @@ namespace AIToolbox::Factored {
     BasisFunction & plusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs);
     BasisFunction & minusEqualSubset(const Factors & space, BasisFunction & retval, const BasisFunction & rhs);
 
-    // BasisMatrix - BasisMatrix
-
-    BasisMatrix plus(const Factors & space, const BasisMatrix & lhs, const BasisMatrix & rhs);
-
     // FactoredVector - BasisFunction
 
     FactoredVector plus(const Factors & space, FactoredVector retval, const BasisFunction & rhs);
@@ -172,26 +217,33 @@ namespace AIToolbox::Factored {
     FactoredVector minus(const Factors & space, FactoredVector retval, const BasisFunction & rhs, bool clearZero = false);
     FactoredVector & minusEqual(const Factors & space, FactoredVector & retval, const BasisFunction & basis, bool clearZero = false);
 
-    // Factored2DMatrix - BasisMatrix
-
-    // TODO
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const BasisMatrix & basis);
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, BasisMatrix && basis);
-
     // FactoredVector - FactoredVector
 
     FactoredVector plus(const Factors & space, FactoredVector retval, const FactoredVector & rhs);
     FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs);
+    FactoredVector & plusEqual(const Factors & space, FactoredVector & retval, FactoredVector && rhs);
 
     FactoredVector minus(const Factors & space, FactoredVector retval, const FactoredVector & rhs, bool clearZero = false);
     FactoredVector & minusEqual(const Factors & space, FactoredVector & retval, const FactoredVector & rhs, bool clearZero = false);
 
+    // This stuff is in Factored2DMatrixOps.cpp
+    // BasisMatrix - BasisMatrix
+
+    BasisMatrix plus(const Factors & space, const Factors & actions, const BasisMatrix & lhs, const BasisMatrix & rhs);
+    BasisMatrix plusSubset(const Factors & space, const Factors & actions, BasisMatrix retval, const BasisMatrix & rhs);
+    BasisMatrix & plusEqualSubset(const Factors & space, const Factors & actions, BasisMatrix & retval, const BasisMatrix & rhs);
+
+    // Factored2DMatrix - BasisMatrix
+
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const BasisMatrix & basis);
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, BasisMatrix && basis);
+
     // Factored2DMatrix - Factored2DMatrix
 
-    // TODO
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const Factored2DMatrix & basis);
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, Factored2DMatrix && basis);
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const Factored2DMatrix & rhs);
+    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, Factored2DMatrix && rhs);
 
+    // These are in FactoredMatrix.cpp
     // Scalar ops
 
     FactoredVector operator*(FactoredVector lhs, const Vector & w);
@@ -199,6 +251,8 @@ namespace AIToolbox::Factored {
     FactoredVector operator*(FactoredVector lhs, const double v);
     FactoredVector operator*(const double v, FactoredVector rhs);
 
+    Factored2DMatrix operator*(Factored2DMatrix lhs, const Vector & w);
+    Factored2DMatrix operator*(const Vector & w, Factored2DMatrix rhs);
     Factored2DMatrix operator*(Factored2DMatrix lhs, const double v);
     Factored2DMatrix operator*(const double v, Factored2DMatrix rhs);
 }
