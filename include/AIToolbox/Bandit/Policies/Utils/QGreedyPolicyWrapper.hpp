@@ -80,7 +80,7 @@ namespace AIToolbox::Bandit {
     QGreedyPolicyWrapper<V, Gen>::QGreedyPolicyWrapper(V q, std::vector<size_t> & buffer, Gen & gen)
             : q_(std::move(q)), buffer_(buffer), rand_(gen)
     {
-        assert(q_.size() == buffer_.size());
+        assert(static_cast<size_t>(q_.size()) == buffer_.size());
     }
 
     template <typename V, typename Gen>
