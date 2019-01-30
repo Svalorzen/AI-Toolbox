@@ -3,11 +3,31 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Factored/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 
 #include <vector>
 #include <utility>
 
 namespace AIToolbox::Factored::MDP {
+    /**
+     * @brief This struct represents a factored ValueFunction.
+     *
+     * A ValueFunction is simply a function that maps states to values. Here,
+     * we use a FactoredVector to represent all values. In addition, we include
+     * the weights that can be used to modify the ValueFunction without
+     * touching the bases; this is done for example in factored ValueIteration,
+     * which updates the weights at each update to better approximate V*.
+     */
+    struct ValueFunction {
+        FactoredVector values;
+        Vector weights;
+    };
+
+    /**
+     * @brief This represents a factored QFunction.
+     */
+    using QFunction = Factored2DMatrix;
+
     /**
      * @brief This struct represents a single state/value tuple.
      *
