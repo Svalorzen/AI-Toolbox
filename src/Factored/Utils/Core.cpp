@@ -45,6 +45,14 @@ namespace AIToolbox::Factored {
         return true;
     }
 
+    bool match(const Factors & lhs, const PartialFactors & rhs) {
+        size_t i = 0;
+        for (auto k : rhs.first)
+            if (lhs[k] != rhs.second[i++])
+                return false;
+        return true;
+    }
+
     bool match(const PartialKeys & keys, const Factors & lhs, const Factors & rhs) {
         for (auto k : keys)
             if (lhs[k] != rhs[k])
