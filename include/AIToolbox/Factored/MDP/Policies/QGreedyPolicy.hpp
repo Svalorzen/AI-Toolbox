@@ -10,23 +10,33 @@ namespace AIToolbox::Factored::MDP {
      * @brief This class models a greedy policy through a QFunction.
      *
      * This class allows you to select effortlessly the best greedy actions
-     * from a given list of QFunctionRules. In order to compute the best
-     * action, or a given action probability the QGreedyPolicy must run
-     * VariableElimination on the stored rules, so the process can get a
-     * bit expensive.
+     * from a given list of QFunctionRules, or from a QFunction.
+     *
+     * In order to compute the best action or a given action probability the
+     * QGreedyPolicy must run VariableElimination on the stored rules, so the
+     * process can get a bit expensive.
      */
     class QGreedyPolicy : public PolicyInterface<State, State, Action> {
         public:
             using Base = PolicyInterface<State, State, Action>;
 
             /**
-             * @brief Basic constructor.
+             * @brief Basic constructor with QFunctionRules.
+             *
+             * @param s The number of states of the world.
+             * @param a The number of actions available to the agent.
+             * @param q The QFunctionRules this policy is linked with.
+             */
+            QGreedyPolicy(State s, Action a, const FactoredContainer<QFunctionRule> & q);
+
+            /**
+             * @brief Basic constructor with QFunction.
              *
              * @param s The number of states of the world.
              * @param a The number of actions available to the agent.
              * @param q The QFunction this policy is linked with.
              */
-            QGreedyPolicy(State s, Action a, const FactoredContainer<QFunctionRule> & q);
+            QGreedyPolicy(State s, Action a, const Factored2DMatrix & q);
 
             /**
              * @brief This function chooses the greediest action for state s.
@@ -48,7 +58,8 @@ namespace AIToolbox::Factored::MDP {
             virtual double getActionProbability(const State & s, const Action & a) const override;
 
         private:
-            const FactoredContainer<QFunctionRule> & q_;
+            const FactoredContainer<QFunctionRule> * qc_;
+            const Factored2DMatrix * qm_;
     };
 }
 
