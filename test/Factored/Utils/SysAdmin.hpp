@@ -348,8 +348,8 @@ std::string printSysAdminRing(const aif::State & s) {
     const size_t agents = s.size() / 2;
 
     const unsigned height = agents == 1 ? 1 : ceil(agents, 4) + 1;
-    const unsigned width = agents == 1 ? 1 :
-                           agents < 7 ? 2 :
+    const unsigned width = agents < 3 ? 1 :
+                           agents < 6 ? 2 :
                            ceil(agents - height * 2, 2) + 2;
 
     unsigned printRightId = 0;
@@ -394,7 +394,8 @@ std::string printSysAdminRing(const aif::State & s) {
             for (unsigned w = 0; w + 2 < width; ++w) {
                 retval += "      ";
             }
-            retval += "     |\n";
+            if (width > 1)
+                retval += "     |\n";
         }
     }
 
