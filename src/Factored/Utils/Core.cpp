@@ -3,6 +3,28 @@
 #include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox::Factored {
+    std::pair<TagErrors, size_t> checkTag(const Factors & space, const PartialKeys & tag) {
+        // Check action tag size.
+        if (tag.size() == 0)
+            return std::make_pair(TagErrors::NoElements, 0);
+        if (tag.size() > space.size())
+            return std::make_pair(TagErrors::TooManyElements, 0);
+
+        // Check action tag elements for ordering and size.
+        auto previousV = tag[0];
+        if (previousV >= space.size())
+            return std::make_pair(TagErrors::IdTooHigh, 0);
+
+        for (size_t t = 1; t < tag.size(); ++t) {
+            const auto tagV = tag[t];
+            if (tagV >= space.size()) return std::make_pair(TagErrors::IdTooHigh, t);
+            if (tagV <  previousV)    return std::make_pair(TagErrors::NotSorted, t);
+            if (tagV == previousV)    return std::make_pair(TagErrors::Duplicates, t);
+            previousV = tagV;
+        }
+        return std::make_pair(TagErrors::None, 0);
+    }
+
     PartialFactors removeFactor(const PartialFactors & pf, const size_t f) {
         size_t i = 0;
         while (i < pf.first.size() && pf.first[i] < f) ++i;

@@ -5,6 +5,43 @@
 
 namespace AIToolbox::Factored {
     /**
+     * @brief This enum contains all possible errors in a tag.
+     *
+     * - None: No errors were found
+     * - NoElements: The tag does not have any element.
+     * - TooManyElements: The tag has more elements than its associated space.
+     * - IdTooHigh: The tag contains an id higher than the size of its space.
+     * - NotSorted: The tag contains an id out of order.
+     * - Duplicates: The tag contains a repeated id.
+     *
+     * \sa checkTag(const Factors &, const PartialKeys &);
+     */
+    enum class TagErrors {
+        None,
+        NoElements,
+        TooManyElements,
+        IdTooHigh,
+        NotSorted,
+        Duplicates,
+    };
+
+    /**
+     * @brief This function verifies whether a tag is correct w.r.t. a space.
+     *
+     * This function does a series of basic checks on the input tag, to see
+     * whether it was initialized correctly with respect to the input space.
+     *
+     * This function is useful to do some checking on your models to make sure
+     * that there are no errors.
+     *
+     * @param space The space associated with the tag.
+     * @param tag The tag to verify.
+     *
+     * @return The first error encountered, and, if applicable, the position where the error was found.
+     */
+    std::pair<TagErrors, size_t> checkTag(const Factors & space, const PartialKeys & tag);
+
+    /**
      * @brief This function removes the specified factor from the input PartialFactors.
      *
      * @param pf The PartialFactors to modify.
