@@ -9,7 +9,7 @@ namespace AIToolbox::Factored::MDP {
             jointActions_(A, id_),
             qLearning_(ss, factorSpace(A), d, al)
     {
-        singleQFun_.fill(0.0);
+        singleQFun_.setZero();
         for (size_t s = 0; s < qLearning_.getS(); ++s) {
             for (size_t a = 0, i = 0; a < A.size() - 1; ++a, ++i) {
                 if (a == id_) ++i;
@@ -33,7 +33,7 @@ namespace AIToolbox::Factored::MDP {
         // Single QFunction update
         jointActions_.reset();
 
-        singleQFun_.row(s).fill(0.0);
+        singleQFun_.row(s).setZero();
         while (jointActions_.isValid()) {
             auto & jointAction = *jointActions_;
 

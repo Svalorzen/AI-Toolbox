@@ -31,7 +31,7 @@ namespace AIToolbox::Factored {
             struct VariableNode;
 
             using VariableList = std::vector<VariableNode>;
-            using Variables    = std::vector<size_t>;
+            using Variables    = PartialKeys;
 
             class FactorNode {
                 friend class FactorGraph;
@@ -40,6 +40,7 @@ namespace AIToolbox::Factored {
                 Variables variables_;
 
                 public:
+                    const Variables & getVariables() const { return variables_; }
                     const Factor & getData() const { return f_; }
                     Factor & getData() { return f_; }
             };

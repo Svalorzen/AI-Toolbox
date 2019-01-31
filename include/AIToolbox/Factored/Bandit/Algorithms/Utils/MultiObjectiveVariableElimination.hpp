@@ -46,7 +46,7 @@ namespace AIToolbox::Factored::Bandit {
         public:
             using Entry = std::tuple<PartialAction, Rewards>;
             using Entries = std::vector<Entry>;
-            using Rule = std::tuple<PartialAction, Entries>;
+            using Rule = std::pair<PartialValues, Entries>;
             using Rules = std::vector<Rule>;
 
             using Results = Entries;
@@ -79,7 +79,7 @@ namespace AIToolbox::Factored::Bandit {
                 // Should we reset the graph?
                 for (const auto & rule : inputRules) {
                     auto & rules = graph_.getFactor(rule.action.first)->getData().rules;
-                    rules.emplace_back(rule.action, Entries{std::make_tuple(PartialAction(), rule.values)});
+                    rules.emplace_back(rule.action.second, Entries{std::make_tuple(PartialAction(), rule.values)});
                 }
                 return start();
             }

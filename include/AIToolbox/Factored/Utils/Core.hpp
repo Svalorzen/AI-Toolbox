@@ -5,6 +5,43 @@
 
 namespace AIToolbox::Factored {
     /**
+     * @brief This enum contains all possible errors in a tag.
+     *
+     * - None: No errors were found
+     * - NoElements: The tag does not have any element.
+     * - TooManyElements: The tag has more elements than its associated space.
+     * - IdTooHigh: The tag contains an id higher than the size of its space.
+     * - NotSorted: The tag contains an id out of order.
+     * - Duplicates: The tag contains a repeated id.
+     *
+     * \sa checkTag(const Factors &, const PartialKeys &);
+     */
+    enum class TagErrors {
+        None,
+        NoElements,
+        TooManyElements,
+        IdTooHigh,
+        NotSorted,
+        Duplicates,
+    };
+
+    /**
+     * @brief This function verifies whether a tag is correct w.r.t. a space.
+     *
+     * This function does a series of basic checks on the input tag, to see
+     * whether it was initialized correctly with respect to the input space.
+     *
+     * This function is useful to do some checking on your models to make sure
+     * that there are no errors.
+     *
+     * @param space The space associated with the tag.
+     * @param tag The tag to verify.
+     *
+     * @return The first error encountered, and, if applicable, the position where the error was found.
+     */
+    std::pair<TagErrors, size_t> checkTag(const Factors & space, const PartialKeys & tag);
+
+    /**
      * @brief This function removes the specified factor from the input PartialFactors.
      *
      * @param pf The PartialFactors to modify.
@@ -25,6 +62,59 @@ namespace AIToolbox::Factored {
     bool match(const PartialFactors & lhs, const PartialFactors & rhs);
 
     /**
+     * @brief This function returns whether the common factors in the inputs match in value.
+     *
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return True if all factors in common between the inputs match in value, false otherwise.
+     */
+    bool match(const Factors & lhs, const PartialFactors & rhs);
+
+    /**
+     * @brief This function returns whether the common factors in the inputs match in value.
+     *
+     * This function is equivalent to match(const PartialFactors & lhs, const
+     * PartialFactors & rhs). It is provided to avoid having to construct
+     * two PartialFactors when not needed.
+     *
+     * @param lhsK The keys of the lhs.
+     * @param lhs The values of the lhs.
+     * @param rhsK The keys of the rhs.
+     * @param rhs The values of the rhs.
+     *
+     * @return True if all factors in common between the inputs match in value, false otherwise.
+     */
+    bool match(const PartialKeys & lhsK, const PartialValues & lhs, const PartialKeys & rhsK, const PartialValues & rhs);
+
+    /**
+     * @brief This function checks whether the two input Factors match at the specified ids.
+     *
+     * @param keys The ids to check.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return Whether the two Factors match at the specified ids.
+     */
+    bool match(const PartialKeys & keys, const Factors & lhs, const Factors & rhs);
+
+    /**
+     * @brief This function checks whether the two input Factors match at the specified ids.
+     *
+     * Each check is performed on a pair of ids: one for the left hand side,
+     * and its respective one for the right hand side.
+     *
+     * \sa merge(const PartialKeys &, const PartialKeys &, std::vector<std::pair<size_t, size_t>> *)
+     *
+     * @param matches The id pairs to check.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return Whether the two Factors match at the specified ids.
+     */
+    bool match(const std::vector<std::pair<size_t, size_t>> & matches, const Factors & lhs, const Factors & rhs);
+
+    /**
      * @brief This function appends the rhs to the lhs, assuming the original Factor for lhs has S elements.
      *
      * @param S The number of factors the full Factor for lhs has.
@@ -32,17 +122,6 @@ namespace AIToolbox::Factored {
      * @param rhs The right hand side.
      */
     void join(size_t S, PartialFactors * lhs, const PartialFactors & rhs);
-
-    /**
-     * @brief This function creates a new PartialFactors appending rhs to lhs, assuming lhs has S elements.
-     *
-     * @param S The number of factors the full Factor for lhs has.
-     * @param lhs The left hand side.
-     * @param rhs The right hand side.
-     *
-     * @return A new PartialFactors that contains all elements from lhs, and all elements from rhs shifted by S.
-     */
-    PartialFactors join(size_t S, const PartialFactors & lhs, const PartialFactors & rhs);
 
     /**
      * @brief This function creates a new Factor appending rhs to lhs.
@@ -55,11 +134,48 @@ namespace AIToolbox::Factored {
     Factors join(const Factors & lhs, const Factors & rhs);
 
     /**
+     * @brief This function appends rhs to lhs, assuming the full Factor for lhs has S elements.
+     *
+     * @param S The number of factors the full Factor for lhs has.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return The new joined PartialKeys.
+     */
+    PartialKeys join(size_t S, const PartialKeys & lhs, const PartialKeys & rhs);
+
+    /**
+     * @brief This function appends rhs to lhs, assuming the full Factor for lhs has S elements.
+     *
+     * @param S The number of factors the full Factor for lhs has.
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     *
+     * @return A new PartialFactors with all keys from rhs at the end and shifted by S.
+     */
+    PartialFactors join(size_t S, const PartialFactors & lhs, const PartialFactors & rhs);
+
+    /**
+     * @brief This function appends the rhs to the lhs.
+     *
+     * This function may produce a non-valid PartialFactors. This is useful in
+     * case multiple joins must be done in successions, so that the process is
+     * more efficient.
+     *
+     * Remember to call sort() at the end to make the output valid again.
+     *
+     * @param lhs The left hand side that gets extended in place.
+     * @param rhs The right hand side.
+     */
+    void unsafe_join(PartialFactors * lhs, const PartialFactors & rhs);
+
+    /**
      * @brief This function merges two PartialFactors together.
      *
-     * This function assumes that all elements in the factors have
-     * different keys. If they have the same keys, the behavior is
-     * unspecified.
+     * This function assumes that all elements in the PartialFactors have
+     * different keys. If they have the same keys, the key is inserted once in
+     * the output, but its value is unspecified (it will be from one of the two
+     * inputs).
      *
      * @param lhs The left hand side.
      * @param rhs The right hand side.
@@ -69,16 +185,43 @@ namespace AIToolbox::Factored {
     PartialFactors merge(const PartialFactors & lhs, const PartialFactors & rhs);
 
     /**
-     * @brief This function merges the second PartialFactors into the first.
+     * @brief This function merges two PartialValues together, using two PartialKeys as guides.
      *
-     * This function assumes that all elements in the factors have
-     * different keys. If they have the same keys, the behavior is
-     * unspecified.
+     * This function is equivalent to merge(const PartialFactors&, const
+     * PartialFactors&), with the only difference that it does not merge the
+     * keys.
      *
-     * @param lhs The left hand side to be modified.
+     * This function assumes that all elements in the PartialKeys are
+     * different. If there are matches, the corrisponding element is inserted
+     * once output, but its value is unspecified (it will be from one of the
+     * two input PartialValues).
+     *
+     * @param lhsk The left hand side keys.
+     * @param lhs The left hand side.
+     * @param rhsk The right hand side keys.
      * @param rhs The right hand side.
+     *
+     * @return A new PartialValues containing all values from both inputs in the correct order.
      */
-    void inplace_merge(PartialFactors * plhs, const PartialFactors & rhs);
+    PartialValues merge(const PartialKeys & lhsk, const PartialValues & lhs, const PartialKeys & rhsk, const PartialValues & rhs);
+
+    /**
+     * @brief This function merges two PartialKeys together.
+     *
+     * This function merges two PartialKeys over the same range. Overlapping
+     * elements are merged together.
+     *
+     * The function optionally returns a vector which specifies the indeces of
+     * the matches in the input. This may be useful to do checks before doing
+     * merges.
+     *
+     * @param lhs The left hand side.
+     * @param rhs The right hand side.
+     * @param matches An optional vector containing the matching indexes of the inputs
+     *
+     * @return A new PartialKeys containing all unique keys from the inputs.
+     */
+    PartialKeys merge(const PartialKeys & lhs, const PartialKeys & rhs, std::vector<std::pair<size_t, size_t>> * matches = nullptr);
 
     /**
      * @brief This function returns the multiplication of all elements of the input factor.
@@ -106,7 +249,7 @@ namespace AIToolbox::Factored {
      *
      * @return The possible number of factors if representable, otherwise the max size_t.
      */
-    size_t factorSpacePartial(const std::vector<size_t> & ids, const Factors & space);
+    size_t factorSpacePartial(const PartialKeys & ids, const Factors & space);
 
     /**
      * @brief This function converts Factors into the equivalent PartialFactors structure.
@@ -144,25 +287,59 @@ namespace AIToolbox::Factored {
      * @param space The factor space to consider.
      * @param id The integer uniquely identifying the factor.
      *
-     * @return
+     * @return The id's equivalent Factors.
      */
     Factors toFactors(const Factors & space, size_t id);
 
     /**
+     * @brief This function converts an index into the equivalent Factors, within the specified factor space.
+     *
+     * This function is equivalent to toFactors(const Factors & space, size_t
+     * id), but does its work on the input Factors.
+     *
+     * Note: this function does NOT check for nullptr.
+     *
+     * @param space The factor space to consider.
+     * @param id The integer uniquely identifying the factor.
+     * @param out The id's equivalent Factors.
+     */
+    void toFactors(const Factors & space, size_t id, Factors * out);
+
+    /**
+     * @brief This function converts an index into the equivalent Factors of the input keys, within the specified factor space.
+     *
+     * This function is the inverse of the toIndexPartial(const PartialKeys &,
+     * const Factors &, const Factors &) function.
+     *
+     * The input id shall not cause the output to exceed the input space
+     * (i.e. the id will always be lower than factorSpacePartial(ids, space)).
+     *
+     * @param ids The indeces to consider.
+     * @param space The global factors space to consider.
+     * @param id The integer uniquely identifying the factor.
+     *
+     * @return The id's equivalent Factors.
+     */
+    Factors toFactorsPartial(const PartialKeys & ids, const Factors & space, size_t id);
+
+    /**
      * @brief This function converts the input factor in the input space to an unique index.
      *
-     * This function returns an unique integer in range [0,
-     * factorSpace(space)). The function makes **no guarantees** as to what
-     * the conversion does, aside that from a unique factor it will return
-     * always the same unique number.
+     * This function returns an unique integer in range [0, factorSpace(space)).
      *
-     * So for example in a space (2,3), a *possible* equivalency would be:
+     * The conversion guarantees that the output can be converted back to the
+     * same Factors via the toFactors functions, and that the relative ordering
+     * of the ids is the same as the one iterated by the
+     * PartialFactorsEnumerator.
+     *
+     * In particular, iterating over factors is always done from the lowest id
+     * first. So for example in a space (2,3), the equivalency is:
      *
      * (0,0) -> 0
-     * (0,1) -> 1
-     * (0,2) -> 2
-     * (1,0) -> 3
-     * (1,1) -> 4
+     * (1,0) -> 1
+     * (0,1) -> 2
+     * (1,1) -> 3
+     * (0,2) -> 4
      * (1,2) -> 5
      *
      * This function does not perform bound checking. If the resulting
@@ -213,7 +390,31 @@ namespace AIToolbox::Factored {
      *
      * @return An integer which uniquely identifies the factor in the factor space for the specified ids.
      */
-    size_t toIndexPartial(const std::vector<size_t> & ids, const Factors & space, const Factors & f);
+    size_t toIndexPartial(const PartialKeys & ids, const Factors & space, const Factors & f);
+
+    /**
+     * @brief This function converts the input factor in the input space to an unique index.
+     *
+     * In this method ONLY the ids passed as input are considered. This
+     * function effectively considers only a subset of the input space and
+     * partial factor. The partial factor MUST contain the ids passed as input!
+     *
+     * So if the ids are {1, 3}, the function will behave as if the factor
+     * space is two-dimensional, taking the values at ids 1 and 3 from the
+     * input space.
+     *
+     * Then it will take the values at keys 1 and 3 from the input partial
+     * factor and use them to compute the equivalent number.
+     *
+     * \sa toIndex(const Factors &, const Factors &)
+     *
+     * @param ids The ids to consider in the input space and factor.
+     * @param space The factor space to consider.
+     * @param f The input factor to convert.
+     *
+     * @return An integer which uniquely identifies the factor in the factor space for the specified ids.
+     */
+    size_t toIndexPartial(const PartialKeys & ids, const Factors & space, const PartialFactors & pf);
 
     /**
      * @brief This function converts the input factor in the input space to an unique index.
@@ -221,7 +422,7 @@ namespace AIToolbox::Factored {
      * In this function only the ids mentioned in the PartialFactors are
      * considered to be part of the space.
      *
-     * \sa toIndexPartial(const std::vector<size_t> &, const Factors &, const Factors &);
+     * \sa toIndexPartial(const PartialKeys &, const Factors &, const Factors &);
      *
      * @param space The factor space to consider.
      * @param f The input factor to convert.
@@ -237,6 +438,16 @@ namespace AIToolbox::Factored {
      * values of a PartialFactors for the specific input factors. An
      * additional separate factor index can be specified in order to skip
      * that factor, to allow the user to modify that freely.
+     *
+     * The iteration is *always* done by increasing the lowest id first. So for
+     * example in a space (2,3), we iterate in the following order:
+     *
+     * (0,0)
+     * (1,0)
+     * (0,1)
+     * (1,1)
+     * (0,2)
+     * (1,2)
      */
     class PartialFactorsEnumerator {
         public:
@@ -251,7 +462,7 @@ namespace AIToolbox::Factored {
              * @param f The factor space for the internal PartialFactors.
              * @param factors The factors to take into consideration.
              */
-            PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors);
+            PartialFactorsEnumerator(Factors f, PartialKeys factors);
 
             /**
              * @brief Basic constructor.
@@ -278,7 +489,7 @@ namespace AIToolbox::Factored {
              * @param factors The factors to take into considerations.
              * @param factorToSkip The factor to skip.
              */
-            PartialFactorsEnumerator(Factors f, const std::vector<size_t> factors, size_t factorToSkip);
+            PartialFactorsEnumerator(Factors f, PartialKeys factors, size_t factorToSkip);
 
             /**
              * @brief Skip constructor.
@@ -328,6 +539,13 @@ namespace AIToolbox::Factored {
             void reset();
 
             /**
+             * @brief This function returns the number of times that advance() can be called from the initial state.
+             *
+             * Warning: This operation is *NOT* cheap, as this number needs to be computed.
+             */
+            size_t size() const;
+
+            /**
              * @brief This operator returns the current iteration in the values of the PartialFactors.
              *
              * This operator can be called only if isValid() is true.
@@ -343,6 +561,23 @@ namespace AIToolbox::Factored {
              * @return The current PartialFactors values.
              */
             PartialFactors& operator*();
+
+            /**
+             * @brief This operator returns the current iteration in the values of the PartialFactors.
+             *
+             * This operator can be called only if isValid() is true.
+             * Otherwise behavior is undefined.
+             *
+             * The PartialFactors returned are editable, so that the user
+             * can change the factorToSkip values. If other values are
+             * edited, and the resulting PartialFactors still has valid
+             * values (below the Factors ceiling), the next advance() call
+             * will continue from there. If advance() is called with an
+             * invalid PartialFactors behavior is undefined.
+             *
+             * @return The current PartialFactors values.
+             */
+            PartialFactors* operator->();
 
         private:
             Factors F;

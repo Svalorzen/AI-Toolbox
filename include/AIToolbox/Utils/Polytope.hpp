@@ -259,7 +259,7 @@ namespace AIToolbox {
         boundary[S] = 0.0; // The boundary doesn't care about the value
 
         // This is the vector on the right side of Ax = b
-        Vector b(S+1); b.fill(0.0);
+        Vector b(S+1); b.setZero();
 
         Vector result(S+1);
 

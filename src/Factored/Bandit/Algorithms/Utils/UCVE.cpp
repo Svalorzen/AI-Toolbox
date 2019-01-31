@@ -41,12 +41,13 @@ namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This function returns a list of pointers to all Entries from the Rules matching the input joint action.
      *
+     * @param keys The keys of the agents of the rules.
      * @param rules A list of Rule.
      * @param jointAction A joint action to match Rules against.
      *
      * @return A list of pointers to the Entries contained in the Rules matched against the input action.
      */
-    std::vector<const UCVE::Entries*> getPayoffs(const UCVE::Rules & rules, const PartialAction & jointAction);
+    std::vector<const UCVE::Entries*> getPayoffs(const PartialKeys & keys, const UCVE::Rules & rules, const PartialAction & jointAction);
 
     /**
      * @brief This function returns cross-sums common elements between the input plus all unique Rules.
@@ -76,7 +77,7 @@ namespace AIToolbox::Factored::Bandit {
         if (finalFactors_.size() == 0) return {};
 
         AI_LOGGER(AI_SEVERITY_DEBUG, "Picking best final factors...");
-        Result retval; std::get<1>(retval).fill(0.0);
+        Result retval; std::get<1>(retval).setZero();
         for (const auto & fValue : finalFactors_) {
             const auto begin = fValue.begin(), end = fValue.end();
 
@@ -155,12 +156,12 @@ namespace AIToolbox::Factored::Bandit {
                 jointAction.second[id] = agentAction;
 
                 Entries newEntries;
-                for (const auto p : getPayoffs(factors[0]->getData().rules, jointAction))
+                for (const auto p : getPayoffs(factors[0]->getVariables(), factors[0]->getData().rules, jointAction))
                     newEntries.insert(std::end(newEntries), std::begin(*p), std::end(*p));
 
                 auto entries = newEntries.size();
                 for (size_t i = 1; i < factors.size(); ++i) {
-                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules, jointAction));
+                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getVariables(), factors[i]->getData().rules, jointAction));
                     // We remove the entries that cannot possibly be useful anymore
                     if (newEntries.size() > entries) {
                         newEntries.erase(boundPrune(std::begin(newEntries), std::end(newEntries), x_l, x_u), std::end(newEntries));
@@ -191,7 +192,10 @@ namespace AIToolbox::Factored::Bandit {
                 // really need anymore.
                 if (!isFinalFactor) {
                     AI_LOGGER(AI_SEVERITY_DEBUG, "Found new rule...");
-                    newRules.emplace_back(removeFactor(jointAction, agent), std::move(values));
+                    newRules.emplace_back(PartialValues(), std::move(values));
+                    newRules.back().first.reserve(agents.size() - 1);
+                    for (size_t a = 0; a < agents.size(); ++a)
+                        if (a != id) newRules.back().first.push_back(jointAction.second[a]);
                 } else {
                     AI_LOGGER(AI_SEVERITY_DEBUG, "Adding final factor...");
                     finalFactors_.emplace_back(std::move(values));
@@ -257,15 +261,15 @@ namespace AIToolbox::Factored::Bandit {
         return std::remove_if(begin + 1, end, [max, x_u, logtA = logtA_](const UCVE::Entry & e) { return computeValue(e, x_u, logtA) <= max; });
     }
 
-    std::vector<const UCVE::Entries*> getPayoffs(const UCVE::Rules & rules, const PartialAction & jointAction) {
+    std::vector<const UCVE::Entries*> getPayoffs(const PartialKeys & keys, const UCVE::Rules & rules, const PartialAction & jointAction) {
         std::vector<const UCVE::Entries*> retval;
         // Note here that we must use match since the factors adjacent to
         // one agent aren't all next to all its neighbors. Since they are
         // different, we must coarsely check that equal agents do equal
         // actions.
         for (const auto & rule : rules)
-            if (match(jointAction, std::get<0>(rule)))
-                retval.push_back(&std::get<1>(rule));
+            if (match(keys, rule.first, jointAction.first, jointAction.second))
+                retval.push_back(&rule.second);
         return retval;
     }
 
@@ -299,7 +303,7 @@ namespace AIToolbox::Factored::Bandit {
     }
 
     bool ruleComp(const UCVE::Rule & lhs, const UCVE::Rule & rhs) {
-        return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
+        return veccmp(lhs.first, rhs.first) < 0;
     }
 
     UCVE::Rules mergePayoffs(UCVE::Rules && lhs, UCVE::Rules && rhs) {
@@ -315,13 +319,13 @@ namespace AIToolbox::Factored::Bandit {
         // over to the result list unchanged.
         size_t i = 0, j = 0;
         while (i < lhs.size() && j < rhs.size()) {
-            auto first = veccmp(std::get<0>(lhs[i]).second, std::get<0>(rhs[j]).second);
+            auto first = veccmp(lhs[i].first, rhs[j].first);
             if (first < 0)
                 retval.emplace_back(std::move(lhs[i++]));
             else if (first > 0)
                 retval.emplace_back(std::move(rhs[j++]));
             else {
-                retval.emplace_back(std::get<0>(lhs[i]), crossSum(std::get<1>(lhs[i]), std::get<1>(rhs[j])));
+                retval.emplace_back(lhs[i].first, crossSum(lhs[i].second, rhs[j].second));
                 ++i; ++j;
             }
         }

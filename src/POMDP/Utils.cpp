@@ -3,7 +3,7 @@
 namespace AIToolbox::POMDP {
     ValueFunction makeValueFunction(const size_t S) {
         auto values = MDP::Values(S);
-        values.fill(0.0);
+        values.setZero();
 
         return ValueFunction(1, VList(1, {values, 0, VObs()}));
     }

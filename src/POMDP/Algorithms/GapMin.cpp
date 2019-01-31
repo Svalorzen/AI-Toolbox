@@ -158,7 +158,7 @@ namespace AIToolbox::POMDP {
             Vector retval(belief.size() + ubV.first.size());
 
             retval.head(belief.size()).noalias() = belief;
-            retval.tail(ubV.first.size()).fill(0.0);
+            retval.tail(ubV.first.size()).setZero();
 
             return std::make_tuple((belief.transpose() * ubQ).maxCoeff(), std::move(retval));
         }
@@ -286,7 +286,7 @@ namespace AIToolbox::POMDP {
         double ubValue = unscaledValue + belief.transpose() * cornerVals;
 
         Vector retval(belief.size() + ubV.first.size());
-        retval.fill(0.0);
+        retval.setZero();
 
         // And we fix the coefficients in order to actually make the equalities
         // hold.

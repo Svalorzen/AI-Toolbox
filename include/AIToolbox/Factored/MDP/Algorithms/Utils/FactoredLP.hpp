@@ -5,6 +5,7 @@
 
 #include <AIToolbox/Factored/MDP/Types.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
+#include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 
 namespace AIToolbox { class LP; }
 
@@ -37,8 +38,6 @@ namespace AIToolbox::Factored::MDP {
      */
     class FactoredLP {
         public:
-            using FactoredFunction = FactorGraph<std::vector<ValueFunctionRule>>;
-
             /**
              * @brief Basic constructor.
              *
@@ -47,7 +46,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @param s The state space of the problem.
              */
-            FactoredLP(State s) : S(std::move(s)), graph_(S.size()) {}
+            FactoredLP(State s) : S(std::move(s)) {}
 
             /**
              * @brief This function finds the coefficients to approximate a Value Function.
@@ -63,32 +62,42 @@ namespace AIToolbox::Factored::MDP {
              * algorithm calling us wants to do, so we defer responsibility to
              * it.
              *
+             * This function allows to optionally request the usage of a
+             * constant basis for C. A constant basis has a value of 1 for
+             * every possible state. We don't want to a constant basis
+             * explicitly to C as (1) VE won't work and (2) it requires
+             * specifying an explicit value of 1 for every possible state,
+             * which is infeasible. If a constant basis is requested, the
+             * return value will contain an additional coefficient at the end
+             * for the constant basis.
+             *
              * @param C The basis functions used to approximate the Value Function.
              * @param b The Value Function to approximate.
+             * @param addConstantBasis Whether we should include an impled constant basis for C.
              *
              * @return The coefficients used to linearly combine the basis functions.
              */
-            std::optional<Vector> operator()(const FactoredFunction & C, const FactoredFunction & b);
+            std::optional<Vector> operator()(const FactoredVector & C, const FactoredVector & b, bool addConstantBasis = false);
 
         private:
+            using Rule = std::pair<PartialValues, size_t>;
+            using Rules = std::vector<Rule>;
+            using Graph = FactorGraph<Rules>;
+
             /**
              * @brief This function performs a step in the variable elimination process.
              *
              * As it removes the state, this function will add to the input LP
              * all rules needed to represent the variable elimination process.
              *
+             * @param graph The graph to perform VE on.
              * @param s The factor to remove.
              * @param lp The LP to modify.
+             * @param finalFactors The variable where to store the final rules' ids.
              */
-            void removeState(size_t s, LP & lp);
-
-            using Rule = std::tuple<PartialState, size_t>;
-            using Rules = std::vector<Rule>;
-            using Graph = FactorGraph<Rules>;
+            void removeState(Graph & graph, size_t s, LP & lp, std::vector<size_t> & finalFactors);
 
             State S;
-            Graph graph_;
-            std::vector<Rules> finalFactors_;
     };
 }
 

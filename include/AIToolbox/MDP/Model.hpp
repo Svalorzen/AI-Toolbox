@@ -242,7 +242,7 @@ namespace AIToolbox::MDP {
             void setDiscount(double d);
 
             /**
-             * @brief This function samples the MDP for the specified state action pair.
+             * @brief This function samples the MDP with the specified state action pair.
              *
              * This function samples the model for simulated experience.
              * The transition and reward functions are used to produce,
@@ -364,7 +364,7 @@ namespace AIToolbox::MDP {
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(model.getDiscount());
-        rewards_.fill(0.0);
+        rewards_.setZero();
         for ( size_t a = 0; a < A; ++a )
             for ( size_t s = 0; s < S; ++s ) {
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
@@ -392,7 +392,7 @@ namespace AIToolbox::MDP {
 
     template <typename R>
     void Model::setRewardFunction(const R & r) {
-        rewards_.fill(0.0);
+        rewards_.setZero();
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
                 for ( size_t s1 = 0; s1 < S; ++s1 )

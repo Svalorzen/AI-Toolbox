@@ -9,13 +9,14 @@ namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This function returns the sum of values of all rules matching the input action.
      *
+     * @param keys The keys of the agents of the rules.
      * @param rules The rules to be searched in.
      * @param jointAction The joint action to match each Rule against.
      * @param tags An optional pointer where to store all tags encountered in the sum.
      *
      * @return The sum of all matching Rules' values.
      */
-    double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags = nullptr);
+    double getPayoff(const PartialKeys & keys, const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags = nullptr);
 
     VE::VariableElimination(Action a) : A(std::move(a)), graph_(A.size()) {}
 
@@ -72,7 +73,7 @@ namespace AIToolbox::Factored::Bandit {
                 // would have resolved together to a single rule), we can
                 // create a tag with their action by simply writing in it.
                 for (const auto factor : factors)
-                    newPayoff += getPayoff(factor->getData().rules, jointAction, &newTag);
+                    newPayoff += getPayoff(factor->getVariables(), factor->getData().rules, jointAction, &newTag);
 
                 // We only select the agent's best action.
                 if (newPayoff > bestPayoff) {
@@ -82,7 +83,10 @@ namespace AIToolbox::Factored::Bandit {
             }
             if (checkDifferentGeneral(bestPayoff, std::numeric_limits<double>::lowest())) {
                 if (!isFinalFactor) {
-                    newRules.emplace_back(removeFactor(jointAction, agent), Entry{bestPayoff, std::move(bestTag)});
+                    newRules.emplace_back(PartialValues(), Entry{bestPayoff, std::move(bestTag)});
+                    newRules.back().first.reserve(agents.size() - 1);
+                    for (size_t a = 0; a < agents.size(); ++a)
+                        if (a != id) newRules.back().first.push_back(jointAction.second[a]);
                 } else {
                     finalFactors_.emplace_back(bestPayoff, std::move(bestTag));
                 }
@@ -107,16 +111,16 @@ namespace AIToolbox::Factored::Bandit {
         }
     }
 
-    double getPayoff(const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags) {
+    double getPayoff(const PartialKeys & keys, const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags) {
         double result = 0.0;
         // Note here that we must use match since the factors adjacent to
         // one agent aren't all next to all its neighbors. Since they are
         // different, we must coarsely check that equal agents do equal
         // actions.
         for (const auto & rule : rules) {
-            if (match(jointAction, std::get<0>(rule))) {
+            if (match(keys, rule.first, jointAction.first, jointAction.second)) {
                 result += std::get<1>(rule).first;
-                inplace_merge(tags, std::get<1>(rule).second);
+                unsafe_join(tags, std::get<1>(rule).second);
             }
         }
         return result;

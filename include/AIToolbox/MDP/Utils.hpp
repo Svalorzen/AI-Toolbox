@@ -82,7 +82,7 @@ namespace AIToolbox::MDP {
             const auto A = model.getA();
 
             auto ir = QFunction(S, A);
-            ir.fill(0.0);
+            ir.setZero();
             for ( size_t s = 0; s < S; ++s )
                 for ( size_t a = 0; a < A; ++a )
                     for ( size_t s1 = 0; s1 < S; ++s1 )

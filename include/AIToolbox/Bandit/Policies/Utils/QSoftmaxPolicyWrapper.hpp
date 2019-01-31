@@ -91,7 +91,7 @@ namespace AIToolbox::Bandit {
     QSoftmaxPolicyWrapper<V, Gen>::QSoftmaxPolicyWrapper(double t, V q, Vector & vb, std::vector<size_t> & buffer, Gen & gen)
             : temperature_(t), q_(std::move(q)), valueBuffer_(vb), buffer_(buffer), rand_(gen)
     {
-        assert(q_.size() == buffer_.size());
+        assert(static_cast<size_t>(q_.size()) == buffer_.size());
     }
 
     template <typename V, typename Gen>

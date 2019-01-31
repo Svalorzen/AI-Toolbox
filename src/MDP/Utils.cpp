@@ -5,13 +5,13 @@
 namespace AIToolbox::MDP {
     QFunction makeQFunction(const size_t S, const size_t A) {
         auto retval = QFunction(S, A);
-        retval.fill(0.0);
+        retval.setZero();
         return retval;
     }
 
     ValueFunction makeValueFunction(const size_t S) {
         auto values = Values(S);
-        values.fill(0.0);
+        values.setZero();
         return {values, Actions(S, 0)};
     }
 

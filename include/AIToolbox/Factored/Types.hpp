@@ -60,7 +60,9 @@ namespace AIToolbox::Factored {
      */
 
     using Factors = std::vector<size_t>;
-    using PartialFactors = std::pair<std::vector<size_t>, std::vector<size_t>>;
+    using PartialKeys = std::vector<size_t>;
+    using PartialValues = std::vector<size_t>;
+    using PartialFactors = std::pair<PartialKeys, PartialValues>;
 
     using State = Factors;
     using PartialState = PartialFactors;

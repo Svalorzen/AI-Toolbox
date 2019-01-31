@@ -9,6 +9,56 @@
 
 namespace aif = AIToolbox::Factored;
 
+BOOST_AUTO_TEST_CASE( match ) {
+    std::vector<aif::PartialFactors> lhs = {
+        {{2,3,5}, {1,2,3}},
+        {{2,3,5}, {2,3,4}},
+        {{1,2,3,5,6}, {1,2,3,4,5}},
+        {{1,2,3}, {1,2,3}},
+        {{1,4,6}, {1,2,3}},
+        {{4,5,6}, {2,2,3}},
+        {{3},     {2}},
+
+        {{1,2,3}, {1,2,3}},
+        {{1,2,3}, {2,2,3}},
+        {{1,2,3}, {1,2,3}},
+        {{2},     {3}},
+    };
+    std::vector<aif::PartialFactors> rhs = {
+        {{2,3,5}, {1,2,3}},
+        {{1,2,3,5,6}, {1,2,3,4,5}},
+        {{2,3,5}, {2,3,4}},
+        {{4,5,6}, {1,2,3}},
+        {{4,5,6}, {2,2,3}},
+        {{1,4,6}, {1,2,3}},
+        {{2},     {3}},
+
+        {{1,2,3}, {2,2,3}},
+        {{1,2,3}, {1,2,3}},
+        {{2},     {3}},
+        {{1,2,3}, {1,2,3}},
+    };
+    std::vector<bool> solutions = {
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+
+        false,
+        false,
+        false,
+        false,
+    };
+
+    for (size_t i = 0; i < solutions.size(); ++i) {
+        BOOST_TEST_INFO(i);
+        BOOST_CHECK_EQUAL(solutions[i], aif::match(lhs[i], rhs[i]));
+    }
+}
+
 BOOST_AUTO_TEST_CASE( to_index_full_factors ) {
     aif::Factors state = {3,2,5};
 
@@ -129,6 +179,41 @@ BOOST_AUTO_TEST_CASE( to_index_partial_partial_factor ) {
     }
 }
 
+BOOST_AUTO_TEST_CASE( partial_keys_merge ) {
+    std::vector<aif::PartialKeys> kl = {
+        {},
+        {},
+        {0, 3, 4},
+        {0, 3, 4},
+        {1, 2, 3, 4, 5},
+        {144, 200}
+    };
+
+    std::vector<aif::PartialKeys> kr = {
+        {},
+        {1, 3, 4},
+        {1, 2, 5},
+        {1, 3, 5},
+        {1, 2, 3, 4, 5},
+        {144, 198, 199}
+    };
+
+    std::vector<aif::PartialKeys> sol = {
+        {},
+        {1, 3, 4},
+        {0, 1, 2, 3, 4, 5},
+        {0, 1, 3, 4, 5},
+        {1, 2, 3, 4, 5},
+        {144, 198, 199, 200}
+    };
+
+    for (size_t i = 0; i < kl.size(); ++i) {
+        const auto result = aif::merge(kl[i], kr[i]);
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(sol[i]), std::end(sol[i]),
+                                      std::begin(result), std::end(result));
+    }
+}
+
 BOOST_AUTO_TEST_CASE( partial_factor_merge ) {
     aif::PartialFactors lhs = {{0, 3, 5, 6}, {0, 3, 5, 6}};
     aif::PartialFactors rhs = {{1, 2, 4, 7}, {1, 2, 4, 7}};
@@ -171,16 +256,13 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_no_skip ) {
         {{0, 2, 3}, {0, 2, 3}},
     };
 
-    size_t counter = 0;
-    while (enumerator.isValid()) {
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
         const auto & val = *enumerator;
         const auto & sol = solution[counter];
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.first), std::end(val.first),
                                       std::begin(sol.first), std::end(sol.first));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.second), std::end(val.second),
                                       std::begin(sol.second), std::end(sol.second));
-        enumerator.advance();
-        ++counter;
     }
 }
 
@@ -202,8 +284,7 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip ) {
         {{1, 3, 4}, {1, 9, 4}},
     };
 
-    size_t counter = 0;
-    while (enumerator.isValid()) {
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
         auto val = *enumerator;
         const auto & sol = solution[counter];
         // Modify value
@@ -213,9 +294,6 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip ) {
                                       std::begin(sol.first), std::end(sol.first));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.second), std::end(val.second),
                                       std::begin(sol.second), std::end(sol.second));
-
-        enumerator.advance();
-        ++counter;
     }
 }
 
@@ -229,8 +307,7 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_only_factor ) {
         {{0}, {0}},
     };
 
-    size_t counter = 0;
-    while (enumerator.isValid()) {
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
         auto val = *enumerator;
         const auto & sol = solution[counter];
         // Modify value
@@ -240,8 +317,23 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_only_factor ) {
                                       std::begin(sol.first), std::end(sol.first));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.second), std::end(val.second),
                                       std::begin(sol.second), std::end(sol.second));
+    }
+}
 
-        enumerator.advance();
-        ++counter;
+BOOST_AUTO_TEST_CASE( partial_factor_enumerator_api_compatibility ) {
+    aif::Factors f{1,2,3,4,5};
+    aif::PartialFactorsEnumerator enumerator(f);
+
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
+        const auto & val = enumerator->second;
+        auto cmp   = aif::toFactors(f, counter);
+
+        const auto cCmp  = aif::toIndex(f, *enumerator);
+
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val), std::end(val),
+                                      std::begin(cmp), std::end(cmp));
+
+        BOOST_CHECK_EQUAL(cCmp, counter);
     }
 }

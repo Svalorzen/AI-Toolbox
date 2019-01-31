@@ -75,7 +75,7 @@ namespace AIToolbox::Bandit {
         constexpr unsigned trials = 100000;
 
         Vector retval{A};
-        retval.fill(0.0);
+        retval.setZero();
 
         // We avoid recreating the distributions thousands of times here.
         std::vector<std::normal_distribution<double>> dists;

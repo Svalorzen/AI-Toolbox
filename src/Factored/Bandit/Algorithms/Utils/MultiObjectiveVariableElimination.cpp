@@ -43,12 +43,13 @@ namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This function returns a list of pointers to all Entries from the Rules matching the input joint action.
      *
+     * @param keys The keys of the agents of the rules.
      * @param rules A list of Rule.
      * @param jointAction A joint action to match Rules against.
      *
      * @return A list of pointers to the Entries contained in the Rules matched against the input action.
      */
-    std::vector<const MOVE::Entries*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction);
+    std::vector<const MOVE::Entries*> getPayoffs(const PartialKeys & keys, const MOVE::Rules & rules, const PartialAction & jointAction);
 
     /**
      * @brief This function returns cross-sums common elements between the input plus all unique Rules.
@@ -124,7 +125,7 @@ namespace AIToolbox::Factored::Bandit {
                 // even more rules, joining their tags together, and
                 // possibly merge them if we see equal ones.
                 for (size_t i = 0; i < factors.size(); ++i) {
-                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getData().rules, jointAction));
+                    newEntries = crossSum(newEntries, getPayoffs(factors[i]->getVariables(), factors[i]->getData().rules, jointAction));
                     // p3.prune(&newEntries);
                 }
 
@@ -152,7 +153,10 @@ namespace AIToolbox::Factored::Bandit {
                 // here, to avoid copying joint actions which we won't
                 // really need anymore.
                 if (!isFinalFactor) {
-                    newRules.emplace_back(removeFactor(jointAction, agent), std::move(values));
+                    newRules.emplace_back(PartialValues(), std::move(values));
+                    newRules.back().first.reserve(agents.size() - 1);
+                    for (size_t a = 0; a < agents.size(); ++a)
+                        if (a != id) newRules.back().first.push_back(jointAction.second[a]);
                 } else {
                     finalFactors_.emplace_back(std::move(values));
                 }
@@ -182,7 +186,7 @@ namespace AIToolbox::Factored::Bandit {
     }
 
     bool ruleComp(const MOVE::Rule & lhs, const MOVE::Rule & rhs) {
-        return veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
+        return veccmp(lhs.first, rhs.first) < 0;
     }
 
     MOVE::Rules mergePayoffs(MOVE::Rules && lhs, MOVE::Rules && rhs) {
@@ -198,13 +202,13 @@ namespace AIToolbox::Factored::Bandit {
         // over to the result list unchanged.
         size_t i = 0, j = 0;
         while (i < lhs.size() && j < rhs.size()) {
-            auto first = veccmp(std::get<0>(lhs[i]).second, std::get<0>(rhs[j]).second);
+            auto first = veccmp(lhs[i].first, rhs[j].first);
             if (first < 0)
                 retval.emplace_back(std::move(lhs[i++]));
             else if (first > 0)
                 retval.emplace_back(std::move(rhs[j++]));
             else {
-                retval.emplace_back(std::get<0>(lhs[i]), crossSum(std::get<1>(lhs[i]), std::get<1>(rhs[j])));
+                retval.emplace_back(lhs[i].first, crossSum(lhs[i].second, rhs[j].second));
                 ++i; ++j;
             }
         }
@@ -218,15 +222,15 @@ namespace AIToolbox::Factored::Bandit {
     }
 
 
-    std::vector<const MOVE::Entries*> getPayoffs(const MOVE::Rules & rules, const PartialAction & jointAction) {
+    std::vector<const MOVE::Entries*> getPayoffs(const PartialKeys & keys, const MOVE::Rules & rules, const PartialAction & jointAction) {
         std::vector<const MOVE::Entries*> retval;
         // Note here that we must use match since the factors adjacent to
         // one agent aren't all next to all its neighbors. Since they are
         // different, we must coarsely check that equal agents do equal
         // actions.
         for (const auto & rule : rules)
-            if (match(jointAction, std::get<0>(rule)))
-                retval.push_back(&std::get<1>(rule));
+            if (match(keys, rule.first, jointAction.first, jointAction.second))
+                retval.push_back(&rule.second);
         return retval;
     }
 

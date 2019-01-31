@@ -97,6 +97,7 @@ Algorithms:
 - [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf "A Theoretical and Empirical Analysis of Expected Sarsa, van Seijen et al.")
 - [Hysteretic Q-Learning](https://hal.archives-ouvertes.fr/hal-00187279/document "Hysteretic Q-Learning : an algorithm for decentralized reinforcement learning in cooperative multi-agent teams, Matignon et al.")
 - [Importance Sampling](https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs "Eligibility Traces for Off-Policy Policy Evaluation, Precup")
+- [Linear Programming](https://courses.cs.washington.edu/courses/cse521/16sp/521-lecture-15.pdf)
 - [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf "Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search, Coulom")
 - [Policy Evaluation](http://incompleteideas.net/book/ebook/node41.html "Reinforcement Learning: An Introduction, Ch 4.1, Sutton & Barto")
 - [Policy Iteration](http://incompleteideas.net/book/ebook/node43.html "Reinforcement Learning: An Introduction, Ch 4.3, Sutton & Barto")
@@ -166,6 +167,7 @@ Not in Python yet.
 Algorithms:
 
 - [FactoredLP](https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf "Max-norm Projections for Factored MDPs, Guestrin et al.")
+- [Multi Agent Linear Programming](http://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al.")
 - [Joint Action Learners](https://www.aaai.org/Papers/AAAI/1998/AAAI98-106.pdf "The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems, Claus et al.")
 - [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf "Sparse Cooperative Q-learning, Kok et al.")
 
