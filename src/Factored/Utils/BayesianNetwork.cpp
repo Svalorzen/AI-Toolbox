@@ -161,12 +161,9 @@ namespace AIToolbox::Factored {
 
             // Iterate over the domain, since the output basis is going to
             // be dense pretty much.
-            size_t id = 0;
             PartialFactorsEnumerator domain(space, retval.tag);
-
             PartialFactorsEnumerator rhsDomain(space, bf.tag);
-
-            while (domain.isValid()) {
+            for (size_t id = 0; domain.isValid(); domain.advance(), ++id) {
                 // For each domain assignment, we need to go over every
                 // possible children assignment. As we are computing
                 // products, it is sufficient to go over the elements
@@ -177,17 +174,10 @@ namespace AIToolbox::Factored {
                 // rhs there with the value of the lhs at the current
                 // domain & children.
                 double currentVal = 0.0;
-                size_t i = 0;
-                while (rhsDomain.isValid()) {
+                for (size_t i = 0; rhsDomain.isValid(); rhsDomain.advance(), ++i)
                     currentVal += bf.values[i] * dbn.getTransitionProbability(space, *domain, *rhsDomain);
 
-                    ++i;
-                    rhsDomain.advance();
-                }
                 retval.values[id] = currentVal;
-
-                ++id;
-                domain.advance();
                 rhsDomain.reset();
             }
             return retval;
@@ -233,16 +223,12 @@ namespace AIToolbox::Factored {
 
         retval.values.resize(sizeS, sizeA);
 
-        size_t sId = 0;
-        size_t aId = 0;
-        size_t rId = 0;
-
         PartialFactorsEnumerator sDomain(space, retval.tag);
         PartialFactorsEnumerator aDomain(actions, retval.actionTag);
         PartialFactorsEnumerator rDomain(space, rhs.tag);
 
-        while (sDomain.isValid()) {
-            while (aDomain.isValid()) {
+        for (size_t sId = 0; sDomain.isValid(); sDomain.advance(), ++sId) {
+            for (size_t aId = 0; aDomain.isValid(); aDomain.advance(), ++aId) {
                 // For each domain assignment, we need to go over every
                 // possible children assignment. As we are computing
                 // products, it is sufficient to go over the elements
@@ -253,25 +239,13 @@ namespace AIToolbox::Factored {
                 // rhs there with the value of the lhs at the current
                 // domain & children.
                 double currentVal = 0.0;
-                while (rDomain.isValid()) {
+                for (size_t rId = 0; rDomain.isValid(); rDomain.advance(), ++rId)
                     currentVal += rhs.values[rId] * ddn.getTransitionProbability(space, actions, *sDomain, *aDomain, *rDomain);
-
-                    ++rId;
-                    rDomain.advance();
-                }
-                rId = 0;
                 rDomain.reset();
 
                 retval.values(sId, aId) = currentVal;
-
-                ++aId;
-                aDomain.advance();
             }
-            aId = 0;
             aDomain.reset();
-
-            ++sId;
-            sDomain.advance();
         }
         return retval;
     }

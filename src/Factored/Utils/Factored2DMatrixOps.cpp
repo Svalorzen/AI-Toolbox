@@ -17,24 +17,16 @@ namespace AIToolbox::Factored {
             return retval;
         }
 
-        size_t x = 0, y = 0;
-        PartialFactorsEnumerator e(space, retval.tag);
-        PartialFactorsEnumerator a(actions, retval.actionTag);
-        while (e.isValid()) {
-            const auto rX = toIndexPartial(rhs.tag, space, *e);
+        PartialFactorsEnumerator se(space, retval.tag);
+        PartialFactorsEnumerator ae(actions, retval.actionTag);
+        for (size_t x = 0; se.isValid(); se.advance(), ++x) {
+            const auto rX = toIndexPartial(rhs.tag, space, *se);
 
-            while (a.isValid()) {
-                const auto rY = toIndexPartial(rhs.tag, space, *e);
+            for (size_t y = 0; ae.isValid(); ae.advance(), ++y) {
+                const auto rY = toIndexPartial(rhs.actionTag, actions, *ae);
                 retval.values(x, y) += rhs.values(rX, rY);
-
-                ++y;
-                a.advance();
             }
-            y = 0;
-            a.reset();
-
-            ++x;
-            e.advance();
+            ae.reset();
         }
         return retval;
     }

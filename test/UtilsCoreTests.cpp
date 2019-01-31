@@ -114,11 +114,9 @@ BOOST_AUTO_TEST_CASE( subset_enumeration_number ) {
          end   = std::end(*e);
 
     unsigned counter = 0;
-    while (e.isValid()) {
+    for (; e.isValid(); e.advance(), ++counter) {
         BOOST_CHECK_EQUAL_COLLECTIONS(begin, end,
                                       std::begin(solutions[counter]), std::end(solutions[counter]));
-        ++counter;
-        e.advance();
     }
     BOOST_CHECK_EQUAL(counter, e.subsetsSize());
     BOOST_CHECK_EQUAL(e.subsetsSize(), AIToolbox::nChooseK(4, size));
@@ -142,11 +140,9 @@ BOOST_AUTO_TEST_CASE( subset_enumeration_it ) {
          end   = boost::make_indirect_iterator(std::end(*e));
 
     unsigned counter = 0;
-    while (e.isValid()) {
+    for (; e.isValid(); e.advance(), ++counter) {
         BOOST_CHECK_EQUAL_COLLECTIONS(begin, end,
                                       std::begin(solutions[counter]), std::end(solutions[counter]));
-        ++counter;
-        e.advance();
     }
     BOOST_CHECK_EQUAL(counter, e.subsetsSize());
     BOOST_CHECK_EQUAL(e.subsetsSize(), AIToolbox::nChooseK(test.size(), size));

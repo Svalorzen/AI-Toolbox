@@ -256,16 +256,13 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_no_skip ) {
         {{0, 2, 3}, {0, 2, 3}},
     };
 
-    size_t counter = 0;
-    while (enumerator.isValid()) {
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
         const auto & val = *enumerator;
         const auto & sol = solution[counter];
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.first), std::end(val.first),
                                       std::begin(sol.first), std::end(sol.first));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.second), std::end(val.second),
                                       std::begin(sol.second), std::end(sol.second));
-        enumerator.advance();
-        ++counter;
     }
 }
 
@@ -287,8 +284,7 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip ) {
         {{1, 3, 4}, {1, 9, 4}},
     };
 
-    size_t counter = 0;
-    while (enumerator.isValid()) {
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
         auto val = *enumerator;
         const auto & sol = solution[counter];
         // Modify value
@@ -298,9 +294,6 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip ) {
                                       std::begin(sol.first), std::end(sol.first));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.second), std::end(val.second),
                                       std::begin(sol.second), std::end(sol.second));
-
-        enumerator.advance();
-        ++counter;
     }
 }
 
@@ -314,8 +307,7 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_only_factor ) {
         {{0}, {0}},
     };
 
-    size_t counter = 0;
-    while (enumerator.isValid()) {
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
         auto val = *enumerator;
         const auto & sol = solution[counter];
         // Modify value
@@ -325,9 +317,6 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_only_factor ) {
                                       std::begin(sol.first), std::end(sol.first));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.second), std::end(val.second),
                                       std::begin(sol.second), std::end(sol.second));
-
-        enumerator.advance();
-        ++counter;
     }
 }
 
@@ -335,8 +324,7 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_api_compatibility ) {
     aif::Factors f{1,2,3,4,5};
     aif::PartialFactorsEnumerator enumerator(f);
 
-    size_t counter = 0;
-    while (enumerator.isValid()) {
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
         const auto & val = enumerator->second;
         auto cmp   = aif::toFactors(f, counter);
 
@@ -347,8 +335,5 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_api_compatibility ) {
                                       std::begin(cmp), std::end(cmp));
 
         BOOST_CHECK_EQUAL(cCmp, counter);
-
-        enumerator.advance();
-        ++counter;
     }
 }

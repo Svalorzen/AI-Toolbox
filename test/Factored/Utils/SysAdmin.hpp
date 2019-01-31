@@ -31,9 +31,7 @@ ai::Matrix2D makeA0MatrixStatus(unsigned neighbors, size_t id, double pFailBase,
     // lower and/or higher than this agent; so in order to iterate correctly to
     // fill the matrix we rely on the enumerator.
     aif::PartialFactorsEnumerator e(aif::Factors(neighbors + 1, 3));
-
-    size_t i = 0;
-    while (e.isValid()) {
+    for (size_t i = 0; e.isValid(); e.advance(), ++i) {
         double bonus = 0.0;
         for (size_t n = 0; n < neighbors + 1; ++n) {
             if (n == id) continue;
@@ -52,9 +50,6 @@ ai::Matrix2D makeA0MatrixStatus(unsigned neighbors, size_t id, double pFailBase,
             retval.row(i) <<                   0.0,   (1.0 - pDead),          pDead;
         else if (e->second[id] == Dead)
             retval.row(i) <<                   0.0,             0.0,            1.0;
-
-        ++i;
-        e.advance();
     }
 
     return retval;

@@ -74,8 +74,8 @@ namespace AIToolbox::Factored::MDP {
         for (const auto & f : C.bases) {
             auto newFactor = graph.getFactor(f.tag);
             PartialFactorsEnumerator s(S, f.tag);
-            size_t i = 0;
-            while (s.isValid()) {
+
+            for (size_t i = 0; s.isValid(); s.advance(), ++i) {
                 lp.row[currentRule] = -1.0;
                 lp.row[currentWeight] = f.values[i];
                 if (addConstantBasis) lp.row[constBasisId] = constBasisCoeff;
@@ -90,9 +90,6 @@ namespace AIToolbox::Factored::MDP {
 
                 newFactor->getData().emplace_back(s->second, currentRule);
                 currentRule += 2;
-
-                ++i;
-                s.advance();
             }
             lp.row[currentWeight++] = 0.0;
         }
@@ -103,8 +100,8 @@ namespace AIToolbox::Factored::MDP {
         for (const auto & f : b.bases) {
             auto newFactor = graph.getFactor(f.tag);
             PartialFactorsEnumerator s(S, f.tag);
-            size_t i = 0;
-            while (s.isValid()) {
+
+            for (size_t i = 0; s.isValid(); s.advance(), ++i) {
                 lp.row[currentRule] = 1.0;
                 lp.pushRow(LP::Constraint::Equal, -f.values[i]);
                 lp.row[currentRule] = 0.0;
@@ -115,9 +112,6 @@ namespace AIToolbox::Factored::MDP {
 
                 newFactor->getData().emplace_back(s->second, currentRule);
                 currentRule += 2;
-
-                ++i;
-                s.advance();
             }
         }
 

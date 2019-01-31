@@ -13,18 +13,14 @@ namespace AIToolbox::Factored {
         retval.values.resize(toIndexPartial(retval.tag, space, space));
         // No need to zero fill
 
-        size_t i = 0;
         PartialFactorsEnumerator e(space, retval.tag);
-        while (e.isValid()) {
+        for (size_t i = 0; e.isValid(); e.advance(), ++i) {
             // We don't need to compute the index for retval since it
             // increases sequentially anyway.
             const auto lhsId = toIndexPartial(lhs.tag, space, *e);
             const auto rhsId = toIndexPartial(rhs.tag, space, *e);
 
             retval.values[i] = lhs.values[lhsId] * rhs.values[rhsId];
-
-            ++i;
-            e.advance();
         }
         return retval;
     }
@@ -38,18 +34,14 @@ namespace AIToolbox::Factored {
         retval.values.resize(toIndexPartial(retval.tag, space, space));
         // No need to zero fill
 
-        size_t i = 0;
         PartialFactorsEnumerator e(space, retval.tag);
-        while (e.isValid()) {
+        for (size_t i = 0; e.isValid(); e.advance(), ++i) {
             // We don't need to compute the index for retval since it
             // increases sequentially anyway.
             const auto lhsId = toIndexPartial(lhs.tag, space, *e);
             const auto rhsId = toIndexPartial(rhs.tag, space, *e);
 
             retval.values[i] = lhs.values[lhsId] + rhs.values[rhsId];
-
-            ++i;
-            e.advance();
         }
         return retval;
     }
@@ -63,18 +55,14 @@ namespace AIToolbox::Factored {
         retval.values.resize(toIndexPartial(retval.tag, space, space));
         // No need to zero fill
 
-        size_t i = 0;
         PartialFactorsEnumerator e(space, retval.tag);
-        while (e.isValid()) {
+        for (size_t i = 0; e.isValid(); e.advance(), ++i) {
             // We don't need to compute the index for retval since it
             // increases sequentially anyway.
             const auto lhsId = toIndexPartial(lhs.tag, space, *e);
             const auto rhsId = toIndexPartial(rhs.tag, space, *e);
 
             retval.values[i] = lhs.values[lhsId] - rhs.values[rhsId];
-
-            ++i;
-            e.advance();
         }
         return retval;
     }
@@ -84,15 +72,11 @@ namespace AIToolbox::Factored {
             retval.values += rhs.values;
             return retval;
         }
-        size_t i = 0;
         PartialFactorsEnumerator e(space, retval.tag);
-        while (e.isValid()) {
+        for (size_t i = 0; e.isValid(); e.advance(), ++i) {
             const auto rhsId = toIndexPartial(rhs.tag, space, *e);
 
             retval.values[i] += rhs.values[rhsId];
-
-            ++i;
-            e.advance();
         }
         return retval;
     }
@@ -106,15 +90,11 @@ namespace AIToolbox::Factored {
             retval.values -= rhs.values;
             return retval;
         }
-        size_t i = 0;
         PartialFactorsEnumerator e(space, retval.tag);
-        while (e.isValid()) {
+        for (size_t i = 0; e.isValid(); e.advance(), ++i) {
             const auto rhsId = toIndexPartial(rhs.tag, space, *e);
 
             retval.values[i] -= rhs.values[rhsId];
-
-            ++i;
-            e.advance();
         }
         return retval;
     }
