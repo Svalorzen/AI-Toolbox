@@ -130,6 +130,7 @@ namespace AIToolbox::Factored::MDP {
              * @return
              */
             const Factored2DMatrix & getRewardFunction() const;
+
         private:
             State S;
             Action A;
