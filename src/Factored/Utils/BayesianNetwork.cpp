@@ -176,9 +176,9 @@ namespace AIToolbox::Factored {
                 double currentVal = 0.0;
                 for (size_t i = 0; rhsDomain.isValid(); rhsDomain.advance(), ++i)
                     currentVal += bf.values[i] * dbn.getTransitionProbability(space, *domain, *rhsDomain);
+                rhsDomain.reset();
 
                 retval.values[id] = currentVal;
-                rhsDomain.reset();
             }
             return retval;
         }
