@@ -189,6 +189,7 @@ afm::CooperativeModel makeSysAdminBiRing(unsigned agents,
     // This means that we need to see which dependencies the Load state has:
     // both the previous Load and previous Status.
     ai::Matrix2D rewardMatrix(3 * 3, 2);
+    constexpr double finishReward = 1.0;
     rewardMatrix.setZero();
 
     // Basically, the only way we can get reward is by:
@@ -197,9 +198,9 @@ afm::CooperativeModel makeSysAdminBiRing(unsigned agents,
     // - And ending up in the Done state.
     //
     // Remember that R(s,a) = sum_s1 T(s,a,s1) * R(s,a,s1)
-    rewardMatrix(Load * 3 + Good, 0) = la0Matrix(Load * 3 + Good, Done) * 1.0;
-    rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * 1.0;
-    rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * 1.0;
+    rewardMatrix(Load * 3 + Good, 0) = la0Matrix(Load * 3 + Good, Done) * finishReward;
+    rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * finishReward;
+    rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * finishReward;
 
     aif::Factored2DMatrix rewards;
     for (size_t a = 0; a < agents; ++a) {
@@ -296,6 +297,7 @@ afm::CooperativeModel makeSysAdminUniRing(unsigned agents,
     // This means that we need to see which dependencies the Load state has:
     // both the previous Load and previous Status.
     ai::Matrix2D rewardMatrix(3 * 3, 2);
+    constexpr double finishReward = 1.0;
     rewardMatrix.setZero();
 
     // Basically, the only way we can get reward is by:
@@ -304,9 +306,9 @@ afm::CooperativeModel makeSysAdminUniRing(unsigned agents,
     // - And ending up in the Done state.
     //
     // Remember that R(s,a) = sum_s1 T(s,a,s1) * R(s,a,s1)
-    rewardMatrix(Load * 3 + Good, 0) = la0Matrix(Load * 3 + Good, Done) * 1.0;
-    rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * 1.0;
-    rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * 1.0;
+    rewardMatrix(Load * 3 + Good, 0) = la0Matrix(Load * 3 + Good, Done) * finishReward;
+    rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * finishReward;
+    rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * finishReward;
 
     aif::Factored2DMatrix rewards;
     for (size_t a = 0; a < agents; ++a) {
@@ -378,8 +380,7 @@ std::string printSysAdminRing(const aif::State & s) {
                     else
                         idToPrint = printLeftId--;
                     idToPrint *= 2;
-                    // retval += '0' + idToPrint;
-                    // retval += '0' + idToPrint;
+
                     retval += printMachineStatus(s[idToPrint]);
                     retval += printMachineLoad(s[idToPrint+1]);
                 }
@@ -395,7 +396,8 @@ std::string printSysAdminRing(const aif::State & s) {
                 retval += "      ";
             }
             if (width > 1)
-                retval += "     |\n";
+                retval += "     |";
+            retval += '\n';
         }
     }
 
