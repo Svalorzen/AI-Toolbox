@@ -169,10 +169,11 @@ namespace AIToolbox::Factored::MDP {
 
         while (jointActions.isValid()) {
             auto & jointAction = *jointActions;
-            lp.addColumn();
-            lp.addColumn();
 
-            const size_t newRuleId = lp.row.size() - 2;
+            const size_t newRuleId = lp.row.size();
+
+            lp.addColumn();
+            lp.addColumn();
 
             for (size_t sAction = 0; sAction < S[s]; ++sAction) {
                 lp.row.setZero();
