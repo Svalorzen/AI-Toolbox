@@ -9,7 +9,12 @@ namespace AIToolbox::Factored::MDP {
         auto & [v, g] = retval;
 
         g = backProject(m.getS(), m.getA(), m.getTransitionFunction(), h);
-        v = *solveLP(m, g, h);
+        auto values = solveLP(m, g, h);
+
+        if (!values)
+            throw std::runtime_error("Could not solve the LP for this MDP");
+
+        v = std::move(*values);
 
         // Since we have already computed 'g', we compute Q as well.
         g *= m.getDiscount() * v;
