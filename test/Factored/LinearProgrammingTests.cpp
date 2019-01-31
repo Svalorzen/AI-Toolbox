@@ -44,7 +44,9 @@ BOOST_AUTO_TEST_CASE( solver ) {
 
 
     auto solver = afm::LinearProgramming();
-    vf.weights = solver(problem, vf.values);
+
+    afm::QFunction q;
+    std::tie(vf.weights, q) = solver(problem, vf.values);
 
     // Since we have no information on what the weights should actually be,
     // here I'm comparing against the weights I got the first time I managed to
@@ -69,4 +71,26 @@ BOOST_AUTO_TEST_CASE( solver ) {
 
     for (size_t i = 0; i < 18; ++i)
         BOOST_CHECK_EQUAL(vf.weights[i], solution[i]);
+
+    vf.weights = solution;
+
+    auto qSolution = afm::bellmanBackup(problem, vf);
+
+    // Here we check that the output QFunction is the same as the one we can
+    // compute ourselves.
+    BOOST_CHECK_EQUAL(qSolution.bases.size(), q.bases.size());
+    for (size_t i = 0; i < qSolution.bases.size(); ++i) {
+        const auto & sb = qSolution.bases[i];
+        const auto & qb = q.bases[i];
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(sb.tag), std::end(sb.tag), std::begin(qb.tag), std::end(qb.tag));
+        BOOST_CHECK_EQUAL_COLLECTIONS(
+            std::begin(sb.actionTag), std::end(sb.actionTag),
+            std::begin(qb.actionTag), std::end(qb.actionTag)
+        );
+        // This check is relatively fragile like this because it depends on
+        // floating point comparisons and multiplication orderings.. for now we
+        // leave it like this.
+        BOOST_CHECK_EQUAL(sb.values, qb.values);
+    }
 }

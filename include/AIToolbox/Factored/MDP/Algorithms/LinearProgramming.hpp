@@ -10,10 +10,12 @@
 namespace AIToolbox { class LP; }
 
 namespace AIToolbox::Factored::MDP {
-
+    /**
+     * @brief This class solves a factored MDP with Linear Programming.
+     */
     class LinearProgramming {
         public:
-            Vector operator()(const CooperativeModel & m, const FactoredVector & h) const;
+            std::tuple<Vector, QFunction> operator()(const CooperativeModel & m, const FactoredVector & h) const;
 
         private:
             using Rule = std::pair<PartialValues, size_t>;

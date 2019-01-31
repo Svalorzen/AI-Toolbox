@@ -4,9 +4,18 @@
 #include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    Vector LinearProgramming::operator()(const CooperativeModel & m, const FactoredVector & h) const {
-        const auto g = backProject(m.getS(), m.getA(), m.getTransitionFunction(), h);
-        return *solveLP(m, g, h);
+    std::tuple<Vector, QFunction> LinearProgramming::operator()(const CooperativeModel & m, const FactoredVector & h) const {
+        std::tuple<Vector, QFunction> retval;
+        auto & [v, g] = retval;
+
+        g = backProject(m.getS(), m.getA(), m.getTransitionFunction(), h);
+        v = *solveLP(m, g, h);
+
+        // Since we have already computed 'g', we compute Q as well.
+        g *= m.getDiscount() * v;
+        plusEqual(m.getS(), m.getA(), g, m.getRewardFunction());
+
+        return retval;
     }
 
     std::optional<Vector> LinearProgramming::solveLP(const CooperativeModel & m, const Factored2DMatrix & g, const FactoredVector & h) const {
