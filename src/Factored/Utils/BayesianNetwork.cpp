@@ -189,6 +189,8 @@ namespace AIToolbox::Factored {
             retval.bases.reserve(fv.bases.size());
 
             for (const auto & basis : fv.bases) {
+                // Note that we don't do plusEqual since we don't necessarily
+                // want to merge entries here.
                 retval.bases.emplace_back(backProject(space, dbn, basis));
             }
 
@@ -255,6 +257,8 @@ namespace AIToolbox::Factored {
         retval.bases.reserve(fv.bases.size());
 
         for (const auto & basis : fv.bases) {
+            // Note that we don't do plusEqual since we don't necessarily
+            // want to merge entries here.
             retval.bases.emplace_back(backProject(space, actions, ddn, basis));
         }
 
