@@ -1,41 +1,15 @@
 #include <AIToolbox/Factored/MDP/Algorithms/LinearProgramming.hpp>
 
 #include <AIToolbox/LP.hpp>
-#include <iostream>
-#include <iomanip>
-
-using std::cout;
+#include <AIToolbox/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    std::ostream& operator<<(std::ostream &os, const std::vector<size_t> & v) {
-        for (size_t i = 0; i < v.size() - 1; ++i)
-            os << v[i] << ' ';
-        os << v.back();
-        return os;
-    }
-
-    Vector LinearProgramming::operator()(const CooperativeModel & m, const FactoredVector & h, bool addConstantBasis) const {
+    Vector LinearProgramming::operator()(const CooperativeModel & m, const FactoredVector & h) const {
         const auto g = backProject(m.getS(), m.getA(), m.getTransitionFunction(), h);
-        cout << "Input h:\n";
-        for (auto x : h.bases) {
-            std::cout << "S[" << x.tag << "] ==> " << x.values.transpose();
-            cout << '\n';
-        }
-        cout << "\nProduced g:\n";
-        for (auto x : g.bases) {
-            std::cout << "A[" << x.actionTag << "] S[" << x.tag << "]\n";
-            for (int i = 0; i < x.values.rows(); ++i) {
-                std::cout << "    ";
-                for (int y = 0; y < x.values.cols(); ++y)
-                    cout << std::setw(5) << x.values(i, y);
-                cout << '\n';
-            }
-        }
-        cout << "Using discount " << m.getDiscount() << '\n';
-        return *solveLP(m, g, h, addConstantBasis);
+        return *solveLP(m, g, h);
     }
 
-    std::optional<Vector> LinearProgramming::solveLP(const CooperativeModel & m, const Factored2DMatrix & g, const FactoredVector & h, bool addConstantBasis) const {
+    std::optional<Vector> LinearProgramming::solveLP(const CooperativeModel & m, const Factored2DMatrix & g, const FactoredVector & h) const {
         const auto & S = m.getS();
         const auto & A = m.getA();
         const auto & R = m.getRewardFunction();
@@ -110,42 +84,18 @@ namespace AIToolbox::Factored::MDP {
         //
         // Leave this for later after seeing how this looks.
 
-        const size_t returnVars = h.bases.size() + 1 + (addConstantBasis);
-        const auto phiId = returnVars - 1;
+        const size_t returnVars = h.bases.size();
 
-        size_t startingVars = returnVars;
-        for (const auto & f : h.bases) startingVars += f.values.size();
-        for (const auto & f : g.bases) startingVars += f.values.size();
-        for (const auto & f : R.bases) startingVars += f.values.size();
+        // Since it is very very likely that our input `h` is composed by
+        // indicator functions, where most of the elements are zeroes, we want
+        // to avoid building zero rules as they just slow down the LP solve
+        // process without adding anything. So we add a column at a time just
+        // for the non-zero entries.
+        LP lp(returnVars);
 
-        // Compute constant basis useful values (only used if needed)
-        const auto constBasisId = h.bases.size() + 1;
-        const double constBasisCoeff = 1.0 / h.bases.size();
-
-        // Init LP with starting variables
-        LP lp(startingVars);
-        lp.setObjective(phiId, false);
-
-        // Setup objective
         for (size_t i = 0; i < h.bases.size(); ++i)
-            lp.row[i] = 1.0 / h.bases[i].values.size();
-        if (addConstantBasis) lp.row[constBasisId] = 1.0;
-        lp.row[phiId] = -1.0;
-        lp.row.tail(startingVars - h.bases.size()).setZero();
-        lp.pushRow(LP::Constraint::LessEqual, 0.0);
-        //lp.setObjective(false);
-
-        auto pr = [](const auto & r, int p = 1) {
-            for (int i = 0; i < r.size(); ++i)
-                cout << std::setw(4 + p) << std::setprecision(p) << r[i] << ' ';
-            cout << '\n';
-        };
-
-        Eigen::IOFormat ff(1, 0, " ", "\n", "", "");
-        cout << "Objective: " << lp.row.transpose().format(ff) << '\n';
-        cout << "Constant basis coeff: " << constBasisCoeff  << '\n';
-
-        lp.row.setZero();
+            lp.row[i] = h.bases[i].values.sum() / h.bases[i].values.size();
+        lp.setObjective(false);
 
         // In this initial setup, we simply kind of give a "name"/"variable" to
         // each assignment of the inputs functions - note that all
@@ -156,93 +106,73 @@ namespace AIToolbox::Factored::MDP {
         // just needs to reference the constraints in the graph.
 
         // h setup: -w_k * (h_k(s))
-        cout << "H Setup -w_k * (h_k(s))\n";
         size_t currentWeight = 0; // This is basically k
         size_t currentRule = returnVars; // This is the "name" of the rule we are inserting in the graph
-        // Set constant basis for all of h rules
-        if (addConstantBasis) lp.row[constBasisId] = -constBasisCoeff;
+
         for (const auto & f : h.bases) {
             auto newFactor = graph.getFactor(f.tag);
             PartialFactorsEnumerator s(S, f.tag);
-            size_t i = 0;
-            while (s.isValid()) {
+            for (size_t sId = 0; s.isValid(); s.advance(), ++sId) {
+                if (checkEqualSmall(f.values[sId], 0.0)) continue;
+                // Add a column and re-initialize row
+                lp.addColumn();
+                lp.row.setZero();
+
                 lp.row[currentRule] = -1.0; // Rule name for this value
-                lp.row[currentWeight] = -f.values[i];
+                lp.row[currentWeight] = -f.values[sId];
                 lp.pushRow(LP::Constraint::Equal, 0.0);
-                pr(lp.row);
-                lp.row[currentRule] = 0.0;
 
                 newFactor->getData().emplace_back(s->second, currentRule);
                 currentRule += 1;
-
-                ++i;
-                s.advance();
             }
-            lp.row[currentWeight++] = 0.0;
+            ++currentWeight;
         }
-        lp.row[constBasisId] = 0.0;
 
         // g setup: +w_k * (discount * g_k(s,a))
-        cout << "G Setup +w_k * (discount * g_k(s,a))\n";
         currentWeight = 0;
         for (const auto & f : g.bases) {
             auto newFactor = graph.getFactor(join(S.size(), f.tag, f.actionTag));
             PartialFactorsEnumerator s(S, f.tag);
             PartialFactorsEnumerator a(A, f.actionTag);
-            size_t sId = 0;
-            size_t aId = 0;
-            while (s.isValid()) {
-                while (a.isValid()) {
+            for (size_t sId = 0; s.isValid(); s.advance(), ++sId) {
+                for (size_t aId = 0; a.isValid(); a.advance(), ++aId) {
+                    if (checkEqualSmall(f.values(sId, aId), 0.0)) continue;
+                    // Add a column and re-initialize row
+                    lp.addColumn();
+                    lp.row.setZero();
+
                     lp.row[currentRule] = -1.0; // Rule name for this value
                     lp.row[currentWeight] = +discount * f.values(sId, aId);
                     lp.pushRow(LP::Constraint::Equal, 0.0);
-                    pr(lp.row, 3);
-                    lp.row[currentRule] = 0.0;
 
                     newFactor->getData().emplace_back(join(s->second, a->second), currentRule);
                     currentRule += 1;
-
-                    ++aId;
-                    a.advance();
                 }
-                aId = 0;
                 a.reset();
-
-                ++sId;
-                s.advance();
             }
-            lp.row[currentWeight++] = 0.0;
+            ++currentWeight;
         }
 
         // R setup: +R(s,a)
-        cout << "R Setup +R(s,a)\n";
-        currentWeight = 0;
         for (const auto & f : R.bases) {
             auto newFactor = graph.getFactor(join(S.size(), f.tag, f.actionTag));
             PartialFactorsEnumerator s(S, f.tag);
             PartialFactorsEnumerator a(A, f.actionTag);
-            size_t sId = 0;
-            size_t aId = 0;
-            while (s.isValid()) {
-                while (a.isValid()) {
+            for (size_t sId = 0; s.isValid(); s.advance(), ++sId) {
+                for (size_t aId = 0; a.isValid(); a.advance(), ++aId) {
+                    if (checkEqualSmall(f.values(sId, aId), 0.0)) continue;
+                    // Add a column and re-initialize row
+                    lp.addColumn();
+                    lp.row.setZero();
+
                     lp.row[currentRule] = +1.0; // Rule name for this value
                     lp.pushRow(LP::Constraint::Equal, f.values(sId, aId));
-                    pr(lp.row);
-                    lp.row[currentRule] = 0.0;
 
                     newFactor->getData().emplace_back(join(s->second, a->second), currentRule);
                     currentRule += 1;
-
-                    ++aId;
-                    a.advance();
                 }
-                aId = 0;
                 a.reset();
-
-                ++sId;
-                s.advance();
             }
-            lp.row[currentWeight++] = 0.0;
         }
 
         // Now that the setup is done and we have internalized the inputs as
@@ -253,24 +183,18 @@ namespace AIToolbox::Factored::MDP {
         // is a vector) at a time, maximizing on one of the State components at
         // a time. We don't really do anything here aside from creating new
         // constraints in the LP, and giving them "names".
-        auto F = join(S, A);
+        const auto F = join(S, A);
         while (graph.variableSize())
             removeState(F, graph, graph.variableSize() - 1, lp, finalFactors);
 
         // Finally, add the last inequalities for all remaining factors.
         lp.row.setZero();
 
-        lp.row[phiId] = -1.0;
-
-        for (const auto ruleId : finalFactors)
+        for (const auto ruleId : finalFactors) {
             lp.row[ruleId] = 1.0;
-
-        lp.pushRow(LP::Constraint::LessEqual, 0.0);
-        // for (const auto ruleId : finalFactors) {
-        //     lp.row[ruleId] = 1.0;
-        //     lp.pushRow(LP::Constraint::LessEqual, 0.0);
-        //     lp.row[ruleId] = 0.0;
-        // }
+            lp.pushRow(LP::Constraint::LessEqual, 0.0);
+            lp.row[ruleId] = 0.0;
+        }
 
         // Set every variable we have added as unbounded, since they shouldn't
         // be limited to positive (which may be the default).
@@ -291,18 +215,15 @@ namespace AIToolbox::Factored::MDP {
         Rules newRules;
 
         // We'll now create new rules that represent the elimination of the
-        // input variable for this round. For each possible assignment to the
-        // variables, we create two rules: one for (Cw - b) and one for (b -
-        // Cw).
+        // input variable for this round.
         const bool isFinalFactor = variables.size() == 1;
-        cout << "Eliminating variable " << f << "; creating " << jointActions.size() << " new Rules\n";
-        cout << "    " << variables << '\n';
 
         while (jointActions.isValid()) {
             auto & jointAction = *jointActions;
-            lp.addColumn();
 
-            const size_t newRuleId = lp.row.size() - 1;
+            const size_t newRuleId = lp.row.size();
+
+            lp.addColumn();
 
             for (size_t sAction = 0; sAction < F[f]; ++sAction) {
                 lp.row.setZero();
