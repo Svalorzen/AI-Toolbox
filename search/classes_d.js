@@ -12,5 +12,6 @@ var searchData=
   ['offpolicyevaluation_3c_20retracelevaluation_20_3e',['OffPolicyEvaluation&lt; RetraceLEvaluation &gt;',['../classAIToolbox_1_1MDP_1_1OffPolicyEvaluation.html',1,'AIToolbox::MDP']]],
   ['offpolicyevaluation_3c_20treebackuplevaluation_20_3e',['OffPolicyEvaluation&lt; TreeBackupLEvaluation &gt;',['../classAIToolbox_1_1MDP_1_1OffPolicyEvaluation.html',1,'AIToolbox::MDP']]],
   ['oldmdpmodel',['OldMDPModel',['../classOldMDPModel.html',1,'']]],
-  ['oldpomdpmodel_3c_20m_20_3e',['OldPOMDPModel&lt; M &gt;',['../classOldPOMDPModel_3_01M_01_4.html',1,'']]]
+  ['oldpomdpmodel_3c_20m_20_3e',['OldPOMDPModel&lt; M &gt;',['../classOldPOMDPModel_3_01M_01_4.html',1,'']]],
+  ['ols',['OLS',['../classAIToolbox_1_1Factored_1_1MDP_1_1OLS.html',1,'AIToolbox::Factored::MDP']]]
 ];

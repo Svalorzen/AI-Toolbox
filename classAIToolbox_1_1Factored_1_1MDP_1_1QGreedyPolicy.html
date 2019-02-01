@@ -94,8 +94,11 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af266eb13715c0409ec3df139d7082d5c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html#af266eb13715c0409ec3df139d7082d5c">QGreedyPolicy</a> (<a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> s, <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> a, const <a class="el" href="classAIToolbox_1_1Factored_1_1FactoredContainer.html">FactoredContainer</a>&lt; <a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1QFunctionRule.html">QFunctionRule</a> &gt; &amp;q)</td></tr>
-<tr class="memdesc:af266eb13715c0409ec3df139d7082d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#af266eb13715c0409ec3df139d7082d5c">More...</a><br /></td></tr>
+<tr class="memdesc:af266eb13715c0409ec3df139d7082d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor with QFunctionRules.  <a href="#af266eb13715c0409ec3df139d7082d5c">More...</a><br /></td></tr>
 <tr class="separator:af266eb13715c0409ec3df139d7082d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d78079b98ed1b0875d4b17bbf6326b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html#a3d78079b98ed1b0875d4b17bbf6326b3">QGreedyPolicy</a> (<a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> s, <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> a, const <a class="el" href="structAIToolbox_1_1Factored_1_1Factored2DMatrix.html">Factored2DMatrix</a> &amp;q)</td></tr>
+<tr class="memdesc:a3d78079b98ed1b0875d4b17bbf6326b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor with QFunction.  <a href="#a3d78079b98ed1b0875d4b17bbf6326b3">More...</a><br /></td></tr>
+<tr class="separator:a3d78079b98ed1b0875d4b17bbf6326b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a214b347c57c8e47ed66618e9ebe448d5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html#a214b347c57c8e47ed66618e9ebe448d5">sampleAction</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> &amp;s) const override</td></tr>
 <tr class="memdesc:a214b347c57c8e47ed66618e9ebe448d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses the greediest action for state s.  <a href="#a214b347c57c8e47ed66618e9ebe448d5">More...</a><br /></td></tr>
 <tr class="separator:a214b347c57c8e47ed66618e9ebe448d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,7 +137,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class models a greedy policy through a QFunction. </p>
-<p>This class allows you to select effortlessly the best greedy actions from a given list of QFunctionRules. In order to compute the best action, or a given action probability the <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction. ">QGreedyPolicy</a> must run VariableElimination on the stored rules, so the process can get a bit expensive. </p>
+<p>This class allows you to select effortlessly the best greedy actions from a given list of QFunctionRules, or from a QFunction.</p>
+<p>In order to compute the best action or a given action probability the <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction. ">QGreedyPolicy</a> must run VariableElimination on the stored rules, so the process can get a bit expensive. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="aaeadd4c1b4a020413dcac99d7c5a6bdf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaeadd4c1b4a020413dcac99d7c5a6bdf">&#9670;&nbsp;</a></span>Base</h2>
@@ -152,7 +156,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af266eb13715c0409ec3df139d7082d5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af266eb13715c0409ec3df139d7082d5c">&#9670;&nbsp;</a></span>QGreedyPolicy()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af266eb13715c0409ec3df139d7082d5c">&#9670;&nbsp;</a></span>QGreedyPolicy() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,7 +187,51 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Basic constructor. </p>
+<p>Basic constructor with QFunctionRules. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>The number of states of the world. </td></tr>
+    <tr><td class="paramname">a</td><td>The number of actions available to the agent. </td></tr>
+    <tr><td class="paramname">q</td><td>The QFunctionRules this policy is linked with. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3d78079b98ed1b0875d4b17bbf6326b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d78079b98ed1b0875d4b17bbf6326b3">&#9670;&nbsp;</a></span>QGreedyPolicy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AIToolbox::Factored::MDP::QGreedyPolicy::QGreedyPolicy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a>&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1Factored_1_1Factored2DMatrix.html">Factored2DMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>q</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Basic constructor with QFunction. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The number of states of the world. </td></tr>
@@ -283,7 +331,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

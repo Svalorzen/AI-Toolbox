@@ -95,11 +95,11 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af3d4f464bf1a568fda4f7ca3c01eaa6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#af3d4f464bf1a568fda4f7ca3c01eaa6d">EpsilonPolicyInterface</a> (const <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ab98e83ad211b9975fb1a427d4c12bacf">Base</a> &amp;p, double epsilon=0.9)</td></tr>
-<tr class="memdesc:af3d4f464bf1a568fda4f7ca3c01eaa6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#af3d4f464bf1a568fda4f7ca3c01eaa6d">More...</a><br /></td></tr>
-<tr class="separator:af3d4f464bf1a568fda4f7ca3c01eaa6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace756eca061b4e9518b3accfe4d47e19"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ace756eca061b4e9518b3accfe4d47e19">EpsilonPolicyInterface</a> (const <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ab98e83ad211b9975fb1a427d4c12bacf">Base</a> &amp;p, double epsilon=0.1)</td></tr>
+<tr class="memdesc:ace756eca061b4e9518b3accfe4d47e19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ace756eca061b4e9518b3accfe4d47e19">More...</a><br /></td></tr>
+<tr class="separator:ace756eca061b4e9518b3accfe4d47e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3de6cda287c7b1422197923eb70eea99"><td class="memItemLeft" align="right" valign="top">virtual Action&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a3de6cda287c7b1422197923eb70eea99">sampleAction</a> (const Sampling &amp;s) const override</td></tr>
-<tr class="memdesc:a3de6cda287c7b1422197923eb70eea99"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution and epsilon.  <a href="#a3de6cda287c7b1422197923eb70eea99">More...</a><br /></td></tr>
+<tr class="memdesc:a3de6cda287c7b1422197923eb70eea99"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses an action for state s, following the policy distribution and epsilon.  <a href="#a3de6cda287c7b1422197923eb70eea99">More...</a><br /></td></tr>
 <tr class="separator:a3de6cda287c7b1422197923eb70eea99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23f4a142f2db283a8ef34d8669405e34"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">getActionProbability</a> (const Sampling &amp;s, const Action &amp;a) const override</td></tr>
 <tr class="memdesc:a23f4a142f2db283a8ef34d8669405e34"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a23f4a142f2db283a8ef34d8669405e34">More...</a><br /></td></tr>
@@ -153,7 +153,7 @@ class AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</h3>
 
 <p>This class is a policy wrapper for epsilon action choice. </p>
 <p>This class is used to wrap already existing policies to implement automatic exploratory behaviour (e.g. epsilon-greedy policies).</p>
-<p>An epsilon-greedy policy is a policy that takes a greedy action a certain percentage of the time, and otherwise takes a random action. They are useful to force the agent to explore an unknown model, in order to gain new information to refine it and thus gain more reward.</p>
+<p>An epsilon-greedy policy is a policy that takes a greedy action a certain percentage of the time (1-epsilon), and otherwise takes a random action. They are useful to force the agent to explore an unknown model, in order to gain new information to refine it and thus gain more reward.</p>
 <p>Please note that to obtain an epsilon-greedy policy the wrapped policy needs to already be greedy with respect to the model.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -181,8 +181,8 @@ template&lt;typename State, typename Sampling, typename Action&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af3d4f464bf1a568fda4f7ca3c01eaa6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3d4f464bf1a568fda4f7ca3c01eaa6d">&#9670;&nbsp;</a></span>EpsilonPolicyInterface()</h2>
+<a id="ace756eca061b4e9518b3accfe4d47e19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace756eca061b4e9518b3accfe4d47e19">&#9670;&nbsp;</a></span>EpsilonPolicyInterface()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -199,7 +199,7 @@ template&lt;typename State , typename Sampling , typename Action &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>epsilon</em> = <code>0.9</code>&#160;</td>
+          <td class="paramname"><em>epsilon</em> = <code>0.1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -325,7 +325,7 @@ template&lt;typename State, typename Sampling, typename Action&gt; </div>
 <p>This is simply one over the action space, but since the action space may not be a single number we leave to implementation to decide how to best compute this.</p>
 <dl class="section return"><dt>Returns</dt><dd>The probability of picking an an action at random. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a2dd7da4576a3d09c93403daa450c4bc3">AIToolbox::MDP::EpsilonPolicy</a>, and <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html#aab8628cfc019922bbd923ada35315a0b">AIToolbox::Factored::MDP::EpsilonPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#afb44eeeff0200bd3d1df2bdb65a15f94">AIToolbox::Bandit::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a2dd7da4576a3d09c93403daa450c4bc3">AIToolbox::MDP::EpsilonPolicy</a>, and <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html#aab8628cfc019922bbd923ada35315a0b">AIToolbox::Factored::MDP::EpsilonPolicy</a>.</p>
 
 </div>
 </div>
@@ -355,8 +355,8 @@ template&lt;typename State , typename Sampling, typename Action &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>This function chooses a random action for state s, following the policy distribution and epsilon. </p>
-<p>This function has a probability of (1 - epsilon) of selecting a random action. Otherwise, it selects an action according to the distribution specified by the wrapped policy.</p>
+<p>This function chooses an action for state s, following the policy distribution and epsilon. </p>
+<p>This function has a probability of <code>epsilon</code> of selecting a random action. Otherwise, it selects an action according to the distribution specified by the wrapped policy.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>The sampled state of the policy.</td></tr>
@@ -397,7 +397,7 @@ template&lt;typename State, typename Sampling, typename Action&gt; </div>
 <p>This function returns a random action in the Action space. </p>
 <dl class="section return"><dt>Returns</dt><dd>A valid random action. </dd></dl>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#aab0c0dc85e02625de06b3137d2ca124a">AIToolbox::MDP::EpsilonPolicy</a>, and <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html#a52f730d55be2a9b2ed403bc1582f0d09">AIToolbox::Factored::MDP::EpsilonPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#ac3aa26dc79f8ef942d869d36c83f5b2a">AIToolbox::Bandit::EpsilonPolicy</a>, <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#aab0c0dc85e02625de06b3137d2ca124a">AIToolbox::MDP::EpsilonPolicy</a>, and <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html#a52f730d55be2a9b2ed403bc1582f0d09">AIToolbox::Factored::MDP::EpsilonPolicy</a>.</p>
 
 </div>
 </div>
@@ -420,7 +420,7 @@ template&lt;typename State , typename Sampling , typename Action &gt; </div>
 </div><div class="memdoc">
 
 <p>This function sets the epsilon parameter. </p>
-<p>The epsilon parameter determines the amount of exploration this policy will enforce when selecting actions. In particular actions are going to selected randomly with probability (1-epsilon), and are going to be selected following the underlying policy with probability epsilon.</p>
+<p>The epsilon parameter determines the amount of exploration this policy will enforce when selecting actions. In particular actions are going to selected randomly with probability <code>epsilon</code>, and are going to be selected following the underlying policy with probability <code>1-epsilon</code>.</p>
 <p>The epsilon parameter must be &gt;= 0.0 and &lt;= 1.0, otherwise the function will do throw std::invalid_argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -486,7 +486,7 @@ template&lt;typename State, typename Sampling, typename Action&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:45 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

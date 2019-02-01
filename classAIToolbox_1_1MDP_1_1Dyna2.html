@@ -78,9 +78,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adb78682ac3f509a37533a29bbba1f198"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#adb78682ac3f509a37533a29bbba1f198">Dyna2</a> (const M &amp;m, double alpha=0.1, double lambda=0.9, double epsilon=0.001, unsigned n=50)</td></tr>
-<tr class="memdesc:adb78682ac3f509a37533a29bbba1f198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#adb78682ac3f509a37533a29bbba1f198">More...</a><br /></td></tr>
-<tr class="separator:adb78682ac3f509a37533a29bbba1f198"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adeb31816d450b120e7ff43506e911172"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#adeb31816d450b120e7ff43506e911172">Dyna2</a> (const M &amp;m, double alpha=0.1, double lambda=0.9, double tolerance=0.001, unsigned n=50)</td></tr>
+<tr class="memdesc:adeb31816d450b120e7ff43506e911172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#adeb31816d450b120e7ff43506e911172">More...</a><br /></td></tr>
+<tr class="separator:adeb31816d450b120e7ff43506e911172"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a992a0f94b2cad3986b543731f1e3c1b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a992a0f94b2cad3986b543731f1e3c1b1">stepUpdateQ</a> (size_t s, size_t a, size_t s1, size_t a1, double rew)</td></tr>
 <tr class="memdesc:a992a0f94b2cad3986b543731f1e3c1b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the internal QFunction.  <a href="#a992a0f94b2cad3986b543731f1e3c1b1">More...</a><br /></td></tr>
 <tr class="separator:a992a0f94b2cad3986b543731f1e3c1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,12 +111,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a97d64a06f2926aab1aef658228ed5b3f"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a97d64a06f2926aab1aef658228ed5b3f">getN</a> () const</td></tr>
 <tr class="memdesc:a97d64a06f2926aab1aef658228ed5b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set number of sampling passes during <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#ae454e4503f1ed012b0b1580249e8e71a" title="This function updates a QFunction based on simulated experience. ">batchUpdateQ()</a>.  <a href="#a97d64a06f2926aab1aef658228ed5b3f">More...</a><br /></td></tr>
 <tr class="separator:a97d64a06f2926aab1aef658228ed5b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14768e6a1f5a412eacf21fa28bb8741d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a14768e6a1f5a412eacf21fa28bb8741d">setEpsilon</a> (double e)</td></tr>
-<tr class="memdesc:a14768e6a1f5a412eacf21fa28bb8741d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the trace cutoff parameter.  <a href="#a14768e6a1f5a412eacf21fa28bb8741d">More...</a><br /></td></tr>
-<tr class="separator:a14768e6a1f5a412eacf21fa28bb8741d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f644c867b59c285ea036bec80670525"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a4f644c867b59c285ea036bec80670525">getEpsilon</a> () const</td></tr>
-<tr class="memdesc:a4f644c867b59c285ea036bec80670525"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set trace cutoff parameter.  <a href="#a4f644c867b59c285ea036bec80670525">More...</a><br /></td></tr>
-<tr class="separator:a4f644c867b59c285ea036bec80670525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc78c0a375695433a12b2a6509606a76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#acc78c0a375695433a12b2a6509606a76">setTolerance</a> (double t)</td></tr>
+<tr class="memdesc:acc78c0a375695433a12b2a6509606a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the trace cutoff parameter.  <a href="#acc78c0a375695433a12b2a6509606a76">More...</a><br /></td></tr>
+<tr class="separator:acc78c0a375695433a12b2a6509606a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f01ed0aaa59b3612579bab1ea355db9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a5f01ed0aaa59b3612579bab1ea355db9">getTolerance</a> () const</td></tr>
+<tr class="memdesc:a5f01ed0aaa59b3612579bab1ea355db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set trace cutoff parameter.  <a href="#a5f01ed0aaa59b3612579bab1ea355db9">More...</a><br /></td></tr>
+<tr class="separator:a5f01ed0aaa59b3612579bab1ea355db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdf56956d910e9c03208a4c33761bfb8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#acdf56956d910e9c03208a4c33761bfb8">getPermanentQFunction</a> () const</td></tr>
 <tr class="memdesc:acdf56956d910e9c03208a4c33761bfb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal permanent QFunction.  <a href="#acdf56956d910e9c03208a4c33761bfb8">More...</a><br /></td></tr>
 <tr class="separator:acdf56956d910e9c03208a4c33761bfb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,8 +137,8 @@ class AIToolbox::MDP::Dyna2&lt; M &gt;</h3>
 <p>The transient one is overall always a sum of the permanent one and whatever it learns during batch exploration. After each episode, the transient memory should be cleared in order to avoid storing information about states that it may never again encounter.</p>
 <p>Another advantage of clearing the memory is that, if the exploration model is not perfect, imperfect information learned is also discarded. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="adb78682ac3f509a37533a29bbba1f198"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb78682ac3f509a37533a29bbba1f198">&#9670;&nbsp;</a></span>Dyna2()</h2>
+<a id="adeb31816d450b120e7ff43506e911172"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeb31816d450b120e7ff43506e911172">&#9670;&nbsp;</a></span>Dyna2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,7 +170,7 @@ template&lt;typename M &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>epsilon</em> = <code>0.001</code>, </td>
+          <td class="paramname"><em>tolerance</em> = <code>0.001</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -197,7 +197,7 @@ template&lt;typename M &gt; </div>
     <tr><td class="paramname">m</td><td>The model to be used to update the QFunction. </td></tr>
     <tr><td class="paramname">alpha</td><td>The learning rate of the internal <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> methods. </td></tr>
     <tr><td class="paramname">lambda</td><td>The lambda parameter for the eligibility traces. </td></tr>
-    <tr><td class="paramname">epsilon</td><td>The cutoff point for eligibility traces. </td></tr>
+    <tr><td class="paramname">tolerance</td><td>The cutoff point for eligibility traces. </td></tr>
     <tr><td class="paramname">n</td><td>The number of sampling passes to do on the model upon <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#ae454e4503f1ed012b0b1580249e8e71a" title="This function updates a QFunction based on simulated experience. ">batchUpdateQ()</a>. </td></tr>
   </table>
   </dd>
@@ -227,28 +227,6 @@ template&lt;typename M &gt; </div>
 <p>This function updates a QFunction based on simulated experience. </p>
 <p>In <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html" title="This class represents the Dyna2 algorithm. ">Dyna2</a> we sample N times from already experienced state-action pairs, and we update the resulting QFunction as if this experience was actually real.</p>
 <p>The idea is that since we know which state action pairs we already explored, we know that whose pairs are actually possible. Thus we use the generative model to sample them again, and obtain a better estimate of the QFunction. </p>
-
-</div>
-</div>
-<a id="a4f644c867b59c285ea036bec80670525"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f644c867b59c285ea036bec80670525">&#9670;&nbsp;</a></span>getEpsilon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">double <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html">AIToolbox::MDP::Dyna2</a>&lt; M &gt;::getEpsilon </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns the currently set trace cutoff parameter. </p>
-<dl class="section return"><dt>Returns</dt><dd>The currently set trace cutoff parameter. </dd></dl>
 
 </div>
 </div>
@@ -340,6 +318,28 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
+<a id="a5f01ed0aaa59b3612579bab1ea355db9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f01ed0aaa59b3612579bab1ea355db9">&#9670;&nbsp;</a></span>getTolerance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">double <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html">AIToolbox::MDP::Dyna2</a>&lt; M &gt;::getTolerance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the currently set trace cutoff parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set trace cutoff parameter. </dd></dl>
+
+</div>
+</div>
 <a id="ab10d2887b89e1b8a26d6f1e9491ecac6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab10d2887b89e1b8a26d6f1e9491ecac6">&#9670;&nbsp;</a></span>getTransientLambda()</h2>
 
@@ -402,37 +402,6 @@ template&lt;typename M &gt; </div>
 </div><div class="memdoc">
 
 <p>This function resets the transient QFunction to the permanent one. </p>
-
-</div>
-</div>
-<a id="a14768e6a1f5a412eacf21fa28bb8741d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14768e6a1f5a412eacf21fa28bb8741d">&#9670;&nbsp;</a></span>setEpsilon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html">AIToolbox::MDP::Dyna2</a>&lt; M &gt;::setEpsilon </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>e</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function sets the trace cutoff parameter. </p>
-<p>This parameter determines when a trace is removed, as its coefficient has become too small to bother updating its value.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a></dd></dl>
-<p>This sets the parameter for both the transient and permanent <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">e</td><td>The new trace cutoff value. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -519,6 +488,37 @@ template&lt;typename M &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">l</td><td>The new lambda parameter. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acc78c0a375695433a12b2a6509606a76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc78c0a375695433a12b2a6509606a76">&#9670;&nbsp;</a></span>setTolerance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html">AIToolbox::MDP::Dyna2</a>&lt; M &gt;::setTolerance </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function sets the trace cutoff parameter. </p>
+<p>This parameter determines when a trace is removed, as its coefficient has become too small to bother updating its value.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a></dd></dl>
+<p>This sets the parameter for both the transient and permanent <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>The new trace cutoff value. </td></tr>
   </table>
   </dd>
 </dl>
@@ -625,7 +625,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

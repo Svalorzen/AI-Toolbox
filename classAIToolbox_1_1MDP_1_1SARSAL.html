@@ -86,13 +86,13 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5d7d34d7c88105f4a05b44e845c79438"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a5d7d34d7c88105f4a05b44e845c79438">SARSAL</a> (size_t S, size_t A, double discount=1.0, double alpha=0.1, double lambda=0.9, double epsilon=0.001)</td></tr>
-<tr class="memdesc:a5d7d34d7c88105f4a05b44e845c79438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a5d7d34d7c88105f4a05b44e845c79438">More...</a><br /></td></tr>
-<tr class="separator:a5d7d34d7c88105f4a05b44e845c79438"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacb212ac45a4cbe1307acbf53822659e"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_generative_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:aacb212ac45a4cbe1307acbf53822659e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#aacb212ac45a4cbe1307acbf53822659e">SARSAL</a> (const M &amp;model, double alpha=0.1, double lambda=0.9, double epsilon=0.001)</td></tr>
-<tr class="memdesc:aacb212ac45a4cbe1307acbf53822659e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aacb212ac45a4cbe1307acbf53822659e">More...</a><br /></td></tr>
-<tr class="separator:aacb212ac45a4cbe1307acbf53822659e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07d308d8ce394989756edaf608f95b5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a07d308d8ce394989756edaf608f95b5a">SARSAL</a> (size_t S, size_t A, double discount=1.0, double alpha=0.1, double lambda=0.9, double tolerance=0.001)</td></tr>
+<tr class="memdesc:a07d308d8ce394989756edaf608f95b5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a07d308d8ce394989756edaf608f95b5a">More...</a><br /></td></tr>
+<tr class="separator:a07d308d8ce394989756edaf608f95b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b537e9ff8a9d313df69984b0a73b61b"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_generative_model_v&lt;M&gt;&gt;&gt; </td></tr>
+<tr class="memitem:a1b537e9ff8a9d313df69984b0a73b61b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a1b537e9ff8a9d313df69984b0a73b61b">SARSAL</a> (const M &amp;model, double alpha=0.1, double lambda=0.9, double tolerance=0.001)</td></tr>
+<tr class="memdesc:a1b537e9ff8a9d313df69984b0a73b61b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a1b537e9ff8a9d313df69984b0a73b61b">More...</a><br /></td></tr>
+<tr class="separator:a1b537e9ff8a9d313df69984b0a73b61b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e7d147b86033ebe670a58f9d5e9d247"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a6e7d147b86033ebe670a58f9d5e9d247">stepUpdateQ</a> (size_t s, size_t a, size_t s1, size_t a1, double rew)</td></tr>
 <tr class="memdesc:a6e7d147b86033ebe670a58f9d5e9d247"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the internal QFunction using the discount set during construction.  <a href="#a6e7d147b86033ebe670a58f9d5e9d247">More...</a><br /></td></tr>
 <tr class="separator:a6e7d147b86033ebe670a58f9d5e9d247"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,12 +114,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a088cd0ed3460bedffd035ea1aa29cb44"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a088cd0ed3460bedffd035ea1aa29cb44">getLambda</a> () const</td></tr>
 <tr class="memdesc:a088cd0ed3460bedffd035ea1aa29cb44"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set lambda parameter.  <a href="#a088cd0ed3460bedffd035ea1aa29cb44">More...</a><br /></td></tr>
 <tr class="separator:a088cd0ed3460bedffd035ea1aa29cb44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03c3f530005e36bd02a94b3f4249e540"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a03c3f530005e36bd02a94b3f4249e540">setEpsilon</a> (double e)</td></tr>
-<tr class="memdesc:a03c3f530005e36bd02a94b3f4249e540"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the trace cutoff parameter.  <a href="#a03c3f530005e36bd02a94b3f4249e540">More...</a><br /></td></tr>
-<tr class="separator:a03c3f530005e36bd02a94b3f4249e540"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7be4ed46609bb166c2ea0efbc6710a0c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a7be4ed46609bb166c2ea0efbc6710a0c">getEpsilon</a> () const</td></tr>
-<tr class="memdesc:a7be4ed46609bb166c2ea0efbc6710a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set trace cutoff parameter.  <a href="#a7be4ed46609bb166c2ea0efbc6710a0c">More...</a><br /></td></tr>
-<tr class="separator:a7be4ed46609bb166c2ea0efbc6710a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ee76eb26c923ac7d9202a7f1854d6df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a1ee76eb26c923ac7d9202a7f1854d6df">setTolerance</a> (double t)</td></tr>
+<tr class="memdesc:a1ee76eb26c923ac7d9202a7f1854d6df"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the trace cutoff parameter.  <a href="#a1ee76eb26c923ac7d9202a7f1854d6df">More...</a><br /></td></tr>
+<tr class="separator:a1ee76eb26c923ac7d9202a7f1854d6df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c9f70bc867fe2b09a9ab3bf8cb7ea8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a78c9f70bc867fe2b09a9ab3bf8cb7ea8">getTolerance</a> () const</td></tr>
+<tr class="memdesc:a78c9f70bc867fe2b09a9ab3bf8cb7ea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set trace cutoff parameter.  <a href="#a78c9f70bc867fe2b09a9ab3bf8cb7ea8">More...</a><br /></td></tr>
+<tr class="separator:a78c9f70bc867fe2b09a9ab3bf8cb7ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d0eb982f9abd1c22d7986d71a99c9b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a2d0eb982f9abd1c22d7986d71a99c9b0">clearTraces</a> ()</td></tr>
 <tr class="memdesc:a2d0eb982f9abd1c22d7986d71a99c9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function clears the already set traces.  <a href="#a2d0eb982f9abd1c22d7986d71a99c9b0">More...</a><br /></td></tr>
 <tr class="separator:a2d0eb982f9abd1c22d7986d71a99c9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,8 +179,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5d7d34d7c88105f4a05b44e845c79438"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d7d34d7c88105f4a05b44e845c79438">&#9670;&nbsp;</a></span>SARSAL() <span class="overload">[1/2]</span></h2>
+<a id="a07d308d8ce394989756edaf608f95b5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07d308d8ce394989756edaf608f95b5a">&#9670;&nbsp;</a></span>SARSAL() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -219,7 +219,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>epsilon</em> = <code>0.001</code>&#160;</td>
+          <td class="paramname"><em>tolerance</em> = <code>0.001</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -238,15 +238,15 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">discount</td><td>The discount of the underlying model. </td></tr>
     <tr><td class="paramname">alpha</td><td>The learning rate of the <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> method. </td></tr>
     <tr><td class="paramname">lambda</td><td>The lambda parameter for the eligibility traces. </td></tr>
-    <tr><td class="paramname">epsilon</td><td>The cutoff point for eligibility traces. </td></tr>
+    <tr><td class="paramname">tolerance</td><td>The cutoff point for eligibility traces. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="aacb212ac45a4cbe1307acbf53822659e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacb212ac45a4cbe1307acbf53822659e">&#9670;&nbsp;</a></span>SARSAL() <span class="overload">[2/2]</span></h2>
+<a id="a1b537e9ff8a9d313df69984b0a73b61b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b537e9ff8a9d313df69984b0a73b61b">&#9670;&nbsp;</a></span>SARSAL() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,7 +275,7 @@ template&lt;typename M , typename &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>epsilon</em> = <code>0.001</code>&#160;</td>
+          <td class="paramname"><em>tolerance</em> = <code>0.001</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -293,7 +293,7 @@ template&lt;typename M , typename &gt; </div>
     <tr><td class="paramname">model</td><td>The <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model that <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> will use as a base. </td></tr>
     <tr><td class="paramname">alpha</td><td>The learning rate of the <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> method. </td></tr>
     <tr><td class="paramname">lambda</td><td>The lambda parameter for the eligibility traces. </td></tr>
-    <tr><td class="paramname">epsilon</td><td>The cutoff point for eligibility traces. </td></tr>
+    <tr><td class="paramname">tolerance</td><td>The cutoff point for eligibility traces. </td></tr>
   </table>
   </dd>
 </dl>
@@ -357,26 +357,6 @@ template&lt;typename M , typename &gt; </div>
 
 <p>This function returns the currently set discount parameter. </p>
 <dl class="section return"><dt>Returns</dt><dd>The currently set discount parameter. </dd></dl>
-
-</div>
-</div>
-<a id="a7be4ed46609bb166c2ea0efbc6710a0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7be4ed46609bb166c2ea0efbc6710a0c">&#9670;&nbsp;</a></span>getEpsilon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double AIToolbox::MDP::SARSAL::getEpsilon </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns the currently set trace cutoff parameter. </p>
-<dl class="section return"><dt>Returns</dt><dd>The currently set trace cutoff parameter. </dd></dl>
 
 </div>
 </div>
@@ -461,6 +441,26 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
+<a id="a78c9f70bc867fe2b09a9ab3bf8cb7ea8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c9f70bc867fe2b09a9ab3bf8cb7ea8">&#9670;&nbsp;</a></span>getTolerance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::MDP::SARSAL::getTolerance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the currently set trace cutoff parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set trace cutoff parameter. </dd></dl>
+
+</div>
+</div>
 <a id="ab5dc32c07c5241aa4f67120d332822e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab5dc32c07c5241aa4f67120d332822e4">&#9670;&nbsp;</a></span>getTraces()</h2>
 
@@ -502,34 +502,6 @@ template&lt;typename M , typename &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>The new discount factor. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a03c3f530005e36bd02a94b3f4249e540"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03c3f530005e36bd02a94b3f4249e540">&#9670;&nbsp;</a></span>setEpsilon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AIToolbox::MDP::SARSAL::setEpsilon </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>e</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function sets the trace cutoff parameter. </p>
-<p>This parameter determines when a trace is removed, as its coefficient has become too small to bother updating its value.</p>
-<p>Note that the epsilon cutoff is performed on the overall discount*lambda value, and not only on lambda. So this parameter is useful even when lambda is 1.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">e</td><td>The new trace cutoff value. </td></tr>
   </table>
   </dd>
 </dl>
@@ -616,6 +588,34 @@ template&lt;typename M , typename &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">qfun</td><td>The new QFunction to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1ee76eb26c923ac7d9202a7f1854d6df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ee76eb26c923ac7d9202a7f1854d6df">&#9670;&nbsp;</a></span>setTolerance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::SARSAL::setTolerance </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function sets the trace cutoff parameter. </p>
+<p>This parameter determines when a trace is removed, as its coefficient has become too small to bother updating its value.</p>
+<p>Note that the trace cutoff is performed on the overall discount*lambda value, and not only on lambda. So this parameter is useful even when lambda is 1.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>The new trace cutoff value. </td></tr>
   </table>
   </dd>
 </dl>
@@ -715,7 +715,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

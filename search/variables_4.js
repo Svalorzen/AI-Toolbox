@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['epsilon_5f',['epsilon_',['../classAIToolbox_1_1EpsilonPolicyInterface.html#ae0b88613cdabcf4eddfda64076eeff21',1,'AIToolbox::EpsilonPolicyInterface::epsilon_()'],['../classAIToolbox_1_1MDP_1_1OffPolicyBase.html#adb0ce894b3c94132eb4997f36f1217ed',1,'AIToolbox::MDP::OffPolicyBase::epsilon_()']]],
-  ['equalepsilongeneral',['equalEpsilonGeneral',['../namespaceAIToolbox.html#a452863c2baf6a9e256844bccfd029623',1,'AIToolbox']]],
-  ['equalepsilonsmall',['equalEpsilonSmall',['../namespaceAIToolbox.html#ae1f9a01714ce537de2ee3bed6bfbfc36',1,'AIToolbox']]],
-  ['exploration_5f',['exploration_',['../classAIToolbox_1_1MDP_1_1OffPolicyControl.html#a0a3fe2f543459caa7c3bbecdabf8a659',1,'AIToolbox::MDP::OffPolicyControl']]]
+  ['epsilon_5f',['epsilon_',['../classAIToolbox_1_1EpsilonPolicyInterface.html#ae0b88613cdabcf4eddfda64076eeff21',1,'AIToolbox::EpsilonPolicyInterface::epsilon_()'],['../classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#abfd46ccf280f68c085e5ba73f4318a69',1,'AIToolbox::EpsilonPolicyInterface&lt; void, void, Action &gt;::epsilon_()'],['../classAIToolbox_1_1MDP_1_1OffPolicyControl.html#ac720db05a702c66bda6d4392f3f6130d',1,'AIToolbox::MDP::OffPolicyControl::epsilon_()']]],
+  ['equaltolerancegeneral',['equalToleranceGeneral',['../namespaceAIToolbox.html#ad6fe7471894e7e26ec5a51003997d258',1,'AIToolbox']]],
+  ['equaltolerancesmall',['equalToleranceSmall',['../namespaceAIToolbox.html#a395f82018bc6d027736805fec404d482',1,'AIToolbox']]]
 ];

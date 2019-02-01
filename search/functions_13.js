@@ -1,6 +1,7 @@
 var searchData=
 [
   ['ucve',['UCVE',['../classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ad9009cbaee9a67172f2429b16e204293',1,'AIToolbox::Factored::Bandit::UCVE']]],
+  ['unsafe_5fjoin',['unsafe_join',['../namespaceAIToolbox_1_1Factored.html#a9f1b888a1f1f2d08a107f56d61492912',1,'AIToolbox::Factored']]],
   ['unwrap',['unwrap',['../namespaceAIToolbox_1_1POMDP.html#ac8532961013ec06fe6d47960b71ae822',1,'AIToolbox::POMDP']]],
   ['updateaction',['updateAction',['../classAIToolbox_1_1Factored_1_1MDP_1_1SingleActionPolicy.html#aadd08972fa6cba6f56fdcd703085a7b8',1,'AIToolbox::Factored::MDP::SingleActionPolicy']]],
   ['updatebelief',['updateBelief',['../namespaceAIToolbox_1_1POMDP.html#a33a1c23c71b6afae16da4db1863bf68d',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)'],['../namespaceAIToolbox_1_1POMDP.html#ad19c9f085248dc19299d511194210843',1,'AIToolbox::POMDP::updateBelief(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o)']]],

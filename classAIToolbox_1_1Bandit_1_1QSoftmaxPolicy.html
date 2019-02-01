@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: AIToolbox::Bandit::GreedyPolicy Class Reference</title>
+<title>AIToolbox: AIToolbox::Bandit::QSoftmaxPolicy Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,28 +59,28 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></li><li class="navelem"><a class="el" href="namespaceAIToolbox_1_1Bandit.html">Bandit</a></li><li class="navelem"><a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html">GreedyPolicy</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></li><li class="navelem"><a class="el" href="namespaceAIToolbox_1_1Bandit.html">Bandit</a></li><li class="navelem"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html">QSoftmaxPolicy</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classAIToolbox_1_1Bandit_1_1GreedyPolicy-members.html">List of all members</a>  </div>
+<a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AIToolbox::Bandit::GreedyPolicy Class Reference</div>  </div>
+<div class="title">AIToolbox::Bandit::QSoftmaxPolicy Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This class models a simple greedy policy.  
- <a href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#details">More...</a></p>
+<p>This class models a softmax policy through a QFunction.  
+ <a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="GreedyPolicy_8hpp_source.html">GreedyPolicy.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Bandit_2Policies_2QSoftmaxPolicy_8hpp_source.html">QSoftmaxPolicy.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for AIToolbox::Bandit::GreedyPolicy:</div>
+Inheritance diagram for AIToolbox::Bandit::QSoftmaxPolicy:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classAIToolbox_1_1Bandit_1_1GreedyPolicy.png" usemap="#AIToolbox::Bandit::GreedyPolicy_map" alt=""/>
-  <map id="AIToolbox::Bandit::GreedyPolicy_map" name="AIToolbox::Bandit::GreedyPolicy_map">
+  <img src="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.png" usemap="#AIToolbox::Bandit::QSoftmaxPolicy_map" alt=""/>
+  <map id="AIToolbox::Bandit::QSoftmaxPolicy_map" name="AIToolbox::Bandit::QSoftmaxPolicy_map">
 <area href="classAIToolbox_1_1Bandit_1_1PolicyInterface.html" title="Simple typedef for most of a normal Bandit&#39;s policy needs. " alt="AIToolbox::Bandit::PolicyInterface" shape="rect" coords="0,56,281,80"/>
 <area href="classAIToolbox_1_1PolicyInterface.html" alt="AIToolbox::PolicyInterface&lt; void, void, size_t &gt;" shape="rect" coords="0,0,281,24"/>
 </map>
@@ -88,21 +88,24 @@ Inheritance diagram for AIToolbox::Bandit::GreedyPolicy:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a977863dddd65f4d2c498bb64d7fdfd10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#a977863dddd65f4d2c498bb64d7fdfd10">GreedyPolicy</a> (size_t <a class="el" href="classAIToolbox_1_1PolicyInterface.html#aca23b903636afd69b099f8db7fc39658">A</a>)</td></tr>
-<tr class="memdesc:a977863dddd65f4d2c498bb64d7fdfd10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a977863dddd65f4d2c498bb64d7fdfd10">More...</a><br /></td></tr>
-<tr class="separator:a977863dddd65f4d2c498bb64d7fdfd10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75647a0b3264194b6d323d653e34b227"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#a75647a0b3264194b6d323d653e34b227">stepUpdateP</a> (size_t a, double r)</td></tr>
-<tr class="memdesc:a75647a0b3264194b6d323d653e34b227"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the greedy policy based on the result of the action.  <a href="#a75647a0b3264194b6d323d653e34b227">More...</a><br /></td></tr>
-<tr class="separator:a75647a0b3264194b6d323d653e34b227"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5d11b6fc7b716e2b48638a5bc37a494"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#ae5d11b6fc7b716e2b48638a5bc37a494">sampleAction</a> () const override</td></tr>
-<tr class="memdesc:ae5d11b6fc7b716e2b48638a5bc37a494"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses the greediest action.  <a href="#ae5d11b6fc7b716e2b48638a5bc37a494">More...</a><br /></td></tr>
-<tr class="separator:ae5d11b6fc7b716e2b48638a5bc37a494"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaedb26827ced92975a63cd17424fb803"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#aaedb26827ced92975a63cd17424fb803">getActionProbability</a> (const size_t &amp;a) const override</td></tr>
-<tr class="memdesc:aaedb26827ced92975a63cd17424fb803"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action.  <a href="#aaedb26827ced92975a63cd17424fb803">More...</a><br /></td></tr>
-<tr class="separator:aaedb26827ced92975a63cd17424fb803"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f7947d71306ef8146840c9b0c0427a0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#a1f7947d71306ef8146840c9b0c0427a0">getPolicy</a> () const override</td></tr>
-<tr class="memdesc:a1f7947d71306ef8146840c9b0c0427a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a vector containing all probabilities of the policy.  <a href="#a1f7947d71306ef8146840c9b0c0427a0">More...</a><br /></td></tr>
-<tr class="separator:a1f7947d71306ef8146840c9b0c0427a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e404d8dbe138890a90680a8cd9cb5c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a9e404d8dbe138890a90680a8cd9cb5c9">QSoftmaxPolicy</a> (const <a class="el" href="namespaceAIToolbox_1_1Bandit.html#aeffeb8d444aa1331625516b89c5c1235">QFunction</a> &amp;q, double t=1.0)</td></tr>
+<tr class="memdesc:a9e404d8dbe138890a90680a8cd9cb5c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a9e404d8dbe138890a90680a8cd9cb5c9">More...</a><br /></td></tr>
+<tr class="separator:a9e404d8dbe138890a90680a8cd9cb5c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa675378b25b1d4863e332ec1b2868bed"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#aa675378b25b1d4863e332ec1b2868bed">sampleAction</a> () const override</td></tr>
+<tr class="memdesc:aa675378b25b1d4863e332ec1b2868bed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses an action for state s with probability dependent on value.  <a href="#aa675378b25b1d4863e332ec1b2868bed">More...</a><br /></td></tr>
+<tr class="separator:aa675378b25b1d4863e332ec1b2868bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27b493fd7109d9f7cce0f6057b7a01a0"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a27b493fd7109d9f7cce0f6057b7a01a0">getActionProbability</a> (const size_t &amp;a) const override</td></tr>
+<tr class="memdesc:a27b493fd7109d9f7cce0f6057b7a01a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="#a27b493fd7109d9f7cce0f6057b7a01a0">More...</a><br /></td></tr>
+<tr class="separator:a27b493fd7109d9f7cce0f6057b7a01a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b44ca8cb5444504f7576c01aff74f4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a7b44ca8cb5444504f7576c01aff74f4d">setTemperature</a> (double t)</td></tr>
+<tr class="memdesc:a7b44ca8cb5444504f7576c01aff74f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the temperature parameter.  <a href="#a7b44ca8cb5444504f7576c01aff74f4d">More...</a><br /></td></tr>
+<tr class="separator:a7b44ca8cb5444504f7576c01aff74f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad49489701e5566e6811cd1095a6544b9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#ad49489701e5566e6811cd1095a6544b9">getTemperature</a> () const</td></tr>
+<tr class="memdesc:ad49489701e5566e6811cd1095a6544b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function will return the currently set temperature parameter.  <a href="#ad49489701e5566e6811cd1095a6544b9">More...</a><br /></td></tr>
+<tr class="separator:ad49489701e5566e6811cd1095a6544b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6603fa914daf26765b2f2a84e2e5d3f3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">getPolicy</a> () const override</td></tr>
+<tr class="memdesc:a6603fa914daf26765b2f2a84e2e5d3f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a vector containing all probabilities of the policy.  <a href="#a6603fa914daf26765b2f2a84e2e5d3f3">More...</a><br /></td></tr>
+<tr class="separator:a6603fa914daf26765b2f2a84e2e5d3f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classAIToolbox_1_1PolicyInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classAIToolbox_1_1PolicyInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; void, void, size_t &gt;</a></td></tr>
 <tr class="memitem:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">PolicyInterface</a> (void s, size_t a)</td></tr>
 <tr class="memdesc:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">More...</a><br /></td></tr>
@@ -137,21 +140,32 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a6975c6f8f853035f3fb4d624bdfca41d inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models a simple greedy policy. </p>
-<p>This class always selects the greediest action with respect to the already obtained experience. </p>
+<div class="textblock"><p>This class models a softmax policy through a QFunction. </p>
+<p>A softmax policy is a policy that selects actions based on their expected reward: the more advantageous an action seems to be, the more probable its selection is. There are many ways to implement a softmax policy, this class implements selection using the most common method of sampling from a Boltzmann distribution.</p>
+<p>As the epsilon-policy, this type of policy is useful to force the agent to explore an unknown model, in order to gain new information to refine it and thus gain more reward. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a977863dddd65f4d2c498bb64d7fdfd10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a977863dddd65f4d2c498bb64d7fdfd10">&#9670;&nbsp;</a></span>GreedyPolicy()</h2>
+<a id="a9e404d8dbe138890a90680a8cd9cb5c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e404d8dbe138890a90680a8cd9cb5c9">&#9670;&nbsp;</a></span>QSoftmaxPolicy()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">AIToolbox::Bandit::GreedyPolicy::GreedyPolicy </td>
+          <td class="memname">AIToolbox::Bandit::QSoftmaxPolicy::QSoftmaxPolicy </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>A</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Bandit.html#aeffeb8d444aa1331625516b89c5c1235">QFunction</a> &amp;&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t</em> = <code>1.0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -167,8 +181,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aaedb26827ced92975a63cd17424fb803"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaedb26827ced92975a63cd17424fb803">&#9670;&nbsp;</a></span>getActionProbability()</h2>
+<a id="a27b493fd7109d9f7cce0f6057b7a01a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27b493fd7109d9f7cce0f6057b7a01a0">&#9670;&nbsp;</a></span>getActionProbability()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +191,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double AIToolbox::Bandit::GreedyPolicy::getActionProbability </td>
+          <td class="memname">virtual double AIToolbox::Bandit::QSoftmaxPolicy::getActionProbability </td>
           <td>(</td>
           <td class="paramtype">const size_t &amp;&#160;</td>
           <td class="paramname"><em>a</em></td><td>)</td>
@@ -191,20 +205,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This function returns the probability of taking the specified action. </p>
-<p>If multiple greedy actions exist, this function returns the correct probability of picking each one, since we return a random one with <a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#ae5d11b6fc7b716e2b48638a5bc37a494" title="This function chooses the greediest action. ">sampleAction()</a>.</p>
+<p>This function returns the probability of taking the specified action in the specified state. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#aa675378b25b1d4863e332ec1b2868bed" title="This function chooses an action for state s with probability dependent on value. ">sampleAction()</a>;</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>The selected action.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>This function returns 0 if the action is not greedy, and 1/the number of greedy actions otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The probability of taking the specified action in the specified state. </dd></dl>
 
 </div>
 </div>
-<a id="a1f7947d71306ef8146840c9b0c0427a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f7947d71306ef8146840c9b0c0427a0">&#9670;&nbsp;</a></span>getPolicy()</h2>
+<a id="a6603fa914daf26765b2f2a84e2e5d3f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6603fa914daf26765b2f2a84e2e5d3f3">&#9670;&nbsp;</a></span>getPolicy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +227,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> AIToolbox::Bandit::GreedyPolicy::getPolicy </td>
+          <td class="memname">virtual <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> AIToolbox::Bandit::QSoftmaxPolicy::getPolicy </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -233,8 +247,28 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ae5d11b6fc7b716e2b48638a5bc37a494"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5d11b6fc7b716e2b48638a5bc37a494">&#9670;&nbsp;</a></span>sampleAction()</h2>
+<a id="ad49489701e5566e6811cd1095a6544b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad49489701e5566e6811cd1095a6544b9">&#9670;&nbsp;</a></span>getTemperature()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::Bandit::QSoftmaxPolicy::getTemperature </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function will return the currently set temperature parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set temperature parameter. </dd></dl>
+
+</div>
+</div>
+<a id="aa675378b25b1d4863e332ec1b2868bed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa675378b25b1d4863e332ec1b2868bed">&#9670;&nbsp;</a></span>sampleAction()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +277,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual size_t AIToolbox::Bandit::GreedyPolicy::sampleAction </td>
+          <td class="memname">virtual size_t AIToolbox::Bandit::QSoftmaxPolicy::sampleAction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -256,44 +290,38 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This function chooses the greediest action. </p>
-<p>If multiple actions would be equally as greedy, a random one is returned.</p>
+<p>This function chooses an action for state s with probability dependent on value. </p>
+<p>This class implements softmax through the Boltzmann distribution. Thus an action will be chosen with probability:</p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\[ P(a) = \frac{e^{(Q(a)/t)})}{\sum_b{e^{(Q(b)/t)}}} \]" src="form_0.png"/>
+</p>
+<p>where t is the temperature. This value is not cached anywhere, so continuous sampling may not be extremely fast.</p>
 <dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
 
 </div>
 </div>
-<a id="a75647a0b3264194b6d323d653e34b227"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75647a0b3264194b6d323d653e34b227">&#9670;&nbsp;</a></span>stepUpdateP()</h2>
+<a id="a7b44ca8cb5444504f7576c01aff74f4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b44ca8cb5444504f7576c01aff74f4d">&#9670;&nbsp;</a></span>setTemperature()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::Bandit::GreedyPolicy::stepUpdateP </td>
+          <td class="memname">void AIToolbox::Bandit::QSoftmaxPolicy::setTemperature </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>r</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>t</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function updates the greedy policy based on the result of the action. </p>
-<p>We simply keep a rolling average for each action, which we update here. The ones with the best average are the ones which will be selected when sampling.</p>
+<p>This function sets the temperature parameter. </p>
+<p>The temperature parameter determines the amount of exploration this policy will enforce when selecting actions. Following the Boltzmann distribution, as the temperature approaches infinity all actions will become equally probable. On the opposite side, as the temperature approaches zero, action selection will become completely greedy.</p>
+<p>The temperature parameter must be &gt;= 0.0 otherwise the function will do throw std::invalid_argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>The action taken. </td></tr>
-    <tr><td class="paramname">r</td><td>The reward obtained. </td></tr>
+    <tr><td class="paramname">t</td><td>The new temperature parameter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -301,12 +329,12 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/AIToolbox/Bandit/Policies/<a class="el" href="GreedyPolicy_8hpp_source.html">GreedyPolicy.hpp</a></li>
+<li>include/AIToolbox/Bandit/Policies/<a class="el" href="Bandit_2Policies_2QSoftmaxPolicy_8hpp_source.html">QSoftmaxPolicy.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

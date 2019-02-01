@@ -65,11 +65,17 @@ $(function() {
 <li>GapMin()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1GapMin.html#aa035d2050894dd2466b3978b573b1f05">AIToolbox::POMDP::GapMin</a>
 </li>
+<li>GenerativeModelPython()
+: <a class="el" href="classAIToolbox_1_1MDP_1_1GenerativeModelPython.html#a633893c16275c332aeccdb247fa07738">AIToolbox::MDP::GenerativeModelPython</a>
+</li>
 <li>getA()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#abceb050aa52799de4d8f33981ece722a">AIToolbox::Factored::MDP::JointActionLearner</a>
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1RollingAverage.html#a7c97d6cb4f02c8ae7d4ece9237cfc590">AIToolbox::Bandit::RollingAverage</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#a65a54527d017759ea7ac8ac0eb5d0b35">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#abceb050aa52799de4d8f33981ece722a">AIToolbox::Factored::MDP::JointActionLearner</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html#a175cb84f4dec64fa3677bc8379ce546a">AIToolbox::Factored::MDP::SparseCooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a1e894f10e3cdeff0273c284a9355e661">AIToolbox::MDP::ExpectedSARSA</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#abd00f98e6a9725f5f3edac845e09dd63">AIToolbox::MDP::Experience</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1GenerativeModelPython.html#ae1ae603475e50cc900f046417e37e4f5">AIToolbox::MDP::GenerativeModelPython</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html#a82f36579d713e440b74930bed39dd78a">AIToolbox::MDP::HystereticQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a1a5d7044e701ba9ac1e7bf998a6eab63">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a69294aa5bff1ec8ec149b4df24a2eff4">AIToolbox::MDP::OffPolicyBase</a>
@@ -86,10 +92,14 @@ $(function() {
 </li>
 <li>getActionProbability()
 : <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#a3d86bb3ee4aa03198d6cd114ba904dd9">AIToolbox::Bandit::ESRLPolicy</a>
-, <a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#aaedb26827ced92975a63cd17424fb803">AIToolbox::Bandit::GreedyPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1LRPPolicy.html#a4ceff017deca3262601f5b0f9aa99666">AIToolbox::Bandit::LRPPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html#aa6cf9073c530fefc7d4c2ed5a9fae07c">AIToolbox::Bandit::QGreedyPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper.html#a2658d1f21f472ac5300574fb9392f283">AIToolbox::Bandit::QGreedyPolicyWrapper&lt; V, Gen &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a27b493fd7109d9f7cce0f6057b7a01a0">AIToolbox::Bandit::QSoftmaxPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicyWrapper.html#a2715284d0c0504a041a9ab5582904158">AIToolbox::Bandit::QSoftmaxPolicyWrapper&lt; V, Gen &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a26f6891f5956dd927e9015fd8bf68607">AIToolbox::Bandit::ThompsonSamplingPolicy</a>
 , <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
+, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a8b056a2d95eefba8a5d7444f259568aa">AIToolbox::EpsilonPolicyInterface&lt; void, void, Action &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#ae379c5c9fb30ab526b18a411d312d60a">AIToolbox::Factored::Bandit::QGreedyPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html#ab66489ae145f49a2b956a8a93f7dfa08">AIToolbox::Factored::MDP::QGreedyPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SingleActionPolicy.html#af0bdffb8389690463c294256d08380bd">AIToolbox::Factored::MDP::SingleActionPolicy</a>
@@ -120,8 +130,14 @@ $(function() {
 <li>getContainer()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FactoredContainer.html#a331f86b6e2af0bb5525b7e07da0e5ae2">AIToolbox::Factored::FactoredContainer&lt; T &gt;</a>
 </li>
+<li>getCounts()
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1RollingAverage.html#a2cee5096ef339b34da5166b09c504710">AIToolbox::Bandit::RollingAverage</a>
+</li>
 <li>getData()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html#aa1dfec6826fca6340c001d2bd484b256">AIToolbox::Factored::FactorGraph&lt; Factor &gt;::FactorNode</a>
+</li>
+<li>getDefaultTransition()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1CompactDynamicDecisionNetwork.html#a786ac2e29945cb118becb5564e1b67a6">AIToolbox::Factored::CompactDynamicDecisionNetwork</a>
 </li>
 <li>getDeltaL()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#a2504f7fb9208ca90a027e624952b4854">AIToolbox::MDP::WoLFPolicy</a>
@@ -129,10 +145,15 @@ $(function() {
 <li>getDeltaW()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#aa655065c001b564558715907720519b9">AIToolbox::MDP::WoLFPolicy</a>
 </li>
+<li>getDiffNodes()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1CompactDynamicDecisionNetwork.html#acafb5e711f537301eb416dbe55990ecd">AIToolbox::Factored::CompactDynamicDecisionNetwork</a>
+</li>
 <li>getDiscount()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#aa050ed4f231193d93b1281777a9382de">AIToolbox::Factored::MDP::JointActionLearner</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#abe80039ce887d6b14b9b4851fd7664f6">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#aa050ed4f231193d93b1281777a9382de">AIToolbox::Factored::MDP::JointActionLearner</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html#a6f2062667de99020633f417b0a4e84a5">AIToolbox::Factored::MDP::SparseCooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#afd296bff229c404761a4aa81fcf1c083">AIToolbox::MDP::ExpectedSARSA</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1GenerativeModelPython.html#a4a6075a579e463cef9e2f02a77a9a752">AIToolbox::MDP::GenerativeModelPython</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html#aab4fff4bccfa9da7dd327008b1f39719">AIToolbox::MDP::HystereticQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#adef9221610185d37e8293b0011c7aa63">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a9cfe8e59fd0d23cb735e138cd7bec62b">AIToolbox::MDP::OffPolicyBase</a>
@@ -149,23 +170,13 @@ $(function() {
 </li>
 <li>getEpsilon()
 : <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a54a82cc7265d24f49e3a42172bb20553">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a4f644c867b59c285ea036bec80670525">AIToolbox::MDP::Dyna2&lt; M &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#aaf3fe40e9944039fe4bf9cdbf6d2066e">AIToolbox::MDP::OffPolicyBase</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#a5b93686823f54543a287ac67e2a19fab">AIToolbox::MDP::PolicyEvaluation&lt; M &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyIteration.html#a176428079fb1c54856a6c88a06578402">AIToolbox::MDP::PolicyIteration</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a7be4ed46609bb166c2ea0efbc6710a0c">AIToolbox::MDP::SARSAL</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#afeb10c4b99fe6befe1b0c452dae47f4d">AIToolbox::MDP::ValueIteration</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a0fd6aaafc6ac991b554fb8461e4831de">AIToolbox::POMDP::BlindStrategies</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a5087bac2a34411baad8abd33da0ac538">AIToolbox::POMDP::FastInformedBound</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a737c0843d032c639a688fdff3073d5d1">AIToolbox::POMDP::IncrementalPruning</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#a8243980a59309a09587a5b4d3bddf550">AIToolbox::POMDP::LinearSupport</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#ada255c96a7d9a7682adbe0188d7d7dc0">AIToolbox::POMDP::PBVI</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html#a604186aa25e9891b0fca1816f579edbd">AIToolbox::POMDP::PERSEUS</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#af23090f1c41eb17bbd3513507d33a055">AIToolbox::POMDP::QMDP</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#a1ea123c96f6860517bf2fe3bdbfb5615">AIToolbox::POMDP::Witness</a>
+, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a540f4b343ae797ccdb8da35b3c5fcefc">AIToolbox::EpsilonPolicyInterface&lt; void, void, Action &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyControl.html#ac5025009949b622a05250093170d917d">AIToolbox::MDP::OffPolicyControl&lt; Derived &gt;</a>
 </li>
 <li>getExpectedReward()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#abb267691d79bb746426c4fac2a954654">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#abdc009e4302e8599657af01ebaeeb746">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1Model.html#a198c5e82ddd1e67534c4ba5a7ddc23af">AIToolbox::Factored::MDP::Model</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#abb267691d79bb746426c4fac2a954654">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a4d1060d2f964fe60a434f4decfd61d77">AIToolbox::MDP::RLModel&lt; E &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a90bc5033725e7141b163fb6d050fb4b1">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseRLModel.html#ac5ccee24db7795e5f49024d204415978">AIToolbox::MDP::SparseRLModel&lt; E &gt;</a>
@@ -177,7 +188,6 @@ $(function() {
 </li>
 <li>getExploration()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a3bb32fd195d99ceac9f28e5fcfa48f6e">AIToolbox::MDP::MCTS&lt; M &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyControl.html#a852735d0307b574c49a9ed896d89d3b3">AIToolbox::MDP::OffPolicyControl&lt; Derived &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP.html#aefc178f9632eda04e6aa8180485605ba">AIToolbox::POMDP::POMCP&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1rPOMCP.html#a7c6264fb5040d7aabc54ccd8d994d6b8">AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;</a>
 </li>
@@ -203,7 +213,8 @@ $(function() {
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a44d6ffe6b7863e3f046227330b7f3d55">AIToolbox::POMDP::Policy</a>
 </li>
 <li>getHorizon()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#ae8beb5d377fc21cbef1d1f8ec126d470">AIToolbox::MDP::PolicyEvaluation&lt; M &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1OLS.html#abf7411e7c18609cf2673b6ea5cb20a90">AIToolbox::Factored::MDP::OLS</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#ae8beb5d377fc21cbef1d1f8ec126d470">AIToolbox::MDP::PolicyEvaluation&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyIteration.html#a2a9c4c022ed7564a653b75c42be5ee7d">AIToolbox::MDP::PolicyIteration</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a7e22742e702669249b4b0f40dc3898e2">AIToolbox::MDP::ValueIteration</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a2bb8e3b5b0cc5f3b4250d0239c259b80">AIToolbox::POMDP::BlindStrategies</a>
@@ -283,12 +294,12 @@ $(function() {
 </li>
 <li>getObservationFunction()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#aea51f6f6ec6fc105881a51cdbf612243">AIToolbox::POMDP::Model&lt; M &gt;</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a50767619769a5018adb836a30de38cf4">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a8e037350dcd9fa905516ffd48d96a9f3">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
 , <a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a4b306a66ba311f3dab1bb334d4289057">OldPOMDPModel&lt; M &gt;</a>
 </li>
 <li>getObservationProbability()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#ae981495300eb50500a1f4ebb73f0d573">AIToolbox::POMDP::Model&lt; M &gt;</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a2daf1172ad0960f81b9d3a185f6d9a7a">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a9e6fc0e3aa1cbbbe11c558ccf7cc1df1">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
 , <a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a564e56ba7d929a8ab0a8baa3a84f7c7f">OldPOMDPModel&lt; M &gt;</a>
 </li>
 <li>getPermanentLambda()
@@ -298,10 +309,14 @@ $(function() {
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#acdf56956d910e9c03208a4c33761bfb8">AIToolbox::MDP::Dyna2&lt; M &gt;</a>
 </li>
 <li>getPolicy()
-: <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#a537248b75ec50e6ac21be23fa4e32e2b">AIToolbox::Bandit::ESRLPolicy</a>
-, <a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#a1f7947d71306ef8146840c9b0c0427a0">AIToolbox::Bandit::GreedyPolicy</a>
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#a6bfb987965295393106eed696be18efb">AIToolbox::Bandit::EpsilonPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#a537248b75ec50e6ac21be23fa4e32e2b">AIToolbox::Bandit::ESRLPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1LRPPolicy.html#aff1f91ce1ba44e56b41bd249eb9ffa98">AIToolbox::Bandit::LRPPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1PolicyInterface.html#abeefee27cf67fb697231263f49f00e57">AIToolbox::Bandit::PolicyInterface</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html#ac8ee08d445eada209fc3ebbae05f1f7e">AIToolbox::Bandit::QGreedyPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper.html#ab363c0c2e1efab4416a137558b0f7d4f">AIToolbox::Bandit::QGreedyPolicyWrapper&lt; V, Gen &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">AIToolbox::Bandit::QSoftmaxPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicyWrapper.html#a44e514222ba1fc83f777e4a6c65a6cdc">AIToolbox::Bandit::QSoftmaxPolicyWrapper&lt; V, Gen &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac96c0b5f13907e9a588aced882485105">AIToolbox::Bandit::ThompsonSamplingPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a7a0358f1e22c9f6cfd4e7dd446cc59a4">AIToolbox::MDP::EpsilonPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#ae7bfdbc1045bc3b3eaba3ef89dfa96fe">AIToolbox::MDP::ExpectedSARSA</a>
@@ -329,7 +344,8 @@ $(function() {
 : <a class="el" href="classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#aa6a3eb2a87fefe8ba1334f6539cfa0e8">AIToolbox::MDP::PGAAPPPolicy</a>
 </li>
 <li>getQFunction()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#ac331f9acb45b1faa8b446d4417087aba">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1RollingAverage.html#acd3bdbeaabbb2684d4e646112184867a">AIToolbox::Bandit::RollingAverage</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#ac331f9acb45b1faa8b446d4417087aba">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a216bdde7542befbd8b88c8026666c7fe">AIToolbox::MDP::ExpectedSARSA</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html#a155dd01a024e942b97af2ff9459ac9d9">AIToolbox::MDP::HystereticQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a5e0ddaba5cac28db19922805950911c3">AIToolbox::MDP::OffPolicyBase</a>
@@ -351,7 +367,9 @@ $(function() {
 : <a class="el" href="classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html#aeaba3b2afde7a41206cd32cd8644b483">AIToolbox::MDP::PrioritizedSweeping&lt; M &gt;</a>
 </li>
 <li>getRandomActionProbability()
-: <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a4a6ccf4eab6f4e91ae43f8072da9082a">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#afb44eeeff0200bd3d1df2bdb65a15f94">AIToolbox::Bandit::EpsilonPolicy</a>
+, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a4a6ccf4eab6f4e91ae43f8072da9082a">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
+, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a96fa4428ce756cc5682f5c2064d70fc3">AIToolbox::EpsilonPolicyInterface&lt; void, void, Action &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html#aab8628cfc019922bbd923ada35315a0b">AIToolbox::Factored::MDP::EpsilonPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a2dd7da4576a3d09c93403daa450c4bc3">AIToolbox::MDP::EpsilonPolicy</a>
 </li>
@@ -360,7 +378,8 @@ $(function() {
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a23fea4320cc3cb30fdd6c332e5ce733a">AIToolbox::MDP::SparseExperience</a>
 </li>
 <li>getRewardFunction()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab142949e2b1aaee01302c43e02e61d60">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#a41a6499b3132a106f35fbdf3fe34b3a2">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab142949e2b1aaee01302c43e02e61d60">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a26645948fa1f0763a4a8c232758f21cc">AIToolbox::MDP::RLModel&lt; E &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#aab61e30e693bbbd02d4641330a7eb95a">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseRLModel.html#ab927b8e0342733f81fb0fa23caa28f3e">AIToolbox::MDP::SparseRLModel&lt; E &gt;</a>
@@ -375,10 +394,12 @@ $(function() {
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a858df65a050abb2467ca86de4e3a426b">AIToolbox::MDP::SparseExperience</a>
 </li>
 <li>getS()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#abefac992feff79365806d9b50ec01758">AIToolbox::Factored::MDP::JointActionLearner</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#aaeca9c4f34795ccb58cfbd168cac46b1">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#abefac992feff79365806d9b50ec01758">AIToolbox::Factored::MDP::JointActionLearner</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html#ad15227d81a076dd716cb15eb019faeae">AIToolbox::Factored::MDP::SparseCooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#ae04d2a69216a16371836e2bba134a963">AIToolbox::MDP::ExpectedSARSA</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#aeedce7c6b38dd4bf1d2087ac121177f8">AIToolbox::MDP::Experience</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1GenerativeModelPython.html#ae544a3bedcf21b6356e6a44c7e5c0112">AIToolbox::MDP::GenerativeModelPython</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html#addcfc61e6894692a4ea3f1fa38da2038">AIToolbox::MDP::HystereticQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aa5ff3f3c9ada90f9e0cb00d95aacbaac">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a75e8ba8ff912600f437bcc4e751d6050">AIToolbox::MDP::OffPolicyBase</a>
@@ -408,7 +429,8 @@ $(function() {
 : <a class="el" href="classGridWorld.html#a23ea08ee496b6d15e1f9b5b7e54185af">GridWorld</a>
 </li>
 <li>getTemperature()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#ab2f02f23612a8177a41103114c443b6f">AIToolbox::MDP::QSoftmaxPolicy</a>
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#ad49489701e5566e6811cd1095a6544b9">AIToolbox::Bandit::QSoftmaxPolicy</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#ab2f02f23612a8177a41103114c443b6f">AIToolbox::MDP::QSoftmaxPolicy</a>
 </li>
 <li>getTimestep()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCE.html#aff27a461e015d0005728a94515534254">AIToolbox::Factored::Bandit::MAUCE</a>
@@ -416,15 +438,22 @@ $(function() {
 <li>getTimesteps()
 : <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#a2f81e83057ced5ecf7ad2547e2641cbf">AIToolbox::Bandit::ESRLPolicy</a>
 </li>
-<li>getTraceDiscount()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1ImportanceSampling.html#a11843274ac081acc95d21776295eda70">AIToolbox::MDP::ImportanceSampling</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1ImportanceSamplingEvaluation.html#a89a9d8d19e3a7e0cb15389fa903d073c">AIToolbox::MDP::ImportanceSamplingEvaluation</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1QL.html#a282a459b68495d0d8a885e14e316bcfc">AIToolbox::MDP::QL</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1QLEvaluation.html#aafa61b996d5973310ffa8cf08601e107">AIToolbox::MDP::QLEvaluation</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1RetraceL.html#a226205934de3a201085b5af43cea9904">AIToolbox::MDP::RetraceL</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1RetraceLEvaluation.html#adf749e7bceea40716bee85b1903dd88f">AIToolbox::MDP::RetraceLEvaluation</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1TreeBackupL.html#aeb387c3a743841ce2ed40c1df83babbb">AIToolbox::MDP::TreeBackupL</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1TreeBackupLEvaluation.html#a4931e0dda9b6ee09cd6e6f507357f0b8">AIToolbox::MDP::TreeBackupLEvaluation</a>
+<li>getTolerance()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1OLS.html#a9ed34a2bde683e477f1b9dd00f241fb3">AIToolbox::Factored::MDP::OLS</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a5f01ed0aaa59b3612579bab1ea355db9">AIToolbox::MDP::Dyna2&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#adff52a996dcae768ef59333950957c35">AIToolbox::MDP::OffPolicyBase</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#a3eb8b7e6e080b72129d62742ecd026dd">AIToolbox::MDP::PolicyEvaluation&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyIteration.html#ac05483781e476ef765ba28e2ab23fc5f">AIToolbox::MDP::PolicyIteration</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a78c9f70bc867fe2b09a9ab3bf8cb7ea8">AIToolbox::MDP::SARSAL</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a3ad23a67d931585e49ccf7144b895d1b">AIToolbox::MDP::ValueIteration</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a4d2f062d0162b20a675583d759b53ced">AIToolbox::POMDP::BlindStrategies</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#aab6754603040a68c2f2746be246c9fd6">AIToolbox::POMDP::FastInformedBound</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a41620e868d9417a6c1fae5d676a75262">AIToolbox::POMDP::IncrementalPruning</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#a951df494e62e90e710bf706deb1bea70">AIToolbox::POMDP::LinearSupport</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#aac10ae05338997eb43cff40c5e3191a7">AIToolbox::POMDP::PBVI</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html#acb884297e4d96e5cca2667c65cf39efe">AIToolbox::POMDP::PERSEUS</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a486045da45778012cfdcbeb2a4392e5e">AIToolbox::POMDP::QMDP</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#a7ba35db9edcb85d21b5421c7ec35e400">AIToolbox::POMDP::Witness</a>
 </li>
 <li>getTraces()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#ab9a548b96b639aa0b7b15c4d9683f061">AIToolbox::MDP::OffPolicyBase</a>
@@ -437,14 +466,20 @@ $(function() {
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#a1420abf1d1aa28ba1ec7947e5487d284">AIToolbox::MDP::Dyna2&lt; M &gt;</a>
 </li>
 <li>getTransitionFunction()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab0a51333685ad61409e69dd4654a8547">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#a1db292eb94c2e1fc455a2bdccaee3f44">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab0a51333685ad61409e69dd4654a8547">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a4b626f45e2de7fa077a0e44a2f93b3ca">AIToolbox::MDP::RLModel&lt; E &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#ac111e42b507595df391aa17fa407a680">AIToolbox::MDP::SparseModel</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a83dfbd7ece9404454cc642d0a8ee06f3">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseRLModel.html#af7f12bc45ee0292181f9c89864f58b3d">AIToolbox::MDP::SparseRLModel&lt; E &gt;</a>
 , <a class="el" href="classOldMDPModel.html#ad35af04159605cc6feb27ca58eb918b7">OldMDPModel</a>
 </li>
 <li>getTransitionProbability()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a83b0f862db340d59b018fef10de38566">AIToolbox::MDP::Model</a>
+: <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicBayesianNetwork.html#a195e9793a4ded33f2155ae93e70b4506">AIToolbox::Factored::DynamicBayesianNetwork</a>
+, <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicBayesianNetworkRef.html#ad4310faf233c39823d2f473ec5f23110">AIToolbox::Factored::DynamicBayesianNetworkRef</a>
+, <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredDynamicDecisionNetwork.html#ada0ee2a8aaa70d93ddb86a332e99554b">AIToolbox::Factored::FactoredDynamicDecisionNetwork</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#afee5c27e75707697faa1c3de8730227a">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1Model.html#a67c06c21814630e8bf5b9415ccd13553">AIToolbox::Factored::MDP::Model</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a83b0f862db340d59b018fef10de38566">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1RLModel.html#a22d21604e4954ea2af8651f844a5eec6">AIToolbox::MDP::RLModel&lt; E &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a4887741b83dc67f0c68194352f94210e">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseRLModel.html#a55959464dccc073c708e767baa18b1eb">AIToolbox::MDP::SparseRLModel&lt; E &gt;</a>
@@ -453,6 +488,10 @@ $(function() {
 <li>getTrie()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FactoredContainer.html#a83a4422c201287f291c4b1d32a2aa6d0">AIToolbox::Factored::FactoredContainer&lt; T &gt;</a>
 </li>
+<li>getValue()
+: <a class="el" href="structAIToolbox_1_1Factored_1_1Factored2DMatrix.html#a2e93419602f827c571ddf32c4e9ab0b3">AIToolbox::Factored::Factored2DMatrix</a>
+, <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredVector.html#a02493b9846b7d8477144d1f81e248854">AIToolbox::Factored::FactoredVector</a>
+</li>
 <li>getValueFunction()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html#ad2395dd11a3cae8c3ce5ca1253f4e562">AIToolbox::MDP::PrioritizedSweeping&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a0691428317f8e3190b84b14b3ad227b7">AIToolbox::MDP::ValueIteration</a>
@@ -460,6 +499,9 @@ $(function() {
 </li>
 <li>getValues()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#a0c9b985a0d74c9d8448153570e4b209f">AIToolbox::MDP::PolicyEvaluation&lt; M &gt;</a>
+</li>
+<li>getVariables()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html#a9543db576bb0eeb3c7f0f7fa4965c1a0">AIToolbox::Factored::FactorGraph&lt; Factor &gt;::FactorNode</a>
 </li>
 <li>getVisits()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#a0e0a2e6b9cc7074df9443b2b9557f340">AIToolbox::MDP::Experience</a>
@@ -484,20 +526,17 @@ $(function() {
 : <a class="el" href="classGridWorldState.html#aa0e36c57cb3e491ebd1713d483a8d013">GridWorldState</a>
 , <a class="el" href="classToroidalWorldState.html#a986d28361acf88051e3d8c74b304f9b0">ToroidalWorldState</a>
 </li>
-<li>GreedyPolicy()
-: <a class="el" href="classAIToolbox_1_1Bandit_1_1GreedyPolicy.html#a977863dddd65f4d2c498bb64d7fdfd10">AIToolbox::Bandit::GreedyPolicy</a>
-</li>
 <li>GridWorld()
 : <a class="el" href="classGridWorld.html#a315762bdcc078507c9fb5274b0027ad1">GridWorld</a>
 </li>
 <li>GridWorldState()
-: <a class="el" href="classGridWorldState.html#a59e57eae0084a4cbb07de79f6d613a3b">GridWorldState</a>
+: <a class="el" href="classGridWorldState.html#ac79e398e1237365a44c110b1437cee7d">GridWorldState</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:12 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -1,5 +1,11 @@
 var searchData=
 [
+  ['dbn',['DBN',['../namespaceAIToolbox_1_1Factored.html#a35c60ba92e29eda77cfd3b8071affdf3',1,'AIToolbox::Factored']]],
+  ['dbnref',['DBNRef',['../namespaceAIToolbox_1_1Factored.html#a763e42550900c226bd929e42a153dbcf',1,'AIToolbox::Factored']]],
+  ['dead',['Dead',['../SysAdmin_8hpp.html#a5cc6b28ebc1a6f32bdfe9031c4deb568a2f872369e520d046b46b7cd0b49b1882',1,'SysAdmin.hpp']]],
+  ['decisionlist',['DecisionList',['../classAIToolbox_1_1Factored_1_1MDP_1_1DecisionListPolicy.html#a1e756fbc66c39fea9b0e66d3bfe21616',1,'AIToolbox::Factored::MDP::DecisionListPolicy']]],
+  ['decisionlistpolicy',['DecisionListPolicy',['../classAIToolbox_1_1Factored_1_1MDP_1_1DecisionListPolicy.html',1,'AIToolbox::Factored::MDP::DecisionListPolicy'],['../classAIToolbox_1_1Factored_1_1MDP_1_1DecisionListPolicy.html#a1b9bb3c5ab348f5487ba52370fe08ea6',1,'AIToolbox::Factored::MDP::DecisionListPolicy::DecisionListPolicy()']]],
+  ['decisionlistpolicy_2ehpp',['DecisionListPolicy.hpp',['../DecisionListPolicy_8hpp.html',1,'']]],
   ['declval_3c_20iterator_20_2a_20_3e_28_29_20_2d_3ebase_28_29_2c_20void_28_29_29_3e',['declval&lt; Iterator * &gt;() -&gt;base(), void())&gt;',['../structAIToolbox_1_1Impl_1_1IterSwap_3_01Iterator_00_01decltype_07std_1_1declval_3_01Iterator_01_8851d51f963862e7ce5ca645520062d2.html',1,'AIToolbox::Impl']]],
   ['difference_5ftype',['difference_type',['../classAIToolbox_1_1IndexMapIterator.html#a0bcd757021213b073bca6b41a636abf0',1,'AIToolbox::IndexMapIterator::difference_type()'],['../classAIToolbox_1_1IndexSkipMapIterator.html#a35b77b2003780170270d3435dd1fb5d8',1,'AIToolbox::IndexSkipMapIterator::difference_type()']]],
   ['direction',['Direction',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa',1,'Direction():&#160;ToroidalWorld.hpp'],['../GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa',1,'Direction():&#160;GridWorld.hpp']]],
@@ -7,9 +13,14 @@ var searchData=
   ['discretizedense',['discretizeDense',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a697b5b31b0bac07942bc64deebdb3c2d',1,'AIToolbox::POMDP::AMDP']]],
   ['discretizer',['Discretizer',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf',1,'AIToolbox::POMDP::AMDP']]],
   ['discretizesparse',['discretizeSparse',['../classAIToolbox_1_1POMDP_1_1AMDP.html#a3d6a58ae5eb30857450d0c08750e481b',1,'AIToolbox::POMDP::AMDP']]],
+  ['done',['Done',['../SysAdmin_8hpp.html#abc457643d1139425196e35cb1ece5c0eaa7929b884d7db9093d6ed453feedf2a2',1,'SysAdmin.hpp']]],
+  ['dot',['dot',['../namespaceAIToolbox_1_1Factored.html#a426eb055f811fbabaa7322ec9b6e0efc',1,'AIToolbox::Factored']]],
   ['down',['DOWN',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da',1,'DOWN():&#160;ToroidalWorld.hpp'],['../GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da',1,'DOWN():&#160;GridWorld.hpp']]],
-  ['dyna2',['Dyna2',['../classAIToolbox_1_1MDP_1_1Dyna2.html',1,'AIToolbox::MDP::Dyna2&lt; M &gt;'],['../classAIToolbox_1_1MDP_1_1Dyna2.html#adb78682ac3f509a37533a29bbba1f198',1,'AIToolbox::MDP::Dyna2::Dyna2()']]],
+  ['duplicates',['Duplicates',['../namespaceAIToolbox_1_1Factored.html#a2f616e5d91da1ab753b5e8c83d32a3aca763275034b3bde5ad4f0fb074a35e741',1,'AIToolbox::Factored']]],
+  ['dyna2',['Dyna2',['../classAIToolbox_1_1MDP_1_1Dyna2.html',1,'AIToolbox::MDP::Dyna2&lt; M &gt;'],['../classAIToolbox_1_1MDP_1_1Dyna2.html#adeb31816d450b120e7ff43506e911172',1,'AIToolbox::MDP::Dyna2::Dyna2()']]],
   ['dyna2_2ehpp',['Dyna2.hpp',['../Dyna2_8hpp.html',1,'']]],
+  ['dynamicbayesiannetwork',['DynamicBayesianNetwork',['../structAIToolbox_1_1Factored_1_1DynamicBayesianNetwork.html',1,'AIToolbox::Factored']]],
+  ['dynamicbayesiannetworkref',['DynamicBayesianNetworkRef',['../structAIToolbox_1_1Factored_1_1DynamicBayesianNetworkRef.html',1,'AIToolbox::Factored']]],
   ['dynaq',['DynaQ',['../classAIToolbox_1_1MDP_1_1DynaQ.html',1,'AIToolbox::MDP::DynaQ&lt; M &gt;'],['../classAIToolbox_1_1MDP_1_1DynaQ.html#acaa11f7ae6d8b2076681251fca81390d',1,'AIToolbox::MDP::DynaQ::DynaQ()']]],
   ['dynaq_2ehpp',['DynaQ.hpp',['../DynaQ_8hpp.html',1,'']]]
 ];

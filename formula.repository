@@ -1,1 +1,2 @@
-\form#0:\[ P(a) = \frac{e^{(Q(s,a)/t)})}{\sum_b{e^{(Q(s,b)/t)}}} \]
+\form#0:\[ P(a) = \frac{e^{(Q(a)/t)})}{\sum_b{e^{(Q(b)/t)}}} \]
+\form#1:\[ P(a) = \frac{e^{(Q(s,a)/t)})}{\sum_b{e^{(Q(s,b)/t)}}} \]

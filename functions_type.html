@@ -76,7 +76,9 @@ $(function() {
 <li>Base
 : <a class="el" href="classAIToolbox_1_1Bandit_1_1PolicyInterface.html#a821ed56c2402de320aa3355e869ec268">AIToolbox::Bandit::PolicyInterface</a>
 , <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ab98e83ad211b9975fb1a427d4c12bacf">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
+, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#aa95b2d6484546c99c6b5a2139eafe701">AIToolbox::EpsilonPolicyInterface&lt; void, void, Action &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1PolicyInterface.html#ab46308b73d6b5922ecdcfb5c8435d4e6">AIToolbox::Factored::Bandit::PolicyInterface</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1DecisionListPolicy.html#a0466911e274c59b45a00ecc2a54fb8d6">AIToolbox::Factored::MDP::DecisionListPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html#adfa979bccaa832ec43679b2b1532f3d9">AIToolbox::Factored::MDP::EpsilonPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html#aaeadd4c1b4a020413dcac99d7c5a6bdf">AIToolbox::Factored::MDP::QGreedyPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SingleActionPolicy.html#ab75401cf0fd483026baed4f5d4583690">AIToolbox::Factored::MDP::SingleActionPolicy</a>
@@ -111,6 +113,9 @@ $(function() {
 
 
 <h3><a id="index_d"></a>- d -</h3><ul>
+<li>DecisionList
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1DecisionListPolicy.html#a1e756fbc66c39fea9b0e66d3bfe21616">AIToolbox::Factored::MDP::DecisionListPolicy</a>
+</li>
 <li>difference_type
 : <a class="el" href="classAIToolbox_1_1IndexMapIterator.html#a0bcd757021213b073bca6b41a636abf0">AIToolbox::IndexMapIterator&lt; IdsIterator, Container &gt;</a>
 , <a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html#a35b77b2003780170270d3435dd1fb5d8">AIToolbox::IndexSkipMapIterator&lt; IdsContainer, Container &gt;</a>
@@ -132,15 +137,13 @@ $(function() {
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a7d4e8fa934b0c874fbc32d84181e46fe">AIToolbox::Factored::Bandit::VariableElimination</a>
 </li>
 <li>EpsilonBase
-: <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a2c360fe70a15265daa571eb9acafbf7f">AIToolbox::MDP::EpsilonPolicy</a>
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#a0b375b467038a099338db67c53214662">AIToolbox::Bandit::EpsilonPolicy</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a2c360fe70a15265daa571eb9acafbf7f">AIToolbox::MDP::EpsilonPolicy</a>
 </li>
 </ul>
 
 
 <h3><a id="index_f"></a>- f -</h3><ul>
-<li>FactoredFunction
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1FactoredLP.html#a589ea29ac172a49d745c9215915bace3">AIToolbox::Factored::MDP::FactoredLP</a>
-</li>
 <li>FactorIt
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">AIToolbox::Factored::FactorGraph&lt; Factor &gt;</a>
 </li>
@@ -240,9 +243,11 @@ $(function() {
 <li>Result
 : <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a1818b29bd4217b1df0ebfa6b52b002e1">AIToolbox::Factored::Bandit::UCVE</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a595a1b4580834cc362b939697367932a">AIToolbox::Factored::Bandit::VariableElimination</a>
+, <a class="el" href="classAIToolbox_1_1Statistics.html#a4ee5f43dcd1949e17ab5c08ab18254a5">AIToolbox::Statistics</a>
 </li>
 <li>Results
 : <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html#ac5804fe0f920cc861da5b712b8086318">AIToolbox::Factored::Bandit::MultiObjectiveVariableElimination</a>
+, <a class="el" href="classAIToolbox_1_1Statistics.html#a6cbb234d8c64b6bdea41044b2a207cb4">AIToolbox::Statistics</a>
 </li>
 <li>RewardSumTable
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#a32422d4b3fb2dd46d845376aee67e5a1">AIToolbox::MDP::Experience</a>
@@ -258,9 +263,9 @@ $(function() {
 , <a class="el" href="classOldMDPModel.html#a2943e8b9c137a42a8fa6e5555d5b7fc1">OldMDPModel</a>
 </li>
 <li>Rule
-: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html#ad0c6990a95ba3272765c73b5d085a504">AIToolbox::Factored::Bandit::MultiObjectiveVariableElimination</a>
-, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a6a1215af85d69211f3d79f0a3f2bb840">AIToolbox::Factored::Bandit::UCVE</a>
-, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a13359d53486f77c310956f0b5dda2360">AIToolbox::Factored::Bandit::VariableElimination</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html#a872a702149e49ca68cd28ba7a5af83c1">AIToolbox::Factored::Bandit::MultiObjectiveVariableElimination</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#af2fc02fe86b651b8d69e27b8df2d82de">AIToolbox::Factored::Bandit::UCVE</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a4a2779b0ffa1b6d63f7e25fd8b9c274b">AIToolbox::Factored::Bandit::VariableElimination</a>
 </li>
 <li>Rules
 : <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html#aa45ffb4915cf9779b4c8f55ffeb147cb">AIToolbox::Factored::Bandit::MultiObjectiveVariableElimination</a>
@@ -326,7 +331,7 @@ $(function() {
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#adff72b44d6466d93ee6eb0654848c449">AIToolbox::Factored::FactorGraph&lt; Factor &gt;</a>
 </li>
 <li>Variables
-: <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aac670ce512211f86524df92f13b6c2b3">AIToolbox::Factored::FactorGraph&lt; Factor &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">AIToolbox::Factored::FactorGraph&lt; Factor &gt;</a>
 </li>
 <li>VisitSumTable
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#a53d7b9534e136e3e0a20e09ff8adb22d">AIToolbox::MDP::Experience</a>
@@ -340,7 +345,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:12 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

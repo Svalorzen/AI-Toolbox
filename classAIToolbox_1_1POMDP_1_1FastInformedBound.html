@@ -78,9 +78,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a65c9d87d2dbf1eceb39c57379b9190e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a65c9d87d2dbf1eceb39c57379b9190e5">FastInformedBound</a> (unsigned horizon, double epsilon=0.001)</td></tr>
-<tr class="memdesc:a65c9d87d2dbf1eceb39c57379b9190e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a65c9d87d2dbf1eceb39c57379b9190e5">More...</a><br /></td></tr>
-<tr class="separator:a65c9d87d2dbf1eceb39c57379b9190e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab120caa9f9999d82a7c99bd47e091ad3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#ab120caa9f9999d82a7c99bd47e091ad3">FastInformedBound</a> (unsigned horizon, double tolerance=0.001)</td></tr>
+<tr class="memdesc:ab120caa9f9999d82a7c99bd47e091ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ab120caa9f9999d82a7c99bd47e091ad3">More...</a><br /></td></tr>
+<tr class="separator:ab120caa9f9999d82a7c99bd47e091ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53a257cf11342ff8388c8024be764dbf"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
 <tr class="memitem:a53a257cf11342ff8388c8024be764dbf"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a53a257cf11342ff8388c8024be764dbf">operator()</a> (const M &amp;m, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &amp;oldQ={})</td></tr>
 <tr class="memdesc:a53a257cf11342ff8388c8024be764dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the Fast Informed Bound for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="#a53a257cf11342ff8388c8024be764dbf">More...</a><br /></td></tr>
@@ -89,15 +89,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a68e53edd9092e6db49cfb2dc6f8bb13a"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a68e53edd9092e6db49cfb2dc6f8bb13a">operator()</a> (const M &amp;m, const SOSA &amp;sosa, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> oldQ={})</td></tr>
 <tr class="memdesc:a68e53edd9092e6db49cfb2dc6f8bb13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the Fast Informed Bound for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="#a68e53edd9092e6db49cfb2dc6f8bb13a">More...</a><br /></td></tr>
 <tr class="separator:a68e53edd9092e6db49cfb2dc6f8bb13a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f748a533861a5969a221d51113c07b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a8f748a533861a5969a221d51113c07b2">setEpsilon</a> (double e)</td></tr>
-<tr class="memdesc:a8f748a533861a5969a221d51113c07b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the epsilon parameter.  <a href="#a8f748a533861a5969a221d51113c07b2">More...</a><br /></td></tr>
-<tr class="separator:a8f748a533861a5969a221d51113c07b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdf4512027ca14b1c4f2063f33cd7ea3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#abdf4512027ca14b1c4f2063f33cd7ea3">setTolerance</a> (double tolerance)</td></tr>
+<tr class="memdesc:abdf4512027ca14b1c4f2063f33cd7ea3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the tolerance parameter.  <a href="#abdf4512027ca14b1c4f2063f33cd7ea3">More...</a><br /></td></tr>
+<tr class="separator:abdf4512027ca14b1c4f2063f33cd7ea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06d15668e1edc5ae8e00674cdfc9bd01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a06d15668e1edc5ae8e00674cdfc9bd01">setHorizon</a> (unsigned h)</td></tr>
 <tr class="memdesc:a06d15668e1edc5ae8e00674cdfc9bd01"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the horizon parameter.  <a href="#a06d15668e1edc5ae8e00674cdfc9bd01">More...</a><br /></td></tr>
 <tr class="separator:a06d15668e1edc5ae8e00674cdfc9bd01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5087bac2a34411baad8abd33da0ac538"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a5087bac2a34411baad8abd33da0ac538">getEpsilon</a> () const</td></tr>
-<tr class="memdesc:a5087bac2a34411baad8abd33da0ac538"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set epsilon parameter.  <a href="#a5087bac2a34411baad8abd33da0ac538">More...</a><br /></td></tr>
-<tr class="separator:a5087bac2a34411baad8abd33da0ac538"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab6754603040a68c2f2746be246c9fd6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#aab6754603040a68c2f2746be246c9fd6">getTolerance</a> () const</td></tr>
+<tr class="memdesc:aab6754603040a68c2f2746be246c9fd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set tolerance parameter.  <a href="#aab6754603040a68c2f2746be246c9fd6">More...</a><br /></td></tr>
+<tr class="separator:aab6754603040a68c2f2746be246c9fd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a981a6d10ccf887130463957eb2ad8a29"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a981a6d10ccf887130463957eb2ad8a29">getHorizon</a> () const</td></tr>
 <tr class="memdesc:a981a6d10ccf887130463957eb2ad8a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the current horizon parameter.  <a href="#a981a6d10ccf887130463957eb2ad8a29">More...</a><br /></td></tr>
 <tr class="separator:a981a6d10ccf887130463957eb2ad8a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,8 +124,8 @@ Q(b,a) = Sum_s b(s) * [ R(s,a) + gamma * Sum_o max_prev_alpha Sum_s' P(s',o|s,a)
 Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
 </pre><p>Which is the update we're doing in the code. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a65c9d87d2dbf1eceb39c57379b9190e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65c9d87d2dbf1eceb39c57379b9190e5">&#9670;&nbsp;</a></span>FastInformedBound()</h2>
+<a id="ab120caa9f9999d82a7c99bd47e091ad3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab120caa9f9999d82a7c99bd47e091ad3">&#9670;&nbsp;</a></span>FastInformedBound()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -140,7 +140,7 @@ Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>epsilon</em> = <code>0.001</code>&#160;</td>
+          <td class="paramname"><em>tolerance</em> = <code>0.001</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -154,7 +154,7 @@ Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">horizon</td><td>The maximum number of iterations to perform. </td></tr>
-    <tr><td class="paramname">epsilon</td><td>The epsilon factor to stop the value iteration loop. </td></tr>
+    <tr><td class="paramname">tolerance</td><td>The tolerance factor to stop the value iteration loop. </td></tr>
   </table>
   </dd>
 </dl>
@@ -162,26 +162,6 @@ Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5087bac2a34411baad8abd33da0ac538"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5087bac2a34411baad8abd33da0ac538">&#9670;&nbsp;</a></span>getEpsilon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double AIToolbox::POMDP::FastInformedBound::getEpsilon </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns the currently set epsilon parameter. </p>
-<dl class="section return"><dt>Returns</dt><dd>The currently set epsilon parameter. </dd></dl>
-
-</div>
-</div>
 <a id="a981a6d10ccf887130463957eb2ad8a29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a981a6d10ccf887130463957eb2ad8a29">&#9670;&nbsp;</a></span>getHorizon()</h2>
 
@@ -199,6 +179,26 @@ Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
 
 <p>This function returns the current horizon parameter. </p>
 <dl class="section return"><dt>Returns</dt><dd>The currently set horizon parameter. </dd></dl>
+
+</div>
+</div>
+<a id="aab6754603040a68c2f2746be246c9fd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab6754603040a68c2f2746be246c9fd6">&#9670;&nbsp;</a></span>getTolerance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::POMDP::FastInformedBound::getTolerance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the currently set tolerance parameter. </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently set tolerance parameter. </dd></dl>
 
 </div>
 </div>
@@ -295,33 +295,6 @@ template&lt;typename M , typename SOSA , typename &gt; </div>
 
 </div>
 </div>
-<a id="a8f748a533861a5969a221d51113c07b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f748a533861a5969a221d51113c07b2">&#9670;&nbsp;</a></span>setEpsilon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AIToolbox::POMDP::FastInformedBound::setEpsilon </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>e</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function sets the epsilon parameter. </p>
-<p>The epsilon parameter must be &gt;= 0.0, otherwise the function will throw an std::invalid_argument. The epsilon parameter sets the convergence criterion. An epsilon of 0.0 forces the internal loop to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html" title="This class implements the Fast Informed Bound algorithm. ">FastInformedBound</a> will stop as soon as the difference between two iterations is less than the epsilon specified.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">e</td><td>The new epsilon parameter. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a06d15668e1edc5ae8e00674cdfc9bd01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a06d15668e1edc5ae8e00674cdfc9bd01">&#9670;&nbsp;</a></span>setHorizon()</h2>
 
@@ -348,13 +321,40 @@ template&lt;typename M , typename SOSA , typename &gt; </div>
 
 </div>
 </div>
+<a id="abdf4512027ca14b1c4f2063f33cd7ea3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdf4512027ca14b1c4f2063f33cd7ea3">&#9670;&nbsp;</a></span>setTolerance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::POMDP::FastInformedBound::setTolerance </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>tolerance</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function sets the tolerance parameter. </p>
+<p>The tolerance parameter must be &gt;= 0.0, otherwise the function will throw an std::invalid_argument. The tolerance parameter sets the convergence criterion. A tolerance of 0.0 forces the internal loop to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html" title="This class implements the Fast Informed Bound algorithm. ">FastInformedBound</a> will stop as soon as the difference between two iterations is less than the tolerance specified.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tolerance</td><td>The new tolerance parameter. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/AIToolbox/POMDP/Algorithms/<a class="el" href="FastInformedBound_8hpp_source.html">FastInformedBound.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

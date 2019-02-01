@@ -116,9 +116,9 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>This class represents a single Joint Action Learner agent. </p>
 <p>A JAL agent learns a QFunction for its own values while keeping track of the actions performed by the other agents with which it is interacting.</p>
 <p>In order to reason about its own QFunction, a JAL keeps a model of the policies of the other agents. This is done by keeping counters for each actions that other agents have performed, and performing a maximum likelihood computation in order to estimate their policies.</p>
-<p>While internally a QFunction is kept for the full joint action space, after using the policy models the output will be a normal <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a>, which can then be used to provide a policy.</p>
+<p>While internally a QFunction is kept for the full joint action space, after using the policy models the output will be a normal <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a2082837254cf5e0512ea445137ef417b" title="This represents a factored QFunction. ">MDP::QFunction</a>, which can then be used to provide a policy.</p>
 <p>The internal learning is done using <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">MDP::QLearning</a>.</p>
-<p>This method does not try to handle factorized states. Here we also assume that the joint action space is of reasonable size, as we allocate an <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> for it.</p>
+<p>This method does not try to handle factorized states. Here we also assume that the joint action space is of reasonable size, as we allocate an <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a2082837254cf5e0512ea445137ef417b" title="This represents a factored QFunction. ">MDP::QFunction</a> for it.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">AIToolbox::MDP::QLearning</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a267b5d04f0cc0803fd64b696e94f8871"></a>
@@ -436,7 +436,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

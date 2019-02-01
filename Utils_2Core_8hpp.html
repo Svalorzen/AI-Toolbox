@@ -103,6 +103,22 @@ Functions</h2></td></tr>
 <tr class="memitem:a67f283ebe30cd11e1eead7a814057945"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a67f283ebe30cd11e1eead7a814057945">AIToolbox::checkDifferentGeneral</a> (const double a, const double b)</td></tr>
 <tr class="memdesc:a67f283ebe30cd11e1eead7a814057945"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks if two doubles are reasonably different.  <a href="namespaceAIToolbox.html#a67f283ebe30cd11e1eead7a814057945">More...</a><br /></td></tr>
 <tr class="separator:a67f283ebe30cd11e1eead7a814057945"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18765a780a9488b129cb8334e16e370a"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a18765a780a9488b129cb8334e16e370a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a18765a780a9488b129cb8334e16e370a">AIToolbox::checkEqualSmall</a> (const V &amp;v, const double d)</td></tr>
+<tr class="memdesc:a18765a780a9488b129cb8334e16e370a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether a given vector only contains the stated value.  <a href="namespaceAIToolbox.html#a18765a780a9488b129cb8334e16e370a">More...</a><br /></td></tr>
+<tr class="separator:a18765a780a9488b129cb8334e16e370a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6797db6216af3a252546a74690bda979"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a6797db6216af3a252546a74690bda979"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a6797db6216af3a252546a74690bda979">AIToolbox::checkDifferentSmall</a> (const V &amp;v, const double d)</td></tr>
+<tr class="memdesc:a6797db6216af3a252546a74690bda979"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether a given vector does not contain only the stated value.  <a href="namespaceAIToolbox.html#a6797db6216af3a252546a74690bda979">More...</a><br /></td></tr>
+<tr class="separator:a6797db6216af3a252546a74690bda979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71946ca7560a469505d9e449841b40d1"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a71946ca7560a469505d9e449841b40d1"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a71946ca7560a469505d9e449841b40d1">AIToolbox::checkEqualGeneral</a> (const V &amp;v, const double d)</td></tr>
+<tr class="memdesc:a71946ca7560a469505d9e449841b40d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether a given vector only contains the stated value.  <a href="namespaceAIToolbox.html#a71946ca7560a469505d9e449841b40d1">More...</a><br /></td></tr>
+<tr class="separator:a71946ca7560a469505d9e449841b40d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65413c83ea777c89684f5d901ea33679"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a65413c83ea777c89684f5d901ea33679"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a65413c83ea777c89684f5d901ea33679">AIToolbox::checkDifferentGeneral</a> (const V &amp;v, const double d)</td></tr>
+<tr class="memdesc:a65413c83ea777c89684f5d901ea33679"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether a given vector does not contain only the stated value.  <a href="namespaceAIToolbox.html#a65413c83ea777c89684f5d901ea33679">More...</a><br /></td></tr>
+<tr class="separator:a65413c83ea777c89684f5d901ea33679"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a111282b4c465f34023497869fdeecd58"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
 <tr class="memitem:a111282b4c465f34023497869fdeecd58"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58">AIToolbox::veccmp</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
 <tr class="memdesc:a111282b4c465f34023497869fdeecd58"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58">More...</a><br /></td></tr>
@@ -119,21 +135,26 @@ Functions</h2></td></tr>
 <tr class="memitem:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#aa39713f004f1572ab84fb4ab4d9f44f3">AIToolbox::sequential_sorted_contains</a> (const V &amp;v, decltype(v[0]) elem)</td></tr>
 <tr class="memdesc:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a sorted range contains a given element, via sequential scan.  <a href="namespaceAIToolbox.html#aa39713f004f1572ab84fb4ab4d9f44f3">More...</a><br /></td></tr>
 <tr class="separator:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb9131cfadf0600e435b545dbf0b5fc9"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:acb9131cfadf0600e435b545dbf0b5fc9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#acb9131cfadf0600e435b545dbf0b5fc9">AIToolbox::sequential_sorted_contains</a> (const V &amp;v, const V &amp;elems)</td></tr>
+<tr class="memdesc:acb9131cfadf0600e435b545dbf0b5fc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a sorted range contains another sorted range, via sequential scan.  <a href="namespaceAIToolbox.html#acb9131cfadf0600e435b545dbf0b5fc9">More...</a><br /></td></tr>
+<tr class="separator:acb9131cfadf0600e435b545dbf0b5fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ef63df268981b7fd9907b00ebfa273e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceEigen.html#a6ef63df268981b7fd9907b00ebfa273e">Eigen::hash_value</a> (const <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">AIToolbox::Vector</a> &amp;v)</td></tr>
 <tr class="memdesc:a6ef63df268981b7fd9907b00ebfa273e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables hashing of Vectors with boost::hash.  <a href="namespaceEigen.html#a6ef63df268981b7fd9907b00ebfa273e">More...</a><br /></td></tr>
 <tr class="separator:a6ef63df268981b7fd9907b00ebfa273e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae1f9a01714ce537de2ee3bed6bfbfc36"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ae1f9a01714ce537de2ee3bed6bfbfc36">AIToolbox::equalEpsilonSmall</a> = 0.000001</td></tr>
-<tr class="separator:ae1f9a01714ce537de2ee3bed6bfbfc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a452863c2baf6a9e256844bccfd029623"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a452863c2baf6a9e256844bccfd029623">AIToolbox::equalEpsilonGeneral</a> = 0.00000000001</td></tr>
-<tr class="separator:a452863c2baf6a9e256844bccfd029623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a395f82018bc6d027736805fec404d482"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a395f82018bc6d027736805fec404d482">AIToolbox::equalToleranceSmall</a> = 0.000001</td></tr>
+<tr class="memdesc:a395f82018bc6d027736805fec404d482"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the max absolute difference for which two values can be considered equal.  <a href="namespaceAIToolbox.html#a395f82018bc6d027736805fec404d482">More...</a><br /></td></tr>
+<tr class="separator:a395f82018bc6d027736805fec404d482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6fe7471894e7e26ec5a51003997d258"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad6fe7471894e7e26ec5a51003997d258">AIToolbox::equalToleranceGeneral</a> = 0.00000000001</td></tr>
+<tr class="separator:ad6fe7471894e7e26ec5a51003997d258"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:45 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

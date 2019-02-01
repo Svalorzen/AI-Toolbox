@@ -88,6 +88,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html">Experience</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class keeps track of registered events and rewards.  <a href="classAIToolbox_1_1MDP_1_1Experience.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1GenerativeModelPython.html">GenerativeModelPython</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class allows to import generative models from Python.  <a href="classAIToolbox_1_1MDP_1_1GenerativeModelPython.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html">HystereticQLearning</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Hysteretic <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> algorithm.  <a href="classAIToolbox_1_1MDP_1_1HystereticQLearning.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,6 +114,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html">is_model_not_eigen</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct verifies that a class satisfies the <a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html" title="This struct represents the required interface for a full MDP. ">is_model</a> interface but not the <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html" title="This struct represents the required interface that allows MDP algorithms to leverage Eigen...">is_model_eigen</a> interface.  <a href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1LinearProgramming.html">LinearProgramming</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class solves an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> using Linear Programming.  <a href="classAIToolbox_1_1MDP_1_1LinearProgramming.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html">MCTS</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html" title="This class represents the MCTS online planner using UCB1. ">MCTS</a> online planner using UCB1.  <a href="classAIToolbox_1_1MDP_1_1MCTS.html#details">More...</a><br /></td></tr>
@@ -244,12 +250,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a4b52d2fa3f77fc356f9a33b549bcc6c3"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a4b52d2fa3f77fc356f9a33b549bcc6c3">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html">SparseExperience</a> &amp;e)</td></tr>
 <tr class="memdesc:a4b52d2fa3f77fc356f9a33b549bcc6c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html" title="This class keeps track of registered events and rewards. ">MDP::SparseExperience</a> class.  <a href="#a4b52d2fa3f77fc356f9a33b549bcc6c3">More...</a><br /></td></tr>
 <tr class="separator:a4b52d2fa3f77fc356f9a33b549bcc6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd9f95f0aeff6a5225f1507608d43c3d"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#abd9f95f0aeff6a5225f1507608d43c3d">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a> &amp;)</td></tr>
-<tr class="memdesc:abd9f95f0aeff6a5225f1507608d43c3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">MDP::Model</a> class.  <a href="#abd9f95f0aeff6a5225f1507608d43c3d">More...</a><br /></td></tr>
-<tr class="separator:abd9f95f0aeff6a5225f1507608d43c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0188ee55de70f8acee8fe7720a1044a1"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a0188ee55de70f8acee8fe7720a1044a1">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html">Policy</a> &amp;)</td></tr>
-<tr class="memdesc:a0188ee55de70f8acee8fe7720a1044a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">MDP::Model</a> class.  <a href="#a0188ee55de70f8acee8fe7720a1044a1">More...</a><br /></td></tr>
-<tr class="separator:a0188ee55de70f8acee8fe7720a1044a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a489066905e509118f3b2891ec4dd5851"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a489066905e509118f3b2891ec4dd5851">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a> &amp;m)</td></tr>
+<tr class="memdesc:a489066905e509118f3b2891ec4dd5851"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">MDP::Model</a> class.  <a href="#a489066905e509118f3b2891ec4dd5851">More...</a><br /></td></tr>
+<tr class="separator:a489066905e509118f3b2891ec4dd5851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc89e7df9962e6311cb97708c152c6e5"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#acc89e7df9962e6311cb97708c152c6e5">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html">Policy</a> &amp;p)</td></tr>
+<tr class="memdesc:acc89e7df9962e6311cb97708c152c6e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">MDP::Model</a> class.  <a href="#acc89e7df9962e6311cb97708c152c6e5">More...</a><br /></td></tr>
+<tr class="separator:acc89e7df9962e6311cb97708c152c6e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0aa05d69430fdb1ceeaa51dbed01c4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#ab0aa05d69430fdb1ceeaa51dbed01c4c">makeQFunction</a> (size_t S, size_t A)</td></tr>
 <tr class="memdesc:ab0aa05d69430fdb1ceeaa51dbed01c4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates and zeroes a QFunction.  <a href="#ab0aa05d69430fdb1ceeaa51dbed01c4c">More...</a><br /></td></tr>
 <tr class="separator:ab0aa05d69430fdb1ceeaa51dbed01c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -758,8 +764,8 @@ template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &g
 
 </div>
 </div>
-<a id="abd9f95f0aeff6a5225f1507608d43c3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd9f95f0aeff6a5225f1507608d43c3d">&#9670;&nbsp;</a></span>operator>>() <span class="overload">[3/4]</span></h2>
+<a id="a489066905e509118f3b2891ec4dd5851"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a489066905e509118f3b2891ec4dd5851">&#9670;&nbsp;</a></span>operator>>() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -774,7 +780,7 @@ template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &g
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a> &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -797,8 +803,8 @@ template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &g
 
 </div>
 </div>
-<a id="a0188ee55de70f8acee8fe7720a1044a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0188ee55de70f8acee8fe7720a1044a1">&#9670;&nbsp;</a></span>operator>>() <span class="overload">[4/4]</span></h2>
+<a id="acc89e7df9962e6311cb97708c152c6e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc89e7df9962e6311cb97708c152c6e5">&#9670;&nbsp;</a></span>operator>>() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -813,7 +819,7 @@ template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &g
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html">Policy</a> &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -829,7 +835,7 @@ template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &g
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">is</td><td>The input stream. </td></tr>
-    <tr><td class="paramname">m</td><td>The model to write into.</td></tr>
+    <tr><td class="paramname">p</td><td>The policy to write into.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1000,7 +1006,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

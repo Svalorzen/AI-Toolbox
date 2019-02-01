@@ -2,6 +2,7 @@ var searchData=
 [
   ['ucve',['UCVE',['../classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html',1,'AIToolbox::Factored::Bandit::UCVE'],['../classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ad9009cbaee9a67172f2429b16e204293',1,'AIToolbox::Factored::Bandit::UCVE::UCVE()']]],
   ['ucve_2ehpp',['UCVE.hpp',['../UCVE_8hpp.html',1,'']]],
+  ['unsafe_5fjoin',['unsafe_join',['../namespaceAIToolbox_1_1Factored.html#a9f1b888a1f1f2d08a107f56d61492912',1,'AIToolbox::Factored']]],
   ['unwrap',['unwrap',['../namespaceAIToolbox_1_1POMDP.html#ac8532961013ec06fe6d47960b71ae822',1,'AIToolbox::POMDP']]],
   ['up',['UP',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaba595d8bca8bc5e67c37c0a9d89becfa',1,'UP():&#160;ToroidalWorld.hpp'],['../GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaba595d8bca8bc5e67c37c0a9d89becfa',1,'UP():&#160;GridWorld.hpp']]],
   ['updateaction',['updateAction',['../classAIToolbox_1_1Factored_1_1MDP_1_1SingleActionPolicy.html#aadd08972fa6cba6f56fdcd703085a7b8',1,'AIToolbox::Factored::MDP::SingleActionPolicy']]],
@@ -12,5 +13,5 @@ var searchData=
   ['updatebeliefpartialunnormalized',['updateBeliefPartialUnnormalized',['../namespaceAIToolbox_1_1POMDP.html#a0f00347484bfd228db82d264a889d649',1,'AIToolbox::POMDP::updateBeliefPartialUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)'],['../namespaceAIToolbox_1_1POMDP.html#ad03a82580eea9bba77d72052b181168a',1,'AIToolbox::POMDP::updateBeliefPartialUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o)']]],
   ['updatebeliefunnormalized',['updateBeliefUnnormalized',['../namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)'],['../namespaceAIToolbox_1_1POMDP.html#aeadb8ad292520175aea2ad4b9173c5cd',1,'AIToolbox::POMDP::updateBeliefUnnormalized(const M &amp;model, const Belief &amp;b, const size_t a, const size_t o)']]],
   ['updatetraces',['updateTraces',['../classAIToolbox_1_1MDP_1_1OffPolicyBase.html#aff356f3c8df681837b306cd3755af163',1,'AIToolbox::MDP::OffPolicyBase']]],
-  ['utils_2ehpp',['Utils.hpp',['../include_2AIToolbox_2MDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../include_2AIToolbox_2POMDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../src_2Python_2Utils_8hpp.html',1,'(Global Namespace)']]]
+  ['utils_2ehpp',['Utils.hpp',['../include_2AIToolbox_2Factored_2MDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../include_2AIToolbox_2MDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../include_2AIToolbox_2POMDP_2Utils_8hpp.html',1,'(Global Namespace)'],['../src_2Python_2Utils_8hpp.html',1,'(Global Namespace)']]]
 ];

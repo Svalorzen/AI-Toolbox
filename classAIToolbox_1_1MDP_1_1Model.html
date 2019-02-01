@@ -119,7 +119,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets a new discount factor for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>.  <a href="#a8c7eff99e36477f7fcdbdd9060c34ec9">More...</a><br /></td></tr>
 <tr class="separator:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0644b646bc2bc84a86d65c310a1044b"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aa0644b646bc2bc84a86d65c310a1044b">sampleSR</a> (size_t s, size_t a) const</td></tr>
-<tr class="memdesc:aa0644b646bc2bc84a86d65c310a1044b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair.  <a href="#aa0644b646bc2bc84a86d65c310a1044b">More...</a><br /></td></tr>
+<tr class="memdesc:aa0644b646bc2bc84a86d65c310a1044b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> with the specified state action pair.  <a href="#aa0644b646bc2bc84a86d65c310a1044b">More...</a><br /></td></tr>
 <tr class="separator:aa0644b646bc2bc84a86d65c310a1044b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5ff3f3c9ada90f9e0cb00d95aacbaac"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aa5ff3f3c9ada90f9e0cb00d95aacbaac">getS</a> () const</td></tr>
 <tr class="memdesc:aa5ff3f3c9ada90f9e0cb00d95aacbaac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#aa5ff3f3c9ada90f9e0cb00d95aacbaac">More...</a><br /></td></tr>
@@ -687,7 +687,7 @@ template&lt;typename M , typename &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> for the specified state action pair. </p>
+<p>This function samples the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> with the specified state action pair. </p>
 <p>This function samples the model for simulated experience. The transition and reward functions are used to produce, from the state action pair inserted as arguments, a possible new state with respective reward. The new state is picked from all possible states that the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> allows transitioning to, each with probability equal to the same probability of the transition in the model. After a new state is picked, the reward is the corresponding reward contained in the reward function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -912,7 +912,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2018 11:45:46 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
