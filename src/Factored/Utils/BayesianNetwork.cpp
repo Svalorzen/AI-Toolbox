@@ -252,8 +252,8 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    Factored2DMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv) {
-        Factored2DMatrix retval;
+    FactoredMatrix2D backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv) {
+        FactoredMatrix2D retval;
         retval.bases.reserve(fv.bases.size());
 
         for (const auto & basis : fv.bases) {

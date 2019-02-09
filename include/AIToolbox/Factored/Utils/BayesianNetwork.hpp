@@ -263,7 +263,7 @@ namespace AIToolbox::Factored {
     FactoredVector backProject(const Factors & space, const DBN & dbn, const FactoredVector & fv);
     FactoredVector backProject(const Factors & space, const DBNRef & dbn, const FactoredVector & fv);
     BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & bf);
-    Factored2DMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv);
+    FactoredMatrix2D backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv);
 }
 
 #endif

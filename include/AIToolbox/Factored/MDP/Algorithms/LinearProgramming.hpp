@@ -54,7 +54,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The output of the LP solving process.
              */
-            std::optional<Vector> solveLP(const CooperativeModel & m, const Factored2DMatrix & g, const FactoredVector & h) const;
+            std::optional<Vector> solveLP(const CooperativeModel & m, const FactoredMatrix2D & g, const FactoredVector & h) const;
 
             /**
              * @brief This function performs a step in the variable elimination process.

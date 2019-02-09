@@ -31,7 +31,7 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const BasisMatrix & basis) {
+    FactoredMatrix2D & plusEqual(const Factors & space, const Factors & actions, FactoredMatrix2D & retval, const BasisMatrix & basis) {
         const size_t initRetSize = retval.bases.size();
 
         // We try to merge all possible
@@ -64,7 +64,7 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, BasisMatrix && basis) {
+    FactoredMatrix2D & plusEqual(const Factors & space, const Factors & actions, FactoredMatrix2D & retval, BasisMatrix && basis) {
         const size_t initRetSize = retval.bases.size();
 
         // We try to merge all possible
@@ -97,13 +97,13 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, const Factored2DMatrix & rhs) {
+    FactoredMatrix2D & plusEqual(const Factors & space, const Factors & actions, FactoredMatrix2D & retval, const FactoredMatrix2D & rhs) {
         for (const auto & basis : rhs.bases)
             plusEqual(space, actions, retval, basis);
         return retval;
     }
 
-    Factored2DMatrix & plusEqual(const Factors & space, const Factors & actions, Factored2DMatrix & retval, Factored2DMatrix && rhs) {
+    FactoredMatrix2D & plusEqual(const Factors & space, const Factors & actions, FactoredMatrix2D & retval, FactoredMatrix2D && rhs) {
         for (auto && basis : rhs.bases)
             plusEqual(space, actions, retval, std::move(basis));
         return retval;

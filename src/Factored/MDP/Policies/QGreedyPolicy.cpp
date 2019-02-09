@@ -8,7 +8,7 @@ namespace AIToolbox::Factored::MDP {
     QGreedyPolicy::QGreedyPolicy(State s, Action a, const FactoredContainer<QFunctionRule> & q) :
             Base(std::move(s), std::move(a)), qc_(&q), qm_(nullptr) {}
 
-    QGreedyPolicy::QGreedyPolicy(State s, Action a, const Factored2DMatrix & q) :
+    QGreedyPolicy::QGreedyPolicy(State s, Action a, const FactoredMatrix2D & q) :
             Base(std::move(s), std::move(a)), qc_(nullptr), qm_(&q) {}
 
     Action QGreedyPolicy::sampleAction(const State & s) const {

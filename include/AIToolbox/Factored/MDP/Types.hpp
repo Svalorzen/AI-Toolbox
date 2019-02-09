@@ -26,7 +26,7 @@ namespace AIToolbox::Factored::MDP {
     /**
      * @brief This represents a factored QFunction.
      */
-    using QFunction = Factored2DMatrix;
+    using QFunction = FactoredMatrix2D;
 
     /**
      * @brief This struct represents a single state/value tuple.

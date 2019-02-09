@@ -26,7 +26,7 @@ namespace AIToolbox::Factored::MDP {
              * @param rewards The reward function.
              * @param discount The discount factor for the MDP.
              */
-            CooperativeModel(State s, Action a, FactoredDDN transitions, Factored2DMatrix rewards, double discount = 1.0);
+            CooperativeModel(State s, Action a, FactoredDDN transitions, FactoredMatrix2D rewards, double discount = 1.0);
 
             /**
              * @brief This function samples the MDP with the specified state action pair.
@@ -129,7 +129,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return
              */
-            const Factored2DMatrix & getRewardFunction() const;
+            const FactoredMatrix2D & getRewardFunction() const;
 
         private:
             State S;
@@ -137,7 +137,7 @@ namespace AIToolbox::Factored::MDP {
             double discount_;
 
             FactoredDDN transitions_;
-            Factored2DMatrix rewards_;
+            FactoredMatrix2D rewards_;
 
             mutable RandomEngine rand_;
     };
