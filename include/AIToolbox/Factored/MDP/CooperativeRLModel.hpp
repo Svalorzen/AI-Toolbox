@@ -8,7 +8,9 @@ namespace AIToolbox::Factored::MDP {
     class CooperativeRLModel {
         public:
             using TransitionTable   = FactoredDDN;
-            using RewardTable       = FactoredMatrix2D;
+            // Same shape as the DDN, without tags and with the last dimension
+            // summed over (matrix->vector).
+            using RewardTable       = std::vector<std::vector<Vector>>;
 
             /**
              * @brief Constructor using previous Experience.
@@ -37,7 +39,7 @@ namespace AIToolbox::Factored::MDP {
              * @param discount The discount used in solving methods.
              * @param sync Whether to sync with the Experience immediately or delay it.
              */
-            CooperativeRLModel(const CooperativeExperience exp, double discount = 1.0, bool sync = false);
+            CooperativeRLModel(const CooperativeExperience & exp, double discount = 1.0, bool sync = false);
 
             /**
              * @brief This function sets a new discount factor for the Model.
@@ -60,28 +62,6 @@ namespace AIToolbox::Factored::MDP {
             void sync();
 
             /**
-             * @brief This function syncs a state action pair in the RLModel to the underlying Experience.
-             *
-             * Since use cases in AI are very varied, one may not want to update
-             * its RLModel for each single transition experienced by the agent. To
-             * avoid this we leave to the user the task of syncing between the
-             * underlying Experience and the RLModel, as he/she sees fit.
-             *
-             * This function updates a single state action pair with the underlying
-             * Experience. This function is offered to avoid having to recompute the
-             * whole RLModel if the user knows that only few transitions have been
-             * experienced by the agent.
-             *
-             * After this function is run the transition and reward functions
-             * will accurately reflect the state of the underlying Experience
-             * for the specified state action pair.
-             *
-             * @param s The state that needs to be synced.
-             * @param a The action that needs to be synced.
-             */
-            void sync(size_t s, size_t a);
-
-            /**
              * @brief This function syncs a state action pair in the RLModel to the underlying Experience in the fastest possible way.
              *
              * This function updates a state action pair given that the last increased transition
@@ -94,7 +74,8 @@ namespace AIToolbox::Factored::MDP {
              * @param a The action that needs to be synced.
              * @param s1 The final state of the transition that got updated in the Experience.
              */
-            void sync(size_t s, size_t a, size_t s1);
+            void sync(const State & s, const Action & a);
+            void sync(const CooperativeExperience::Indeces & indeces);
 
             /**
              * @brief This function samples the MDP for the specified state action pair.
@@ -112,21 +93,23 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return A tuple containing a new state and a reward.
              */
-            std::tuple<size_t, double> sampleSR(size_t s, size_t a) const;
+            std::tuple<State, double> sampleSR(const State & s, const Action & a) const;
+
+            double sampleSR(const State & s, const Action & a, State * s1) const;
 
             /**
              * @brief This function returns the number of states of the world.
              *
              * @return The total number of states.
              */
-            size_t getS() const;
+            const State & getS() const;
 
             /**
              * @brief This function returns the number of available actions to the agent.
              *
              * @return The total number of actions.
              */
-            size_t getA() const;
+            const Action & getA() const;
 
             /**
              * @brief This function returns the currently set discount factor.
@@ -151,7 +134,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The probability of the specified transition.
              */
-            double getTransitionProbability(size_t s, size_t a, size_t s1) const;
+            double getTransitionProbability(const State & s, const Action & a, const State & s1) const;
 
             /**
              * @brief This function returns the stored expected reward for the specified transition.
@@ -162,7 +145,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The expected reward of the specified transition.
              */
-            double getExpectedReward(size_t s, size_t a, size_t s1) const;
+            double getExpectedReward(const State & s, const Action & a, const State & s1) const;
 
             /**
              * @brief This function returns the transition table for inspection.
@@ -172,42 +155,21 @@ namespace AIToolbox::Factored::MDP {
             const TransitionTable & getTransitionFunction() const;
 
             /**
-             * @brief This function returns the transition function for a given action.
-             *
-             * @param a The action requested.
-             *
-             * @return The transition function for the input action.
-             */
-            const Matrix2D & getTransitionFunction(size_t a) const;
-
-            /**
              * @brief This function returns the rewards table for inspection.
              *
              * @return The rewards table.
              */
-            const RewardTable &     getRewardFunction()     const;
-
-            /**
-             * @brief This function returns whether a given state is a terminal.
-             *
-             * @param s The state examined.
-             *
-             * @return True if the input state is a terminal, false otherwise.
-             */
-            bool isTerminal(size_t s) const;
+            const RewardTable & getRewardFunction()     const;
 
         private:
-            size_t S, A;
-            double discount_;
-
             const CooperativeExperience & experience_;
+            double discount_;
 
             TransitionTable transitions_;
             RewardTable rewards_;
 
             mutable RandomEngine rand_;
     };
-
 }
 
 #endif

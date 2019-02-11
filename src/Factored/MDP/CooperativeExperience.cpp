@@ -22,10 +22,10 @@ namespace AIToolbox::Factored::MDP {
             }
         }
 
-        // indeces_.resize(S.size());
+        indeces_.resize(S.size());
     }
 
-    void CooperativeExperience::record(const State & s, const Action & a, const State & s1, const Rewards & rew) {
+    const CooperativeExperience::Indeces & CooperativeExperience::record(const State & s, const Action & a, const State & s1, const Rewards & rew) {
         for (size_t ri = 0; ri < s1.size(); ++ri) {
             auto & vNode = visits_.nodes[ri];
             auto & rNode = rewards_.nodes[ri];
@@ -43,8 +43,8 @@ namespace AIToolbox::Factored::MDP {
             rNode.nodes[actionId].matrix(parentId, S[ri]) += rew[ri];
 
             // Save indeces to return to avoid recomputation.
-            // indeces_[ri] = {actionId, parentId};
+            indeces_[ri] = {actionId, parentId};
         }
-        // return indeces_;
+        return indeces_;
     }
 }

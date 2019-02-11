@@ -18,6 +18,8 @@ namespace AIToolbox::Factored::MDP {
         public:
             using VisitTable = FactoredDDN;
             using RewardTable = FactoredDDN;
+            // Used to avoid recomputation when doing sync in RL.
+            using Indeces = std::vector<std::pair<size_t, size_t>>;
 
             /**
              * @brief Basic constructor.
@@ -44,7 +46,7 @@ namespace AIToolbox::Factored::MDP {
              * @param s1    New state.
              * @param rew   Obtained rewards.
              */
-            void record(const State & s, const Action & a, const State & s1, const Rewards & rew);
+            const Indeces & record(const State & s, const Action & a, const State & s1, const Rewards & rew);
 
             /**
              * @brief This function resets all experienced rewards and transitions.
@@ -88,7 +90,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The total number of transitions that start with the specified state-action pair.
              */
-            double getRewardSum(size_t s, size_t a) const;
+            double getRewardSum(const State & s, const Action & a) const;
 
             /**
              * @brief This function returns the visits table for inspection.
@@ -109,24 +111,22 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The total number of states.
              */
-            size_t getS() const;
+            const State & getS() const;
 
             /**
              * @brief This function returns the number of available actions to the agent.
              *
              * @return The total number of actions.
              */
-            size_t getA() const;
+            const Action & getA() const;
 
         private:
             State S;
             Action A;
 
             VisitTable visits_;
-            // VisitSumTable visitsSum_;
-
             RewardTable rewards_;
-            // RewardSumTable rewardsSum_;
+            std::vector<std::pair<size_t, size_t>> indeces_;
     };
 }
 
