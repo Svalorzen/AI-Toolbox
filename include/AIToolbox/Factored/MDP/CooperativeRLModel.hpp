@@ -1,11 +1,11 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_RL_COOPERATIVE_MODEL_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_RL_COOPERATIVE_MODEL_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_RLMODEL_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_RLMODEL_HEADER_FILE
 
 #include <AIToolbox/Factored/MDP/CooperativeExperience.hpp>
 #include <AIToolbox/Factored/Utils/BayesianNetwork.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    class RLCooperativeModel {
+    class CooperativeRLModel {
         public:
             using TransitionTable   = FactoredDDN;
             using RewardTable       = FactoredMatrix2D;
@@ -37,7 +37,7 @@ namespace AIToolbox::Factored::MDP {
              * @param discount The discount used in solving methods.
              * @param sync Whether to sync with the Experience immediately or delay it.
              */
-            RLCooperativeModel(const CooperativeExperience exp, double discount = 1.0, bool sync = false);
+            CooperativeRLModel(const CooperativeExperience exp, double discount = 1.0, bool sync = false);
 
             /**
              * @brief This function sets a new discount factor for the Model.
