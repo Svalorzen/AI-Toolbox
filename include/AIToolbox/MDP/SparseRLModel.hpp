@@ -341,7 +341,7 @@ namespace AIToolbox::MDP {
             transitions_[a].coeffRef(s, s) = 0.0;
             transitions_[a].coeffRef(s, s1) = 1.0;
             if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
-                rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a) / visitSum;
+                rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a);
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
             const double rewValue = experience_.getRewardSum(s, a) / visitSum;
