@@ -235,7 +235,7 @@ namespace AIToolbox::MDP {
              *
              * @return The rewards table.
              */
-            const RewardTable &     getRewardFunction()     const;
+            const RewardTable & getRewardFunction() const;
 
             /**
              * @brief This function returns whether a given state is a terminal.
