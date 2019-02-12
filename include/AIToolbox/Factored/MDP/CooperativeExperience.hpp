@@ -13,27 +13,40 @@ namespace AIToolbox::Factored::MDP {
      * total reward gained in any particular transition. However, it
      * does not record each event separately (i.e. you can't extract
      * the results of a particular transition in the past).
+     *
+     * The events are recorded with respect to a given structure, which should
+     * match the one of the generative model.
+     *
+     * Note that since this class contains data in a DDN format, it's probably
+     * only usable by directly inspecting the stored VisitTable and
+     * RewardTables. Thus we don't yet provide general getters for state/action
+     * pairs.
      */
     class CooperativeExperience {
         public:
-            using VisitTable = FactoredDDN;
-            using RewardTable = FactoredDDN;
+            using RewardTable = std::vector<FactoredDDN::Node>;
+
+            // Here we define the visit structure; it's the same as a vector of
+            // FactoredDDN::Node, but uses unsigned so we have to use a 2D
+            // unsigned table rather than Matrix2D. We also don't really need
+            // the tags again, so it's just a vector of vectors.
+            using VisitTable = std::vector<std::vector<boost::multi_array<unsigned long, 2>>>;
+
             // Used to avoid recomputation when doing sync in RL.
             using Indeces = std::vector<std::pair<size_t, size_t>>;
 
             /**
              * @brief Basic constructor.
              *
-             * Note that the structure does not need to pre-allocate the value
-             * matrices, nor to fill their values, since we do that internally.
-             * Here we only need the structure of the problem.
+             * Note that the structure input does not need to pre-allocate the
+             * value matrices, nor to fill their values, since we do that
+             * internally.  Here we only need the structure of the problem.
              *
              * @param s The state space to record.
              * @param a The action space to record.
              * @param structure The coordination graph of the cooperative problem.
              */
             CooperativeExperience(State s, Action a, std::vector<FactoredDDN::Node> structure);
-            // Experience(State s, Action a, std::vector<FactoredDDN::Node> visits, rewards);
 
             /**
              * @brief This function adds a new event to the recordings.
@@ -41,10 +54,17 @@ namespace AIToolbox::Factored::MDP {
              * Note that here we expect a vector of rewards, of the same size
              * as the state space.
              *
+             * This function additionally returns a reference to the indeces
+             * updated for each element of the underlying DDN. This is useful,
+             * for example, when updating the CoordinatedRLModel without
+             * needing to recompute these indeces all the time.
+             *
              * @param s     Old state.
              * @param a     Performed action.
              * @param s1    New state.
              * @param rew   Obtained rewards.
+             *
+             * @return The indeces of s and a updated in the DDN.
              */
             const Indeces & record(const State & s, const Action & a, const State & s1, const Rewards & rew);
 
@@ -52,45 +72,6 @@ namespace AIToolbox::Factored::MDP {
              * @brief This function resets all experienced rewards and transitions.
              */
             void reset();
-
-            /**
-             * @brief This function returns the current recorded visits for a transitions.
-             *
-             * @param s     Old state.
-             * @param a     Performed action.
-             * @param s1    New state.
-             */
-            unsigned long getVisits(size_t s, size_t a, size_t s1) const;
-
-            /**
-             * @brief This function returns the number of transitions recorded that start with the specified state and action.
-             *
-             * @param s     The initial state.
-             * @param a     Performed action.
-             *
-             * @return The total number of transitions that start with the specified state-action pair.
-             */
-            unsigned long getVisitsSum(size_t s, size_t a) const;
-
-            /**
-             * @brief This function returns the cumulative rewards obtained from a specific transition.
-             *
-             * @param s     Old state.
-             * @param a     Performed action.
-             * @param s1    New state.
-             */
-            double getReward(const State & s, const Action & a, const State & s1) const;
-            double getReward(const PartialState & s, const PartialAction & a, const PartialState & s1) const;
-
-            /**
-             * @brief This function returns the total reward obtained from transitions that start with the specified state and action.
-             *
-             * @param s     The initial state.
-             * @param a     Performed action.
-             *
-             * @return The total number of transitions that start with the specified state-action pair.
-             */
-            double getRewardSum(const State & s, const Action & a) const;
 
             /**
              * @brief This function returns the visits table for inspection.
