@@ -105,6 +105,7 @@ if (MAKE_FMDP)
 
     AddTest(Factored FactoredLP)
 
+    AddTest(Factored CooperativeExperience)
     AddTest(Factored CooperativeModel)
 
     AddTest(Factored LLR)

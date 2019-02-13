@@ -19,6 +19,7 @@ namespace AIToolbox::Factored::MDP {
                 const auto rows = factorSpacePartial(rNode.tag, S);
 
                 rNode.matrix.resize(rows, S[i]+1);
+                rNode.matrix.setZero();
                 visits_[i].emplace_back(boost::extents[rows][S[i]+1]);
             }
         }
