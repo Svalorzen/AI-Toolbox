@@ -46,8 +46,8 @@ inline AIToolbox::MDP::Model makeCornerProblem(const GridWorld & grid, double st
 
     size_t S = grid.getSizeX() * grid.getSizeY(), A = 4;
 
-    AIToolbox::Table3D transitions(boost::extents[S][A][S]);
-    AIToolbox::Table3D rewards(boost::extents[S][A][S]);
+    AIToolbox::DumbMatrix3D transitions(boost::extents[S][A][S]);
+    AIToolbox::DumbMatrix3D rewards(boost::extents[S][A][S]);
 
     for ( int x = 0; x < 4; ++x ) {
         for ( int y = 0; y < 4; ++y ) {

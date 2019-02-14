@@ -12,7 +12,7 @@ namespace AIToolbox::MDP {
      * @brief This class represents an MDP Policy.
      *
      * This class is one of the many ways to represent an MDP Policy. In
-     * particular, it maintains a 2 dimensional table of probabilities
+     * particular, it maintains a 2 dimensional matrix of probabilities
      * determining the probability of choosing an action in a given state.
      *
      * The class offers facilities to sample from these distributions, so
@@ -22,17 +22,17 @@ namespace AIToolbox::MDP {
      * mostly when it is known that the final solution won't change again.
      *
      * Note that this class is meant to be read-only, after being constructed.
-     * If you are looking to manually modify the policy table you should save
+     * If you are looking to manually modify the policy matrix you should save
      * it on the side and use the PolicyWrapper class.
      */
     class Policy : public PolicyWrapper {
         public:
-            using PolicyTable = Matrix2D;
+            using PolicyMatrix = Matrix2D;
 
             /**
              * @brief Basic constructor.
              *
-             * This constructor initializes the internal policy table so that
+             * This constructor initializes the internal policy matrix so that
              * each action in each state has the same probability of being
              * chosen (random policy). This class guarantees that at any point
              * the internal policy is a true probability distribution, i.e.
@@ -96,18 +96,18 @@ namespace AIToolbox::MDP {
             /**
              * @brief Basic constructor.
              *
-             * This constructor copies the input table inside the Policy.
+             * This constructor copies the input matrix inside the Policy.
              *
              * This constructor checks whether the input is a valid set of
              * probabilities. If not, it will throw an std::invalid_argument
              * exception.
              *
-             * @param p The policy table to copy.
+             * @param p The policy matrix to copy.
              */
-            Policy(const PolicyTable & p);
+            Policy(const PolicyMatrix & p);
 
         private:
-            PolicyTable policy_;
+            PolicyMatrix policy_;
 
             friend std::istream& operator>>(std::istream &is, Policy & p);
     };

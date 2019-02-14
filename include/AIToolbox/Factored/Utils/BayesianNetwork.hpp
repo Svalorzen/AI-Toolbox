@@ -10,7 +10,7 @@ namespace AIToolbox::Factored {
      * @brief This struct represents a Dynamic Bayesian Network.
      *
      * This struct contains a list of DynamicBayesianNodes, where each contains the
-     * conditional probability table for a single variable. The index of each
+     * conditional probability matrix for a single variable. The index of each
      * node represents the index of the variable it is referring to.
      */
     struct DynamicBayesianNetwork {

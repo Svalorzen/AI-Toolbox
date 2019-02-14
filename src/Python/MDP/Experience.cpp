@@ -55,7 +55,7 @@ void exportMDPExperience() {
                  "\n"
                  "This function takes an arbitrary three dimensional\n"
                  "container and tries to copy its contents into the\n"
-                 "rewards table.\n"
+                 "rewards matrix.\n"
                  "\n"
                  "Currently the Python wrappings support reading through native\n"
                  "3d Python arrays (so [][][]). As long as the dimensions are\n"

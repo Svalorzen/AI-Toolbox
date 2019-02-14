@@ -69,8 +69,8 @@ namespace AIToolbox::MDP {
      */
     class Model {
         public:
-            using TransitionTable   = Matrix3D;
-            using RewardTable       = Matrix2D;
+            using TransitionMatrix   = Matrix3D;
+            using RewardMatrix       = Matrix2D;
 
             /**
              * @brief Basic constructor.
@@ -93,7 +93,7 @@ namespace AIToolbox::MDP {
              *
              * This constructor takes two arbitrary three dimensional
              * containers and tries to copy their contents into the
-             * transitions and rewards tables respectively.
+             * transitions and rewards matrices respectively.
              *
              * The containers need to support data access through
              * operator[]. In addition, the dimensions of the containers
@@ -109,7 +109,7 @@ namespace AIToolbox::MDP {
              * In addition, the transition container must contain a valid
              * transition function.  \sa transitionCheck()
              *
-             * \sa copyTable3D()
+             * \sa copyDumb3D()
              *
              * The discount parameter must be between 0 and 1 included,
              * otherwise the constructor will throw an
@@ -158,13 +158,13 @@ namespace AIToolbox::MDP {
              * @param r The reward function to be used in the Model.
              * @param d The discount factor for the Model.
              */
-            Model(NoCheck, size_t s, size_t a, TransitionTable && t, RewardTable && r, double d);
+            Model(NoCheck, size_t s, size_t a, TransitionMatrix && t, RewardMatrix && r, double d);
 
             /**
              * @brief This function replaces the Model transition function with the one provided.
              *
              * This function will throw a std::invalid_argument if the
-             * table provided does not contain valid probabilities.
+             * matrix provided does not contain valid probabilities.
              *
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the container
@@ -187,7 +187,7 @@ namespace AIToolbox::MDP {
              * @brief This function sets the transition function using a Eigen dense matrices.
              *
              * This function will throw a std::invalid_argument if the
-             * table provided does not contain valid probabilities.
+             * matrix provided does not contain valid probabilities.
              *
              * The dimensions of the container must match the ones provided
              * as arguments (for three dimensions: S, S, A). BE CAREFUL.
@@ -199,7 +199,7 @@ namespace AIToolbox::MDP {
              *
              * @param t The external transitions container.
              */
-            void setTransitionFunction(const TransitionTable & t);
+            void setTransitionFunction(const TransitionMatrix & t);
 
             /**
              * @brief This function replaces the Model reward function with the one provided.
@@ -232,7 +232,7 @@ namespace AIToolbox::MDP {
              *
              * @param r The external rewards container.
              */
-            void setRewardFunction(const RewardTable & r);
+            void setRewardFunction(const RewardMatrix & r);
 
             /**
              * @brief This function sets a new discount factor for the Model.
@@ -305,11 +305,11 @@ namespace AIToolbox::MDP {
             double getExpectedReward(size_t s, size_t a, size_t s1) const;
 
             /**
-             * @brief This function returns the transition table for inspection.
+             * @brief This function returns the transition matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const TransitionTable & getTransitionFunction() const;
+            const TransitionMatrix & getTransitionFunction() const;
 
             /**
              * @brief This function returns the transition function for a given action.
@@ -321,11 +321,11 @@ namespace AIToolbox::MDP {
             const Matrix2D & getTransitionFunction(size_t a) const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const RewardTable & getRewardFunction() const;
+            const RewardMatrix & getRewardFunction() const;
 
             /**
              * @brief This function returns whether a given state is a terminal.
@@ -340,8 +340,8 @@ namespace AIToolbox::MDP {
             size_t S, A;
             double discount_;
 
-            TransitionTable transitions_;
-            RewardTable rewards_;
+            TransitionMatrix transitions_;
+            RewardMatrix rewards_;
 
             mutable RandomEngine rand_;
 
@@ -372,7 +372,7 @@ namespace AIToolbox::MDP {
                     rewards_    (s, a)     += model.getExpectedReward       (s, a, s1) * transitions_[a](s, s1);
                 }
                 if ( !isProbability(S, transitions_[a].row(s)) )
-                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
             }
     }
 
@@ -382,7 +382,7 @@ namespace AIToolbox::MDP {
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
                 if ( !isProbability(S, t[s][a]) )
-                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
 
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )

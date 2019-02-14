@@ -57,8 +57,8 @@ namespace AIToolbox::MDP {
         static_assert(is_experience_v<E>, "This class only works for MDP experiences!");
 
         public:
-            using TransitionTable   = Matrix3D;
-            using RewardTable       = Matrix2D;
+            using TransitionMatrix   = Matrix3D;
+            using RewardMatrix       = Matrix2D;
 
             /**
              * @brief Constructor using previous Experience.
@@ -215,11 +215,11 @@ namespace AIToolbox::MDP {
             double getExpectedReward(size_t s, size_t a, size_t s1) const;
 
             /**
-             * @brief This function returns the transition table for inspection.
+             * @brief This function returns the transition matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The transition matrix.
              */
-            const TransitionTable & getTransitionFunction() const;
+            const TransitionMatrix & getTransitionFunction() const;
 
             /**
              * @brief This function returns the transition function for a given action.
@@ -231,11 +231,11 @@ namespace AIToolbox::MDP {
             const Matrix2D & getTransitionFunction(size_t a) const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const RewardTable & getRewardFunction() const;
+            const RewardMatrix & getRewardFunction() const;
 
             /**
              * @brief This function returns whether a given state is a terminal.
@@ -252,8 +252,8 @@ namespace AIToolbox::MDP {
 
             const E & experience_;
 
-            TransitionTable transitions_;
-            RewardTable rewards_;
+            TransitionMatrix transitions_;
+            RewardMatrix rewards_;
 
             mutable RandomEngine rand_;
     };
@@ -277,7 +277,7 @@ namespace AIToolbox::MDP {
                         transitions_[a](s, s) = 1.0;
         }
         else {
-            // Make transition table true probability
+            // Make transition matrix true probability
             for ( size_t a = 0; a < A; ++a )
                 transitions_[a].setIdentity();
         }
@@ -375,9 +375,9 @@ namespace AIToolbox::MDP {
     const E & RLModel<E>::getExperience() const { return experience_; }
 
     template <typename E>
-    const typename RLModel<E>::TransitionTable & RLModel<E>::getTransitionFunction() const { return transitions_; }
+    const typename RLModel<E>::TransitionMatrix & RLModel<E>::getTransitionFunction() const { return transitions_; }
     template <typename E>
-    const typename RLModel<E>::RewardTable &     RLModel<E>::getRewardFunction()     const { return rewards_; }
+    const typename RLModel<E>::RewardMatrix &     RLModel<E>::getRewardFunction()     const { return rewards_; }
 
     template <typename E>
     const Matrix2D & RLModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }

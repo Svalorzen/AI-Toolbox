@@ -19,18 +19,18 @@ namespace AIToolbox::Factored::MDP {
      *
      * Note that since this class contains data in a DDN format, it's probably
      * only usable by directly inspecting the stored VisitTable and
-     * RewardTables. Thus we don't yet provide general getters for state/action
+     * RewardMatrix. Thus we don't yet provide general getters for state/action
      * pairs.
      */
     class CooperativeExperience {
         public:
-            using RewardTable = std::vector<FactoredDDN::Node>;
+            using RewardMatrix = std::vector<FactoredDDN::Node>;
 
             // Here we define the visit structure; it's the same as a vector of
             // FactoredDDN::Node, but uses unsigned so we have to use a 2D
             // unsigned table rather than Matrix2D. We also don't really need
             // the tags again, so it's just a vector of vectors.
-            using VisitTable = std::vector<std::vector<boost::multi_array<unsigned long, 2>>>;
+            using VisitTable = std::vector<std::vector<DumbTable2D>>;
 
             // Used to avoid recomputation when doing sync in RL.
             using Indeces = std::vector<std::pair<size_t, size_t>>;
@@ -85,7 +85,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The rewards table.
              */
-            const RewardTable & getRewardTable() const;
+            const RewardMatrix & getRewardMatrix() const;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -106,7 +106,7 @@ namespace AIToolbox::Factored::MDP {
             Action A;
 
             VisitTable visits_;
-            RewardTable rewards_;
+            RewardMatrix rewards_;
             std::vector<std::pair<size_t, size_t>> indeces_;
     };
 }

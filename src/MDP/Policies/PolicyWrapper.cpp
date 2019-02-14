@@ -6,7 +6,7 @@
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::MDP {
-    PolicyWrapper::PolicyWrapper(const PolicyTable & p) :
+    PolicyWrapper::PolicyWrapper(const PolicyMatrix & p) :
             PolicyInterface::Base(p.rows(), p.cols()), policy_(p) {}
 
     size_t PolicyWrapper::sampleAction(const size_t & s) const {
@@ -17,7 +17,7 @@ namespace AIToolbox::MDP {
         return policy_(s, a);
     }
 
-    const PolicyWrapper::PolicyTable & PolicyWrapper::getPolicyTable() const {
+    const PolicyWrapper::PolicyMatrix & PolicyWrapper::getPolicyMatrix() const {
         return policy_;
     }
 

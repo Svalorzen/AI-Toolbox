@@ -111,21 +111,21 @@ namespace AIToolbox::POMDP {
             /**
              * @brief This function computes the Fast Informed Bound for the input POMDP.
              *
-             * Internally, this method uses a SOSA table to improve its speed,
+             * Internally, this method uses a SOSA matrix to improve its speed,
              * since otherwise it'd need to multiply the transition and
-             * observation tables over and over.
+             * observation matrices over and over.
              *
-             * Since we don't usually store SOSA tables, the other operator()
+             * Since we don't usually store SOSA matrices, the other operator()
              * computes it on the fly.
              *
-             * In case you already have a POMDP with a pre-computed SOSA table
+             * In case you already have a POMDP with a pre-computed SOSA matrix
              * and don't need to recompute it, you can call this method
              * directly.
              *
              * You can use both sparse and dense Matrix4D for this method.
              *
              * @param m The POMDP to be solved.
-             * @param sosa The SOSA table of the input POMDP.
+             * @param sosa The SOSA matrix of the input POMDP.
              * @param oldQ The QFunction to start iterating from.
              *
              * @return A tuple containing the maximum variation for the

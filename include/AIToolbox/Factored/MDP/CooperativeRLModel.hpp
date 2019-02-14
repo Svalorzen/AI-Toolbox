@@ -7,10 +7,10 @@
 namespace AIToolbox::Factored::MDP {
     class CooperativeRLModel {
         public:
-            using TransitionTable   = FactoredDDN;
+            using TransitionMatrix   = FactoredDDN;
             // Same shape as the DDN, without tags and with the last dimension
             // summed over (matrix->vector).
-            using RewardTable       = std::vector<std::vector<Vector>>;
+            using RewardMatrix       = std::vector<std::vector<Vector>>;
 
             /**
              * @brief Constructor using previous Experience.
@@ -148,25 +148,25 @@ namespace AIToolbox::Factored::MDP {
             double getExpectedReward(const State & s, const Action & a, const State & s1) const;
 
             /**
-             * @brief This function returns the transition table for inspection.
+             * @brief This function returns the transition matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The transition matrix.
              */
-            const TransitionTable & getTransitionFunction() const;
+            const TransitionMatrix & getTransitionFunction() const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const RewardTable & getRewardFunction()     const;
+            const RewardMatrix & getRewardFunction()     const;
 
         private:
             const CooperativeExperience & experience_;
             double discount_;
 
-            TransitionTable transitions_;
-            RewardTable rewards_;
+            TransitionMatrix transitions_;
+            RewardMatrix rewards_;
 
             mutable RandomEngine rand_;
     };

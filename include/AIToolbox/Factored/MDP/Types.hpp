@@ -45,7 +45,7 @@ namespace AIToolbox::Factored::MDP {
     /**
      * @brief This struct represents a single state/action/value tuple.
      *
-     * This struct can be used in place of a full-blown QFunction table
+     * This struct can be used in place of a full-blown QFunction matrix
      * when the QFunction matrix would be sparse. Instead, only interesting
      * state/action/value tuples are stored and acted upon.
      */
@@ -61,7 +61,7 @@ namespace AIToolbox::Factored::MDP {
     /**
      * @brief This struct represents a single state/action/values tuple.
      *
-     * This struct can be used in place of a full-blown QFunction table for
+     * This struct can be used in place of a full-blown QFunction matrix for
      * multi-objective MDPs. Thus each state-action pair is linked with a
      * vector of rewards, one for each possible MDP objective.
      */

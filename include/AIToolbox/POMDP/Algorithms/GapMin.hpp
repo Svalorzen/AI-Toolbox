@@ -178,15 +178,15 @@ namespace AIToolbox::POMDP {
             );
 
             /**
-             * @brief This function creates a partial POMDP and its SOSA table from the input upper bound.
+             * @brief This function creates a partial POMDP and its SOSA matrix from the input upper bound.
              *
-             * Only the reward table is computed for the output POMDP, as it's
-             * the only part that matters. For the rest, a SOSA table is also
+             * Only the reward matrix is computed for the output POMDP, as it's
+             * the only part that matters. For the rest, a SOSA matrix is also
              * computed and returned, so that the two can be jointly used with
              * the FastInformedBound method.
              *
              * The output POMDP has an additional state for each belief
-             * contained in the ubV. The SOSA table in particular is built so
+             * contained in the ubV. The SOSA matrix in particular is built so
              * that transition/observation probabilities between beliefs follow
              * the upper bound of the input.
              *
@@ -470,7 +470,7 @@ namespace AIToolbox::POMDP {
                     updateMatrix(m, ubV.first[b], a, o, model.getS() + b);
 
                 // After updating all rows of the matrix, we put it inside the
-                // SOSA table.
+                // SOSA matrix.
                 sosa[a][o] = std::move(m);
                 sosa[a][o].makeCompressed();
             }

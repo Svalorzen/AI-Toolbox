@@ -35,7 +35,7 @@ namespace AIToolbox {
      * @param d3 Third dimension of the containers.
      */
     template <typename T, typename U>
-    void copyTable3D(const T & in, U & out, const size_t d1, const size_t d2, const size_t d3) {
+    void copyDumb3D(const T & in, U & out, const size_t d1, const size_t d2, const size_t d3) {
         for ( size_t i = 0; i < d1; ++i )
             for ( size_t j = 0; j < d2; ++j )
                 for ( size_t x = 0; x < d3; ++x )

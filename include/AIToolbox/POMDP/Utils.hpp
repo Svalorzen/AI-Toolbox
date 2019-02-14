@@ -91,22 +91,22 @@ namespace AIToolbox::POMDP {
     double weakBoundDistance(const VList & oldV, const VList & newV);
 
     /**
-     * @brief This function creates the SOSA table for the input POMDP.
+     * @brief This function creates the SOSA matrix for the input POMDP.
      *
-     * The SOSA table is a way to represent the observation and transition
+     * The SOSA matrix is a way to represent the observation and transition
      * functions in a single function, at the same time.
      *
-     * Each cell in this four-dimensional table contains the probability of
+     * Each cell in this four-dimensional matrix contains the probability of
      * getting to state s' while obtaining observation o when starting with
      * state s and action a.
      *
-     * This table is less space-efficient than storing both tables separately,
+     * This matrix is less space-efficient than storing both matrices separately,
      * but it can save you some time if you need its values multiple times in a
      * loop (for example in the FastInformedBound algorithm).
      *
-     * @param m The input POMDP to extract the SOSA table from.
+     * @param m The input POMDP to extract the SOSA matrix from.
      *
-     * @return The SOSA table for the input pomdp.
+     * @return The SOSA matrix for the input pomdp.
      */
     template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
     auto makeSOSA(const M & m) {

@@ -7,16 +7,16 @@ namespace AIToolbox::MDP {
             Base(q.rows(), q.cols()), QPolicyInterface(q),
             deltaW_(deltaw), deltaL_(deltal),
             scaling_(scaling), c_(S, 0),
-            avgPolicyTable_(S,A), actualPolicyTable_(S,A),
-            avgPolicy_(avgPolicyTable_), actualPolicy_(actualPolicyTable_)
+            avgPolicyMatrix_(S,A), actualPolicyMatrix_(S,A),
+            avgPolicy_(avgPolicyMatrix_), actualPolicy_(actualPolicyMatrix_)
     {
-        avgPolicyTable_.fill(1.0/A);
-        actualPolicyTable_.fill(1.0/A);
+        avgPolicyMatrix_.fill(1.0/A);
+        actualPolicyMatrix_.fill(1.0/A);
     }
 
     void WoLFPolicy::stepUpdateP(const size_t s) {
-        avgPolicyTable_.row(s) = avgPolicyTable_.row(s) * c_[s] + actualPolicyTable_.row(s);
-        avgPolicyTable_.row(s) /= avgPolicyTable_.row(s).sum();
+        avgPolicyMatrix_.row(s) = avgPolicyMatrix_.row(s) * c_[s] + actualPolicyMatrix_.row(s);
+        avgPolicyMatrix_.row(s) /= avgPolicyMatrix_.row(s).sum();
         ++c_[s];
 
         size_t bestAction; double finalDelta;
@@ -38,8 +38,8 @@ namespace AIToolbox::MDP {
                     bestQValue = qsa;
                 }
             }
-            const double avgValue = q_.row(s) * avgPolicyTable_.row(s).transpose();
-            const double actualValue = q_.row(s) * actualPolicyTable_.row(s).transpose();
+            const double avgValue = q_.row(s) * avgPolicyMatrix_.row(s).transpose();
+            const double actualValue = q_.row(s) * actualPolicyMatrix_.row(s).transpose();
 
             auto pickDistribution = std::uniform_int_distribution<unsigned>(0, bestActionCount-1);
             const unsigned selection = pickDistribution(rand_);
@@ -50,10 +50,10 @@ namespace AIToolbox::MDP {
 
         finalDelta /= ( c_[s] / scaling_ + 1.0 );
 
-        const auto oldV = actualPolicyTable_(s, bestAction);
-        actualPolicyTable_.row(s) = (actualPolicyTable_.row(s).array() - finalDelta/(A-1)).cwiseMax(0);
-        actualPolicyTable_(s, bestAction) = std::min(1.0, oldV + finalDelta);
-        actualPolicyTable_.row(s) /= actualPolicyTable_.row(s).sum();
+        const auto oldV = actualPolicyMatrix_(s, bestAction);
+        actualPolicyMatrix_.row(s) = (actualPolicyMatrix_.row(s).array() - finalDelta/(A-1)).cwiseMax(0);
+        actualPolicyMatrix_(s, bestAction) = std::min(1.0, oldV + finalDelta);
+        actualPolicyMatrix_.row(s) /= actualPolicyMatrix_.row(s).sum();
     }
 
     size_t WoLFPolicy::sampleAction(const size_t & s) const {

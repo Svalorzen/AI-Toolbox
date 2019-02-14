@@ -63,7 +63,7 @@ namespace AIToolbox::MDP {
      * @brief This function computes all immediate rewards (state and action) of the MDP once for improved speed.
      *
      * This function pretty much creates the R(s,a) function for the input
-     * model. Normally we store the reward function as R(s,a,s'), but this table
+     * model. Normally we store the reward function as R(s,a,s'), but this matrix
      * can be "compressed" into R(s,a) with no loss of meaningful information -
      * with respect to the planning process.
      *

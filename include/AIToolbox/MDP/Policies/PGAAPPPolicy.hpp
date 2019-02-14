@@ -106,7 +106,7 @@ namespace AIToolbox::MDP {
 
         private:
             double lRate_, predictionLength_;
-            PolicyWrapper::PolicyTable policyTable_;
+            PolicyWrapper::PolicyMatrix policyMatrix_;
             PolicyWrapper policy_;
     };
 }

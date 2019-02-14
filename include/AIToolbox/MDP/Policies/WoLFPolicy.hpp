@@ -139,7 +139,7 @@ namespace AIToolbox::MDP {
             double deltaW_, deltaL_, scaling_;
 
             std::vector<unsigned> c_;
-            PolicyWrapper::PolicyTable avgPolicyTable_, actualPolicyTable_;
+            PolicyWrapper::PolicyMatrix avgPolicyMatrix_, actualPolicyMatrix_;
             PolicyWrapper avgPolicy_, actualPolicy_;
     };
 }

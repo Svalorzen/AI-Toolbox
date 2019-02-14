@@ -38,9 +38,9 @@ BOOST_AUTO_TEST_CASE( other_construction ) {
     using namespace AIToolbox;
     const size_t S = 5, A = 6, O = 2;
 
-    AIToolbox::Table3D transitions(boost::extents[S][A][S]);
-    AIToolbox::Table3D rewards(boost::extents[S][A][S]);
-    AIToolbox::Table3D observations(boost::extents[S][A][O]);
+    AIToolbox::DumbMatrix3D transitions(boost::extents[S][A][S]);
+    AIToolbox::DumbMatrix3D rewards(boost::extents[S][A][S]);
+    AIToolbox::DumbMatrix3D observations(boost::extents[S][A][O]);
 
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )

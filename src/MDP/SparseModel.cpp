@@ -1,14 +1,14 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 
 namespace AIToolbox::MDP {
-    SparseModel::SparseModel(NoCheck, const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) :
+    SparseModel::SparseModel(NoCheck, const size_t s, const size_t a, TransitionMatrix && t, RewardMatrix && r, const double d) :
             S(s), A(a), discount_(d), transitions_(t), rewards_(r), rand_(Impl::Seeder::getSeed()) {}
 
     SparseModel::SparseModel(const size_t s, const size_t a, const double discount) :
             S(s), A(a), discount_(discount), transitions_(A, SparseMatrix2D(S, S)),
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
-        // Make transition table true probability
+        // Make transition matrix true probability
         for ( size_t a = 0; a < A; ++a )
             transitions_[a].setIdentity();
     }
@@ -21,16 +21,16 @@ namespace AIToolbox::MDP {
             // we found an error.
             for ( size_t s = 0; s < S; ++s ) {
                 if ( !checkEqualSmall(1.0, t[a].row(s).sum()) )
-                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
                 if ( !checkEqualSmall(1.0, t[a].row(s).cwiseAbs().sum()) )
-                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
             }
         }
         // Then we copy.
         transitions_ = t;
     }
 
-    void SparseModel::setRewardFunction(const RewardTable & r) {
+    void SparseModel::setRewardFunction(const RewardMatrix & r) {
         rewards_ = r;
     }
 
@@ -64,8 +64,8 @@ namespace AIToolbox::MDP {
     size_t SparseModel::getA() const { return A; }
     double SparseModel::getDiscount() const { return discount_; }
 
-    const SparseModel::TransitionTable & SparseModel::getTransitionFunction() const { return transitions_; }
-    const SparseModel::RewardTable &     SparseModel::getRewardFunction()     const { return rewards_; }
+    const SparseModel::TransitionMatrix & SparseModel::getTransitionFunction() const { return transitions_; }
+    const SparseModel::RewardMatrix &     SparseModel::getRewardFunction()     const { return rewards_; }
 
     const SparseMatrix2D & SparseModel::getTransitionFunction(const size_t a) const { return transitions_[a]; }
 }

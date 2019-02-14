@@ -3,10 +3,12 @@
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    CooperativeRLModel::CooperativeRLModel(const CooperativeExperience & exp, double discount, bool)
+    CooperativeRLModel::CooperativeRLModel(const CooperativeExperience & exp, const double discount, const bool toSync)
             : experience_(exp), discount_(discount)
     {
-        const auto & rnodes = experience_.getRewardTable();
+        const auto & S = experience_.getS();
+        const auto & vnodes = experience_.getVisitTable();
+        const auto & rnodes = experience_.getRewardMatrix();
 
         transitions_.nodes.resize(rnodes.size());
         rewards_.resize(rnodes.size());
@@ -26,18 +28,37 @@ namespace AIToolbox::Factored::MDP {
                     rnodes[i].nodes[j].matrix.rows(),
                     rnodes[i].nodes[j].matrix.cols() - 1 // vnodes also has the overall sum column
                 );
-                tnodes[i].nodes[j].matrix.setZero();
-                tnodes[i].nodes[j].matrix.col(0).fill(1.0);
-
                 rewards_[i][j].resize(rnodes[i].nodes[j].matrix.rows());
-                rewards_[i][j].setZero();
+
+                if (!toSync) {
+                    tnodes[i].nodes[j].matrix.setZero();
+                    tnodes[i].nodes[j].matrix.col(0).fill(1.0);
+
+                    rewards_[i][j].setZero();
+                } else {
+                    for (int p = 0; p < tnodes[i].nodes[j].matrix.rows(); ++p) {
+                        const double totalVisits = vnodes[i][j][p][S[i]+1];
+                        if (totalVisits == 0) {
+                            tnodes[i].nodes[j].matrix.row(p).setZero();
+                            tnodes[i].nodes[j].matrix(p, 0) = 1.0;
+
+                            rewards_[i][j][p] = 0.0;
+                            continue;
+                        }
+
+                        for (size_t y = 0; y < S[i]; ++y)
+                            tnodes[i].nodes[j].matrix(p, y) = vnodes[i][j][p][y] / totalVisits;
+
+                        rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]+1) / totalVisits;
+                    }
+                }
             }
         }
     }
 
     void CooperativeRLModel::sync(const State & s, const Action & a) {
         const auto & vnodes = experience_.getVisitTable();
-        const auto & rnodes = experience_.getRewardTable();
+        const auto & rnodes = experience_.getRewardMatrix();
 
         auto & tnodes = transitions_.nodes;
         const auto & S = experience_.getS();
@@ -49,9 +70,10 @@ namespace AIToolbox::Factored::MDP {
             const auto parentId = toIndexPartial(node.tag, getS(), s);
 
             const double totalVisits = vnodes[i][actionId][parentId][S[i]+1];
+            if (totalVisits == 0) continue;
 
-            for (size_t x = 0; x < S[i]; ++x)
-                tnodes[i].nodes[actionId].matrix(parentId, x) = vnodes[i][actionId][parentId][x] / totalVisits;
+            for (size_t y = 0; y < S[i]; ++y)
+                tnodes[i].nodes[actionId].matrix(parentId, y) = vnodes[i][actionId][parentId][y] / totalVisits;
 
             rewards_[i][actionId][parentId] = rnodes[i].nodes[actionId].matrix(parentId, S[i]+1) / totalVisits;
         }
@@ -59,7 +81,7 @@ namespace AIToolbox::Factored::MDP {
 
     void CooperativeRLModel::sync(const CooperativeExperience::Indeces & indeces) {
         const auto & vnodes = experience_.getVisitTable();
-        const auto & rnodes = experience_.getRewardTable();
+        const auto & rnodes = experience_.getRewardMatrix();
 
         auto & tnodes = transitions_.nodes;
         const auto & S = experience_.getS();
@@ -68,9 +90,10 @@ namespace AIToolbox::Factored::MDP {
             const auto [actionId, parentId] = indeces[i];
 
             const double totalVisits = vnodes[i][actionId][parentId][S[i]+1];
+            if (totalVisits == 0) continue;
 
-            for (size_t x = 0; x < S[i]; ++x)
-                tnodes[i].nodes[actionId].matrix(parentId, x) = vnodes[i][actionId][parentId][x] / totalVisits;
+            for (size_t y = 0; y < S[i]; ++y)
+                tnodes[i].nodes[actionId].matrix(parentId, y) = vnodes[i][actionId][parentId][y] / totalVisits;
 
             rewards_[i][actionId][parentId] = rnodes[i].nodes[actionId].matrix(parentId, S[i]+1) / totalVisits;
         }
@@ -120,7 +143,7 @@ namespace AIToolbox::Factored::MDP {
         return retval;
     }
 
-    void CooperativeRLModel::setDiscount(double d) { discount_ = d; }
+    void CooperativeRLModel::setDiscount(const double d) { discount_ = d; }
     double CooperativeRLModel::getDiscount() const { return discount_; }
 
     const State & CooperativeRLModel::getS() const { return experience_.getS(); }

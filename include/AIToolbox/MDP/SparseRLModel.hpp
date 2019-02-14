@@ -67,8 +67,8 @@ namespace AIToolbox::MDP {
         static_assert(is_experience_v<E>, "This class only works for MDP experiences!");
 
         public:
-            using TransitionTable   = SparseMatrix3D;
-            using RewardTable       = SparseMatrix2D;
+            using TransitionMatrix   = SparseMatrix3D;
+            using RewardMatrix       = SparseMatrix2D;
             /**
              * @brief Constructor using previous Experience.
              *
@@ -224,11 +224,11 @@ namespace AIToolbox::MDP {
             double getExpectedReward(size_t s, size_t a, size_t s1) const;
 
             /**
-             * @brief This function returns the transition table for inspection.
+             * @brief This function returns the transition matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The transition matrix.
              */
-            const TransitionTable & getTransitionFunction() const;
+            const TransitionMatrix & getTransitionFunction() const;
 
             /**
              * @brief This function returns the transition function for a given action.
@@ -240,11 +240,11 @@ namespace AIToolbox::MDP {
             const SparseMatrix2D & getTransitionFunction(size_t a) const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const RewardTable & getRewardFunction() const;
+            const RewardMatrix & getRewardFunction() const;
 
             /**
              * @brief This function returns whether a given state is a terminal.
@@ -261,8 +261,8 @@ namespace AIToolbox::MDP {
 
             const E & experience_;
 
-            TransitionTable transitions_;
-            RewardTable rewards_;
+            TransitionMatrix transitions_;
+            RewardMatrix rewards_;
 
             mutable RandomEngine rand_;
     };
@@ -288,7 +288,7 @@ namespace AIToolbox::MDP {
             }
         }
         else {
-            // Make transition table true probability
+            // Make transition matrix true probability
             for ( size_t a = 0; a < A; ++a )
                 transitions_[a].setIdentity();
         }
@@ -395,9 +395,9 @@ namespace AIToolbox::MDP {
     const E & SparseRLModel<E>::getExperience() const { return experience_; }
 
     template <typename E>
-    const typename SparseRLModel<E>::TransitionTable & SparseRLModel<E>::getTransitionFunction() const { return transitions_; }
+    const typename SparseRLModel<E>::TransitionMatrix & SparseRLModel<E>::getTransitionFunction() const { return transitions_; }
     template <typename E>
-    const typename SparseRLModel<E>::RewardTable &     SparseRLModel<E>::getRewardFunction()     const { return rewards_; }
+    const typename SparseRLModel<E>::RewardMatrix &     SparseRLModel<E>::getRewardFunction()     const { return rewards_; }
 
     template <typename E>
     const SparseMatrix2D & SparseRLModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }

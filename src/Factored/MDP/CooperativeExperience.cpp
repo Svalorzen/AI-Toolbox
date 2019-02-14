@@ -61,7 +61,7 @@ namespace AIToolbox::Factored::MDP {
         return visits_;
     }
 
-    const CooperativeExperience::RewardTable & CooperativeExperience::getRewardTable() const {
+    const CooperativeExperience::RewardMatrix & CooperativeExperience::getRewardMatrix() const {
         return rewards_;
     }
 

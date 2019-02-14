@@ -43,7 +43,7 @@ namespace AIToolbox::MDP {
         return visits_;
     }
 
-    const Experience::RewardTable & Experience::getRewardTable() const {
+    const Experience::RewardMatrix & Experience::getRewardMatrix() const {
         return rewards_;
     }
 

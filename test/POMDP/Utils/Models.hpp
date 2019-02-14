@@ -10,9 +10,9 @@ using PModel = AIToolbox::POMDP::Model<MModel>;
 PModel chengD35() {
     constexpr size_t S = 3, A = 3, O = 3;
 
-    MModel::TransitionTable t(A);
-    MModel::RewardTable r(S, A);
-    PModel::ObservationTable o(A);
+    MModel::TransitionMatrix t(A);
+    MModel::RewardMatrix r(S, A);
+    PModel::ObservationMatrix o(A);
 
     for (size_t a = 0; a < A; ++a) {
         t[a] = AIToolbox::Matrix2D(S, S);
@@ -60,9 +60,9 @@ PModel chengD35() {
 PModel ejs4() {
     constexpr size_t S = 3, A = 2, O = 2;
 
-    MModel::TransitionTable t(A);
-    MModel::RewardTable r(S, A);
-    PModel::ObservationTable o(A);
+    MModel::TransitionMatrix t(A);
+    MModel::RewardMatrix r(S, A);
+    PModel::ObservationMatrix o(A);
 
     for (size_t a = 0; a < A; ++a) {
         t[a] = AIToolbox::Matrix2D(S, S);
