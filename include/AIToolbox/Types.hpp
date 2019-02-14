@@ -25,8 +25,8 @@ namespace AIToolbox {
     using Matrix4D       = boost::multi_array<Matrix2D,       2>;
     using SparseMatrix4D = boost::multi_array<SparseMatrix2D, 2>;
 
-    // using Table2D = Eigen::Matrix<long, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor | Eigen::AutoAlign>;
-    // using Table3D = std::vector<Table2D>;
+    using Table2D = Eigen::Matrix<long, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor | Eigen::AutoAlign>;
+    using Table3D = std::vector<Table2D>;
 
     using SparseTable2D = Eigen::SparseMatrix<long, Eigen::RowMajor>;
     using SparseTable3D = std::vector<SparseTable2D>;

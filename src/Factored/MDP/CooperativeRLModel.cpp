@@ -37,7 +37,7 @@ namespace AIToolbox::Factored::MDP {
                     rewards_[i][j].setZero();
                 } else {
                     for (int p = 0; p < tnodes[i].nodes[j].matrix.rows(); ++p) {
-                        const double totalVisits = vnodes[i][j][p][S[i]+1];
+                        const double totalVisits = vnodes[i][j](p, S[i]+1);
                         if (totalVisits == 0) {
                             tnodes[i].nodes[j].matrix.row(p).setZero();
                             tnodes[i].nodes[j].matrix(p, 0) = 1.0;
@@ -46,9 +46,7 @@ namespace AIToolbox::Factored::MDP {
                             continue;
                         }
 
-                        for (size_t y = 0; y < S[i]; ++y)
-                            tnodes[i].nodes[j].matrix(p, y) = vnodes[i][j][p][y] / totalVisits;
-
+                        tnodes[i].nodes[j].matrix.row(p) = vnodes[i][j].row(p).head(S[i]).cast<double>() / totalVisits;
                         rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]+1) / totalVisits;
                     }
                 }
@@ -64,18 +62,17 @@ namespace AIToolbox::Factored::MDP {
         const auto & S = experience_.getS();
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto actionId = toIndexPartial(tnodes[i].actionTag, getA(), a);
+            const auto aId = toIndexPartial(tnodes[i].actionTag, getA(), a);
 
-            const auto & node = tnodes[i].nodes[actionId];
-            const auto parentId = toIndexPartial(node.tag, getS(), s);
+            const auto & node = tnodes[i].nodes[aId];
+            const auto pId = toIndexPartial(node.tag, getS(), s);
 
-            const double totalVisits = vnodes[i][actionId][parentId][S[i]+1];
+            const double totalVisits = vnodes[i][aId](pId, S[i]+1);
             if (totalVisits == 0) continue;
 
-            for (size_t y = 0; y < S[i]; ++y)
-                tnodes[i].nodes[actionId].matrix(parentId, y) = vnodes[i][actionId][parentId][y] / totalVisits;
+            tnodes[i].nodes[aId].matrix.row(pId) = vnodes[i][aId].row(pId).head(S[i]).cast<double>() / totalVisits;
 
-            rewards_[i][actionId][parentId] = rnodes[i].nodes[actionId].matrix(parentId, S[i]+1) / totalVisits;
+            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]+1) / totalVisits;
         }
     }
 
@@ -87,15 +84,14 @@ namespace AIToolbox::Factored::MDP {
         const auto & S = experience_.getS();
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto [actionId, parentId] = indeces[i];
+            const auto [aId, pId] = indeces[i];
 
-            const double totalVisits = vnodes[i][actionId][parentId][S[i]+1];
+            const double totalVisits = vnodes[i][aId](pId, S[i]+1);
             if (totalVisits == 0) continue;
 
-            for (size_t y = 0; y < S[i]; ++y)
-                tnodes[i].nodes[actionId].matrix(parentId, y) = vnodes[i][actionId][parentId][y] / totalVisits;
+            tnodes[i].nodes[aId].matrix.row(pId) = vnodes[i][aId].row(pId).head(S[i]).cast<double>() / totalVisits;
 
-            rewards_[i][actionId][parentId] = rnodes[i].nodes[actionId].matrix(parentId, S[i]+1) / totalVisits;
+            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]+1) / totalVisits;
         }
     }
 

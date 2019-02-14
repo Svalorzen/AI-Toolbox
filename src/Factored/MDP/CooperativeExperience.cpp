@@ -20,7 +20,8 @@ namespace AIToolbox::Factored::MDP {
 
                 rNode.matrix.resize(rows, S[i]+1);
                 rNode.matrix.setZero();
-                visits_[i].emplace_back(boost::extents[rows][S[i]+1]);
+                visits_[i].emplace_back(rows, S[i]+1);
+                visits_[i].back().setZero();
             }
         }
         indeces_.resize(S.size());
@@ -37,10 +38,10 @@ namespace AIToolbox::Factored::MDP {
 
             // Update single values
             rNode.nodes[actionId].matrix(parentId, s1[i]) += rew[i];
-            visits_[i][actionId][parentId][s1[i]] += 1;
+            visits_[i][actionId](parentId, s1[i]) += 1;
             // Update sums
             rNode.nodes[actionId].matrix(parentId, S[i]) += rew[i];
-            visits_[i][actionId][parentId][S[i]] += 1;
+            visits_[i][actionId](parentId, S[i]) += 1;
 
             // Save indeces to return to avoid recomputation.
             indeces_[i] = {actionId, parentId};
@@ -52,7 +53,7 @@ namespace AIToolbox::Factored::MDP {
         for (size_t i = 0; i < S.size(); ++i) {
             for (size_t a = 0; a < rewards_[i].nodes.size(); ++a) {
                 rewards_[i].nodes[a].matrix.setZero();
-                std::fill(visits_[i][a].data(), visits_[i][a].data() + visits_[i][a].num_elements(), 0ul);
+                visits_[i][a].setZero();
             }
         }
     }

@@ -30,7 +30,7 @@ namespace AIToolbox::Factored::MDP {
             // FactoredDDN::Node, but uses unsigned so we have to use a 2D
             // unsigned table rather than Matrix2D. We also don't really need
             // the tags again, so it's just a vector of vectors.
-            using VisitTable = std::vector<std::vector<DumbTable2D>>;
+            using VisitTable = std::vector<std::vector<Table2D>>;
 
             // Used to avoid recomputation when doing sync in RL.
             using Indeces = std::vector<std::pair<size_t, size_t>>;

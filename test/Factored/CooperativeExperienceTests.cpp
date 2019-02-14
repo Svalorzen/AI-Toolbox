@@ -48,13 +48,13 @@ BOOST_AUTO_TEST_CASE( construction ) {
             BOOST_CHECK_EQUAL(rn.matrix.rows(), tn.matrix.rows());
             BOOST_CHECK_EQUAL(rn.matrix.cols(), tn.matrix.cols() + 1);
 
-            BOOST_CHECK_EQUAL(rn.matrix.rows(), v[i][j].shape()[0]);
-            BOOST_CHECK_EQUAL(rn.matrix.cols(), v[i][j].shape()[1]);
+            BOOST_CHECK_EQUAL(rn.matrix.rows(), v[i][j].rows());
+            BOOST_CHECK_EQUAL(rn.matrix.cols(), v[i][j].cols());
 
             for (int x = 0; x < rn.matrix.rows(); ++x) {
                 for (int y = 0; y < rn.matrix.cols(); ++y) {
                     BOOST_CHECK_EQUAL(rn.matrix(x, y), 0.0);
-                    BOOST_CHECK_EQUAL(v[i][j][x][y], 0);
+                    BOOST_CHECK_EQUAL(v[i][j](x, y), 0);
                 }
             }
         }
@@ -147,10 +147,10 @@ BOOST_AUTO_TEST_CASE( recording ) {
                     ps = &s;
 
             if (ps) {
-                BOOST_CHECK_EQUAL(v[i][0][x][3], ps->visitSum);
+                BOOST_CHECK_EQUAL(v[i][0](x, 3), ps->visitSum);
                 BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, 3), ps->rewardSum);
             } else {
-                BOOST_CHECK_EQUAL(v[i][0][x][3], 0);
+                BOOST_CHECK_EQUAL(v[i][0](x, 3), 0);
                 BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, 3), 0.0);
             }
 
@@ -161,10 +161,10 @@ BOOST_AUTO_TEST_CASE( recording ) {
                         break;
 
                 if (ps && z < ps->data.size()) {
-                    BOOST_CHECK_EQUAL(v[i][0][x][y],              std::get<1>(ps->data[z]));
+                    BOOST_CHECK_EQUAL(v[i][0](x, y),              std::get<1>(ps->data[z]));
                     BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, y), std::get<2>(ps->data[z]));
                 } else {
-                    BOOST_CHECK_EQUAL(v[i][0][x][y], 0);
+                    BOOST_CHECK_EQUAL(v[i][0](x, y), 0);
                     BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, y), 0.0);
                 }
             }
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE( recording ) {
     for (size_t s = 0; s < 14; ++s) {
         for (size_t x = 0; x < 3; ++x) {
             for (size_t y = 0; y < 4; ++y) {
-                BOOST_CHECK_EQUAL(v[s][1][x][y], 0);
+                BOOST_CHECK_EQUAL(v[s][1](x, y), 0);
                 BOOST_CHECK_EQUAL(r[s].nodes[1].matrix(x, y), 0.0);
             }
         }
@@ -218,10 +218,10 @@ BOOST_AUTO_TEST_CASE( recording ) {
                     ps = &s;
 
             if (ps) {
-                BOOST_CHECK_EQUAL(v[i][0][x][3], ps->visitSum);
+                BOOST_CHECK_EQUAL(v[i][0](x, 3), ps->visitSum);
                 BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, 3), ps->rewardSum);
             } else {
-                BOOST_CHECK_EQUAL(v[i][0][x][3], 0);
+                BOOST_CHECK_EQUAL(v[i][0](x, 3), 0);
                 BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, 3), 0.0);
             }
 
@@ -232,10 +232,10 @@ BOOST_AUTO_TEST_CASE( recording ) {
                         break;
 
                 if (ps && z < ps->data.size()) {
-                    BOOST_CHECK_EQUAL(v[i][0][x][y],              std::get<1>(ps->data[z]));
+                    BOOST_CHECK_EQUAL(v[i][0](x, y),              std::get<1>(ps->data[z]));
                     BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, y), std::get<2>(ps->data[z]));
                 } else {
-                    BOOST_CHECK_EQUAL(v[i][0][x][y], 0);
+                    BOOST_CHECK_EQUAL(v[i][0](x, y), 0);
                     BOOST_CHECK_EQUAL(r[i].nodes[0].matrix(x, y), 0.0);
                 }
             }
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE( recording ) {
     for (size_t s = 0; s < 14; ++s) {
         for (size_t x = 0; x < 3; ++x) {
             for (size_t y = 0; y < 4; ++y) {
-                BOOST_CHECK_EQUAL(v[s][1][x][y], 0);
+                BOOST_CHECK_EQUAL(v[s][1](x, y), 0);
                 BOOST_CHECK_EQUAL(r[s].nodes[1].matrix(x, y), 0.0);
             }
         }
