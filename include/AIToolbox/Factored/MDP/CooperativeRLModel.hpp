@@ -15,66 +15,70 @@ namespace AIToolbox::Factored::MDP {
             /**
              * @brief Constructor using previous Experience.
              *
-             * This constructor selects the Experience that will
-             * be used to learn an MDP Model from the data, and initializes
-             * internal Model data.
+             * This constructor stores a reference to the CooperativeExperience
+             * that will be used to learn an MDP Model from the data, and
+             * initializes internal Model data.
              *
-             * The user can choose whether he wants to directly sync
-             * the RLModel to the underlying Experience, or delay
-             * it for later.
+             * The user can choose whether he wants to directly sync the
+             * CooperativeRLModel to the underlying CooperativeExperience, or
+             * delay it for later.
              *
-             * In the latter case the default transition function
-             * defines a transition of probability 1 for each
-             * state to itself, no matter the action.
+             * In the latter case the default transition function defines a
+             * transition of probability 1 for each state factor to 0, no
+             * matter the action or its parents.
              *
-             * In general it would be better to add some amount of bias
-             * to the Experience so that when a new state-action pair is
-             * tried, the RLModel doesn't automatically compute 100%
-             * probability of transitioning to the resulting state, but
-             * smooths into it. This may depend on your problem though.
+             * In general it would be better to add some amount of bias to the
+             * CooperativeExperience so that when a new state-action pair is
+             * tried, the CooperativeRLModel doesn't automatically compute 100%
+             * probability of transitioning to the resulting state, but smooths
+             * into it. This may depend on your problem though.
              *
              * The default reward function is 0.
              *
-             * @param exp The base Experience of the model.
+             * @param exp The CooperativeExperience of the model.
              * @param discount The discount used in solving methods.
-             * @param sync Whether to sync with the Experience immediately or delay it.
+             * @param sync Whether to sync with the CooperativeExperience immediately or delay it.
              */
             CooperativeRLModel(const CooperativeExperience & exp, double discount = 1.0, bool sync = false);
 
             /**
-             * @brief This function sets a new discount factor for the Model.
+             * @brief This function syncs the whole CooperativeRLModel to the underlying CooperativeExperience.
              *
-             * @param d The new discount factor for the Model.
-             */
-            void setDiscount(double d);
-
-            /**
-             * @brief This function syncs the whole RLModel to the underlying Experience.
-             *
-             * Since use cases in AI are very varied, one may not want to update
-             * its RLModel for each single transition experienced by the agent. To
-             * avoid this we leave to the user the task of syncing between the
-             * underlying Experience and the RLModel, as he/she sees fit.
+             * Since use cases in AI are very varied, one may not want to
+             * update its CooperativeRLModel for each single transition
+             * experienced by the agent. To avoid this we leave to the user the
+             * task of syncing between the underlying CooperativeExperience and
+             * the CooperativeRLModel, as he/she sees fit.
              *
              * After this function is run the transition and reward functions
-             * will accurately reflect the state of the underlying Experience.
+             * will accurately reflect the state of the underlying
+             * CooperativeExperience.
              */
             void sync();
 
             /**
-             * @brief This function syncs a state action pair in the RLModel to the underlying Experience in the fastest possible way.
-             *
-             * This function updates a state action pair given that the last increased transition
-             * in the underlying Experience is the triplet s, a, s1. In addition, this function only
-             * works if it needs to add information from this single new point of information (if
-             * more has changed from the last sync, use sync(s,a) ). The performance boost that
-             * this function obtains increases with the increase of the number of states in the model.
+             * @brief This function syncs a state-action pair to the underlying CooperativeExperience.
              *
              * @param s The state that needs to be synced.
              * @param a The action that needs to be synced.
-             * @param s1 The final state of the transition that got updated in the Experience.
              */
             void sync(const State & s, const Action & a);
+
+            /**
+             * @brief This function syncs the given indeces to the underlying CooperativeExperience.
+             *
+             * This function is equivalent to sync(const State &, const Action
+             * &), but it avoids recomputing the indeces of the state-action
+             * pair. Instead, it uses the ones already computed by the
+             * underlying CooperativeExperience during its record() call.
+             *
+             * This works because the CooperativeExperience and
+             * CooperativeRLModel use the same factoring of their data
+             * structures, and thus the indeces can be used unchanged in both
+             * classes.
+             *
+             * @param indeces The indeces provided by the CooperativeExperience.
+             */
             void sync(const CooperativeExperience::Indeces & indeces);
 
             /**
@@ -95,35 +99,24 @@ namespace AIToolbox::Factored::MDP {
              */
             std::tuple<State, double> sampleSR(const State & s, const Action & a) const;
 
+            /**
+             * @brief This function samples the MDP with the specified state action pair.
+             *
+             * This function is equivalent to sampleSR(const State &, const Action &).
+             *
+             * The only difference is that it allows to output the new State
+             * into a pre-allocated State, avoiding the need for an allocation
+             * at every sample.
+             *
+             * NO CHECKS for nullptr are done.
+             *
+             * @param s The state that needs to be sampled.
+             * @param a The action that needs to be sampled.
+             * @param s1 The new state.
+             *
+             * @return The reward for the sampled transition.
+             */
             double sampleSR(const State & s, const Action & a, State * s1) const;
-
-            /**
-             * @brief This function returns the number of states of the world.
-             *
-             * @return The total number of states.
-             */
-            const State & getS() const;
-
-            /**
-             * @brief This function returns the number of available actions to the agent.
-             *
-             * @return The total number of actions.
-             */
-            const Action & getA() const;
-
-            /**
-             * @brief This function returns the currently set discount factor.
-             *
-             * @return The currently set discount factor.
-             */
-            double getDiscount() const;
-
-            /**
-             * @brief This function enables inspection of the underlying Experience of the RLModel.
-             *
-             * @return The underlying Experience of the RLModel.
-             */
-            const CooperativeExperience & getExperience() const;
 
             /**
              * @brief This function returns the stored transition probability for the specified transition.
@@ -146,6 +139,41 @@ namespace AIToolbox::Factored::MDP {
              * @return The expected reward of the specified transition.
              */
             double getExpectedReward(const State & s, const Action & a, const State & s1) const;
+
+            /**
+             * @brief This function returns the number of states of the world.
+             *
+             * @return The total number of states.
+             */
+            const State & getS() const;
+
+            /**
+             * @brief This function returns the number of available actions to the agent.
+             *
+             * @return The total number of actions.
+             */
+            const Action & getA() const;
+
+            /**
+             * @brief This function sets a new discount factor for the Model.
+             *
+             * @param d The new discount factor for the Model.
+             */
+            void setDiscount(double d);
+
+            /**
+             * @brief This function returns the currently set discount factor.
+             *
+             * @return The currently set discount factor.
+             */
+            double getDiscount() const;
+
+            /**
+             * @brief This function enables inspection of the underlying Experience of the RLModel.
+             *
+             * @return The underlying Experience of the RLModel.
+             */
+            const CooperativeExperience & getExperience() const;
 
             /**
              * @brief This function returns the transition matrix for inspection.

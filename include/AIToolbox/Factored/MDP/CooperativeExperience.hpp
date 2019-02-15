@@ -40,7 +40,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * Note that the structure input does not need to pre-allocate the
              * value matrices, nor to fill their values, since we do that
-             * internally.  Here we only need the structure of the problem.
+             * internally. Here we only need the structure of the problem.
              *
              * @param s The state space to record.
              * @param a The action space to record.
