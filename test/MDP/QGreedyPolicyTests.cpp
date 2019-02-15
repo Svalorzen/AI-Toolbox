@@ -104,17 +104,17 @@ BOOST_AUTO_TEST_CASE( getPolicy ) {
     q(2,2) = 42;
 
     QGreedyPolicy p(q);
-    const auto table = p.getPolicy();
+    const auto matrix = p.getPolicy();
 
-    BOOST_CHECK(checkEqualSmall(table(0,0), 1.0));
-    BOOST_CHECK(checkEqualSmall(table(0,1), 0.0));
-    BOOST_CHECK(checkEqualSmall(table(0,2), 0.0));
+    BOOST_CHECK(checkEqualSmall(matrix(0,0), 1.0));
+    BOOST_CHECK(checkEqualSmall(matrix(0,1), 0.0));
+    BOOST_CHECK(checkEqualSmall(matrix(0,2), 0.0));
 
-    BOOST_CHECK(checkEqualSmall(table(1,0), 0.5));
-    BOOST_CHECK(checkEqualSmall(table(1,1), 0.0));
-    BOOST_CHECK(checkEqualSmall(table(1,2), 0.5));
+    BOOST_CHECK(checkEqualSmall(matrix(1,0), 0.5));
+    BOOST_CHECK(checkEqualSmall(matrix(1,1), 0.0));
+    BOOST_CHECK(checkEqualSmall(matrix(1,2), 0.5));
 
-    BOOST_CHECK(checkEqualSmall(table(2,0), 1.0/3.0));
-    BOOST_CHECK(checkEqualSmall(table(2,1), 1.0/3.0));
-    BOOST_CHECK(checkEqualSmall(table(2,2), 1.0/3.0));
+    BOOST_CHECK(checkEqualSmall(matrix(2,0), 1.0/3.0));
+    BOOST_CHECK(checkEqualSmall(matrix(2,1), 1.0/3.0));
+    BOOST_CHECK(checkEqualSmall(matrix(2,2), 1.0/3.0));
 }

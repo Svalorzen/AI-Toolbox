@@ -73,8 +73,8 @@
  */
 class OldMDPModel {
     public:
-        using TransitionTable   = AIToolbox::Table3D;
-        using RewardTable       = AIToolbox::Table3D;
+        using TransitionMatrix = AIToolbox::DumbMatrix3D;
+        using RewardMatrix     = AIToolbox::DumbMatrix3D;
 
         /**
          * @brief Basic constructor.
@@ -97,7 +97,7 @@ class OldMDPModel {
          *
          * This constructor takes two arbitrary three dimensional
          * containers and tries to copy their contents into the
-         * transitions and rewards tables respectively.
+         * transitions and rewards matrices respectively.
          *
          * The containers need to support data access through
          * operator[]. In addition, the dimensions of the containers
@@ -113,7 +113,7 @@ class OldMDPModel {
          * In addition, the transition container must contain a valid
          * transition function.  \sa transitionCheck()
          *
-         * \sa copyTable3D()
+         * \sa copyDumb3D()
          *
          * The discount parameter must be between 0 and 1 included,
          * otherwise the constructor will throw an
@@ -149,7 +149,7 @@ class OldMDPModel {
          * @brief This function replaces the OldMDPModel transition function with the one provided.
          *
          * This function will throw a std::invalid_argument if the
-         * table provided does not respect the constraints specified in
+         * matrix provided does not respect the constraints specified in
          * the mdpCheck() function.
          *
          * The container needs to support data access through
@@ -260,18 +260,18 @@ class OldMDPModel {
         double getExpectedReward(size_t s, size_t a, size_t s1) const;
 
         /**
-         * @brief This function returns the transition table for inspection.
+         * @brief This function returns the transition matrix for inspection.
          *
-         * @return The rewards table.
+         * @return The transition matrix.
          */
-        const TransitionTable & getTransitionFunction() const;
+        const TransitionMatrix & getTransitionFunction() const;
 
         /**
-         * @brief This function returns the rewards table for inspection.
+         * @brief This function returns the rewards matrix for inspection.
          *
-         * @return The rewards table.
+         * @return The rewards matrix.
          */
-        const RewardTable &     getRewardFunction()     const;
+        const RewardMatrix & getRewardFunction() const;
 
         /**
          * @brief This function returns whether a given state is a terminal.
@@ -286,8 +286,8 @@ class OldMDPModel {
         size_t S, A;
         double discount_;
 
-        TransitionTable transitions_;
-        RewardTable rewards_;
+        TransitionMatrix transitions_;
+        RewardMatrix rewards_;
 
         mutable AIToolbox::RandomEngine rand_;
 
@@ -314,7 +314,7 @@ OldMDPModel::OldMDPModel(const M& model) : S(model.getS()), A(model.getA()), dis
                 rewards_    [s][a][s1] = model.getExpectedReward       (s, a, s1);
             }
             if ( ! AIToolbox::isProbability(S, transitions_[s][a]) )
-                throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
         }
 }
 
@@ -323,20 +323,20 @@ void OldMDPModel::setTransitionFunction(const T & t) {
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
             if ( ! AIToolbox::isProbability(S, t[s][a]) )
-                throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
 
-    copyTable3D(t, transitions_, S, A, S);
+    copyDumb3D(t, transitions_, S, A, S);
 }
 
 template <typename R>
 void OldMDPModel::setRewardFunction( const R & r ) {
-    copyTable3D(r, rewards_, S, A, S);
+    copyDumb3D(r, rewards_, S, A, S);
 }
 
 OldMDPModel::OldMDPModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
     rand_(AIToolbox::Impl::Seeder::getSeed())
 {
-    // Make transition table true probability
+    // Make transition matrix true probability
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
             transitions_[s][a][s] = 1.0;
@@ -376,7 +376,7 @@ inline size_t OldMDPModel::getS() const { return S; }
 inline size_t OldMDPModel::getA() const { return A; }
 inline double OldMDPModel::getDiscount() const { return discount_; }
 
-inline const OldMDPModel::TransitionTable & OldMDPModel::getTransitionFunction() const { return transitions_; }
-inline const OldMDPModel::RewardTable &     OldMDPModel::getRewardFunction()     const { return rewards_; }
+inline const OldMDPModel::TransitionMatrix & OldMDPModel::getTransitionFunction() const { return transitions_; }
+inline const OldMDPModel::RewardMatrix &     OldMDPModel::getRewardFunction()     const { return rewards_; }
 
 #endif

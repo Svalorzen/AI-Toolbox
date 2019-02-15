@@ -52,9 +52,9 @@ inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> makeTigerProblem() {
 
     AIToolbox::POMDP::Model<AIToolbox::MDP::Model> model(O, S, A);
 
-    AIToolbox::Table3D transitions(boost::extents[S][A][S]);
-    AIToolbox::Table3D rewards(boost::extents[S][A][S]);
-    AIToolbox::Table3D observations(boost::extents[S][A][O]);
+    AIToolbox::DumbMatrix3D transitions(boost::extents[S][A][S]);
+    AIToolbox::DumbMatrix3D rewards(boost::extents[S][A][S]);
+    AIToolbox::DumbMatrix3D observations(boost::extents[S][A][O]);
 
     // Transitions
     // If we listen, nothing changes.

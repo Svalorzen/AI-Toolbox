@@ -11,7 +11,7 @@ namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This struct represents a single action/value pair.
      *
-     * This struct can be used in place of a full-blown QFunction table
+     * This struct can be used in place of a full-blown QFunction matrix
      * when the QFunction matrix would be sparse. Instead, only intresting
      * action/value pairs are stored and acted upon.
      */
@@ -26,7 +26,7 @@ namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This struct represents a single action/values pair.
      *
-     * This struct can be used in place of a full-blown QFunction table for
+     * This struct can be used in place of a full-blown QFunction matrix for
      * multi-objective bandits. Thus each action is linked with a vector of
      * rewards, one for each possible objective.
      */

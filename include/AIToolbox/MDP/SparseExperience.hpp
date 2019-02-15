@@ -25,10 +25,10 @@ namespace AIToolbox::MDP {
      */
     class SparseExperience {
         public:
-            using VisitTable = SparseMatrix3DLong;
-            using VisitSumTable = SparseMatrix2DLong;
-            using RewardTable = SparseMatrix3D;
-            using RewardSumTable = SparseMatrix2D;
+            using VisitTable = SparseTable3D;
+            using VisitSumTable = SparseTable2D;
+            using RewardMatrix = SparseMatrix3D;
+            using RewardSumMatrix = SparseMatrix2D;
 
             /**
              * @brief Basic constructor.
@@ -75,7 +75,7 @@ namespace AIToolbox::MDP {
              *
              * This function takes an arbitrary three dimensional
              * container and tries to copy its contents into the
-             * rewards table.
+             * rewards matrix.
              *
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the
@@ -163,11 +163,11 @@ namespace AIToolbox::MDP {
             const VisitTable & getVisitTable() const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const RewardTable & getRewardTable() const;
+            const RewardMatrix & getRewardMatrix() const;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -189,8 +189,8 @@ namespace AIToolbox::MDP {
             VisitTable visits_;
             VisitSumTable visitsSum_;
 
-            RewardTable rewards_;
-            RewardSumTable rewardsSum_;
+            RewardMatrix rewards_;
+            RewardSumMatrix rewardsSum_;
 
             friend std::istream& operator>>(std::istream &is, SparseExperience &);
     };

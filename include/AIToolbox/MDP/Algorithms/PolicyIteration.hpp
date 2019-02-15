@@ -79,7 +79,7 @@ namespace AIToolbox::MDP {
 
         auto qfun = makeQFunction(m.getS(), m.getA());
         QGreedyPolicy p(qfun);
-        auto table = p.getPolicy();
+        auto matrix = p.getPolicy();
 
         {
 nextLoop:
@@ -89,11 +89,11 @@ nextLoop:
             eval.setValues(std::move(v));
             qfun = std::move(q);
 
-            auto newTable = p.getPolicy();
+            auto newMatrix = p.getPolicy();
             for (size_t s = 0; s < S; ++s) {
                 for (size_t a = 0; a < A; ++a) {
-                    if (checkDifferentSmall(table(s,a), newTable(s,a))) {
-                        table = std::move(newTable);
+                    if (checkDifferentSmall(matrix(s,a), newMatrix(s,a))) {
+                        matrix = std::move(newMatrix);
                         goto nextLoop;
                     }
                 }

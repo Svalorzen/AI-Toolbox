@@ -18,10 +18,10 @@ namespace AIToolbox::MDP {
      */
     class Experience {
         public:
-            using VisitTable = boost::multi_array<unsigned long,3>;
-            using VisitSumTable = boost::multi_array<unsigned long,2>;
-            using RewardTable = Table3D;
-            using RewardSumTable = Table2D;
+            using VisitTable = DumbTable3D;
+            using VisitSumTable = DumbTable2D;
+            using RewardMatrix = DumbMatrix3D;
+            using RewardSumMatrix = DumbMatrix2D;
 
             /**
              * @brief Basic constructor.
@@ -49,7 +49,7 @@ namespace AIToolbox::MDP {
              * This function is provided so that it is easy to plug
              * this library into existing code-bases.
              *
-             * \sa copyTable3D()
+             * \sa copyDumb3D()
              *
              * @tparam V The external visits container type.
              * @param v The external visits container.
@@ -62,7 +62,7 @@ namespace AIToolbox::MDP {
              *
              * This function takes an arbitrary three dimensional
              * container and tries to copy its contents into the
-             * rewards table.
+             * rewards matrix.
              *
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the
@@ -75,7 +75,7 @@ namespace AIToolbox::MDP {
              * This function is provided so that it is easy to plug
              * this library into existing code-bases.
              *
-             * \sa copyTable3D()
+             * \sa copyDumb3D()
              *
              * @tparam R The external rewards container type.
              * @param r The external rewards container.
@@ -144,11 +144,11 @@ namespace AIToolbox::MDP {
             const VisitTable & getVisitTable() const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const RewardTable & getRewardTable() const;
+            const RewardMatrix & getRewardMatrix() const;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -170,15 +170,15 @@ namespace AIToolbox::MDP {
             VisitTable visits_;
             VisitSumTable visitsSum_;
 
-            RewardTable rewards_;
-            RewardSumTable rewardsSum_;
+            RewardMatrix rewards_;
+            RewardSumMatrix rewardsSum_;
 
             friend std::istream& operator>>(std::istream &is, Experience &);
     };
 
     template <typename V>
     void Experience::setVisits(const V & v) {
-        copyTable3D(v, visits_, S, A, S);
+        copyDumb3D(v, visits_, S, A, S);
 
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
@@ -188,7 +188,7 @@ namespace AIToolbox::MDP {
 
     template <typename R>
     void Experience::setRewards(const R & r) {
-        copyTable3D(r, rewards_, S, A, S);
+        copyDumb3D(r, rewards_, S, A, S);
 
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )

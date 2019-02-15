@@ -23,7 +23,7 @@ namespace AIToolbox::Factored::MDP {
         return retval;
     }
 
-    std::optional<Vector> LinearProgramming::solveLP(const CooperativeModel & m, const Factored2DMatrix & g, const FactoredVector & h) const {
+    std::optional<Vector> LinearProgramming::solveLP(const CooperativeModel & m, const FactoredMatrix2D & g, const FactoredVector & h) const {
         const auto & S = m.getS();
         const auto & A = m.getA();
         const auto & R = m.getRewardFunction();
@@ -52,7 +52,7 @@ namespace AIToolbox::Factored::MDP {
         //
         //     g(s,a) = sum_s' T(s,a,s') * h_k(s')
         //
-        // Thus, g is simply the Factored2DMatrix returned from our
+        // Thus, g is simply the FactoredMatrix2D returned from our
         // backProject() operator, but does NOT include the weights!
         //
         // Continuing from where we left off, we rewrite the constraints using

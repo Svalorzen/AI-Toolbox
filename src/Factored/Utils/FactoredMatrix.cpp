@@ -67,7 +67,7 @@ namespace AIToolbox::Factored {
         return rhs;
     }
 
-    double Factored2DMatrix::getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action) const {
+    double FactoredMatrix2D::getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action) const {
         double retval = 0.0;
         for (const auto & e : bases) {
            const auto fid = toIndexPartial(e.tag, space, value);
@@ -78,7 +78,7 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    double Factored2DMatrix::getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action, const Vector & weights) const {
+    double FactoredMatrix2D::getValue(const Factors & space, const Factors & actions, const Factors & value, const Factors & action, const Vector & weights) const {
         const size_t wsize = static_cast<size_t>(weights.size());
         assert(wsize == bases.size() || wsize == bases.size() + 1);
 
@@ -93,7 +93,7 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    Factored2DMatrix & Factored2DMatrix::operator*=(const Vector & weights) {
+    FactoredMatrix2D & FactoredMatrix2D::operator*=(const Vector & weights) {
         const size_t wsize = static_cast<size_t>(weights.size());
         assert(wsize == bases.size() || wsize == bases.size() + 1);
 
@@ -107,29 +107,29 @@ namespace AIToolbox::Factored {
         return *this;
     }
 
-    Factored2DMatrix & Factored2DMatrix::operator*=(const double v) {
+    FactoredMatrix2D & FactoredMatrix2D::operator*=(const double v) {
         for (auto & b : bases)
             b.values *= v;
 
         return *this;
     }
 
-    Factored2DMatrix operator*(Factored2DMatrix lhs, const Vector & w) {
+    FactoredMatrix2D operator*(FactoredMatrix2D lhs, const Vector & w) {
         lhs *= w;
         return lhs;
     }
 
-    Factored2DMatrix operator*(const Vector & w, Factored2DMatrix rhs) {
+    FactoredMatrix2D operator*(const Vector & w, FactoredMatrix2D rhs) {
         rhs *= w;
         return rhs;
     }
 
-    Factored2DMatrix operator*(Factored2DMatrix lhs, const double v) {
+    FactoredMatrix2D operator*(FactoredMatrix2D lhs, const double v) {
         lhs *= v;
         return lhs;
     }
 
-    Factored2DMatrix operator*(const double v, Factored2DMatrix rhs) {
+    FactoredMatrix2D operator*(const double v, FactoredMatrix2D rhs) {
         rhs *= v;
         return rhs;
     }

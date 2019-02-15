@@ -67,7 +67,7 @@
 template <typename M>
 class OldPOMDPModel<M> : public M {
     public:
-        using ObservationTable = AIToolbox::Table3D;
+        using ObservationMatrix = AIToolbox::DumbMatrix3D;
 
         /**
          * @brief Basic constructor.
@@ -87,7 +87,7 @@ class OldPOMDPModel<M> : public M {
          *
          * This constructor takes an arbitrary three dimensional
          * containers and tries to copy its contents into the
-         * observations table.
+         * observations matrix.
          *
          * The container needs to support data access through
          * operator[]. In addition, the dimensions of the
@@ -104,14 +104,14 @@ class OldPOMDPModel<M> : public M {
          * valid transition function.
          * \sa transitionCheck()
          *
-         * \sa copyTable3D()
+         * \sa copyDumb3D()
          *
          * @tparam ObFun The external observations container type.
          * @param o The number of possible observations the agent could make.
-         * @param of The observation probability table.
+         * @param of The observation probability matrix.
          * @param parameters All arguments needed to build the parent Model.
          */
-        // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
+        // Check that ObFun is a triple-matrix, otherwise we'll call the other constructor!
         template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible_v<double,decltype(std::declval<ObFun>()[0][0][0])>>>
         OldPOMDPModel(size_t o, ObFun && of, Args&&... parameters);
 
@@ -211,15 +211,15 @@ class OldPOMDPModel<M> : public M {
         size_t getO() const;
 
         /**
-         * @brief This function returns the observation table for inspection.
+         * @brief This function returns the observation matrix for inspection.
          *
-         * @return The rewards table.
+         * @return The observation matrix.
          */
-        const ObservationTable & getObservationFunction() const;
+        const ObservationMatrix & getObservationFunction() const;
 
     private:
         size_t O;
-        ObservationTable observations_;
+        ObservationMatrix observations_;
         // We need this because we don't know if our parent already has one,
         // and we wouldn't know how to access it!
         mutable AIToolbox::RandomEngine rand_;
@@ -253,7 +253,7 @@ OldPOMDPModel<M>::OldPOMDPModel(const PM& model) : M(model), O(model.getO()), ob
             for ( size_t o = 0; o < O; ++o ) {
                 observations_[s1][a][o] = model.getObservationProbability(s1, a, o);
             }
-            if ( ! AIToolbox::isProbability(O, observations_[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+            if ( ! AIToolbox::isProbability(O, observations_[s1][a]) ) throw std::invalid_argument("Input observation matrix does not contain valid probabilities.");
         }
 }
 
@@ -262,9 +262,9 @@ template <typename ObFun>
 void OldPOMDPModel<M>::setObservationFunction(const ObFun & of) {
     for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
         for ( size_t a = 0; a < this->getA(); ++a )
-            if ( ! AIToolbox::isProbability(O, of[s1][a]) ) throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+            if ( ! AIToolbox::isProbability(O, of[s1][a]) ) throw std::invalid_argument("Input observation matrix does not contain valid probabilities.");
 
-    copyTable3D(of, observations_, this->getS(), this->getA(), O);
+    copyDumb3D(of, observations_, this->getS(), this->getA(), O);
 }
 
 template <typename M>
@@ -278,7 +278,7 @@ size_t OldPOMDPModel<M>::getO() const {
 }
 
 template <typename M>
-const typename OldPOMDPModel<M>::ObservationTable & OldPOMDPModel<M>::getObservationFunction() const {
+const typename OldPOMDPModel<M>::ObservationMatrix & OldPOMDPModel<M>::getObservationFunction() const {
     return observations_;
 }
 

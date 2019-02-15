@@ -188,7 +188,7 @@ namespace AIToolbox::MDP {
         const size_t S = p.getS();
         const size_t A = p.getA();
 
-        Policy::PolicyTable policy(S, A);
+        Policy::PolicyMatrix policy(S, A);
 
         size_t scheck, acheck;
 

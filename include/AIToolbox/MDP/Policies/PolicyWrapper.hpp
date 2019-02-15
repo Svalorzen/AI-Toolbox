@@ -28,7 +28,7 @@ namespace AIToolbox::MDP {
      */
     class PolicyWrapper : public PolicyInterface {
         public:
-            using PolicyTable = Matrix2D;
+            using PolicyMatrix = Matrix2D;
 
             /**
              * @brief Basic constructor.
@@ -37,7 +37,7 @@ namespace AIToolbox::MDP {
              *
              * @param p The policy matrix to wrap.
              */
-            PolicyWrapper(const PolicyTable & p);
+            PolicyWrapper(const PolicyMatrix & p);
 
             /**
              * @brief This function chooses a random action for state s, following the policy distribution.
@@ -63,19 +63,19 @@ namespace AIToolbox::MDP {
              *
              * @return A constant reference to the internal policy.
              */
-            const PolicyTable & getPolicyTable() const;
+            const PolicyMatrix & getPolicyMatrix() const;
 
             /**
              * @brief This function returns a matrix containing all probabilities of the policy.
              *
              * This is simply a copy of the internal policy.
              *
-             * WARNING: If you just want a reference to the internal policy, use getPolicyTable().
+             * WARNING: If you just want a reference to the internal policy, use getPolicyMatrix().
              */
             virtual Matrix2D getPolicy() const override;
 
         private:
-            const PolicyTable & policy_;
+            const PolicyMatrix & policy_;
     };
 }
 

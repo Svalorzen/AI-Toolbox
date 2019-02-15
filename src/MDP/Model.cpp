@@ -1,7 +1,7 @@
 #include <AIToolbox/MDP/Model.hpp>
 
 namespace AIToolbox::MDP {
-    Model::Model(NoCheck, const size_t s, const size_t a, TransitionTable && t, RewardTable && r, const double d) :
+    Model::Model(NoCheck, const size_t s, const size_t a, TransitionMatrix && t, RewardMatrix && r, const double d) :
             S(s), A(a), discount_(d),
             transitions_(std::move(t)),
             rewards_(std::move(r)),
@@ -11,7 +11,7 @@ namespace AIToolbox::MDP {
             S(s), A(a), discount_(discount), transitions_(A, Matrix2D(S, S)),
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
-        // Make transition table true probability
+        // Make transition matrix true probability
         for ( size_t a = 0; a < A; ++a )
             transitions_[a].setIdentity();
 
@@ -25,7 +25,7 @@ namespace AIToolbox::MDP {
                 if ( t[a].row(s).minCoeff() < 0.0 ||
                      !checkEqualSmall(1.0, t[a].row(s).sum()) )
                 {
-                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
                 }
             }
         }
@@ -33,7 +33,7 @@ namespace AIToolbox::MDP {
         transitions_ = t;
     }
 
-    void Model::setRewardFunction(const RewardTable & r) {
+    void Model::setRewardFunction(const RewardMatrix & r) {
         rewards_ = r;
     }
 
@@ -67,8 +67,8 @@ namespace AIToolbox::MDP {
     size_t Model::getA() const { return A; }
     double Model::getDiscount() const { return discount_; }
 
-    const Model::TransitionTable & Model::getTransitionFunction() const { return transitions_; }
-    const Model::RewardTable &     Model::getRewardFunction()     const { return rewards_; }
+    const Model::TransitionMatrix & Model::getTransitionFunction() const { return transitions_; }
+    const Model::RewardMatrix &     Model::getRewardFunction()     const { return rewards_; }
 
     const Matrix2D & Model::getTransitionFunction(const size_t a) const { return transitions_[a]; }
 }

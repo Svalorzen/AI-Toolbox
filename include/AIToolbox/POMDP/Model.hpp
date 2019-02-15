@@ -69,7 +69,7 @@ namespace AIToolbox::POMDP {
         static_assert(MDP::is_model_v<M>, "This class only works for MDP models!");
 
         public:
-            using ObservationTable = Matrix3D;
+            using ObservationMatrix = Matrix3D;
 
             /**
              * @brief Basic constructor.
@@ -89,7 +89,7 @@ namespace AIToolbox::POMDP {
              *
              * This constructor takes an arbitrary three dimensional
              * container and tries to copy its contents into the
-             * observations table.
+             * observations matrix.
              *
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the
@@ -107,14 +107,14 @@ namespace AIToolbox::POMDP {
              * valid transition function.
              * \sa transitionCheck()
              *
-             * \sa copyTable3D()
+             * \sa copyDumb3D()
              *
              * @tparam ObFun The external observations container type.
              * @param o The number of possible observations the agent could make.
-             * @param of The observation probability table.
+             * @param of The observation probability matrix.
              * @param parameters All arguments needed to build the parent Model.
              */
-            // Check that ObFun is a triple-table, otherwise we'll call the other constructor!
+            // Check that ObFun is a triple-matrix, otherwise we'll call the other constructor!
             template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible_v<double,decltype(std::declval<ObFun>()[0][0][0])>>>
             Model(size_t o, ObFun && of, Args&&... parameters);
 
@@ -148,11 +148,11 @@ namespace AIToolbox::POMDP {
              * parameter first.
              *
              * @param o The number of possible observations the agent could make.
-             * @param ot The observation probability table.
+             * @param ot The observation probability matrix.
              * @param parameters All arguments needed to build the parent Model.
              */
             template <typename... Args>
-            Model(NoCheck, size_t o, ObservationTable && ot, Args&&... parameters);
+            Model(NoCheck, size_t o, ObservationMatrix && ot, Args&&... parameters);
 
             /**
              * @brief This function replaces the Model observation function with the one provided.
@@ -241,15 +241,15 @@ namespace AIToolbox::POMDP {
             size_t getO() const;
 
             /**
-             * @brief This function returns the observation table for inspection.
+             * @brief This function returns the observation matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The observation matrix.
              */
-            const ObservationTable & getObservationFunction() const;
+            const ObservationMatrix & getObservationFunction() const;
 
         private:
             size_t O;
-            ObservationTable observations_;
+            ObservationMatrix observations_;
             // We need this because we don't know if our parent already has one,
             // and we wouldn't know how to access it!
             mutable RandomEngine rand_;
@@ -280,7 +280,7 @@ namespace AIToolbox::POMDP {
 
     template <typename M>
     template <typename... Args>
-    Model<M>::Model(NoCheck, size_t o, ObservationTable && ot, Args&&... params) :
+    Model<M>::Model(NoCheck, size_t o, ObservationMatrix && ot, Args&&... params) :
             M(std::forward<Args>(params)...), O(o),
             observations_(std::move(ot))
     {}
@@ -297,7 +297,7 @@ namespace AIToolbox::POMDP {
                     observations_[a](s1, o) = model.getObservationProbability(s1, a, o);
                 }
                 if ( !isProbability(O, observations_[a].row(s1)) )
-                    throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input observation matrix does not contain valid probabilities.");
             }
     }
 
@@ -307,7 +307,7 @@ namespace AIToolbox::POMDP {
         for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
             for ( size_t a = 0; a < this->getA(); ++a )
                 if ( !isProbability(O, of[s1][a]) )
-                    throw std::invalid_argument("Input observation table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input observation matrix does not contain valid probabilities.");
 
         for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
             for ( size_t a = 0; a < this->getA(); ++a )
@@ -331,7 +331,7 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename M>
-    const typename Model<M>::ObservationTable & Model<M>::getObservationFunction() const {
+    const typename Model<M>::ObservationMatrix & Model<M>::getObservationFunction() const {
         return observations_;
     }
 

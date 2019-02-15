@@ -2,8 +2,8 @@
 
 namespace AIToolbox::MDP {
     SparseExperience::SparseExperience(const size_t s, const size_t a) :
-            S(s), A(a), visits_(A, SparseMatrix2DLong(S, S)),
-            visitsSum_(SparseMatrix2DLong(S, A)), rewards_(A, SparseMatrix2D(S, S)),
+            S(s), A(a), visits_(A, SparseTable2D(S, S)),
+            visitsSum_(SparseTable2D(S, A)), rewards_(A, SparseMatrix2D(S, S)),
             rewardsSum_(SparseMatrix2D(S, A)) {}
 
     void SparseExperience::record(const size_t s, const size_t a, const size_t s1, const double rew) {
@@ -43,7 +43,7 @@ namespace AIToolbox::MDP {
         return visits_;
     }
 
-    const SparseExperience::RewardTable & SparseExperience::getRewardTable() const {
+    const SparseExperience::RewardMatrix & SparseExperience::getRewardMatrix() const {
         return rewards_;
     }
 

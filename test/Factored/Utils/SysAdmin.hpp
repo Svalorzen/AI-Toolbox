@@ -197,7 +197,7 @@ afm::CooperativeModel makeSysAdminBiRing(unsigned agents,
     rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * finishReward;
     rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * finishReward;
 
-    aif::Factored2DMatrix rewards;
+    aif::FactoredMatrix2D rewards;
     for (size_t a = 0; a < agents; ++a) {
         // Now we set all of them with the correct dependencies.
         aif::BasisMatrix basis;
@@ -305,7 +305,7 @@ afm::CooperativeModel makeSysAdminUniRing(unsigned agents,
     rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * finishReward;
     rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * finishReward;
 
-    aif::Factored2DMatrix rewards;
+    aif::FactoredMatrix2D rewards;
     for (size_t a = 0; a < agents; ++a) {
         // Now we set all of them with the correct dependencies.
         aif::BasisMatrix basis;

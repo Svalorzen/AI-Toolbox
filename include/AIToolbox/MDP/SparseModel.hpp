@@ -76,8 +76,8 @@ namespace AIToolbox::MDP {
      */
     class SparseModel {
         public:
-            using TransitionTable   = SparseMatrix3D;
-            using RewardTable       = SparseMatrix2D;
+            using TransitionMatrix   = SparseMatrix3D;
+            using RewardMatrix       = SparseMatrix2D;
 
             /**
              * @brief Basic constructor.
@@ -100,7 +100,7 @@ namespace AIToolbox::MDP {
              *
              * This constructor takes two arbitrary three dimensional
              * containers and tries to copy their contents into the
-             * transitions and rewards tables respectively.
+             * transitions and rewards matrices respectively.
              *
              * The containers need to support data access through
              * operator[]. In addition, the dimensions of the containers
@@ -124,7 +124,7 @@ namespace AIToolbox::MDP {
              * it into an Eigen Sparse container and feeding that
              * to this class.
              *
-             * \sa copyTable3D()
+             * \sa copyDumb3D()
              *
              * The discount parameter must be between 0 and 1 included,
              * otherwise the constructor will throw an
@@ -173,13 +173,13 @@ namespace AIToolbox::MDP {
              * @param r The reward function to be used in the SparseModel.
              * @param d The discount factor for the SparseModel.
              */
-            SparseModel(NoCheck, size_t s, size_t a, TransitionTable && t, RewardTable && r, double d);
+            SparseModel(NoCheck, size_t s, size_t a, TransitionMatrix && t, RewardMatrix && r, double d);
 
             /**
              * @brief This function replaces the transition function with the one provided.
              *
              * This function will throw a std::invalid_argument if the
-             * table provided does not contain valid probabilities.
+             * matrix provided does not contain valid probabilities.
              *
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the container
@@ -210,7 +210,7 @@ namespace AIToolbox::MDP {
              * @brief This function sets the transition function using a Eigen sparse matrices.
              *
              * This function will throw a std::invalid_argument if the
-             * table provided does not contain valid probabilities.
+             * matrix provided does not contain valid probabilities.
              *
              * The dimensions of the container must match the ones provided
              * as arguments (for three dimensions: S, S, A). BE CAREFUL.
@@ -222,7 +222,7 @@ namespace AIToolbox::MDP {
              *
              * @param t The external transitions container.
              */
-            void setTransitionFunction(const TransitionTable & t);
+            void setTransitionFunction(const TransitionMatrix & t);
 
             /**
              * @brief This function replaces the reward function with the one provided.
@@ -263,7 +263,7 @@ namespace AIToolbox::MDP {
              *
              * @param r The external rewards container.
              */
-            void setRewardFunction(const RewardTable & r);
+            void setRewardFunction(const RewardMatrix & r);
 
             /**
              * @brief This function sets a new discount factor for the SparseModel.
@@ -336,11 +336,11 @@ namespace AIToolbox::MDP {
             double getExpectedReward(size_t s, size_t a, size_t s1) const;
 
             /**
-             * @brief This function returns the transition table for inspection.
+             * @brief This function returns the transition matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The transition matrix.
              */
-            const TransitionTable & getTransitionFunction() const;
+            const TransitionMatrix & getTransitionFunction() const;
 
             /**
              * @brief This function returns the transition function for a given action.
@@ -352,11 +352,11 @@ namespace AIToolbox::MDP {
             const SparseMatrix2D & getTransitionFunction(size_t a) const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
-            const RewardTable &     getRewardFunction()     const;
+            const RewardMatrix & getRewardFunction() const;
 
             /**
              * @brief This function returns whether a given state is a terminal.
@@ -371,8 +371,8 @@ namespace AIToolbox::MDP {
             size_t S, A;
             double discount_;
 
-            TransitionTable transitions_;
-            RewardTable rewards_;
+            TransitionMatrix transitions_;
+            RewardMatrix rewards_;
 
             mutable RandomEngine rand_;
 
@@ -400,14 +400,14 @@ namespace AIToolbox::MDP {
             for ( size_t s1 = 0; s1 < S; ++s1 ) {
                 const double p = model.getTransitionProbability(s, a, s1);
                 if ( p < 0.0 || p > 1.0 )
-                    throw std::invalid_argument("Input transition table contains an invalid value.");
+                    throw std::invalid_argument("Input transition matrix contains an invalid value.");
 
                 if ( checkDifferentSmall(0.0, p) ) transitions_[a].insert(s, s1) = p;
                 const double r = model.getExpectedReward(s, a, s1);
                 if ( checkDifferentSmall(0.0, r) ) rewards_.coeffRef(s, a) += r * p;
             }
             if ( checkDifferentSmall(1.0, transitions_[a].row(s).sum()) )
-                throw std::invalid_argument("Input transition table contains an invalid row.");
+                throw std::invalid_argument("Input transition matrix contains an invalid row.");
         }
 
         for ( size_t a = 0; a < A; ++a )
@@ -421,7 +421,7 @@ namespace AIToolbox::MDP {
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
                 if ( !isProbability(S, t[s][a]) )
-                    throw std::invalid_argument("Input transition table does not contain valid probabilities.");
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
 
         // Then we copy.
         for ( size_t a = 0; a < A; ++a ) {

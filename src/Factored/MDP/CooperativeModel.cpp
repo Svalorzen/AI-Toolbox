@@ -6,7 +6,7 @@
 
 namespace AIToolbox::Factored::MDP {
 
-    CooperativeModel::CooperativeModel(State s, Action a, FactoredDDN transitions, Factored2DMatrix rewards, const double discount) :
+    CooperativeModel::CooperativeModel(State s, Action a, FactoredDDN transitions, FactoredMatrix2D rewards, const double discount) :
             S(std::move(s)), A(std::move(a)), discount_(discount),
             transitions_(std::move(transitions)), rewards_(std::move(rewards)),
             rand_(Impl::Seeder::getSeed())
@@ -145,6 +145,6 @@ namespace AIToolbox::Factored::MDP {
     const Action & CooperativeModel::getA() const { return A; }
     double CooperativeModel::getDiscount() const { return discount_; }
     const FactoredDDN & CooperativeModel::getTransitionFunction() const { return transitions_; }
-    const Factored2DMatrix & CooperativeModel::getRewardFunction() const { return rewards_; }
+    const FactoredMatrix2D & CooperativeModel::getRewardFunction() const { return rewards_; }
 }
 

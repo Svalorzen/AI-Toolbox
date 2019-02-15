@@ -17,7 +17,7 @@ void exportMDPPolicy() {
          "This class represents an MDP Policy.\n"
          "\n"
          "This class is one of the many ways to represent an MDP Policy. In\n"
-         "particular, it maintains a 2 dimensional table of probabilities\n"
+         "particular, it maintains a 2 dimensional matrix of probabilities\n"
          "determining the probability of choosing an action in a given state.\n"
          "\n"
          "The class offers facilities to sample from these distributions, so\n"
@@ -31,7 +31,7 @@ void exportMDPPolicy() {
         .def(init<size_t, size_t>(
                  "Basic constructor.\n"
                  "\n"
-                 "This constructor initializes the internal policy table so that\n"
+                 "This constructor initializes the internal policy matrix so that\n"
                  "each action in each state has the same probability of being\n"
                  "chosen (random policy). This class guarantees that at any point\n"
                  "the internal policy is a true probability distribution, i.e.\n"
@@ -70,7 +70,7 @@ void exportMDPPolicy() {
                  "@param v The ValueFunction used as a basis for the Policy."
         , (arg("self"), "s", "a", "v")))
 
-        .def("getPolicyTable",      &Policy::getPolicyTable, return_internal_reference<>(),
+        .def("getPolicyMatrix",      &Policy::getPolicyMatrix, return_internal_reference<>(),
                  "This function enables inspection of the internal policy.\n"
                  "\n"
                  "@return A constant reference to the internal policy."

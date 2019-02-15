@@ -115,8 +115,8 @@ namespace AIToolbox::POMDP {
         BeliefGenerator bGen(model);
         const auto beliefs = bGen(beliefSize_);
 
-        auto T = MDP::Model::TransitionTable   (A, Matrix2D::Zero(S1, S1));
-        auto R = MDP::Model::RewardTable       (S1, A);
+        auto T = MDP::Model::TransitionMatrix(A, Matrix2D::Zero(S1, S1));
+        auto R = MDP::Model::RewardMatrix    (S1, A);
         R.setZero();
 
         const auto discretizer = makeDiscretizer(S);
@@ -162,8 +162,8 @@ namespace AIToolbox::POMDP {
         BeliefGenerator<M> bGen(model);
         const auto beliefs = bGen(beliefSize_);
 
-        auto T = MDP::SparseModel::TransitionTable   (A, SparseMatrix2D(S1, S1));
-        auto R = MDP::SparseModel::RewardTable       (S1, A);
+        auto T = MDP::SparseModel::TransitionMatrix(A, SparseMatrix2D(S1, S1));
+        auto R = MDP::SparseModel::RewardMatrix    (S1, A);
 
         auto discretizer = makeDiscretizer(S);
 

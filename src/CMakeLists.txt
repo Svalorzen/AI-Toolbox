@@ -70,7 +70,7 @@ if (MAKE_FMDP)
         Factored/Utils/Core.cpp
         Factored/Utils/FactoredMatrix.cpp
         Factored/Utils/FactoredVectorOps.cpp
-        Factored/Utils/Factored2DMatrixOps.cpp
+        Factored/Utils/FactoredMatrix2DOps.cpp
         Factored/Utils/BayesianNetwork.cpp
         Factored/Bandit/Algorithms/Utils/VariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
@@ -80,6 +80,8 @@ if (MAKE_FMDP)
         Factored/Bandit/Policies/QGreedyPolicy.cpp
         Factored/MDP/Utils.cpp
         Factored/MDP/Model.cpp
+        Factored/MDP/CooperativeExperience.cpp
+        Factored/MDP/CooperativeRLModel.cpp
         Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/SingleActionPolicy.cpp

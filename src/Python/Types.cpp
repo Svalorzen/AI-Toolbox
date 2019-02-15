@@ -150,7 +150,7 @@ void exportTypes() {
         .def(vector_indexing_suite<std::vector<Vector>>());
     VectorFromPython<Vector>();
 
-    // Enable passing 3D tables from Python
+    // Enable passing 3D matrices/tables from Python
     Vector3DFromPython<double>();
     Vector3DFromPython<int>();
 

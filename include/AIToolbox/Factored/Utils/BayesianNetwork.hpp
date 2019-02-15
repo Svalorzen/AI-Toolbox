@@ -10,7 +10,7 @@ namespace AIToolbox::Factored {
      * @brief This struct represents a Dynamic Bayesian Network.
      *
      * This struct contains a list of DynamicBayesianNodes, where each contains the
-     * conditional probability table for a single variable. The index of each
+     * conditional probability matrix for a single variable. The index of each
      * node represents the index of the variable it is referring to.
      */
     struct DynamicBayesianNetwork {
@@ -263,7 +263,7 @@ namespace AIToolbox::Factored {
     FactoredVector backProject(const Factors & space, const DBN & dbn, const FactoredVector & fv);
     FactoredVector backProject(const Factors & space, const DBNRef & dbn, const FactoredVector & fv);
     BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & bf);
-    Factored2DMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv);
+    FactoredMatrix2D backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv);
 }
 
 #endif

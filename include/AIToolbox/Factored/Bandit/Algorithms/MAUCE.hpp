@@ -29,7 +29,7 @@ namespace AIToolbox::Factored::Bandit {
              *
              * This constructor needs to know in advance the groups of
              * agents that need to collaboratively cooperate in order to
-             * reach their goal. This is converted in a simple Q-Table
+             * reach their goal. This is converted in a simple Q-Function
              * containing the learned averages for those groups.
              *
              * Note: each group must be unique, and all lists of agents
