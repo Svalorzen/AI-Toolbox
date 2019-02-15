@@ -115,23 +115,23 @@ BOOST_AUTO_TEST_CASE( recording ) {
     std::vector<std::vector<Solution>> solutions;
     solutions.resize(S.size());
 
-    //                                   s values   s1     r       sums
-    //                                      |        |     |
-    //                                      v        v     v
-    solutions[0] .emplace_back(Solution{id({0,2}), {{0,1, 0.0}},  1, 0.0});
-    solutions[1] .emplace_back(Solution{id({0,0}), {{1,1, 0.0}},  1, 0.0});
-    solutions[2] .emplace_back(Solution{id({0,0}), {{1,1, 0.0}},  1, 0.0});
-    solutions[3] .emplace_back(Solution{id({0,0}), {{0,1, 0.0}},  1, 0.0});
-    solutions[4] .emplace_back(Solution{id({0,0}), {{1,1, 0.0}},  1, 0.0});
-    solutions[5] .emplace_back(Solution{id({0,0}), {{1,1, 0.0}},  1, 0.0});
-    solutions[6] .emplace_back(Solution{id({0,1}), {{1,1, 0.0}},  1, 0.0});
-    solutions[7] .emplace_back(Solution{id({1,1}), {{2,1, 1.0}},  1, 1.0});
-    solutions[8] .emplace_back(Solution{id({1,1}), {{2,1, 0.0}},  1, 0.0});
-    solutions[9] .emplace_back(Solution{id({1,1}), {{1,1, 0.0}},  1, 0.0});
-    solutions[10].emplace_back(Solution{id({1,1}), {{2,1, 0.0}},  1, 0.0});
-    solutions[11].emplace_back(Solution{id({1,1}), {{2,1, 1.0}},  1, 1.0});
-    solutions[12].emplace_back(Solution{id({1,2}), {{2,1, 0.0}},  1, 0.0});
-    solutions[13].emplace_back(Solution{id({2,2}), {{0,1, 0.0}},  1, 0.0});
+    //                                   s values   s1      r       sums
+    //                                      |        |      |
+    //                                      v        v      v
+    solutions[0] .emplace_back(Solution{id({0,2}), {{0, 1, 0.0}},  1, 0.0});
+    solutions[1] .emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
+    solutions[2] .emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
+    solutions[3] .emplace_back(Solution{id({0,0}), {{0, 1, 0.0}},  1, 0.0});
+    solutions[4] .emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
+    solutions[5] .emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
+    solutions[6] .emplace_back(Solution{id({0,1}), {{1, 1, 0.0}},  1, 0.0});
+    solutions[7] .emplace_back(Solution{id({1,1}), {{2, 1, 1.0}},  1, 1.0});
+    solutions[8] .emplace_back(Solution{id({1,1}), {{2, 1, 0.0}},  1, 0.0});
+    solutions[9] .emplace_back(Solution{id({1,1}), {{1, 1, 0.0}},  1, 0.0});
+    solutions[10].emplace_back(Solution{id({1,1}), {{2, 1, 0.0}},  1, 0.0});
+    solutions[11].emplace_back(Solution{id({1,1}), {{2, 1, 1.0}},  1, 1.0});
+    solutions[12].emplace_back(Solution{id({1,2}), {{2, 1, 0.0}},  1, 0.0});
+    solutions[13].emplace_back(Solution{id({2,2}), {{0, 1, 0.0}},  1, 0.0});
 
     const auto & v = exp.getVisitTable();
     const auto & r = exp.getRewardMatrix();
@@ -187,7 +187,9 @@ BOOST_AUTO_TEST_CASE( recording ) {
     rew <<           0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0;
 
     exp.record(s, a, ss, rew);
-    solutions.clear();
+
+    for (auto & s : solutions)
+        s.clear();
 
     //                                   s values   s1      r    ss              sums
     //                                      |        |      |     |
