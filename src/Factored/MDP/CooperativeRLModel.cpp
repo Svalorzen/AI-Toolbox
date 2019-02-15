@@ -1,6 +1,7 @@
 #include <AIToolbox/Factored/MDP/CooperativeRLModel.hpp>
 
 #include <AIToolbox/Utils/Probability.hpp>
+#include <iostream>
 
 namespace AIToolbox::Factored::MDP {
     CooperativeRLModel::CooperativeRLModel(const CooperativeExperience & exp, const double discount, const bool toSync)
@@ -37,7 +38,7 @@ namespace AIToolbox::Factored::MDP {
                     rewards_[i][j].setZero();
                 } else {
                     for (int p = 0; p < tnodes[i].nodes[j].matrix.rows(); ++p) {
-                        const double totalVisits = vnodes[i][j](p, S[i]+1);
+                        const double totalVisits = vnodes[i][j](p, S[i]);
                         if (totalVisits == 0) {
                             tnodes[i].nodes[j].matrix.row(p).setZero();
                             tnodes[i].nodes[j].matrix(p, 0) = 1.0;
@@ -47,7 +48,7 @@ namespace AIToolbox::Factored::MDP {
                         }
 
                         tnodes[i].nodes[j].matrix.row(p) = vnodes[i][j].row(p).head(S[i]).cast<double>() / totalVisits;
-                        rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]+1) / totalVisits;
+                        rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]) / totalVisits;
                     }
                 }
             }
@@ -64,11 +65,11 @@ namespace AIToolbox::Factored::MDP {
         for (size_t i = 0; i < rnodes.size(); ++i) {
             for (size_t j = 0; j < rnodes[i].nodes.size(); ++j) {
                 for (int p = 0; p < tnodes[i].nodes[j].matrix.rows(); ++p) {
-                    const double totalVisits = vnodes[i][j](p, S[i]+1);
+                    const double totalVisits = vnodes[i][j](p, S[i]);
                     if (totalVisits == 0) continue;
 
                     tnodes[i].nodes[j].matrix.row(p) = vnodes[i][j].row(p).head(S[i]).cast<double>() / totalVisits;
-                    rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]+1) / totalVisits;
+                    rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]) / totalVisits;
                 }
             }
         }
@@ -87,12 +88,12 @@ namespace AIToolbox::Factored::MDP {
             const auto & node = tnodes[i].nodes[aId];
             const auto pId = toIndexPartial(node.tag, getS(), s);
 
-            const double totalVisits = vnodes[i][aId](pId, S[i]+1);
+            const double totalVisits = vnodes[i][aId](pId, S[i]);
             if (totalVisits == 0) continue;
 
             tnodes[i].nodes[aId].matrix.row(pId) = vnodes[i][aId].row(pId).head(S[i]).cast<double>() / totalVisits;
 
-            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]+1) / totalVisits;
+            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]) / totalVisits;
         }
     }
 
@@ -106,12 +107,12 @@ namespace AIToolbox::Factored::MDP {
         for (size_t i = 0; i < S.size(); ++i) {
             const auto [aId, pId] = indeces[i];
 
-            const double totalVisits = vnodes[i][aId](pId, S[i]+1);
+            const double totalVisits = vnodes[i][aId](pId, S[i]);
             if (totalVisits == 0) continue;
 
             tnodes[i].nodes[aId].matrix.row(pId) = vnodes[i][aId].row(pId).head(S[i]).cast<double>() / totalVisits;
 
-            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]+1) / totalVisits;
+            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]) / totalVisits;
         }
     }
 
