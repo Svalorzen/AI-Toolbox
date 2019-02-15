@@ -9,8 +9,6 @@
 
 #include "Utils/SysAdmin.hpp"
 
-#include <iostream>
-
 namespace ai = AIToolbox;
 namespace aif = AIToolbox::Factored;
 namespace afm = AIToolbox::Factored::MDP;

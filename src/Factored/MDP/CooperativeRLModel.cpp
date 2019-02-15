@@ -54,6 +54,26 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
+    void CooperativeRLModel::sync() {
+        const auto & S = experience_.getS();
+        const auto & vnodes = experience_.getVisitTable();
+        const auto & rnodes = experience_.getRewardMatrix();
+
+        auto & tnodes = transitions_.nodes;
+
+        for (size_t i = 0; i < rnodes.size(); ++i) {
+            for (size_t j = 0; j < rnodes[i].nodes.size(); ++j) {
+                for (int p = 0; p < tnodes[i].nodes[j].matrix.rows(); ++p) {
+                    const double totalVisits = vnodes[i][j](p, S[i]+1);
+                    if (totalVisits == 0) continue;
+
+                    tnodes[i].nodes[j].matrix.row(p) = vnodes[i][j].row(p).head(S[i]).cast<double>() / totalVisits;
+                    rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]+1) / totalVisits;
+                }
+            }
+        }
+    }
+
     void CooperativeRLModel::sync(const State & s, const Action & a) {
         const auto & vnodes = experience_.getVisitTable();
         const auto & rnodes = experience_.getRewardMatrix();
@@ -145,4 +165,6 @@ namespace AIToolbox::Factored::MDP {
     const State & CooperativeRLModel::getS() const { return experience_.getS(); }
     const Action & CooperativeRLModel::getA() const { return experience_.getA(); }
     const CooperativeExperience & CooperativeRLModel::getExperience() const { return experience_; }
+    const CooperativeRLModel::TransitionMatrix & CooperativeRLModel::getTransitionFunction() const { return transitions_; }
+    const CooperativeRLModel::RewardMatrix & CooperativeRLModel::getRewardFunction() const { return rewards_; }
 }
