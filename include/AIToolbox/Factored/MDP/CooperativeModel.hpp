@@ -125,9 +125,9 @@ namespace AIToolbox::Factored::MDP {
             const FactoredDDN & getTransitionFunction() const;
 
             /**
-             * @brief This function
+             * @brief This function returns the reward function of the MDP.
              *
-             * @return
+             * @return The reward function of the MDP.
              */
             const FactoredMatrix2D & getRewardFunction() const;
 

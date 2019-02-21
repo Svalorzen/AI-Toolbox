@@ -45,16 +45,16 @@ namespace AIToolbox::Factored {
      * the indeces of the original Factor which are being taken into
      * consideration, and the second vector contains their values.
      *
-     * An additional definition which can be useful in case of
-     * multi-objective MDPs is the Rewards one, which contains a vector of
-     * rewards, one per factored action. Multi-objective MDPs happen when
-     * there is no established priority between different reward functions
-     * at the time of planning, and so there is no way to reduce the value
-     * of a given action to a single number. In such a case, a reward is a
-     * vector, and each element in the vector will be weighted in the final
-     * action choice. Planning however results more complicated as more
-     * possible courses of action have to be considered, as there is no way
-     * to discard them in advance (not knowing the weights).
+     * An additional definition which can be useful in case of multi-objective
+     * MDPs is the Rewards one, which contains a vector of rewards, one per
+     * objective. Multi-objective MDPs happen when there is no established
+     * priority between different reward functions at the time of planning, and
+     * so there is no way to reduce the value of a given action to a single
+     * number. In such a case, a reward is a vector, and each element in the
+     * vector will be weighted in the final action choice. Planning however
+     * results more complicated as more possible courses of action have to be
+     * considered, as there is no way to discard them in advance (not knowing
+     * the weights).
      *
      * @{
      */
