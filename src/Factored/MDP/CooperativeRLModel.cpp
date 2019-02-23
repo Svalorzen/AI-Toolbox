@@ -1,7 +1,6 @@
 #include <AIToolbox/Factored/MDP/CooperativeRLModel.hpp>
 
 #include <AIToolbox/Utils/Probability.hpp>
-#include <iostream>
 
 namespace AIToolbox::Factored::MDP {
     CooperativeRLModel::CooperativeRLModel(const CooperativeExperience & exp, const double discount, const bool toSync)

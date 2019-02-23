@@ -7,8 +7,6 @@
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
-#include <iostream>
-
 namespace AIToolbox::MDP {
     /**
      * @brief This class solves an MDP using Linear Programming.
