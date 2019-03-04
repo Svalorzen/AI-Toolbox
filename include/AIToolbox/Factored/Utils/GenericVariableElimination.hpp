@@ -14,8 +14,8 @@ namespace AIToolbox::Factored {
             using FinalFactors = std::vector<Factor>;
 
         public:
-            template <typename Result, typename Global>
-            Result operator()(const Factors & F, Graph & graph, Global global);
+            template <typename Global>
+            void operator()(const Factors & F, Graph & graph, Global & global);
 
         private:
             template <typename M>
@@ -29,13 +29,24 @@ namespace AIToolbox::Factored {
     template <typename M>
     struct GenericVariableElimination<Factor>::global_interface {
         private:
+            #define STR2(X) #X
+            #define STR(X) STR2(X)
             #define ARG(...) __VA_ARGS__
-            #define MEMBER_CHECK(name, retval, input)                           \
-            template <typename Z> static constexpr auto name(int) -> decltype(  \
-                    static_cast<retval (Z::*)(input)> (&Z::name),               \
-                    bool()                                                      \
+
+            #define MEMBER_CHECK(name, retval, input)                                   \
+                                                                                        \
+            template <typename Z> static constexpr auto name##Check(int) -> decltype(   \
+                    static_cast<retval (Z::*)(input)> (&Z::name),                       \
+                    bool()                                                              \
                     ) { return true; }                                                  \
-            template <typename Z> static constexpr auto name(...) -> bool { return false; }
+            template <typename Z> static constexpr auto name##Check(long) -> decltype(  \
+                    &Z::name,                                                           \
+                    bool())                                                             \
+                    {                                                                   \
+                        static_assert(!std::is_same_v<M, M>, "You provide a member '" STR(name) "' but with the wrong signature."); \
+                        return false;                                                   \
+                    }                                                                   \
+            template <typename Z> static constexpr auto name##Check(...) -> bool { return false; }
 
             MEMBER_CHECK(beginRemoval, void, ARG(const Graph &, const typename Graph::FactorItList &, const typename Graph::VariableList &, const size_t))
             MEMBER_CHECK(initFactor, void, void)
@@ -44,26 +55,31 @@ namespace AIToolbox::Factored {
             MEMBER_CHECK(endCrossSum, void, void)
             MEMBER_CHECK(isValidFactor, bool, void)
             MEMBER_CHECK(mergeRules, Rules, ARG(Rules &&, Rules &&))
+            MEMBER_CHECK(makeResult, void, FinalFactors &&)
 
             #undef MEMBER_CHECK
             #undef ARG
+            #undef STR
+            #undef STR2
 
         public:
             enum {
-                beginRemoval    = beginRemoval<M>(0),
-                initFactor      = initFactor<M>(0),
-                beginCrossSum   = beginCrossSum<M>(0),
-                crossSum        = crossSum<M>(0),
-                endCrossSum     = endCrossSum<M>(0),
-                isValidFactor   = isValidFactor<M>(0),
-                mergeRules      = mergeRules<M>(0),
+                beginRemoval    = beginRemovalCheck<M>(0),
+                initFactor      = initFactorCheck<M>(0),
+                beginCrossSum   = beginCrossSumCheck<M>(0),
+                crossSum        = crossSumCheck<M>(0),
+                endCrossSum     = endCrossSumCheck<M>(0),
+                isValidFactor   = isValidFactorCheck<M>(0),
+                mergeRules      = mergeRulesCheck<M>(0),
+                makeResult      = makeResultCheck<M>(0),
             };
     };
 
     template <typename Factor>
-    template <typename Result, typename Global>
-    Result GenericVariableElimination<Factor>::operator()(const Factors & F, Graph & graph, Global global) {
+    template <typename Global>
+    void GenericVariableElimination<Factor>::operator()(const Factors & F, Graph & graph, Global & global) {
         static_assert(global_interface<Global>::crossSum, "You must provide a crossSum method!");
+        static_assert(global_interface<Global>::makeResult, "You must provide a makeResult method!");
         static_assert(std::is_same_v<Factor, decltype(global.factor)>, "You must provide a public 'Factor factor;' member!");
 
         FinalFactors finalFactors;
@@ -72,11 +88,7 @@ namespace AIToolbox::Factored {
         while (graph.variableSize())
             removeFactor(F, graph, graph.variableSize() - 1, finalFactors, global);
 
-        Result retval;
-        for (auto && f : finalFactors)
-            retval.update(std::move(f));
-
-        return retval;
+        global.makeResult(std::move(finalFactors));
     }
 
     template <typename Factor>
@@ -125,7 +137,7 @@ namespace AIToolbox::Factored {
                 if (!isFinalFactor) {
                     newRules.emplace_back(jointAction.second, std::move(global.factor));
                     // Remove new agent ID
-                    newRules.back().erase(newRules.back().begin() + id);
+                    newRules.back().first.erase(newRules.back().first.begin() + id);
                 }
                 else
                     finalFactors.push_back(std::move(global.factor));
@@ -149,42 +161,13 @@ namespace AIToolbox::Factored {
                 newFactor->getData() = global.mergeRules(std::move(newFactor->getData()), std::move(newRules));
             else {
                 newFactor->getData().insert(
-                        std::end(newFactor->getData()),
-                        std::make_move_iterator(std::begin(newRules)),
-                        std::make_move_iterator(std::end(newRules))
-                        );
+                    std::end(newFactor->getData()),
+                    std::make_move_iterator(std::begin(newRules)),
+                    std::make_move_iterator(std::end(newRules))
+                );
             }
         }
     }
 }
-
-/*
-   struct Factor {
-       size_t value;
-   };
-
-   struct Global {
-       Factor factor;
-       LP & lp;
-
-       void initFactor() {
-           const size_t newRuleId = lp.row.size();
-           lp.addColumn();
-       }
-       void beginCrossSum() {
-           lp.row.setZero();
-           lp.row[newRuleId] = -1.0;
-       }
-       void crossSum(const Factor & f) {
-           lp.row[f.value] = 1.0;
-       }
-       void endCrossSum() {
-           lp.pushRow(LP::Constraint::LessEqual, 0.0);
-       }
-       void isValidFactor() {
-           return true;
-       }
-}
-*/
 
 #endif
