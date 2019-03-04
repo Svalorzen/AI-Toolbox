@@ -5,6 +5,53 @@
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
 namespace AIToolbox::Factored {
+    /**
+     * @brief This class represents the Variable Elimination algorithm.
+     *
+     * This class applies Variable Elimination to an input FactorGraph<Factor>.
+     *
+     * Since the cross-sum steps in the algorithm differ from the type of node
+     * in the graph, we require as input a separate structure which may contain
+     * certain methods depending on what the use-case requires, and which holds
+     * any needed temporaries to store for the duration of the algorithm.
+     *
+     * In particular, this structure (the `global` parameter), *MUST* provide:
+     *
+     * - A member `Factor newFactor` which stores the results of the cross-sum
+     *   of each removed variable. At each iteration over the values of that
+     *   variable's neighbors, we move from it, so be sure to re-initialize it
+     *   if needed.
+     * - A member `void crossSum(const Factor &)` function, which should
+     *   perform the cross-sum of the input into the `newFactor` member
+     *   variable.
+     * - A member `void makeResult(FinalFactors &&)` method, which should
+     *   process the final factors of the VE process in order to create your
+     *   result.
+     *
+     * Since VE usually requires custom computations, you can *OPTIONALLY*
+     * define the following methods:
+     *
+     * - A member `void beginRemoval()` method, which is called at the
+     *   beginning of the removal of each variable.
+     * - A member `void initNewFactor()` method, which is called when the
+     *   `newFactor` variable needs to be initialized.
+     * - A member `void beginCrossSum()` method, which is called at the
+     *   beginning of each set of cross-sum operations.
+     * - A member `void endCrossSum()` method, which is called at the end of
+     *   each set of cross-sum operations.
+     * - A member `bool isValidNewFactor()` method, which returns whether the
+     *   `newFactor` variable can be used after all cross-sum operations.
+     * - A member `void mergeRules(Rules &&, Rules &&)` method, which can be
+     *   used to specify a custom step during the merge of the rules created by
+     *   eliminating a variable with the previous ones.
+     *
+     * All these functions can optionally be `const`; nothing changes. The
+     * class will fail to compile if you provide a method with the required
+     * name but with the wrong signature, as we would just skip it silently
+     * otherwise.
+     *
+     * @tparam Factor The Factor type to use.
+     */
     template <typename Factor>
     class GenericVariableElimination {
         public:
@@ -13,14 +60,34 @@ namespace AIToolbox::Factored {
             using Graph = FactorGraph<Rules>;
             using FinalFactors = std::vector<Factor>;
 
-        public:
+            /**
+             * @brief This operator performs the Variable Elimination operation on the inputs.
+             *
+             * @param F The space of all factors to eliminate.
+             * @param graph The already populated graph to perform VE onto.
+             * @param global The global callback structure.
+             */
             template <typename Global>
             void operator()(const Factors & F, Graph & graph, Global & global);
 
         private:
+            /**
+             * @brief An helper struct to validate the interface of the global callback structure.
+             *
+             * @tparam M The type of the global callback structure to validate.
+             */
             template <typename M>
             struct global_interface;
 
+            /**
+             * @brief This function removes the input factor from the graph.
+             *
+             * @param F The space of all factors to eliminate.
+             * @param graph The already populated graph to perform VE onto.
+             * @param f The factor to eliminate.
+             * @param finalFactors The storage of all the eliminated factors with no remaining neighbors.
+             * @param global The global callback structure.
+             */
             template <typename Global>
             void removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global global);
     };
@@ -33,19 +100,32 @@ namespace AIToolbox::Factored {
             #define STR(X) STR2(X)
             #define ARG(...) __VA_ARGS__
 
-            #define MEMBER_CHECK(name, retval, input)                                   \
-                                                                                        \
-            template <typename Z> static constexpr auto name##Check(int) -> decltype(   \
-                    static_cast<retval (Z::*)(input)> (&Z::name),                       \
-                    bool()                                                              \
-                    ) { return true; }                                                  \
-            template <typename Z> static constexpr auto name##Check(long) -> decltype(  \
-                    &Z::name,                                                           \
-                    bool())                                                             \
-                    {                                                                   \
+            // For each function we want to check, we are going to try each
+            // overload in succession (char->int->long->...).
+            //
+            // The first two simply accept the function with the approved
+            // signature, whether it is const or not. The third checks whether
+            // the member just exists, and reports that it probably has the
+            // wrong signature (since we didn't match before).
+            //
+            // The last just fails to find the match.
+            #define MEMBER_CHECK(name, retval, input)                                       \
+                                                                                            \
+            template <typename Z> static constexpr auto name##Check(char) -> decltype(      \
+                    static_cast<retval (Z::*)(input)> (&Z::name),                           \
+                    bool()                                                                  \
+                    ) { return true; }                                                      \
+            template <typename Z> static constexpr auto name##Check(int) -> decltype(       \
+                    static_cast<retval (Z::*)(input) const> (&Z::name),                     \
+                    bool()                                                                  \
+                    ) { return true; }                                                      \
+            template <typename Z> static constexpr auto name##Check(long) -> decltype(      \
+                    &Z::name,                                                               \
+                    bool())                                                                 \
+                    {                                                                       \
                         static_assert(!std::is_same_v<M, M>, "You provide a member '" STR(name) "' but with the wrong signature."); \
-                        return false;                                                   \
-                    }                                                                   \
+                        return false;                                                       \
+                    }                                                                       \
             template <typename Z> static constexpr auto name##Check(...) -> bool { return false; }
 
             MEMBER_CHECK(beginRemoval, void, ARG(const Graph &, const typename Graph::FactorItList &, const typename Graph::VariableList &, const size_t))
@@ -63,15 +143,17 @@ namespace AIToolbox::Factored {
             #undef STR2
 
         public:
+            // All results are stored here for use later. All optional members
+            // that do not exist, we simply do not call.
             enum {
-                beginRemoval     = beginRemovalCheck<M>(0),
-                initNewFactor    = initNewFactorCheck<M>(0),
-                beginCrossSum    = beginCrossSumCheck<M>(0),
-                crossSum         = crossSumCheck<M>(0),
-                endCrossSum      = endCrossSumCheck<M>(0),
-                isValidNewFactor = isValidNewFactorCheck<M>(0),
-                mergeRules       = mergeRulesCheck<M>(0),
-                makeResult       = makeResultCheck<M>(0),
+                beginRemoval     = beginRemovalCheck<M>     ('\0'),
+                initNewFactor    = initNewFactorCheck<M>    ('\0'),
+                beginCrossSum    = beginCrossSumCheck<M>    ('\0'),
+                crossSum         = crossSumCheck<M>         ('\0'),
+                endCrossSum      = endCrossSumCheck<M>      ('\0'),
+                isValidNewFactor = isValidNewFactorCheck<M> ('\0'),
+                mergeRules       = mergeRulesCheck<M>       ('\0'),
+                makeResult       = makeResultCheck<M>       ('\0'),
             };
     };
 
