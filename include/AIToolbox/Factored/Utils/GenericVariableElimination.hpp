@@ -89,7 +89,7 @@ namespace AIToolbox::Factored {
              * @param global The global callback structure.
              */
             template <typename Global>
-            void removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global global);
+            void removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global);
     };
 
     template <typename Factor>
@@ -175,7 +175,7 @@ namespace AIToolbox::Factored {
 
     template <typename Factor>
     template <typename Global>
-    void GenericVariableElimination<Factor>::removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global global) {
+    void GenericVariableElimination<Factor>::removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global) {
         const auto factors = graph.getNeighbors(f);
         auto variables = graph.getNeighbors(factors);
 
@@ -237,7 +237,7 @@ namespace AIToolbox::Factored {
         if (!isFinalFactor && newRules.size()) {
             variables.erase(std::remove(std::begin(variables), std::end(variables), f), std::end(variables));
 
-            auto newFactorNode = graph.getFactor(variables)->getData();
+            auto & newFactorNode = graph.getFactor(variables)->getData();
 
             if constexpr(global_interface<Global>::mergeRules) {
                 newFactorNode = global.mergeRules(std::move(newFactorNode), std::move(newRules));
