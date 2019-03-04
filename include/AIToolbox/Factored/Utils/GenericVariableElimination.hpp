@@ -49,11 +49,11 @@ namespace AIToolbox::Factored {
             template <typename Z> static constexpr auto name##Check(...) -> bool { return false; }
 
             MEMBER_CHECK(beginRemoval, void, ARG(const Graph &, const typename Graph::FactorItList &, const typename Graph::VariableList &, const size_t))
-            MEMBER_CHECK(initFactor, void, void)
+            MEMBER_CHECK(initNewFactor, void, void)
             MEMBER_CHECK(beginCrossSum, void, void)
             MEMBER_CHECK(crossSum, void, const Factor &)
             MEMBER_CHECK(endCrossSum, void, void)
-            MEMBER_CHECK(isValidFactor, bool, void)
+            MEMBER_CHECK(isValidNewFactor, bool, void)
             MEMBER_CHECK(mergeRules, Rules, ARG(Rules &&, Rules &&))
             MEMBER_CHECK(makeResult, void, FinalFactors &&)
 
@@ -64,14 +64,14 @@ namespace AIToolbox::Factored {
 
         public:
             enum {
-                beginRemoval    = beginRemovalCheck<M>(0),
-                initFactor      = initFactorCheck<M>(0),
-                beginCrossSum   = beginCrossSumCheck<M>(0),
-                crossSum        = crossSumCheck<M>(0),
-                endCrossSum     = endCrossSumCheck<M>(0),
-                isValidFactor   = isValidFactorCheck<M>(0),
-                mergeRules      = mergeRulesCheck<M>(0),
-                makeResult      = makeResultCheck<M>(0),
+                beginRemoval     = beginRemovalCheck<M>(0),
+                initNewFactor    = initNewFactorCheck<M>(0),
+                beginCrossSum    = beginCrossSumCheck<M>(0),
+                crossSum         = crossSumCheck<M>(0),
+                endCrossSum      = endCrossSumCheck<M>(0),
+                isValidNewFactor = isValidNewFactorCheck<M>(0),
+                mergeRules       = mergeRulesCheck<M>(0),
+                makeResult       = makeResultCheck<M>(0),
             };
     };
 
@@ -80,7 +80,7 @@ namespace AIToolbox::Factored {
     void GenericVariableElimination<Factor>::operator()(const Factors & F, Graph & graph, Global & global) {
         static_assert(global_interface<Global>::crossSum, "You must provide a crossSum method!");
         static_assert(global_interface<Global>::makeResult, "You must provide a makeResult method!");
-        static_assert(std::is_same_v<Factor, decltype(global.factor)>, "You must provide a public 'Factor factor;' member!");
+        static_assert(std::is_same_v<Factor, decltype(global.newFactor)>, "You must provide a public 'Factor newFactor;' member!");
 
         FinalFactors finalFactors;
 
@@ -112,8 +112,8 @@ namespace AIToolbox::Factored {
         while (jointActions.isValid()) {
             auto & jointAction = *jointActions;
 
-            if constexpr(global_interface<Global>::initFactor)
-                global.initFactor();
+            if constexpr(global_interface<Global>::initNewFactor)
+                global.initNewFactor();
 
             for (size_t sAction = 0; sAction < F[f]; ++sAction) {
                 if constexpr(global_interface<Global>::beginCrossSum)
@@ -129,18 +129,18 @@ namespace AIToolbox::Factored {
                     global.endCrossSum();
             }
 
-            bool isValidFactor = true;
-            if constexpr(global_interface<Global>::isValidFactor)
-                isValidFactor = global.isValidFactor();
+            bool isValidNewFactor = true;
+            if constexpr(global_interface<Global>::isValidNewFactor)
+                isValidNewFactor = global.isValidNewFactor();
 
-            if (isValidFactor) {
+            if (isValidNewFactor) {
                 if (!isFinalFactor) {
-                    newRules.emplace_back(jointAction.second, std::move(global.factor));
+                    newRules.emplace_back(jointAction.second, std::move(global.newFactor));
                     // Remove new agent ID
                     newRules.back().first.erase(newRules.back().first.begin() + id);
                 }
                 else
-                    finalFactors.push_back(std::move(global.factor));
+                    finalFactors.push_back(std::move(global.newFactor));
             }
             jointActions.advance();
         }
@@ -155,13 +155,13 @@ namespace AIToolbox::Factored {
         if (!isFinalFactor && newRules.size()) {
             variables.erase(std::remove(std::begin(variables), std::end(variables), f), std::end(variables));
 
-            auto newFactor = graph.getFactor(variables);
+            auto newFactorNode = graph.getFactor(variables)->getData();
 
-            if constexpr(global_interface<Global>::mergeRules)
-                newFactor->getData() = global.mergeRules(std::move(newFactor->getData()), std::move(newRules));
-            else {
-                newFactor->getData().insert(
-                    std::end(newFactor->getData()),
+            if constexpr(global_interface<Global>::mergeRules) {
+                newFactorNode = global.mergeRules(std::move(newFactorNode), std::move(newRules));
+            } else {
+                newFactorNode.insert(
+                    std::end(newFactorNode),
                     std::make_move_iterator(std::begin(newRules)),
                     std::make_move_iterator(std::end(newRules))
                 );
