@@ -4,6 +4,8 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
+#include <AIToolbox/Impl/FunctionMatching.hpp>
+
 namespace AIToolbox::Factored {
     /**
      * @brief This class represents the Variable Elimination algorithm.
@@ -39,6 +41,10 @@ namespace AIToolbox::Factored {
      * - A member `void beginCrossSum(size_t)` method, which is called at the
      *   beginning of each set of cross-sum operations with the current value
      *   of the variable being eliminated.
+     * - A member `void beginFactorCrossSum()` method, which is called at the
+     *   beginning of each set of cross-sum operations with a given factor.
+     * - A member `void endFactorCrossSum()` method, which is called at the end
+     *   of each set of cross-sum operations with a given factor.
      * - A member `void endCrossSum()` method, which is called at the end of
      *   each set of cross-sum operations.
      * - A member `bool isValidNewFactor()` method, which returns whether the
@@ -47,8 +53,13 @@ namespace AIToolbox::Factored {
      *   used to specify a custom step during the merge of the rules created by
      *   eliminating a variable with the previous ones.
      *
-     * All these functions can optionally be `const`; nothing changes. The
-     * class will fail to compile if you provide a method with the required
+     * All these functions can optionally be `const`; nothing changes. In
+     * addition, for the 'beginRemoval' and 'beginCrossSum' functions, all
+     * parameters are optional: you can define only the ones you want (as long
+     * as they are in the same order as specified here), and we will call them
+     * correctly.
+     *
+     * The class will fail to compile if you provide a method with the required
      * name but with the wrong signature, as we would just skip it silently
      * otherwise.
      *
@@ -97,7 +108,6 @@ namespace AIToolbox::Factored {
     template <typename Factor>
     template <typename M>
     struct GenericVariableElimination<Factor>::global_interface {
-        private:
             #define STR2(X) #X
             #define STR(X) STR2(X)
             #define ARG(...) __VA_ARGS__
@@ -113,6 +123,8 @@ namespace AIToolbox::Factored {
             // The last just fails to find the match.
             #define MEMBER_CHECK(name, retval, input)                                       \
                                                                                             \
+        private:                                                                            \
+                                                                                            \
             template <typename Z> static constexpr auto name##Check(char) -> decltype(      \
                     static_cast<retval (Z::*)(input)> (&Z::name),                           \
                     bool()                                                                  \
@@ -125,15 +137,25 @@ namespace AIToolbox::Factored {
                     &Z::name,                                                               \
                     bool())                                                                 \
                     {                                                                       \
-                        static_assert(!std::is_same_v<M, M>, "You provide a member '" STR(name) "' but with the wrong signature."); \
-                        return false;                                                       \
+                        static_assert(Impl::is_compatible_f<                                \
+                                        decltype(&Z::name),                                 \
+                                        retval(input)                                       \
+                                      >::value, "You provide a member '" STR(name) "' but with the wrong signature."); \
+                        return true;                                                        \
                     }                                                                       \
-            template <typename Z> static constexpr auto name##Check(...) -> bool { return false; }
+            template <typename Z> static constexpr auto name##Check(...) -> bool { return false; } \
+                                                                                            \
+        public:                                                                             \
+            enum {                                                                          \
+                name = name##Check<M>('\0')                                                 \
+            };
 
             MEMBER_CHECK(beginRemoval, void, ARG(const Graph &, const typename Graph::FactorItList &, const typename Graph::Variables &, size_t))
             MEMBER_CHECK(initNewFactor, void, void)
             MEMBER_CHECK(beginCrossSum, void, size_t)
+            MEMBER_CHECK(beginFactorCrossSum, void, void)
             MEMBER_CHECK(crossSum, void, const Factor &)
+            MEMBER_CHECK(endFactorCrossSum, void, void)
             MEMBER_CHECK(endCrossSum, void, void)
             MEMBER_CHECK(isValidNewFactor, bool, void)
             MEMBER_CHECK(mergeRules, Rules, ARG(Rules &&, Rules &&))
@@ -143,20 +165,6 @@ namespace AIToolbox::Factored {
             #undef ARG
             #undef STR
             #undef STR2
-
-        public:
-            // All results are stored here for use later. All optional members
-            // that do not exist, we simply do not call.
-            enum {
-                beginRemoval     = beginRemovalCheck<M>     ('\0'),
-                initNewFactor    = initNewFactorCheck<M>    ('\0'),
-                beginCrossSum    = beginCrossSumCheck<M>    ('\0'),
-                crossSum         = crossSumCheck<M>         ('\0'),
-                endCrossSum      = endCrossSumCheck<M>      ('\0'),
-                isValidNewFactor = isValidNewFactorCheck<M> ('\0'),
-                mergeRules       = mergeRulesCheck<M>       ('\0'),
-                makeResult       = makeResultCheck<M>       ('\0'),
-            };
     };
 
     template <typename Factor>
@@ -187,7 +195,7 @@ namespace AIToolbox::Factored {
         Rules newRules;
 
         if constexpr(global_interface<Global>::beginRemoval)
-            global.beginRemoval(graph, factors, variables, f);
+            Impl::callFunction(global, &Global::beginRemoval, graph, factors, variables, f);
 
         // We'll now create new rules that represent the elimination of the
         // input variable for this round.
@@ -201,13 +209,21 @@ namespace AIToolbox::Factored {
 
             for (size_t sAction = 0; sAction < F[f]; ++sAction) {
                 if constexpr(global_interface<Global>::beginCrossSum)
-                    global.beginCrossSum(sAction);
+                    Impl::callFunction(global, &Global::beginCrossSum, sAction);
 
                 jointAction.second[id] = sAction;
-                for (const auto factor : factors)
-                    for (const auto rule : factor->getData())
+                for (const auto factor : factors) {
+                    if constexpr(global_interface<Global>::beginFactorCrossSum)
+                        global.beginFactorCrossSum();
+
+                    for (const auto rule : factor->getData()) {
                         if (match(factor->getVariables(), rule.first, jointAction.first, jointAction.second))
                             global.crossSum(rule.second);
+                    }
+
+                    if constexpr(global_interface<Global>::endFactorCrossSum)
+                        global.endFactorCrossSum();
+                }
 
                 if constexpr(global_interface<Global>::endCrossSum)
                     global.endCrossSum();
