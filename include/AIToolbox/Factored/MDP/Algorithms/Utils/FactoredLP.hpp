@@ -5,8 +5,6 @@
 
 #include <AIToolbox/Factored/MDP/Types.hpp>
 
-#include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
-
 namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class represents the Factored LP algorithm.

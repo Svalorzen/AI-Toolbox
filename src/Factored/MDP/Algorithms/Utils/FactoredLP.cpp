@@ -2,6 +2,7 @@
 
 #include <AIToolbox/LP.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
+#include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 
 namespace AIToolbox::Factored::MDP {
     // Initial typedefs and definitions
@@ -15,7 +16,7 @@ namespace AIToolbox::Factored::MDP {
             Factor newFactor;
 
             void initNewFactor();
-            void beginCrossSum();
+            void beginCrossSum(size_t);
             void crossSum(const Factor & f);
             void endCrossSum();
             void makeResult(VE::FinalFactors && finalFactors);
@@ -166,7 +167,7 @@ namespace AIToolbox::Factored::MDP {
         lp.addColumn();
     }
 
-    void Global::beginCrossSum() {
+    void Global::beginCrossSum(size_t) {
         // Each cross-sum creates a
         //
         //     newFactor >= sum of other_constraints

@@ -31,12 +31,14 @@ namespace AIToolbox::Factored {
      * Since VE usually requires custom computations, you can *OPTIONALLY*
      * define the following methods:
      *
-     * - A member `void beginRemoval()` method, which is called at the
-     *   beginning of the removal of each variable.
+     * - A member `void beginRemoval(const Graph &, const Graph::FactorItList
+     *   &, const Graph::VariableList &, size_t)` method, which is called
+     *   at the beginning of the removal of each variable.
      * - A member `void initNewFactor()` method, which is called when the
      *   `newFactor` variable needs to be initialized.
-     * - A member `void beginCrossSum()` method, which is called at the
-     *   beginning of each set of cross-sum operations.
+     * - A member `void beginCrossSum(size_t)` method, which is called at the
+     *   beginning of each set of cross-sum operations with the current value
+     *   of the variable being eliminated.
      * - A member `void endCrossSum()` method, which is called at the end of
      *   each set of cross-sum operations.
      * - A member `bool isValidNewFactor()` method, which returns whether the
@@ -128,9 +130,9 @@ namespace AIToolbox::Factored {
                     }                                                                       \
             template <typename Z> static constexpr auto name##Check(...) -> bool { return false; }
 
-            MEMBER_CHECK(beginRemoval, void, ARG(const Graph &, const typename Graph::FactorItList &, const typename Graph::VariableList &, const size_t))
+            MEMBER_CHECK(beginRemoval, void, ARG(const Graph &, const typename Graph::FactorItList &, const typename Graph::Variables &, size_t))
             MEMBER_CHECK(initNewFactor, void, void)
-            MEMBER_CHECK(beginCrossSum, void, void)
+            MEMBER_CHECK(beginCrossSum, void, size_t)
             MEMBER_CHECK(crossSum, void, const Factor &)
             MEMBER_CHECK(endCrossSum, void, void)
             MEMBER_CHECK(isValidNewFactor, bool, void)
@@ -199,7 +201,7 @@ namespace AIToolbox::Factored {
 
             for (size_t sAction = 0; sAction < F[f]; ++sAction) {
                 if constexpr(global_interface<Global>::beginCrossSum)
-                    global.beginCrossSum();
+                    global.beginCrossSum(sAction);
 
                 jointAction.second[id] = sAction;
                 for (const auto factor : factors)
