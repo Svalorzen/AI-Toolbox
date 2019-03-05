@@ -15,7 +15,7 @@ namespace AIToolbox::Factored::Bandit {
             VE::Factor newFactor;
             VE::Factor newCrossSum;
 
-            void beginRemoval(const VE::GVE::Graph &, const VE::GVE::Graph::FactorItList &, const VE::GVE::Graph::Variables &, size_t agent);
+            void beginRemoval(size_t agent);
             void initNewFactor();
             void beginCrossSum(size_t agentAction);
             void crossSum(const VE::Factor & f);
@@ -34,7 +34,7 @@ namespace AIToolbox::Factored::Bandit {
         return global.result;
     }
 
-    void Global::beginRemoval(const VE::GVE::Graph &, const VE::GVE::Graph::FactorItList &, const VE::GVE::Graph::Variables &, size_t currAgent) {
+    void Global::beginRemoval(size_t currAgent) {
         // We save the currently eliminated agent to initialize the crossSum
         // tag correctly later.
         agent = currAgent;

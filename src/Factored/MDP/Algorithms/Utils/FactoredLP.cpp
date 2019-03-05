@@ -16,7 +16,7 @@ namespace AIToolbox::Factored::MDP {
             Factor newFactor;
 
             void initNewFactor();
-            void beginCrossSum(size_t);
+            void beginCrossSum();
             void crossSum(const Factor & f);
             void endCrossSum();
             void makeResult(VE::FinalFactors && finalFactors);
@@ -167,7 +167,7 @@ namespace AIToolbox::Factored::MDP {
         lp.addColumn();
     }
 
-    void Global::beginCrossSum(size_t) {
+    void Global::beginCrossSum() {
         // Each cross-sum creates a
         //
         //     newFactor >= sum of other_constraints
