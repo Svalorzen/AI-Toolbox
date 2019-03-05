@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_FACTORED_BANDIT_VARIABLE_ELIMINATION_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_BANDIT_VARIABLE_ELIMINATION_HEADER_FILE
 
-#include "AIToolbox/Factored/Bandit/Types.hpp"
+#include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
@@ -61,11 +61,11 @@ namespace AIToolbox::Factored::Bandit {
             Result operator()(const Action & A, const Iterable & inputRules) {
                 GVE::Graph graph(A.size());
 
-                // Should we reset the graph?
                 for (const auto & rule : inputRules) {
                     auto it = graph.getFactor(rule.action.first);
                     it->getData().emplace_back(rule.action.second, Factor{rule.value, PartialAction()});
                 }
+
                 return (*this)(A, graph);
             }
 
