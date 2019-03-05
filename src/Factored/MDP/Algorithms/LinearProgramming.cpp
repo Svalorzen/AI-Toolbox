@@ -240,10 +240,11 @@ namespace AIToolbox::Factored::MDP {
             lp.addColumn();
 
             for (size_t sAction = 0; sAction < F[f]; ++sAction) {
+                jointAction.second[id] = sAction;
+
                 lp.row.setZero();
                 lp.row[newRuleId] = -1.0;
 
-                jointAction.second[id] = sAction;
                 for (const auto ruleIds : factors)
                     for (const auto ruleId : ruleIds->getData())
                         if (match(ruleIds->getVariables(), ruleId.first, jointAction.first, jointAction.second))

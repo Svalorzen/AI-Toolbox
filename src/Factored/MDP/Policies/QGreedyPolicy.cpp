@@ -12,11 +12,13 @@ namespace AIToolbox::Factored::MDP {
             Base(std::move(s), std::move(a)), qc_(nullptr), qm_(&q) {}
 
     Action QGreedyPolicy::sampleAction(const State & s) const {
-        Bandit::VariableElimination ve(A);
+        Bandit::VariableElimination ve;
         if (qc_) {
             const auto rules = qc_->filter(s, 0); // Partial filter
-            return std::get<0>(ve(rules));
+            return std::get<0>(ve(A, rules));
         } else {
+            // FIXME: This could be made into an iterable object and pass it to
+            // VE directly, so we don't have to copy rules here.
             std::vector<Bandit::QFunctionRule> rules;
             for (const auto & basis : qm_->bases) {
                 PartialFactorsEnumerator se(S, basis.tag);
@@ -29,7 +31,7 @@ namespace AIToolbox::Factored::MDP {
                         rules.emplace_back(*ae, basis.values(x, y));
                 }
             }
-            return std::get<0>(ve(rules));
+            return std::get<0>(ve(A, rules));
         }
     }
 

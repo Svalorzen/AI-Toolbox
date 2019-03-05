@@ -9,8 +9,8 @@ namespace AIToolbox::Factored::Bandit {
             Base(std::move(a)), q_(q) {}
 
     Action QGreedyPolicy::sampleAction() const {
-        Bandit::VariableElimination ve(A);
-        return std::get<0>(ve(q_));
+        Bandit::VariableElimination ve;
+        return std::get<0>(ve(A, q_));
     }
 
     double QGreedyPolicy::getActionProbability(const Action & a) const {

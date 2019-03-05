@@ -121,6 +121,7 @@ namespace AIToolbox::Factored::Bandit {
                 // We skip the ones for this agent. Both lists are in the same
                 // order so we can keep track of the last duplicate we found to
                 // do less work later.
+                // FIXME: Can't this just be a check with *skipIt == it?
                 const auto duplicate = std::find(skipIt, factorsEnd, it);
                 if (duplicate != factorsEnd) {
                     skipIt = duplicate + 1;

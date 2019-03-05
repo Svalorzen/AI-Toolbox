@@ -6,123 +6,80 @@
 namespace AIToolbox::Factored::Bandit {
     using VE = VariableElimination;
 
-    /**
-     * @brief This function returns the sum of values of all rules matching the input action.
-     *
-     * @param keys The keys of the agents of the rules.
-     * @param rules The rules to be searched in.
-     * @param jointAction The joint action to match each Rule against.
-     * @param tags An optional pointer where to store all tags encountered in the sum.
-     *
-     * @return The sum of all matching Rules' values.
-     */
-    double getPayoff(const PartialKeys & keys, const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags = nullptr);
+    namespace {
+        struct Global {
+            const Action & A;
+            VE::Result result;
 
-    VE::VariableElimination(Action a) : A(std::move(a)), graph_(A.size()) {}
+            size_t agent;
+            VE::Factor newFactor;
+            VE::Factor newCrossSum;
 
-    VE::Result VE::start() {
-        // This can possibly be improved with some heuristic ordering
-        while (graph_.variableSize())
-            removeAgent(graph_.variableSize() - 1);
+            void beginRemoval(const VE::GVE::Graph &, const VE::GVE::Graph::FactorItList &, const VE::GVE::Graph::Variables &, size_t agent);
+            void initNewFactor();
+            void beginCrossSum(size_t agentAction);
+            void crossSum(const VE::Factor & f);
+            void endCrossSum();
+            bool isValidNewFactor();
+            void makeResult(VE::GVE::FinalFactors && finalFactors);
+        };
+    }
 
-        auto a_v = std::make_pair(Action(A.size()), 0.0);
-        for (const auto & f : finalFactors_) {
-            a_v.second += f.first;
+    VE::Result VE::operator()(const Action & A, GVE::Graph & graph) {
+        GVE gve;
+        Global global{A, {}, 0, {}, {}};
+
+        gve(A, graph, global);
+
+        return global.result;
+    }
+
+    void Global::beginRemoval(const VE::GVE::Graph &, const VE::GVE::Graph::FactorItList &, const VE::GVE::Graph::Variables &, size_t currAgent) {
+        // We save the currently eliminated agent to initialize the crossSum
+        // tag correctly later.
+        agent = currAgent;
+    }
+
+    void Global::initNewFactor() {
+        // Here we only use this value as a marker to check that we have found
+        // a max.
+        newFactor.first = std::numeric_limits<double>::lowest();
+    }
+
+    void Global::beginCrossSum(size_t agentAction) {
+        newCrossSum.first = 0.0;
+        newCrossSum.second = {{agent}, {agentAction}};
+    }
+
+    void Global::crossSum(const VE::Factor & factor) {
+        // For each factor to sum, we add its value and we join tags with it.
+        newCrossSum.first += factor.first;
+        unsafe_join(&newCrossSum.second, factor.second);
+    }
+
+    void Global::endCrossSum() {
+        // We only select the agent's best action.
+        if (newCrossSum.first > newFactor.first) {
+            newFactor.first = newCrossSum.first;
+            newFactor.second = std::move(newCrossSum.second);
+        }
+    }
+
+    bool Global::isValidNewFactor() {
+        // Simply check that we have found something at all. (maybe not even needed)
+        return checkDifferentGeneral(newFactor.first, std::numeric_limits<double>::lowest());
+    }
+
+    void Global::makeResult(VE::GVE::FinalFactors && finalFactors) {
+        result = std::make_tuple(Action(A.size()), 0.0);
+        auto & [action, val] = result;
+
+        for (const auto & f : finalFactors) {
+            val += f.first;
             // Add tags together
             const auto & tags = f.second;
             for (size_t i = 0; i < tags.first.size(); ++i)
-                a_v.first[tags.first[i]] = tags.second[i];
+                action[tags.first[i]] = tags.second[i];
         }
-
-        return a_v;
-    }
-
-    void VariableElimination::removeAgent(const size_t agent) {
-        const auto factors = graph_.getNeighbors(agent);
-        auto agents = graph_.getNeighbors(factors);
-
-        Rules newRules;
-        PartialFactorsEnumerator jointActions(A, agents, agent);
-        auto id = jointActions.getFactorToSkipId();
-
-        const bool isFinalFactor = agents.size() == 1;
-
-        while (jointActions.isValid()) {
-            auto & jointAction = *jointActions;
-            double bestPayoff = std::numeric_limits<double>::lowest();
-            PartialAction bestTag;
-
-            // So here we're trying to create a single rule with a value
-            // optimal for this particular joint action for this subset of
-            // agents, aside from the one we are going to eliminate.
-            //
-            // So we're going to try all actions of the agent to be
-            // eliminated, and see which one gives us the best return.
-            // Once we know, we pick that as the best rule, we add it, and
-            // we try the next joint action.
-            for (size_t agentAction = 0; agentAction < A[agent]; ++agentAction) {
-                jointAction.second[id] = agentAction;
-
-                double newPayoff = 0.0;
-                PartialAction newTag{{agent}, {agentAction}};
-                // The idea here is that we sum all values for all factors
-                // touching these agents. In doing so, we also track all
-                // actions of all other agents that contributed in the
-                // creation of those rules. Since those agents are
-                // necessarily all different (since if they weren't they
-                // would have resolved together to a single rule), we can
-                // create a tag with their action by simply writing in it.
-                for (const auto factor : factors)
-                    newPayoff += getPayoff(factor->getVariables(), factor->getData().rules, jointAction, &newTag);
-
-                // We only select the agent's best action.
-                if (newPayoff > bestPayoff) {
-                    bestPayoff = newPayoff;
-                    bestTag = std::move(newTag);
-                }
-            }
-            if (checkDifferentGeneral(bestPayoff, std::numeric_limits<double>::lowest())) {
-                if (!isFinalFactor) {
-                    newRules.emplace_back(PartialValues(), Entry{bestPayoff, std::move(bestTag)});
-                    newRules.back().first.reserve(agents.size() - 1);
-                    for (size_t a = 0; a < agents.size(); ++a)
-                        if (a != id) newRules.back().first.push_back(jointAction.second[a]);
-                } else {
-                    finalFactors_.emplace_back(bestPayoff, std::move(bestTag));
-                }
-            }
-            jointActions.advance();
-        }
-
-        for (const auto & it : factors)
-            graph_.erase(it);
-        graph_.erase(agent);
-
-        if (newRules.size() == 0) return;
-        if (!isFinalFactor) {
-            agents.erase(std::remove(std::begin(agents), std::end(agents), agent), std::end(agents));
-
-            auto newFactor = graph_.getFactor(agents);
-            newFactor->getData().rules.insert(
-                    std::end(newFactor->getData().rules),
-                    std::make_move_iterator(std::begin(newRules)),
-                    std::make_move_iterator(std::end(newRules))
-            );
-        }
-    }
-
-    double getPayoff(const PartialKeys & keys, const VE::Rules & rules, const PartialAction & jointAction, PartialAction * tags) {
-        double result = 0.0;
-        // Note here that we must use match since the factors adjacent to
-        // one agent aren't all next to all its neighbors. Since they are
-        // different, we must coarsely check that equal agents do equal
-        // actions.
-        for (const auto & rule : rules) {
-            if (match(keys, rule.first, jointAction.first, jointAction.second)) {
-                result += std::get<1>(rule).first;
-                unsafe_join(tags, std::get<1>(rule).second);
-            }
-        }
-        return result;
     }
 }
