@@ -11,7 +11,6 @@
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
 
-#include <boost/iterator/transform_iterator.hpp>
 #include <boost/functional/hash.hpp>
 
 namespace AIToolbox::POMDP {
@@ -43,7 +42,7 @@ namespace AIToolbox::POMDP {
     }
 
     /**
-     * @brief This function is used with transform iterators to obtain the Values of a VEntry.
+     * @brief This function is used as iterator projection to obtain the Values of a VEntry.
      */
     inline const MDP::Values & unwrap(const VEntry & ve) {
         return ve.values;
@@ -490,10 +489,11 @@ namespace AIToolbox::POMDP {
 
         // We compute the crossSum between each best vector for the belief.
         for ( size_t o = 0; o < O; ++o ) {
-            auto begin = boost::make_transform_iterator(std::begin(row[o]), unwrap);
-            auto end   = boost::make_transform_iterator(std::end(row[o]),   unwrap);
+            const auto & r = row[o];
+            auto begin = std::begin(r);
+            auto end   = std::end(r);
 
-            auto bestMatch = findBestAtPoint(b, begin, end, &tmp).base();
+            auto bestMatch = findBestAtPoint(b, begin, end, &tmp, unwrap).base();
 
             entry.values += bestMatch->values;
             v += tmp;

@@ -2,8 +2,6 @@
 
 #include <algorithm>
 
-#include <boost/iterator/transform_iterator.hpp>
-
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Prune.hpp>
 
@@ -213,9 +211,7 @@ namespace AIToolbox::Factored::Bandit {
 
         // P1 pruning
         const auto unwrap = +[](MOVE::Entry & e) -> Rewards & {return std::get<1>(e);};
-        const auto rbegin = boost::make_transform_iterator(std::begin(results), unwrap);
-        const auto rend   = boost::make_transform_iterator(std::end  (results), unwrap);
 
-        results.erase(AIToolbox::extractDominated(unwrap(results[0]).size(), rbegin, rend).base(), std::end(results));
+        results.erase(extractDominated(unwrap(results[0]).size(), std::begin(results), std::end(results), unwrap), std::end(results));
     }
 }

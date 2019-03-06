@@ -9,7 +9,6 @@
 #include <AIToolbox/POMDP/Algorithms/Utils/Projecter.hpp>
 
 #include <unordered_set>
-#include <boost/iterator/transform_iterator.hpp>
 #include <boost/functional/hash.hpp>
 
 #include <AIToolbox/Utils/Polytope.hpp>
@@ -193,15 +192,15 @@ namespace AIToolbox::POMDP {
             // Now we find for all the alphavectors we have found, the vertices of
             // the polytope that they created. These vertices will bootstrap the
             // algorithm.
-            auto goodBegin = boost::make_transform_iterator(goodSupports.cbegin(), unwrap);
+            auto goodBegin = goodSupports.cbegin();
             for (size_t i = 0; i < goodSupports.size(); ++i, ++goodBegin) {
                 // For each alpha, we find its vertices against the others.
                 IndexSkipMap map({i}, goodSupports);
-                const auto cbegin = boost::make_transform_iterator(map.cbegin(), unwrap);
-                const auto cend   = boost::make_transform_iterator(map.cend(), unwrap);
+                const auto cbegin = map.cbegin();
+                const auto cend   = map.cend();
 
                 // Note that the range we pass here is made by a single vector.
-                auto newVertices = findVerticesNaive(goodBegin, goodBegin + 1, cbegin, cend);
+                auto newVertices = findVerticesNaive(goodBegin, goodBegin + 1, cbegin, cend, unwrap, unwrap);
 
                 vertices.insert(std::end(vertices),
                         std::make_move_iterator(std::begin(newVertices)),
@@ -227,9 +226,9 @@ namespace AIToolbox::POMDP {
                     // we can't really trust the values that come out as they
                     // may be lower than what we actually have. So we are
                     // forced to recompute their value.
-                    const auto gsBegin = boost::make_transform_iterator(std::cbegin(goodSupports), unwrap);
-                    const auto gsEnd   = boost::make_transform_iterator(std::cend(goodSupports),   unwrap);
-                    findBestAtPoint(vertex.first, gsBegin, gsEnd, &currentValue);
+                    const auto gsBegin = std::cbegin(goodSupports);
+                    const auto gsEnd   = std::cend(goodSupports);
+                    findBestAtPoint(vertex.first, gsBegin, gsEnd, &currentValue, unwrap);
 
                     auto diff = trueValue - currentValue;
                     if (diff > tolerance_ && checkDifferentGeneral(diff, tolerance_)) {
@@ -273,11 +272,11 @@ namespace AIToolbox::POMDP {
                 // Find vertices between the best support of this belief and the list
                 // we already have.
                 const auto bestAddr = &(*best.support);
-                const auto supBegin = boost::make_transform_iterator(bestAddr,                  unwrap);
-                const auto supEnd   = boost::make_transform_iterator(bestAddr + 1,              unwrap);
-                const auto chkBegin = boost::make_transform_iterator(std::cbegin(goodSupports), unwrap);
-                const auto chkEnd   = boost::make_transform_iterator(std::cend(goodSupports),   unwrap);
-                vertices = findVerticesNaive(supBegin, supEnd, chkBegin, chkEnd);
+                const auto supBegin = bestAddr;
+                const auto supEnd   = bestAddr + 1;
+                const auto chkBegin = std::cbegin(goodSupports);
+                const auto chkEnd   = std::cend(goodSupports);
+                vertices = findVerticesNaive(supBegin, supEnd, chkBegin, chkEnd, unwrap, unwrap);
 
                 // We now can add the support for this vertex to the main list.  We
                 // don't need checks here because we are guaranteed that we are

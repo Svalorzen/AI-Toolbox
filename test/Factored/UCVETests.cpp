@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE( testing ) {
 
     constexpr double logtA = 11.9829;
 
-    fb::UCVE::Entries ucveVectors;
+    fb::UCVE::Factor ucveVectors;
     ucveVectors.emplace_back(fm::PartialAction{{0,1},{0,0}}, fb::UCVE::V{0.194357          , 0.0031348  });
     ucveVectors.emplace_back(fm::PartialAction{{0,1},{1,0}}, fb::UCVE::V{0.0669014         , 0.0140845  });
     ucveVectors.emplace_back(fm::PartialAction{{0,1},{0,1}}, fb::UCVE::V{0.25              , 0.000273598});
@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE( testing ) {
     ucveVectors.emplace_back(fm::PartialAction{{3,4},{0,1}}, fb::UCVE::V{0.0511364         , 0.0227273  });
     ucveVectors.emplace_back(fm::PartialAction{{3,4},{1,1}}, fb::UCVE::V{0.224256          , 0.000205128});
 
-    fb::UCVE ucve(A, logtA);
-    auto [a, v] = ucve(ucveVectors);
+    fb::UCVE ucve;
+    auto [a, v] = ucve(A, logtA, ucveVectors);
 
     // Solve via bruteforce
     fm::PartialAction bestAction;

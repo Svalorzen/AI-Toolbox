@@ -4,7 +4,6 @@
 #include <unordered_set>
 
 #include <boost/functional/hash.hpp>
-#include <boost/iterator/transform_iterator.hpp>
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
@@ -222,9 +221,9 @@ namespace AIToolbox::POMDP {
 
             // We have them all, and we prune one final time to be sure we have
             // computed the parsimonious set of value functions.
-            const auto begin = boost::make_transform_iterator(std::begin(w), unwrap);
-            const auto end   = boost::make_transform_iterator(std::end  (w), unwrap);
-            w.erase(prune(begin, end).base(), std::end(w));
+            const auto begin = std::begin(w);
+            const auto end   = std::end  (w);
+            w.erase(prune(begin, end, unwrap), end);
 
             v.emplace_back(std::move(w));
 

@@ -23,11 +23,12 @@ namespace AIToolbox {
      * @param N The number of elements in each Vector.
      * @param begin The begin of the list that needs to be pruned.
      * @param end The end of the list that needs to be pruned.
+     * @param p A projection function to call on the iterators (defaults to identity).
      *
      * @return The iterator that separates dominated elements with non-pruned.
      */
-    template <typename Iterator>
-    Iterator extractDominated(const size_t N, Iterator begin, Iterator end) {
+    template <typename Iterator, typename P = identity>
+    Iterator extractDominated(const size_t N, Iterator begin, Iterator end, P p = P{}) {
         if ( std::distance(begin, end) < 2 ) return end;
 
         auto dominates = [N](auto lhs, auto rhs) {
@@ -41,7 +42,7 @@ namespace AIToolbox {
             target = end - 1; // The one we are checking whether it is dominated.
             // Check against proven non-dominated vectors
             for (auto iter = begin; iter < optEnd; ++iter) {
-                if (dominates(*iter, *target)) {
+                if (dominates(std::invoke(p, *iter), std::invoke(p, *target))) {
                     --end;
                     goto next;
                 }
@@ -54,13 +55,13 @@ namespace AIToolbox {
                 while (helper != optEnd) {
                     --helper;
                     // If dominated, remove it and continue from there.
-                    if (dominates(*helper, *target)) {
-                        iter_swap(target, --end);
+                    if (dominates(std::invoke(p, *helper), std::invoke(p, *target))) {
+                        std::iter_swap(target, --end);
                         target = helper;
                     }
                 }
                 // Add vector we found in the non-dominated group
-                iter_swap(target, optEnd);
+                std::iter_swap(target, optEnd);
                 ++optEnd;
             }
 next:;
@@ -90,8 +91,8 @@ next:;
              *
              * @param w The list that needs to be pruned.
              */
-            template <typename It>
-            It operator()(It begin, It end);
+            template <typename It, typename P = identity>
+            It operator()(It begin, It end, P p = P{});
 
         private:
             size_t S;
@@ -101,10 +102,10 @@ next:;
 
     // The idea is that the input thing already has all the best vectors,
     // thus we only need to find them and discard the others.
-    template <typename It>
-    It Pruner::operator()(It begin, It end) {
+    template <typename It, typename P>
+    It Pruner::operator()(It begin, It end, P p) {
         // Remove easy ValueFunctions to avoid doing more work later.
-        end = extractDominated(S, begin, end);
+        end = extractDominated(S, begin, end, p);
 
         const size_t size = std::distance(begin, end);
         if ( size < 2 ) return end;
@@ -113,7 +114,7 @@ next:;
         // the old list.
         It bound = begin;
 
-        bound = extractBestAtSimplexCorners(S, begin, bound, end);
+        bound = extractBestAtSimplexCorners(S, begin, bound, end, p);
 
         // Here we could do some random belief lookups..
 
@@ -126,7 +127,7 @@ next:;
             // Setup initial LP rows. Note that best can't be empty, since we have
             // at least one best for the simplex corners.
             for ( auto it = begin; it != bound; ++it )
-                lp_.addOptimalRow(*it);
+                lp_.addOptimalRow(std::invoke(p, *it));
         }
 
         // For each of the remaining points now we try to find a witness
@@ -139,14 +140,14 @@ next:;
         //
         // That we do in the findWitnessPoint function.
         while ( bound < end ) {
-            const auto witness = lp_.findWitness(*(end-1));
+            const auto witness = lp_.findWitness(std::invoke(p, *(end-1)));
             // If we get a belief point, we search for the actual vector that provides
             // the best value on the belief point, we move it into the best vector.
             if ( witness ) {
                 // Advance bound with the next best
-                bound = extractBestAtPoint(*witness, bound, bound, end);
+                bound = extractBestAtPoint(*witness, bound, bound, end, p);
                 // Add the newly found vector to our lp.
-                lp_.addOptimalRow(*(bound-1));
+                lp_.addOptimalRow(std::invoke(p, *(bound-1)));
             }
             // We only advance if we did not find anything. Otherwise, we may have found a
             // witness point for the current value, but since we are not guaranteed to have

@@ -1,8 +1,6 @@
 #ifndef AI_TOOLBOX_POMDP_PBVI_HEADER_FILE
 #define AI_TOOLBOX_POMDP_PBVI_HEADER_FILE
 
-#include <boost/iterator/transform_iterator.hpp>
-
 #include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
@@ -244,13 +242,13 @@ namespace AIToolbox::POMDP {
             for ( size_t a = 0; a < A; ++a )
                 w.insert(std::end(w), std::make_move_iterator(std::begin(projs[a][0])), std::make_move_iterator(std::end(projs[a][0])));
 
-            auto begin = boost::make_transform_iterator(std::begin(w), unwrap);
-            auto end   = boost::make_transform_iterator(std::end(w),   unwrap);
+            auto begin = std::begin(w);
+            auto end   = std::end(w);
             auto bound = begin;
             for ( const auto & belief : beliefs )
-                bound = extractBestAtPoint(belief, begin, bound, end);
+                bound = extractBestAtPoint(belief, begin, bound, end, unwrap);
 
-            w.erase(bound.base(), std::end(w));
+            w.erase(bound, std::end(w));
 
             // If you want to save as much memory as possible, do this.
             // It make take some time more though since it needs to reallocate
@@ -275,10 +273,10 @@ namespace AIToolbox::POMDP {
         for ( const auto & b : bl )
             result.emplace_back(crossSumBestAtBelief(b, projs, a));
 
-        const auto rbegin = boost::make_transform_iterator(std::begin(result), unwrap);
-        const auto rend   = boost::make_transform_iterator(std::end  (result), unwrap);
+        const auto rbegin = std::begin(result);
+        const auto rend   = std::end  (result);
 
-        result.erase(extractDominated(S, rbegin, rend).base(), std::end(result));
+        result.erase(extractDominated(S, rbegin, rend, unwrap), rend);
 
         return result;
     }
