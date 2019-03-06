@@ -176,7 +176,9 @@ namespace AIToolbox::Factored {
 
         FinalFactors finalFactors;
 
-        // This can possibly be improved with some heuristic ordering
+        // We remove variables one at a time from the graph, storing the last
+        // remaining nodes in the finalFactors variable.
+        // FIXME: This can possibly be improved with some heuristic ordering
         while (graph.variableSize())
             removeFactor(F, graph, graph.variableSize() - 1, finalFactors, global);
 
@@ -186,11 +188,13 @@ namespace AIToolbox::Factored {
     template <typename Factor>
     template <typename Global>
     void GenericVariableElimination<Factor>::removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global) {
+        // We iterate over all possible joint values of the neighbors of 'f';
+        // these are all variables which share at least one factor with it.
         const auto factors = graph.getNeighbors(f);
         auto variables = graph.getNeighbors(factors);
 
-        PartialFactorsEnumerator jointActions(F, variables, f);
-        const auto id = jointActions.getFactorToSkipId();
+        PartialFactorsEnumerator jointValues(F, variables, f);
+        const auto id = jointValues.getFactorToSkipId();
 
         Rules newRules;
 
@@ -201,23 +205,28 @@ namespace AIToolbox::Factored {
         // input variable for this round.
         const bool isFinalFactor = variables.size() == 1;
 
-        while (jointActions.isValid()) {
-            auto & jointAction = *jointActions;
+        while (jointValues.isValid()) {
+            auto & jointValue = *jointValues;
 
             if constexpr(global_interface<Global>::initNewFactor)
                 global.initNewFactor();
 
-            for (size_t sAction = 0; sAction < F[f]; ++sAction) {
+            // Since we are eliminating 'f', we iterate over its possible
+            // values and we reduce over them; this could be a cross-sum
+            // operation, a max, or anything else.
+            for (size_t fValue = 0; fValue < F[f]; ++fValue) {
                 if constexpr(global_interface<Global>::beginCrossSum)
-                    Impl::callFunction(global, &Global::beginCrossSum, sAction);
+                    Impl::callFunction(global, &Global::beginCrossSum, fValue);
 
-                jointAction.second[id] = sAction;
+                jointValue.second[id] = fValue;
                 for (const auto factor : factors) {
                     if constexpr(global_interface<Global>::beginFactorCrossSum)
                         global.beginFactorCrossSum();
 
+                    // We reduce over each Factor that is applicable to this
+                    // particular joint value set.
                     for (const auto rule : factor->getData()) {
-                        if (match(factor->getVariables(), rule.first, jointAction.first, jointAction.second))
+                        if (match(factor->getVariables(), rule.first, jointValue.first, jointValue.second))
                             global.crossSum(rule.second);
                     }
 
@@ -233,30 +242,37 @@ namespace AIToolbox::Factored {
             if constexpr(global_interface<Global>::isValidNewFactor)
                 isValidNewFactor = global.isValidNewFactor();
 
+            // If the new Factor is good, we save it together with the joint
+            // value that has produced it (minus the one of the variable to
+            // remove). If it has no neighbors, we add it to the finalFactors
+            // instead.
             if (isValidNewFactor) {
                 if (!isFinalFactor) {
-                    newRules.emplace_back(jointAction.second, std::move(global.newFactor));
+                    newRules.emplace_back(jointValue.second, std::move(global.newFactor));
                     // Remove new agent ID
                     newRules.back().first.erase(newRules.back().first.begin() + id);
                 }
                 else
                     finalFactors.push_back(std::move(global.newFactor));
             }
-            jointActions.advance();
+            jointValues.advance();
         }
 
         // And finally as usual in variable elimination remove the variable
         // from the graph and insert the newly created variable in.
-
         for (const auto & it : factors)
             graph.erase(it);
         graph.erase(f);
 
         if (!isFinalFactor && newRules.size()) {
+            // Add all new Factors back to the graph in the node connecting all
+            // neighbors (may or may not yet exist).
             variables.erase(std::remove(std::begin(variables), std::end(variables), f), std::end(variables));
 
             auto & newFactorNode = graph.getFactor(variables)->getData();
 
+            // If anything's special needs to be done, we do it; otherwise we
+            // just append to the Factors already in the node.
             if constexpr(global_interface<Global>::mergeRules) {
                 newFactorNode = global.mergeRules(std::move(newFactorNode), std::move(newRules));
             } else {
