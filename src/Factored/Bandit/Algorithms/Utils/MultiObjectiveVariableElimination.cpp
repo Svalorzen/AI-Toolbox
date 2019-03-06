@@ -20,7 +20,6 @@ namespace AIToolbox::Factored::Bandit {
             MOVE::Factor newFactorCrossSum;
 
             void beginRemoval(size_t agent);
-            //void beginRemoval(const MOVE::GVE::Graph &, const MOVE::GVE::Graph::FactorItList &, const MOVE::GVE::Graph::Variables &, size_t agent);
             void initNewFactor();
             void beginCrossSum(size_t agentAction);
             void beginFactorCrossSum();
@@ -96,23 +95,22 @@ namespace AIToolbox::Factored::Bandit {
     }
 
     void Global::crossSum(const MOVE::Factor & factor) {
-        // So the idea here is that we are computing results for
-        // this particular subset of agents. Here we are working
-        // with a single action. However, we may have eliminated
-        // agents already. This means that this factor will contain
-        // a certain number of rules, which depend on different
-        // "already taken" actions of the eliminated agents.
+        // So the idea here is that we are computing results for this
+        // particular subset of agents. Here we are working with a single
+        // action. However, we may have eliminated agents already. This means
+        // that this factor will contain a certain number of rules, which
+        // depend on different "already taken" actions of the eliminated
+        // agents.
         //
-        // During normal VE, we can simply add up all tags since
-        // they can't possibly conflict (due to the max operator
-        // which always makes us pick the best one). Here instead,
-        // payoffs returned by the getPayoffs function can't get
-        // squashed into a single one and summed, since their tags
-        // are no longer guaranteed unique.
+        // During normal VE, we can simply add up all tags since they can't
+        // possibly conflict (due to the max operator which always makes us
+        // pick the best one). Here instead, the payoffs we cross-sum can't get
+        // squashed into a single one and summed, since their tags are no
+        // longer guaranteed unique.
         //
-        // Thus we get them all, and during the cross/sum we create
-        // even more rules, joining their tags together, and
-        // possibly merge them if we see equal ones.
+        // Thus we get them all, and during the cross/sum we create even more
+        // rules, joining their tags together, and possibly merge them if we
+        // see equal ones.
         auto tmp = crossSumF(newCrossSum, factor);
 
         newFactorCrossSum.insert(
