@@ -34,7 +34,7 @@ namespace AIToolbox::Factored {
      * define the following methods:
      *
      * - A member `void beginRemoval(const Graph &, const Graph::FactorItList
-     *   &, const Graph::VariableList &, size_t)` method, which is called
+     *   &, const Graph::Variable &, size_t)` method, which is called
      *   at the beginning of the removal of each variable.
      * - A member `void initNewFactor()` method, which is called when the
      *   `newFactor` variable needs to be initialized.
