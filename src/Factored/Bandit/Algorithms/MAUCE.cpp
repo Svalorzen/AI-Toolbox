@@ -59,8 +59,8 @@ namespace AIToolbox::Factored::Bandit {
 
         // Create and run UCVE
         AI_LOGGER(AI_SEVERITY_INFO, "Now running UCVE...");
-        UCVE ucve(A, logtA);
-        auto a_v = ucve(rules_);
+        UCVE ucve;
+        auto a_v = ucve(A, logtA, rules_);
         AI_LOGGER(AI_SEVERITY_INFO, "Done.");
 
         // We convert the output (PartialAction) to a normal action.

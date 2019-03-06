@@ -272,6 +272,41 @@ namespace AIToolbox {
         }
         return j == elems.size();
     }
+
+    /**
+     * @brief This function is equivalent to std::max_element, but takes a unary function.
+     *
+     * This function can be called when doing a comparison between elements is
+     * expensive, as they must be converted to some particular value every
+     * single time.
+     *
+     * Instead, here we take a unary function which we apply once to every
+     * element in the range, and we pick the one with the value that compares
+     * the max.
+     *
+     * If there are duplicates, the first max is returned.
+     *
+     * @param begin The begin of the range to compare.
+     * @param end The end of the range to compare.
+     * @param unary_converter The unary function to apply to each item in the range.
+     *
+     * @return The iterator pointing to the max element in the range.
+     */
+    template <typename It, typename F>
+    auto max_element_unary(It begin, const It end, F unary_converter) {
+        if (begin == end) return std::make_pair(end, 0.0);
+        auto retval = begin;
+        double max = std::invoke(unary_converter, *begin);
+
+        while (++begin != end) {
+            auto newV = std::invoke(unary_converter, *begin);
+            if (newV > max) {
+                retval = begin;
+                max = newV;
+            }
+        }
+        return std::make_pair(retval, max);
+    }
 }
 
 namespace Eigen {

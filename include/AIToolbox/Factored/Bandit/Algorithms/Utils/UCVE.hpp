@@ -2,7 +2,7 @@
 #define AI_TOOLBOX_FACTORED_BANDIT_UCVE_HEADER_FILE
 
 #include "AIToolbox/Factored/Bandit/Types.hpp"
-#include "AIToolbox/Factored/Utils/FactorGraph.hpp"
+#include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -31,32 +31,10 @@ namespace AIToolbox::Factored::Bandit {
             using V = Eigen::Vector2d;
             // Tag - Vector pair
             using Entry = std::tuple<PartialAction, V>;
-            using Entries = std::vector<Entry>;
-            // Action -> (Tag + Vector)
-            using Rule = std::pair<PartialValues, Entries>;
-            using Rules = std::vector<Rule>;
+            using Factor = std::vector<Entry>;
 
             using Result = Entry;
-
-            struct Factor {
-                Rules rules;
-            };
-
-            using Graph = FactorGraph<Factor>;
-
-            /**
-             * @brief Basic constructor.
-             *
-             * The constructor requires log(tA), which is the log of the
-             * current timestep multiplied by the overall size of the
-             * action space. This is required during the pruning process to
-             * compute the exploration part due to the input variances for
-             * each rule.
-             *
-             * @param A The action space of all agents.
-             * @param logtA The current logtA.
-             */
-            UCVE(Action A, double logtA);
+            using GVE = GenericVariableElimination<Factor>;
 
             /**
              * @brief This function is the entry point for the solving process.
@@ -67,72 +45,25 @@ namespace AIToolbox::Factored::Bandit {
              * @return The optimal action to take, and its value.
              */
             template <typename Iterable>
-            Result operator()(const Iterable & inputRules) {
+            Result operator()(const Action & A, const double logtA, const Iterable & inputRules) {
+                GVE::Graph graph(A.size());
+
                 for (const Entry & rule : inputRules) {
                     const auto & a = std::get<0>(rule);
-                    auto & rules = graph_.getFactor(a.first)->getData().rules;
+                    auto & factorNode = graph.getFactor(a.first)->getData();
 
-                    rules.emplace_back(a.second, Entries{std::make_tuple(PartialAction(), std::get<1>(rule))});
+                    factorNode.emplace_back(a.second, Factor{std::make_tuple(PartialAction(), std::get<1>(rule))});
                 }
                 // Start solving process.
-                return start();
+                return (*this)(A, logtA, graph);
             }
 
-        private:
             /**
              * @brief This function performs the actual agent elimination process.
              *
              * @return The best action, randomly taken if multiple actions are eligible.
              */
-            Result start();
-
-            /**
-             * @brief This function performs a single step in the agent elimination process.
-             *
-             * First we compute the two bounds for the reward of the
-             * agents. These bounds are then used in order to prune actions
-             * which are neither promising nor good.
-             *
-             * @param agent The agent to remove from the graph.
-             */
-            void removeAgent(size_t agent);
-
-            /**
-             * @brief This function performs UCB pruning on the input range of Entries.
-             *
-             * This function performs a comparison against the value vectors of
-             * each Entry, and moves those who are dominated in the context of UCB
-             * (so taking into account exploration bonuses) to the end of the
-             * range.
-             *
-             * @param begin An iterator to the beginning of an Entry range.
-             * @param end An iterator to the end of an Entry range.
-             * @param x_l The lower bound of UCB.
-             * @param x_u The upper bound of UCB.
-             *
-             * @return The iterator that separates dominated elements with the non-pruned.
-             */
-            Entries::iterator boundPrune(Entries::iterator begin, Entries::iterator end, double x_l, double x_u);
-
-            /**
-             * @brief This function allows ordering and sorting of Rules to allow for merging.
-             *
-             * This function may only be used on Rules for the same agents.
-             *
-             * This function sorts rules by the actions taken by their
-             * agents.
-             *
-             * @param lhs The left hand side.
-             * @param rhs The right hand side.
-             *
-             * @return True if lhs comes before rhs, false otherwise.
-             */
-            static bool ruleComp(const Rule & lhs, const Rule & rhs);
-
-            Action A;
-            Graph graph_;
-            std::vector<Entries> finalFactors_;
-            double logtA_;
+            Result operator()(const Action & A, const double logtA, GVE::Graph & graph);
     };
 }
 
