@@ -31,10 +31,10 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
 
     const aif::Action a{2, 2};
 
-    MOVE v(a);
-    auto bestActions = v(rules);
+    MOVE v;
+    auto bestActions = v(a, rules);
 
-    BOOST_REQUIRE(solutions.size() == bestActions.size());
+    BOOST_CHECK_EQUAL(solutions.size(), bestActions.size());
 
     std::sort(std::begin(solutions), std::end(solutions), comparer);
     std::sort(std::begin(bestActions), std::end(bestActions), comparer);
@@ -69,8 +69,8 @@ BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
 
     const aif::Action a{2, 2};
 
-    MOVE v(a);
-    auto bestActions = v(rules);
+    MOVE v;
+    auto bestActions = v(a, rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
 
@@ -140,8 +140,8 @@ BOOST_AUTO_TEST_CASE( radu_marinescu_graph ) {
         return AIToolbox::veccmp(std::get<0>(lhs).second, std::get<0>(rhs).second) < 0;
     };
 
-    MOVE v(A);
-    auto bestActions = v(rules);
+    MOVE v;
+    auto bestActions = v(A, rules);
 
     BOOST_REQUIRE(solutions.size() == bestActions.size());
 

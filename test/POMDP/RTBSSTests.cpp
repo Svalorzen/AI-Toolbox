@@ -47,9 +47,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
             // values are correct.
             auto & vlist = vf[horizon];
 
-            auto begin = boost::make_transform_iterator(std::begin(vlist), POMDP::unwrap);
-            auto end   = boost::make_transform_iterator(std::end(vlist), POMDP::unwrap);
-            auto bestMatch = findBestAtPoint(b, begin, end).base();
+            auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, POMDP::unwrap);
 
             double trueValue = b.dot(bestMatch->values);
             double trueAction = bestMatch->action;
@@ -100,9 +98,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
             // values are correct.
             auto & vlist = vf[horizon];
 
-            auto begin = boost::make_transform_iterator(std::begin(vlist), POMDP::unwrap);
-            auto end   = boost::make_transform_iterator(std::end(vlist), POMDP::unwrap);
-            auto bestMatch = findBestAtPoint(b, begin, end).base();
+            auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, POMDP::unwrap);
 
             double trueValue = b.dot(bestMatch->values);
             double trueAction = bestMatch->action;

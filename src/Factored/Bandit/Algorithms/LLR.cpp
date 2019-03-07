@@ -49,8 +49,8 @@ namespace AIToolbox::Factored::Bandit {
                 rules_[i].value = averages_[i].value + std::sqrt(LtLog / averages_[i].count);
         }
 
-        VariableElimination ve(A);
-        return std::get<0>(ve(rules_));
+        VariableElimination ve;
+        return std::get<0>(ve(A, rules_));
     }
 
     FactoredContainer<QFunctionRule> LLR::getQFunctionRules() const {

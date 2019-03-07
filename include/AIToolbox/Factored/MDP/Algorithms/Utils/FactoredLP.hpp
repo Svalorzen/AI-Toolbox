@@ -4,10 +4,6 @@
 #include <utility>
 
 #include <AIToolbox/Factored/MDP/Types.hpp>
-#include <AIToolbox/Factored/Utils/FactorGraph.hpp>
-#include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
-
-namespace AIToolbox { class LP; }
 
 namespace AIToolbox::Factored::MDP {
     /**
@@ -80,23 +76,6 @@ namespace AIToolbox::Factored::MDP {
             std::optional<Vector> operator()(const FactoredVector & C, const FactoredVector & b, bool addConstantBasis = false);
 
         private:
-            using Rule = std::pair<PartialValues, size_t>;
-            using Rules = std::vector<Rule>;
-            using Graph = FactorGraph<Rules>;
-
-            /**
-             * @brief This function performs a step in the variable elimination process.
-             *
-             * As it removes the state, this function will add to the input LP
-             * all rules needed to represent the variable elimination process.
-             *
-             * @param graph The graph to perform VE on.
-             * @param s The factor to remove.
-             * @param lp The LP to modify.
-             * @param finalFactors The variable where to store the final rules' ids.
-             */
-            void removeState(Graph & graph, size_t s, LP & lp, std::vector<size_t> & finalFactors);
-
             State S;
     };
 }

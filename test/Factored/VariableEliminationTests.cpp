@@ -22,8 +22,8 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
 
     const aif::Action a{2, 2, 2};
 
-    VE v(a);
-    const auto bestAction_v = v(rules);
+    VE v;
+    const auto bestAction_v = v(a, rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
@@ -43,8 +43,8 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
 
     const aif::Action a{3, 2, 3, 4};
 
-    VE v(a);
-    const auto bestAction_v = v(rules);
+    VE v;
+    const auto bestAction_v = v(a, rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
@@ -61,8 +61,8 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
 
     const aif::Action a{2, 2, 2};
 
-    VE v(a);
-    const auto bestAction_v = v(rules);
+    VE v;
+    const auto bestAction_v = v(a, rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
@@ -85,8 +85,8 @@ BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
 
     const aif::Action a{2, 2};
 
-    VE v(a);
-    const auto bestAction_v = v(rules);
+    VE v;
+    const auto bestAction_v = v(a, rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
@@ -109,8 +109,8 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
 
     const aif::Action a{2, 2};
 
-    VE v(a);
-    const auto bestAction_v = v(rules);
+    VE v;
+    const auto bestAction_v = v(a, rules);
 
     BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),

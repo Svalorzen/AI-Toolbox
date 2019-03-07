@@ -22,17 +22,18 @@ namespace AIToolbox {
      * @param begin The start of the range to look in.
      * @param end The end of the range to look in (excluded).
      * @param value A pointer to double, which gets set to the value of the given point with the found Hyperplane.
+     * @param p A projection function to call on the iterators (defaults to identity).
      *
      * @return An iterator pointing to the best choice in range.
      */
-    template <typename Iterator>
-    Iterator findBestAtPoint(const Point & p, Iterator begin, Iterator end, double * value = nullptr) {
+    template <typename Iterator, typename P = identity>
+    Iterator findBestAtPoint(const Point & point, Iterator begin, Iterator end, double * value = nullptr, P p = P{}) {
         auto bestMatch = begin;
-        double bestValue = p.dot(*bestMatch);
+        double bestValue = point.dot(std::invoke(p, *bestMatch));
 
         while ( (++begin) < end ) {
-            const double currValue = p.dot(*begin);
-            if ( currValue > bestValue || ( currValue == bestValue && veccmp(*begin, *bestMatch) > 0 ) ) {
+            const double currValue = point.dot(std::invoke(p, *begin));
+            if ( currValue > bestValue || ( currValue == bestValue && veccmp(std::invoke(p, *begin), std::invoke(p, *bestMatch)) > 0 ) ) {
                 bestMatch = begin;
                 bestValue = currValue;
             }
@@ -50,17 +51,18 @@ namespace AIToolbox {
      * @param corner The corner of the simplex space we are checking.
      * @param begin The start of the range to look in.
      * @param end The end of the range to look in (excluded).
+     * @param p A projection function to call on the iterators (defaults to identity).
      *
      * @return An iterator pointing to the best choice in range.
      */
-    template <typename Iterator>
-    Iterator findBestAtSimplexCorner(const size_t corner, Iterator begin, Iterator end, double * value = nullptr) {
+    template <typename Iterator, typename P = identity>
+    Iterator findBestAtSimplexCorner(const size_t corner, Iterator begin, Iterator end, double * value = nullptr, P p = P{}) {
         auto bestMatch = begin;
-        double bestValue = (*bestMatch)[corner];
+        double bestValue = std::invoke(p, *bestMatch)[corner];
 
         while ( (++begin) < end ) {
-            const double currValue = (*begin)[corner];
-            if ( currValue > bestValue || ( currValue == bestValue && veccmp(*begin, *bestMatch) > 0 ) ) {
+            const double currValue = std::invoke(p, *begin)[corner];
+            if ( currValue > bestValue || ( currValue == bestValue && veccmp(std::invoke(p, *begin), std::invoke(p, *bestMatch)) > 0 ) ) {
                 bestMatch = begin;
                 bestValue = currValue;
             }
@@ -82,15 +84,16 @@ namespace AIToolbox {
      * @param begin The begin of the search range.
      * @param bound The begin of the 'useful' range.
      * @param end The range end to be checked. It is NOT included in the search.
+     * @param p A projection function to call on the iterators (defaults to identity).
      *
      * @return The new bound iterator.
      */
-    template <typename Iterator>
-    Iterator extractBestAtPoint(const Point & p, Iterator begin, Iterator bound, Iterator end) {
-        auto bestMatch = findBestAtPoint(p, begin, end);
+    template <typename Iterator, typename P = identity>
+    Iterator extractBestAtPoint(const Point & point, Iterator begin, Iterator bound, Iterator end, P p = P{}) {
+        auto bestMatch = findBestAtPoint(point, begin, end, nullptr, p);
 
         if ( bestMatch >= bound )
-            iter_swap(bestMatch, bound++);
+            std::iter_swap(bestMatch, bound++);
 
         return bound;
     }
@@ -113,19 +116,20 @@ namespace AIToolbox {
      * @param begin The begin of the search range.
      * @param bound The begin of the 'useful' range.
      * @param end The end of the search range. It is NOT included in the search.
+     * @param p A projection function to call on the iterators (defaults to identity).
      *
      * @return The new bound iterator.
      */
-    template <typename Iterator>
-    Iterator extractBestAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end) {
+    template <typename Iterator, typename P = identity>
+    Iterator extractBestAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end, P p = P{}) {
         if ( end == bound ) return bound;
 
         // For each corner
         for ( size_t s = 0; s < S; ++s ) {
-            auto bestMatch = findBestAtSimplexCorner(s, begin, end);
+            auto bestMatch = findBestAtSimplexCorner(s, begin, end, nullptr, p);
 
             if ( bestMatch >= bound )
-                iter_swap(bestMatch, bound++);
+                std::iter_swap(bestMatch, bound++);
         }
         return bound;
     }
@@ -151,11 +155,12 @@ namespace AIToolbox {
      * @param pend The end of the Point range to check.
      * @param begin The beginning of the Hyperplane range to check against.
      * @param end The end of the Hyperplane range to check against.
+     * @param p A projection function to call on the iterators (defaults to identity).
      *
      * @return An iterator pointing to the first non-useful Point.
      */
-    template <typename PIterator, typename VIterator>
-    PIterator extractBestUsefulPoints(PIterator pbegin, PIterator pend, VIterator begin, VIterator end) {
+    template <typename PIterator, typename VIterator, typename P = identity>
+    PIterator extractBestUsefulPoints(PIterator pbegin, PIterator pend, VIterator begin, VIterator end, P p = P{}) {
         const auto pointsN  = std::distance(pbegin, pend);
         const auto entriesN = std::distance(begin, end);
 
@@ -175,17 +180,17 @@ namespace AIToolbox {
         auto bound = pend;
         while (it < bound && it < maxBound) {
             double value;
-            const auto vId = std::distance(begin, findBestAtPoint(*it, begin, end, &value));
+            const auto vId = std::distance(begin, findBestAtPoint(*it, begin, end, &value, p));
             if (bestValues[vId].second < value) {
                 if (bestValues[vId].first == pend) {
                     bestValues[vId] = {it++, value};
                     continue;
                 } else {
                     bestValues[vId].second = value;
-                    iter_swap(bestValues[vId].first, it);
+                    std::iter_swap(bestValues[vId].first, it);
                 }
             }
-            iter_swap(it, --bound);
+            std::iter_swap(it, --bound);
         }
         if (it == bound) return it;
 
@@ -198,10 +203,10 @@ namespace AIToolbox {
         // so if we're here the bound is not going to move anyway.
         while (it < bound) {
             double value;
-            const auto vId = std::distance(begin, findBestAtPoint(*it, begin, end, &value));
+            const auto vId = std::distance(begin, findBestAtPoint(*it, begin, end, &value, p));
             if (bestValues[vId].second < value) {
                 bestValues[vId].second = value;
-                iter_swap(bestValues[vId].first, it);
+                std::iter_swap(bestValues[vId].first, it);
             }
             ++it;
         }
@@ -235,16 +240,18 @@ namespace AIToolbox {
      * @param endNew The end of the range of the planes to find vertices for.
      * @param alphasBegin The beginning of the range of all other planes.
      * @param alphasEnd The end of the range of all other planes.
+     * @param p1 A projection function to call on the iterators of the first range (defaults to identity).
+     * @param p2 A projection function to call on the iterators of the second range (defaults to identity).
      *
      * @return A non-unique list of all the vertices found.
      */
-    template <typename NewIt, typename OldIt>
-    std::vector<std::pair<Point, double>> findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd) {
+    template <typename NewIt, typename OldIt, typename P1 = identity, typename P2 = identity>
+    std::vector<std::pair<Point, double>> findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {
         std::vector<std::pair<Point, double>> vertices;
 
         const size_t alphasSize = std::distance(alphasBegin, alphasEnd);
         if (alphasSize == 0) return vertices;
-        const size_t S = alphasBegin->size();
+        const size_t S = std::invoke(p2, *alphasBegin).size();
 
         // This enumerator allows us to compute all possible subsets of S-1
         // elements. We use it on both the alphas, and the boundaries, thus the
@@ -266,7 +273,7 @@ namespace AIToolbox {
         // Common matrix/vector setups
 
         for (auto newVIt = beginNew; newVIt != endNew; ++newVIt) {
-            m.row(0).head(S) = *newVIt;
+            m.row(0).head(S) = std::invoke(p1, *newVIt);
 
             enumerator.reset();
 
@@ -285,7 +292,7 @@ namespace AIToolbox {
                     const auto index = (*enumerator)[i];
                     if (index < alphasSize) {
                         // Copy the right vector in the matrix.
-                        m.row(counter).head(S) = *std::next(alphasBegin, index);
+                        m.row(counter).head(S) = std::invoke(p2, *std::next(alphasBegin, index));
                         m.row(counter)[S] = -1;
                         ++counter;
                     } else {

@@ -3,8 +3,6 @@
 
 #include <limits>
 
-#include <boost/iterator/transform_iterator.hpp>
-
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
@@ -177,9 +175,9 @@ namespace AIToolbox::POMDP {
                 // We prune each outcome separately to be sure
                 // we do not replicate work later.
                 for ( size_t o = 0; o < O; ++o ) {
-                    const auto begin = boost::make_transform_iterator(std::begin(projs[a][o]), unwrap);
-                    const auto end   = boost::make_transform_iterator(std::end  (projs[a][o]), unwrap);
-                    projs[a][o].erase(prune(begin, end).base(), std::end(projs[a][o]));
+                    const auto begin = std::begin(projs[a][o]);
+                    const auto end   = std::end  (projs[a][o]);
+                    projs[a][o].erase(prune(begin, end, unwrap), end);
                 }
 
                 // Here we reduce at the minimum the cross-summing, by alternating
@@ -209,9 +207,9 @@ namespace AIToolbox::POMDP {
                 while ( elements > 1 ) {
                     for ( i = front; i != back; i += stepsize ) {
                         projs[a][i] = crossSum(projs[a][i], projs[a][i + diff], a, stepsize > 0);
-                        const auto begin = boost::make_transform_iterator(std::begin(projs[a][i]), unwrap);
-                        const auto end   = boost::make_transform_iterator(std::end  (projs[a][i]), unwrap);
-                        projs[a][i].erase(prune(begin, end).base(), std::end(projs[a][i]));
+                        const auto begin = std::begin(projs[a][i]);
+                        const auto end   = std::end  (projs[a][i]);
+                        projs[a][i].erase(prune(begin, end, unwrap), end);
                         --elements;
                     }
 
@@ -239,9 +237,9 @@ namespace AIToolbox::POMDP {
 
             // We have them all, and we prune one final time to be sure we have
             // computed the parsimonious set of value functions.
-            const auto begin = boost::make_transform_iterator(std::begin(w), unwrap);
-            const auto end   = boost::make_transform_iterator(std::end  (w), unwrap);
-            w.erase(prune(begin, end).base(), std::end(w));
+            const auto begin = std::begin(w);
+            const auto end   = std::end  (w);
+            w.erase(prune(begin, end, unwrap), end);
 
             v.emplace_back(std::move(w));
 

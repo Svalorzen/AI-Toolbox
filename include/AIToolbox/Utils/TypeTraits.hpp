@@ -5,38 +5,6 @@
 #include <utility>
 
 namespace AIToolbox {
-    namespace Impl {
-        template <typename Iterator, typename Check = void>
-        struct IterSwap {
-            void operator()(Iterator lhs, Iterator rhs) {
-                using std::swap;
-                swap(*lhs, *rhs);
-            }
-        };
-
-        template <typename Iterator>
-        struct IterSwap<Iterator, decltype(std::declval<Iterator*>()->base(), void())> {
-            void operator()(Iterator lhs, Iterator rhs) {
-                using std::swap;
-                swap(*(lhs.base()), *(rhs.base()));
-            }
-        };
-    }
-
-    /**
-     * @brief This function swaps the objects pointed by the two iterators.
-     *
-     * This function is needed in order to be able to treat in the same way
-     * normal iterators and proxy iterators (such as
-     * boost::transform_iterator). This allows us to write algorithms that
-     * operate on a specific part of the data, but can alter the original range
-     * as needed.
-     */
-    template <typename Iterator>
-    void iter_swap(Iterator lhs, Iterator rhs) {
-        return Impl::IterSwap<Iterator>()(lhs, rhs);
-    }
-
     /**
      * @brief This struct is used to copy constness from one type to another.
      */
@@ -56,6 +24,19 @@ namespace AIToolbox {
     struct remove_cv_ref { using type = std::remove_cv_t<std::remove_reference_t<T>>; };
     template <typename T>
     using remove_cv_ref_t = typename remove_cv_ref<T>::type;
+
+    /**
+     * @brief Equivalent of C++20 std::identity.
+     *
+     * We use this as a standard projection.
+     */
+    struct identity {
+        template< class T>
+        constexpr T&& operator()( T&& t ) const noexcept {
+            return std::forward<T>(t);
+        }
+        using is_transparent = void;
+    };
 }
 
 #endif

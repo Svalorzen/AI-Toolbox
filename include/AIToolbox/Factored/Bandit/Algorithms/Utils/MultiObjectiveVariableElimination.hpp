@@ -1,11 +1,8 @@
 #ifndef AI_TOOLBOX_FACTORED_BANDIT_MULTI_OBJECTIVE_VARIABLE_ELIMINATION_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_BANDIT_MULTI_OBJECTIVE_VARIABLE_ELIMINATION_HEADER_FILE
 
-#include "AIToolbox/Factored/Bandit/Types.hpp"
-#include "AIToolbox/Factored/Utils/Core.hpp"
-#include "AIToolbox/Factored/Utils/FactorGraph.hpp"
-
-#include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Factored/Bandit/Types.hpp>
+#include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -45,27 +42,10 @@ namespace AIToolbox::Factored::Bandit {
     class MultiObjectiveVariableElimination {
         public:
             using Entry = std::tuple<PartialAction, Rewards>;
-            using Entries = std::vector<Entry>;
-            using Rule = std::pair<PartialValues, Entries>;
-            using Rules = std::vector<Rule>;
+            using Factor = std::vector<Entry>;
 
-            using Results = Entries;
-
-            struct Factor {
-                Rules rules;
-            };
-
-            using Graph = FactorGraph<Factor>;
-
-            /**
-             * @brief Basic constructor.
-             *
-             * This constructor initializes the internal graph with the
-             * number of needed agents.
-             *
-             * @param a The action space.
-             */
-            MultiObjectiveVariableElimination(Action a);
+            using GVE = GenericVariableElimination<Factor>;
+            using Results = Factor;
 
             /**
              * @brief This function finds the best Action-value pair for the provided MOQFunctionRules.
@@ -75,16 +55,17 @@ namespace AIToolbox::Factored::Bandit {
              * @return The pair of best Action and its value over the input rules.
              */
             template <typename Iterable>
-            Results operator()(const Iterable & inputRules) {
-                // Should we reset the graph?
+            Results operator()(const Action & A, const Iterable & inputRules) {
+                GVE::Graph graph(A.size());
+
                 for (const auto & rule : inputRules) {
-                    auto & rules = graph_.getFactor(rule.action.first)->getData().rules;
-                    rules.emplace_back(rule.action.second, Entries{std::make_tuple(PartialAction(), rule.values)});
+                    auto & factorNode = graph.getFactor(rule.action.first)->getData();
+                    factorNode.emplace_back(rule.action.second, Factor{std::make_tuple(PartialAction(), rule.values)});
                 }
-                return start();
+
+                return (*this)(A, graph);
             }
 
-        private:
             /**
              * @brief This function performs the actual agent elimination process.
              *
@@ -101,25 +82,12 @@ namespace AIToolbox::Factored::Bandit {
              *
              * What remains is then returned.
              *
+             * @param A The action space of the agents.
+             * @param graph The graph to perform VE on.
+             *
              * @return All pairs of PartialAction, Rewards found during the elimination process.
              */
-            Results start();
-
-            /**
-             * @brief This function performs the elimination of a single agent (and all factors next to it) from the internal graph.
-             *
-             * This function adds the resulting rules which do not depend
-             * on the eliminated action to the remaining factors.
-             *
-             * \sa start()
-             *
-             * @param agent The index of the agent to be removed from the graph.
-             */
-            void removeAgent(size_t agent);
-
-            Action A;
-            Graph graph_;
-            std::vector<Entries> finalFactors_;
+            Results operator()(const Action & A, GVE::Graph & graph);
     };
 }
 

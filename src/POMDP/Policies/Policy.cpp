@@ -16,9 +16,7 @@ namespace AIToolbox::POMDP {
         // We use the latest horizon here.
         const auto & vlist = policy_.back();
 
-        const auto begin = boost::make_transform_iterator(std::begin(vlist), unwrap);
-        const auto end   = boost::make_transform_iterator(std::end  (vlist), unwrap);
-        const auto bestMatch = findBestAtPoint(b, begin, end).base();
+        const auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, unwrap);
 
         return bestMatch->action;
     }
@@ -26,12 +24,10 @@ namespace AIToolbox::POMDP {
     std::tuple<size_t, size_t> Policy::sampleAction(const Belief & b, const unsigned horizon) const {
         const auto & vlist = policy_[horizon];
 
-        const auto begin = boost::make_transform_iterator(std::begin(vlist), unwrap);
-        const auto end   = boost::make_transform_iterator(std::end  (vlist), unwrap);
-        const auto bestMatch = findBestAtPoint(b, begin, end);
+        const auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, unwrap);
 
-        const size_t action = bestMatch.base()->action;
-        const size_t id     = std::distance(begin, bestMatch);
+        const size_t action = bestMatch->action;
+        const size_t id     = std::distance(std::begin(vlist), bestMatch);
 
         return std::make_tuple(action, id);
     }

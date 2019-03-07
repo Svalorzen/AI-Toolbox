@@ -4,7 +4,6 @@
 #include <algorithm>
 
 #include <boost/heap/fibonacci_heap.hpp>
-#include <boost/iterator/transform_iterator.hpp>
 
 #include <AIToolbox/Impl/Logging.hpp>
 
@@ -273,12 +272,8 @@ namespace AIToolbox::POMDP {
         // Here we use the BlindStrategies in order to obtain a very simple
         // initial lower bound.
         VList lbVList = std::get<1>(bs(pomdp, true));
-        {
-            const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
-            const auto rend   = boost::make_transform_iterator(std::end  (lbVList), unwrap);
+        lbVList.erase(extractDominated(pomdp.getS(), std::begin(lbVList), std::end(lbVList), unwrap), std::end(lbVList));
 
-            lbVList.erase(extractDominated(pomdp.getS(), rbegin, rend).base(), std::end(lbVList));
-        }
         auto lbBeliefs = std::vector<Belief>{initialBelief};
 
         // The same we do here with FIB for the input POMDP.
@@ -309,11 +304,8 @@ namespace AIToolbox::POMDP {
         // differences. They are the values of the lowerBound and the
         // upperBound at the initial belief.
         double lb;
-        {
-            const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
-            const auto rend   = boost::make_transform_iterator(std::end  (lbVList), unwrap);
-            findBestAtPoint(initialBelief, rbegin, rend, &lb);
-        }
+        findBestAtPoint(initialBelief, std::begin(lbVList), std::end(lbVList), &lb, unwrap);
+
         double ub = ubV.second[0];
 
         AI_LOGGER(AI_SEVERITY_INFO, "Initial bounds: " << lb << ", " << ub);
@@ -348,19 +340,19 @@ namespace AIToolbox::POMDP {
 
                     lbVList = std::move(std::get<1>(sol).back());
 
-                    const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
-                    const auto rend   = boost::make_transform_iterator(std::end  (lbVList), unwrap);
+                    const auto rbegin = std::begin(lbVList);
+                    const auto rend   = std::end  (lbVList);
 
                     lbBeliefs.erase(
                         extractBestUsefulPoints(
                             std::begin(lbBeliefs), std::end(lbBeliefs),
-                            rbegin, rend
+                            rbegin, rend, unwrap
                         ),
                         std::end(lbBeliefs)
                     );
 
                     // And we recompute the lower bound.
-                    findBestAtPoint(initialBelief, rbegin, rend, &lb);
+                    findBestAtPoint(initialBelief, rbegin, rend, &lb, unwrap);
                 }
             }
 
@@ -530,9 +522,7 @@ namespace AIToolbox::POMDP {
                 // Now normalized
                 nextBelief /= nextBeliefProbability;
 
-                const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
-                const auto rend   = boost::make_transform_iterator(std::end  (lbVList), unwrap);
-                auto it = findBestAtPoint(nextBelief, rbegin, rend).base();
+                const auto it = findBestAtPoint(nextBelief, std::begin(lbVList), std::end(lbVList), nullptr, unwrap);
 
                 bpAlpha += pomdp.getObservationFunction(a).col(o).cwiseProduct(it->values);
             }
@@ -598,9 +588,9 @@ namespace AIToolbox::POMDP {
         // We initialize the queue with the initial belief.
         {
             double currentLowerBound;
-            const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
-            const auto rend   = boost::make_transform_iterator(std::end  (lbVList), unwrap);
-            findBestAtPoint(initialBelief, rbegin, rend, &currentLowerBound);
+            const auto rbegin = std::begin(lbVList);
+            const auto rend   = std::end  (lbVList);
+            findBestAtPoint(initialBelief, rbegin, rend, &currentLowerBound, unwrap);
             const double currentUpperBound = std::get<0>(UB(initialBelief, ubQ, ubV));
             queue.emplace(QueueElement(initialBelief, 0.0, 1.0, currentLowerBound, currentUpperBound, 1, {}));
         }
@@ -742,11 +732,7 @@ namespace AIToolbox::POMDP {
 
                 const double ubValue = std::get<0>(UB(nextBelief, ubQ, ubV));
                 double lbValue;
-                {
-                    const auto rbegin = boost::make_transform_iterator(std::begin(lbVList), unwrap);
-                    const auto rend   = boost::make_transform_iterator(std::end  (lbVList), unwrap);
-                    findBestAtPoint(nextBelief, rbegin, rend, &lbValue);
-                }
+                findBestAtPoint(nextBelief, std::begin(lbVList), std::end(lbVList), &lbValue, unwrap);
 
                 if ((ubValue - lbValue) * std::pow(pomdp.getDiscount(), depth) > tolerance_ * 20) {
                     const auto nextBeliefOverallProbability = nextBeliefProbability * beliefProbability * pomdp.getDiscount();

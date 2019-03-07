@@ -1,8 +1,6 @@
 #ifndef AI_TOOLBOX_POMDP_BLIND_STRATEGIES_HEADER_FILE
 #define AI_TOOLBOX_POMDP_BLIND_STRATEGIES_HEADER_FILE
 
-#include <boost/iterator/transform_iterator.hpp>
-
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Prune.hpp>
 
