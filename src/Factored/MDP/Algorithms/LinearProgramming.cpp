@@ -2,8 +2,26 @@
 
 #include <AIToolbox/LP.hpp>
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 
 namespace AIToolbox::Factored::MDP {
+    // Initial typedefs and definitions
+    namespace {
+        using Factor = size_t;
+        using VE = GenericVariableElimination<Factor>;
+        struct Global {
+            LP & lp;
+
+            Factor newFactor;
+
+            void initNewFactor();
+            void beginCrossSum();
+            void crossSum(const Factor & f);
+            void endCrossSum();
+            void makeResult(VE::FinalFactors && finalFactors);
+        };
+    }
+
     std::tuple<Vector, QFunction> LinearProgramming::operator()(const CooperativeModel & m, const FactoredVector & h) const {
         std::tuple<Vector, QFunction> retval;
         auto & [v, g] = retval;
@@ -30,8 +48,7 @@ namespace AIToolbox::Factored::MDP {
         const auto discount = m.getDiscount();
 
         // Clear everything so we can use this function multiple times.
-        Graph graph(S.size() + A.size());
-        std::vector<size_t> finalFactors;
+        VE::Graph graph(S.size() + A.size());
 
         // Normally, to solve an MDP via linear programming we have a series of
         // constraints for every possible s and a on the form of:
@@ -197,18 +214,11 @@ namespace AIToolbox::Factored::MDP {
         // is a vector) at a time, maximizing on one of the State components at
         // a time. We don't really do anything here aside from creating new
         // constraints in the LP, and giving them "names".
+        VE ve;
+        Global global{lp, 0};
+
         const auto F = join(S, A);
-        while (graph.variableSize())
-            removeState(F, graph, graph.variableSize() - 1, lp, finalFactors);
-
-        // Finally, add the last inequalities for all remaining factors.
-        lp.row.setZero();
-
-        for (const auto ruleId : finalFactors) {
-            lp.row[ruleId] = 1.0;
-            lp.pushRow(LP::Constraint::LessEqual, 0.0);
-            lp.row[ruleId] = 0.0;
-        }
+        ve(F, graph, global);
 
         // Set every variable we have added as unbounded, since they shouldn't
         // be limited to positive (which may be the default).
@@ -220,63 +230,40 @@ namespace AIToolbox::Factored::MDP {
         return lp.solve(returnVars);
     }
 
-    void LinearProgramming::removeState(const Factors & F, Graph & graph, const size_t f, LP & lp, std::vector<size_t> & finalFactors) const {
-        const auto factors = graph.getNeighbors(f);
-        auto variables = graph.getNeighbors(factors);
+    void Global::initNewFactor() {
+        newFactor = lp.row.size();
 
-        PartialFactorsEnumerator jointActions(F, variables, f);
-        const auto id = jointActions.getFactorToSkipId();
-        Rules newRules;
+        lp.addColumn();
+    }
 
-        // We'll now create new rules that represent the elimination of the
-        // input variable for this round.
-        const bool isFinalFactor = variables.size() == 1;
+    void Global::beginCrossSum() {
+        // Each cross-sum creates a
+        //
+        //     newFactor >= sum of other_constraints
+        //
+        // rule in the LP, so we start the setup here.
+        lp.row.setZero();
+        lp.row[newFactor] = -1.0;
+    }
 
-        while (jointActions.isValid()) {
-            auto & jointAction = *jointActions;
+    void Global::crossSum(const Factor & f) {
+        // We add to the constraint all the factors to add.
+        lp.row[f] = 1.0;
+    }
 
-            const size_t newRuleId = lp.row.size();
+    void Global::endCrossSum() {
+        // We finally add the constraint we have setup to the LP.
+        lp.pushRow(LP::Constraint::LessEqual, 0.0);
+    }
 
-            lp.addColumn();
+    void Global::makeResult(VE::FinalFactors && finalFactors) {
+        // Finally, add the last inequalities for all remaining factors.
+        lp.row.setZero();
 
-            for (size_t sAction = 0; sAction < F[f]; ++sAction) {
-                jointAction.second[id] = sAction;
-
-                lp.row.setZero();
-                lp.row[newRuleId] = -1.0;
-
-                for (const auto ruleIds : factors)
-                    for (const auto ruleId : ruleIds->getData())
-                        if (match(ruleIds->getVariables(), ruleId.first, jointAction.first, jointAction.second))
-                            lp.row[std::get<1>(ruleId)] = 1.0;
-
-                lp.pushRow(LP::Constraint::LessEqual, 0.0);
-            }
-
-            if (!isFinalFactor)
-                newRules.emplace_back(jointAction.second, newRuleId);
-            else
-                finalFactors.push_back(newRuleId);
-
-            jointActions.advance();
-        }
-
-        // And finally as usual in variable elimination remove the variable
-        // from the graph and insert the newly created variable in.
-
-        for (const auto & it : factors)
-            graph.erase(it);
-        graph.erase(f);
-
-        if (!isFinalFactor) {
-            variables.erase(std::remove(std::begin(variables), std::end(variables), f), std::end(variables));
-
-            auto newFactor = graph.getFactor(variables);
-            newFactor->getData().insert(
-                    std::end(newFactor->getData()),
-                    std::make_move_iterator(std::begin(newRules)),
-                    std::make_move_iterator(std::end(newRules))
-            );
+        for (const auto ruleId : finalFactors) {
+            lp.row[ruleId] = 1.0;
+            lp.pushRow(LP::Constraint::LessEqual, 0.0);
+            lp.row[ruleId] = 0.0;
         }
     }
 }
