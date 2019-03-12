@@ -16,24 +16,6 @@ BOOST_AUTO_TEST_CASE( solver ) {
     // Create and setup the bases to use for the ValueFunction.
     auto vf = afm::ValueFunction();
 
-    // From the original paper it is not 100% clear whether we should create 3
-    // separate bases per state element, or 9 bases per agent (Status x Load).
-    //
-    // Unfortunately I can't seem to be able to learn a reasonable policy with
-    // the first approach, so we're doing the second - which actually learns
-    // pretty nicely.
-
-    // for (size_t s = 0; s < problem.getS().size(); ++s) {
-    //     vf.values.bases.emplace_back(aif::BasisFunction{{s}, ai::Vector(3)});
-    //     vf.values.bases.back().values << 1.0, 0.0, 0.0;
-
-    //     vf.values.bases.emplace_back(aif::BasisFunction{{s}, ai::Vector(3)});
-    //     vf.values.bases.back().values << 0.0, 1.0, 0.0;
-
-    //     vf.values.bases.emplace_back(aif::BasisFunction{{s}, ai::Vector(3)});
-    //     vf.values.bases.back().values << 0.0, 0.0, 1.0;
-    // }
-
     for (size_t s = 0; s < problem.getS().size(); s += 2) {
         for (size_t i = 0; i < 9; ++i) {
             vf.values.bases.emplace_back(aif::BasisFunction{{s, s+1}, ai::Vector(9)});
@@ -41,7 +23,6 @@ BOOST_AUTO_TEST_CASE( solver ) {
             vf.values.bases.back().values[i] = 1.0;
         }
     }
-
 
     auto solver = afm::LinearProgramming();
 
