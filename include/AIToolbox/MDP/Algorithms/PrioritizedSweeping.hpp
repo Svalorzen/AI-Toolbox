@@ -156,29 +156,20 @@ namespace AIToolbox::MDP {
             QFunction qfun_;
             ValueFunction vfun_;
 
-            using PriorityQueueElement = std::tuple<double, size_t>;
-            enum {
-                PRIORITY = 0,
-                STATE    = 1,
+            struct PriorityQueueElement {
+                double priority;
+                size_t state;
+                bool operator<(const PriorityQueueElement& arg2) const {
+                    return priority < arg2.priority;
+                }
             };
 
-            class PriorityTupleLess {
-                public:
-                    bool operator() (const PriorityQueueElement& arg1, const PriorityQueueElement& arg2) const;
-            };
-
-            using QueueType = boost::heap::fibonacci_heap<PriorityQueueElement, boost::heap::compare<PriorityTupleLess>>;
+            using QueueType = boost::heap::fibonacci_heap<PriorityQueueElement>;
 
             QueueType queue_;
 
             std::unordered_map<size_t, typename QueueType::handle_type> queueHandles_;
     };
-
-    template <typename M>
-    bool PrioritizedSweeping<M>::PriorityTupleLess::operator() (const PriorityQueueElement& arg1, const PriorityQueueElement& arg2) const
-    {
-        return std::get<PRIORITY>(arg1) < std::get<PRIORITY>(arg2);
-    }
 
     template <typename M>
     PrioritizedSweeping<M>::PrioritizedSweeping(const M & m, const double theta, const unsigned n) :
@@ -214,10 +205,12 @@ namespace AIToolbox::MDP {
         if ( p > theta_ ) {
             auto it = queueHandles_.find(s);
 
-            if ( it != std::end(queueHandles_) && std::get<PRIORITY>(*(it->second)) < p )
-                queue_.increase(it->second, std::make_tuple(p, s));
-            else
-                queueHandles_[s] = queue_.push(std::make_tuple(p, s));
+            if (it != std::end(queueHandles_)) {
+                if ((*it->second).priority < p)
+                    queue_.increase(it->second, {p, s});
+            } else {
+                queueHandles_[s] = queue_.emplace(PriorityQueueElement{p, s});
+            }
         }
     }
 
@@ -228,8 +221,8 @@ namespace AIToolbox::MDP {
 
             // The state we extract has been processed already
             // So it is the future we have to backtrack from.
-            size_t s1;
-            std::tie(std::ignore, s1) = queue_.top();
+            auto [p, s1] = queue_.top();
+            (void)p;
 
             queue_.pop();
             queueHandles_.erase(s1);
