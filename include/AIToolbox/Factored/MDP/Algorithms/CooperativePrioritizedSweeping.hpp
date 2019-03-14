@@ -4,55 +4,16 @@
 #include <AIToolbox/Factored/MDP/Types.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
+#include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
 
 namespace AIToolbox::Factored::MDP {
     template <typename M>
     class CooperativePrioritizedSweeping {
         public:
-            void stepUpdateQ(const State & s, const Action & a) {
+            void stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
+                auto delta1 = updateQ(s, a, s1, r);
 
-                for (auto & q : q_.bases) {
-                    const auto sid = toIndexPartial(q.tag, S, s);
-                    const auto aid = toIndexPartial(q.actionTag, A, a);
-
-                    q.values(sid, aid) = model_.getExpectedReward(s, a);
-
-                    // Same as backpropagation, but just for this specific value.
-                    //
-                    // PartialFactorsEnumerator rDomain(S, v_i.tag);
-                    // double futureVal = 0.0;
-                    // for (size_t rId = 0; rDomain.isValid(); rDomain.advance(), ++rId)
-                    //     futureVal += rhs.values[rId] * ddn.getTransitionProbability(space, actions, {q.tag, s}, {q.actionTag, a}, *rDomain);
-                    // q.values(sid, aid) += model_.getDiscount() * futureVal;
-                }
-
-                // Update V
-                double delta = 0.0;
-                // auto a1 = greedyPolicy.sampleAction(s)
-                // for (auto & v : v_) {
-                //     const auto sid = toIndexPartial(v.tag, S, s);
-                //     const auto qid = toIndexPartial(q.tag, S, s);
-                //     const auto aid = toIndexPartial(q.actionTag, A, a1);
-                //
-                //     delta += v(sid) - q.values(qid, aid)
-                //     v(sid) = q.values(qid, aid);
-                // }
-                delta = std::fabs(delta);
-
-                // Distribute deltas to each s component
-                std::vector<double> diffs(s.size());
-                for (const auto & q : q_.bases)
-                    for (auto s : q.tag)
-                        diffs[s] += delta / q.tag.size();
-
-                // Add elements to the queue
-                for (size_t i = 0; i < s.size(); ++i) {
-                    // for (ps_i : s_i)
-                    //     for (pa_i : s_i)
-                    //         auto p = model_.getTransitionProbability(ps_i, pa_i, s[i])
-                    //         if (p * diffs[i] < theta) continue;
-                    //         queue.push(pv, i, ps_i, pa_i)
-                }
+                addToQueue(s, delta1);
             }
 
             void batchUpdateQ() {
@@ -68,58 +29,84 @@ namespace AIToolbox::Factored::MDP {
                 // Update s.
                 // auto [_, i, s_i, a_i] = queue.pop;
 
-                // auto & q = q_[i];
-                //
-                // delta = 0.0
-                // q.values(s_i, a_i) = model_.getExpectedReward(s_i, a_i);
-                //
-                // for (size_t i = 0; i < s_i.size(); ++i) {
-                //     for (ps_i : s_i)
-                //         for (pa_i : s_i)
-                //             auto p = model_.getTransitionProbability(ps_i, pa_i, s[i])
-                //             if (p * diffs[i] < theta) continue;
-                //             queue.push(pv, i, ps_i, pa_i)
-                // }
-            }
+                std::vector<size_t> missingA;
 
-            void stepUpdateQ(const State & s, Action & a, const std::vector<size_t> & missingA) {
-                // PartialFactorsEnumerator enum(A, missingA);
-                //
-                // while (enum.isValid())
-                {
-                    // for (i : enum)
-                    //     a[enum->first[i]] = a[enum->second[i]]
+                PartialFactorsEnumerator e(A, missingA);
+                State s;
+                Action a;
+                while (e.isValid()) {
+                    // Set missing actions.
+                    for (size_t i = 0; i < missingA.size(); ++i)
+                        a[e->first[i]] = a[e->second[i]];
 
-                    for (auto & q : q_.bases) {
-                        const auto sid = toIndexPartial(q.tag, S, s);
-                        const auto aid = toIndexPartial(q.actionTag, A, a);
-
-                        q.values(sid, aid) = model_.getExpectedReward(s, a);
-
-                        // Same as backpropagation, but just for this specific value.
-                        //
-                        // PartialFactorsEnumerator rDomain(S, v_i.tag);
-                        // double futureVal = 0.0;
-                        // for (size_t rId = 0; rDomain.isValid(); rDomain.advance(), ++rId)
-                        //     futureVal += rhs.values[rId] * ddn.getTransitionProbability(space, actions, {q.tag, s}, {q.actionTag, a}, *rDomain);
-                        // q.values(sid, aid) += model_.getDiscount() * futureVal;
-                    }
+                    const auto [s1, r] = model_.sampleSR(s, a);
+                    updateQ(s, a, s1, r);
                 }
-
-                // Update V
-
-                // Work the deltas
             }
 
         private:
+            std::vector<double> updateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
+                // Optional
+                // const auto aa = gp_.sampleAction(s);
+
+                const auto a1 = gp_.sampleAction(s1);
+
+                std::vector<double> deltasNoV(s.size());
+                for (size_t i = 0; i < q_.bases.size(); ++i) {
+                    auto & q = q_[i];
+                    const auto & v = v_[i];
+
+                    const auto sid = toIndexPartial(q.tag, S, s);
+                    const auto aid = toIndexPartial(q.actionTag, A, a);
+
+                    const auto s1id = toIndexPartial(q.tag, S, s1);
+                    const auto a1id = toIndexPartial(q.actionTag, A, a1);
+
+                    auto delta = q.values(sid, aid);
+
+                    q_(sid, aid) += alpha_ * ( r[i] + discount_ * q_(s1id, a1id) - q_(sid, aid) );
+
+                    // Optional
+                    // const auto aaid = toIndexPartial(q.actionTag, A, aa);
+                    // delta = std::fabs(delta - q.values(sid, aaid)) / q.tag.size();
+
+                    delta = std::fabs(delta - q.values(sid, aid)) / q.tag.size();
+
+                    for (auto s : q.tag)
+                        deltasNoV[s] += delta;
+                }
+                return deltasNoV;
+            }
+
+            void addToQueue(const State & s, const std::vector<double> & deltas) {
+                // Add elements to the queue
+                const auto & T = model_.getTransitionFunction();
+
+                for (size_t i = 0; i < s.size(); ++i) {
+                    for (const auto & aNode : T[i].nodes) {
+                        for (const auto & sNode : aNode.nodes) {
+                            for (size_t parentId = 0; i < sNode.values.rows(); ++parentId) {
+                                auto p = sNode.values(parentId, s[i]);
+                                if (p * deltas[i] < theta_) continue;
+
+                                //  queue.push(pv, {i, s_i}, {ps_i, pa_i})
+                            }
+                        }
+                    }
+                }
+            }
+
             const M & model_;
 
             State S;
             Action A;
 
-            double discount_;
+            double discount_, alpha_;
+            double theta_;
 
+            QGreedyPolicy gp_;
             FactoredMatrix2D q_;
+            FactoredVector v_;
     };
 }
 
