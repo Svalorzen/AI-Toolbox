@@ -130,7 +130,7 @@ namespace AIToolbox::Factored::MDP {
                     a[aa] = dist(rand_);
                 }
 
-                const auto [s1, r] = model_.sampleSR(s, a);
+                const auto [s1, r] = model_.sampleSRs(s, a);
                 updateQ(s, a, s1, r.array() / rewardWeights_.array());
 
                 // PartialFactorsEnumerator e(model_.getA(), missingA);
@@ -164,7 +164,7 @@ namespace AIToolbox::Factored::MDP {
                     for (auto s : qDomains_[i])
                         rr += r[s]; // already divided by weights
 
-                    q_(sid, aid) += alpha_ * ( rr + model_.getDiscount() * q_(s1id, a1id) - q_(sid, aid) );
+                    q.values(sid, aid) += alpha_ * ( rr + model_.getDiscount() * q.values(s1id, a1id) - q.values(sid, aid) );
 
                     delta = std::fabs(delta - q.values(sid, aid)) / q.tag.size();
 
@@ -184,8 +184,8 @@ namespace AIToolbox::Factored::MDP {
                     const auto & aNode = T.nodes[i];
                     for (size_t a = 0; a < aNode.nodes.size(); ++a) {
                         const auto & sNode = aNode.nodes[a];
-                        for (size_t s = 0; i < sNode.values.rows(); ++s) {
-                            const auto p = sNode.values(s, s1[i]) * deltas[i];
+                        for (size_t s = 0; i < static_cast<size_t>(sNode.matrix.rows()); ++s) {
+                            const auto p = sNode.matrix(s, s1[i]) * deltas[i];
 
                             if (p < theta_) continue;
 
@@ -204,7 +204,7 @@ namespace AIToolbox::Factored::MDP {
                                 (*handle).priority += p;
                                 queue_.increase(handle);
                             } else {
-                                auto handle = queue_.push(p, backup);
+                                auto handle = queue_.emplace(PriorityQueueElement{p, backup});
                                 auto id = ids_.insert(backup);
 
                                 findById_[id] = handle;
