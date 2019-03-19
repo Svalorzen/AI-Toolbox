@@ -161,6 +161,13 @@ namespace AIToolbox::Factored {
              */
             void erase(size_t id, const PartialFactors & pf);
 
+            /**
+             * @brief This function returns a reference to the underlying Factors.
+             *
+             * @return The Factors domain of this Trie.
+             */
+            const Factors & getFactors() const;
+
         private:
             Factors F;
             size_t counter_;

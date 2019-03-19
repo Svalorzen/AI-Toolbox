@@ -321,4 +321,6 @@ namespace AIToolbox::Factored {
                 v.back().erase(it);
         }
     }
+
+    const Factors & Trie::getFactors() const { return F; }
 }
