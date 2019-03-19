@@ -21,15 +21,10 @@ namespace AIToolbox::Factored::MDP {
             // VE directly, so we don't have to copy rules here.
             std::vector<Bandit::QFunctionRule> rules;
             for (const auto & basis : qm_->bases) {
-                PartialFactorsEnumerator se(S, basis.tag);
+                size_t x = toIndexPartial(basis.tag, S, s);
                 PartialFactorsEnumerator ae(A, basis.actionTag);
-                for (size_t x = 0; se.isValid(); se.advance(), ++x) {
-                    if (!match(s, *se)) continue;
-
-                    ae.reset();
-                    for (size_t y = 0; ae.isValid(); ae.advance(), ++y)
-                        rules.emplace_back(*ae, basis.values(x, y));
-                }
+                for (size_t y = 0; ae.isValid(); ae.advance(), ++y)
+                    rules.emplace_back(*ae, basis.values(x, y));
             }
             return std::get<0>(ve(A, rules));
         }
