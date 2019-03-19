@@ -118,6 +118,7 @@ if (MAKE_FMDP)
     AddTest(Factored SparseCooperativeQLearning)
     AddTest(Factored LinearProgramming)
     AddTest(Factored JointActionLearner)
+    AddTest(Factored CooperativePrioritizedSweeping)
 
     if (MAKE_PYTHON)
         AddTestPython(Factored JointActionLearner)
