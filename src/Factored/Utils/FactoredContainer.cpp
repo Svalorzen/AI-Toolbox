@@ -1,5 +1,7 @@
 #include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
 
+#include <boost/range/adaptor/reversed.hpp>
+
 namespace AIToolbox::Factored {
     namespace {
         /**
@@ -61,19 +63,19 @@ namespace AIToolbox::Factored {
         }
 
         void Filter::stepAdvance() {
-            if (beginUnnamedFilter == endUnnamedFilter) ++beginNamedFilter;
-            else if (beginNamedFilter == endNamedFilter) ++beginUnnamedFilter;
+            if (beginNamedFilter == endNamedFilter) ++beginUnnamedFilter;
+            else if (beginUnnamedFilter == endUnnamedFilter) ++beginNamedFilter;
             else *beginNamedFilter < *beginUnnamedFilter ? ++beginNamedFilter : ++beginUnnamedFilter;
         }
 
         bool Filter::isValid() const {
-            return beginNamedFilter < endNamedFilter || beginUnnamedFilter < endUnnamedFilter;
+            return beginUnnamedFilter < endUnnamedFilter || beginNamedFilter < endNamedFilter;
         }
 
         size_t Filter::getMin() const {
-            if ( !isValid() ) return 0;
-            if (beginUnnamedFilter == endUnnamedFilter) return *beginNamedFilter;
+            assert( isValid() );
             if (beginNamedFilter == endNamedFilter) return *beginUnnamedFilter;
+            if (beginUnnamedFilter == endUnnamedFilter) return *beginNamedFilter;
             return std::min(*beginNamedFilter, *beginUnnamedFilter);
         }
 
@@ -138,11 +140,9 @@ namespace AIToolbox::Factored {
     Trie::Trie(Factors f) : F(std::move(f)), counter_(0) {
         if ( F.size() < 2 ) throw std::invalid_argument("Factors must have at least 2 elements!");
 
-        partials_.resize(F.size());
-        for ( size_t i = 0; i < F.size(); ++i )
-            partials_[i].resize(F[i], 0);
-
         ids_.resize(F.size());
+        for ( size_t i = 0; i < F.size(); ++i )
+            ids_[i].resize(F[i]+1); // One vector per value + 1 for unnamed
     }
 
     Factors Trie::getF() const {
@@ -158,33 +158,30 @@ namespace AIToolbox::Factored {
         return counter_;
     }
 
-    void Trie::insert(const PartialFactors & ps) {
+    size_t Trie::insert(const PartialFactors & pf) {
         // We count all factors.
         size_t factor = 0;
 
-        for ( size_t i = 0; i < ps.first.size(); ++factor ) {
+        for ( size_t i = 0; i < pf.first.size(); ++factor ) {
             // If this factor is less than the one we are currently looking
             // at, then it is not mentioned. Thus we add it to the end of the
-            // ids list for this factor (where the unnamed ids are).
-            if (factor < ps.first[i]) {
-                ids_[factor].push_back(counter_);
+            // unnamed ids list for this factor (last vector).
+            if (factor < pf.first[i]) {
+                ids_[factor].back().push_back(counter_);
                 continue;
             }
             // Otherwise we get the value, and increase i since we are done
             // with this element of the input.
-            size_t value = ps.second[i++];
-            // We add the element to the ids list for this factor in the
-            // range matching the input value for this factor.
-            ids_[factor].insert(std::begin(ids_[factor]) + partials_[factor][value], counter_);
-            // We increase all partials from this point forward.
-            for (; value < F[factor]; ++value)
-                ++partials_[factor][value];
+            const size_t value = pf.second[i++];
+            // We append the element to the ids list for this factor in the
+            // vector corresponding the input value for this factor.
+            ids_[factor][value].push_back(counter_);
         }
         // If any other factor is still left unmentioned, add the input at
-        // the end of any of them.
+        // the end of their unnamed range.
         for ( ; factor < F.size(); ++factor )
-            ids_[factor].push_back(counter_);
-        ++counter_;
+            ids_[factor].back().push_back(counter_);
+        return counter_++;
     }
 
     std::vector<size_t> Trie::filter(const Factors & f, size_t offset) const {
@@ -200,13 +197,13 @@ namespace AIToolbox::Factored {
         for ( size_t i = offset; i < f.size() + offset; ++i ) {
             auto id = i - offset;
             // Create a filter, made by two ranges: the first is the one
-            // containing all factors that specified this exact factor, the
+            // containing all ids that specified this exact key-value pair, the
             // other for the ones that did not specify anything.
             Filter filter(
-                std::begin(ids_[i]) + (f[id] == 0 ? 0 : partials_[i][f[id]-1]),
-                std::begin(ids_[i]) + (partials_[i][f[id]]),
-                std::begin(ids_[i]) + (partials_[i].back()),
-                std::end(ids_[i])
+                std::begin(ids_[i][f[id]]),
+                std::end  (ids_[i][f[id]]),
+                std::begin(ids_[i].back()),
+                std::end  (ids_[i].back())
             );
             if (!filter.isValid())
                 return {};
@@ -226,21 +223,102 @@ namespace AIToolbox::Factored {
         filters.reserve(pf.first.size());
         // For each factor
         for ( size_t i = 0; i < pf.first.size(); ++i ) {
-            auto factor = pf.first[i];
+            auto key = pf.first[i];
             auto value = pf.second[i];
             // Create a filter, made by two ranges: the first is the one
-            // containing all factors that specified this exact factor, the
+            // containing all ids that specified this exact key-value pair, the
             // other for the ones that did not specify anything.
             Filter filter(
-                std::begin(ids_[factor]) + (value == 0 ? 0 : partials_[factor][value-1]),
-                std::begin(ids_[factor]) + (partials_[factor][value]),
-                std::begin(ids_[factor]) + (partials_[factor].back()),
-                std::end(ids_[factor])
+                std::begin(ids_[key][value]),
+                std::end  (ids_[key][value]),
+                std::begin(ids_[key].back()),
+                std::end  (ids_[key].back())
             );
             if (!filter.isValid())
                 return {};
             filters.insert(std::upper_bound(std::begin(filters), std::end(filters), filter), filter);
         }
         return applyFilters(filters);
+    }
+
+    std::vector<size_t> Trie::refine(const std::vector<size_t> & ids, const PartialFactors & pf) const {
+        if (!ids.size() || !pf.first.size()) {
+            // If nothing to match, match all
+            return ids;
+        }
+        std::vector<Filter> filters;
+        filters.reserve(pf.first.size() + 1);
+        // ids filter; we put the ids in the "unnamed" part since it's slightly
+        // more efficient like this (we do less checks).
+        filters.emplace_back(
+            std::end(ids), std::end(ids),
+            std::begin(ids), std::end(ids)
+        );
+        // For each factor
+        for ( size_t i = 0; i < pf.first.size(); ++i ) {
+            auto key = pf.first[i];
+            auto value = pf.second[i];
+            // Create a filter, made by two ranges: the first is the one
+            // containing all ids that specified this exact key-value pair, the
+            // other for the ones that did not specify anything.
+            Filter filter(
+                std::begin(ids_[key][value]),
+                std::end  (ids_[key][value]),
+                std::begin(ids_[key].back()),
+                std::end  (ids_[key].back())
+            );
+            if (!filter.isValid())
+                return {};
+            filters.insert(std::upper_bound(std::begin(filters), std::end(filters), filter), filter);
+        }
+        return applyFilters(filters);
+    }
+
+    void Trie::erase(size_t id) {
+        for (auto & v : ids_) {
+            // FIXME: use C++20 ranges.
+            // We go in reverse here since in general it's more likely to find
+            // an id in the unnamed section.
+            for (auto & vv : boost::adaptors::reverse(v)) {
+                auto it = std::lower_bound(std::begin(vv), std::end(vv), id);
+                if (*it == id) {
+                    vv.erase(it);
+                    // We break since we found the vector which contained the id.
+                    break;
+                }
+            }
+        }
+    }
+
+    void Trie::erase(size_t id, const PartialFactors & pf) {
+        size_t factor = 0;
+        for ( size_t i = 0; i < pf.first.size(); ++factor ) {
+            auto & v = ids_[factor];
+            // If this factor is less than the one we are currently looking
+            // at, then it is not mentioned. Thus we add it to the end of the
+            // ids list for this factor (where the unnamed ids are).
+            if (factor < pf.first[i]) {
+                auto it = std::lower_bound(std::begin(v.back()), std::end(v.back()), id);
+                if (*it == id)
+                    v.back().erase(it);
+                continue;
+            }
+            // Otherwise we get the value, and increase i since we are done
+            // with this element of the input.
+            const size_t value = pf.second[i++];
+            // We add the element to the ids list for this factor in the
+            // range matching the input value for this factor.
+            auto it = std::lower_bound(std::begin(v[value]), std::end(v[value]), id);
+            if (*it == id)
+                v[value].erase(it);
+        }
+        // If any other factor is still left unmentioned, remove the input at
+        // the end of any of them.
+        for ( ; factor < F.size(); ++factor ) {
+            auto & v = ids_[factor];
+            auto it = std::lower_bound(std::begin(v.back()), std::end(v.back()), id);
+            if (*it == id)
+                v.back().erase(it);
+        }
     }
 }

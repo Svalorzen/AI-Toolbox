@@ -66,8 +66,10 @@ namespace AIToolbox::Factored {
              * for fast insertion.
              *
              * @param ps The partial state used as key for the insertion.
+             *
+             * @return The id of the newly inserted key.
              */
-            void insert(const PartialFactors & pf);
+            size_t insert(const PartialFactors & pf);
 
             /**
              * @brief This function returns the number of insertions performed on the Trie.
@@ -118,18 +120,52 @@ namespace AIToolbox::Factored {
              * If an id is found matching in all factors, then such a key
              * was inserted and is added to the returned list.
              *
-             * @param f The Factors used as filter in the trie.
+             * @param f The PartialFactors used as filter in the trie.
              *
              * @return The ids of all inserted keys which match the input.
              */
             std::vector<size_t> filter(const PartialFactors & pf) const;
 
+            /**
+             * @brief This function refines the input ids with the supplied filter.
+             *
+             * @param ids The ids to consider for filtering.
+             * @param pf The PartialFactors used as a filter in the trie.
+             *
+             * @return The ids in the input which match the filter.
+             */
+            std::vector<size_t> refine(const std::vector<size_t> & ids, const PartialFactors & pf) const;
+
+            /**
+             * @brief This function removes the input id from the trie.
+             *
+             * Note that this function performs a lookup on all vectors whether
+             * the id is really present or not (maybe because you erased it
+             * before).
+             *
+             * @param id The id to remove.
+             */
+            void erase(size_t id);
+
+            /**
+             * @brief This function removes the input id from the trie.
+             *
+             * This function is faster than erase(size_t) as it already knows what to look for.
+             *
+             * Note that this function performs a lookup on all vectors whether
+             * the id is really present or not (maybe because you erased it
+             * before).
+             *
+             * @param id The id to remove.
+             * @param pf The key with which the id was inserted.
+             */
+            void erase(size_t id, const PartialFactors & pf);
+
         private:
             Factors F;
             size_t counter_;
 
-            std::vector<std::vector<size_t>> partials_;
-            std::vector<std::vector<size_t>> ids_;
+            std::vector<std::vector<std::vector<size_t>>> ids_;
     };
 
     /**
