@@ -132,7 +132,7 @@ namespace AIToolbox::Factored::MDP {
                         ids = ids_.refine(ids, stateAction);
                     }
 
-                    std::cout << "Done merging\n";
+                    std::cout << "Done merging: " << stateAction << "\n";
 
                     std::vector<size_t> missingS;
                     std::vector<size_t> missingA;
@@ -143,28 +143,34 @@ namespace AIToolbox::Factored::MDP {
                     // Copy stateAction values to s and a, and record missing ids.
                     size_t x = 0;
                     for (size_t i = 0; i < s.size(); ++i) {
-                        if (x < stateAction.first.size() && i < stateAction.first[x])
+                        if (x >= stateAction.first.size() || i < stateAction.first[x])
                             missingS.push_back(i);
-
-                        s[i] = stateAction.second[x++];
+                        else
+                            s[i] = stateAction.second[x++];
                     }
+
+                    std::cout << "S: " << s << " ; missingS: " << missingS << " ; x = " << x << '\n';
 
                     for (size_t i = 0; i < a.size(); ++i) {
-                        if (x < stateAction.first.size() && i < stateAction.first[x])
+                        if (x >= stateAction.first.size() || i + model_.getS().size() < stateAction.first[x])
                             missingA.push_back(i);
-
-                        a[i] = stateAction.second[x++];
+                        else
+                            a[i] = stateAction.second[x++];
                     }
 
+                    std::cout << "A: " << a << " ; missingA: " << missingA << '\n';
+
                     for (auto ss : missingS) {
-                        std::uniform_int_distribution<size_t> dist(0, model_.getS()[ss]);
+                        std::uniform_int_distribution<size_t> dist(0, model_.getS()[ss]-1);
                         s[ss] = dist(rand_);
                     }
 
                     for (auto aa : missingA) {
-                        std::uniform_int_distribution<size_t> dist(0, model_.getA()[aa]);
+                        std::uniform_int_distribution<size_t> dist(0, model_.getA()[aa]-1);
                         a[aa] = dist(rand_);
                     }
+
+                    std::cout << "Final S: " << s << " ; final A: " << a << '\n';
 
                     const auto [s1, r] = model_.sampleSRs(s, a);
                     updateQ(s, a, s1, r.array() / rewardWeights_.array());
