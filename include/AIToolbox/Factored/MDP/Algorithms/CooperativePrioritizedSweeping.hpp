@@ -10,7 +10,19 @@
 #include <boost/functional/hash.hpp>
 #include <boost/heap/fibonacci_heap.hpp>
 
+#include <iostream>
+
 namespace AIToolbox::Factored::MDP {
+    template <typename T>
+    std::ostream & operator<<(std::ostream & os, const std::vector<T> & v) {
+        for (auto vv : v)
+            os << vv << ' ';
+        return os;
+    }
+    std::ostream & operator<<(std::ostream & os, const PartialFactors & pf) {
+        os << pf.first << " ==> " << pf.second;
+        return os;
+    }
     template <typename M>
     class CooperativePrioritizedSweeping {
         public:
@@ -53,100 +65,131 @@ namespace AIToolbox::Factored::MDP {
                     fm.values.resize(sizeS, sizeA);
                     fm.values.setZero();
                 }
+                std::cout << "Rewards weights: " << rewardWeights_.transpose() << '\n';
             }
 
             void stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
+                std::cout << "Running new stepUpdateQ with:\n"
+                             "- s  = " << s  << '\n' <<
+                             "- a  = " << a  << '\n' <<
+                             "- s1 = " << s1 << '\n' <<
+                             "- r  = " << r.transpose()  << '\n';
                 auto delta1 = updateQ(s, a, s1, r.array() / rewardWeights_.array());
 
                 addToQueue(s, delta1);
             }
 
             void batchUpdateQ() {
-                // Pick top element from queue
-                auto [p, stateAction] = queue_.pop();
-                (void)p;
+                for (size_t n = 0; n < 50; ++n) {
+                    if (queue_.empty()) return;
 
-                auto ids = ids_.filter(stateAction);
-                while (true) {
-                    // Take a random compatible element to add to the first
-                    // one. Ideally one would want to pick the one with the
-                    // highest priority, but it's also very important to be as
-                    // fast as possible here since we want to do as many
-                    // updates as we can; thus, we do the easiest thing.
-                    auto id = ids.pop_back();
+                    // Pick top element from queue
+                    auto [p, id, stateAction] = queue_.top();
+                    (void)p;
 
-                    // Find the handle to the backup in the priority queue.
-                    auto hIt = findById_.find(id);
-                    auto handle = hIt->second;
+                    queue_.pop();
 
-                    // Add the selected state-action pair and add it to our
-                    // own.
-                    stateAction = merge(stateAction, (*handle).stateAction);
-
-                    // Remove the selected backup from all data-structures.
                     ids_.erase(id);
-                    findById_.remove(hIt);
-                    findByBackup_.erase((*handle).stateAction);
-                    queue_.erase(handle);
+                    findById_.erase(id);
+                    findByBackup_.erase(stateAction);
 
-                    // If we have completed the state-action pair, we are done.
-                    if (stateAction.first.size() == ids_.getFactors().size())
-                        break;
+                    std::cout << "BATCH UPDATE\n";
+                    std::cout << "Selected initial SA: " << stateAction << '\n';
 
-                    ids_.refine(ids, stateAction);
-                    if (!ids_.size())
-                        break;
+                    // We want to remove as many rules in one swoop as possible, thus
+                    // we take all rules compatible with our initial pick.
+                    auto ids = ids_.filter(stateAction);
+                    while (ids.size()) {
+                        // Take a random compatible element to add to the first
+                        // one. Ideally one would want to pick the one with the
+                        // highest priority, but it's also very important to be as
+                        // fast as possible here since we want to do as many
+                        // updates as we can; thus, we do the easiest thing.
+                        id = ids.back();
+                        std::cout << "Extracted additional index " << id << '\n';
+                        ids.pop_back();
+
+                        // Find the handle to the backup in the priority queue.
+                        auto hIt = findById_.find(id);
+                        assert(hIt != std::end(findById_));
+
+                        auto handle = hIt->second;
+
+                        std::cout << "Additional SA: " << (*handle).stateAction << '\n';
+
+                        // Add the selected state-action pair and add it to our
+                        // own.
+                        stateAction = merge(stateAction, (*handle).stateAction);
+                        std::cout << "Merged SA: " << stateAction << '\n';
+
+                        // Remove the selected backup from all data-structures.
+                        ids_.erase(id);
+                        findById_.erase(hIt);
+                        findByBackup_.erase((*handle).stateAction);
+                        queue_.erase(handle);
+
+                        // Refine with the remaining ids
+                        ids = ids_.refine(ids, stateAction);
+                    }
+
+                    std::cout << "Done merging\n";
+
+                    std::vector<size_t> missingS;
+                    std::vector<size_t> missingA;
+
+                    State s(model_.getS().size());
+                    Action a(model_.getA().size());
+
+                    // Copy stateAction values to s and a, and record missing ids.
+                    size_t x = 0;
+                    for (size_t i = 0; i < s.size(); ++i) {
+                        if (x < stateAction.first.size() && i < stateAction.first[x])
+                            missingS.push_back(i);
+
+                        s[i] = stateAction.second[x++];
+                    }
+
+                    for (size_t i = 0; i < a.size(); ++i) {
+                        if (x < stateAction.first.size() && i < stateAction.first[x])
+                            missingA.push_back(i);
+
+                        a[i] = stateAction.second[x++];
+                    }
+
+                    for (auto ss : missingS) {
+                        std::uniform_int_distribution<size_t> dist(0, model_.getS()[ss]);
+                        s[ss] = dist(rand_);
+                    }
+
+                    for (auto aa : missingA) {
+                        std::uniform_int_distribution<size_t> dist(0, model_.getA()[aa]);
+                        a[aa] = dist(rand_);
+                    }
+
+                    const auto [s1, r] = model_.sampleSRs(s, a);
+                    updateQ(s, a, s1, r.array() / rewardWeights_.array());
+
+                    // PartialFactorsEnumerator e(model_.getA(), missingA);
+                    // while (e.isValid()) {
+                    //     // Set missing actions.
+                    //     for (size_t i = 0; i < missingA.size(); ++i)
+                    //         a[e->first[i]] = a[e->second[i]];
+
+                    //     const auto [s1, r] = model_.sampleSR(s, a);
+                    //     updateQ(s, a, s1, r.array() / rewardWeights_.array());
+                    // }
                 }
+            }
 
-                std::vector<size_t> missingS;
-                std::vector<size_t> missingA;
-
-                State s(model_.getS().size());
-                Action a(model_.getA().size());
-
-                // Copy stateAction values to s and a, and record missing ids.
-                size_t x = 0;
-                for (size_t i = 0; i < s.size(); ++i) {
-                    if (x < stateAction.first.size() && i < stateAction.first[x])
-                        missingS.push_back(i);
-
-                    s[i] = stateAction.second[x++];
-                }
-
-                for (size_t i = 0; i < a.size(); ++i) {
-                    if (x < stateAction.first.size() && i < stateAction.first[x])
-                        missingA.push_back(i);
-
-                    a[i] = stateAction.second[x++];
-                }
-
-                for (auto ss : missingS) {
-                    std::uniform_int_distribution<size_t> dist(0, model_.getS()[ss]);
-                    s[ss] = dist(rand_);
-                }
-
-                for (auto aa : missingA) {
-                    std::uniform_int_distribution<size_t> dist(0, model_.getA()[aa]);
-                    a[aa] = dist(rand_);
-                }
-
-                const auto [s1, r] = model_.sampleSRs(s, a);
-                updateQ(s, a, s1, r.array() / rewardWeights_.array());
-
-                // PartialFactorsEnumerator e(model_.getA(), missingA);
-                // while (e.isValid()) {
-                //     // Set missing actions.
-                //     for (size_t i = 0; i < missingA.size(); ++i)
-                //         a[e->first[i]] = a[e->second[i]];
-
-                //     const auto [s1, r] = model_.sampleSR(s, a);
-                //     updateQ(s, a, s1, r.array() / rewardWeights_.array());
-                // }
+            const FactoredMatrix2D & getQFunction() const {
+                return q_;
             }
 
         private:
             std::vector<double> updateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
                 const auto a1 = gp_.sampleAction(s1);
+
+                std::cout << "Delta per Q component: ";
 
                 std::vector<double> deltasNoV(s.size());
                 for (size_t i = 0; i < q_.bases.size(); ++i) {
@@ -158,19 +201,23 @@ namespace AIToolbox::Factored::MDP {
                     const auto s1id = toIndexPartial(q.tag, model_.getS(), s1);
                     const auto a1id = toIndexPartial(q.actionTag, model_.getA(), a1);
 
-                    auto delta = q.values(sid, aid);
 
                     double rr = 0.0;
                     for (auto s : qDomains_[i])
                         rr += r[s]; // already divided by weights
 
+                    auto delta = q.values(sid, aid);
+
                     q.values(sid, aid) += alpha_ * ( rr + model_.getDiscount() * q.values(s1id, a1id) - q.values(sid, aid) );
 
                     delta = std::fabs(delta - q.values(sid, aid)) / q.tag.size();
+                    std::cout << delta << ", ";
 
                     for (auto s : q.tag)
                         deltasNoV[s] += delta;
                 }
+                std::cout << '\n';
+                std::cout << "Final deltas per-state: " << deltasNoV << '\n';
                 return deltasNoV;
             }
 
@@ -190,11 +237,11 @@ namespace AIToolbox::Factored::MDP {
                             if (p < theta_) continue;
 
                             Backup backup = PartialFactors{
-                                join(sNode.tag, aNode.actionTag), // Keys
+                                join(model_.getS().size(), sNode.tag, aNode.actionTag), // Keys
                                 join(                             // Values
-                                    toFactorsPartial(sNode.tag,       model_.getS(), s),
-                                    toFactorsPartial(aNode.actionTag, model_.getA(), a)
-                                )
+                                        toFactorsPartial(sNode.tag,       model_.getS(), s),
+                                        toFactorsPartial(aNode.actionTag, model_.getA(), a)
+                                    )
                             };
                             auto hIt = findByBackup_.find(backup);
 
@@ -204,8 +251,11 @@ namespace AIToolbox::Factored::MDP {
                                 (*handle).priority += p;
                                 queue_.increase(handle);
                             } else {
-                                auto handle = queue_.emplace(PriorityQueueElement{p, backup});
                                 auto id = ids_.insert(backup);
+                                auto handle = queue_.emplace(PriorityQueueElement{p, id, backup});
+
+                                std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
+                                std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
 
                                 findById_[id] = handle;
                                 findByBackup_[backup] = handle;
@@ -213,6 +263,8 @@ namespace AIToolbox::Factored::MDP {
                         }
                     }
                 }
+
+                std::cout << "Queue now contains " << queue_.size() << " entries.\n";
             }
 
             const M & model_;
@@ -230,6 +282,7 @@ namespace AIToolbox::Factored::MDP {
 
             struct PriorityQueueElement {
                 double priority;
+                size_t id;
                 Backup stateAction;
                 bool operator<(const PriorityQueueElement& arg2) const {
                     return priority < arg2.priority;

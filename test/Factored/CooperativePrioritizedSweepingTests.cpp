@@ -8,6 +8,9 @@
 #include <AIToolbox/Factored/MDP/CooperativeExperience.hpp>
 #include <AIToolbox/Factored/MDP/CooperativeRLModel.hpp>
 
+#include <AIToolbox/Factored/MDP/Policies/EpsilonPolicy.hpp>
+#include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
+
 #include "Utils/SysAdmin.hpp"
 
 namespace aif = AIToolbox::Factored;
@@ -26,9 +29,28 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
 
     fm::CooperativePrioritizedSweeping ps(model, domains);
 
-    aif::State s(model.getS().size());
-    aif::Action a(model.getA().size());
-    auto [s1, r] = model.sampleSRs(s, a);
+    fm::QGreedyPolicy p(model.getS(), model.getA(), ps.getQFunction());
+    fm::EpsilonPolicy ep(p);
 
-    ps.stepUpdateQ(s, a, s1, r);
+    aif::State s(model.getS().size());
+    aif::Rewards r(model.getS().size());
+    r.setZero();
+    for (size_t t = 0; t < 100; ++t) {
+        std::cout << " #######\n";
+        auto a = ep.sampleAction(s);
+        auto [s1, x] = problem.sampleSR(s, a);
+
+        for (size_t l = 1; l < model.getS().size(); l += 2)
+            r[l] = s1[l] == 2;
+
+        const auto & ids = exp.record(s, a, s1, r);
+        model.sync(ids);
+
+        ps.stepUpdateQ(s, a, s1, r);
+        ps.batchUpdateQ();
+        s = std::move(s1);
+
+        std::cout << ps.getQFunction().bases[0].values << '\n';
+        std::cout << ps.getQFunction().bases[1].values << '\n';
+    }
 }
