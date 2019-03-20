@@ -281,7 +281,7 @@ namespace AIToolbox::Factored {
             // an id in the unnamed section.
             for (auto & vv : boost::adaptors::reverse(v)) {
                 auto it = std::lower_bound(std::begin(vv), std::end(vv), id);
-                if (*it == id) {
+                if (it != std::end(vv) && *it == id) {
                     vv.erase(it);
                     // We break since we found the vector which contained the id.
                     break;
@@ -299,7 +299,7 @@ namespace AIToolbox::Factored {
             // ids list for this factor (where the unnamed ids are).
             if (factor < pf.first[i]) {
                 auto it = std::lower_bound(std::begin(v.back()), std::end(v.back()), id);
-                if (*it == id)
+                if (it != std::end(v.back()) && *it == id)
                     v.back().erase(it);
                 continue;
             }
@@ -309,7 +309,7 @@ namespace AIToolbox::Factored {
             // We add the element to the ids list for this factor in the
             // range matching the input value for this factor.
             auto it = std::lower_bound(std::begin(v[value]), std::end(v[value]), id);
-            if (*it == id)
+            if (it != std::end(v[value]) && *it == id)
                 v[value].erase(it);
         }
         // If any other factor is still left unmentioned, remove the input at
