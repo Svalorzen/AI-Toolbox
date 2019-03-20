@@ -26,8 +26,8 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
 
     fm::CooperativePrioritizedSweeping ps(model, domains);
 
-    aif::State s(model.getS());
-    aif::Action a(model.getA());
+    aif::State s(model.getS().size());
+    aif::Action a(model.getA().size());
     auto [s1, r] = model.sampleSRs(s, a);
 
     ps.stepUpdateQ(s, a, s1, r);

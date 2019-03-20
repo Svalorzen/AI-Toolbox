@@ -184,7 +184,7 @@ namespace AIToolbox::Factored::MDP {
                     const auto & aNode = T.nodes[i];
                     for (size_t a = 0; a < aNode.nodes.size(); ++a) {
                         const auto & sNode = aNode.nodes[a];
-                        for (size_t s = 0; i < static_cast<size_t>(sNode.matrix.rows()); ++s) {
+                        for (size_t s = 0; s < static_cast<size_t>(sNode.matrix.rows()); ++s) {
                             const auto p = sNode.matrix(s, s1[i]) * deltas[i];
 
                             if (p < theta_) continue;
