@@ -69,9 +69,9 @@ namespace AIToolbox {
             {
                 assert(elementsN >= 0);
                 if constexpr (std::is_integral_v<Index>)
-                    assert(upperBound_ - lowerBound_ >= elementsN);
+                    assert(static_cast<size_t>(upperBound_ - lowerBound_) >= elementsN);
                 else
-                    assert(std::distance(lowerBound_, upperBound_) >= elementsN);
+                    assert(static_cast<size_t>(std::distance(lowerBound_, upperBound_)) >= elementsN);
                 reset();
             }
 
