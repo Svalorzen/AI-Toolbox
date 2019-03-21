@@ -4,7 +4,7 @@ set(GlobalFileDependencies
     ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Combinatorics.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Probability.cpp
-    ${PROJECT_SOURCE_DIR}/src/LP/LpSolveWrapper.cpp
+    ${PROJECT_SOURCE_DIR}/src/Utils/LP/LpSolveWrapper.cpp
 )
 set(GlobalDependencies      ${LPSOLVE_LIBRARIES})
 set(BanditDependencies      AIToolboxMDP)

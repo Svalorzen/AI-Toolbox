@@ -3,7 +3,7 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/LP.hpp>
+#include <AIToolbox/Utils/LP.hpp>
 //#include <AIToolbox/Factored/MDP/Algorithms/FactoredValueIteration.hpp>
 #include <AIToolbox/Factored/MDP/Algorithms/Utils/FactoredLP.hpp>
 

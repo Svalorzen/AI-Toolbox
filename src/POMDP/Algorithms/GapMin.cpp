@@ -1,6 +1,6 @@
 #include <AIToolbox/POMDP/Algorithms/GapMin.hpp>
 
-#include <AIToolbox/LP.hpp>
+#include <AIToolbox/Utils/LP.hpp>
 
 namespace AIToolbox::POMDP {
     GapMin::GapMin(const double initialTolerance, const unsigned digits) :

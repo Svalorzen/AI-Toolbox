@@ -1,7 +1,7 @@
 #include <AIToolbox/Factored/MDP/Algorithms/LinearProgramming.hpp>
 
-#include <AIToolbox/LP.hpp>
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/LP.hpp>
 #include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 
 namespace AIToolbox::Factored::MDP {
