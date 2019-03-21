@@ -39,6 +39,7 @@ if (MAKE_MDP)
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
         MDP/Policies/PGAAPPPolicy.cpp
+        MDP/Environments/Utils/Gridworld.cpp
     )
     set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     target_link_libraries(AIToolboxMDP ${LPSOLVE_LIBRARIES})
