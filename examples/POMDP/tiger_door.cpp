@@ -216,7 +216,7 @@ int main() {
     auto s = AIToolbox::sampleProbability(2, b, rand);
 
     // The first thing that happens is that we take an action, so we sample it now.
-    auto a_id = policy.sampleAction(b, horizon);
+    auto [a, ID] = policy.sampleAction(b, horizon);
 
     // Setup cout to pretty print the simulation.
     std::cout.setf(std::ios::fixed, std::ios::floatfield);
@@ -225,14 +225,11 @@ int main() {
     // We loop for each step we have yet to do.
     double totalReward = 0.0;
     for (int t = horizon - 1; t >= 0; --t) {
-        // We get our current action
-        auto currA = std::get<0>(a_id);
         // We advance the world one step (the agent only sees the observation
         // and reward).
-        auto s1_o_r = model.sampleSOR(s, currA);
-        // We get the observation from the model, and update our total reward.
-        auto currO = std::get<1>(s1_o_r);
-        totalReward += std::get<2>(s1_o_r);
+        auto [s1, o, r] = model.sampleSOR(s, a);
+        // We and update our total reward.
+        totalReward += r;
 
         { // Rendering of the environment, depends on state, action and observation.
             auto & left  = s ? prize : tiger;
@@ -240,13 +237,13 @@ int main() {
             for (size_t i = 0; i < prize.size(); ++i)
                 std::cout << left[i] << hspacer << right[i] << '\n';
 
-            auto & dleft  = currA == A_LEFT  ? openDoor : closedDoor;
-            auto & dright = currA == A_RIGHT ? openDoor : closedDoor;
+            auto & dleft  = a == A_LEFT  ? openDoor : closedDoor;
+            auto & dright = a == A_RIGHT ? openDoor : closedDoor;
             for (size_t i = 0; i < prize.size(); ++i)
                 std::cout << dleft[i] << hspacer << dright[i] << '\n';
 
-            auto & sleft  = currA == A_LISTEN && currO == TIG_LEFT  ? sound : nosound;
-            auto & sright = currA == A_LISTEN && currO == TIG_RIGHT ? sound : nosound;
+            auto & sleft  = a == A_LISTEN && o == TIG_LEFT  ? sound : nosound;
+            auto & sright = a == A_LISTEN && o == TIG_RIGHT ? sound : nosound;
             for (size_t i = 0; i < prize.size(); ++i)
                 std::cout << sleft[i] << hspacer << sright[i] << '\n';
 
@@ -268,7 +265,7 @@ int main() {
         // convergence of the solution, see below), otherwise its only for
         // rendering purpouses. It is a pretty expensive operation so if
         // performance is required it should be avoided.
-        b = AIToolbox::POMDP::updateBelief(model, b, currA, currO);
+        b = AIToolbox::POMDP::updateBelief(model, b, a, o);
 
         // Now that we have rendered, we can use the observation to find out
         // what action we should do next.
@@ -287,12 +284,12 @@ int main() {
         // ranges of similar beliefs actually result in needing to do the same
         // thing (since they are similar enough for the timesteps considered).
         if (t > (int)policy.getH())
-            a_id = policy.sampleAction(b, policy.getH());
+            std::tie(a, ID) = policy.sampleAction(b, policy.getH());
         else
-            a_id = policy.sampleAction(std::get<1>(a_id), currO, t);
+            std::tie(a, ID) = policy.sampleAction(ID, o, t);
 
         // Then we update the world
-        s = std::get<0>(s1_o_r);
+        s = s1;
 
         // Sleep 1 second so the user can see what is happening.
         std::this_thread::sleep_for(std::chrono::seconds(1));
