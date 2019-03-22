@@ -17,29 +17,17 @@ namespace AIToolbox {
     constexpr auto equalToleranceGeneral = 0.00000000001;
 
     /**
-     * @brief Copies a 3d container into another 3d container.
+     * @brief This function returns a fast ceiling between two unsigned ints.
      *
-     * The containers needs to support data access through
-     * operator[]. In addition, the dimensions of the
-     * containers must match the ones specified.
+     * Note: we do x + y, so it may overflow.
      *
-     * This is important, as this function DOES NOT perform
-     * any size checks on the containers.
+     * @param x The dividend.
+     * @param y The divisor.
      *
-     * @tparam T Type of the input container.
-     * @tparam U Type of the output container.
-     * @param in Input container.
-     * @param out Output container.
-     * @param d1 First dimension of the containers.
-     * @param d2 Second dimension of the containers.
-     * @param d3 Third dimension of the containers.
+     * @return The ceiling from the integer division.
      */
-    template <typename T, typename U>
-    void copyDumb3D(const T & in, U & out, const size_t d1, const size_t d2, const size_t d3) {
-        for ( size_t i = 0; i < d1; ++i )
-            for ( size_t j = 0; j < d2; ++j )
-                for ( size_t x = 0; x < d3; ++x )
-                    out[i][j][x] = in[i][j][x];
+    inline unsigned ceil(unsigned x, unsigned y) {
+        return (x + y - 1) / y;
     }
 
     /**
@@ -306,6 +294,32 @@ namespace AIToolbox {
             }
         }
         return std::make_pair(retval, max);
+    }
+
+    /**
+     * @brief Copies a 3d container into another 3d container.
+     *
+     * The containers needs to support data access through
+     * operator[]. In addition, the dimensions of the
+     * containers must match the ones specified.
+     *
+     * This is important, as this function DOES NOT perform
+     * any size checks on the containers.
+     *
+     * @tparam T Type of the input container.
+     * @tparam U Type of the output container.
+     * @param in Input container.
+     * @param out Output container.
+     * @param d1 First dimension of the containers.
+     * @param d2 Second dimension of the containers.
+     * @param d3 Third dimension of the containers.
+     */
+    template <typename T, typename U>
+    void copyDumb3D(const T & in, U & out, const size_t d1, const size_t d2, const size_t d3) {
+        for ( size_t i = 0; i < d1; ++i )
+            for ( size_t j = 0; j < d2; ++j )
+                for ( size_t x = 0; x < d3; ++x )
+                    out[i][j][x] = in[i][j][x];
     }
 }
 
