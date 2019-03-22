@@ -17,7 +17,7 @@ namespace AIToolbox::MDP {
     }
 
     GridWorld::State GridWorld::getAdjacent(Direction d, State s) const {
-        using namespace GridWorldActions;
+        using namespace GridWorldEnums;
         switch ( d ) {
             case UP:    return operator()(s.x, s.y-1);
             case DOWN:  return operator()(s.x, s.y+1);

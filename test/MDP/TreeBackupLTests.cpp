@@ -11,19 +11,20 @@
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
-#include "Utils/CliffProblem.hpp"
+#include <AIToolbox/MDP/Environments/CliffProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( cliff ) {
-    namespace mdp = AIToolbox::MDP;
+    using namespace AIToolbox::MDP;
+    using namespace GridWorldEnums;
 
     GridWorld grid(12, 3);
 
     auto model = makeCliffProblem(grid);
 
-    mdp::RandomPolicy behaviour(model.getS(), model.getA());
-    mdp::TreeBackupL solver(behaviour.getS(), behaviour.getA());
+    RandomPolicy behaviour(model.getS(), model.getA());
+    TreeBackupL solver(behaviour.getS(), behaviour.getA());
 
-    mdp::QGreedyPolicy gPolicy(solver.getQFunction());
+    QGreedyPolicy gPolicy(solver.getQFunction());
 
     size_t start = model.getS() - 2;
 
@@ -50,10 +51,10 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     auto state = grid(0, 2);
     for ( int i = 0; i < 11; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, RIGHT), 1.0 );
-        state.setAdjacent(RIGHT);
+        state = grid.getAdjacent(RIGHT, state);
     }
     for ( int i = 0; i < 1; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, DOWN), 1.0 );
-        state.setAdjacent(DOWN);
+        state = grid.getAdjacent(DOWN, state);
     }
 }

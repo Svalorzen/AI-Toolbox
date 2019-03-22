@@ -48,7 +48,7 @@ namespace AIToolbox::MDP {
     // states under it.
 
     inline AIToolbox::MDP::SparseModel makeCliffProblem(const GridWorld & grid) {
-        using namespace GridWorldActions;
+        using namespace GridWorldEnums;
 
         size_t S = grid.getWidth() * grid.getWidth() + 2;
         size_t A = 4;

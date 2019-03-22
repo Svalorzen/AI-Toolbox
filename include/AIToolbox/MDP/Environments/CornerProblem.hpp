@@ -43,7 +43,7 @@ namespace AIToolbox::MDP {
     //  +--------+--------+--------+--------+--------+
 
     inline AIToolbox::MDP::Model makeCornerProblem(const GridWorld & grid, double stepUncertainty = 0.8) {
-        using namespace GridWorldActions;
+        using namespace GridWorldEnums;
 
         size_t S = grid.getWidth() * grid.getHeight();
         size_t A = 4;
