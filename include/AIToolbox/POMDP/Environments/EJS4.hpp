@@ -8,7 +8,7 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This function returns a POMDP model of the ejs4 problem.
      */
-    Model<MDP::Model> ejs4() {
+    Model<MDP::Model> makeEJS4() {
         using PModel = Model<MDP::Model>;
         constexpr size_t S = 3, A = 2, O = 2;
 

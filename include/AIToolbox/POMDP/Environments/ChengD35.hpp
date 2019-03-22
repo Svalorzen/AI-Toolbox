@@ -8,7 +8,7 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This function returns a POMDP model of the chengD35 problem.
      */
-    Model<MDP::Model> chengD35() {
+    Model<MDP::Model> makeChengD35() {
         using PModel = Model<MDP::Model>;
         constexpr size_t S = 3, A = 3, O = 3;
 
