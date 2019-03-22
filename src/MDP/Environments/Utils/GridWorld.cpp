@@ -34,7 +34,7 @@ namespace AIToolbox::MDP {
 
     GridWorld::State GridWorld::operator()(const size_t s) const {
         return State(
-            std::min((int)s%width_, height_-1),
+            std::min((int)s%width_, width_-1),
             std::min((int)s/width_, height_-1),
             s
         );

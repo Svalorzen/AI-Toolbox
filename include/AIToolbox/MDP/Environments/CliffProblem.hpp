@@ -50,7 +50,7 @@ namespace AIToolbox::MDP {
     inline AIToolbox::MDP::SparseModel makeCliffProblem(const GridWorld & grid) {
         using namespace GridWorldEnums;
 
-        size_t S = grid.getWidth() * grid.getWidth() + 2;
+        size_t S = grid.getWidth() * grid.getHeight() + 2;
         size_t A = 4;
 
         AIToolbox::DumbMatrix3D transitions(boost::extents[S][A][S]);
