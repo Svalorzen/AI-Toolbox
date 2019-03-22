@@ -10,7 +10,7 @@
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
-#include "Utils/CliffProblem.hpp"
+#include <AIToolbox/MDP/Environments/CliffProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( cliff ) {
     namespace mdp = AIToolbox::MDP;

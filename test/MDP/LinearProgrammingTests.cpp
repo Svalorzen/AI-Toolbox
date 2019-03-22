@@ -6,9 +6,9 @@
 #include <AIToolbox/MDP/Algorithms/LinearProgramming.hpp>
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 
-#include "Utils/CornerProblem.hpp"
-
 #include <AIToolbox/MDP/SparseModel.hpp>
+#include <AIToolbox/MDP/Environments/CornerProblem.hpp>
+
 #include "Utils/OldMDPModel.hpp"
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {

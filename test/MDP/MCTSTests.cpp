@@ -6,10 +6,11 @@
 #include <AIToolbox/MDP/Algorithms/MCTS.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
-#include "Utils/CornerProblem.hpp"
+#include <AIToolbox/MDP/Environments/CornerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
+    using namespace GridWorldActions;
 
     GridWorld grid(4,4);
 

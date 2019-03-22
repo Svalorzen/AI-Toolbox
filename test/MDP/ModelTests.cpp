@@ -6,7 +6,7 @@
 #include <AIToolbox/MDP/IO.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
-#include "Utils/CornerProblem.hpp"
+#include <AIToolbox/MDP/Environments/CornerProblem.hpp>
 
 #include <fstream>
 
@@ -102,6 +102,8 @@ BOOST_AUTO_TEST_CASE( files ) {
 }
 
 BOOST_AUTO_TEST_CASE( cassandraCorner ) {
+    using namespace AIToolbox::MDP;
+
     GridWorld grid(2, 2);
 
     auto m = makeCornerProblem(grid);

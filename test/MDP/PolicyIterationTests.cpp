@@ -4,16 +4,19 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/MDP/Algorithms/PolicyIteration.hpp>
-#include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
-#include <AIToolbox/MDP/SparseModel.hpp>
-
-#include "Utils/CornerProblem.hpp"
-#include "Utils/OldMDPModel.hpp"
 
 #include <type_traits>
 
+#include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
+
+#include <AIToolbox/MDP/SparseModel.hpp>
+#include <AIToolbox/MDP/Environments/CornerProblem.hpp>
+
+#include "Utils/OldMDPModel.hpp"
+
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
+    using namespace GridWorldActions;
 
     GridWorld grid(4, 4);
 

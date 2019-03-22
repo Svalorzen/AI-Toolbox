@@ -1,15 +1,25 @@
-#ifndef AI_TOOLBOX_MDP_GRIDWORLD_STATE
-#define AI_TOOLBOX_MDP_GRIDWORLD_STATE
+#ifndef AI_TOOLBOX_MDP_GRIDWORLD
+#define AI_TOOLBOX_MDP_GRIDWORLD
 
 #include <cstddef>
 
 namespace AIToolbox::MDP {
     /**
-     * @brief This class represents a simple gridworld.
+     * @brief This namespace exists in order to allow referencing the Direction values directly.
+     */
+    namespace GridWorldActions {
+        /**
+         * @brief The possible actions in a GridWorld-like environment.
+         */
+        enum Direction : size_t { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 };
+    }
+
+    /**
+     * @brief This class represents a simple rectangular gridworld.
      */
     class GridWorld {
         public:
-            enum Direction { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 };
+            using Direction = GridWorldActions::Direction;
             struct State {
                 operator size_t();
                 private:
@@ -31,14 +41,14 @@ namespace AIToolbox::MDP {
              * @brief This function returns the state next to the input in the chosen Direction.
              *
              * This function returns the same state if the Direction goes
-             * outside the GridWorld boundaries.
+             * outside the Grid boundaries.
              *
              * @param d The Direction to look for.
              * @param s The initial State.
              *
              * @return The State next to the input.
              */
-            State getAdjacent(Direction d, State s);
+            State getAdjacent(Direction d, State s) const;
 
             /**
              * @brief This function returns the State at the selected position.

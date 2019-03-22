@@ -16,12 +16,13 @@ namespace AIToolbox::MDP {
         assert(y > 0);
     }
 
-    GridWorld::State GridWorld::getAdjacent(Direction d, State s) {
+    GridWorld::State GridWorld::getAdjacent(Direction d, State s) const {
+        using namespace GridWorldActions;
         switch ( d ) {
             case UP:    return operator()(s.x, s.y-1);
             case DOWN:  return operator()(s.x, s.y+1);
             case LEFT:  return operator()(s.x-1, s.y);
-            case RIGHT: return operator()(s.x+1, s.y);
+            default:    return operator()(s.x+1, s.y);
         }
     }
 
