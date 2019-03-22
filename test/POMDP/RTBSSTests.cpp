@@ -10,10 +10,11 @@
 #include <AIToolbox/POMDP/SparseModel.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.85);
@@ -32,12 +33,12 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // solved in multiple ways with certain discounts, I chose a discount factor
     // that seems to work, although this is in no way substantiated with theory.
     // If there's a better way to test RTBSS please let me know.
-    POMDP::IncrementalPruning groundTruth(maxHorizon, 0.0);
+    IncrementalPruning groundTruth(maxHorizon, 0.0);
     auto solution = groundTruth(model);
     auto & vf = std::get<1>(solution);
 
     for ( unsigned horizon = 1; horizon <= maxHorizon; ++horizon ) {
-        POMDP::RTBSS solver(model, 10.0);
+        RTBSS solver(model, 10.0);
 
         for ( auto i = 0; i < beliefs.rows(); ++i ) {
             auto b = beliefs.row(i);
@@ -47,7 +48,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
             // values are correct.
             auto & vlist = vf[horizon];
 
-            auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, POMDP::unwrap);
+            auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, unwrap);
 
             double trueValue = b.dot(bestMatch->values);
             double trueAction = bestMatch->action;
@@ -65,8 +66,9 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
 
 BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
-    POMDP::SparseModel<MDP::SparseModel> model = makeTigerProblem();
+    SparseModel<MDP::SparseModel> model = makeTigerProblem();
     model.setDiscount(0.85);
 
     // This indicates where the tiger is.
@@ -83,12 +85,12 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     // solved in multiple ways with certain discounts, I chose a discount factor
     // that seems to work, although this is in no way substantiated with theory.
     // If there's a better way to test RTBSS please let me know.
-    POMDP::IncrementalPruning groundTruth(maxHorizon, 0.0);
+    IncrementalPruning groundTruth(maxHorizon, 0.0);
     auto solution = groundTruth(model);
     auto & vf = std::get<1>(solution);
 
     for ( unsigned horizon = 1; horizon <= maxHorizon; ++horizon ) {
-        POMDP::RTBSS solver(model, 10.0);
+        RTBSS solver(model, 10.0);
 
         for ( auto i = 0; i < beliefs.rows(); ++i ) {
             auto b = beliefs.row(i);
@@ -98,7 +100,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
             // values are correct.
             auto & vlist = vf[horizon];
 
-            auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, POMDP::unwrap);
+            auto bestMatch = findBestAtPoint(b, std::begin(vlist), std::end(vlist), nullptr, unwrap);
 
             double trueValue = b.dot(bestMatch->values);
             double trueAction = bestMatch->action;

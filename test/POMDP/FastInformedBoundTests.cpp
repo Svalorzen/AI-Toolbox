@@ -9,17 +9,18 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( horizon1 ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.95);
 
     constexpr unsigned horizon = 1000000;
     constexpr double tolerance = 0.001;
-    POMDP::FastInformedBound solver(horizon, tolerance);
+    FastInformedBound solver(horizon, tolerance);
     const auto [var, qfun] = solver(model);
 
     BOOST_CHECK(var < tolerance);

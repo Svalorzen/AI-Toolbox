@@ -7,7 +7,7 @@
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/SparseModel.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 #include <fstream>
 
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE( other_construction ) {
 BOOST_AUTO_TEST_CASE( copy_construction ) {
     using namespace AIToolbox;
 
-    auto model = makeTigerProblem();
+    auto model = POMDP::makeTigerProblem();
 
     POMDP::Model<MDP::Model> copy(model);
 
