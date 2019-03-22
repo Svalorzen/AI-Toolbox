@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_MDP_LINEAR_PROGRAMMING_HEADER_FILE
 #define AI_TOOLBOX_MDP_LINEAR_PROGRAMMING_HEADER_FILE
 
-#include <AIToolbox/LP.hpp>
+#include <AIToolbox/Utils/LP.hpp>
 
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>

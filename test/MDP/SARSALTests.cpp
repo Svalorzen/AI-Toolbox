@@ -10,19 +10,20 @@
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
-#include "Utils/CliffProblem.hpp"
+#include <AIToolbox/MDP/Environments/CliffProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( cliff ) {
-    namespace mdp = AIToolbox::MDP;
+    using namespace AIToolbox::MDP;
+    using namespace GridWorldEnums;
 
     GridWorld grid(12, 3);
 
     auto model = makeCliffProblem(grid);
 
-    mdp::SARSAL solver(model, 0.1);
+    SARSAL solver(model, 0.1);
 
-    mdp::QGreedyPolicy gPolicy(solver.getQFunction());
-    mdp::EpsilonPolicy ePolicy(gPolicy, 0.5);
+    QGreedyPolicy gPolicy(solver.getQFunction());
+    EpsilonPolicy ePolicy(gPolicy, 0.5);
 
     size_t start = model.getS() - 2;
 
@@ -48,15 +49,15 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     auto state = grid(0, 2);
     for ( int i = 0; i < 2; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, UP), 1.0 );
-        state.setAdjacent(UP);
+        state = grid.getAdjacent(UP, state);
     }
     for ( int i = 0; i < 11; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, RIGHT), 1.0 );
-        state.setAdjacent(RIGHT);
+        state = grid.getAdjacent(RIGHT, state);
     }
     for ( int i = 0; i < 3; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, DOWN), 1.0 );
-        state.setAdjacent(DOWN);
+        state = grid.getAdjacent(DOWN, state);
     }
 }
 

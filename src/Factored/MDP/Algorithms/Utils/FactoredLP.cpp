@@ -1,6 +1,6 @@
 #include <AIToolbox/Factored/MDP/Algorithms/Utils/FactoredLP.hpp>
 
-#include <AIToolbox/LP.hpp>
+#include <AIToolbox/Utils/LP.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 

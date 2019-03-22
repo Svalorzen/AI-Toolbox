@@ -7,17 +7,17 @@
 #include <AIToolbox/MDP/Algorithms/DynaQ.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
-#include "Utils/CliffProblem.hpp"
+#include <AIToolbox/MDP/Environments/CliffProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( updates ) {
-    namespace mdp = AIToolbox::MDP;
+    using namespace AIToolbox::MDP;
 
     GridWorld grid(12, 3);
 
     auto model = makeCliffProblem(grid);
     model.setDiscount(0.9);
 
-    mdp::DynaQ solver(model, 0.5);
+    DynaQ solver(model, 0.5);
     {
         // State goes to itself, thus needs to consider
         // next-step value.

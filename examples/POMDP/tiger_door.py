@@ -205,10 +205,6 @@ if __name__ == "__main__":
     # The first thing that happens is that we take an action, so we sample it now.
     a, ID = policy.sampleAction(b, horizon)
 
-    # Setup cout to pretty print the simulation.
-    # std::cout.setf(std::ios::fixed, std::ios::floatfield)
-    # std::cout.precision(6)
-
     # We loop for each step we have yet to do.
     totalReward = 0.0
     for t in xrange(horizon - 1, -1, -1):

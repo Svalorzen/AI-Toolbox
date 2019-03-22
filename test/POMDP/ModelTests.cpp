@@ -7,8 +7,9 @@
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 
-#include "Utils/TigerProblem.hpp"
-#include "Utils/Models.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
+#include <AIToolbox/POMDP/Environments/EJS4.hpp>
+#include <AIToolbox/POMDP/Environments/ChengD35.hpp>
 
 #include <fstream>
 
@@ -56,10 +57,11 @@ BOOST_AUTO_TEST_CASE( other_construction ) {
 
 BOOST_AUTO_TEST_CASE( copy_construction ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
 
-    POMDP::Model<MDP::Model> copy(model);
+    Model<MDP::Model> copy(model);
 
     size_t S = model.getS(), A = model.getA(), O = model.getO();
 
@@ -131,7 +133,7 @@ BOOST_AUTO_TEST_CASE( files ) {
 }
 
 BOOST_AUTO_TEST_CASE( cassandraCheng ) {
-    auto m = chengD35();
+    auto m = AIToolbox::POMDP::makeChengD35();
     size_t S = m.getS(), A = m.getA(), O = m.getO();
 
     std::string inputFilename  = "./data/cheng.D3-5.POMDP";
@@ -159,7 +161,7 @@ BOOST_AUTO_TEST_CASE( cassandraCheng ) {
 }
 
 BOOST_AUTO_TEST_CASE( cassandraEjs4 ) {
-    auto m = ejs4();
+    auto m = AIToolbox::POMDP::makeEJS4();
     size_t S = m.getS(), A = m.getA(), O = m.getO();
 
     std::string inputFilename  = "./data/ejs4.POMDP";

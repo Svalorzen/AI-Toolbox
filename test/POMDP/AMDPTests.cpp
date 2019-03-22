@@ -15,21 +15,22 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.95);
 
     unsigned horizon = 4;
-    POMDP::IncrementalPruning ipsolver(horizon, 0.0);
+    IncrementalPruning ipsolver(horizon, 0.0);
 
     auto truth = ipsolver(model);
-    POMDP::Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
+    Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
 
-    POMDP::AMDP converter(4000, 70);
+    AMDP converter(4000, 70);
     const auto [simplerModel, beliefConverter] = converter.discretizeDense(model);
 
     MDP::ValueIteration solver(horizon);
@@ -57,18 +58,19 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
 
 BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
-    POMDP::SparseModel<MDP::SparseModel> sparseModel = model;
+    SparseModel<MDP::SparseModel> sparseModel = model;
     model.setDiscount(0.95);
 
     unsigned horizon = 4;
-    POMDP::IncrementalPruning ipsolver(horizon, 0.0);
+    IncrementalPruning ipsolver(horizon, 0.0);
 
     auto truth = ipsolver(model);
-    POMDP::Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
+    Policy truthPolicy(model.getS(), model.getA(), model.getO(), std::get<1>(truth));
 
-    POMDP::AMDP converter(4000, 70);
+    AMDP converter(4000, 70);
     const auto [simplerModel, beliefConverter] = converter.discretizeSparse(sparseModel);
 
     MDP::ValueIteration solver(horizon);

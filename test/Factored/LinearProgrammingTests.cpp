@@ -8,25 +8,28 @@
 #include <AIToolbox/Factored/MDP/Utils.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
-#include "Utils/SysAdmin.hpp"
+#include <AIToolbox/Factored/MDP/Environments/SysAdmin.hpp>
 
 BOOST_AUTO_TEST_CASE( solver ) {
+    using namespace AIToolbox::Factored;
+    using namespace AIToolbox::Factored::MDP;
+
     auto problem = makeSysAdminUniRing(2, 0.1, 0.2, 0.3, 0.4, 0.4, 0.4, 0.3);
 
     // Create and setup the bases to use for the ValueFunction.
-    auto vf = afm::ValueFunction();
+    auto vf = ValueFunction();
 
     for (size_t s = 0; s < problem.getS().size(); s += 2) {
         for (size_t i = 0; i < 9; ++i) {
-            vf.values.bases.emplace_back(aif::BasisFunction{{s, s+1}, ai::Vector(9)});
+            vf.values.bases.emplace_back(BasisFunction{{s, s+1}, AIToolbox::Vector(9)});
             vf.values.bases.back().values.setZero();
             vf.values.bases.back().values[i] = 1.0;
         }
     }
 
-    auto solver = afm::LinearProgramming();
+    auto solver = LinearProgramming();
 
-    afm::QFunction q;
+    QFunction q;
     std::tie(vf.weights, q) = solver(problem, vf.values);
 
     // Since we have no information on what the weights should actually be,
@@ -38,7 +41,7 @@ BOOST_AUTO_TEST_CASE( solver ) {
     // Check we got the correct number of weights.
     BOOST_CHECK_EQUAL(vf.weights.size(), vf.values.bases.size());
 
-    ai::Vector solution(18);
+    AIToolbox::Vector solution(18);
     solution <<
                 5.7908748550780462238662948948331177234649658203125,       5.646102983700050259585623280145227909088134765625,
                 5.64610298370053254046752044814638793468475341796875,      6.2206254746486262519056253950111567974090576171875,
@@ -55,7 +58,7 @@ BOOST_AUTO_TEST_CASE( solver ) {
 
     vf.weights = solution;
 
-    auto qSolution = afm::bellmanBackup(problem, vf);
+    auto qSolution = bellmanBackup(problem, vf);
 
     // Here we check that the output QFunction is the same as the one we can
     // compute ourselves.

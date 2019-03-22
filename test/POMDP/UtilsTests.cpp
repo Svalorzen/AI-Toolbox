@@ -8,11 +8,12 @@
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( sosa ) {
     using namespace AIToolbox;
     using namespace AIToolbox::POMDP;
+    using namespace TigerProblemEnums;
 
     auto problem = makeTigerProblem();
     OldPOMDPModel<MDP::Model> oldProblem = problem;

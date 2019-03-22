@@ -1,4 +1,4 @@
-#include <AIToolbox/LP.hpp>
+#include <AIToolbox/Utils/LP.hpp>
 
 #include <type_traits>
 

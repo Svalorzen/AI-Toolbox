@@ -9,12 +9,12 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
 
-    auto model = makeTigerProblem();
+    auto model = POMDP::makeTigerProblem();
     model.setDiscount(0.95);
 
     // We solve the problem for an horizon of 15
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     // undiscounted scenario it doesn't matter, if the belief in a state is high
     // enough, whether we act now and listen later, or vice-versa.
 
-    auto model = makeTigerProblem();
+    auto model = POMDP::makeTigerProblem();
     model.setDiscount(1.0);
 
     constexpr unsigned horizon = 2;
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
 BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     using namespace AIToolbox;
 
-    POMDP::SparseModel<MDP::SparseModel> model = makeTigerProblem();
+    POMDP::SparseModel<MDP::SparseModel> model = POMDP::makeTigerProblem();
     model.setDiscount(0.95);
 
     // We solve the problem for an horizon of 15
@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizonSparse ) {
     // undiscounted scenario it doesn't matter, if the belief in a state is high
     // enough, whether we act now and listen later, or vice-versa.
 
-    POMDP::SparseModel<MDP::SparseModel> model = makeTigerProblem();
+    POMDP::SparseModel<MDP::SparseModel> model = POMDP::makeTigerProblem();
     model.setDiscount(1.0);
 
     constexpr unsigned horizon = 2;

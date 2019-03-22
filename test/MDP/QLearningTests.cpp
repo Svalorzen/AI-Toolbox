@@ -10,12 +10,12 @@
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
-#include "Utils/CliffProblem.hpp"
+#include <AIToolbox/MDP/Environments/CliffProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( updates ) {
-    namespace mdp = AIToolbox::MDP;
+    using namespace AIToolbox::MDP;
 
-    mdp::QLearning solver(5, 5, 0.9, 0.5);
+    QLearning solver(5, 5, 0.9, 0.5);
     {
         // State goes to itself, thus needs to consider
         // next-step value.
@@ -43,16 +43,17 @@ BOOST_AUTO_TEST_CASE( updates ) {
 }
 
 BOOST_AUTO_TEST_CASE( cliff ) {
-    namespace mdp = AIToolbox::MDP;
+    using namespace AIToolbox::MDP;
+    using namespace GridWorldEnums;
 
     GridWorld grid(12, 3);
 
     auto model = makeCliffProblem(grid);
 
-    mdp::QLearning solver(model, 0.5);
+    QLearning solver(model, 0.5);
 
-    mdp::QGreedyPolicy gPolicy(solver.getQFunction());
-    mdp::EpsilonPolicy ePolicy(gPolicy, 0.1);
+    QGreedyPolicy gPolicy(solver.getQFunction());
+    EpsilonPolicy ePolicy(gPolicy, 0.1);
 
     size_t start = model.getS() - 2;
 
@@ -77,21 +78,22 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     auto state = grid(0, 2);
     for ( int i = 0; i < 11; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, RIGHT), 1.0 );
-        state.setAdjacent(RIGHT);
+        state = grid.getAdjacent(RIGHT, state);
     }
     for ( int i = 0; i < 1; ++i ) {
         BOOST_CHECK_EQUAL( gPolicy.getActionProbability(state, DOWN), 1.0 );
-        state.setAdjacent(DOWN);
+        state = grid.getAdjacent(DOWN, state);
     }
 }
 
 BOOST_AUTO_TEST_CASE( exceptions ) {
-    namespace mdp = AIToolbox::MDP;
-    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
-    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,-10.0,0.5), std::invalid_argument, [](const std::invalid_argument &){return true;});
-    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,3.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    using namespace AIToolbox::MDP;
 
-    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.3,0.0),   std::invalid_argument, [](const std::invalid_argument &){return true;});
-    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.3,-0.5),  std::invalid_argument, [](const std::invalid_argument &){return true;});
-    BOOST_CHECK_EXCEPTION(mdp::QLearning(1,1,0.3,1.1),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(QLearning(1,1,0.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(QLearning(1,1,-10.0,0.5), std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(QLearning(1,1,3.0,0.5),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+
+    BOOST_CHECK_EXCEPTION(QLearning(1,1,0.3,0.0),   std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(QLearning(1,1,0.3,-0.5),  std::invalid_argument, [](const std::invalid_argument &){return true;});
+    BOOST_CHECK_EXCEPTION(QLearning(1,1,0.3,1.1),   std::invalid_argument, [](const std::invalid_argument &){return true;});
 }

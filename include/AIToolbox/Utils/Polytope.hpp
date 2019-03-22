@@ -6,7 +6,7 @@
 #include <AIToolbox/Utils/Combinatorics.hpp>
 #include <Eigen/Dense>
 
-#include <AIToolbox/LP.hpp>
+#include <AIToolbox/Utils/LP.hpp>
 
 namespace AIToolbox {
     using Hyperplane = Vector;

@@ -5,12 +5,15 @@
 
 #include <AIToolbox/Factored/MDP/CooperativeModel.hpp>
 
-#include "Utils/SysAdmin.hpp"
+#include <AIToolbox/Factored/MDP/Environments/SysAdmin.hpp>
 
 BOOST_AUTO_TEST_CASE( construction ) {
+    using namespace AIToolbox::Factored;
+    using namespace AIToolbox::Factored::MDP;
+
     auto model = makeSysAdminBiRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
-    aif::State s{3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
-    aif::State a{2, 2, 2, 2, 2, 2, 2};
+    State s{3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
+    State a{2, 2, 2, 2, 2, 2, 2};
 
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(model.getS()), std::end(model.getS()),
                                   std::begin(s), std::end(s));
@@ -22,6 +25,9 @@ BOOST_AUTO_TEST_CASE( construction ) {
 }
 
 BOOST_AUTO_TEST_CASE( sampling ) {
+    using namespace AIToolbox::Factored;
+    using namespace AIToolbox::Factored::MDP;
+
     // Status transition params.
     double pFailBase = 0.1, pFailBonus = 0.2, pDeadBase = 0.3, pDeadBonus = 0.4;
     // Load transition params.
@@ -30,16 +36,16 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     auto problem = makeSysAdminBiRing(5, pFailBase, pFailBonus, pDeadBase,
             pDeadBonus, pLoad, pDoneG, pDoneF);
 
-    aif::State s{
+    State s{
         0, 0,  // gi
         1, 1,  // fl
         1, 0,  // fi
         2, 2,  // dd
         0, 0   // gi
     };
-    aif::Action a{0, 0, 0, 0, 0};
+    Action a{0, 0, 0, 0, 0};
 
-    aif::State s1 = s;
+    State s1 = s;
     std::vector<unsigned> counters{0,0,0,0,0};
     constexpr auto trials = 10000;
     double totReward = 0.0;

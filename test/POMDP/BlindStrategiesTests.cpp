@@ -9,16 +9,18 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( horizon1 ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
+    using namespace TigerProblemEnums;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.95);
 
     constexpr unsigned horizon = 1;
-    POMDP::BlindStrategies solver(horizon, 0.1);
+    BlindStrategies solver(horizon, 0.1);
     const auto [var, vlist] = solver(model, false);
 
     BOOST_CHECK_EQUAL(var, 42.75);
@@ -35,6 +37,8 @@ BOOST_AUTO_TEST_CASE( horizon1 ) {
 
 BOOST_AUTO_TEST_CASE( infiniteHorizonSpeededUp ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
+    using namespace TigerProblemEnums;
 
     constexpr double discount = 0.95;
     auto model = makeTigerProblem();
@@ -42,7 +46,7 @@ BOOST_AUTO_TEST_CASE( infiniteHorizonSpeededUp ) {
 
     constexpr unsigned horizon = 100000;
     constexpr double tolerance = 0.0001;
-    POMDP::BlindStrategies solver(horizon, tolerance);
+    BlindStrategies solver(horizon, tolerance);
 
     const auto [varSpeed, vlistSpeed] = solver(model, true);
     const auto [varNormal, vlistNormal] = solver(model, false);

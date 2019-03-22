@@ -6,14 +6,14 @@
 #include <AIToolbox/POMDP/Algorithms/GapMin.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 
-#include "Utils/Models.hpp"
+#include <AIToolbox/POMDP/Environments/ChengD35.hpp>
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox::POMDP;
 
     GapMin gm(0.005, 3);
 
-    auto model = chengD35();
+    auto model = makeChengD35();
 
     Belief initialBelief(model.getS());
     initialBelief.fill(1.0 / model.getS());

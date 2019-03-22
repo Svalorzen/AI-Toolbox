@@ -7,7 +7,8 @@
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
-#include "Utils/CornerProblem.hpp"
+#include <AIToolbox/MDP/Environments/CornerProblem.hpp>
+
 #include "Utils/OldMDPModel.hpp"
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {

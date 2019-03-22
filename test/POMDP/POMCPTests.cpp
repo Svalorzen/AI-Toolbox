@@ -11,10 +11,11 @@
 
 #include <AIToolbox/Utils/Probability.hpp>
 
-#include "Utils/TigerProblem.hpp"
+#include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.85);
@@ -33,10 +34,10 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     // solved in multiple ways with certain discounts, I chose a discount factor
     // that seems to work, although this is in no way substantiated with theory.
     // If there's a better way to test POMCP please let me know.
-    POMDP::IncrementalPruning groundTruth(maxHorizon, 0.0);
+    IncrementalPruning groundTruth(maxHorizon, 0.0);
     auto solution = groundTruth(model);
     auto & vf = std::get<1>(solution);
-    POMDP::Policy p(model.getS(), model.getA(), model.getO(), vf);
+    Policy p(model.getS(), model.getA(), model.getO(), vf);
 
     for ( unsigned horizon = 1; horizon <= maxHorizon; ++horizon ) {
         // Again, the exploration constant has been chosen to let the solver agree with
@@ -46,7 +47,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         // The main problem is that the high exploration constant here is used to force
         // OPEN actions in high uncertainty situations, in any case. Otherwise, LISTEN actions
         // end up being way better, since POMCP averages across actions (not very smart).
-        POMDP::POMCP solver(model, 1000, 10000, horizon * 10000.0);
+        POMCP solver(model, 1000, 10000, horizon * 10000.0);
 
         for ( auto i = 0; i < beliefs.rows(); ++i ) {
             auto a = solver.sampleAction(beliefs.row(i), horizon);
@@ -59,6 +60,7 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
 
 BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.85);
@@ -74,7 +76,7 @@ BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
     unsigned horizon = 1;
     unsigned count = 10000;
 
-    POMDP::POMCP solver(model, 1000, count, 10000.0);
+    POMCP solver(model, 1000, count, 10000.0);
 
     // We want to check that when there is an horizon of 1
     // the particle belief still gets updated so that it
@@ -99,17 +101,18 @@ BOOST_AUTO_TEST_CASE( horizonOneBelief ) {
 
 BOOST_AUTO_TEST_CASE( sampleOneTime ) {
     using namespace AIToolbox;
+    using namespace AIToolbox::POMDP;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.85);
 
     // This indicates where the tiger is.
-    POMDP::Belief belief(2); belief.fill(0.5);
+    Belief belief(2); belief.fill(0.5);
 
     unsigned horizon = 100;
     unsigned count = 1;
 
-    POMDP::POMCP solver(model, 1000, count, 10000.0);
+    POMCP solver(model, 1000, count, 10000.0);
 
     // We assure POMCP does not crash when pruning a tree
     // and the new head was a leaf (and thus did not have

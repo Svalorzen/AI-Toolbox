@@ -4,10 +4,10 @@ if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
         Impl/CassandraParser.cpp
-        LP/LpSolveWrapper.cpp
         Utils/Combinatorics.cpp
         Utils/Probability.cpp
         Utils/Polytope.cpp
+        Utils/LP/LpSolveWrapper.cpp
         Tools/Statistics.cpp
         Bandit/Algorithms/RollingAverage.cpp
         Bandit/Policies/EpsilonPolicy.cpp
@@ -39,6 +39,7 @@ if (MAKE_MDP)
         MDP/Policies/QSoftmaxPolicy.cpp
         MDP/Policies/WoLFPolicy.cpp
         MDP/Policies/PGAAPPPolicy.cpp
+        MDP/Environments/Utils/GridWorld.cpp
     )
     set_target_properties(AIToolboxMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     target_link_libraries(AIToolboxMDP ${LPSOLVE_LIBRARIES})
@@ -90,6 +91,7 @@ if (MAKE_FMDP)
         Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp
         Factored/MDP/Algorithms/JointActionLearner.cpp
         Factored/MDP/Algorithms/LinearProgramming.cpp
+        Factored/MDP/Environments/SysAdmin.cpp
     )
     set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})

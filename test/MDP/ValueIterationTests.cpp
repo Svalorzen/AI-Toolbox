@@ -6,7 +6,7 @@
 #include <AIToolbox/MDP/Algorithms/ValueIteration.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
-#include "Utils/CornerProblem.hpp"
+#include <AIToolbox/MDP/Environments/CornerProblem.hpp>
 
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include "Utils/OldMDPModel.hpp"
@@ -15,6 +15,7 @@
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
+    using namespace GridWorldEnums;
 
     GridWorld grid(4, 4);
 
@@ -109,6 +110,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
 
 BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
     using namespace AIToolbox::MDP;
+    using namespace GridWorldEnums;
 
     GridWorld grid(4, 4);
 
@@ -203,6 +205,7 @@ BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
 
 BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
     using namespace AIToolbox::MDP;
+    using namespace GridWorldEnums;
 
     GridWorld grid(4, 4);
 

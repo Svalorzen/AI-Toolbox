@@ -7,14 +7,14 @@
 #include <AIToolbox/Factored/MDP/CooperativeExperience.hpp>
 #include <AIToolbox/Factored/MDP/CooperativeModel.hpp>
 
-#include "Utils/SysAdmin.hpp"
+#include <AIToolbox/Factored/MDP/Environments/SysAdmin.hpp>
 
 namespace ai = AIToolbox;
 namespace aif = AIToolbox::Factored;
 namespace afm = AIToolbox::Factored::MDP;
 
 BOOST_AUTO_TEST_CASE( construction ) {
-    auto model = makeSysAdminBiRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
+    auto model = afm::makeSysAdminBiRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
 
     afm::CooperativeExperience exp(model.getS(), model.getA(), model.getTransitionFunction().nodes);
 
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
 }
 
 BOOST_AUTO_TEST_CASE( recording ) {
-    auto model = makeSysAdminUniRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
+    auto model = afm::makeSysAdminUniRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
 
     afm::CooperativeExperience exp(model.getS(), model.getA(), model.getTransitionFunction().nodes);
 
