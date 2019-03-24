@@ -65,15 +65,15 @@ namespace AIToolbox::Factored::MDP {
                     fm.values.resize(sizeS, sizeA);
                     fm.values.setZero();
                 }
-                std::cout << "Rewards weights: " << rewardWeights_.transpose() << '\n';
+                //std::cout << "Rewards weights: " << rewardWeights_.transpose() << '\n';
             }
 
             void stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
-                std::cout << "Running new stepUpdateQ with:\n"
-                             "- s  = " << s  << '\n' <<
-                             "- a  = " << a  << '\n' <<
-                             "- s1 = " << s1 << '\n' <<
-                             "- r  = " << r.transpose()  << '\n';
+                //std::cout << "Running new stepUpdateQ with:\n"
+                //              "- s  = " << s  << '\n' <<
+                //              "- a  = " << a  << '\n' <<
+                //              "- s1 = " << s1 << '\n' <<
+                //              "- r  = " << r.transpose()  << '\n';
                 auto delta1 = updateQ(s, a, s1, r.array() / rewardWeights_.array());
 
                 addToQueue(s, delta1);
@@ -93,8 +93,8 @@ namespace AIToolbox::Factored::MDP {
                     findById_.erase(id);
                     findByBackup_.erase(stateAction);
 
-                    std::cout << "BATCH UPDATE\n";
-                    std::cout << "Selected initial SA: " << stateAction << '\n';
+                    //std::cout << "BATCH UPDATE\n";
+                    //std::cout << "Selected initial SA: " << stateAction << '\n';
 
                     // We want to remove as many rules in one swoop as possible, thus
                     // we take all rules compatible with our initial pick.
@@ -106,7 +106,7 @@ namespace AIToolbox::Factored::MDP {
                         // fast as possible here since we want to do as many
                         // updates as we can; thus, we do the easiest thing.
                         id = ids.back();
-                        std::cout << "Extracted additional index " << id << '\n';
+                        //std::cout << "Extracted additional index " << id << '\n';
                         ids.pop_back();
 
                         // Find the handle to the backup in the priority queue.
@@ -115,12 +115,12 @@ namespace AIToolbox::Factored::MDP {
 
                         auto handle = hIt->second;
 
-                        std::cout << "Additional SA: " << (*handle).stateAction << '\n';
+                        //std::cout << "Additional SA: " << (*handle).stateAction << '\n';
 
                         // Add the selected state-action pair and add it to our
                         // own.
                         stateAction = merge(stateAction, (*handle).stateAction);
-                        std::cout << "Merged SA: " << stateAction << '\n';
+                        //std::cout << "Merged SA: " << stateAction << '\n';
 
                         // Remove the selected backup from all data-structures.
                         ids_.erase(id);
@@ -132,7 +132,7 @@ namespace AIToolbox::Factored::MDP {
                         ids = ids_.refine(ids, stateAction);
                     }
 
-                    std::cout << "Done merging: " << stateAction << "\n";
+                    //std::cout << "Done merging: " << stateAction << "\n";
 
                     std::vector<size_t> missingS;
                     std::vector<size_t> missingA;
@@ -149,7 +149,7 @@ namespace AIToolbox::Factored::MDP {
                             s[i] = stateAction.second[x++];
                     }
 
-                    std::cout << "S: " << s << " ; missingS: " << missingS << " ; x = " << x << '\n';
+                    //std::cout << "S: " << s << " ; missingS: " << missingS << " ; x = " << x << '\n';
 
                     for (size_t i = 0; i < a.size(); ++i) {
                         if (x >= stateAction.first.size() || i + model_.getS().size() < stateAction.first[x])
@@ -158,7 +158,7 @@ namespace AIToolbox::Factored::MDP {
                             a[i] = stateAction.second[x++];
                     }
 
-                    std::cout << "A: " << a << " ; missingA: " << missingA << '\n';
+                    //std::cout << "A: " << a << " ; missingA: " << missingA << '\n';
 
                     for (auto ss : missingS) {
                         std::uniform_int_distribution<size_t> dist(0, model_.getS()[ss]-1);
@@ -170,7 +170,7 @@ namespace AIToolbox::Factored::MDP {
                         a[aa] = dist(rand_);
                     }
 
-                    std::cout << "Final S: " << s << " ; final A: " << a << '\n';
+                    //std::cout << "Final S: " << s << " ; final A: " << a << '\n';
 
                     const auto [s1, r] = model_.sampleSRs(s, a);
                     updateQ(s, a, s1, r.array() / rewardWeights_.array());
@@ -195,7 +195,7 @@ namespace AIToolbox::Factored::MDP {
             std::vector<double> updateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
                 const auto a1 = gp_.sampleAction(s1);
 
-                std::cout << "Delta per Q component: ";
+                //std::cout << "Delta per Q component: ";
 
                 std::vector<double> deltasNoV(s.size());
                 for (size_t i = 0; i < q_.bases.size(); ++i) {
@@ -217,13 +217,13 @@ namespace AIToolbox::Factored::MDP {
                     q.values(sid, aid) += alpha_ * ( rr + model_.getDiscount() * q.values(s1id, a1id) - q.values(sid, aid) );
 
                     delta = std::fabs(delta - q.values(sid, aid)) / q.tag.size();
-                    std::cout << delta << ", ";
+                    //std::cout << delta << ", ";
 
                     for (auto s : q.tag)
                         deltasNoV[s] += delta;
                 }
-                std::cout << '\n';
-                std::cout << "Final deltas per-state: " << deltasNoV << '\n';
+                //std::cout << '\n';
+                //std::cout << "Final deltas per-state: " << deltasNoV << '\n';
                 return deltasNoV;
             }
 
@@ -260,8 +260,8 @@ namespace AIToolbox::Factored::MDP {
                                 auto id = ids_.insert(backup);
                                 auto handle = queue_.emplace(PriorityQueueElement{p, id, backup});
 
-                                std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
-                                std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
+                                //std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
+                                //std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
 
                                 findById_[id] = handle;
                                 findByBackup_[backup] = handle;
@@ -270,7 +270,7 @@ namespace AIToolbox::Factored::MDP {
                     }
                 }
 
-                std::cout << "Queue now contains " << queue_.size() << " entries.\n";
+                //std::cout << "Queue now contains " << queue_.size() << " entries.\n";
             }
 
             const M & model_;
