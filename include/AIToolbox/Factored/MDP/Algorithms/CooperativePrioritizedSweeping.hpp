@@ -79,8 +79,8 @@ namespace AIToolbox::Factored::MDP {
                 addToQueue(s, delta1);
             }
 
-            void batchUpdateQ() {
-                for (size_t n = 0; n < 50; ++n) {
+            void batchUpdateQ(const unsigned N = 50) {
+                for (size_t n = 0; n < N; ++n) {
                     if (queue_.empty()) return;
 
                     // Pick top element from queue
