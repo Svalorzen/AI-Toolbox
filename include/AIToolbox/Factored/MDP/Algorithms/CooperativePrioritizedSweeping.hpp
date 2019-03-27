@@ -160,23 +160,46 @@ namespace AIToolbox::Factored::MDP {
                 auto hIt = findById_.find(id);
                 assert(hIt != std::end(findById_));
 
+                // Here is the new piece we want to add to our stateAction
                 auto handle = hIt->second;
+                auto & newSA = (*handle).stateAction;
 
-                //std::cout << "Additional SA: " << (*handle).stateAction << '\n';
+                // Cleanup unordered_maps now before we touch anything.
+                findById_.erase(hIt);
+                findByBackup_.erase(newSA);
 
-                // Add the selected state-action pair and add it to our
-                // own.
-                stateAction = merge(stateAction, (*handle).stateAction);
+                // Now, we want to make this piece as small as possible, since
+                // the refine operation does an amount of work proportional to
+                // the length of the input passed.
+                // Thus, we remove all common elements between stateAction and newSA.
+                {
+                    size_t i = 0, j = 0;
+                    while (i < newSA.first.size() && j < stateAction.first.size()) {
+                        if (newSA.first[i] < stateAction.first[j]) {
+                            ++i;
+                        } else if (newSA.first[i] > stateAction.first[j]) {
+                            ++j;
+                        } else {
+                            newSA.first.erase(std::begin(newSA.first) + i);
+                            newSA.second.erase(std::begin(newSA.second) + i);
+                            // we don't update i since we just removed it.
+                            ++j;
+                        }
+                    }
+                }
+
+                // Update ids and re-filter with shortest newSA.
+                ids_.erase(id);
+                ids = ids_.refine(ids, newSA);
+
+                // Add the selected state-action pair and add it to our own.
+                // Note that the "pruning" before does not change this result.
+                stateAction = merge(stateAction, newSA);
                 //std::cout << "Merged SA: " << stateAction << '\n';
 
-                // Remove the selected backup from all data-structures.
-                ids_.erase(id);
-                findById_.erase(hIt);
-                findByBackup_.erase((*handle).stateAction);
+                // Finally, clear the element from the queue (which should also
+                // kill newSA).
                 queue_.erase(handle);
-
-                // Refine with the remaining ids
-                ids = ids_.refine(ids, stateAction);
             }
 
             //std::cout << "Done merging: " << stateAction << "\n";
