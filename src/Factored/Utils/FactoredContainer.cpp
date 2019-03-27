@@ -214,9 +214,21 @@ namespace AIToolbox::Factored {
 
     std::vector<size_t> Trie::filter(const PartialFactors & pf) const {
         if (!pf.first.size()) {
-            // If nothing to match, match all
-            std::vector<size_t> retval(counter_);
-            std::iota(std::begin(retval), std::end(retval), 0);
+            // Pick shortest set of vectors to merge.
+            const auto & toMerge = ids_[std::min_element(std::begin(F), std::end(F)) - std::begin(F)];
+            // Reserve enough space for all the indeces we are currently store.
+            size_t reserve = 0;
+            for (const auto & ids : toMerge)
+                reserve += ids.size();
+            // Match all by merging all ids in all vectors.
+            std::vector<size_t> retval(reserve);
+            auto it = std::copy(std::begin(toMerge[0]), std::end(toMerge[0]), std::begin(retval));
+            for (size_t i = 1; i < ids_[0].size(); ++i) {
+                auto newIt = std::copy(std::begin(toMerge[i]), std::end(toMerge[i]), it);
+                std::inplace_merge(std::begin(retval), it, newIt);
+                it = newIt;
+            }
+            assert(it == std::end(retval));
             return retval;
         }
         std::vector<Filter> filters;
@@ -249,7 +261,7 @@ namespace AIToolbox::Factored {
         std::vector<Filter> filters;
         filters.reserve(pf.first.size() + 1);
         // ids filter; we put the ids in the "unnamed" part since it's slightly
-        // more efficient like this (we do less checks).
+        // more efficient like this (we do fewer checks).
         filters.emplace_back(
             std::end(ids), std::end(ids),
             std::begin(ids), std::end(ids)
