@@ -262,6 +262,21 @@ namespace AIToolbox {
     }
 
     /**
+     * @brief This function performs an inplace union of two sorted sets.
+     *
+     * @param lhs The left hand side, to be increased.
+     * @param rhs The right hand side.
+     */
+    template <typename T>
+    void set_union_inplace(std::vector<T> & lhs, const std::vector<T> & rhs) {
+        const auto mid = lhs.size();
+        lhs.reserve(lhs.size() + rhs.size());
+        std::set_difference(std::begin(rhs), std::end(rhs),
+                            std::begin(lhs), std::end(lhs), std::back_inserter(lhs));
+        std::inplace_merge(std::begin(lhs), std::begin(lhs)+mid, std::end(lhs));
+    }
+
+    /**
      * @brief This function is equivalent to std::max_element, but takes a unary function.
      *
      * This function can be called when doing a comparison between elements is

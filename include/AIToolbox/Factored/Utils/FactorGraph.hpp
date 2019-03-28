@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 
+#include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Types.hpp>
 #include <boost/functional/hash.hpp>
 #include <unordered_map>
@@ -19,13 +20,13 @@ namespace AIToolbox::Factored {
      * very little, in order to allow clients to optimize their use of the
      * graph as much as possible.
      *
-     * This class maintains a single factor for any unique combination of
-     * variables. When multiple factors are needed, a single Factor containing
-     * a vector of data should suffice.
+     * This class maintains a single FactorNode for any unique combination of
+     * variables. When multiple factors are needed, a single FactorNode
+     * containing a vector of data should suffice.
      *
-     * @tparam Factor The Factor class that is stored for each factor.
+     * @tparam FactorData The class that is stored for each FactorNode.
      */
-    template <typename Factor>
+    template <typename FactorData>
     class FactorGraph {
         public:
             struct VariableNode;
@@ -36,13 +37,13 @@ namespace AIToolbox::Factored {
             class FactorNode {
                 friend class FactorGraph;
 
-                Factor f_;
+                FactorData f_;
                 Variables variables_;
 
                 public:
                     const Variables & getVariables() const { return variables_; }
-                    const Factor & getData() const { return f_; }
-                    Factor & getData() { return f_; }
+                    const FactorData & getData() const { return f_; }
+                    FactorData & getData() { return f_; }
             };
 
             using FactorList = std::list<FactorNode>;
@@ -50,7 +51,7 @@ namespace AIToolbox::Factored {
             using CFactorIt = typename FactorList::const_iterator;
             using FactorItList = std::vector<FactorIt>;
 
-            using value_type = Factor;
+            using value_type = FactorData;
             using iterator = FactorIt;
             using const_iterator = CFactorIt;
 
@@ -239,39 +240,35 @@ namespace AIToolbox::Factored {
             size_t activeVariables_;
     };
 
-    template <typename Factor>
-    FactorGraph<Factor>::FactorGraph(size_t variables) : variableAdjacencies_(variables), activeVariables_(variables) {}
+    template <typename FD>
+    FactorGraph<FD>::FactorGraph(size_t variables) : variableAdjacencies_(variables), activeVariables_(variables) {}
 
-    template <typename Factor>
-    const typename FactorGraph<Factor>::FactorItList & FactorGraph<Factor>::getNeighbors(const size_t variable) const {
+    template <typename FD>
+    const typename FactorGraph<FD>::FactorItList & FactorGraph<FD>::getNeighbors(const size_t variable) const {
         return variableAdjacencies_[variable].factors_;
     }
 
-    template <typename Factor>
-    const typename FactorGraph<Factor>::Variables & FactorGraph<Factor>::getNeighbors(FactorIt factor) const {
+    template <typename FD>
+    const typename FactorGraph<FD>::Variables & FactorGraph<FD>::getNeighbors(FactorIt factor) const {
         return factor->variables_;
     }
 
-    template <typename Factor>
-    const typename FactorGraph<Factor>::Variables & FactorGraph<Factor>::getNeighbors(CFactorIt factor) const {
+    template <typename FD>
+    const typename FactorGraph<FD>::Variables & FactorGraph<FD>::getNeighbors(CFactorIt factor) const {
         return factor->variables_;
     }
 
-    template <typename Factor>
-    typename FactorGraph<Factor>::Variables FactorGraph<Factor>::getNeighbors(const FactorItList & factors) const {
-        Variables list1, list2;
-        Variables *a1 = &list1, *a2 = &list2;
-        for (const auto factor : factors) {
-            const auto & variables = factor->variables_;
-            std::set_union(std::begin(variables), std::end(variables), std::begin(*a1), std::end(*a1), std::back_inserter(*a2));
-            std::swap(a1, a2);
-            a2->clear();
-        }
-        return *a1;
+    template <typename FD>
+    typename FactorGraph<FD>::Variables FactorGraph<FD>::getNeighbors(const FactorItList & factors) const {
+        Variables retval;
+        for (const auto factor : factors)
+            set_union_inplace(retval, factor->variables_);
+
+        return retval;
     }
 
-    template <typename Factor>
-    typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::getFactor(const Variables & variables) {
+    template <typename FD>
+    typename FactorGraph<FD>::FactorIt FactorGraph<FD>::getFactor(const Variables & variables) {
         const auto found = factorByVariables_.find(variables);
         if (found != factorByVariables_.end())
             return found->second;
@@ -287,8 +284,8 @@ namespace AIToolbox::Factored {
         return it;
     }
 
-    template <typename Factor>
-    void FactorGraph<Factor>::erase(FactorIt it) {
+    template <typename FD>
+    void FactorGraph<FD>::erase(FactorIt it) {
         for (const auto variable : it->variables_) {
             auto & factors = variableAdjacencies_[variable].factors_;
             const auto foundIt = std::find(std::begin(factors), std::end(factors), it);
@@ -298,28 +295,28 @@ namespace AIToolbox::Factored {
         factorAdjacencies_.erase(it);
     }
 
-    template <typename Factor>
-    void FactorGraph<Factor>::erase(const size_t a) {
+    template <typename FD>
+    void FactorGraph<FD>::erase(const size_t a) {
         variableAdjacencies_[a].factors_.clear();
         --activeVariables_;
     }
 
-    template <typename Factor>
-    size_t FactorGraph<Factor>::variableSize() const  { return activeVariables_; }
-    template <typename Factor>
-    size_t FactorGraph<Factor>::factorSize() const { return factorAdjacencies_.size(); }
-    template <typename Factor>
-    typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::begin() { return std::begin(factorAdjacencies_); }
-    template <typename Factor>
-    typename FactorGraph<Factor>::FactorIt FactorGraph<Factor>::end() { return std::end(factorAdjacencies_); }
-    template <typename Factor>
-    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::begin() const { return std::begin(factorAdjacencies_); }
-    template <typename Factor>
-    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::end() const { return std::end(factorAdjacencies_); }
-    template <typename Factor>
-    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::cbegin() const { return std::begin(factorAdjacencies_); }
-    template <typename Factor>
-    typename FactorGraph<Factor>::CFactorIt FactorGraph<Factor>::cend() const { return std::end(factorAdjacencies_); }
+    template <typename FD>
+    size_t FactorGraph<FD>::variableSize() const  { return activeVariables_; }
+    template <typename FD>
+    size_t FactorGraph<FD>::factorSize() const { return factorAdjacencies_.size(); }
+    template <typename FD>
+    typename FactorGraph<FD>::FactorIt FactorGraph<FD>::begin() { return std::begin(factorAdjacencies_); }
+    template <typename FD>
+    typename FactorGraph<FD>::FactorIt FactorGraph<FD>::end() { return std::end(factorAdjacencies_); }
+    template <typename FD>
+    typename FactorGraph<FD>::CFactorIt FactorGraph<FD>::begin() const { return std::begin(factorAdjacencies_); }
+    template <typename FD>
+    typename FactorGraph<FD>::CFactorIt FactorGraph<FD>::end() const { return std::end(factorAdjacencies_); }
+    template <typename FD>
+    typename FactorGraph<FD>::CFactorIt FactorGraph<FD>::cbegin() const { return std::begin(factorAdjacencies_); }
+    template <typename FD>
+    typename FactorGraph<FD>::CFactorIt FactorGraph<FD>::cend() const { return std::end(factorAdjacencies_); }
 }
 
 #endif
