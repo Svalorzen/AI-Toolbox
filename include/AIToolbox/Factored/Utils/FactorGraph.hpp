@@ -213,6 +213,18 @@ namespace AIToolbox::Factored {
              */
             CFactorIt cend() const;
 
+            /**
+             * @brief This function returns the variable which is the cheapest to remove with GenericVariableElimination.
+             *
+             * The choice is made heuristically, as computing the true best is
+             * an NP-Complete problem.
+             *
+             * @param F The value space for each variable.
+             *
+             * @return The best variable to eliminate.
+             */
+            size_t bestVariableToRemove(const Factors & F) const;
+
         private:
             FactorList factorAdjacencies_;
             std::unordered_map<Variables, FactorIt, boost::hash<Variables>> factorByVariables_;
@@ -316,6 +328,44 @@ namespace AIToolbox::Factored {
     typename FactorGraph<FD>::CFactorIt FactorGraph<FD>::cbegin() const { return std::begin(factorAdjacencies_); }
     template <typename FD>
     typename FactorGraph<FD>::CFactorIt FactorGraph<FD>::cend() const { return std::end(factorAdjacencies_); }
+
+    template <typename FD>
+    size_t FactorGraph<FD>::bestVariableToRemove(const Factors & F) const {
+        if (activeVariables_ == 0) return 0;
+
+        size_t retval = 0;
+        while (!variableAdjacencies_[retval].active) ++retval;
+
+        auto vNeighbors = getNeighbors(variableAdjacencies_[retval].factors);
+        const auto found = factorByVariables_.find(vNeighbors);
+
+        bool maxExists = found != std::end(factorByVariables_);
+        size_t maxValue = 1;
+        for (auto n : vNeighbors)
+            maxValue *= F[n];
+
+        for (size_t next = retval + 1; next < variableAdjacencies_.size(); ++next) {
+            if (!variableAdjacencies_[next].active)
+                continue;
+
+            auto vNeighbors = getNeighbors(variableAdjacencies_[retval].factors);
+            const auto found = factorByVariables_.find(vNeighbors);
+
+            size_t newExists = found != std::end(factorByVariables_);
+
+            if (!newExists && maxExists) continue;
+
+            size_t newValue = 1;
+            for (auto n : vNeighbors)
+                newValue *= F[n];
+
+            if ((newExists && !maxExists) || (newValue > maxValue)) {
+                retval = next;
+                maxValue = newValue;
+            }
+        }
+        return retval;
+    }
 }
 
 #endif
