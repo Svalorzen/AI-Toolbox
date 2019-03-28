@@ -136,14 +136,8 @@ namespace AIToolbox::Factored {
             /**
              * @brief This function partially removes an variable from the graph.
              *
-             * This function does not actually do much, so it is very
-             * important that it is used correctly. No factors are
-             * modified, so before calling this function all factors
-             * pointing to this variable should be removed.
-             *
-             * This function simply clears the adjacency list for the
-             * specified variable, and decreases the number of variables by one,
-             * so that variableSize() reports one less variable.
+             * This function removes the selected variable, and ALL factors
+             * associated with it.
              *
              * Removing the same variable more than once does not do anything.
              *
@@ -290,6 +284,16 @@ namespace AIToolbox::Factored {
     template <typename FD>
     void FactorGraph<FD>::erase(const size_t a) {
         if (variableAdjacencies_[a].active) {
+            for (auto it : variableAdjacencies_[a].factors) {
+                for (const auto variable : it->variables_) {
+                    if (variable == a) continue;
+                    auto & factors = variableAdjacencies_[variable].factors;
+                    const auto foundIt = std::find(std::begin(factors), std::end(factors), it);
+                    if (foundIt != std::end(factors)) factors.erase(foundIt);
+                }
+                factorByVariables_.erase(it->variables_);
+                factorAdjacencies_.erase(it);
+            }
             variableAdjacencies_[a].factors.clear();
             variableAdjacencies_[a].active = false;
             --activeVariables_;

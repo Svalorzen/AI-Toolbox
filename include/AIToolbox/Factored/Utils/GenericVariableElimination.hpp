@@ -190,7 +190,7 @@ namespace AIToolbox::Factored {
     void GenericVariableElimination<Factor>::removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global) {
         // We iterate over all possible joint values of the neighbors of 'f';
         // these are all variables which share at least one factor with it.
-        const auto factors = graph.getNeighbors(f);
+        const auto & factors = graph.getNeighbors(f);
         auto variables = graph.getNeighbors(factors);
 
         PartialFactorsEnumerator jointValues(F, variables, f);
@@ -260,8 +260,6 @@ namespace AIToolbox::Factored {
 
         // And finally as usual in variable elimination remove the variable
         // from the graph and insert the newly created variable in.
-        for (const auto & it : factors)
-            graph.erase(it);
         graph.erase(f);
 
         if (!isFinalFactor && newRules.size()) {
