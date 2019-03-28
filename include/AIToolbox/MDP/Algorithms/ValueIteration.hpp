@@ -172,7 +172,7 @@ namespace AIToolbox::MDP {
             q = computeQFunction(model, val1, ir);
 
             // Compute the new value function (note that also val1 is overwritten)
-            bellmanOperatorInline(q, &v1_);
+            bellmanOperatorInplace(q, &v1_);
 
             // We do this only if the tolerance specified is positive, otherwise we
             // continue for all the timesteps.

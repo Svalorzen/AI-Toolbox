@@ -47,7 +47,7 @@ namespace AIToolbox::MDP {
      * @brief This function converts a QFunction into the equivalent optimal ValueFunction.
      *
      * This function is the same as bellmanOperator(), but performs its
-     * operations inline. The input ValueFunction MUST already be sized
+     * operations inplace. The input ValueFunction MUST already be sized
      * appropriately for the input QFunction.
      *
      * NOTE: This function DOES NOT perform any checks whatsoever on both
@@ -57,7 +57,7 @@ namespace AIToolbox::MDP {
      * @param q The QFunction to convert.
      * @param v A pre-allocated ValueFunction to populate with the optimal values.
      */
-    void bellmanOperatorInline(const QFunction & q, ValueFunction * v);
+    void bellmanOperatorInplace(const QFunction & q, ValueFunction * v);
 
     /**
      * @brief This function computes all immediate rewards (state and action) of the MDP once for improved speed.

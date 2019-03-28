@@ -18,11 +18,11 @@ namespace AIToolbox::MDP {
     ValueFunction bellmanOperator(const QFunction & q) {
         const auto S = q.rows();
         ValueFunction vf{Values(S), Actions(S)};
-        bellmanOperatorInline(q, &vf);
+        bellmanOperatorInplace(q, &vf);
         return vf;
     }
 
-    void bellmanOperatorInline(const QFunction & q, ValueFunction * v) {
+    void bellmanOperatorInplace(const QFunction & q, ValueFunction * v) {
         assert(v);
         auto & values  = v->values;
         auto & actions = v->actions;
