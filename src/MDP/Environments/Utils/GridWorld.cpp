@@ -12,8 +12,8 @@ namespace AIToolbox::MDP {
     GridWorld::GridWorld(unsigned w, unsigned h) :
             width_(w), height_(h)
     {
-        assert(x > 0);
-        assert(y > 0);
+        assert(width_ > 0);
+        assert(height_ > 0);
     }
 
     GridWorld::State GridWorld::getAdjacent(Direction d, State s) const {
