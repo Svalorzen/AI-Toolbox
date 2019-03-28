@@ -29,9 +29,6 @@ namespace AIToolbox::Factored {
     template <typename FactorData>
     class FactorGraph {
         public:
-            struct VariableNode;
-
-            using VariableList = std::vector<VariableNode>;
             using Variables    = PartialKeys;
 
             class FactorNode {
@@ -54,10 +51,6 @@ namespace AIToolbox::Factored {
             using value_type = FactorData;
             using iterator = FactorIt;
             using const_iterator = CFactorIt;
-
-            struct VariableNode {
-                FactorItList factors_;
-            };
 
             /**
              * @brief Basic constructor.
@@ -236,7 +229,12 @@ namespace AIToolbox::Factored {
             FactorList factorAdjacencies_;
             std::unordered_map<Variables, FactorIt, boost::hash<Variables>> factorByVariables_;
 
-            VariableList variableAdjacencies_;
+            struct VariableNode {
+                FactorItList factors;
+                bool active = true;
+            };
+
+            std::vector<VariableNode> variableAdjacencies_;
             size_t activeVariables_;
     };
 
@@ -245,7 +243,7 @@ namespace AIToolbox::Factored {
 
     template <typename FD>
     const typename FactorGraph<FD>::FactorItList & FactorGraph<FD>::getNeighbors(const size_t variable) const {
-        return variableAdjacencies_[variable].factors_;
+        return variableAdjacencies_[variable].factors;
     }
 
     template <typename FD>
@@ -278,7 +276,7 @@ namespace AIToolbox::Factored {
 
         it->variables_ = variables;
         for (const auto a : variables)
-            variableAdjacencies_[a].factors_.push_back(it);
+            variableAdjacencies_[a].factors.push_back(it);
 
         factorByVariables_[variables] = it;
         return it;
@@ -287,7 +285,7 @@ namespace AIToolbox::Factored {
     template <typename FD>
     void FactorGraph<FD>::erase(FactorIt it) {
         for (const auto variable : it->variables_) {
-            auto & factors = variableAdjacencies_[variable].factors_;
+            auto & factors = variableAdjacencies_[variable].factors;
             const auto foundIt = std::find(std::begin(factors), std::end(factors), it);
             if (foundIt != std::end(factors)) factors.erase(foundIt);
         }
@@ -297,8 +295,11 @@ namespace AIToolbox::Factored {
 
     template <typename FD>
     void FactorGraph<FD>::erase(const size_t a) {
-        variableAdjacencies_[a].factors_.clear();
-        --activeVariables_;
+        if (variableAdjacencies_[a].active) {
+            variableAdjacencies_[a].factors.clear();
+            variableAdjacencies_[a].active = false;
+            --activeVariables_;
+        }
     }
 
     template <typename FD>
