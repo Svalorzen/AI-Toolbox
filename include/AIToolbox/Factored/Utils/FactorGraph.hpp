@@ -125,8 +125,9 @@ namespace AIToolbox::Factored {
             /**
              * @brief This function removes a factor from the graph.
              *
-             * This function is very fast as the factors are kept in a
-             * list, so removal is O(1).
+             * This function is very fast as the factors are kept in a list, so
+             * that removal is O(1). We also need to remove the factor from
+             * each agent's list, and that takes some more time.
              *
              * @param it An iterator to the factor to be removed.
              */
@@ -144,9 +145,7 @@ namespace AIToolbox::Factored {
              * specified variable, and decreases the number of variables by one,
              * so that variableSize() reports one less variable.
              *
-             * Calling this function multiple times will continue to
-             * decrease the counter! This will have no side effect aside
-             * that the variableSize() function will become meaningless.
+             * Removing the same variable more than once does not do anything.
              *
              * @param variable The variable to be removed.
              */
@@ -155,14 +154,9 @@ namespace AIToolbox::Factored {
             /**
              * @brief This function returns the number of variables still in the graph.
              *
-             * This function basically returns the number of variables this
-             * graph has been initialized with, minus the number of times
-             * the erase(size_t) function has been called (even for the
-             * same variable!).
-             *
-             * This means that if the erase(size_t) function is used
-             * generously, multiple times per variable, this function's return
-             * value is meaningless.
+             * This function returns the number of active variables in the
+             * graph (that have not been explicitly eliminated via
+             * erase(size_t)).
              *
              * @return The number of variables still in the graph.
              */
