@@ -62,8 +62,17 @@ namespace AIToolbox::Factored::Bandit {
                 GVE::Graph graph(A.size());
 
                 for (const auto & rule : inputRules) {
-                    auto it = graph.getFactor(rule.action.first);
-                    it->getData().emplace_back(rule.action.second, Factor{rule.value, PartialAction()});
+                    auto & factorNode = graph.getFactor(rule.action.first)->getData();
+                    const auto id = toIndexPartial(A, rule.action);
+                    factorNode.emplace(
+                            std::lower_bound(
+                                std::begin(factorNode),
+                                std::end(factorNode),
+                                id,
+                                [](const auto & rule, size_t rhs) {return rule.first < rhs;}
+                            ),
+                            id, Factor{rule.value, PartialAction()}
+                    );
                 }
 
                 return (*this)(A, graph);

@@ -60,7 +60,16 @@ namespace AIToolbox::Factored::Bandit {
 
                 for (const auto & rule : inputRules) {
                     auto & factorNode = graph.getFactor(rule.action.first)->getData();
-                    factorNode.emplace_back(rule.action.second, Factor{std::make_tuple(PartialAction(), rule.values)});
+                    const auto id = toIndexPartial(A, rule.action);
+                    factorNode.emplace(
+                            std::lower_bound(
+                                std::begin(factorNode),
+                                std::end(factorNode),
+                                id,
+                                [](const auto & rule, size_t rhs) {return rule.first < rhs;}
+                            ),
+                            id, Factor{std::make_tuple(PartialAction(), rule.values)}
+                    );
                 }
 
                 return (*this)(A, graph);

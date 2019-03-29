@@ -142,8 +142,7 @@ namespace AIToolbox::Factored::MDP {
 
         for (const auto & f : h.bases) {
             auto newFactor = graph.getFactor(f.tag);
-            PartialFactorsEnumerator s(S, f.tag);
-            for (size_t sId = 0; s.isValid(); s.advance(), ++sId) {
+            for (int sId = 0; sId < f.values.size(); ++sId) {
                 if (checkEqualSmall(f.values[sId], 0.0)) continue;
                 // Add a column and re-initialize row
                 lp.addColumn();
@@ -153,7 +152,7 @@ namespace AIToolbox::Factored::MDP {
                 lp.row[currentWeight] = -f.values[sId];
                 lp.pushRow(LP::Constraint::Equal, 0.0);
 
-                newFactor->getData().emplace_back(s->second, currentRule);
+                newFactor->getData().emplace_back(sId, currentRule);
                 currentRule += 1;
             }
             ++currentWeight;
@@ -163,10 +162,10 @@ namespace AIToolbox::Factored::MDP {
         currentWeight = 0;
         for (const auto & f : g.bases) {
             auto newFactor = graph.getFactor(join(S.size(), f.tag, f.actionTag));
-            PartialFactorsEnumerator s(S, f.tag);
-            PartialFactorsEnumerator a(A, f.actionTag);
-            for (size_t sId = 0; s.isValid(); s.advance(), ++sId) {
-                for (size_t aId = 0; a.isValid(); a.advance(), ++aId) {
+            auto aMult = 1;
+            for (auto id : f.tag) aMult *= S[id];
+            for (int sId = 0; sId < f.values.rows(); ++sId) {
+                for (int aId = 0; aId < f.values.cols(); ++aId) {
                     if (checkEqualSmall(f.values(sId, aId), 0.0)) continue;
                     // Add a column and re-initialize row
                     lp.addColumn();
@@ -176,10 +175,9 @@ namespace AIToolbox::Factored::MDP {
                     lp.row[currentWeight] = +discount * f.values(sId, aId);
                     lp.pushRow(LP::Constraint::Equal, 0.0);
 
-                    newFactor->getData().emplace_back(join(s->second, a->second), currentRule);
+                    newFactor->getData().emplace_back(sId + aMult * aId, currentRule);
                     currentRule += 1;
                 }
-                a.reset();
             }
             ++currentWeight;
         }
@@ -187,10 +185,10 @@ namespace AIToolbox::Factored::MDP {
         // R setup: +R(s,a)
         for (const auto & f : R.bases) {
             auto newFactor = graph.getFactor(join(S.size(), f.tag, f.actionTag));
-            PartialFactorsEnumerator s(S, f.tag);
-            PartialFactorsEnumerator a(A, f.actionTag);
-            for (size_t sId = 0; s.isValid(); s.advance(), ++sId) {
-                for (size_t aId = 0; a.isValid(); a.advance(), ++aId) {
+            auto aMult = 1;
+            for (auto id : f.tag) aMult *= S[id];
+            for (int sId = 0; sId < f.values.rows(); ++sId) {
+                for (int aId = 0; aId < f.values.cols(); ++aId) {
                     if (checkEqualSmall(f.values(sId, aId), 0.0)) continue;
                     // Add a column and re-initialize row
                     lp.addColumn();
@@ -199,10 +197,9 @@ namespace AIToolbox::Factored::MDP {
                     lp.row[currentRule] = +1.0; // Rule name for this value
                     lp.pushRow(LP::Constraint::Equal, f.values(sId, aId));
 
-                    newFactor->getData().emplace_back(join(s->second, a->second), currentRule);
+                    newFactor->getData().emplace_back(sId + aMult * aId, currentRule);
                     currentRule += 1;
                 }
-                a.reset();
             }
         }
 

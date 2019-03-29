@@ -21,6 +21,7 @@ namespace AIToolbox::Factored::Bandit {
             void crossSum(const VE::Factor & f);
             void endCrossSum();
             bool isValidNewFactor();
+            void mergeFactors(VE::Factor & lhs, VE::Factor && rhs) const;
             void makeResult(VE::GVE::FinalFactors && finalFactors);
         };
     }
@@ -68,6 +69,11 @@ namespace AIToolbox::Factored::Bandit {
     bool Global::isValidNewFactor() {
         // Simply check that we have found something at all. (maybe not even needed)
         return checkDifferentGeneral(newFactor.first, std::numeric_limits<double>::lowest());
+    }
+
+    void Global::mergeFactors(VE::Factor & lhs, VE::Factor && rhs) const {
+        lhs.first += rhs.first;
+        unsafe_join(&lhs.second, rhs.second);
     }
 
     void Global::makeResult(VE::GVE::FinalFactors && finalFactors) {
