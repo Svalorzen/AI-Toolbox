@@ -18,6 +18,8 @@ namespace AIToolbox::Factored::Bandit {
         // This allows us to allocate the rules_ only once, and to just
         // update their values at each timestep.
         for (const auto & dependency : rangesAndDependencies) {
+            // FIXME: This can probably be improved, as we don't need pAction
+            // anymore.
             PartialFactorsEnumerator enumerator(A, dependency.second);
             while (enumerator.isValid()) {
                 const auto & pAction = *enumerator;
