@@ -61,7 +61,7 @@ namespace AIToolbox::Factored::Bandit {
                     );
 
                     if (it != std::end(factorNode) && it->first == id)
-                        it->second.second += v;
+                        std::get<1>(it->second[0]) += v;
                     else
                         factorNode.emplace(it, id, Factor{std::make_tuple(PartialAction(), v)});
                 }

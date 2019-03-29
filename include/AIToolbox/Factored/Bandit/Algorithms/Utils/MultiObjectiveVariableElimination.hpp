@@ -70,7 +70,7 @@ namespace AIToolbox::Factored::Bandit {
                     );
 
                     if (it != std::end(factorNode) && it->first == id)
-                        it->second.second += rule.values;
+                        std::get<1>(it->second[0]) += rule.values;
                     else
                         factorNode.emplace(it, id, Factor{std::make_tuple(PartialAction(), rule.values)});
                 }
