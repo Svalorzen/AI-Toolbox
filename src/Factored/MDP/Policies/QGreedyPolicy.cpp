@@ -12,21 +12,30 @@ namespace AIToolbox::Factored::MDP {
             Base(std::move(s), std::move(a)), qc_(nullptr), qm_(&q) {}
 
     Action QGreedyPolicy::sampleAction(const State & s) const {
-        Bandit::VariableElimination ve;
+        using VE = Bandit::VariableElimination;
+        VE ve;
         if (qc_) {
             const auto rules = qc_->filter(s, 0); // Partial filter
             return std::get<0>(ve(A, rules));
         } else {
-            // FIXME: This could be made into an iterable object and pass it to
-            // VE directly, so we don't have to copy rules here.
-            std::vector<Bandit::QFunctionRule> rules;
+            VE::GVE::Graph graph(A.size());
+
             for (const auto & basis : qm_->bases) {
-                size_t x = toIndexPartial(basis.tag, S, s);
-                PartialFactorsEnumerator ae(A, basis.actionTag);
-                for (size_t y = 0; ae.isValid(); ae.advance(), ++y)
-                    rules.emplace_back(*ae, basis.values(x, y));
+                auto & factorNode = graph.getFactor(basis.actionTag)->getData();
+                const bool isNew = factorNode.size() == 0;
+                const size_t x = toIndexPartial(basis.tag, S, s);
+
+                if (isNew) factorNode.reserve(basis.values.cols());
+
+                for (size_t y = 0; y < static_cast<size_t>(basis.values.cols()); ++y) {
+                    if (isNew) {
+                        factorNode.emplace_back(y, VE::Factor{basis.values(x, y), PartialAction()});
+                    } else {
+                        factorNode[y].second.first += basis.values(x, y);
+                    }
+                }
             }
-            return std::get<0>(ve(A, rules));
+            return std::get<0>(ve(A, graph));
         }
     }
 
