@@ -1,198 +1,24 @@
-#ifndef AI_TOOLBOX_FACTORED_CONTAINER_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_CONTAINER_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_FILTER_MAP_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_FILTER_MAP_HEADER_FILE
 
-#include <AIToolbox/Factored/Types.hpp>
 #include <AIToolbox/Utils/IndexMap.hpp>
+#include <AIToolbox/Factored/Types.hpp>
+#include <AIToolbox/Factored/Utils/Trie.hpp>
 
 namespace AIToolbox::Factored {
     /**
-     * @brief This class organizes data ids as if in a trie.
-     *
-     * This class implements a trie, which is a kind of tree that can be
-     * used to sort strings, or in our case partial states. This class
-     * tries to be as efficient as possible, with tradeoffs for space and
-     * time.
-     *
-     * Adding automatically inserts an id one greater than the last as value
-     * within the trie, using the specified partial state as key.
-     *
-     * This data structure can then be filtered by Factors, and it will
-     * match the Factors against all the PartialFactors that completely
-     * match it.
-     */
-    class Trie {
-        public:
-            /**
-             * @brief Basic constructor.
-             *
-             * This constructor simply copies the input state space and
-             * uses it as bound to construct its internal data structures.
-             *
-             * @param s The factored state space.
-             */
-            Trie(Factors F);
-
-            /**
-             * @brief This function returns the set state space for the Trie.
-             *
-             * @return The set state space.
-             */
-            Factors getF() const;
-
-            /**
-             * @brief This function reserves memory for at least size elements.
-             *
-             * It is recommended to call this function if there is a need to
-             * insert very many elements to it. This will prevent multiple
-             * reallocations after each insertion.
-             *
-             * @param size The number of elements to be reserved.
-             */
-            void reserve(size_t size);
-
-            /**
-             * @brief This function inserts a new id using the input as a key.
-             *
-             * If possible, try to insert keys from smallest to highest,
-             * where the ordering is done by the sum of all the partial
-             * states values, where unspecified states count as one over
-             * the max of their possible value.
-             *
-             * This is because the underlying container is a vector, and
-             * elements are arranged in numerical order, with unspecified
-             * elements at the end. Inserting lower numbered elements before
-             * guarantees minimal re-copying within the vectors which allows
-             * for fast insertion.
-             *
-             * @param ps The partial state used as key for the insertion.
-             *
-             * @return The id of the newly inserted key.
-             */
-            size_t insert(const PartialFactors & pf);
-
-            /**
-             * @brief This function returns the number of insertions performed on the Trie.
-             *
-             * @return The number of insertions done on the tree.
-             */
-            size_t size() const;
-
-            /**
-             * @brief This function returns all ids where their key matches the input Factors.
-             *
-             * This function is the core of this data structure. For each
-             * factor of the input Factors, it maintains a list of
-             * all ids which could match it at that factor. It then
-             * performs an intersection between all these list, starting
-             * from the smaller ones to the larger ones in order to perform
-             * the minimum number of comparisons possible.
-             *
-             * If an id is found matching in all factors, then such a key
-             * was inserted and is added to the returned list.
-             *
-             * This function can also be used to filter on Factors smaller
-             * than the real one, as long as they are all adjacent. The
-             * offset parameter can be used to specify by how many factors
-             * to offset the input. For example, an input of {3,5} with
-             * offset 0 will look for all inserted PartialFactors with 3 at
-             * position 0, and 5 at position 1. The same input with offset
-             * 2 will look for all inserted PartialFactors with 3 at
-             * position 2, and 5 at position 3.
-             *
-             * @param f The Factors used as filter in the trie.
-             * @param offset The offset for each factor in the input.
-             *
-             * @return The ids of all inserted keys which match the input.
-             */
-            std::vector<size_t> filter(const Factors & f, size_t offset = 0) const;
-
-            /**
-             * @brief This function returns all ids where their key matches the input Factors.
-             *
-             * This function is the core of this data structure. For each
-             * factor of the input PartialFactors, it maintains a list of
-             * all ids which could match it at that factor. It then
-             * performs an intersection between all these list, starting
-             * from the smaller ones to the larger ones in order to perform
-             * the minimum number of comparisons possible.
-             *
-             * If an id is found matching in all factors, then such a key
-             * was inserted and is added to the returned list.
-             *
-             * @param f The PartialFactors used as filter in the trie.
-             *
-             * @return The ids of all inserted keys which match the input.
-             */
-            std::vector<size_t> filter(const PartialFactors & pf) const;
-
-            /**
-             * @brief This function refines the input ids with the supplied filter.
-             *
-             * @param ids The ids to consider for filtering.
-             * @param pf The PartialFactors used as a filter in the trie.
-             *
-             * @return The ids in the input which match the filter.
-             */
-            std::vector<size_t> refine(const std::vector<size_t> & ids, const PartialFactors & pf) const;
-
-            /**
-             * @brief This function removes the input id from the trie.
-             *
-             * Note that this function performs a lookup on all vectors whether
-             * the id is really present or not (maybe because you erased it
-             * before).
-             *
-             * @param id The id to remove.
-             */
-            void erase(size_t id);
-
-            /**
-             * @brief This function removes the input id from the trie.
-             *
-             * This function is faster than erase(size_t) as it already knows what to look for.
-             *
-             * Note that this function performs a lookup on all vectors whether
-             * the id is really present or not (maybe because you erased it
-             * before).
-             *
-             * @param id The id to remove.
-             * @param pf The key with which the id was inserted.
-             */
-            void erase(size_t id, const PartialFactors & pf);
-
-            /**
-             * @brief This function returns a reference to the underlying Factors.
-             *
-             * @return The Factors domain of this Trie.
-             */
-            const Factors & getFactors() const;
-
-        private:
-            /**
-             * @brief This function returns all ids currently in the Trie.
-             *
-             * @return The ids in the Trie.
-             */
-            std::vector<size_t> getAllIds() const;
-
-            Factors F;
-            size_t counter_;
-
-            std::vector<std::vector<std::vector<size_t>>> ids_;
-    };
-
-    /**
      * @brief This class is a container which uses PartialFactors as keys.
      *
-     * This class stores values using PartialFactors as keys. The values
-     * can then be reached using Factors. The result will be an
-     * iterable object which will iterate over all values where the
-     * key matched the input.
+     * This class stores values using PartialFactors as keys. The values can
+     * then be reached using Factors. The result will be an iterable object
+     * which will iterate over all values where the key matched the input.
+     *
+     * This class does not allow removal of elements.
      *
      * @tparam T The type of object to be stored.
      */
-    template <typename T>
-    class FactoredContainer {
+    template <typename T, typename TrieType = Trie>
+    class FilterMap {
         public:
             using ItemsContainer = std::vector<T>;
             using Iterable = IndexMap<std::vector<size_t>, ItemsContainer>;
@@ -201,23 +27,23 @@ namespace AIToolbox::Factored {
             /**
              * @brief Basic constructor.
              *
-             * This constructor simply initializes the underlying Trie
-             * with the input factor space.
+             * This constructor simply initializes the underlying TrieType
+             * object with the input factor space.
              *
              * @param f The desired factor space.
              */
-            FactoredContainer(Factors f) : ids_(std::move(f)) {}
+            FilterMap(Factors f) : ids_(std::move(f)) {}
 
             /**
-             * @brief Constructor from Trie and items.
+             * @brief Constructor from trie and items.
              *
              * This constructor is provided when the user wants to copy two
-             * FactoredContainer of different types but which share the
-             * underlying factorization.
+             * FilterMap of different types but which share the underlying
+             * factorization.
              *
-             * With this constructor, the underlying Trie can be copied,
+             * With this constructor, the underlying TrieType can be copied,
              * while a new container of items must be provided, of the same
-             * size as the input Trie.
+             * size as the input TrieType.
              *
              * If the two sizes are not equal, the constructor will throw
              * an std::invalid_argument exception.
@@ -225,7 +51,7 @@ namespace AIToolbox::Factored {
              * @param t The trie to copy.
              * @param c The new items to store.
              */
-            FactoredContainer(Trie t, ItemsContainer c) :
+            FilterMap(TrieType t, ItemsContainer c) :
                     ids_(std::move(t)), items_(std::move(c))
             {
                 if (ids_.size() != items_.size())
@@ -233,7 +59,7 @@ namespace AIToolbox::Factored {
             }
 
             /**
-             * @brief This function returns the set factor space for the FactoredContainer.
+             * @brief This function returns the set factor space for the FilterMap.
              *
              * @return The set factor space.
              */
@@ -264,28 +90,63 @@ namespace AIToolbox::Factored {
             /**
              * @brief This function creates an iterable object over all values matching the input key.
              *
-             * \sa Trie::filter(const Factors&, size_t)
+             * Note that the input may be shorter than the overall Factor
+             * domain. In any case, we assume the search will begin from the
+             * zero element.
+             *
+             * @param f The key that must be matched.
+             *
+             * @return An iterable object over all values matching the input.
+             */
+            Iterable filter(const Factors & f) {
+                return Iterable(ids_.filter(f), items_);
+            }
+
+            /**
+             * @brief This function creates an iterable object over all values matching the input key.
+             *
+             * Note that the input may be shorter than the overall Factor
+             * domain. In any case, we assume the search will begin from the
+             * zero element.
              *
              * @param f The key that must be matched.
              * @param offset The offset of the key, if smaller than the factor space.
              *
              * @return An iterable object over all values matching the input.
              */
-            Iterable filter(const Factors & f, size_t offset = 0) {
+            ConstIterable filter(const Factors & f) const {
+                return ConstIterable(ids_.filter(f), items_);
+            }
+
+            /**
+             * @brief This function creates an iterable object over all values matching the input key.
+             *
+             * \sa Trie::filter(const Factors&, size_t)
+             *
+             * This method can only be used if the underlying TrieType supports it.
+             *
+             * @param f The key that must be matched.
+             * @param offset The offset of the key, if smaller than the factor space.
+             *
+             * @return An iterable object over all values matching the input.
+             */
+            Iterable filter(const Factors & f, size_t offset) {
                 return Iterable(ids_.filter(f, offset), items_);
             }
 
             /**
              * @brief This function creates an iterable object over all values matching the input key.
              *
-             * \sa Trie::filter(const PartialFactors&)
+             * \sa Trie::filter(const Factors&, size_t)
+             *
+             * This method can only be used if the underlying TrieType supports it.
              *
              * @param f The key that must be matched.
              * @param offset The offset of the key, if smaller than the factor space.
              *
              * @return An iterable object over all values matching the input.
              */
-            ConstIterable filter(const Factors & f, size_t offset = 0) const {
+            ConstIterable filter(const Factors & f, size_t offset) const {
                 return ConstIterable(ids_.filter(f, offset), items_);
             }
 
@@ -293,6 +154,8 @@ namespace AIToolbox::Factored {
              * @brief This function creates an iterable object over all values matching the input key.
              *
              * \sa Trie::filter(const PartialFactors&)
+             *
+             * This method can only be used if the underlying TrieType supports it.
              *
              * @param s The key that must be matched.
              *
@@ -306,6 +169,8 @@ namespace AIToolbox::Factored {
              * @brief This function creates an iterable object over all values matching the input key.
              *
              * \sa Trie::filter(const PartialFactors&)
+             *
+             * This method can only be used if the underlying TrieType supports it.
              *
              * @param s The key that must be matched.
              *
@@ -321,12 +186,14 @@ namespace AIToolbox::Factored {
              * @param size The minimum number of elements we should reserve space for.
              */
             void reserve(size_t size) {
-                ids_.reserve(size);
+                // FIXME: We can't guarantee this is method exists and I don't
+                // want to write the code for it right now.
+                // ids_.reserve(size);
                 items_.reserve(size);
             }
 
             /**
-             * @brief This function returns the number of values that have been added to the FactoredContainer.
+             * @brief This function returns the number of values that have been added to the FilterMap.
              *
              * @return The number of container values.
              */
@@ -373,9 +240,6 @@ namespace AIToolbox::Factored {
             /**
              * @brief This function allows direct access to the items in the container.
              *
-             * This function is provided in case one wants to manually
-             * access and call the underlying Trie.
-             *
              * No bound checking is performed.
              *
              * @param id The id of the item.
@@ -388,9 +252,6 @@ namespace AIToolbox::Factored {
 
             /**
              * @brief This function allows direct access to the items in the container.
-             *
-             * This function is provided in case one wants to manually
-             * access and call the underlying Trie.
              *
              * No bound checking is performed.
              *
@@ -412,19 +273,19 @@ namespace AIToolbox::Factored {
             }
 
             /**
-             * @brief This function returns the underlying Trie object.
+             * @brief This function returns the underlying trie object.
              *
-             * This is useful since it is the Trie which does all the heavy
-             * lifting in this class (filtering).
+             * This function is provided in case one wants to manually
+             * access and call the underlying trie.
              *
-             * @return The Trie associated with this container.
+             * @return The trie associated with this container.
              */
-            const Trie & getTrie() const {
+            const TrieType & getTrie() const {
                 return ids_;
             }
 
         private:
-            Trie ids_;
+            TrieType ids_;
             ItemsContainer items_;
     };
 }
