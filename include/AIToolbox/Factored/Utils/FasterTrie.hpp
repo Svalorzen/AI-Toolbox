@@ -9,7 +9,7 @@ namespace AIToolbox::Factored {
             size_t insert(PartialFactors pf);
             void erase(size_t id, const PartialFactors & pf);
             std::vector<size_t> filter(const Factors & f) const;
-            std::pair<std::vector<size_t>, Factors> reconstruct(const PartialFactors & pf) const;
+            std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> reconstruct(const PartialFactors & pf) const;
             size_t size() const;
             const Factors & getF() const;
         private:
@@ -18,6 +18,5 @@ namespace AIToolbox::Factored {
 
             std::minstd_rand engine;
             std::vector<std::vector<std::vector<std::pair<size_t, PartialFactors>>>> keys_;
-            mutable std::vector<unsigned char> taken_; // Booleans
     };
 }

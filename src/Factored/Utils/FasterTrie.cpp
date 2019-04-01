@@ -1,7 +1,7 @@
 #include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 
 namespace AIToolbox::Factored {
-    FasterTrie::FasterTrie(Factors f) : F(std::move(f)), counter_(0), keys_(F.size()), taken_(F.size()) {
+    FasterTrie::FasterTrie(Factors f) : F(std::move(f)), counter_(0), keys_(F.size()) {
         for (size_t i = 0; i < F.size(); ++i)
             keys_[i].resize(F[i]);
     }
@@ -53,19 +53,16 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    std::pair<std::vector<size_t>, Factors> FasterTrie::reconstruct(const PartialFactors & pf) const {
-        std::pair<std::vector<size_t>, Factors> retval;
-        auto & [ids, f] = retval;
+    std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> FasterTrie::reconstruct(const PartialFactors & pf) const {
+        std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> retval;
+        auto & [ids, f, found] = retval;
+        f.resize(F.size());
+        found.resize(F.size());
 
         // Copy over set elements, and track them.
-        for (size_t i = 0, j = 0; i < F.size(); ++i) {
-            if (j == pf.first.size() || i < pf.first[j]) {
-                taken_[i] = false;
-            } else {
-                taken_[i] = true;
-                f[i] = pf.second[j];
-                ++j;
-            }
+        for (size_t i = 0; i < pf.first.size(); ++i) {
+            found[pf.first[i]] = true;
+            f[pf.first[i]] = pf.second[i];
         }
 
         // Choice over factor id.
@@ -75,19 +72,20 @@ namespace AIToolbox::Factored {
             // at all of them.
             size_t j = 0;
             size_t jLimit = keys_[i].size();
-            if (taken_[i]) {
+            if (found[i]) {
                 j = f[i];
                 jLimit = j + 1;
             }
-            // Choice over factor value.
-            do { // Randomize
+            // Choice over factor value. (randomize)
+            do {
                 // Choice over entry.
                 for (size_t k = 0; k < keys_[i][j].size(); ++k) { // Randomize
                     auto & entry = keys_[i][j][k];
                     auto & entrypf = entry.second;
                     bool match = true;
                     for (size_t q = 0; q < entrypf.first.size(); ++q) {
-                        if (taken_[entrypf.second[q]] && entrypf.second[q] != f[q]) {
+                        const auto id = entrypf.first[q];
+                        if (found[id] && entrypf.second[q] != f[id]) {
                             match = false;
                             break;
                         }
@@ -98,8 +96,9 @@ namespace AIToolbox::Factored {
                         jLimit = j;
                         ids.push_back(entry.first);
                         for (size_t q = 0; q < entrypf.first.size(); ++q) {
-                            taken_[q] = true;
-                            f[q] = entrypf.second[q];
+                            const auto id = entrypf.first[q];
+                            found[id] = true;
+                            f[id] = entrypf.second[q];
                         }
                     }
                 }
