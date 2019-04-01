@@ -13,8 +13,7 @@ namespace AIToolbox::Factored {
      * tries to be as efficient as possible, with tradeoffs for space and
      * time.
      *
-     * Currently this implementation only supports adding. Adding
-     * automatically inserts an id one greater than the last as value
+     * Adding automatically inserts an id one greater than the last as value
      * within the trie, using the specified partial state as key.
      *
      * This data structure can then be filtered by Factors, and it will
