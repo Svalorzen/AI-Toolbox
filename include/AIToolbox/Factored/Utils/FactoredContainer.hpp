@@ -168,6 +168,13 @@ namespace AIToolbox::Factored {
             const Factors & getFactors() const;
 
         private:
+            /**
+             * @brief This function returns all ids currently in the Trie.
+             *
+             * @return The ids in the Trie.
+             */
+            std::vector<size_t> getAllIds() const;
+
             Factors F;
             size_t counter_;
 

@@ -155,7 +155,14 @@ namespace AIToolbox::Factored {
     }
 
     size_t Trie::size() const {
-        return counter_;
+        // Pick shortest set of vectors to merge.
+        const auto & toCount = ids_[std::min_element(std::begin(F), std::end(F)) - std::begin(F)];
+        // Match all by merging all ids in all vectors.
+        size_t retval = toCount[0].size();;
+        for (size_t i = 1; i < ids_[0].size(); ++i)
+            retval += toCount[i].size();
+
+        return retval;
     }
 
     size_t Trie::insert(const PartialFactors & pf) {
@@ -185,12 +192,9 @@ namespace AIToolbox::Factored {
     }
 
     std::vector<size_t> Trie::filter(const Factors & f, size_t offset) const {
-        if (!f.size()) {
-            // If nothing to match, match all
-            std::vector<size_t> retval(counter_);
-            std::iota(std::begin(retval), std::end(retval), 0);
-            return retval;
-        }
+        if (!f.size())
+            return getAllIds();
+
         std::vector<Filter> filters;
         filters.reserve(f.size());
         // For each factor
@@ -213,24 +217,9 @@ namespace AIToolbox::Factored {
     }
 
     std::vector<size_t> Trie::filter(const PartialFactors & pf) const {
-        if (!pf.first.size()) {
-            // Pick shortest set of vectors to merge.
-            const auto & toMerge = ids_[std::min_element(std::begin(F), std::end(F)) - std::begin(F)];
-            // Reserve enough space for all the indeces we are currently store.
-            size_t reserve = 0;
-            for (const auto & ids : toMerge)
-                reserve += ids.size();
-            // Match all by merging all ids in all vectors.
-            std::vector<size_t> retval(reserve);
-            auto it = std::copy(std::begin(toMerge[0]), std::end(toMerge[0]), std::begin(retval));
-            for (size_t i = 1; i < ids_[0].size(); ++i) {
-                auto newIt = std::copy(std::begin(toMerge[i]), std::end(toMerge[i]), it);
-                std::inplace_merge(std::begin(retval), it, newIt);
-                it = newIt;
-            }
-            assert(it == std::end(retval));
-            return retval;
-        }
+        if (!pf.first.size())
+            return getAllIds();
+
         std::vector<Filter> filters;
         filters.reserve(pf.first.size());
         // For each factor
@@ -332,6 +321,25 @@ namespace AIToolbox::Factored {
             if (*it == id)
                 v.back().erase(it);
         }
+    }
+
+    std::vector<size_t> Trie::getAllIds() const {
+        // Pick shortest set of vectors to merge.
+        const auto & toMerge = ids_[std::min_element(std::begin(F), std::end(F)) - std::begin(F)];
+        // Reserve enough space for all the indeces we are currently store.
+        size_t reserve = 0;
+        for (const auto & ids : toMerge)
+            reserve += ids.size();
+        // Match all by merging all ids in all vectors.
+        std::vector<size_t> retval(reserve);
+        auto it = std::copy(std::begin(toMerge[0]), std::end(toMerge[0]), std::begin(retval));
+        for (size_t i = 1; i < ids_[0].size(); ++i) {
+            auto newIt = std::copy(std::begin(toMerge[i]), std::end(toMerge[i]), it);
+            std::inplace_merge(std::begin(retval), it, newIt);
+            it = newIt;
+        }
+        assert(it == std::end(retval));
+        return retval;
     }
 
     const Factors & Trie::getFactors() const { return F; }
