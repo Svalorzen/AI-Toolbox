@@ -63,13 +63,17 @@ namespace AIToolbox {
             }
 
             // Bidirectional iterator methods
-            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::bidirectional_iterator_tag>>>
+            template <typename U = iterator_category,
+                      typename = std::enable_if_t<std::is_same_v<U, std::bidirectional_iterator_tag> ||
+                                                  std::is_same_v<U, std::random_access_iterator_tag>>>
             auto operator--() {
                 --currentId_;
                 return *this;
             }
 
-            template <typename U = iterator_category, typename = std::enable_if_t<std::is_same_v<U, std::bidirectional_iterator_tag>>>
+            template <typename U = iterator_category,
+                      typename = std::enable_if_t<std::is_same_v<U, std::bidirectional_iterator_tag> ||
+                                                  std::is_same_v<U, std::random_access_iterator_tag>>>
             auto operator--(int) {
                 auto tmp = *this;
                 --currentId_;
@@ -172,7 +176,7 @@ namespace AIToolbox {
              */
             static constexpr bool OwnsIds = !std::is_pointer_v<IdsContainer>;
             using IdsStorage  = std::conditional_t<OwnsIds,
-                                             const IdsContainer,
+                                             IdsContainer,
                                              const std::remove_pointer_t<IdsContainer> &
                                 >;
 
@@ -220,6 +224,16 @@ namespace AIToolbox {
              */
             template <bool Tmp = OwnsIds, std::enable_if_t<!Tmp, int> = 0>
             IndexMap(IdsContainer ids, Container & items) : ids_(*ids), items_(items) {}
+
+            /**
+             * @brief This function sorts the indeces of the map so that the view is sorted.
+             */
+            template <bool Tmp = OwnsIds, std::enable_if_t<Tmp, int> = 0>
+            void sort() {
+                std::sort(std::begin(ids_), std::end(ids_), [this](auto lhs, auto rhs) {
+                    return items_[lhs] < items_[rhs];
+                });
+            }
 
             /**
              * @brief This function returns an iterator to the beginning of this filtered range.
