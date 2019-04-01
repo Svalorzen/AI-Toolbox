@@ -5,7 +5,7 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    QGreedyPolicy::QGreedyPolicy(State s, Action a, const FactoredContainer<QFunctionRule> & q) :
+    QGreedyPolicy::QGreedyPolicy(State s, Action a, const FilterMap<QFunctionRule> & q) :
             Base(std::move(s), std::move(a)), qc_(&q), qm_(nullptr) {}
 
     QGreedyPolicy::QGreedyPolicy(State s, Action a, const FactoredMatrix2D & q) :

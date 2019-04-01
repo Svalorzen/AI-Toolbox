@@ -3,7 +3,7 @@
 
 #include <AIToolbox/Factored/MDP/Types.hpp>
 
-#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/FilterMap.hpp>
 
 namespace AIToolbox::Factored::MDP {
     /**
@@ -158,17 +158,17 @@ namespace AIToolbox::Factored::MDP {
             const Action & getA() const;
 
             /**
-             * @brief This function returns a reference to the internal FactoredContainer of QFunctionRules.
+             * @brief This function returns a reference to the internal FilterMap of QFunctionRules.
              *
              * @return The internal QFunctionRules.
              */
-            const FactoredContainer<QFunctionRule> & getQFunctionRules() const;
+            const FilterMap<QFunctionRule> & getQFunctionRules() const;
 
         private:
             State S;
             Action A;
             double discount_, alpha_;
-            FactoredContainer<QFunctionRule> rules_;
+            FilterMap<QFunctionRule> rules_;
     };
 }
 

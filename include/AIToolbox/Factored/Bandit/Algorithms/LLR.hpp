@@ -2,7 +2,7 @@
 #define AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
-#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/FilterMap.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -72,7 +72,7 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return The learned optimal QFunctionRules.
              */
-            FactoredContainer<QFunctionRule> getQFunctionRules() const;
+            FilterMap<QFunctionRule> getQFunctionRules() const;
 
         private:
             struct Average {
@@ -89,7 +89,7 @@ namespace AIToolbox::Factored::Bandit {
             /// A vector containing all averages and counts for all local joint actions.
             std::vector<Average> averages_;
             /// A container for all QFunctionRules we have.
-            FactoredContainer<QFunctionRule> rules_;
+            FilterMap<QFunctionRule> rules_;
     };
 }
 
