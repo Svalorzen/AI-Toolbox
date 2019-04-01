@@ -67,7 +67,7 @@ endif()
 
 if (MAKE_FMDP)
     add_library(AIToolboxFMDP
-        Factored/Utils/FactoredContainer.cpp
+        Factored/Utils/Trie.cpp
         Factored/Utils/FasterTrie.cpp
         Factored/Utils/Core.cpp
         Factored/Utils/FactoredMatrix.cpp
