@@ -100,7 +100,7 @@ endif()
 if (MAKE_FMDP)
     AddTest(Factored Utils)
     AddTest(Factored BayesianNetwork)
-    AddTest(Factored FactoredContainer)
+    AddTest(Factored FilterMap)
     AddTest(Factored FactorGraph)
 
     AddTest(Factored FactoredLP)
