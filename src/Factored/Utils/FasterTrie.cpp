@@ -1,14 +1,17 @@
 #include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 
 namespace AIToolbox::Factored {
-    FasterTrie::FasterTrie(Factors f) : F(std::move(f)), taken_(F.size()) {}
+    FasterTrie::FasterTrie(Factors f) : F(std::move(f)), counter_(0), keys_(F.size()), taken_(F.size()) {
+        for (size_t i = 0; i < F.size(); ++i)
+            keys_[i].resize(F[i]);
+    }
 
     size_t FasterTrie::insert(PartialFactors pf) {
         keys_[pf.first[0]][pf.second[0]].emplace_back(counter_, std::move(pf));
         return counter_++;
     }
 
-    void FasterTrie::erase(size_t id, const PartialFactors & pf) {
+    void FasterTrie::erase(const size_t id, const PartialFactors & pf) {
         // We don't care about ordering here.
         auto & keys = keys_[pf.first[0]][pf.second[0]];
         for (size_t i = 0; i < keys.size(); ++i) {
@@ -26,8 +29,8 @@ namespace AIToolbox::Factored {
         auto matchPartial = [](const Factors & f, const PartialFactors & pf, const size_t j) {
             // We already know by definition that the first element will match.
             // We also know we can match at most j elements, so we bind that as well.
-            for (size_t i = 1; i < (j + 1) && i < pf.first.size(); ++i) {
-                if (pf.first[i] > f.size())
+            for (size_t i = 1; i < j && i < pf.first.size(); ++i) {
+                if (pf.first[i] >= f.size())
                     return true;
                 if (f[pf.first[i]] != pf.second[i])
                     return false;
@@ -36,12 +39,11 @@ namespace AIToolbox::Factored {
         };
 
         size_t i = 0;
-        for (; i < f.size(); ++i) {
-            for (const auto & [id, pf] : keys_[i][f[i]]) {
+        for (; i < f.size(); ++i)
+            for (const auto & [id, pf] : keys_[i][f[i]])
                 if (matchPartial(f, pf, f.size() - i))
                     retval.push_back(id);
-            }
-        }
+
         // We also match to everybody after this point.
         for (; i < keys_.size(); ++i)
             for (const auto & keys : keys_[i])
@@ -103,7 +105,17 @@ namespace AIToolbox::Factored {
                 }
             } while (++j < jLimit);
         }
+        return retval;
+    }
+
+    size_t FasterTrie::size() const {
+        size_t retval = 0;
+        for (const auto & keysF : keys_)
+            for (const auto & keysV : keysF)
+                retval += keysV.size();
 
         return retval;
     }
+
+    const Factors & FasterTrie::getF() const { return F; }
 }

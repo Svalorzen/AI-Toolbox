@@ -10,6 +10,8 @@ namespace AIToolbox::Factored {
             void erase(size_t id, const PartialFactors & pf);
             std::vector<size_t> filter(const Factors & f) const;
             std::pair<std::vector<size_t>, Factors> reconstruct(const PartialFactors & pf) const;
+            size_t size() const;
+            const Factors & getF() const;
         private:
             Factors F;
             size_t counter_;
