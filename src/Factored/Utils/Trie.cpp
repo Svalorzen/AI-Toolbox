@@ -1,4 +1,4 @@
-#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/Trie.hpp>
 
 #include <boost/range/adaptor/reversed.hpp>
 
