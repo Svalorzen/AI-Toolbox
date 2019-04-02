@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     aif::Rewards r(model.getS().size());
     r.setZero();
     for (size_t t = 0; t < 1000; ++t) {
-        std::cout << " #######\n";
+        // std::cout << " #######\n";
         auto a = ep.sampleAction(s);
         auto [s1, x] = problem.sampleSR(s, a);
 

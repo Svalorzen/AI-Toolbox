@@ -4,6 +4,7 @@
 #include <AIToolbox/Factored/MDP/Types.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
+#include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 #include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
 
@@ -54,7 +55,6 @@ namespace AIToolbox::Factored::MDP {
 
             struct PriorityQueueElement {
                 double priority;
-                size_t id;
                 Backup stateAction;
                 bool operator<(const PriorityQueueElement& arg2) const {
                     return priority < arg2.priority;
@@ -64,8 +64,7 @@ namespace AIToolbox::Factored::MDP {
             using QueueType = boost::heap::fibonacci_heap<PriorityQueueElement>;
 
             QueueType queue_;
-            Trie ids_;
-            std::unordered_map<size_t, typename QueueType::handle_type> findById_;
+            FasterTrie ids_;
             std::unordered_map<Backup, typename QueueType::handle_type, boost::hash<Backup>> findByBackup_;
 
             mutable RandomEngine rand_;
@@ -132,112 +131,42 @@ namespace AIToolbox::Factored::MDP {
             if (queue_.empty()) return;
 
             // Pick top element from queue
-            auto [priority, id, stateAction] = queue_.top();
+            auto [priority, stateAction] = queue_.top();
 
-            queue_.pop();
+            auto [ids, factor, filled] = ids_.reconstruct(stateAction, true);
 
-            ids_.erase(id);
-            findById_.erase(id);
-            findByBackup_.erase(stateAction);
+            for (const auto & id : ids) {
+                auto hIt = findByBackup_.find(id.second);
 
-            //std::cout << "BATCH UPDATE\n";
-            //std::cout << "Selected initial SA: " << stateAction << '\n';
-
-            // We want to remove as many rules in one swoop as possible, thus
-            // we take all rules compatible with our initial pick.
-            auto ids = ids_.filter(stateAction);
-            while (ids.size()) {
-                // Take a random compatible element to add to the first
-                // one. Ideally one would want to pick the one with the
-                // highest priority, but it's also very important to be as
-                // fast as possible here since we want to do as many
-                // updates as we can; thus, we do the easiest thing.
-                id = ids.back();
-                //std::cout << "Extracted additional index " << id << '\n';
-                ids.pop_back();
-
-                // Find the handle to the backup in the priority queue.
-                auto hIt = findById_.find(id);
-                assert(hIt != std::end(findById_));
-
-                // Here is the new piece we want to add to our stateAction
                 auto handle = hIt->second;
-                auto & newSA = (*handle).stateAction;
 
-                // Cleanup unordered_maps now before we touch anything.
-                findById_.erase(hIt);
-                findByBackup_.erase(newSA);
-
-                // Now, we want to make this piece as small as possible, since
-                // the refine operation does an amount of work proportional to
-                // the length of the input passed.
-                // Thus, we remove all common elements between stateAction and newSA.
-                {
-                    size_t i = 0, j = 0;
-                    while (i < newSA.first.size() && j < stateAction.first.size()) {
-                        if (newSA.first[i] < stateAction.first[j]) {
-                            ++i;
-                        } else if (newSA.first[i] > stateAction.first[j]) {
-                            ++j;
-                        } else {
-                            newSA.first.erase(std::begin(newSA.first) + i);
-                            newSA.second.erase(std::begin(newSA.second) + i);
-                            // we don't update i since we just removed it.
-                            ++j;
-                        }
-                    }
-                }
-
-                // Update ids and re-filter with shortest newSA.
-                ids_.erase(id);
-                ids = ids_.refine(ids, newSA);
-
-                // Add the selected state-action pair and add it to our own.
-                // Note that the "pruning" before does not change this result.
-                stateAction = merge(stateAction, newSA);
-                //std::cout << "Merged SA: " << stateAction << '\n';
-
-                // Finally, clear the element from the queue (which should also
-                // kill newSA).
                 queue_.erase(handle);
+                findByBackup_.erase(hIt);
             }
 
             //std::cout << "Done merging: " << stateAction << "\n";
-
-            std::vector<size_t> missingS;
-            std::vector<size_t> missingA;
 
             State s(model_.getS().size());
             Action a(model_.getA().size());
 
             // Copy stateAction values to s and a, and record missing ids.
             size_t x = 0;
-            for (size_t i = 0; i < s.size(); ++i) {
-                if (x >= stateAction.first.size() || i < stateAction.first[x])
-                    missingS.push_back(i);
-                else
-                    s[i] = stateAction.second[x++];
+            for (size_t i = 0; i < s.size(); ++i, ++x) {
+                if (!filled[i]) {
+                    std::uniform_int_distribution<size_t> dist(0, model_.getS()[i]-1);
+                    s[i] = dist(rand_);
+                } else {
+                    s[i] = factor[x];
+                }
             }
 
-            //std::cout << "S: " << s << " ; missingS: " << missingS << " ; x = " << x << '\n';
-
-            for (size_t i = 0; i < a.size(); ++i) {
-                if (x >= stateAction.first.size() || i + model_.getS().size() < stateAction.first[x])
-                    missingA.push_back(i);
-                else
-                    a[i] = stateAction.second[x++];
-            }
-
-            //std::cout << "A: " << a << " ; missingA: " << missingA << '\n';
-
-            for (auto ss : missingS) {
-                std::uniform_int_distribution<size_t> dist(0, model_.getS()[ss]-1);
-                s[ss] = dist(rand_);
-            }
-
-            for (auto aa : missingA) {
-                std::uniform_int_distribution<size_t> dist(0, model_.getA()[aa]-1);
-                a[aa] = dist(rand_);
+            for (size_t i = 0; i < a.size(); ++i, ++x) {
+                if (!filled[x]) {
+                    std::uniform_int_distribution<size_t> dist(0, model_.getA()[i]-1);
+                    a[i] = dist(rand_);
+                } else {
+                    a[i] = factor[x];
+                }
             }
 
             //std::cout << "Final S: " << s << " ; final A: " << a << '\n';
@@ -343,14 +272,13 @@ namespace AIToolbox::Factored::MDP {
                         (*handle).priority += p;
                         queue_.increase(handle);
                     } else {
-                        auto id = ids_.insert(backup);
-                        auto handle = queue_.emplace(PriorityQueueElement{p, id, backup});
+                        auto handle = queue_.emplace(PriorityQueueElement{p, backup});
 
                         //std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
                         //std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
 
-                        findById_[id] = handle;
                         findByBackup_[backup] = handle;
+                        ids_.insert(std::move(backup));
                     }
                 }
             }
