@@ -1,9 +1,24 @@
 #include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 
+#include <algorithm>
+
+#include <AIToolbox/Impl/Seeder.hpp>
+
 namespace AIToolbox::Factored {
-    FasterTrie::FasterTrie(Factors f) : F(std::move(f)), counter_(0), keys_(F.size()) {
+    FasterTrie::FasterTrie(Factors f) :
+            F(std::move(f)),
+            counter_(0), keys_(F.size()),
+            rand_(Impl::Seeder::getSeed()), orders_(F.size()+1)
+    {
         for (size_t i = 0; i < F.size(); ++i)
             keys_[i].resize(F[i]);
+
+        orders_[0].resize(F.size());
+        std::iota(std::begin(orders_[0]), std::end(orders_[0]), 0);
+        for (size_t i = 1; i < orders_.size(); ++i) {
+            orders_[i].resize(F[i-1]);
+            std::iota(std::begin(orders_[i]), std::end(orders_[i]), 0);
+        }
     }
 
     size_t FasterTrie::insert(PartialFactors pf) {
@@ -53,7 +68,8 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> FasterTrie::reconstruct(const PartialFactors & pf) const {
+    std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> FasterTrie::reconstruct(const PartialFactors & pf) {
+        // Initialize retval
         std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> retval;
         auto & [ids, f, found] = retval;
         f.resize(F.size());
@@ -65,23 +81,36 @@ namespace AIToolbox::Factored {
             f[pf.first[i]] = pf.second[i];
         }
 
-        // Choice over factor id.
-        for (size_t i = 0; i < keys_.size(); ++i) { // Randomize
+        // We want to go over entries in the most randomized way possible
+        // (although being fast is more important), as we want every possible
+        // reconstruction to at least have a chance at being selected.
+
+        // Random choice over factor ids.
+        std::shuffle(std::begin(orders_[0]), std::end(orders_[0]), rand_);
+        for (auto o : orders_[0]) {
+            auto & keys = keys_[o];
             // Decide which factor values to iterate over. If the value is
             // known, we only look in the corresponding cell. Otherwise we look
-            // at all of them.
+            // at all of them (in a random order as well).
             size_t j = 0;
-            size_t jLimit = keys_[i].size();
-            if (found[i]) {
-                j = f[i];
-                jLimit = j + 1;
+            bool done = false;
+            decltype(&keys[0]) keysV;
+
+            if (found[o]) {
+                done = true;
+                keysV = &keys[f[o]];
+            } else {
+                std::shuffle(std::begin(orders_[o+1]), std::end(orders_[o+1]), rand_);
+                keysV = &keys[orders_[o+1][0]];
             }
-            // Choice over factor value. (randomize)
+
             do {
-                // Choice over entry.
-                for (size_t k = 0; k < keys_[i][j].size(); ++k) { // Randomize
-                    auto & entry = keys_[i][j][k];
-                    auto & entrypf = entry.second;
+                // Finally, we go over all entries in this vector, and we
+                // randomize them as well to be as fair as possible.
+                std::shuffle(std::begin(*keysV), std::end(*keysV), rand_);
+                for (size_t k = 0; k < keysV->size(); ++k) {
+                    const auto & entry = (*keysV)[k];
+                    const auto & entrypf = entry.second;
                     bool match = true;
                     for (size_t q = 0; q < entrypf.first.size(); ++q) {
                         const auto id = entrypf.first[q];
@@ -93,7 +122,7 @@ namespace AIToolbox::Factored {
                     if (match) {
                         // We stop the outer loop here since we have now
                         // decided what value this factor has.
-                        jLimit = j;
+                        done = true;
                         ids.push_back(entry.first);
                         for (size_t q = 0; q < entrypf.first.size(); ++q) {
                             const auto id = entrypf.first[q];
@@ -102,7 +131,10 @@ namespace AIToolbox::Factored {
                         }
                     }
                 }
-            } while (++j < jLimit);
+                if (done || ++j >= orders_[o+1].size())
+                    break;
+                keysV = &keys[orders_[o+1][j]];
+            } while (true);
         }
         return retval;
     }
