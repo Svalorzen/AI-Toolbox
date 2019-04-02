@@ -533,16 +533,16 @@ BOOST_AUTO_TEST_CASE( erase_id_pf_FT ) {
 
     FilterMap<std::string, FasterTrie> f(F);
 
-    f.emplace(keys[0],   "1_3"); // 0
-    f.emplace(keys[1],   "__2"); // 1
-    f.emplace(keys[2],   "_00"); // 2
-    f.emplace(keys[3],   "_1_"); // 3
-    f.emplace(keys[4],   "0__"); // 4
-    f.emplace(keys[5],   "_2_"); // 5
-    f.emplace(keys[6],   "_01"); // 6
-    f.emplace(keys[7],   "1__"); // 7
-    f.emplace(keys[8],   "00_"); // 8
-    f.emplace(keys[9],   "1_1"); // 9
+    f.emplace(keys[0],    "1_3"); // 0
+    f.emplace(keys[1],    "__2"); // 1
+    f.emplace(keys[2],    "_00"); // 2
+    f.emplace(keys[3],    "_1_"); // 3
+    f.emplace(keys[4],    "0__"); // 4
+    f.emplace(keys[5],    "_2_"); // 5
+    f.emplace(keys[6],    "_01"); // 6
+    f.emplace(keys[7],    "1__"); // 7
+    f.emplace(keys[8],    "00_"); // 8
+    f.emplace(keys[9],    "1_1"); // 9
     f.emplace(keys[10],   "_22"); // 10
     f.emplace(keys[11],   "111"); // 11
     f.emplace(keys[12],   "_20"); // 12
@@ -615,25 +615,6 @@ BOOST_AUTO_TEST_CASE( reconstruction_FT ) {
         {{0,2},   {1,0}},
     };
 
-    FilterMap<std::string, FasterTrie> f(F);
-
-    f.emplace(keys[0],   "1_3"); // 0
-    f.emplace(keys[1],   "__2"); // 1
-    f.emplace(keys[2],   "_00"); // 2
-    f.emplace(keys[3],   "_1_"); // 3
-    f.emplace(keys[4],   "0__"); // 4
-    f.emplace(keys[5],   "_2_"); // 5
-    f.emplace(keys[6],   "_01"); // 6
-    f.emplace(keys[7],   "1__"); // 7
-    f.emplace(keys[8],   "00_"); // 8
-    f.emplace(keys[9],   "1_1"); // 9
-    f.emplace(keys[10],   "_22"); // 10
-    f.emplace(keys[11],   "111"); // 11
-    f.emplace(keys[12],   "_20"); // 12
-    f.emplace(keys[13],   "_03"); // 13
-    f.emplace(keys[14],   "1_2"); // 14
-    f.emplace(keys[15],   "1_0"); // 15
-
     std::vector<std::vector<std::pair<std::vector<size_t>, std::vector<size_t>>>> solutions {
         {
             {{1, 4, 8},     {0, 0, 2}},
@@ -663,7 +644,10 @@ BOOST_AUTO_TEST_CASE( reconstruction_FT ) {
     };
 
     for (size_t i = 0; i < startKeys.size(); ++i) {
-        auto trie = f.getTrie();
+        FasterTrie trie(F);
+        for (const auto key : keys)
+            trie.insert(key);
+
         std::vector<unsigned> counts(solutions[i].size());
         for (size_t j = 0; j < 1000; ++j) {
             auto [ids, factor, found] = trie.reconstruct(startKeys[i]);
@@ -671,7 +655,11 @@ BOOST_AUTO_TEST_CASE( reconstruction_FT ) {
 
             for (size_t k = 0; k < counts.size(); ++k) {
                 if (AIToolbox::veccmp(factor, solutions[i][k].second) == 0) {
-                    BOOST_CHECK(AIToolbox::veccmp(ids, solutions[i][k].first) == 0);
+                    for (size_t q = 0; q < ids.size(); ++q) {
+                        BOOST_CHECK_EQUAL(ids[q].first, solutions[i][k].first[q]);
+                        BOOST_CHECK(AIToolbox::veccmp(ids[q].second.first,  keys[ids[q].first].first) == 0);
+                        BOOST_CHECK(AIToolbox::veccmp(ids[q].second.second, keys[ids[q].first].second) == 0);
+                    }
                     for (auto f : found)
                         BOOST_CHECK(f);
                     ++counts[k];
@@ -684,5 +672,72 @@ BOOST_AUTO_TEST_CASE( reconstruction_FT ) {
         // we just check that at least all of them have been found once.
         for (size_t k = 0; k < counts.size(); ++k)
             BOOST_CHECK(counts[k] > 0);
+    }
+}
+
+BOOST_AUTO_TEST_CASE( reconstruction_removal_FT ) {
+    using namespace AIToolbox::Factored;
+    Factors F{2,3,4};
+
+    std::vector<PartialFactors> keys{
+        {{0,2},   {1,3}},   // "1_3"  0
+        {{2},     {2}},     // "__2"  1
+        {{1,2},   {0,0}},   // "_00"  2
+        {{1},     {1}},     // "_1_"  3
+        {{0},     {0}},     // "0__"  4
+        {{1},     {2}},     // "_2_"  5
+        {{1,2},   {0,1}},   // "_01"  6
+        {{0},     {1}},     // "1__"  7
+        {{0,1},   {0,0}},   // "00_"  8
+        {{0,2},   {1,1}},   // "1_1"  9
+        {{1,2},   {2,2}},   // "_22"  10
+        {{0,1,2}, {1,1,1}}, // "111"  11
+        {{1,2},   {2,0}},   // "_20"  12
+        {{1,2},   {0,3}},   // "_03"  13
+        {{0,2},   {1,2}},   // "1_2"  14
+        {{0,2},   {1,0}},   // "1_0"  15
+    };
+
+    std::vector<PartialFactors> reconstructions {
+        {{0,1,2},{1,1,1}},  // "111" -> "111" _1_ (3), 1__ (7), 1_1 (9), 111 (11)
+        {{0,2},{1,2}},      // "1_2" -> "122" __2 (1), _2_ (5), _22 (10), 1_2 (14)
+        {{0,2},{0,3}},      // "0_3" -> "003" 0__ (4), 00_ (8), _03 (13)
+        {{2},{1}},          // "__1" -> "_01" _01 (6)
+        {{1,2},{1,3}},      // "_13" -> "113" 1_3 (0)
+        {{1},{2}},          // "_2_" -> "120" _20 (12), 1_0 (15)
+        {{2},{0}},          // "__0" -> "_00" _00 (2)
+    };
+
+    std::vector<std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>>> solutions {
+        {{3, 7, 9, 11}, {1,1,1}, {1,1,1}},
+        {{1, 5, 10, 14}, {1,2,2}, {1,1,1}},
+        {{4, 8, 13}, {0,0,3}, {1,1,1}},
+        {{6}, {0,0,1}, {0,1,1}},
+        {{0}, {1,1,3}, {1,1,1}},
+        {{12, 15}, {1,2,0}, {1,1,1}},
+        {{2}, {0,0,0}, {0,1,1}},
+    };
+
+    FasterTrie trie(F);
+    for (const auto key : keys)
+        trie.insert(key);
+
+    for (size_t i = 0; i < reconstructions.size(); ++i) {
+        auto [ids, factor, found] = trie.reconstruct(reconstructions[i], true);
+        auto [sids, sfactor, sfound] = solutions[i];
+
+        std::sort(std::begin(ids), std::end(ids));
+
+        for (size_t q = 0; q < ids.size(); ++q) {
+            BOOST_CHECK_EQUAL(ids[q].first,   sids[q]);
+            BOOST_CHECK(AIToolbox::veccmp(ids[q].second.first,  keys[ids[q].first].first) == 0);
+            BOOST_CHECK(AIToolbox::veccmp(ids[q].second.second, keys[ids[q].first].second) == 0);
+        }
+
+        BOOST_CHECK_EQUAL(AIToolbox::veccmp(found, sfound), 0);
+
+        for (size_t q = 0; q < found.size(); ++q)
+            if (found[q])
+                BOOST_CHECK_EQUAL(factor[q], sfactor[q]);
     }
 }

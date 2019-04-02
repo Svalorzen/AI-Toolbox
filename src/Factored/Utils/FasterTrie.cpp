@@ -68,10 +68,10 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> FasterTrie::reconstruct(const PartialFactors & pf) {
+    std::tuple<FasterTrie::Entries, Factors, std::vector<unsigned char>> FasterTrie::reconstruct(const PartialFactors & pf, bool remove) {
         // Initialize retval
-        std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>> retval;
-        auto & [ids, f, found] = retval;
+        std::tuple<Entries, Factors, std::vector<unsigned char>> retval;
+        auto & [entries, f, found] = retval;
         f.resize(F.size());
         found.resize(F.size());
 
@@ -108,9 +108,13 @@ namespace AIToolbox::Factored {
                 // Finally, we go over all entries in this vector, and we
                 // randomize them as well to be as fair as possible.
                 std::shuffle(std::begin(*keysV), std::end(*keysV), rand_);
-                for (size_t k = 0; k < keysV->size(); ++k) {
-                    const auto & entry = (*keysV)[k];
+                for (size_t k = 0; k < keysV->size(); /* ++k later */) {
+                    auto & entry = (*keysV)[k];
                     const auto & entrypf = entry.second;
+
+                    // We increment k here to be able to go back if we remove the element.
+                    ++k;
+
                     bool match = true;
                     for (size_t q = 0; q < entrypf.first.size(); ++q) {
                         const auto id = entrypf.first[q];
@@ -123,11 +127,18 @@ namespace AIToolbox::Factored {
                         // We stop the outer loop here since we have now
                         // decided what value this factor has.
                         done = true;
-                        ids.push_back(entry.first);
                         for (size_t q = 0; q < entrypf.first.size(); ++q) {
                             const auto id = entrypf.first[q];
                             found[id] = true;
                             f[id] = entrypf.second[q];
+                        }
+                        if (remove) {
+                            entries.emplace_back(std::move(entry));
+                            entry = std::move(keysV->back());
+                            keysV->pop_back();
+                            --k;
+                        } else {
+                            entries.push_back(entry);
                         }
                     }
                 }
