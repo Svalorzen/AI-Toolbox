@@ -252,18 +252,26 @@ namespace AIToolbox::Factored::MDP {
             const auto & aNode = T.nodes[i];
             for (size_t a = 0; a < aNode.nodes.size(); ++a) {
                 const auto & sNode = aNode.nodes[a];
+
+                // We pre-allocate the Backup node (since it's size it's going
+                // to remain the same throughout these loops. We'll change the
+                // 'state' part in the loop.
+                Backup backup{
+                    join(model_.getS().size(), sNode.tag, aNode.actionTag), // Keys
+                    {}
+                };
+                backup.second.resize(backup.first.size());
+                // Write the values for this action in, since they won't change.
+                toFactorsPartial(backup.second.begin() + sNode.tag.size(), aNode.actionTag, model_.getA(), a);
+
                 for (size_t s = 0; s < static_cast<size_t>(sNode.matrix.rows()); ++s) {
                     const auto p = sNode.matrix(s, s1[i]) * deltaStorage_[i];
 
                     if (p < theta_) continue;
 
-                    Backup backup = PartialFactors{
-                        join(model_.getS().size(), sNode.tag, aNode.actionTag), // Keys
-                        join(                             // Values
-                                toFactorsPartial(sNode.tag,       model_.getS(), s),
-                                toFactorsPartial(aNode.actionTag, model_.getA(), a)
-                            )
-                    };
+                    // Write the values for this state.
+                    toFactorsPartial(backup.second.begin(), sNode.tag, model_.getS(), s);
+
                     auto hIt = findByBackup_.find(backup);
 
                     if (hIt != std::end(findByBackup_)) {
@@ -278,7 +286,7 @@ namespace AIToolbox::Factored::MDP {
                         //std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
 
                         findByBackup_[backup] = handle;
-                        ids_.insert(std::move(backup));
+                        ids_.insert(backup);
                     }
                 }
             }

@@ -323,6 +323,28 @@ namespace AIToolbox::Factored {
     Factors toFactorsPartial(const PartialKeys & ids, const Factors & space, size_t id);
 
     /**
+     * @brief This function converts an index into the equivalent Factors of the input keys, within the specified factor space.
+     *
+     * \sa Factors toFactorsPartial(const PartialKeys & ids, const Factors & space, size_t id);
+     *
+     * This functioh outputs to a range beginning at `begin`, of the same size
+     * as the input `ids`.
+     *
+     * @param begin The beginning of the range where to write the output.
+     * @param ids The indeces to consider.
+     * @param space The global factors space to consider.
+     * @param id The integer uniquely identifying the factor.
+     */
+    template <typename It>
+    void toFactorsPartial(It begin, const PartialKeys & ids, const Factors & space, size_t id) {
+        for (auto key : ids) {
+            *begin = id % space[key];
+            id /= space[key];
+            ++begin;
+        }
+    }
+
+    /**
      * @brief This function converts the input factor in the input space to an unique index.
      *
      * This function returns an unique integer in range [0, factorSpace(space)).
