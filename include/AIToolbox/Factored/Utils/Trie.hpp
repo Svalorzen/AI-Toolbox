@@ -64,7 +64,7 @@ namespace AIToolbox::Factored {
              * guarantees minimal re-copying within the vectors which allows
              * for fast insertion.
              *
-             * @param ps The partial state used as key for the insertion.
+             * @param pf The PartialFactors used as key for the insertion.
              *
              * @return The id of the newly inserted key.
              */
