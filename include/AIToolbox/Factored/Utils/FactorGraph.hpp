@@ -340,6 +340,8 @@ namespace AIToolbox::Factored {
         // Find the neighbors of this variable, and whether there's a factor
         // with all of them.
         auto vNeighbors = getNeighbors(variableAdjacencies_[retval].factors);
+        vNeighbors.erase(std::find(std::begin(vNeighbors), std::end(vNeighbors), retval));
+
         const auto factorIt = factorByVariables_.find(vNeighbors);
 
         // We want the variable with the minimum size factor, where the factor
@@ -353,7 +355,9 @@ namespace AIToolbox::Factored {
             if (!variableAdjacencies_[next].active)
                 continue;
 
-            auto vNeighbors = getNeighbors(variableAdjacencies_[retval].factors);
+            auto vNeighbors = getNeighbors(variableAdjacencies_[next].factors);
+            vNeighbors.erase(std::find(std::begin(vNeighbors), std::end(vNeighbors), next));
+
             const auto found = factorByVariables_.find(vNeighbors);
 
             size_t newExists = found != std::end(factorByVariables_);

@@ -52,7 +52,7 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @param rules An iterable object over MOQFunctionRules.
              *
-             * @return The pair of best Action and its value over the input rules.
+             * @return All pairs of PartialAction, Rewards found during the elimination process.
              */
             template <typename Iterable>
             Results operator()(const Action & A, const Iterable & inputRules) {

@@ -94,6 +94,8 @@ BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
         const auto & pa1 = std::get<0>(bestActions[i]).first;
         const auto & pa2 = std::get<0>(bestActions[i]).second;
 
+        BOOST_TEST_INFO(i);
+
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa1), std::end(spa1), std::begin(pa1), std::end(pa1));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa2), std::end(spa2), std::begin(pa2), std::end(pa2));
 

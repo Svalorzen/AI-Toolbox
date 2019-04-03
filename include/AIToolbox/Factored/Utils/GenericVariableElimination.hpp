@@ -179,9 +179,8 @@ namespace AIToolbox::Factored {
 
         // We remove variables one at a time from the graph, storing the last
         // remaining nodes in the finalFactors variable.
-        // FIXME: This can possibly be improved with some heuristic ordering
         while (graph.variableSize())
-            removeFactor(F, graph, graph.variableSize() - 1, finalFactors, global);
+            removeFactor(F, graph, graph.bestVariableToRemove(F), finalFactors, global);
 
         global.makeResult(std::move(finalFactors));
     }
