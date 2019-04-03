@@ -333,16 +333,21 @@ namespace AIToolbox::Factored {
     size_t FactorGraph<FD>::bestVariableToRemove(const Factors & F) const {
         if (activeVariables_ == 0) return 0;
 
+        // Find first active variable
         size_t retval = 0;
         while (!variableAdjacencies_[retval].active) ++retval;
 
+        // Find the neighbors of this variable, and whether there's a factor
+        // with all of them.
         auto vNeighbors = getNeighbors(variableAdjacencies_[retval].factors);
-        const auto found = factorByVariables_.find(vNeighbors);
+        const auto factorIt = factorByVariables_.find(vNeighbors);
 
-        bool maxExists = found != std::end(factorByVariables_);
-        size_t maxValue = 1;
+        // We want the variable with the minimum size factor, where the factor
+        // already exists (so we don't have to allocate anything).
+        bool factorExists = factorIt != std::end(factorByVariables_);
+        size_t minCost = 1;
         for (auto n : vNeighbors)
-            maxValue *= F[n];
+            minCost *= F[n];
 
         for (size_t next = retval + 1; next < variableAdjacencies_.size(); ++next) {
             if (!variableAdjacencies_[next].active)
@@ -353,15 +358,20 @@ namespace AIToolbox::Factored {
 
             size_t newExists = found != std::end(factorByVariables_);
 
-            if (!newExists && maxExists) continue;
+            // If we already have a factor, there's no point in looking at this
+            // variable.
+            if (!newExists && factorExists) continue;
 
-            size_t newValue = 1;
+            // Otherwise compute its cost
+            size_t newCost = 1;
             for (auto n : vNeighbors)
-                newValue *= F[n];
+                newCost *= F[n];
 
-            if ((newExists && !maxExists) || (newValue > maxValue)) {
+            // If we didn't have a factor, or the new cost is less than the old
+            // one, we select this variable.
+            if ((newExists && !factorExists) || (newCost < minCost)) {
                 retval = next;
-                maxValue = newValue;
+                minCost = newCost;
             }
         }
         return retval;
