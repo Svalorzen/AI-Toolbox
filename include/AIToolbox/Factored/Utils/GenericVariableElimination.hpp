@@ -203,11 +203,13 @@ namespace AIToolbox::Factored {
         Rules * oldRulesP;
         size_t oldRulesCurrId = 0;
 
-        if (!isFinalFactor)
-            oldRulesP = &graph.getFactor(vNeighbors)->getData();
-
         PartialFactorsEnumerator jointValues(F, vNeighbors, f, true);
         const auto id = jointValues.getFactorToSkipId();
+
+        if (!isFinalFactor) {
+            oldRulesP = &graph.getFactor(vNeighbors)->getData();
+            oldRulesP->reserve(jointValues.size());
+        }
 
         size_t jvID = 0;
         while (jointValues.isValid()) {
