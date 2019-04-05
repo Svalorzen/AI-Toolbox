@@ -18,16 +18,17 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
         {  {{1, 2}, {1, 1}},            5.0},
     };
 
-    const auto solution = std::make_pair(aif::Action{1, 0, 0}, 11.0);
+    const auto solA = aif::Action{1, 0, 0};
+    const auto solV = 11.0;
 
     const aif::Action a{2, 2, 2};
 
     VE v;
-    const auto bestAction_v = v(a, rules);
+    const auto [bestAction, val] = v(a, rules);
 
-    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
-                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
+    BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(solA),     std::end(solA));
 }
 
 BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
@@ -39,16 +40,17 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
         {  {{3},    {1}},               7.0},
     };
 
-    const auto solution = std::make_pair(aif::Action{2, 0, 0, 1}, 16.0);
+    const auto solA = aif::Action{2, 0, 0, 1};
+    const auto solV = 16.0;
 
     const aif::Action a{3, 2, 3, 4};
 
     VE v;
-    const auto bestAction_v = v(a, rules);
+    const auto [bestAction, val] = v(a, rules);
 
-    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
-                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
+    BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(solA),     std::end(solA));
 }
 
 BOOST_AUTO_TEST_CASE( all_connected_agents ) {
@@ -57,16 +59,17 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
         {  {{0, 1, 2}, {1, 1, 1}},      10.0},
     };
 
-    const auto solution = std::make_pair(aif::Action{1, 1, 1}, 10.0);
+    const auto solA = aif::Action{1, 1, 1};
+    const auto solV = 10.0;
 
     const aif::Action a{2, 2, 2};
 
     VE v;
-    const auto bestAction_v = v(a, rules);
+    const auto [bestAction, val] = v(a, rules);
 
-    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
-                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
+    BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(solA),     std::end(solA));
 }
 
 BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
@@ -81,16 +84,17 @@ BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
         {  {{0, 1}, {0, 0}},            11.0},
     };
 
-    const auto solution = std::make_pair(aif::Action{0, 0}, 1.0);
+    const auto solA = aif::Action{0, 0};
+    const auto solV = 1.0;
 
     const aif::Action a{2, 2};
 
     VE v;
-    const auto bestAction_v = v(a, rules);
+    const auto [bestAction, val] = v(a, rules);
 
-    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
-                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
+    BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(solA),     std::end(solA));
 }
 
 BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
@@ -105,14 +109,15 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
         {  {{0, 1}, {0, 0}},             9.0},
     };
 
-    const auto solution = std::make_pair(aif::Action{1, 0}, 0.0);
+    const auto solA = aif::Action{1, 0};
+    const auto solV = 0.0;
 
     const aif::Action a{2, 2};
 
     VE v;
-    const auto bestAction_v = v(a, rules);
+    const auto [bestAction, val] = v(a, rules);
 
-    BOOST_CHECK_EQUAL(std::get<1>(bestAction_v), std::get<1>(solution));
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(std::get<0>(bestAction_v)), std::end(std::get<0>(bestAction_v)),
-                                  std::begin(std::get<0>(solution)),     std::end(std::get<0>(solution)));
+    BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(solA),     std::end(solA));
 }

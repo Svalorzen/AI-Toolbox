@@ -29,7 +29,7 @@ namespace AIToolbox::Factored {
     template <typename FactorData>
     class FactorGraph {
         public:
-            using Variables    = PartialKeys;
+            using Variables = PartialKeys;
 
             class FactorNode {
                 friend class FactorGraph;
@@ -70,7 +70,16 @@ namespace AIToolbox::Factored {
              *
              * @return A list of iterators pointing at the factors adjacent to the given variable.
              */
-            const FactorItList & getNeighbors(size_t variable) const;
+            const FactorItList & getFactors(size_t variable) const;
+
+            /**
+             * @brief This function returns all variables adjacent to a factor adjacent to the input variable.
+             *
+             * @param variable The variable to look for.
+             *
+             * @return All *other* variables connected in some way to the input one.
+             */
+            const Variables & getVariables(size_t variable) const;
 
             /**
              * @brief This function returns all variables adjacent to the given factor.
@@ -79,7 +88,7 @@ namespace AIToolbox::Factored {
              *
              * @return A vector of variables adjacent to the given factor.
              */
-            const Variables & getNeighbors(FactorIt factor) const;
+            const Variables & getVariables(FactorIt factor) const;
 
             /**
              * @brief This function returns all variables adjacent to the given factor.
@@ -88,7 +97,7 @@ namespace AIToolbox::Factored {
              *
              * @return A vector of variables adjacent to the given factor.
              */
-            const Variables & getNeighbors(CFactorIt factor) const;
+            const Variables & getVariables(CFactorIt factor) const;
 
             /**
              * @brief This function returns all variables adjacent to any of the given factors.
@@ -101,7 +110,7 @@ namespace AIToolbox::Factored {
              *
              * @return A vector of variables adjacent to any of the given factors.
              */
-            Variables getNeighbors(const FactorItList & factors) const;
+            Variables getVariables(const FactorItList & factors) const;
 
             /**
              * @brief This function returns an iterator to a factor adjacent to the given variables.
@@ -121,17 +130,6 @@ namespace AIToolbox::Factored {
              * @return An iterator to the desired factor.
              */
             FactorIt getFactor(const Variables & variables);
-
-            /**
-             * @brief This function removes a factor from the graph.
-             *
-             * This function is very fast as the factors are kept in a list, so
-             * that removal is O(1). We also need to remove the factor from
-             * each agent's list, and that takes some more time.
-             *
-             * @param it An iterator to the factor to be removed.
-             */
-            void erase(FactorIt it);
 
             /**
              * @brief This function partially removes an variable from the graph.
@@ -231,6 +229,7 @@ namespace AIToolbox::Factored {
 
             struct VariableNode {
                 FactorItList factors;
+                std::vector<size_t> vNeighbors;
                 bool active = true;
             };
 
@@ -242,22 +241,27 @@ namespace AIToolbox::Factored {
     FactorGraph<FD>::FactorGraph(size_t variables) : variableAdjacencies_(variables), activeVariables_(variables) {}
 
     template <typename FD>
-    const typename FactorGraph<FD>::FactorItList & FactorGraph<FD>::getNeighbors(const size_t variable) const {
+    const typename FactorGraph<FD>::FactorItList & FactorGraph<FD>::getFactors(const size_t variable) const {
         return variableAdjacencies_[variable].factors;
     }
 
     template <typename FD>
-    const typename FactorGraph<FD>::Variables & FactorGraph<FD>::getNeighbors(FactorIt factor) const {
+    const typename FactorGraph<FD>::Variables & FactorGraph<FD>::getVariables(const size_t variable) const {
+        return variableAdjacencies_[variable].vNeighbors;
+    }
+
+    template <typename FD>
+    const typename FactorGraph<FD>::Variables & FactorGraph<FD>::getVariables(FactorIt factor) const {
         return factor->variables_;
     }
 
     template <typename FD>
-    const typename FactorGraph<FD>::Variables & FactorGraph<FD>::getNeighbors(CFactorIt factor) const {
+    const typename FactorGraph<FD>::Variables & FactorGraph<FD>::getVariables(CFactorIt factor) const {
         return factor->variables_;
     }
 
     template <typename FD>
-    typename FactorGraph<FD>::Variables FactorGraph<FD>::getNeighbors(const FactorItList & factors) const {
+    typename FactorGraph<FD>::Variables FactorGraph<FD>::getVariables(const FactorItList & factors) const {
         Variables retval;
         for (const auto factor : factors)
             set_union_inplace(retval, factor->variables_);
@@ -275,41 +279,60 @@ namespace AIToolbox::Factored {
         auto it = --factorAdjacencies_.end();
 
         it->variables_ = variables;
-        for (const auto a : variables)
-            variableAdjacencies_[a].factors.push_back(it);
+        for (const auto a : variables) {
+            auto & va = variableAdjacencies_[a];
+            va.factors.push_back(it);
+
+            // Add *other* agents to vNeighbors
+            const auto mid = va.vNeighbors.size();
+            va.vNeighbors.reserve(mid + variables.size() - 1);
+
+            for (size_t i = 0, j = 0; i < variables.size(); ) {
+                if (variables[i] == a) {
+                    ++i;
+                } else if (j == mid || variables[i] < va.vNeighbors[j]) {
+                    va.vNeighbors.push_back(variables[i]);
+                    ++i;
+                } else {
+                    if (variables[i] == va.vNeighbors[j])
+                        ++i;
+                    ++j;
+                }
+            }
+            std::inplace_merge(std::begin(va.vNeighbors), std::begin(va.vNeighbors)+mid, std::end(va.vNeighbors));
+        }
 
         factorByVariables_[variables] = it;
         return it;
     }
 
     template <typename FD>
-    void FactorGraph<FD>::erase(FactorIt it) {
-        for (const auto variable : it->variables_) {
-            auto & factors = variableAdjacencies_[variable].factors;
-            const auto foundIt = std::find(std::begin(factors), std::end(factors), it);
-            if (foundIt != std::end(factors)) factors.erase(foundIt);
-        }
-        factorByVariables_.erase(it->variables_);
-        factorAdjacencies_.erase(it);
-    }
-
-    template <typename FD>
     void FactorGraph<FD>::erase(const size_t a) {
-        if (variableAdjacencies_[a].active) {
-            for (auto it : variableAdjacencies_[a].factors) {
-                for (const auto variable : it->variables_) {
-                    if (variable == a) continue;
-                    auto & factors = variableAdjacencies_[variable].factors;
-                    const auto foundIt = std::find(std::begin(factors), std::end(factors), it);
-                    if (foundIt != std::end(factors)) factors.erase(foundIt);
-                }
-                factorByVariables_.erase(it->variables_);
-                factorAdjacencies_.erase(it);
+        auto & va = variableAdjacencies_[a];
+        if (!va.active) return;
+
+        for (auto it : va.factors) {
+            for (const auto variable : it->variables_) {
+                if (variable == a) continue;
+
+                auto & factors = variableAdjacencies_[variable].factors;
+                const auto foundIt = std::find(std::begin(factors), std::end(factors), it);
+
+                assert(foundIt != std::end(factors));
+                factors.erase(foundIt);
             }
-            variableAdjacencies_[a].factors.clear();
-            variableAdjacencies_[a].active = false;
-            --activeVariables_;
+            factorByVariables_.erase(it->variables_);
+            factorAdjacencies_.erase(it);
         }
+        for (const auto aa : va.vNeighbors) {
+            auto & vaa = variableAdjacencies_[aa];
+            vaa.vNeighbors.erase(std::find(std::begin(vaa.vNeighbors), std::end(vaa.vNeighbors), a));
+        }
+
+        va.factors.clear();
+        va.vNeighbors.clear();
+        va.active = false;
+        --activeVariables_;
     }
 
     template <typename FD>
@@ -339,15 +362,14 @@ namespace AIToolbox::Factored {
 
         // Find the neighbors of this variable, and whether there's a factor
         // with all of them.
-        auto vNeighbors = getNeighbors(variableAdjacencies_[retval].factors);
-        vNeighbors.erase(std::find(std::begin(vNeighbors), std::end(vNeighbors), retval));
+        const auto & vNeighbors = getVariables(retval);
 
         const auto factorIt = factorByVariables_.find(vNeighbors);
 
         // We want the variable with the minimum size factor, where the factor
         // already exists (so we don't have to allocate anything).
         bool factorExists = factorIt != std::end(factorByVariables_);
-        size_t minCost = 1;
+        size_t minCost = F[retval];
         for (auto n : vNeighbors)
             minCost *= F[n];
 
@@ -355,9 +377,7 @@ namespace AIToolbox::Factored {
             if (!variableAdjacencies_[next].active)
                 continue;
 
-            auto vNeighbors = getNeighbors(variableAdjacencies_[next].factors);
-            vNeighbors.erase(std::find(std::begin(vNeighbors), std::end(vNeighbors), next));
-
+            const auto & vNeighbors = getVariables(next);
             const auto found = factorByVariables_.find(vNeighbors);
 
             size_t newExists = found != std::end(factorByVariables_);
@@ -367,7 +387,7 @@ namespace AIToolbox::Factored {
             if (!newExists && factorExists) continue;
 
             // Otherwise compute its cost
-            size_t newCost = 1;
+            size_t newCost = F[next];
             for (auto n : vNeighbors)
                 newCost *= F[n];
 

@@ -329,16 +329,33 @@ namespace AIToolbox::Factored {
         factors_.second.resize(factors_.first.size());
     }
 
-    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, PartialKeys factors, const size_t factorToSkip) :
-        PartialFactorsEnumerator(std::move(f), std::move(factors))
+    PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, const PartialKeys & factors, const size_t factorToSkip, bool missing) :
+        F(std::move(f))
     {
-        // Set all used agents and find the skip id.
-        for (size_t i = 0; i < factors_.first.size(); ++i) {
-            if (factorToSkip == factors_.first[i]) {
-                factorToSkipId_ = i;
-                break;
+        if (!missing) {
+            factors_.first = factors;
+
+            // Find the skip id.
+            for (size_t i = 0; i < factors_.first.size(); ++i) {
+                if (factorToSkip == factors_.first[i]) {
+                    factorToSkipId_ = i;
+                    break;
+                }
+            }
+        } else {
+            factors_.first.resize(factors.size() + 1);
+            for (size_t i = 0, j = 0; j < factors_.first.size(); ) {
+                if (i == j && (i == factors.size() || factors[i] > factorToSkip)) {
+                    factors_.first[j] = factorToSkip;
+                    factorToSkipId_ = j;
+                    ++j;
+                } else {
+                    factors_.first[j] = factors[i];
+                    ++i, ++j;
+                }
             }
         }
+        factors_.second.resize(factors_.first.size());
     }
 
     PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, const size_t factorToSkip) :

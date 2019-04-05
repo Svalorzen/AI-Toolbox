@@ -504,14 +504,15 @@ namespace AIToolbox::Factored {
              * additionally remembers that the input factorToSkip will not
              * be enumerated, and will in fact be editable by the client.
              *
-             * The factorToSkip must be contained in the factors, or it
+             * The factorToSkip must be within the Factors space, or it
              * will not be taken into consideration.
              *
              * @param f The factor space for the internal PartialFactors.
              * @param factors The factors to take into considerations.
              * @param factorToSkip The factor to skip.
+             * @param missing Whether factorToSkip is already present in the input PartialKeys or it must be added.
              */
-            PartialFactorsEnumerator(Factors f, PartialKeys factors, size_t factorToSkip);
+            PartialFactorsEnumerator(Factors f, const PartialKeys & factors, size_t factorToSkip, bool missing = false);
 
             /**
              * @brief Skip constructor.
@@ -522,7 +523,7 @@ namespace AIToolbox::Factored {
              *
              * This constructor can be used to enumerate over all factors.
              *
-             * The factorToSkip must be contained in the factors, or it
+             * The factorToSkip must be within the Factors space, or it
              * will not be taken into consideration.
              *
              * @param f The factor space for the internal PartialFactors.

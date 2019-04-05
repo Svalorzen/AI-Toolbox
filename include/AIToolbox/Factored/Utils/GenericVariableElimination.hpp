@@ -190,27 +190,24 @@ namespace AIToolbox::Factored {
     void GenericVariableElimination<Factor>::removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global) {
         // We iterate over all possible joint values of the neighbors of 'f';
         // these are all variables which share at least one factor with it.
-        const auto & factors = graph.getNeighbors(f);
-        auto variables = graph.getNeighbors(factors);
-
-        PartialFactorsEnumerator jointValues(F, variables, f);
-        const auto id = jointValues.getFactorToSkipId();
+        const auto & factors = graph.getFactors(f);
+        const auto & vNeighbors = graph.getVariables(f);
 
         if constexpr(global_interface<Global>::beginRemoval)
-            Impl::callFunction(global, &Global::beginRemoval, graph, factors, variables, f);
+            Impl::callFunction(global, &Global::beginRemoval, graph, factors, vNeighbors, f);
 
         // We'll now create new rules that represent the elimination of the
         // input variable for this round.
-        const bool isFinalFactor = variables.size() == 1;
+        const bool isFinalFactor = vNeighbors.size() == 0;
 
         Rules * oldRulesP;
         size_t oldRulesCurrId = 0;
 
-        if (!isFinalFactor) {
-            variables.erase(std::remove(std::begin(variables), std::end(variables), f), std::end(variables));
+        if (!isFinalFactor)
+            oldRulesP = &graph.getFactor(vNeighbors)->getData();
 
-            oldRulesP = &graph.getFactor(variables)->getData();
-        }
+        PartialFactorsEnumerator jointValues(F, vNeighbors, f, true);
+        const auto id = jointValues.getFactorToSkipId();
 
         size_t jvID = 0;
         while (jointValues.isValid()) {
