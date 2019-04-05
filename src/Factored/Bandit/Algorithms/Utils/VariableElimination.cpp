@@ -49,20 +49,22 @@ namespace AIToolbox::Factored::Bandit {
 
     void Global::beginCrossSum(size_t agentAction) {
         newCrossSum.first = 0.0;
-        newCrossSum.second = {{agent}, {agentAction}};
+        newCrossSum.second.clear();
+        newCrossSum.second.emplace_back(agent, agentAction);
     }
 
     void Global::crossSum(const VE::Factor & factor) {
         // For each factor to sum, we add its value and we join tags with it.
         newCrossSum.first += factor.first;
-        unsafe_join(&newCrossSum.second, factor.second);
+        newCrossSum.second.insert(std::end(newCrossSum.second),
+                std::begin(factor.second), std::end(factor.second));
     }
 
     void Global::endCrossSum() {
         // We only select the agent's best action.
         if (newCrossSum.first > newFactor.first) {
             newFactor.first = newCrossSum.first;
-            newFactor.second = std::move(newCrossSum.second);
+            std::swap(newFactor.second, newCrossSum.second);
         }
     }
 
@@ -73,7 +75,8 @@ namespace AIToolbox::Factored::Bandit {
 
     void Global::mergeFactors(VE::Factor & lhs, VE::Factor && rhs) const {
         lhs.first += rhs.first;
-        unsafe_join(&lhs.second, rhs.second);
+        lhs.second.insert(std::end(lhs.second),
+                std::begin(rhs.second), std::end(rhs.second));
     }
 
     void Global::makeResult(VE::GVE::FinalFactors && finalFactors) {
@@ -84,8 +87,8 @@ namespace AIToolbox::Factored::Bandit {
             val += f.first;
             // Add tags together
             const auto & tags = f.second;
-            for (size_t i = 0; i < tags.first.size(); ++i)
-                action[tags.first[i]] = tags.second[i];
+            for (size_t i = 0; i < tags.size(); ++i)
+                action[tags[i].first] = tags[i].second;
         }
     }
 }

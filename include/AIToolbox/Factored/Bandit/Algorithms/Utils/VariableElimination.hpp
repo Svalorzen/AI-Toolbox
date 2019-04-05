@@ -43,7 +43,7 @@ namespace AIToolbox::Factored::Bandit {
             using Result = std::tuple<Action, double>;
 
             // Value of rule, tags of processed actions
-            using Factor = std::pair<double, PartialAction>;
+            using Factor = std::pair<double, std::vector<std::pair<size_t, size_t>>>;
             using GVE = GenericVariableElimination<Factor>;
 
             /**
