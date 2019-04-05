@@ -225,6 +225,8 @@ namespace AIToolbox::Factored {
             FactorList factorAdjacencies_;
             std::vector<FactorIt> factorByVariables_;
 
+            static FactorList factorAdjacenciesPool_;
+
             auto findFactorByVariables(const Variables & variables) const {
                 return std::lower_bound(
                     std::begin(factorByVariables_),
@@ -243,6 +245,9 @@ namespace AIToolbox::Factored {
             std::vector<VariableNode> variableAdjacencies_;
             size_t activeVariables_;
     };
+
+    template <typename FD>
+    typename FactorGraph<FD>::FactorList FactorGraph<FD>::factorAdjacenciesPool_;
 
     template <typename FD>
     FactorGraph<FD>::FactorGraph(size_t variables) : variableAdjacencies_(variables), activeVariables_(variables) {}
@@ -283,8 +288,19 @@ namespace AIToolbox::Factored {
         if (found != factorByVariables_.end() && (*found)->variables_ == variables)
             return *found;
 
-        factorAdjacencies_.emplace_back(FactorNode());
-        auto it = --factorAdjacencies_.end();
+        FactorIt it;
+        if (!factorAdjacenciesPool_.size()) {
+            factorAdjacencies_.emplace_back(FactorNode());
+            it = --factorAdjacencies_.end();
+        } else {
+            factorAdjacencies_.splice(std::begin(factorAdjacencies_), factorAdjacenciesPool_, std::begin(factorAdjacenciesPool_));
+            it = factorAdjacencies_.begin();
+            // We reset the data; just in case it's a vector we don't want to
+            // move but assign so that it does not clear already allocated
+            // memory.
+            auto tmp = FD{};
+            it->f_ = tmp;
+        }
 
         it->variables_ = variables;
         for (const auto a : variables) {
@@ -330,7 +346,7 @@ namespace AIToolbox::Factored {
                 factors.erase(foundIt);
             }
             factorByVariables_.erase(findFactorByVariables(it->variables_));
-            factorAdjacencies_.erase(it);
+            factorAdjacenciesPool_.splice(std::begin(factorAdjacenciesPool_), factorAdjacencies_, it);
         }
         for (const auto aa : va.vNeighbors) {
             auto & vaa = variableAdjacencies_[aa];
