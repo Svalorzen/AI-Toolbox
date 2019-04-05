@@ -29,7 +29,7 @@ namespace AIToolbox::Factored::MDP {
 
                 for (size_t y = 0; y < static_cast<size_t>(basis.values.cols()); ++y) {
                     if (isNew) {
-                        factorNode.emplace_back(y, VE::Factor{basis.values(x, y), PartialAction()});
+                        factorNode.emplace_back(y, VE::Factor{basis.values(x, y), {}});
                     } else {
                         factorNode[y].second.first += basis.values(x, y);
                     }

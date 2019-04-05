@@ -75,7 +75,7 @@ namespace AIToolbox::Factored::Bandit {
                     if (it != std::end(factorNode) && it->first == id)
                         it->second.first += rule.value;
                     else
-                        factorNode.emplace(it, id, Factor{rule.value, PartialAction()});
+                        factorNode.emplace(it, id, Factor{rule.value, {}});
                 }
 
                 return (*this)(A, graph);
