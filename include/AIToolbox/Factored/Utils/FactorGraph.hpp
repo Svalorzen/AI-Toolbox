@@ -223,14 +223,12 @@ namespace AIToolbox::Factored {
 
         private:
             FactorList factorAdjacencies_;
-            std::vector<FactorIt> factorByVariables_;
-
             static FactorList factorAdjacenciesPool_;
 
-            auto findFactorByVariables(const Variables & variables) const {
+            auto findFactorByVariables(const FactorItList & list, const Variables & variables) const {
                 return std::lower_bound(
-                    std::begin(factorByVariables_),
-                    std::end(factorByVariables_),
+                    std::begin(list),
+                    std::end(list),
                     variables,
                     [](const FactorIt it, const Variables & variables){ return it->variables_ < variables; }
                 );
@@ -283,9 +281,8 @@ namespace AIToolbox::Factored {
 
     template <typename FD>
     typename FactorGraph<FD>::FactorIt FactorGraph<FD>::getFactor(const Variables & variables) {
-        const auto found = findFactorByVariables(variables);
-
-        if (found != factorByVariables_.end() && (*found)->variables_ == variables)
+        const auto found = findFactorByVariables(variableAdjacencies_[variables[0]].factors, variables);
+        if (found != variableAdjacencies_[variables[0]].factors.end() && (*found)->variables_ == variables)
             return *found;
 
         FactorIt it;
@@ -325,8 +322,6 @@ namespace AIToolbox::Factored {
             }
             std::inplace_merge(std::begin(va.vNeighbors), std::begin(va.vNeighbors)+mid, std::end(va.vNeighbors));
         }
-
-        factorByVariables_.insert(found, it);
         return it;
     }
 
@@ -345,7 +340,6 @@ namespace AIToolbox::Factored {
                 assert(foundIt != std::end(factors));
                 factors.erase(foundIt);
             }
-            factorByVariables_.erase(findFactorByVariables(it->variables_));
             factorAdjacenciesPool_.splice(std::begin(factorAdjacenciesPool_), factorAdjacencies_, it);
         }
         for (const auto aa : va.vNeighbors) {
@@ -390,8 +384,11 @@ namespace AIToolbox::Factored {
 
         // We want the variable with the minimum size factor, where the factor
         // already exists (so we don't have to allocate anything).
-        const auto factorIt = findFactorByVariables(vNeighbors);
-        bool factorExists = (factorIt != std::end(factorByVariables_)) && ((*factorIt)->variables_ == vNeighbors);
+        bool factorExists = false;
+        if (vNeighbors.size() > 0) {
+            const auto factorIt = findFactorByVariables(variableAdjacencies_[vNeighbors[0]].factors, vNeighbors);
+            factorExists = (factorIt != std::end(variableAdjacencies_[vNeighbors[0]].factors)) && ((*factorIt)->variables_ == vNeighbors);
+        }
 
         size_t minCost = F[retval];
         for (auto n : vNeighbors)
@@ -403,8 +400,11 @@ namespace AIToolbox::Factored {
 
             const auto & vNeighbors = getVariables(next);
 
-            const auto factorIt = findFactorByVariables(vNeighbors);
-            const bool newExists = (factorIt != std::end(factorByVariables_)) && ((*factorIt)->variables_ == vNeighbors);
+            bool newExists = false;
+            if (vNeighbors.size() > 0) {
+                const auto factorIt = findFactorByVariables(variableAdjacencies_[vNeighbors[0]].factors, vNeighbors);
+                newExists = (factorIt != std::end(variableAdjacencies_[vNeighbors[0]].factors)) && ((*factorIt)->variables_ == vNeighbors);
+            }
 
             // If we already have a factor, there's no point in looking at this
             // variable.
