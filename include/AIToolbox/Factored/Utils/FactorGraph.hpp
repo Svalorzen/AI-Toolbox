@@ -226,11 +226,10 @@ namespace AIToolbox::Factored {
             static FactorList factorAdjacenciesPool_;
 
             auto findFactorByVariables(const FactorItList & list, const Variables & variables) const {
-                return std::lower_bound(
+                return std::find_if(
                     std::begin(list),
                     std::end(list),
-                    variables,
-                    [](const FactorIt it, const Variables & variables){ return it->variables_ < variables; }
+                    [&variables](const FactorIt it){ return it->variables_ == variables; }
                 );
             }
 
@@ -282,7 +281,7 @@ namespace AIToolbox::Factored {
     template <typename FD>
     typename FactorGraph<FD>::FactorIt FactorGraph<FD>::getFactor(const Variables & variables) {
         const auto found = findFactorByVariables(variableAdjacencies_[variables[0]].factors, variables);
-        if (found != variableAdjacencies_[variables[0]].factors.end() && (*found)->variables_ == variables)
+        if (found != variableAdjacencies_[variables[0]].factors.end())
             return *found;
 
         FactorIt it;
@@ -387,7 +386,7 @@ namespace AIToolbox::Factored {
         bool factorExists = false;
         if (vNeighbors.size() > 0) {
             const auto factorIt = findFactorByVariables(variableAdjacencies_[vNeighbors[0]].factors, vNeighbors);
-            factorExists = (factorIt != std::end(variableAdjacencies_[vNeighbors[0]].factors)) && ((*factorIt)->variables_ == vNeighbors);
+            factorExists = factorIt != std::end(variableAdjacencies_[vNeighbors[0]].factors);
         }
 
         size_t minCost = F[retval];
@@ -403,7 +402,7 @@ namespace AIToolbox::Factored {
             bool newExists = false;
             if (vNeighbors.size() > 0) {
                 const auto factorIt = findFactorByVariables(variableAdjacencies_[vNeighbors[0]].factors, vNeighbors);
-                newExists = (factorIt != std::end(variableAdjacencies_[vNeighbors[0]].factors)) && ((*factorIt)->variables_ == vNeighbors);
+                newExists = factorIt != std::end(variableAdjacencies_[vNeighbors[0]].factors);
             }
 
             // If we already have a factor, there's no point in looking at this
