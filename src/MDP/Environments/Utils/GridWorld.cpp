@@ -9,8 +9,8 @@ namespace AIToolbox::MDP {
 
     GridWorld::State::operator size_t() { return s; }
 
-    GridWorld::GridWorld(unsigned w, unsigned h) :
-            width_(w), height_(h)
+    GridWorld::GridWorld(unsigned w, unsigned h, bool torus) :
+            width_(w), height_(h), isTorus_(torus)
     {
         assert(width_ > 0);
         assert(height_ > 0);
@@ -33,6 +33,7 @@ namespace AIToolbox::MDP {
     }
 
     GridWorld::State GridWorld::operator()(const size_t s) const {
+        assert(s < getS());
         return State(
             std::min((int)s%width_, width_-1),
             std::min((int)s/width_, height_-1),
@@ -41,12 +42,20 @@ namespace AIToolbox::MDP {
     }
 
     int GridWorld::boundX(int x) const {
+        if (isTorus_) {
+            while (x < 0) x += width_;
+            return x % width_;
+        }
         if ( x < 0 ) return 0;
         if ( x >= (int)width_ ) return width_ - 1;
         return x;
     }
 
     int GridWorld::boundY(int y) const {
+        if (isTorus_) {
+            while (y < 0) y += height_;
+            return y % width_;
+        }
         if ( y < 0 ) return 0;
         if ( y >= (int)height_ ) return height_ - 1;
         return y;

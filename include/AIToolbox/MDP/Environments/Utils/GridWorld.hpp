@@ -36,8 +36,9 @@ namespace AIToolbox::MDP {
              *
              * @param width The number of columns in the world.
              * @param height The number of rows in the world.
+             * @param torus Whether to join the edges of the grid as in a torus.
              */
-            GridWorld(unsigned width, unsigned height);
+            GridWorld(unsigned width, unsigned height, bool torus = false);
 
             /**
              * @brief This function returns the state next to the input in the chosen Direction.
@@ -89,6 +90,7 @@ namespace AIToolbox::MDP {
             int boundY(int y) const;
 
             unsigned width_, height_;
+            bool isTorus_;
     };
 }
 
