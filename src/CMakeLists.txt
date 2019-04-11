@@ -11,6 +11,7 @@ if (MAKE_MDP)
         Tools/Statistics.cpp
         Bandit/Algorithms/RollingAverage.cpp
         Bandit/Policies/EpsilonPolicy.cpp
+        Bandit/Policies/RandomPolicy.cpp
         Bandit/Policies/QGreedyPolicy.cpp
         Bandit/Policies/QSoftmaxPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
@@ -32,7 +33,6 @@ if (MAKE_MDP)
         MDP/Algorithms/Utils/OffPolicyTemplate.cpp
         MDP/Policies/PolicyWrapper.cpp
         MDP/Policies/Policy.cpp
-        MDP/Policies/RandomPolicy.cpp
         MDP/Policies/EpsilonPolicy.cpp
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
@@ -119,6 +119,7 @@ if (MAKE_PYTHON)
             Python/Bandit/Algorithms/RollingAverage.cpp
             Python/Bandit/Policies/PolicyInterface.cpp
             Python/Bandit/Policies/EpsilonPolicy.cpp
+            Python/Bandit/Policies/RandomPolicy.cpp
             Python/Bandit/Policies/QGreedyPolicy.cpp
             Python/Bandit/Policies/QSoftmaxPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
@@ -148,7 +149,6 @@ if (MAKE_PYTHON)
             Python/MDP/Policies/PolicyInterface.cpp
             Python/MDP/Policies/QPolicyInterface.cpp
             Python/MDP/Policies/Policy.cpp
-            Python/MDP/Policies/RandomPolicy.cpp
             Python/MDP/Policies/QGreedyPolicy.cpp
             Python/MDP/Policies/QSoftmaxPolicy.cpp
             Python/MDP/Policies/EpsilonPolicy.cpp

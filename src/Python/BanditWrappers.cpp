@@ -7,6 +7,7 @@ void exportBanditRollingAverage();
 void exportBanditPolicyInterface();
 
 void exportBanditEpsilonPolicy();
+void exportBanditRandomPolicy();
 void exportBanditQGreedyPolicy();
 void exportBanditQSoftmaxPolicy();
 void exportBanditThompsonSamplingPolicy();
@@ -30,6 +31,7 @@ void exportBandit() {
     exportBanditPolicyInterface();
 
     exportBanditEpsilonPolicy();
+    exportBanditRandomPolicy();
     exportBanditQGreedyPolicy();
     exportBanditQSoftmaxPolicy();
     exportBanditThompsonSamplingPolicy();
