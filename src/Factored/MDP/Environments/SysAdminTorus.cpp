@@ -18,7 +18,8 @@ namespace AIToolbox::Factored::MDP {
         // Since we are using a grid, each agent has 4 neighbors.
         constexpr unsigned neighbors = 4;
 
-        AIToolbox::MDP::GridWorld grid(width, height);
+        // Make torus grid world to help with directions.
+        AIToolbox::MDP::GridWorld grid(width, height, true);
         const auto agents = grid.getS();
 
         // We factor the state space into two variables per each agent: status and
