@@ -4,7 +4,8 @@
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Algorithms/SARSAL.hpp>
-#include <AIToolbox/MDP/Policies/RandomPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/RandomPolicy.hpp>
+#include <AIToolbox/MDP/Policies/BanditPolicyAdaptor.hpp>
 
 namespace AIToolbox::MDP {
     /**
@@ -211,7 +212,7 @@ namespace AIToolbox::MDP {
             N(n), model_(m),
             permanentLearning_(model_, alpha, lambda, tolerance),
             transientLearning_(model_, alpha, lambda, tolerance),
-            internalPolicy_(new RandomPolicy(model_.getS(), model_.getA()))
+            internalPolicy_(new BanditPolicyAdaptor<Bandit::RandomPolicy>(model_.getS(), model_.getA()))
     {
     }
 
