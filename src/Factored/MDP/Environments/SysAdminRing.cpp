@@ -80,26 +80,7 @@ namespace AIToolbox::Factored::MDP {
 
         // All reward matrices for all agents are the same, so we build it here
         // once.
-        //
-        // In particular, we get 1 reward each time we get to a Done state.
-        // However, our matrix of rewards is SxA (with no end states), so we need
-        // to convert our definition of reward into SxA format.
-        //
-        // This means that we need to see which dependencies the Load state has:
-        // both the previous Load and previous Status.
-        Matrix2D rewardMatrix(3 * 3, 2);
-        constexpr double finishReward = 1.0;
-        rewardMatrix.setZero();
-
-        // Basically, the only way we can get reward is by:
-        // - Starting from the Load state (since it's the only one that can complete)
-        // - Doing action 0;
-        // - And ending up in the Done state.
-        //
-        // Remember that R(s,a) = sum_s1 T(s,a,s1) * R(s,a,s1)
-        rewardMatrix(Load * 3 + Good, 0) = la0Matrix(Load * 3 + Good, Done) * finishReward;
-        rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * finishReward;
-        rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * finishReward;
+        Matrix2D rewardMatrix = makeRewardMatrix(la0Matrix);
 
         FactoredMatrix2D rewards;
         for (size_t a = 0; a < agents; ++a) {
@@ -193,26 +174,7 @@ namespace AIToolbox::Factored::MDP {
 
         // All reward matrices for all agents are the same, so we build it here
         // once.
-        //
-        // In particular, we get 1 reward each time we get to a Done state.
-        // However, our matrix of rewards is SxA (with no end states), so we need
-        // to convert our definition of reward into SxA format.
-        //
-        // This means that we need to see which dependencies the Load state has:
-        // both the previous Load and previous Status.
-        Matrix2D rewardMatrix(3 * 3, 2);
-        constexpr double finishReward = 1.0;
-        rewardMatrix.setZero();
-
-        // Basically, the only way we can get reward is by:
-        // - Starting from the Load state (since it's the only one that can complete)
-        // - Doing action 0;
-        // - And ending up in the Done state.
-        //
-        // Remember that R(s,a) = sum_s1 T(s,a,s1) * R(s,a,s1)
-        rewardMatrix(Load * 3 + Good, 0) = la0Matrix(Load * 3 + Good, Done) * finishReward;
-        rewardMatrix(Load * 3 + Fail, 0) = la0Matrix(Load * 3 + Fail, Done) * finishReward;
-        rewardMatrix(Load * 3 + Dead, 0) = la0Matrix(Load * 3 + Dead, Done) * finishReward;
+        Matrix2D rewardMatrix = makeRewardMatrix(la0Matrix);
 
         FactoredMatrix2D rewards;
         for (size_t a = 0; a < agents; ++a) {
