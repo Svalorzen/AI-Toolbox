@@ -54,4 +54,5 @@ namespace AIToolbox::MDP {
 
     unsigned GridWorld::getWidth() const { return width_; }
     unsigned GridWorld::getHeight() const { return height_; }
+    size_t GridWorld::getS() const { return width_ * height_; }
 }

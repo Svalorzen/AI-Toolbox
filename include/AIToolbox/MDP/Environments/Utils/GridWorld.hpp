@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_MDP_GRIDWORLD
 
 #include <cstddef>
+#include <array>
 
 namespace AIToolbox::MDP {
     /**
@@ -12,6 +13,7 @@ namespace AIToolbox::MDP {
          * @brief The possible actions in a GridWorld-like environment.
          */
         enum Direction : size_t { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 };
+        static constexpr std::array<Direction, 4> Directions{{UP, RIGHT, DOWN, LEFT}};
     }
 
     /**
@@ -76,6 +78,11 @@ namespace AIToolbox::MDP {
              * @brief This function returns the height of the GridWorld.
              */
             unsigned getHeight() const;
+
+            /**
+             * @brief This function returns the number of cells in the grid.
+             */
+            size_t getS() const;
 
         private:
             int boundX(int x) const;
