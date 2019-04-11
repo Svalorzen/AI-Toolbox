@@ -79,6 +79,8 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/UCVE.cpp
         Factored/Bandit/Algorithms/LLR.cpp
         Factored/Bandit/Algorithms/MAUCE.cpp
+        Factored/Bandit/Policies/SingleActionPolicy.cpp
+        Factored/Bandit/Policies/RandomPolicy.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
         Factored/MDP/Utils.cpp
         Factored/MDP/Model.cpp
@@ -86,7 +88,6 @@ if (MAKE_FMDP)
         Factored/MDP/CooperativeRLModel.cpp
         Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
-        Factored/MDP/Policies/SingleActionPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
         Factored/MDP/Algorithms/Utils/FactoredLP.cpp
         Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp
