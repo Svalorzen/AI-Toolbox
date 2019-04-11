@@ -190,22 +190,6 @@ namespace AIToolbox::Factored::MDP {
         return CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
     }
 
-    char printMachineStatus(unsigned s) {
-        switch (s) {
-            case 0: return 'g';
-            case 1: return 'f';
-            default: return 'd';
-        }
-    }
-
-    char printMachineLoad(unsigned l) {
-        switch (l) {
-            case 0: return 'i';
-            case 1: return 'l';
-            default: return 'd';
-        }
-    }
-
     std::string printSysAdminRing(const State & s) {
         std::string retval;
 
@@ -262,7 +246,6 @@ namespace AIToolbox::Factored::MDP {
                 retval += '\n';
             }
         }
-
         return retval;
     }
 }

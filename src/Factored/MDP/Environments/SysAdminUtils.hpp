@@ -174,6 +174,31 @@ namespace AIToolbox::Factored::MDP {
 
         return rewardMatrix;
     }
+
+    /**
+     * @brief This function returns a printable character of a machine's status.
+     */
+    inline char printMachineStatus(unsigned s) {
+        using namespace SysAdminEnums;
+        switch (s) {
+            case Good: return 'g';
+            case Fail: return 'f';
+            default: return 'd';
+        }
+    }
+
+    /**
+     * @brief This function returns a printable character of a machine's load.
+     */
+    inline char printMachineLoad(unsigned l) {
+        using namespace SysAdminEnums;
+        switch (l) {
+            case Idle: return 'i';
+            case Load: return 'l';
+            default: return 'd';
+        }
+    }
+
 }
 
 #endif
