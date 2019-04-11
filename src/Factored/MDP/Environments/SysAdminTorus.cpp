@@ -101,5 +101,31 @@ namespace AIToolbox::Factored::MDP {
         return CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
     }
 
-    std::string printSysAdminTorus(const State & s);
+    std::string printSysAdminTorus(const State & s, const unsigned width) {
+        std::string retval;
+
+        const size_t agents = s.size() / 2;
+
+        const unsigned height = agents / width;
+
+        AIToolbox::MDP::GridWorld grid(width, height);
+
+        for (unsigned h = 0; h < height; ++h) {
+            for (unsigned w = 0; w < width; ++w) {
+                if (w > 0)
+                    retval += " -- ";
+
+                retval += printMachineStatus(s[grid(w, h) * 2]);
+                retval += printMachineLoad(s[grid(w,h) * 2 + 1]);
+            }
+            retval += '\n';
+            if (h < height - 1) {
+                retval += "| ";
+                for (unsigned w = 1; w < width; ++w) {
+                    retval += "     |";
+                }
+            }
+        }
+        return retval;
+    }
 }
