@@ -28,8 +28,6 @@ namespace AIToolbox::Factored::Bandit {
             /**
              * @brief This function chooses the greediest action for state s.
              *
-             * @param s The sampled state of the policy.
-             *
              * @return The chosen action.
              */
             virtual Action sampleAction() const override;
