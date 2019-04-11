@@ -94,7 +94,7 @@ if (MAKE_FMDP)
         Factored/MDP/Algorithms/JointActionLearner.cpp
         Factored/MDP/Algorithms/LinearProgramming.cpp
         Factored/MDP/Environments/SysAdminRing.cpp
-        Factored/MDP/Environments/SysAdminTorus.cpp
+        Factored/MDP/Environments/SysAdminGrid.cpp
     )
     set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})

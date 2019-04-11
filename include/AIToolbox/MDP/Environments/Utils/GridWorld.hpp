@@ -24,6 +24,7 @@ namespace AIToolbox::MDP {
             using Direction = GridWorldEnums::Direction;
             struct State {
                 operator size_t();
+                bool operator==(const State & other) const;
                 private:
                     State(int xx, int yy, size_t ss);
                     int x, y;

@@ -9,6 +9,10 @@ namespace AIToolbox::MDP {
 
     GridWorld::State::operator size_t() { return s; }
 
+    bool GridWorld::State::operator==(const State & other) const {
+        return s == other.s;
+    }
+
     GridWorld::GridWorld(unsigned w, unsigned h, bool torus) :
             width_(w), height_(h), isTorus_(torus)
     {
