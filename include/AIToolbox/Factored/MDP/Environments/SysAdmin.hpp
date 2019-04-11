@@ -122,10 +122,11 @@ namespace AIToolbox::Factored::MDP {
      * ('i'dle, 'l'oaded, 'd'one).
      *
      * @param s The State to represent.
+     * @param width The number of agents for the width of the torus.
      *
      * @return A graphical representation to print on screen.
      */
-    std::string printSysAdminTorus(const State & s);
+    std::string printSysAdminTorus(const State & s, unsigned width);
 }
 
 #endif
