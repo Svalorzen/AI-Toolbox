@@ -125,6 +125,7 @@ namespace AIToolbox::Factored::MDP {
                 for (unsigned w = 1; w < width; ++w) {
                     retval += "     |";
                 }
+                retval += '\n';
             }
         }
         return retval;
