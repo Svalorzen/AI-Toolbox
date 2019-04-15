@@ -1,3 +1,6 @@
+#ifndef AI_TOOLBOX_FACTORED_FASTER_TRIE_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_FASTER_TRIE_HEADER_FILE
+
 #include <random>
 #include <AIToolbox/Factored/Types.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
@@ -93,6 +96,7 @@ namespace AIToolbox::Factored {
              * @brief This function returns a reference of the internal Factors space.
              */
             const Factors & getF() const;
+
         private:
             Factors F;
             size_t counter_;
@@ -103,3 +107,5 @@ namespace AIToolbox::Factored {
             mutable std::vector<std::vector<size_t>> orders_;
     };
 }
+
+#endif
