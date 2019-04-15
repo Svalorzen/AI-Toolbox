@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Factored/Utils/Trie.hpp>
 #include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
 #include <string>
@@ -12,7 +13,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     using namespace AIToolbox::Factored;
     Factors F{1,2,3};
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     BOOST_CHECK(f.getF() == F);
     BOOST_CHECK_EQUAL(f.size(), 0);
@@ -22,7 +23,7 @@ BOOST_AUTO_TEST_CASE( filtering ) {
     using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     f.emplace({{0,2},   {1,3}},     "1_3");
     f.emplace({{2},     {2}},       "__2");
@@ -69,7 +70,7 @@ BOOST_AUTO_TEST_CASE( partial_filtering_factors ) {
     using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     f.emplace({{0,2},   {1,3}},     "1_3");
     f.emplace({{2},     {2}},       "__2");
@@ -114,7 +115,7 @@ BOOST_AUTO_TEST_CASE( partial_filtering_partial_factors ) {
     using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     f.emplace({{0,2},   {1,3}},     "1_3");
     f.emplace({{2},     {2}},       "__2");
@@ -159,7 +160,7 @@ BOOST_AUTO_TEST_CASE( empty_filter ) {
     using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     f.emplace({{0,2},   {1,3}},     "1_3");
     f.emplace({{2},     {2}},       "__2");
@@ -183,7 +184,7 @@ BOOST_AUTO_TEST_CASE( refine_partial_factors ) {
     using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     f.emplace({{0,2},   {1,3}},     "1_3"); // 0
     f.emplace({{2},     {2}},       "__2"); // 1
@@ -243,7 +244,7 @@ BOOST_AUTO_TEST_CASE( erase_id ) {
     using namespace AIToolbox::Factored;
     Factors F{2,3,4};
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     f.emplace({{0,2},   {1,3}},     "1_3"); // 0
     f.emplace({{2},     {2}},       "__2"); // 1
@@ -321,7 +322,7 @@ BOOST_AUTO_TEST_CASE( erase_id_pf ) {
         {{0,2},   {1,0}},
     };
 
-    FilterMap<std::string> f(F);
+    FilterMap<std::string, Trie> f(F);
 
     f.emplace(keys[0],   "1_3"); // 0
     f.emplace(keys[1],   "__2"); // 1

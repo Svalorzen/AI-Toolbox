@@ -24,7 +24,7 @@ namespace AIToolbox::Factored::MDP {
     Action SparseCooperativeQLearning::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & rew) {
         Bandit::VariableElimination ve;
 
-        const auto rules = rules_.filter(s1, 0); // Partial filter using only s1
+        const auto rules = rules_.filter(s1);
         const auto a1 = std::get<0>(ve(A, rules));
 
         auto beforeRules = rules_.filter(join(s, a));

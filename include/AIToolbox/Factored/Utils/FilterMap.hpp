@@ -4,6 +4,7 @@
 #include <AIToolbox/Utils/IndexMap.hpp>
 #include <AIToolbox/Factored/Types.hpp>
 #include <AIToolbox/Factored/Utils/Trie.hpp>
+#include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 
 namespace AIToolbox::Factored {
     /**
@@ -17,7 +18,7 @@ namespace AIToolbox::Factored {
      *
      * @tparam T The type of object to be stored.
      */
-    template <typename T, typename TrieType = Trie>
+    template <typename T, typename TrieType = FasterTrie>
     class FilterMap {
         public:
             using ItemsContainer = std::vector<T>;
@@ -130,6 +131,7 @@ namespace AIToolbox::Factored {
              *
              * @return An iterable object over all values matching the input.
              */
+            template <typename = std::enable_if_t<std::is_same_v<TrieType, Trie>>>
             Iterable filter(const Factors & f, size_t offset) {
                 return Iterable(ids_.filter(f, offset), items_);
             }
@@ -146,6 +148,7 @@ namespace AIToolbox::Factored {
              *
              * @return An iterable object over all values matching the input.
              */
+            template <typename = std::enable_if_t<std::is_same_v<TrieType, Trie>>>
             ConstIterable filter(const Factors & f, size_t offset) const {
                 return ConstIterable(ids_.filter(f, offset), items_);
             }
@@ -186,9 +189,9 @@ namespace AIToolbox::Factored {
              * @param size The minimum number of elements we should reserve space for.
              */
             void reserve(size_t size) {
-                // FIXME: We can't guarantee this is method exists and I don't
-                // want to write the code for it right now.
-                // ids_.reserve(size);
+                if constexpr (std::is_same_v<TrieType, Trie>)
+                    ids_.reserve(size);
+
                 items_.reserve(size);
             }
 

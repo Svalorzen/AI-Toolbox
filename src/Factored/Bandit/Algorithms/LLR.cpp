@@ -30,7 +30,7 @@ namespace AIToolbox::Factored::Bandit {
         // actions we need to update. We keep in sync the rules_ container
         // with the averages_ vector, so that we can use the Trie's ids for
         // both.
-        const auto filtered = rules_.getTrie().filter(a, 0);
+        const auto filtered = rules_.getTrie().filter(a);
         size_t i = 0;
         // We update the averages/counts based on the obtained rewards.
         for (const auto id : filtered)

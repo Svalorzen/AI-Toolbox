@@ -15,7 +15,7 @@ namespace AIToolbox::Factored::MDP {
         using VE = Bandit::VariableElimination;
         VE ve;
         if (qc_) {
-            const auto rules = qc_->filter(s, 0); // Partial filter
+            const auto rules = qc_->filter(s);
             return std::get<0>(ve(A, rules));
         } else {
             VE::GVE::Graph graph(A.size());
