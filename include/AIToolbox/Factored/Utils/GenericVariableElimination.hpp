@@ -216,8 +216,8 @@ namespace AIToolbox::Factored {
 
         AI_LOGGER(
             AI_SEVERITY_INFO,
-            "Width of this factor: " << vNeighbors.size() << ". "
-            "Joint actions to iterate: " << jointValues.size() * F[f]
+            "Width of this factor: " << vNeighbors.size() + 1 << ". "
+            "Joint values to iterate: " << jointValues.size() * F[f]
         );
 
         size_t jvID = 0;
