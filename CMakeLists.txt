@@ -13,6 +13,7 @@ project (AIToolbox LANGUAGES CXX)
 # MAKE_PYTHON:   Builds Python bindings for the compiled core library
 # MAKE_TESTS:    Builds the library's tests for the compiled core library
 # MAKE_EXAMPLES: Builds the library's examples using the compiled core library
+# AI_LOGGING_ENABLED: Enables logging in the library.
 
 # NOTE TO COMPILE ON WINDOWS:
 #

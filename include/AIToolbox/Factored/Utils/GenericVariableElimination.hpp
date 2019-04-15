@@ -4,6 +4,7 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
+#include <AIToolbox/Impl/Logging.hpp>
 #include <AIToolbox/Impl/FunctionMatching.hpp>
 
 namespace AIToolbox::Factored {
@@ -188,6 +189,8 @@ namespace AIToolbox::Factored {
     template <typename Factor>
     template <typename Global>
     void GenericVariableElimination<Factor>::removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global) {
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Removing factor " << f);
+
         // We iterate over all possible joint values of the neighbors of 'f';
         // these are all variables which share at least one factor with it.
         const auto & factors = graph.getFactors(f);
@@ -210,6 +213,12 @@ namespace AIToolbox::Factored {
             oldRulesP = &graph.getFactor(vNeighbors)->getData();
             oldRulesP->reserve(jointValues.size());
         }
+
+        AI_LOGGER(
+            AI_SEVERITY_INFO,
+            "Width of this factor: " << vNeighbors.size() << ". "
+            "Joint actions to iterate: " << jointValues.size() * F[f]
+        );
 
         size_t jvID = 0;
         while (jointValues.isValid()) {
