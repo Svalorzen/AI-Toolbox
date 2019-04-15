@@ -133,7 +133,7 @@ namespace AIToolbox::Factored::MDP {
             // Pick top element from queue
             auto [priority, stateAction] = queue_.top();
 
-            auto [ids, factor, filled] = ids_.reconstruct(stateAction, true);
+            auto [ids, factor] = ids_.reconstruct(stateAction, true);
 
             for (const auto & id : ids) {
                 auto hIt = findByBackup_.find(id.second);
@@ -152,7 +152,7 @@ namespace AIToolbox::Factored::MDP {
             // Copy stateAction values to s and a, and record missing ids.
             size_t x = 0;
             for (size_t i = 0; i < s.size(); ++i, ++x) {
-                if (!filled[i]) {
+                if (factor[x] == model_.getS()[i]) {
                     std::uniform_int_distribution<size_t> dist(0, model_.getS()[i]-1);
                     s[i] = dist(rand_);
                 } else {
@@ -161,7 +161,7 @@ namespace AIToolbox::Factored::MDP {
             }
 
             for (size_t i = 0; i < a.size(); ++i, ++x) {
-                if (!filled[x]) {
+                if (factor[x] == model_.getA()[i]) {
                     std::uniform_int_distribution<size_t> dist(0, model_.getA()[i]-1);
                     a[i] = dist(rand_);
                 } else {

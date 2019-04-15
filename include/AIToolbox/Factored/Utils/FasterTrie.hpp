@@ -74,16 +74,15 @@ namespace AIToolbox::Factored {
              * of this function is thus randomized and not deterministic.
              *
              * We additionally return the Factors constructed by merging all
-             * matches together, as well as a vector reporting whether each
-             * element of the Factors can be filled by the Entries/input or was
-             * left unfilled.
+             * matches together. Any elements who couldn't be filled will be
+             * set as the value of their space.
              *
              * @param pf The PartialFactors to match against.
              * @param remove Whether the matches should be removed from the FasterTrie.
              *
-             * @return A set of Entry that match the input and each other, the Factors obtained by combining the input with the returned set, and a boolean vector reporting which elements were unfilled.
+             * @return A set of Entry that match the input and each other, the Factors obtained by combining the input with the returned set.
              */
-            std::tuple<Entries, Factors, std::vector<unsigned char>> reconstruct(const PartialFactors & pf, bool remove = false);
+            std::tuple<Entries, Factors> reconstruct(const PartialFactors & pf, bool remove = false);
 
             /**
              * @brief This function returns the number of keys in the FasterTrie.

@@ -651,7 +651,7 @@ BOOST_AUTO_TEST_CASE( reconstruction_FT ) {
 
         std::vector<unsigned> counts(solutions[i].size());
         for (size_t j = 0; j < 1000; ++j) {
-            auto [ids, factor, found] = trie.reconstruct(startKeys[i]);
+            auto [ids, factor] = trie.reconstruct(startKeys[i]);
             std::sort(std::begin(ids), std::end(ids));
 
             for (size_t k = 0; k < counts.size(); ++k) {
@@ -661,8 +661,6 @@ BOOST_AUTO_TEST_CASE( reconstruction_FT ) {
                         BOOST_CHECK(AIToolbox::veccmp(ids[q].second.first,  keys[ids[q].first].first) == 0);
                         BOOST_CHECK(AIToolbox::veccmp(ids[q].second.second, keys[ids[q].first].second) == 0);
                     }
-                    for (auto f : found)
-                        BOOST_CHECK(f);
                     ++counts[k];
                     break;
                 }
@@ -709,14 +707,14 @@ BOOST_AUTO_TEST_CASE( reconstruction_removal_FT ) {
         {{2},{0}},          // "__0" -> "_00" _00 (2)
     };
 
-    std::vector<std::tuple<std::vector<size_t>, Factors, std::vector<unsigned char>>> solutions {
-        {{3, 7, 9, 11}, {1,1,1}, {1,1,1}},
-        {{1, 5, 10, 14}, {1,2,2}, {1,1,1}},
-        {{4, 8, 13}, {0,0,3}, {1,1,1}},
-        {{6}, {0,0,1}, {0,1,1}},
-        {{0}, {1,1,3}, {1,1,1}},
-        {{12, 15}, {1,2,0}, {1,1,1}},
-        {{2}, {0,0,0}, {0,1,1}},
+    std::vector<std::tuple<std::vector<size_t>, Factors>> solutions {
+        {{3, 7, 9, 11}, {1,1,1}},
+        {{1, 5, 10, 14}, {1,2,2}},
+        {{4, 8, 13}, {0,0,3}},
+        {{6}, {2,0,1}},
+        {{0}, {1,1,3}},
+        {{12, 15}, {1,2,0}},
+        {{2}, {2,0,0}},
     };
 
     FasterTrie trie(F);
@@ -724,8 +722,8 @@ BOOST_AUTO_TEST_CASE( reconstruction_removal_FT ) {
         trie.insert(key);
 
     for (size_t i = 0; i < reconstructions.size(); ++i) {
-        auto [ids, factor, found] = trie.reconstruct(reconstructions[i], true);
-        auto [sids, sfactor, sfound] = solutions[i];
+        auto [ids, factor] = trie.reconstruct(reconstructions[i], true);
+        auto [sids, sfactor] = solutions[i];
 
         std::sort(std::begin(ids), std::end(ids));
 
@@ -735,10 +733,6 @@ BOOST_AUTO_TEST_CASE( reconstruction_removal_FT ) {
             BOOST_CHECK(AIToolbox::veccmp(ids[q].second.second, keys[ids[q].first].second) == 0);
         }
 
-        BOOST_CHECK_EQUAL(AIToolbox::veccmp(found, sfound), 0);
-
-        for (size_t q = 0; q < found.size(); ++q)
-            if (found[q])
-                BOOST_CHECK_EQUAL(factor[q], sfactor[q]);
+        BOOST_CHECK(AIToolbox::veccmp(factor, sfactor) == 0);
     }
 }

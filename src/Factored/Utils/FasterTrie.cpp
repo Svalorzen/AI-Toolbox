@@ -68,18 +68,15 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    std::tuple<FasterTrie::Entries, Factors, std::vector<unsigned char>> FasterTrie::reconstruct(const PartialFactors & pf, bool remove) {
+    std::tuple<FasterTrie::Entries, Factors> FasterTrie::reconstruct(const PartialFactors & pf, bool remove) {
         // Initialize retval
-        std::tuple<Entries, Factors, std::vector<unsigned char>> retval;
-        auto & [entries, f, found] = retval;
-        f.resize(F.size());
-        found.resize(F.size());
+        std::tuple<Entries, Factors> retval;
+        auto & [entries, f] = retval;
+        f = F;
 
         // Copy over set elements, and track them.
-        for (size_t i = 0; i < pf.first.size(); ++i) {
-            found[pf.first[i]] = true;
+        for (size_t i = 0; i < pf.first.size(); ++i)
             f[pf.first[i]] = pf.second[i];
-        }
 
         // We want to go over entries in the most randomized way possible
         // (although being fast is more important), as we want every possible
@@ -96,7 +93,7 @@ namespace AIToolbox::Factored {
             bool done = false;
             decltype(&keys[0]) keysV;
 
-            if (found[o]) {
+            if (f[o] < F[o]) {
                 done = true;
                 keysV = &keys[f[o]];
             } else {
@@ -118,7 +115,7 @@ namespace AIToolbox::Factored {
                     bool match = true;
                     for (size_t q = 0; q < entrypf.first.size(); ++q) {
                         const auto id = entrypf.first[q];
-                        if (found[id] && entrypf.second[q] != f[id]) {
+                        if (f[id] < F[id] && entrypf.second[q] != f[id]) {
                             match = false;
                             break;
                         }
@@ -129,7 +126,6 @@ namespace AIToolbox::Factored {
                         done = true;
                         for (size_t q = 0; q < entrypf.first.size(); ++q) {
                             const auto id = entrypf.first[q];
-                            found[id] = true;
                             f[id] = entrypf.second[q];
                         }
                         if (remove) {
