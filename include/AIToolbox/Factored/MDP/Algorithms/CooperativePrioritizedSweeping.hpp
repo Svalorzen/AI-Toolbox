@@ -27,17 +27,57 @@ namespace AIToolbox::Factored::MDP {
     template <typename M>
     class CooperativePrioritizedSweeping {
         public:
+            /**
+             * @brief Basic constructor.
+             *
+             * @param m The model to use for learning.
+             * @param basisDomains The domains of the Q-Function to use.
+             * @param alpha The alpha parameter of the Q-Learning update.
+             * @param theta The threshold for queue inclusion.
+             */
             CooperativePrioritizedSweeping(const M & m, std::vector<std::vector<size_t>> basisDomains, double alpha = 0.3, double theta = 0.001);
 
+            /**
+             * @brief This function performs a single update of the Q-Function with the input data.
+             *
+             * @param s The initial state.
+             * @param a The action performed.
+             * @param s1 The final state.
+             * @param r The rewards obtained (one per state factor).
+             */
             void stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r);
 
+            /**
+             * @brief This function performs a series of batch updates using the model to sample.
+             *
+             * The updates are generated from the contents of the queue, so
+             * that the updates are done in priority order.
+             *
+             * @param N The number of priority updates to perform.
+             */
             void batchUpdateQ(const unsigned N = 50);
 
+            /**
+             * @brief This function returns a reference to the internal QFunction.
+             */
             const FactoredMatrix2D & getQFunction() const;
 
         private:
+            /**
+             * @brief This function performs the actual QFunction updates for both stepUpdateQ and batchUpdateQ.
+             *
+             * @param s The initial state.
+             * @param a The action performed.
+             * @param s1 The final state.
+             * @param r The *normalized* rewards to use (one per state factor).
+             */
             void updateQ(const State & s, const Action & a, const State & s1, const Rewards & r);
 
+            /**
+             * @brief This function updates the queue using the input state and the internal stored deltas.
+             *
+             * @param s1 The state to backpropagate deltas from.
+             */
             void addToQueue(const State & s1);
 
             const M & model_;
@@ -183,16 +223,6 @@ namespace AIToolbox::Factored::MDP {
             // the deltaStorage_.
             if (deltaStorage_.maxCoeff() > priority)
                 addToQueue(s);
-
-            // PartialFactorsEnumerator e(model_.getA(), missingA);
-            // while (e.isValid()) {
-            //     // Set missing actions.
-            //     for (size_t i = 0; i < missingA.size(); ++i)
-            //         a[e->first[i]] = a[e->second[i]];
-
-            //     const auto [s1, r] = model_.sampleSR(s, a);
-            //     updateQ(s, a, s1, r.array() / rewardWeights_.array());
-            // }
         }
     }
 
@@ -245,7 +275,6 @@ namespace AIToolbox::Factored::MDP {
     void CooperativePrioritizedSweeping<M>::addToQueue(const State & s1) {
         // Note that s1 was s before, but here we consider it as the
         // "future" state as we look for its parents.
-
         const auto & T = model_.getTransitionFunction();
 
         for (size_t i = 0; i < s1.size(); ++i) {
@@ -265,8 +294,11 @@ namespace AIToolbox::Factored::MDP {
                 toFactorsPartial(backup.second.begin() + sNode.tag.size(), aNode.actionTag, model_.getA(), a);
 
                 for (size_t s = 0; s < static_cast<size_t>(sNode.matrix.rows()); ++s) {
+                    // Compute the priority for this update (probability of
+                    // transition times delta)
                     const auto p = sNode.matrix(s, s1[i]) * deltaStorage_[i];
 
+                    // If it's not large enough, skip it.
                     if (p < theta_) continue;
 
                     // Write the values for this state.
@@ -275,11 +307,13 @@ namespace AIToolbox::Factored::MDP {
                     auto hIt = findByBackup_.find(backup);
 
                     if (hIt != std::end(findByBackup_)) {
+                        // If we already had this entry, increase its priority.
                         auto handle = hIt->second;
 
                         (*handle).priority += p;
                         queue_.increase(handle);
                     } else {
+                        // Otherwise create a new entry in the queue.
                         auto handle = queue_.emplace(PriorityQueueElement{p, backup});
 
                         //std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
@@ -291,6 +325,7 @@ namespace AIToolbox::Factored::MDP {
                 }
             }
         }
+        // Reset all deltas since we have updated the queue from them.
         deltaStorage_.setZero();
 
         //std::cout << "Queue now contains " << queue_.size() << " entries.\n";
