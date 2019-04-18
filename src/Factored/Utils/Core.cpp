@@ -98,7 +98,7 @@ namespace AIToolbox::Factored {
     }
 
     PartialKeys join(const size_t S, const PartialKeys & lhs, const PartialKeys & rhs) {
-        PartialValues retval;
+        PartialKeys retval;
         retval.reserve(lhs.size() + rhs.size());
         retval.insert(std::end(retval), std::begin(lhs), std::end(lhs));
         std::transform(std::begin(rhs), std::end(rhs), std::back_inserter(retval), [S](const size_t a){ return a + S; });
