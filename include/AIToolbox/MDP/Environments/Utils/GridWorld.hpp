@@ -55,6 +55,16 @@ namespace AIToolbox::MDP {
             State getAdjacent(Direction d, State s) const;
 
             /**
+             * @brief This function uses size_t to pass the direction.
+             *
+             * @param d The Direction to look for.
+             * @param s The initial State.
+             *
+             * @return The State next to the input.
+             */
+            State getAdjacent(size_t d, State s) const;
+
+            /**
              * @brief This function returns the State at the selected position.
              *
              * Coordinates are bound to the size of the GridWorld.

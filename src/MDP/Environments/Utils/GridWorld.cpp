@@ -30,6 +30,10 @@ namespace AIToolbox::MDP {
         }
     }
 
+    GridWorld::State GridWorld::getAdjacent(size_t d, State s) const {
+        return getAdjacent((GridWorldEnums::Direction)d, s);
+    }
+
     GridWorld::State GridWorld::operator()(int x, int y) const {
         x = boundX(x);
         y = boundY(y);
