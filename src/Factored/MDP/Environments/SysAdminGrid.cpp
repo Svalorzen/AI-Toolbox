@@ -15,7 +15,7 @@ namespace AIToolbox::Factored::MDP {
     {
         using namespace SysAdminEnums;
 
-        // Make torus grid world to help with directions.
+        // Make grid world to help with directions.
         AIToolbox::MDP::GridWorld grid(width, height);
         const auto agents = grid.getS();
 
@@ -34,7 +34,7 @@ namespace AIToolbox::Factored::MDP {
         // need them.
         const auto sa1Matrix = makeA1MatrixStatus();
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
-        const auto la1Matrix = makeA1MatrixStatus();
+        const auto la1Matrix = makeA1MatrixLoad();
 
         auto ddn = FactoredDDN();
         for (size_t a = 0; a < agents; ++a) {
@@ -110,7 +110,7 @@ namespace AIToolbox::Factored::MDP {
     {
         using namespace SysAdminEnums;
         // Parameters for this network type:
-        // Since we are using a grid, each agent has 4 neighbors.
+        // Since we are using a torus, each agent has 4 neighbors.
         constexpr unsigned neighbors = 4;
 
         // Make torus grid world to help with directions.
@@ -132,7 +132,7 @@ namespace AIToolbox::Factored::MDP {
         // need them.
         const auto sa1Matrix = makeA1MatrixStatus();
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
-        const auto la1Matrix = makeA1MatrixStatus();
+        const auto la1Matrix = makeA1MatrixLoad();
 
         auto ddn = FactoredDDN();
         for (size_t a = 0; a < agents; ++a) {

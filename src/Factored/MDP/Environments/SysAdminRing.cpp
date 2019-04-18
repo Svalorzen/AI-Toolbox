@@ -32,7 +32,7 @@ namespace AIToolbox::Factored::MDP {
         // need them.
         const auto sa1Matrix = makeA1MatrixStatus();
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
-        const auto la1Matrix = makeA1MatrixStatus();
+        const auto la1Matrix = makeA1MatrixLoad();
 
         auto ddn = FactoredDDN();
         for (size_t a = 0; a < agents; ++a) {
@@ -122,7 +122,7 @@ namespace AIToolbox::Factored::MDP {
         // need them.
         const auto sa1Matrix = makeA1MatrixStatus();
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
-        const auto la1Matrix = makeA1MatrixStatus();
+        const auto la1Matrix = makeA1MatrixLoad();
 
         auto ddn = FactoredDDN();
         for (size_t a = 0; a < agents; ++a) {

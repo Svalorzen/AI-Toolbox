@@ -114,7 +114,7 @@ namespace AIToolbox::Factored::MDP {
      * @brief This function builds the transition matrix for a single load state factor in the SysAdmin problem in case of action 1 (reboot).
      *
      * Note that this does not depend on anything, since we are rebooting the
-     * machine. Thus the matrix is always the same for all status state
+     * machine. Thus the matrix is always the same for all load state
      * factors.
      *
      * @return The transition matrix of size (3, 3).
