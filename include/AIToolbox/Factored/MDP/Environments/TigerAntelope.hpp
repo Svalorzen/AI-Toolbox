@@ -69,6 +69,11 @@ namespace AIToolbox::Factored::MDP {
             double getDiscount() const;
 
             /**
+             * @brief This function returns the state where the antelope is located.
+             */
+            size_t getAntelopeState() const;
+
+            /**
              * @brief This function returns a reference to the internal GridWorld.
              */
             const AIToolbox::MDP::GridWorld & getGrid() const;

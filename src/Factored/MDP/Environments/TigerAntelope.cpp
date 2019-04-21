@@ -106,6 +106,8 @@ namespace AIToolbox::Factored::MDP {
         Action a(2, 5);
         return a;
     }
+
+    size_t TigerAntelope::getAntelopeState() const { return antelopePosition_; }
     double TigerAntelope::getDiscount() const { return 0.9; }
     const AIToolbox::MDP::GridWorld & TigerAntelope::getGrid() const { return grid_; }
 }
