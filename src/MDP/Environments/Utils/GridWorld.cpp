@@ -2,16 +2,13 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstdlib>
 
 namespace AIToolbox::MDP {
     GridWorld::State::State(int xx, int yy, size_t ss) :
         x(xx), y(yy), s(ss) {}
 
     GridWorld::State::operator size_t() { return s; }
-
-    unsigned GridWorld::State::distance(const State & other) const {
-        return std::abs(x - other.x) + std::abs(y - other.y);
-    }
 
     bool GridWorld::State::operator==(const State & other) const {
         return s == other.s;
@@ -36,6 +33,15 @@ namespace AIToolbox::MDP {
 
     GridWorld::State GridWorld::getAdjacent(size_t d, State s) const {
         return getAdjacent((GridWorldEnums::Direction)d, s);
+    }
+
+    unsigned GridWorld::distance(const State & s1, const State & s2) const {
+        if (!isTorus_)
+            return std::abs(s1.x - s2.x) + std::abs(s1.y - s2.y);
+
+        return
+            std::min(std::abs(s1.x - s2.x), std::abs(s1.x + static_cast<int>(width_) - s2.x)) +
+            std::min(std::abs(s1.y - s2.y), std::abs(s1.y + static_cast<int>(height_) - s2.y));
     }
 
     GridWorld::State GridWorld::operator()(int x, int y) const {

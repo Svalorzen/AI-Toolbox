@@ -25,7 +25,6 @@ namespace AIToolbox::MDP {
             struct State {
                 operator size_t();
                 bool operator==(const State & other) const;
-                unsigned distance(const State & other) const;
 
                 private:
                     State(int xx, int yy, size_t ss);
@@ -65,6 +64,13 @@ namespace AIToolbox::MDP {
              * @return The State next to the input.
              */
             State getAdjacent(size_t d, State s) const;
+
+            /**
+             * @brief This function returns the Manhattan distance between the two states.
+             *
+             * @return The distance between the input states.
+             */
+            unsigned distance(const State & s1, const State & s2) const;
 
             /**
              * @brief This function returns the State at the selected position.
