@@ -30,4 +30,9 @@ namespace AIToolbox::MDP {
     size_t QLearning::getA() const { return A; }
 
     const QFunction & QLearning::getQFunction() const { return q_; }
+    void QLearning::setQFunction(const QFunction & qfun) { 
+        assert(q_.rows() == qfun.rows());
+        assert(q_.cols() == qfun.cols());
+        q_ = qfun;
+    }
 }
