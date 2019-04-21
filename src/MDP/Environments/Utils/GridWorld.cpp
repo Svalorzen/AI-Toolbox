@@ -40,8 +40,8 @@ namespace AIToolbox::MDP {
             return std::abs(s1.x - s2.x) + std::abs(s1.y - s2.y);
 
         return
-            std::min(std::abs(s1.x - s2.x), std::abs(s1.x + static_cast<int>(width_) - s2.x)) +
-            std::min(std::abs(s1.y - s2.y), std::abs(s1.y + static_cast<int>(height_) - s2.y));
+            std::min(std::abs(s1.x - s2.x), static_cast<int>(width_) - std::abs(s1.x - s2.x)) +
+            std::min(std::abs(s1.y - s2.y), static_cast<int>(height_) - std::abs(s1.y - s2.y));
     }
 
     GridWorld::State GridWorld::operator()(int x, int y) const {
