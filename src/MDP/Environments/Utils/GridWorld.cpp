@@ -9,6 +9,10 @@ namespace AIToolbox::MDP {
 
     GridWorld::State::operator size_t() { return s; }
 
+    unsigned GridWorld::State::distance(const State & other) const {
+        return std::abs(x - other.x) + std::abs(y - other.y);
+    }
+
     bool GridWorld::State::operator==(const State & other) const {
         return s == other.s;
     }
