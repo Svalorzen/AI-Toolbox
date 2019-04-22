@@ -78,6 +78,15 @@ namespace AIToolbox::Factored::MDP {
              */
             const AIToolbox::MDP::GridWorld & getGrid() const;
 
+            /**
+             * @brief This function returns a graphical representation of a State.
+             *
+             * @param s
+             *
+             * @return 
+             */
+            std::string printState(const State & s) const;
+
         private:
             AIToolbox::MDP::GridWorld grid_;
             size_t antelopePosition_;

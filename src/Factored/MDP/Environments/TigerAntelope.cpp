@@ -110,4 +110,25 @@ namespace AIToolbox::Factored::MDP {
     size_t TigerAntelope::getAntelopeState() const { return antelopePosition_; }
     double TigerAntelope::getDiscount() const { return 0.9; }
     const AIToolbox::MDP::GridWorld & TigerAntelope::getGrid() const { return grid_; }
+
+    std::string TigerAntelope::printState(const State & s) const {
+        std::string retval;
+        for (size_t y = 0; y < grid_.getHeight(); ++y) {
+            for (size_t x = 0; x < grid_.getWidth(); ++x) {
+                auto cell = grid_(x, y);
+                if (cell == s[0]) {
+                    retval += "t1";
+                } else if (cell == s[1]) {
+                    retval += "t2";
+                } else if (cell == antelopePosition_) {
+                    retval += "aa";
+                } else {
+                    retval += "..";
+                }
+                retval += "  ";
+            }
+            retval += '\n';
+        }
+        return retval;
+    };
 }
