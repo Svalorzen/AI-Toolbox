@@ -16,7 +16,7 @@ namespace AIToolbox::Factored::MDP {
         // Default values.
         s1 = s;
         rews.resize(2);
-        rews << 0.5, 0.5;
+        rews << -0.5, -0.5;
 
         unsigned moved = 0;
         for (size_t i = 0; i < 2; ++i) {
