@@ -167,17 +167,22 @@ namespace AIToolbox::Factored::MDP {
 
     template <typename M>
     void CooperativePrioritizedSweeping<M>::batchUpdateQ(const unsigned N) {
+        // Initialize some variables to avoid reallocations
+        State s(model_.getS().size());
+        State s1(model_.getS().size());
+        Action a(model_.getA().size());
+        Rewards rews(model_.getS().size());
+
         for (size_t n = 0; n < N; ++n) {
             if (queue_.empty()) return;
 
             // Pick top element from queue
             auto [priority, stateAction] = queue_.top();
-
+            // And use it to extract all valid rules that apply.
             auto [ids, factor] = ids_.reconstruct(stateAction, true);
-
+            // Remove them from the various datastructures.
             for (const auto & id : ids) {
                 auto hIt = findByBackup_.find(id.second);
-
                 auto handle = hIt->second;
 
                 queue_.erase(handle);
@@ -186,10 +191,8 @@ namespace AIToolbox::Factored::MDP {
 
             //std::cout << "Done merging: " << stateAction << "\n";
 
-            State s(model_.getS().size());
-            Action a(model_.getA().size());
-
-            // Copy stateAction values to s and a, and record missing ids.
+            // Copy the reconstructed factor to s and a, filling randomly the
+            // missing elements.
             size_t x = 0;
             for (size_t i = 0; i < s.size(); ++i, ++x) {
                 if (factor[x] == model_.getS()[i]) {
@@ -199,7 +202,6 @@ namespace AIToolbox::Factored::MDP {
                     s[i] = factor[x];
                 }
             }
-
             for (size_t i = 0; i < a.size(); ++i, ++x) {
                 if (factor[x] == model_.getA()[i]) {
                     std::uniform_int_distribution<size_t> dist(0, model_.getA()[i]-1);
@@ -211,9 +213,12 @@ namespace AIToolbox::Factored::MDP {
 
             //std::cout << "Final S: " << s << " ; final A: " << a << '\n';
 
-            const auto [s1, r] = model_.sampleSRs(s, a);
+            // Finally, sample a new s1/rews from the model.
+            model_.sampleSRs(s, a, &s1, &rews);
+            rews.array() /= rewardWeights_.array();
+            // And use them to update Q.
+            updateQ(s, a, s1, rews);
 
-            updateQ(s, a, s1, r.array() / rewardWeights_.array());
             // Since adding to queue is a relatively expensive operation, we
             // only update it once in a while. Here we update it if the
             // priority of the max element we have just popped off the queue is
@@ -263,8 +268,9 @@ namespace AIToolbox::Factored::MDP {
             // Note that we add to the storage, which is only cleared once we
             // call addToQueue; this means that multiple calls to this
             // functions cumulate their deltas.
+            const auto delta = std::fabs(originalQ - q.values(sid, aid)) / q.tag.size();
             for (auto s : q.tag)
-                deltaStorage_[s] += std::fabs(originalQ - q.values(sid, aid)) / q.tag.size();
+                deltaStorage_[s] += delta;
 ;
         }
         //std::cout << '\n';
@@ -316,11 +322,11 @@ namespace AIToolbox::Factored::MDP {
                         // Otherwise create a new entry in the queue.
                         auto handle = queue_.emplace(PriorityQueueElement{p, backup});
 
-                        //std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
-                        //std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
-
                         findByBackup_[backup] = handle;
                         ids_.insert(backup);
+
+                        //std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
+                        //std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
                     }
                 }
             }
