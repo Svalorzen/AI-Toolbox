@@ -30,6 +30,11 @@ namespace AIToolbox::Factored::MDP {
         auto beforeRules = rules_.filter(join(s, a));
         const auto afterRules = rules_.filter(join(s1, a1));
 
+        std::vector<unsigned> weights(A.size());
+        for (const auto & br : beforeRules)
+            for (auto a : br.action.first)
+                ++weights[a];
+
         const auto computeQ = [](const size_t agent, const decltype(rules_)::Iterable & rules) {
             double sum = 0.0;
             for (const auto & rule : rules)
@@ -43,7 +48,7 @@ namespace AIToolbox::Factored::MDP {
         for (const auto & br : beforeRules) {
             double sum = 0;
             for (const auto agent : br.action.first) {
-                sum += rew[agent];
+                sum += rew[agent] / weights[agent];
                 sum += discount_ * computeQ(agent, afterRules);
                 sum -= computeQ(agent, beforeRules);
             }
