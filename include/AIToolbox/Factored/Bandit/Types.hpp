@@ -3,6 +3,7 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Factored/Types.hpp>
+#include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 
 #include <vector>
 #include <utility>
@@ -37,6 +38,11 @@ namespace AIToolbox::Factored::Bandit {
         MOQFunctionRule(PartialAction a, Rewards vs) :
                 action(std::move(a)), values(std::move(vs)) {}
     };
+
+    /**
+     * @brief This represents a factored QFunction.
+     */
+    using QFunction = FactoredVector;
 }
 
 #endif

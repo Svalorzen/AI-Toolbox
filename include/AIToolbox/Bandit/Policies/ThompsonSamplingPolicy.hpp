@@ -77,4 +77,3 @@ namespace AIToolbox::Bandit {
 }
 
 #endif
-
