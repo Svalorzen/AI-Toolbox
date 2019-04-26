@@ -83,6 +83,7 @@ if (MAKE_FMDP)
         Factored/Bandit/Policies/SingleActionPolicy.cpp
         Factored/Bandit/Policies/RandomPolicy.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
+        Factored/Bandit/Policies/ThompsonSamplingPolicy.cpp
         Factored/MDP/Utils.cpp
         Factored/MDP/Model.cpp
         Factored/MDP/CooperativeExperience.cpp
