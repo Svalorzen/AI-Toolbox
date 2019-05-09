@@ -10,7 +10,7 @@ namespace AIToolbox::Factored::MDP {
      */
     class EpsilonPolicy : public EpsilonPolicyInterface<State, State, Action> {
         public:
-            using Base = EpsilonPolicyInterface<State, State, Action>;
+            using EpsilonBase = EpsilonPolicyInterface<State, State, Action>;
 
             /**
              * @brief Basic constructor.
@@ -24,7 +24,7 @@ namespace AIToolbox::Factored::MDP {
              * @param p The policy that is being extended.
              * @param epsilon The parameter that controls the amount of exploration.
              */
-            EpsilonPolicy(const Base::Base & p, double epsilon = 0.1);
+            EpsilonPolicy(const EpsilonBase::Base & p, double epsilon = 0.1);
 
         protected:
             /**

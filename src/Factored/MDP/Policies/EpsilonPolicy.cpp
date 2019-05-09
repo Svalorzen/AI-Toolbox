@@ -3,8 +3,8 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    EpsilonPolicy::EpsilonPolicy(const Base::Base & p, double epsilon) :
-            Base::Base(p.getS(), p.getA()), Base(p, epsilon)
+    EpsilonPolicy::EpsilonPolicy(const EpsilonBase::Base & p, double epsilon) :
+            EpsilonBase::Base(p.getS(), p.getA()), EpsilonBase(p, epsilon)
     {
         randomDistribution_.reserve(getA().size());
         for (size_t i = 0; i < getA().size(); ++i)
