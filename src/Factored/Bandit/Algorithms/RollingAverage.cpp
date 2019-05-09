@@ -25,7 +25,7 @@ namespace AIToolbox::Factored::Bandit {
             auto & v = qfun_.bases[i].values;
             auto c = counts_[i][aId];
 
-            v[aId] = (c * v[aId] + rews[aId]) / (c + 1);
+            v[aId] = (c * v[aId] + rews[i]) / (c + 1);
             ++counts_[i][aId];
         }
     }

@@ -16,10 +16,10 @@ namespace AIToolbox::Factored::Bandit {
             const auto & counts = counts_[i];
             auto & factorNode = graph.getFactor(basis.tag)->getData();
 
-            factorNode.reserve(basis.values.cols());
+            factorNode.reserve(basis.values.size());
 
-            for (size_t y = 0; y < static_cast<size_t>(basis.values.cols()); ++y) {
-                std::normal_distribution<double> dist(basis.values(i), 1.0 / (counts[i] + 1));
+            for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
+                std::normal_distribution<double> dist(basis.values(y), 1.0 / (counts[y] + 1));
                 factorNode.emplace_back(y, VE::Factor{dist(rand_), {}});
             }
         }
