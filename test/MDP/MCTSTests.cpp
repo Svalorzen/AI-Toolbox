@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/MDP/Algorithms/MCTS.hpp>
+#include <AIToolbox/MDP/Algorithms/UCB.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
 #include <AIToolbox/MDP/Environments/CornerProblem.hpp>
@@ -16,7 +17,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
 
     auto model = makeCornerProblem(grid);
 
-    MCTS solver(model, 10000, 5.0);
+    MCTS<Model, UCB> solver(model, 10000, 5.0);
 
     // Check that solution agrees with that we'd like
     //
@@ -83,7 +84,7 @@ BOOST_AUTO_TEST_CASE( sampleOneTime ) {
 
     auto model = makeCornerProblem(grid);
 
-    MCTS solver(model, 1, 5.0);
+    MCTS<Model, UCB> solver(model, 1, 5.0);
 
     // We ensure MCTS does not crash when pruning a tree
     // and the new head was a leaf (and thus did not have
