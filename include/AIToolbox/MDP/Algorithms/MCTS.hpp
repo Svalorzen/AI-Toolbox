@@ -9,25 +9,6 @@
 #include <unordered_map>
 
 namespace AIToolbox::MDP {
-    struct ActionNode;
-    using ActionNodes = std::vector<ActionNode>;
-
-    struct StateNode {
-        StateNode() : N(0) {}
-        ActionNodes children;
-        unsigned N;
-    };
-    using StateNodes = std::unordered_map<size_t, StateNode>;
-
-    struct ActionNode {
-        StateNodes children;
-        double V = 0.0;
-        unsigned N = 0;
-        size_t action = 0;
-        virtual size_t getAction() const {
-            return action;
-        }
-    };
     /**
      * @brief This class represents the MCTS online planner using UCB1.
      *
@@ -62,21 +43,40 @@ namespace AIToolbox::MDP {
      * Then it simply makes that root branch the new root, and starts
      * again.
      */
-    template <typename M, typename Sel>
+    template <typename M, typename Sel, typename StateT = size_t, typename ActionT = size_t>
     class MCTS {
-        static_assert(is_generative_model_v<M>, "This class only works for generative MDP models!");
+        static_assert(is_generative_model_v<M, StateT, ActionT>, "This class only works for generative MDP models!");
 
         public:
             using SampleBelief = std::vector<size_t>;
+
+            struct StateNode;
+            using StateNodes = std::unordered_map<StateT, StateNode>;
+
+            struct ActionNode {
+                StateNodes children;
+                double V = 0.0;
+                unsigned N = 0;
+                ActionT action;
+            };
+            using ActionNodes = std::vector<ActionNode>;
+
+            struct StateNode {
+                StateNode() : N(0) {}
+                ActionNodes children;
+                unsigned N;
+            };
+
 
             /**
              * @brief Basic constructor.
              *
              * @param m The MDP model that MCTS will operate upon.
+             * @param sel The selection algorithm to use for selecting the best action.
              * @param iterations The number of episodes to run before completion.
              * @param exp The exploration constant. This parameter is VERY important to determine the final MCTS performance.
              */
-            MCTS(const M& m, unsigned iterations, double exp);
+            MCTS(const M& m, const Sel &s, unsigned iterations, double exp);
 
             /**
              * @brief This function resets the internal graph and samples for the provided state and horizon.
@@ -84,9 +84,9 @@ namespace AIToolbox::MDP {
              * @param s The initial state for the environment.
              * @param horizon The horizon to plan for.
              *
-             * @return The best action.
+             * @return The index of the best action.
              */
-            size_t sampleAction(size_t s, unsigned horizon);
+            size_t sampleAction(StateT s, unsigned horizon);
 
             /**
              * @brief This function uses the internal graph to plan.
@@ -104,9 +104,9 @@ namespace AIToolbox::MDP {
              * @param s1 The state experienced after the action was taken.
              * @param horizon The horizon to plan for.
              *
-             * @return The best action.
+             * @return The index of the best action.
              */
-            size_t sampleAction(size_t a, size_t s1, unsigned horizon);
+            size_t sampleAction(size_t a, StateT s1, unsigned horizon);
 
             /**
              * @brief This function sets the number of performed rollouts in MCTS.
@@ -158,6 +158,7 @@ namespace AIToolbox::MDP {
 
         private:
             const M& model_;
+            const Sel& selector_;
             size_t S, A;
             unsigned iterations_, maxDepth_;
             double exploration_;
@@ -167,28 +168,28 @@ namespace AIToolbox::MDP {
             mutable RandomEngine rand_;
 
             // Private Methods
-            size_t runSimulation(size_t s, unsigned horizon);
-            double simulate(StateNode & sn, size_t s, unsigned horizon);
-            double rollout(size_t s, unsigned horizon);
+            size_t runSimulation(StateT s, unsigned horizon);
+            double simulate(StateNode & sn, StateT s, unsigned horizon);
+            double rollout(StateT s, unsigned horizon);
     };
 
-    template <typename M, typename Sel>
-    MCTS<M, Sel>::MCTS(const M& m, const unsigned iter, const double exp) :
-            model_(m), S(model_.getS()), A(model_.getA()), iterations_(iter),
+    template <typename M, typename Sel, typename ST, typename AT>
+    MCTS<M, Sel, ST, AT>::MCTS(const M& m, const Sel& s, const unsigned iter, const double exp) :
+            model_(m), selector_(s), S(model_.getS()), A(model_.getA()), iterations_(iter),
             exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
-    template <typename M, typename Sel>
-    size_t MCTS<M, Sel>::sampleAction(const size_t s, const unsigned horizon) {
+    template <typename M, typename Sel, typename ST, typename AT>
+    size_t MCTS<M, Sel, ST, AT>::sampleAction(const ST s, const unsigned horizon) {
         // Reset graph
         graph_ = StateNode();
-        Sel::initializeActions(graph_, model_);
+        selector_.initializeActions(graph_, model_);
         //graph_.children.resize(A);
 
         return runSimulation(s, horizon);
     }
 
-    template <typename M, typename Sel>
-    size_t MCTS<M, Sel>::sampleAction(const size_t a, const size_t s1, const unsigned horizon) {
+    template <typename M, typename Sel, typename ST, typename AT>
+    size_t MCTS<M, Sel, ST, AT>::sampleAction(const size_t a, const ST s1, const unsigned horizon) {
         auto & states = graph_.children[a].children;
 
         auto it = states.find(s1);
@@ -205,14 +206,14 @@ namespace AIToolbox::MDP {
         // We resize here in case we didn't have time to sample the new
         // head node. In this case, the new head may not have children.
         // This would break the UCT call.
-        Sel::initializeActions(graph_, model_);
+        selector_.initializeActions(graph_, model_);
         //graph_.children.resize(A);
 
         return runSimulation(s1, horizon);
     }
 
-    template <typename M, typename Sel>
-    size_t MCTS<M, Sel>::runSimulation(const size_t s, const unsigned horizon) {
+    template <typename M, typename Sel, typename ST, typename AT>
+    size_t MCTS<M, Sel, ST, AT>::runSimulation(const ST s, const unsigned horizon) {
         if ( !horizon ) return 0;
 
         maxDepth_ = horizon;
@@ -221,19 +222,19 @@ namespace AIToolbox::MDP {
             simulate(graph_, s, 0);
 
         auto begin = std::begin(graph_.children);
-        return std::distance(begin, Sel::findBestA(begin, std::end(graph_.children)));
+        return std::distance(begin, selector_.findBestA(begin, std::end(graph_.children)));
     }
 
-    template <typename M, typename Sel>
-    double MCTS<M, Sel>::simulate(StateNode & sn, const size_t s, const unsigned depth) {
+    template <typename M, typename Sel, typename ST, typename AT>
+    double MCTS<M, Sel, ST, AT>::simulate(StateNode & sn, const ST s, const unsigned depth) {
         // Head update
         sn.N++;
 
         auto begin = std::begin(sn.children);
         // const size_t a = std::distance(begin, findBestBonusA(begin, std::end(sn.children), sn.N));
 
-        auto & aNode = (*Sel::findBestBonusA(begin, std::end(sn.children), sn.N, exploration_));
-        auto [s1, rew] = model_.sampleSR(s, aNode.getAction());
+        auto & aNode = (*selector_.findBestBonusA(begin, std::end(sn.children), sn.N, exploration_));
+        auto [s1, rew] = model_.sampleSR(s, aNode.action);
 
         // auto & aNode = sn.children[a];
 
@@ -254,7 +255,7 @@ namespace AIToolbox::MDP {
                 // we are actually descending into a node. If the node
                 // already has memory this should not do anything in
                 // any case.
-                Sel::initializeActions(it->second, model_);
+                selector_.initializeActions(it->second, model_);
                 //it->second.children.resize(A);
                 futureRew = simulate( it->second, s1, depth + 1 );
             }
@@ -269,13 +270,15 @@ namespace AIToolbox::MDP {
         return rew;
     }
 
-    template <typename M, typename Sel>
-    double MCTS<M, Sel>::rollout(size_t s, unsigned depth) {
+    template <typename M, typename Sel, typename ST, typename AT>
+    double MCTS<M, Sel, ST, AT>::rollout(ST s, unsigned depth) {
         double rew = 0.0, totalRew = 0.0, gamma = 1.0;
 
-        std::uniform_int_distribution<size_t> generator(0, A-1);
+        //std::uniform_int_distribution<size_t> generator(0, A-1);
         for ( ; depth < maxDepth_; ++depth ) {
-            std::tie( s, rew ) = model_.sampleSR( s, generator(rand_) );
+            auto allowedActions = model_.getAllowedActions(s);
+            std::uniform_int_distribution<size_t> generator(0, allowedActions.size() - 1);
+            std::tie( s, rew ) = model_.sampleSR( s, allowedActions.at(generator(rand_)) );
             totalRew += gamma * rew;
 
             if (model_.isTerminal(s))
@@ -286,33 +289,33 @@ namespace AIToolbox::MDP {
         return totalRew;
     }
 
-    template <typename M, typename Sel>
-    void MCTS<M, Sel>::setIterations(const unsigned iter) {
+    template <typename M, typename Sel, typename ST, typename AT>
+    void MCTS<M, Sel, ST, AT>::setIterations(const unsigned iter) {
         iterations_ = iter;
     }
 
-    template <typename M, typename Sel>
-    void MCTS<M, Sel>::setExploration(const double exp) {
+    template <typename M, typename Sel, typename ST, typename AT>
+    void MCTS<M, Sel, ST, AT>::setExploration(const double exp) {
         exploration_ = exp;
     }
 
-    template <typename M, typename Sel>
-    const M& MCTS<M, Sel>::getModel() const {
+    template <typename M, typename Sel, typename ST, typename AT>
+    const M& MCTS<M, Sel, ST, AT>::getModel() const {
         return model_;
     }
 
-    template <typename M, typename Sel>
-    const StateNode& MCTS<M, Sel>::getGraph() const {
+    template <typename M, typename Sel, typename ST, typename AT>
+    const typename MCTS<M, Sel, ST, AT>::StateNode& MCTS<M, Sel, ST, AT>::getGraph() const {
         return graph_;
     }
 
-    template <typename M, typename Sel>
-    unsigned MCTS<M, Sel>::getIterations() const {
+    template <typename M, typename Sel, typename ST, typename AT>
+    unsigned MCTS<M, Sel, ST, AT>::getIterations() const {
         return iterations_;
     }
 
-    template <typename M, typename Sel>
-    double MCTS<M, Sel>::getExploration() const {
+    template <typename M, typename Sel, typename ST, typename AT>
+    double MCTS<M, Sel, ST, AT>::getExploration() const {
         return exploration_;
     }
 }

@@ -7,28 +7,31 @@
 namespace AIToolbox::MDP {
     class UCB {
         public:
-            template <typename Iterator>
-            static Iterator findBestA(Iterator begin, Iterator end);
+            UCB() = default;
+            virtual ~UCB() = default;
 
             template <typename Iterator>
-            static Iterator findBestBonusA(Iterator begin, Iterator end, unsigned count, double exp);
+            Iterator findBestA(Iterator begin, Iterator end) const;
 
-            static void initializeActions(StateNode &parent, const Model &m);
+            template <typename Iterator>
+            Iterator findBestBonusA(Iterator begin, Iterator end, unsigned count, double exp) const;
+
+            virtual void initializeActions(MCTS<Model, UCB, size_t, size_t>::StateNode &parent, const Model &m) const;
     };
 
     template <typename Iterator>
-    Iterator UCB::findBestA(Iterator begin, Iterator end) {
-        return std::max_element(begin, end, [](const ActionNode & lhs, const ActionNode & rhs){ return lhs.V < rhs.V; });
+    Iterator UCB::findBestA(Iterator begin, Iterator end) const {
+        return std::max_element(begin, end, [](const auto & lhs, const auto & rhs){ return lhs.V < rhs.V; });
     }
 
     template <typename Iterator>
-    Iterator UCB::findBestBonusA(Iterator begin, Iterator end, const unsigned count, const double exp) {
+    Iterator UCB::findBestBonusA(Iterator begin, Iterator end, const unsigned count, const double exp) const {
         // Count here can be as low as 1.
         // Since log(1) = 0, and 0/0 = error, we add 1.0.
         const double logCount = std::log(count + 1.0);
         // We use this function to produce a score for each action. This can be easily
         // substituted with something else to produce different POMCP variants.
-        const auto evaluationFunction = [exp, logCount](const ActionNode & an){
+        const auto evaluationFunction = [exp, logCount](const auto & an){
             return an.V + exp * std::sqrt( logCount / an.N );
         };
 
@@ -46,11 +49,13 @@ namespace AIToolbox::MDP {
         return bestIterator;
     }
 
-    void UCB::initializeActions(StateNode &parent, const Model &m) {
-        size_t A = m.getA();
-        parent.children.resize(A);
-        for (size_t i = 0; i < A; i++)
-            parent.children.at(i).action = i;
+    void UCB::initializeActions(typename MCTS<Model, UCB, size_t, size_t>::StateNode &parent, const Model &m) const {
+        if (parent.children.size() == 0) {
+            size_t A = m.getA();
+            parent.children.resize(A);
+            for (size_t i = 0; i < A; i++)
+                parent.children.at(i).action = i;
+        }
     }
 };
 

@@ -23,7 +23,7 @@ namespace AIToolbox::MDP {
      *
      * @tparam M The class to test for the interface.
      */
-    template <typename M>
+    template <typename M, typename ST, typename AT>
     struct is_generative_model {
         private:
             template <typename Z> static constexpr auto test(int) -> decltype(
@@ -31,8 +31,9 @@ namespace AIToolbox::MDP {
                     static_cast<size_t (Z::*)() const>                                      (&Z::getS),
                     static_cast<size_t (Z::*)() const>                                      (&Z::getA),
                     static_cast<double (Z::*)() const>                                      (&Z::getDiscount),
-                    static_cast<std::tuple<size_t, double> (Z::*)(size_t,size_t) const>     (&Z::sampleSR),
-                    static_cast<bool (Z::*)(size_t) const>                                  (&Z::isTerminal),
+                    static_cast<std::tuple<ST, double> (Z::*)(ST,AT) const>                 (&Z::sampleSR),
+                    static_cast<bool (Z::*)(ST) const>                                      (&Z::isTerminal),
+                    static_cast<std::vector<AT> (Z::*)(ST) const>                           (&Z::getAllowedActions),
 
                     bool()
             ) { return true; }
@@ -43,8 +44,8 @@ namespace AIToolbox::MDP {
         public:
             enum { value = test<M>(0) };
     };
-    template <typename M>
-    inline constexpr bool is_generative_model_v = is_generative_model<M>::value;
+    template <typename M, typename ST, typename AT>
+    inline constexpr bool is_generative_model_v = is_generative_model<M, ST, AT>::value;
 
     /**
      * @brief This struct represents the required interface for a full MDP.
@@ -66,7 +67,7 @@ namespace AIToolbox::MDP {
      *
      * @tparam M The class to test for the interface.
      */
-    template <typename M>
+    template <typename M, typename ST = size_t, typename AT = size_t>
     struct is_model {
         private:
             template <typename Z> static constexpr auto test(int) -> decltype(
@@ -81,7 +82,7 @@ namespace AIToolbox::MDP {
             { return false; }
 
         public:
-            enum { value = test<M>(0) && is_generative_model_v<M> };
+            enum { value = test<M>(0) && is_generative_model_v<M, ST, AT> };
     };
     template <typename M>
     inline constexpr bool is_model_v = is_model<M>::value;

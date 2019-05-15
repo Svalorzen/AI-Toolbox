@@ -37,6 +37,7 @@ namespace AIToolbox::MDP {
         rewards_ = r;
     }
 
+    template <>
     std::tuple<size_t, double> Model::sampleSR(const size_t s, const size_t a) const {
         size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
@@ -51,11 +52,19 @@ namespace AIToolbox::MDP {
         return rewards_(s, a);
     }
 
+    template <>
+    std::vector<size_t> Model::getAllowedActions(const size_t) const {
+        std::vector<size_t> v(A);
+        std::iota(v.begin(), v.end(), 0);
+        return v;
+    }
+
     void Model::setDiscount(const double d) {
         if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
         discount_ = d;
     }
 
+    template <>
     bool Model::isTerminal(const size_t s) const {
         for ( size_t a = 0; a < A; ++a )
             if ( !checkEqualSmall(1.0, transitions_[a](s, s)) )

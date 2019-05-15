@@ -1,7 +1,9 @@
-#define BOOST_TEST_MODULE MDP_MCTS
+#define BOOST_TEST_MODULE MDP_MCTS_EXTENDED
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
+#include <boost/dynamic_bitset.hpp>
+#include <iostream>
 
 #include <AIToolbox/MDP/Algorithms/MCTS.hpp>
 #include <AIToolbox/MDP/Algorithms/UCB.hpp>
@@ -9,16 +11,51 @@
 
 #include <AIToolbox/MDP/Environments/CornerProblem.hpp>
 
+class BitsetModel : public AIToolbox::MDP::Model {
+    public:
+        BitsetModel(const AIToolbox::MDP::Model &m) : AIToolbox::MDP::Model(m), model_(m) {}
+
+        std::tuple<size_t, double> sampleSR(const size_t s, const boost::dynamic_bitset<> a) const {
+            return model_.sampleSR(s, a.to_ulong());
+        }
+
+        std::vector<boost::dynamic_bitset<>> getAllowedActions(const size_t) const {
+            std::vector<boost::dynamic_bitset<>> v;
+            for(size_t i = 0; i < model_.getA(); i++)
+                v.push_back(boost::dynamic_bitset<>(2, i));
+            return v;
+        }
+    private:
+      const AIToolbox::MDP::Model &model_;
+};
+
+class ExtendedUCB : public AIToolbox::MDP::UCB {
+    public:
+        ExtendedUCB() : UCB() {}
+        virtual ~ExtendedUCB() = default;
+
+        void initializeActions(AIToolbox::MDP::MCTS<BitsetModel, ExtendedUCB, size_t, boost::dynamic_bitset<>>::StateNode &parent, const BitsetModel &m) const {
+            if (parent.children.size() == 0) {
+                size_t A = m.getA();
+                parent.children.resize(A);
+                for (size_t i = 0; i < A; i++) {
+                    parent.children.at(i).action = boost::dynamic_bitset(2, i);
+                }
+            }
+        }
+};
+
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
     using namespace GridWorldEnums;
 
     GridWorld grid(4,4);
 
-    auto model = makeCornerProblem(grid);
-    UCB ucb;
+    auto m = makeCornerProblem(grid);
+    BitsetModel model(m);
 
-    MCTS solver(model, ucb, 10000, 5.0);
+    ExtendedUCB ucb;
+    MCTS<BitsetModel, ExtendedUCB, size_t, boost::dynamic_bitset<>> solver(model, ucb, 10000, 5.0);
 
     // Check that solution agrees with that we'd like
     //
@@ -83,10 +120,11 @@ BOOST_AUTO_TEST_CASE( sampleOneTime ) {
 
     GridWorld grid(4,4);
 
-    auto model = makeCornerProblem(grid);
-    UCB ucb;
+    auto m = makeCornerProblem(grid);
+    BitsetModel model(m);
 
-    MCTS solver(model, ucb, 1, 5.0);
+    ExtendedUCB ucb;
+    MCTS<BitsetModel, ExtendedUCB, size_t, boost::dynamic_bitset<>> solver(model, ucb, 1, 5.0);
 
     // We ensure MCTS does not crash when pruning a tree
     // and the new head was a leaf (and thus did not have
