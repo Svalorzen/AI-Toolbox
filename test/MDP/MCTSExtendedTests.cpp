@@ -31,9 +31,6 @@ class BitsetModel : public AIToolbox::MDP::Model {
 
 class ExtendedUCB : public AIToolbox::MDP::UCB {
     public:
-        ExtendedUCB() : UCB() {}
-        virtual ~ExtendedUCB() = default;
-
         void initializeActions(AIToolbox::MDP::MCTS<BitsetModel, ExtendedUCB, size_t, boost::dynamic_bitset<>>::StateNode &parent, const BitsetModel &m) const {
             if (parent.children.size() == 0) {
                 size_t A = m.getA();

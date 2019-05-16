@@ -1,7 +1,6 @@
 #ifndef AI_TOOLBOX_MDP_UCB_HEADER_FILE
 #define AI_TOOLBOX_MDP_UCB_HEADER_FILE
 
-#include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/Algorithms/MCTS.hpp>
 
 namespace AIToolbox::MDP {
@@ -16,7 +15,8 @@ namespace AIToolbox::MDP {
             template <typename Iterator>
             Iterator findBestBonusA(Iterator begin, Iterator end, unsigned count, double exp) const;
 
-            virtual void initializeActions(MCTS<Model, UCB, size_t, size_t>::StateNode &parent, const Model &m) const;
+            template <typename M>
+            void initializeActions(typename MCTS<M, UCB, size_t, size_t>::StateNode &parent, const M &m) const;
     };
 
     template <typename Iterator>
@@ -49,7 +49,8 @@ namespace AIToolbox::MDP {
         return bestIterator;
     }
 
-    void UCB::initializeActions(typename MCTS<Model, UCB, size_t, size_t>::StateNode &parent, const Model &m) const {
+    template <typename M>
+    void UCB::initializeActions(typename MCTS<M, UCB, size_t, size_t>::StateNode &parent, const M &m) const {
         if (parent.children.size() == 0) {
             size_t A = m.getA();
             parent.children.resize(A);

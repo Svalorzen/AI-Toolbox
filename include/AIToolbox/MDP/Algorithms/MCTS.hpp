@@ -5,6 +5,7 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 
 #include <unordered_map>
+#include <random>
 
 namespace AIToolbox::MDP {
     /**
@@ -46,6 +47,7 @@ namespace AIToolbox::MDP {
         static_assert(is_generative_model_v<M, StateT, ActionT>, "This class only works for generative MDP models!");
 
         public:
+            using RandomEngine = std::mt19937;
             using SampleBelief = std::vector<size_t>;
 
             struct StateNode;
