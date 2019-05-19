@@ -6,7 +6,6 @@
 namespace AIToolbox::MDP {
     class UCB {
         public:
-            UCB() = default;
             virtual ~UCB() = default;
 
             template <typename Iterator>
@@ -15,8 +14,12 @@ namespace AIToolbox::MDP {
             template <typename Iterator>
             Iterator findBestBonusA(Iterator begin, Iterator end, unsigned count, double exp) const;
 
-            template <typename M>
-            void initializeActions(typename MCTS<M, UCB, size_t, size_t>::StateNode &parent, const M &m) const;
+            template <typename M, typename ST = size_t, typename AT = size_t>
+            void initializeActions(typename MCTS<M, UCB, ST, AT>::StateNode &parent, const ST &s, const M &m) const;
+
+            template <typename M, typename ST = size_t, typename AT = size_t>
+            AT getRandomAction(const ST &s, const M &m, RandomEngine &r) const;
+
     };
 
     template <typename Iterator>
@@ -49,14 +52,20 @@ namespace AIToolbox::MDP {
         return bestIterator;
     }
 
-    template <typename M>
-    void UCB::initializeActions(typename MCTS<M, UCB, size_t, size_t>::StateNode &parent, const M &m) const {
+    template <typename M, typename ST, typename AT>
+    void UCB::initializeActions(typename MCTS<M, UCB, ST, AT>::StateNode &parent, const ST &, const M &m) const {
         if (parent.children.size() == 0) {
-            size_t A = m.getA();
+            AT A = m.getA();
             parent.children.resize(A);
             for (size_t i = 0; i < A; i++)
                 parent.children.at(i).action = i;
         }
+    }
+
+    template <typename M, typename ST, typename AT>
+    AT UCB::getRandomAction(const ST&, const M &m, RandomEngine &r) const {
+        std::uniform_int_distribution<size_t> generator(0, m.getA() - 1);
+        return generator(r);
     }
 };
 

@@ -5,7 +5,6 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 
 #include <unordered_map>
-#include <random>
 
 namespace AIToolbox::MDP {
     /**
@@ -47,7 +46,6 @@ namespace AIToolbox::MDP {
         static_assert(is_generative_model_v<M, StateT, ActionT>, "This class only works for generative MDP models!");
 
         public:
-            using RandomEngine = std::mt19937;
             using SampleBelief = std::vector<size_t>;
 
             struct StateNode;
@@ -182,8 +180,7 @@ namespace AIToolbox::MDP {
     size_t MCTS<M, Sel, ST, AT>::sampleAction(const ST s, const unsigned horizon) {
         // Reset graph
         graph_ = StateNode();
-        selector_.initializeActions(graph_, model_);
-        //graph_.children.resize(A);
+        selector_.initializeActions(graph_, s, model_);
 
         return runSimulation(s, horizon);
     }
@@ -206,8 +203,7 @@ namespace AIToolbox::MDP {
         // We resize here in case we didn't have time to sample the new
         // head node. In this case, the new head may not have children.
         // This would break the UCT call.
-        selector_.initializeActions(graph_, model_);
-        //graph_.children.resize(A);
+        selector_.initializeActions(graph_, s1, model_);
 
         return runSimulation(s1, horizon);
     }
@@ -231,12 +227,8 @@ namespace AIToolbox::MDP {
         sn.N++;
 
         auto begin = std::begin(sn.children);
-        // const size_t a = std::distance(begin, findBestBonusA(begin, std::end(sn.children), sn.N));
-
         auto & aNode = (*selector_.findBestBonusA(begin, std::end(sn.children), sn.N, exploration_));
         auto [s1, rew] = model_.sampleSR(s, aNode.action);
-
-        // auto & aNode = sn.children[a];
 
         // We only go deeper if needed (maxDepth_ is always at least 1).
         if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) ) {
@@ -255,8 +247,7 @@ namespace AIToolbox::MDP {
                 // we are actually descending into a node. If the node
                 // already has memory this should not do anything in
                 // any case.
-                selector_.initializeActions(it->second, model_);
-                //it->second.children.resize(A);
+                selector_.initializeActions(it->second, s1, model_);
                 futureRew = simulate( it->second, s1, depth + 1 );
             }
 
@@ -274,11 +265,9 @@ namespace AIToolbox::MDP {
     double MCTS<M, Sel, ST, AT>::rollout(ST s, unsigned depth) {
         double rew = 0.0, totalRew = 0.0, gamma = 1.0;
 
-        //std::uniform_int_distribution<size_t> generator(0, A-1);
         for ( ; depth < maxDepth_; ++depth ) {
-            auto allowedActions = model_.getAllowedActions(s);
-            std::uniform_int_distribution<size_t> generator(0, allowedActions.size() - 1);
-            std::tie( s, rew ) = model_.sampleSR( s, allowedActions.at(generator(rand_)) );
+            AT action = selector_.getRandomAction(s, model_, rand_);
+            std::tie( s, rew ) = model_.sampleSR( s, action );
             totalRew += gamma * rew;
 
             if (model_.isTerminal(s))

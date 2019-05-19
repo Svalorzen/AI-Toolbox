@@ -19,19 +19,13 @@ class BitsetModel : public AIToolbox::MDP::Model {
             return model_.sampleSR(s, a.to_ulong());
         }
 
-        std::vector<boost::dynamic_bitset<>> getAllowedActions(const size_t) const {
-            std::vector<boost::dynamic_bitset<>> v;
-            for(size_t i = 0; i < model_.getA(); i++)
-                v.push_back(boost::dynamic_bitset<>(2, i));
-            return v;
-        }
     private:
       const AIToolbox::MDP::Model &model_;
 };
 
 class ExtendedUCB : public AIToolbox::MDP::UCB {
     public:
-        void initializeActions(AIToolbox::MDP::MCTS<BitsetModel, ExtendedUCB, size_t, boost::dynamic_bitset<>>::StateNode &parent, const BitsetModel &m) const {
+        void initializeActions(AIToolbox::MDP::MCTS<BitsetModel, ExtendedUCB, size_t, boost::dynamic_bitset<>>::StateNode &parent, const size_t &, const BitsetModel &m) const {
             if (parent.children.size() == 0) {
                 size_t A = m.getA();
                 parent.children.resize(A);
@@ -39,6 +33,11 @@ class ExtendedUCB : public AIToolbox::MDP::UCB {
                     parent.children.at(i).action = boost::dynamic_bitset(2, i);
                 }
             }
+        }
+
+        boost::dynamic_bitset<> getRandomAction(const size_t &s, const BitsetModel& m, AIToolbox::RandomEngine &r) const {
+            size_t a = AIToolbox::MDP::UCB::getRandomAction(s, m, r);
+            return boost::dynamic_bitset<>(2, a);
         }
 };
 

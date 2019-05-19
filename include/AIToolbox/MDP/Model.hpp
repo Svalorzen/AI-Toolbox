@@ -259,8 +259,7 @@ namespace AIToolbox::MDP {
              *
              * @return A tuple containing a new state and a reward.
              */
-            template <typename ST = size_t, typename AT = size_t>
-            std::tuple<ST, double> sampleSR(ST s, AT a) const;
+            std::tuple<size_t, double> sampleSR(size_t s, size_t a) const;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -329,24 +328,15 @@ namespace AIToolbox::MDP {
             const RewardMatrix & getRewardFunction() const;
 
             /**
-             * @brief This function returns the vector of the allowed actions in a given state.
-             *
-             * @return The vector of allowed actions.
-             */
-            template <typename ST = size_t, typename AT = size_t>
-            std::vector<AT> getAllowedActions(ST s) const;
-
-            /**
              * @brief This function returns whether a given state is a terminal.
              *
              * @param s The state examined.
              *
              * @return True if the input state is a terminal, false otherwise.
              */
-            template <typename ST = size_t>
-            bool isTerminal(ST s) const;
+            bool isTerminal(size_t s) const;
 
-        protected:
+        private:
             size_t S, A;
             double discount_;
 
