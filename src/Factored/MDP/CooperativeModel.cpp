@@ -5,7 +5,6 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::MDP {
-
     CooperativeModel::CooperativeModel(State s, Action a, FactoredDDN transitions, FactoredMatrix2D rewards, const double discount) :
             S(std::move(s)), A(std::move(a)), discount_(discount),
             transitions_(std::move(transitions)), rewards_(std::move(rewards)),
@@ -131,6 +130,35 @@ namespace AIToolbox::Factored::MDP {
         }
 
         return rewards_.getValue(S, A, s, a);
+    }
+
+    std::tuple<State, Rewards> CooperativeModel::sampleSRs(const State & s, const Action & a) const {
+        std::tuple<State, Rewards> retval;
+        auto & [s1, rews] = retval;
+
+        s1.resize(S.size());
+        rews.resize(rewards_.bases.size());
+
+        for (size_t i = 0; i < S.size(); ++i) {
+            const auto actionId = toIndexPartial(transitions_[i].actionTag, A, a);
+
+            const auto & node = transitions_[i].nodes[actionId];
+            const auto parentId = toIndexPartial(node.tag, S, s);
+
+            const size_t newS = sampleProbability(S[i], node.matrix.row(parentId), rand_);
+
+            s1[i] = newS;
+        }
+
+        for (size_t i = 0; i < rewards_.bases.size(); ++i) {
+            const auto & e = rewards_.bases[i];
+            const auto fid = toIndexPartial(e.tag, S, s);
+            const auto aid = toIndexPartial(e.actionTag, A, a);
+
+            rews[i] = e.values(fid, aid);
+        }
+
+        return retval;
     }
 
     double CooperativeModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {

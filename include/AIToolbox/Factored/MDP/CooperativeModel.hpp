@@ -68,6 +68,28 @@ namespace AIToolbox::Factored::MDP {
             double sampleSR(const State & s, const Action & a, State * s1) const;
 
             /**
+             * @brief This function samples the MDP with the specified state action pair.
+             *
+             * This function samples the model for simulate experience. The transition
+             * and reward functions are used to produce, from the state action pair
+             * inserted as arguments, a possible new state with respective reward.
+             * The new state is picked from all possible states that the MDP allows
+             * transitioning to, each with probability equal to the same probability
+             * of the transition in the model.
+             *
+             * After a new state is picked, the reward is the vector of
+             * corresponding rewards contained in the reward function. This
+             * means that the vector will have a length equal to the number of
+             * bases of the reward function.
+             *
+             * @param s The state that needs to be sampled.
+             * @param a The action that needs to be sampled.
+             *
+             * @return A tuple containing a new state and a reward.
+             */
+            std::tuple<State, Rewards> sampleSRs(const State & s, const Action & a) const;
+
+            /**
              * @brief This function sets a new discount factor for the Model.
              *
              * @param d The new discount factor for the Model.
