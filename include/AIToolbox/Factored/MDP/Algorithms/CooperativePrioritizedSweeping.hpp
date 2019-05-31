@@ -11,19 +11,25 @@
 #include <boost/functional/hash.hpp>
 #include <boost/heap/fibonacci_heap.hpp>
 
-#include <iostream>
-
 namespace AIToolbox::Factored::MDP {
-    template <typename T>
-    std::ostream & operator<<(std::ostream & os, const std::vector<T> & v) {
-        for (auto vv : v)
-            os << vv << ' ';
-        return os;
-    }
-    std::ostream & operator<<(std::ostream & os, const PartialFactors & pf) {
-        os << pf.first << " ==> " << pf.second;
-        return os;
-    }
+    /**
+     * @brief This class implements PrioritizedSweeping for cooperative environments.
+     *
+     * This class allows to perform prioritized sweeping in cooperative
+     * environments.
+     *
+     * CooperativePrioritizedSweeping learns an approximation of the true
+     * QFunction. After each interaction with the environment, the estimated
+     * QFunction is updated. Additionally, a priority queue is updated which
+     * keeps sets of the state and action spaces which are likely to need
+     * updating.
+     *
+     * These sets are then sampled during batch updating, and the input model
+     * (which should be also learned via environment interaction) is used to
+     * sample new state-reward pairs to further refine the QFunction.
+     *
+     * @tparam M The type of the model to sample from.
+     */
     template <typename M>
     class CooperativePrioritizedSweeping {
         public:
@@ -123,6 +129,8 @@ namespace AIToolbox::Factored::MDP {
     {
         const auto & ddn = model_.getTransitionFunction();
 
+        // We weight the rewards so that they are split correctly between the
+        // components of the QFunction.
         // Note that unused reward weights might result in r/0 or 0/0
         // operations, but since then we won't be using those elements
         // anyway it's not a problem.
@@ -151,16 +159,10 @@ namespace AIToolbox::Factored::MDP {
             fm.values.resize(sizeS, sizeA);
             fm.values.setZero();
         }
-        //std::cout << "Rewards weights: " << rewardWeights_.transpose() << '\n';
     }
 
     template <typename M>
     void CooperativePrioritizedSweeping<M>::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
-        //std::cout << "Running new stepUpdateQ with:\n"
-        //              "- s  = " << s  << '\n' <<
-        //              "- a  = " << a  << '\n' <<
-        //              "- s1 = " << s1 << '\n' <<
-        //              "- r  = " << r.transpose()  << '\n';
         updateQ(s, a, s1, r.array() / rewardWeights_.array());
         addToQueue(s);
     }
@@ -189,8 +191,6 @@ namespace AIToolbox::Factored::MDP {
                 findByBackup_.erase(hIt);
             }
 
-            //std::cout << "Done merging: " << stateAction << "\n";
-
             // Copy the reconstructed factor to s and a, filling randomly the
             // missing elements.
             size_t x = 0;
@@ -210,8 +210,6 @@ namespace AIToolbox::Factored::MDP {
                     a[i] = factor[x];
                 }
             }
-
-            //std::cout << "Final S: " << s << " ; final A: " << a << '\n';
 
             // Finally, sample a new s1/rews from the model.
             model_.sampleSRs(s, a, &s1, &rews);
@@ -262,8 +260,6 @@ namespace AIToolbox::Factored::MDP {
             // Q-Learning update
             q.values(sid, aid) += alpha_ * ( rr + model_.getDiscount() * q.values(s1id, a1id) - q.values(sid, aid) );
 
-            //std::cout << (std::fabs(originalQ - q.values(sid, aid)) / q.tag.size()) << ", ";
-
             // Split the delta to each element referenced by this Q factor.
             // Note that we add to the storage, which is only cleared once we
             // call addToQueue; this means that multiple calls to this
@@ -271,10 +267,7 @@ namespace AIToolbox::Factored::MDP {
             const auto delta = std::fabs(originalQ - q.values(sid, aid)) / q.tag.size();
             for (auto s : q.tag)
                 deltaStorage_[s] += delta;
-;
         }
-        //std::cout << '\n';
-        //std::cout << "Final deltas per-state: " << deltasNoV << '\n';
     }
 
     template <typename M>
@@ -324,17 +317,12 @@ namespace AIToolbox::Factored::MDP {
 
                         findByBackup_[backup] = handle;
                         ids_.insert(backup);
-
-                        //std::cout << "Inserted in IDS [" << backup << "] with index " << id << '\n';
-                        //std::cout << "    Value in queue: " << (*handle).stateAction << '\n';
                     }
                 }
             }
         }
         // Reset all deltas since we have updated the queue from them.
         deltaStorage_.setZero();
-
-        //std::cout << "Queue now contains " << queue_.size() << " entries.\n";
     }
 }
 
