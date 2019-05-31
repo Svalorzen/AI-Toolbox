@@ -18,13 +18,6 @@ namespace ai = AIToolbox;
 namespace aif = AIToolbox::Factored;
 namespace fm = AIToolbox::Factored::MDP;
 
-template <typename T>
-std::ostream & operator<<(std::ostream & os, const std::vector<T> & v) {
-    for (auto vv : v)
-        os << vv << ' ';
-    return os;
-}
-
 BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     auto problem = fm::makeSysAdminUniRing(2, 0.1, 0.2, 0.3, 0.4, 0.4, 0.4, 0.3);
 
@@ -45,12 +38,12 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     aif::Rewards r(model.getS().size());
     r.setZero();
     for (size_t t = 0; t < 1000; ++t) {
-        // std::cout << " #######\n";
         auto a = ep.sampleAction(s);
         auto [s1, x] = problem.sampleSR(s, a);
+        (void)x;
 
         for (size_t l = 1; l < model.getS().size(); l += 2)
-            r[l] = s1[l] == 2;
+            r[l] = (s1[l] == fm::SysAdminEnums::Done);
 
         const auto & ids = exp.record(s, a, s1, r);
         model.sync(ids);
@@ -58,9 +51,6 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
         ps.stepUpdateQ(s, a, s1, r);
         ps.batchUpdateQ();
         s = std::move(s1);
-
-        // std::cout << ps.getQFunction().bases[0].values << '\n';
-        // std::cout << ps.getQFunction().bases[1].values << '\n';
     }
 
     // Create and setup the bases to use for the ValueFunction.
@@ -81,16 +71,22 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
 
     aif::PartialFactorsEnumerator se(problem.getS());
     aif::PartialFactorsEnumerator ae(problem.getA());
+    double maxDiff = std::numeric_limits<double>::lowest();
+
+    fm::QGreedyPolicy p2(model.getS(), model.getA(), q);
     while (se.isValid()) {
         ae.reset();
         while (ae.isValid()) {
-            std::cout << "State: " << se->second << "; Action: " << ae->second <<
-                         "; Q: " << q.getValue(problem.getS(), problem.getA(), se->second, ae->second) <<
-                         "; PS: " << ps.getQFunction().getValue(problem.getS(), problem.getA(), se->second, ae->second) <<
-                         "; Diff: " << q.getValue(problem.getS(), problem.getA(), se->second, ae->second) -
-                                     ps.getQFunction().getValue(problem.getS(), problem.getA(), se->second, ae->second) << "\n";
+            double currDiff = std::fabs(q.getValue(problem.getS(), problem.getA(), se->second, ae->second) -
+                              ps.getQFunction().getValue(problem.getS(), problem.getA(), se->second, ae->second));
+            if (currDiff > maxDiff)
+                maxDiff = currDiff;
             ae.advance();
         }
         se.advance();
     }
+    // This test is not very informative but not much we can do about it.. this
+    // is mostly to see that the output at least makes somewhat sense.
+    BOOST_TEST_INFO(maxDiff);
+    BOOST_CHECK(maxDiff < 2);
 }
