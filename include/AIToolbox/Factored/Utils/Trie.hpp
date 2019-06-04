@@ -28,7 +28,7 @@ namespace AIToolbox::Factored {
              * This constructor simply copies the input state space and
              * uses it as bound to construct its internal data structures.
              *
-             * @param s The factored state space.
+             * @param F The factored space.
              */
             Trie(Factors F);
 
