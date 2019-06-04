@@ -122,7 +122,18 @@ namespace AIToolbox::Factored::MDP {
         return std::make_tuple(s1, reward);
     }
 
+    std::tuple<State, Rewards> CooperativeRLModel::sampleSRs(const State & s, const Action & a) const {
+        State s1(s.size());
+        Rewards rs(s.size());
+
+        sampleSRs(s, a, &s1, &rs);
+
+        return std::make_tuple(s1, rs);
+    }
+
     double CooperativeRLModel::sampleSR(const State & s, const Action & a, State * s1p) const {
+        assert(s1p);
+
         const auto & tnodes = transitions_.nodes;
         State & s1 = *s1p;
 
@@ -138,6 +149,27 @@ namespace AIToolbox::Factored::MDP {
         }
 
         return getExpectedReward(s, a, s1);
+    }
+
+    void CooperativeRLModel::sampleSRs(const State & s, const Action & a, State * s1p, Rewards * rews) const {
+        assert(s1p);
+        assert(rews);
+
+        const auto & tnodes = transitions_.nodes;
+        State & s1 = *s1p;
+
+        for (size_t i = 0; i < s.size(); ++i) {
+            const auto actionId = toIndexPartial(tnodes[i].actionTag, getA(), a);
+
+            const auto & node = tnodes[i].nodes[actionId];
+            const auto parentId = toIndexPartial(node.tag, getS(), s);
+
+            const size_t newS = sampleProbability(getS()[i], node.matrix.row(parentId), rand_);
+
+            s1[i] = newS;
+        }
+
+        getExpectedRewards(s, a, s1, rews);
     }
 
     double CooperativeRLModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {
@@ -157,6 +189,28 @@ namespace AIToolbox::Factored::MDP {
         }
 
         return retval;
+    }
+
+    Rewards CooperativeRLModel::getExpectedRewards(const State & s, const Action & a, const State & s1) const {
+        Rewards rews(transitions_.nodes.size());
+
+        getExpectedRewards(s, a, s1, &rews);
+
+        return rews;
+    }
+
+    void CooperativeRLModel::getExpectedRewards(const State & s, const Action & a, const State &, Rewards * rewsp) const {
+        assert(rewsp);
+
+        auto & rews = *rewsp;
+        for (size_t i = 0; i < transitions_.nodes.size(); ++i) {
+            const auto actionId = toIndexPartial(transitions_[i].actionTag, getA(), a);
+
+            const auto & node = transitions_[i].nodes[actionId];
+            const auto parentId = toIndexPartial(node.tag, getS(), s);
+
+            rews[i] = rewards_[i][actionId][parentId];
+        }
     }
 
     void CooperativeRLModel::setDiscount(const double d) { discount_ = d; }

@@ -43,7 +43,7 @@ namespace AIToolbox::Factored::Bandit {
             using Result = std::tuple<Action, double>;
 
             // Value of rule, tags of processed actions
-            using Factor = std::pair<double, PartialAction>;
+            using Factor = std::pair<double, std::vector<std::pair<size_t, size_t>>>;
             using GVE = GenericVariableElimination<Factor>;
 
             /**
@@ -62,8 +62,20 @@ namespace AIToolbox::Factored::Bandit {
                 GVE::Graph graph(A.size());
 
                 for (const auto & rule : inputRules) {
-                    auto it = graph.getFactor(rule.action.first);
-                    it->getData().emplace_back(rule.action.second, Factor{rule.value, PartialAction()});
+                    auto & factorNode = graph.getFactor(rule.action.first)->getData();
+                    const auto id = toIndexPartial(A, rule.action);
+
+                    const auto it = std::lower_bound(
+                        std::begin(factorNode),
+                        std::end(factorNode),
+                        id,
+                        [](const auto & rule, size_t rhs) {return rule.first < rhs;}
+                    );
+
+                    if (it != std::end(factorNode) && it->first == id)
+                        it->second.first += rule.value;
+                    else
+                        factorNode.emplace(it, id, Factor{rule.value, {}});
                 }
 
                 return (*this)(A, graph);

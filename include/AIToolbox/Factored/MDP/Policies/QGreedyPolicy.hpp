@@ -3,7 +3,7 @@
 
 #include <AIToolbox/PolicyInterface.hpp>
 #include <AIToolbox/Factored/MDP/Types.hpp>
-#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/FilterMap.hpp>
 
 namespace AIToolbox::Factored::MDP {
     /**
@@ -27,7 +27,7 @@ namespace AIToolbox::Factored::MDP {
              * @param a The number of actions available to the agent.
              * @param q The QFunctionRules this policy is linked with.
              */
-            QGreedyPolicy(State s, Action a, const FactoredContainer<QFunctionRule> & q);
+            QGreedyPolicy(State s, Action a, const FilterMap<QFunctionRule> & q);
 
             /**
              * @brief Basic constructor with QFunction.
@@ -58,7 +58,7 @@ namespace AIToolbox::Factored::MDP {
             virtual double getActionProbability(const State & s, const Action & a) const override;
 
         private:
-            const FactoredContainer<QFunctionRule> * qc_;
+            const FilterMap<QFunctionRule> * qc_;
             const FactoredMatrix2D * qm_;
     };
 }

@@ -7,9 +7,10 @@
 #include <AIToolbox/MDP/Algorithms/TreeBackupL.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
-#include <AIToolbox/MDP/Policies/RandomPolicy.hpp>
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/RandomPolicy.hpp>
+#include <AIToolbox/MDP/Policies/BanditPolicyAdaptor.hpp>
 
 #include <AIToolbox/MDP/Environments/CliffProblem.hpp>
 
@@ -21,7 +22,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     auto model = makeCliffProblem(grid);
 
-    RandomPolicy behaviour(model.getS(), model.getA());
+    BanditPolicyAdaptor<AIToolbox::Bandit::RandomPolicy> behaviour(model.getS(), model.getA());
     TreeBackupL solver(behaviour.getS(), behaviour.getA());
 
     QGreedyPolicy gPolicy(solver.getQFunction());

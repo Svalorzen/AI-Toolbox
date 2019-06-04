@@ -50,7 +50,14 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     constexpr auto trials = 10000;
     double totReward = 0.0;
     for (size_t i = 0; i < trials; ++i) {
-        totReward += problem.sampleSR(s, a, &s1);
+        auto rw = problem.sampleSR(s, a, &s1);
+        auto [xxx, rw2] = problem.sampleSRs(s, a);
+        (void)xxx;
+
+        BOOST_CHECK_EQUAL(rw2.sum(), rw);
+        BOOST_CHECK_EQUAL(rw2.size(), problem.getRewardFunction().bases.size());
+
+        totReward += rw;
 
         // Status checks
         counters[0] += s1[0];

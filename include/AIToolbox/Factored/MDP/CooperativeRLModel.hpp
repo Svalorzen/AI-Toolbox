@@ -82,7 +82,7 @@ namespace AIToolbox::Factored::MDP {
             void sync(const CooperativeExperience::Indeces & indeces);
 
             /**
-             * @brief This function samples the MDP for the specified state action pair.
+             * @brief This function samples the MDP with the specified state action pair.
              *
              * This function samples the model for simulate experience. The transition
              * and reward functions are used to produce, from the state action pair
@@ -102,13 +102,31 @@ namespace AIToolbox::Factored::MDP {
             /**
              * @brief This function samples the MDP with the specified state action pair.
              *
-             * This function is equivalent to sampleSR(const State &, const Action &).
+             * This function samples the model for simulate experience. The transition
+             * and reward functions are used to produce, from the state action pair
+             * inserted as arguments, a possible new state with respective reward.
+             * The new state is picked from all possible states that the MDP allows
+             * transitioning to, each with probability equal to the same probability
+             * of the transition in the model. After a new state is picked, the reward
+             * is the vector of corresponding rewards contained in the reward function.
              *
-             * The only difference is that it allows to output the new State
-             * into a pre-allocated State, avoiding the need for an allocation
+             * @param s The state that needs to be sampled.
+             * @param a The action that needs to be sampled.
+             *
+             * @return A tuple containing a new state and a reward.
+             */
+            std::tuple<State, Rewards> sampleSRs(const State & s, const Action & a) const;
+
+            /**
+             * @brief This function samples the MDP with the specified state action pair.
+             *
+             * this function is equivalent to samplesr(const state &, const action &).
+             *
+             * the only difference is that it allows to output the new state
+             * into a pre-allocated state, avoiding the need for an allocation
              * at every sample.
              *
-             * NO CHECKS for nullptr are done.
+             * no checks for nullptr are done.
              *
              * @param s The state that needs to be sampled.
              * @param a The action that needs to be sampled.
@@ -117,6 +135,24 @@ namespace AIToolbox::Factored::MDP {
              * @return The reward for the sampled transition.
              */
             double sampleSR(const State & s, const Action & a, State * s1) const;
+
+            /**
+             * @brief This function samples the MDP with the specified state action pair.
+             *
+             * This function is equivalent to sampleSRs(const State &, const Action &).
+             *
+             * The only difference is that it allows to output the new State
+             * and Rewards into a pre-allocated State and Rewards, avoiding the
+             * need for an allocation at every sample.
+             *
+             * NO CHECKS for nullptr are done.
+             *
+             * @param s The state that needs to be sampled.
+             * @param a The action that needs to be sampled.
+             * @param s1 The new state.
+             * @param rews The new rewards.
+             */
+            void sampleSRs(const State & s, const Action & a, State * s1, Rewards * rews) const;
 
             /**
              * @brief This function returns the stored transition probability for the specified transition.
@@ -139,6 +175,42 @@ namespace AIToolbox::Factored::MDP {
              * @return The expected reward of the specified transition.
              */
             double getExpectedReward(const State & s, const Action & a, const State & s1) const;
+
+            /**
+             * @brief This function returns the stored expected rewards for the specified transition.
+             *
+             * This function returns a vector of the size of the state-space.
+             * The sum of the vector is the same as the value returned by the
+             * getExpectedReward(const State &, const Action &, const State &)
+             * function.
+             *
+             * @param s The initial state of the transition.
+             * @param a The action performed in the transition.
+             * @param s1 The final state of the transition.
+             *
+             * @return The expected reward of the specified transition.
+             */
+            Rewards getExpectedRewards(const State & s, const Action & a, const State & s1) const;
+
+            /**
+             * @brief This function returns the stored expected rewards for the specified transition.
+             *
+             * This function is equivalent to getExpectedReward(const State &,
+             * const Action &, const State &).
+             *
+             * The only difference is that it allows to output the new Rewards
+             * into a pre-allocated Rewards, avoiding the need for an
+             * allocation at every sample.
+             *
+             * NO CHECKS for nullptr are done.
+             *
+             * @param s The initial state of the transition.
+             * @param a The action performed in the transition.
+             * @param s1 The final state of the transition.
+             *
+             * @return The expected reward of the specified transition.
+             */
+            void getExpectedRewards(const State & s, const Action & a, const State & s1, Rewards * rews) const;
 
             /**
              * @brief This function returns the number of states of the world.

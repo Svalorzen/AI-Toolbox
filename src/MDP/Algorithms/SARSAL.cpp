@@ -97,5 +97,9 @@ namespace AIToolbox::MDP {
     size_t SARSAL::getA() const { return A; }
 
     const QFunction & SARSAL::getQFunction() const { return q_; }
-    void SARSAL::setQFunction(const QFunction & qfun) { q_ = qfun; }
+    void SARSAL::setQFunction(const QFunction & qfun) { 
+        assert(q_.rows() == qfun.rows());
+        assert(q_.cols() == qfun.cols());
+        q_ = qfun; 
+    }
 }

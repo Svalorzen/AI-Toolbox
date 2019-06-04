@@ -88,6 +88,70 @@ namespace AIToolbox::Factored::MDP {
      * @return A graphical representation to print on screen.
      */
     std::string printSysAdminRing(const State & s);
+
+    /**
+     * @brief This function creates a grid where each machine is connected with its 4 neighbors.
+     *
+     * Grids are notoriously hard to solve as the induced width of the
+     * VariableElimination graph is min(width, height), which usually results
+     * in extremely high computational costs.
+     *
+     * @param width The number of agents for the width of the grid.
+     * @param height The number of agents for the height of the grid.
+     * @param pFailBase The base probability of a machine to fail.
+     * @param pFailBonus The total additional probability to fail/die when all neighbors are faulty (counted per-neighbor).
+     * @param pDeadBase The base probability of a faulty machine to die.
+     * @param pDeadBonus The total additional probability to fail/die when all neighbors are dead (counted per-neighbor).
+     * @param pLoad The probability of getting a job when idle.
+     * @param pDoneG The probability of completing a job when good.
+     * @param pDoneF The probability of completing a job when faulty.
+     *
+     * @return The CooperativeModel representing the problem.
+     */
+    CooperativeModel makeSysAdminGrid(unsigned width, unsigned height,
+        // Status transition params.
+        double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus,
+        // Load transition params.
+        double pLoad, double pDoneG, double pDoneF);
+
+    /**
+     * @brief This function creates a toroidal grid where each machine is connected with its 4 neighbors.
+     *
+     * Toruses are notoriously hard to solve as the induced width of the
+     * VariableElimination graph is 2*min(width, height), which usually results
+     * in extremely high computational costs.
+     *
+     * @param width The number of agents for the width of the torus.
+     * @param height The number of agents for the height of the torus.
+     * @param pFailBase The base probability of a machine to fail.
+     * @param pFailBonus The total additional probability to fail/die when all neighbors are faulty (counted per-neighbor).
+     * @param pDeadBase The base probability of a faulty machine to die.
+     * @param pDeadBonus The total additional probability to fail/die when all neighbors are dead (counted per-neighbor).
+     * @param pLoad The probability of getting a job when idle.
+     * @param pDoneG The probability of completing a job when good.
+     * @param pDoneF The probability of completing a job when faulty.
+     *
+     * @return The CooperativeModel representing the problem.
+     */
+    CooperativeModel makeSysAdminTorus(unsigned width, unsigned height,
+        // Status transition params.
+        double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus,
+        // Load transition params.
+        double pLoad, double pDoneG, double pDoneF);
+
+    /**
+     * @brief This function creates a graphical representation of a SysAdmin grid problem.
+     *
+     * Each agent is represented with 2 characters: the first represents the
+     * Status ('g'ood, 'f'aulty, 'd'ead), and the second represents the Load
+     * ('i'dle, 'l'oaded, 'd'one).
+     *
+     * @param s The State to represent.
+     * @param width The number of agents for the width of the grid.
+     *
+     * @return A graphical representation to print on screen.
+     */
+    std::string printSysAdminGrid(const State & s, unsigned width);
 }
 
 #endif

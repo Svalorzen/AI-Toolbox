@@ -27,7 +27,7 @@ namespace AIToolbox::Factored::Bandit {
             void endFactorCrossSum();
             void endCrossSum();
             bool isValidNewFactor();
-            MOVE::GVE::Rules mergeRules(MOVE::GVE::Rules && lhs, MOVE::GVE::Rules && rhs);
+            void mergeFactors(MOVE::Factor & lhs, MOVE::Factor && rhs) const;
             void makeResult(MOVE::GVE::FinalFactors && finalFactors);
         };
     }
@@ -158,47 +158,8 @@ namespace AIToolbox::Factored::Bandit {
         return newFactor.size() > 0;
     }
 
-    MOVE::GVE::Rules Global::mergeRules(MOVE::GVE::Rules && lhs, MOVE::GVE::Rules && rhs) {
-        // Unfortunately here we cannot simply dump the new results in
-        // the old factor as we do in the normal VariableElimination.
-        // This is because in VariableElimination all elements are
-        // summed together, which means that it doesn't matter whether
-        // they are grouped or not. Here elements are CROSS-summed,
-        // which means we cannot simply dump stuff lest losing a
-        // cross-summing step.
-        MOVE::GVE::Rules retval;
-        // We're going to have at least these rules.
-        retval.reserve(lhs.size() + rhs.size());
-
-        auto ruleComp = [](const auto & lhs, const auto & rhs) {
-            return veccmp(lhs.first, rhs.first) < 0;
-        };
-
-        std::sort(std::begin(lhs), std::end(lhs), ruleComp);
-        std::sort(std::begin(rhs), std::end(rhs), ruleComp);
-
-        // Here we merge two lists of Rules. What we want is that if any of
-        // them match, we need to crossSum them. Otherwise, just bring them
-        // over to the result list unchanged.
-        size_t i = 0, j = 0;
-        while (i < lhs.size() && j < rhs.size()) {
-            auto first = veccmp(lhs[i].first, rhs[j].first);
-            if (first < 0)
-                retval.emplace_back(std::move(lhs[i++]));
-            else if (first > 0)
-                retval.emplace_back(std::move(rhs[j++]));
-            else {
-                retval.emplace_back(lhs[i].first, crossSumF(lhs[i].second, rhs[j].second));
-                ++i; ++j;
-            }
-        }
-        // Copy remaining ones.
-        for (; i < lhs.size(); ++i)
-            retval.emplace_back(std::move(lhs[i]));
-        for (; j < rhs.size(); ++j)
-            retval.emplace_back(std::move(rhs[j]));
-
-        return retval;
+    void Global::mergeFactors(MOVE::Factor & lhs, MOVE::Factor && rhs) const {
+        lhs = crossSumF(lhs, rhs);
     }
 
     void Global::makeResult(MOVE::GVE::FinalFactors && finalFactors) {

@@ -162,6 +162,19 @@ namespace AIToolbox::MDP {
              */
             const QFunction & getQFunction() const;
 
+            /**
+             * @brief This function allows to directly set the internal QFunction.
+             *
+             * This can be useful in order to use a QFunction that has already
+             * been computed elsewhere. SARSAL will then continue building upon
+             * it.
+             *
+             * This is used for example in the Dyna2 algorithm.
+             *
+             * @param qfun The new QFunction to set.
+             */
+            void setQFunction(const QFunction & qfun);
+
         private:
             size_t S, A;
             double alpha_;

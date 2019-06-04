@@ -30,7 +30,7 @@ namespace AIToolbox::Factored::Bandit {
         // actions we need to update. We keep in sync the rules_ container
         // with the averages_ vector, so that we can use the Trie's ids for
         // both.
-        const auto filtered = rules_.getTrie().filter(a, 0);
+        const auto filtered = rules_.getTrie().filter(a);
         size_t i = 0;
         // We update the averages/counts based on the obtained rewards.
         for (const auto id : filtered)
@@ -44,7 +44,7 @@ namespace AIToolbox::Factored::Bandit {
         for (size_t i = 0; i < rules_.size(); ++i) {
             // We give rules we haven't seen yet a headstart so they'll get picked first
             if (averages_[i].count == 0)
-                rules_[i].value = 1000000.0;
+                rules_[i].value = std::numeric_limits<double>::max();
             else
                 rules_[i].value = averages_[i].value + std::sqrt(LtLog / averages_[i].count);
         }
@@ -53,7 +53,9 @@ namespace AIToolbox::Factored::Bandit {
         return std::get<0>(ve(A, rules_));
     }
 
-    FactoredContainer<QFunctionRule> LLR::getQFunctionRules() const {
+    // FIXME: Wouldn't it make more sense to keep the averages in the rules?
+    // then we can return a const ref.
+    FilterMap<QFunctionRule> LLR::getQFunctionRules() const {
         auto rulesCopy = rules_;
         for (size_t i = 0; i < rulesCopy.size(); ++i)
             rulesCopy[i].value = averages_[i].value;

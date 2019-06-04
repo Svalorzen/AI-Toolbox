@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_MDP_GRIDWORLD
 
 #include <cstddef>
+#include <array>
 
 namespace AIToolbox::MDP {
     /**
@@ -12,6 +13,7 @@ namespace AIToolbox::MDP {
          * @brief The possible actions in a GridWorld-like environment.
          */
         enum Direction : size_t { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 };
+        static constexpr std::array<Direction, 4> Directions{{UP, RIGHT, DOWN, LEFT}};
     }
 
     /**
@@ -22,6 +24,8 @@ namespace AIToolbox::MDP {
             using Direction = GridWorldEnums::Direction;
             struct State {
                 operator size_t();
+                bool operator==(const State & other) const;
+
                 private:
                     State(int xx, int yy, size_t ss);
                     int x, y;
@@ -34,8 +38,9 @@ namespace AIToolbox::MDP {
              *
              * @param width The number of columns in the world.
              * @param height The number of rows in the world.
+             * @param torus Whether to join the edges of the grid as in a torus.
              */
-            GridWorld(unsigned width, unsigned height);
+            GridWorld(unsigned width, unsigned height, bool torus = false);
 
             /**
              * @brief This function returns the state next to the input in the chosen Direction.
@@ -49,6 +54,23 @@ namespace AIToolbox::MDP {
              * @return The State next to the input.
              */
             State getAdjacent(Direction d, State s) const;
+
+            /**
+             * @brief This function uses size_t to pass the direction.
+             *
+             * @param d The Direction to look for.
+             * @param s The initial State.
+             *
+             * @return The State next to the input.
+             */
+            State getAdjacent(size_t d, State s) const;
+
+            /**
+             * @brief This function returns the Manhattan distance between the two states.
+             *
+             * @return The distance between the input states.
+             */
+            unsigned distance(const State & s1, const State & s2) const;
 
             /**
              * @brief This function returns the State at the selected position.
@@ -77,11 +99,17 @@ namespace AIToolbox::MDP {
              */
             unsigned getHeight() const;
 
+            /**
+             * @brief This function returns the number of cells in the grid.
+             */
+            size_t getS() const;
+
         private:
             int boundX(int x) const;
             int boundY(int y) const;
 
             unsigned width_, height_;
+            bool isTorus_;
     };
 }
 

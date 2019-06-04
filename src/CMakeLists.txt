@@ -11,6 +11,7 @@ if (MAKE_MDP)
         Tools/Statistics.cpp
         Bandit/Algorithms/RollingAverage.cpp
         Bandit/Policies/EpsilonPolicy.cpp
+        Bandit/Policies/RandomPolicy.cpp
         Bandit/Policies/QGreedyPolicy.cpp
         Bandit/Policies/QSoftmaxPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
@@ -32,7 +33,6 @@ if (MAKE_MDP)
         MDP/Algorithms/Utils/OffPolicyTemplate.cpp
         MDP/Policies/PolicyWrapper.cpp
         MDP/Policies/Policy.cpp
-        MDP/Policies/RandomPolicy.cpp
         MDP/Policies/EpsilonPolicy.cpp
         MDP/Policies/QPolicyInterface.cpp
         MDP/Policies/QGreedyPolicy.cpp
@@ -67,7 +67,8 @@ endif()
 
 if (MAKE_FMDP)
     add_library(AIToolboxFMDP
-        Factored/Utils/FactoredContainer.cpp
+        Factored/Utils/Trie.cpp
+        Factored/Utils/FasterTrie.cpp
         Factored/Utils/Core.cpp
         Factored/Utils/FactoredMatrix.cpp
         Factored/Utils/FactoredVectorOps.cpp
@@ -78,6 +79,8 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/UCVE.cpp
         Factored/Bandit/Algorithms/LLR.cpp
         Factored/Bandit/Algorithms/MAUCE.cpp
+        Factored/Bandit/Policies/SingleActionPolicy.cpp
+        Factored/Bandit/Policies/RandomPolicy.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
         Factored/MDP/Utils.cpp
         Factored/MDP/Model.cpp
@@ -85,13 +88,14 @@ if (MAKE_FMDP)
         Factored/MDP/CooperativeRLModel.cpp
         Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
-        Factored/MDP/Policies/SingleActionPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
         Factored/MDP/Algorithms/Utils/FactoredLP.cpp
         Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp
         Factored/MDP/Algorithms/JointActionLearner.cpp
         Factored/MDP/Algorithms/LinearProgramming.cpp
-        Factored/MDP/Environments/SysAdmin.cpp
+        Factored/MDP/Environments/SysAdminRing.cpp
+        Factored/MDP/Environments/SysAdminGrid.cpp
+        Factored/MDP/Environments/TigerAntelope.cpp
     )
     set_target_properties(AIToolboxFMDP PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
     target_link_libraries(AIToolboxFMDP AIToolboxMDP ${LPSOLVE_LIBRARIES})
@@ -116,6 +120,7 @@ if (MAKE_PYTHON)
             Python/Bandit/Algorithms/RollingAverage.cpp
             Python/Bandit/Policies/PolicyInterface.cpp
             Python/Bandit/Policies/EpsilonPolicy.cpp
+            Python/Bandit/Policies/RandomPolicy.cpp
             Python/Bandit/Policies/QGreedyPolicy.cpp
             Python/Bandit/Policies/QSoftmaxPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
@@ -145,7 +150,6 @@ if (MAKE_PYTHON)
             Python/MDP/Policies/PolicyInterface.cpp
             Python/MDP/Policies/QPolicyInterface.cpp
             Python/MDP/Policies/Policy.cpp
-            Python/MDP/Policies/RandomPolicy.cpp
             Python/MDP/Policies/QGreedyPolicy.cpp
             Python/MDP/Policies/QSoftmaxPolicy.cpp
             Python/MDP/Policies/EpsilonPolicy.cpp

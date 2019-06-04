@@ -52,7 +52,7 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @param rules An iterable object over MOQFunctionRules.
              *
-             * @return The pair of best Action and its value over the input rules.
+             * @return All pairs of PartialAction, Rewards found during the elimination process.
              */
             template <typename Iterable>
             Results operator()(const Action & A, const Iterable & inputRules) {
@@ -60,7 +60,19 @@ namespace AIToolbox::Factored::Bandit {
 
                 for (const auto & rule : inputRules) {
                     auto & factorNode = graph.getFactor(rule.action.first)->getData();
-                    factorNode.emplace_back(rule.action.second, Factor{std::make_tuple(PartialAction(), rule.values)});
+                    const auto id = toIndexPartial(A, rule.action);
+
+                    const auto it = std::lower_bound(
+                        std::begin(factorNode),
+                        std::end(factorNode),
+                        id,
+                        [](const auto & rule, size_t rhs) {return rule.first < rhs;}
+                    );
+
+                    if (it != std::end(factorNode) && it->first == id)
+                        std::get<1>(it->second[0]) += rule.values;
+                    else
+                        factorNode.emplace(it, id, Factor{std::make_tuple(PartialAction(), rule.values)});
                 }
 
                 return (*this)(A, graph);

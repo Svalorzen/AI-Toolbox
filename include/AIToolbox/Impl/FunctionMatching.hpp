@@ -137,13 +137,13 @@ namespace AIToolbox::Impl {
      * @param IdPack The type containing the indeces of the arguments to pass to the function.
      */
     template <typename F, typename... Args, size_t... IDs>
-    void caller(F f, const std::tuple<Args...> & args, IdPack<IDs...>) {
-        f(std::get<IDs>(args)...);
+    void caller(F f, std::tuple<Args...> && args, IdPack<IDs...>) {
+        f(std::forward<std::tuple_element_t<IDs, std::tuple<Args...>>>(std::get<IDs>(args))...);
     }
 
     template <typename C, typename F, typename... Args, size_t... IDs>
-    void caller(C & c, F f, const std::tuple<Args...> & args, IdPack<IDs...>) {
-        (c.*f)(std::get<IDs>(args)...);
+    void caller(C & c, F f, std::tuple<Args...> && args, IdPack<IDs...>) {
+        (c.*f)(std::forward<std::tuple_element_t<IDs, std::tuple<Args...>>>(std::get<IDs>(args))...);
     }
 
     /**
@@ -162,7 +162,7 @@ namespace AIToolbox::Impl {
         using FArgs = typename GetFunctionArguments<F>::args;
         using IdList = typename Matcher<0, FArgs, std::tuple<Args...>>::type;
 
-        caller(f, std::make_tuple(args...), IdList());
+        caller(f, std::forward_as_tuple(args...), IdList());
     }
 
     /**
@@ -183,7 +183,7 @@ namespace AIToolbox::Impl {
         using IdList = typename Matcher<0, FArgs, std::tuple<Args...>>::type;
         static_assert(Matcher<0, FArgs, std::tuple<Args...>>::match);
 
-        caller(c, f, std::make_tuple(args...), IdList());
+        caller(c, f, std::forward_as_tuple(args...), IdList());
     }
 
     /** @}  */

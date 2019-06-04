@@ -5,7 +5,6 @@
 #include <AIToolbox/Factored/Utils/BayesianNetwork.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 #include <AIToolbox/Factored/MDP/CooperativeModel.hpp>
-#include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
 namespace AIToolbox::Factored::MDP {
     /**

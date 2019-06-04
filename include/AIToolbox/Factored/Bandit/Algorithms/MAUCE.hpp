@@ -2,7 +2,7 @@
 #define AI_TOOLBOX_FACTORED_BANDIT_MAUCE_HEADER_FILE
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
-#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/FilterMap.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/UCVE.hpp>
 
 namespace AIToolbox::Factored::Bandit {
@@ -92,7 +92,7 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return The learned optimal QFunctionRules.
              */
-            FactoredContainer<QFunctionRule> getQFunctionRules() const;
+            FilterMap<QFunctionRule> getQFunctionRules() const;
 
         private:
             struct Average {
@@ -106,7 +106,7 @@ namespace AIToolbox::Factored::Bandit {
             /// The current timestep, used to compute logtA
             unsigned timestep_;
             /// The graph containing the averages and ranges for the agents.
-            FactoredContainer<Average> averages_;
+            FilterMap<Average> averages_;
             /// The rules to pass to UCVE at each timestep.
             std::vector<UCVE::Entry> rules_;
             /// Precomputed logA since it won't change.

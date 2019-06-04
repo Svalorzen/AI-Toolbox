@@ -31,7 +31,6 @@ void exportMDPQGreedyPolicy();
 void exportMDPQSoftmaxPolicy();
 void exportMDPEpsilonPolicy();
 void exportMDPWoLFPolicy();
-void exportMDPRandomPolicy();
 void exportMDPPolicy();
 
 void exportMDP() {
@@ -74,7 +73,6 @@ void exportMDP() {
     exportMDPQSoftmaxPolicy();
     exportMDPEpsilonPolicy();
     exportMDPWoLFPolicy();
-    exportMDPRandomPolicy();
     exportMDPPolicy();
 #endif
 }

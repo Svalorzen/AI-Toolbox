@@ -24,35 +24,39 @@ namespace AIToolbox::Factored::MDP {
     Action SparseCooperativeQLearning::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & rew) {
         Bandit::VariableElimination ve;
 
-        const auto rules = rules_.filter(s1, 0); // Partial filter using only s1
+        const auto rules = rules_.filter(s1);
         const auto a1 = std::get<0>(ve(A, rules));
 
         auto beforeRules = rules_.filter(join(s, a));
         const auto afterRules = rules_.filter(join(s1, a1));
 
-        const auto computeQ = [](const size_t agent, const decltype(rules_)::Iterable & rules) {
-            double sum = 0.0;
-            for (const auto & rule : rules)
-                sum += sequential_sorted_contains(rule.action.first, agent) ? rule.value / rule.action.first.size() : 0.0;
-            return sum;
-        };
-        // First we compute all updates since we don't want to risk
-        // overwriting the rules before we are done.
-        std::vector<double> updates;
-        updates.reserve(beforeRules.size());
-        for (const auto & br : beforeRules) {
-            double sum = 0;
-            for (const auto agent : br.action.first) {
-                sum += rew[agent];
-                sum += discount_ * computeQ(agent, afterRules);
-                sum -= computeQ(agent, beforeRules);
-            }
-            updates.push_back(alpha_ * sum);
+        std::vector<double> perAgentRews(A.size());
+        // First, count how many before rules contain each agent.
+        for (const auto & br : beforeRules)
+            for (auto a : br.action.first)
+                ++perAgentRews[a];
+        // Then, weight the per-agent reward between the rules.
+        for (size_t a = 0; a < A.size(); ++a)
+            perAgentRews[a] = rew[a] / perAgentRews[a];
+        // Now, for each after rule, add its weighted discounted value.
+        for (const auto & ar : afterRules) {
+            const double val = discount_ * ar.value / ar.action.first.size();
+            for (auto a : ar.action.first)
+                perAgentRews[a] += val;
         }
-        // Finally update the rules.
-        size_t i = 0;
-        for (auto & br : beforeRules)
-            br.value += updates[i++];
+        // Finally, remove the weighted value of the original rules.
+        for (const auto & br : beforeRules) {
+            const double val = -br.value / br.action.first.size();
+            for (auto a : br.action.first)
+                perAgentRews[a] += val;
+        }
+        // Update each rule weighted by the learning rate.
+        for (auto & br : beforeRules) {
+            double update = 0;
+            for (auto a : br.action.first)
+                update += perAgentRews[a];
+            br.value += alpha_ * update;
+        }
 
         return a1;
     }
@@ -72,5 +76,5 @@ namespace AIToolbox::Factored::MDP {
     const State &  SparseCooperativeQLearning::getS() const { return S; }
     const Action & SparseCooperativeQLearning::getA() const { return A; }
     double SparseCooperativeQLearning::getDiscount() const { return discount_; }
-    const FactoredContainer<QFunctionRule> & SparseCooperativeQLearning::getQFunctionRules() const { return rules_; }
+    const FilterMap<QFunctionRule> & SparseCooperativeQLearning::getQFunctionRules() const { return rules_; }
 }

@@ -297,6 +297,37 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip ) {
     }
 }
 
+BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_missing ) {
+    aif::Factors f{1,2,3,4,5};
+    aif::PartialFactorsEnumerator enumerator(f, {1, 4}, 3, true);
+    auto agentToSkip = enumerator.getFactorToSkipId();
+
+    std::vector<aif::PartialAction> solution{
+        {{1, 3, 4}, {0, 0, 0}},
+        {{1, 3, 4}, {1, 1, 0}},
+        {{1, 3, 4}, {0, 2, 1}},
+        {{1, 3, 4}, {1, 3, 1}},
+        {{1, 3, 4}, {0, 4, 2}},
+        {{1, 3, 4}, {1, 5, 2}},
+        {{1, 3, 4}, {0, 6, 3}},
+        {{1, 3, 4}, {1, 7, 3}},
+        {{1, 3, 4}, {0, 8, 4}},
+        {{1, 3, 4}, {1, 9, 4}},
+    };
+
+    for (size_t counter = 0; enumerator.isValid(); enumerator.advance(), ++counter) {
+        auto val = *enumerator;
+        const auto & sol = solution[counter];
+        // Modify value
+        val.second[agentToSkip] = counter;
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.first), std::end(val.first),
+                                      std::begin(sol.first), std::end(sol.first));
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(val.second), std::end(val.second),
+                                      std::begin(sol.second), std::end(sol.second));
+    }
+}
+
 BOOST_AUTO_TEST_CASE( partial_factor_enumerator_skip_only_factor ) {
     aif::Factors f{1,2,3,4,5};
     aif::PartialFactorsEnumerator enumerator(f, {0}, 0);

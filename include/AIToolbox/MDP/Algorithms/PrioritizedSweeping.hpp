@@ -158,7 +158,7 @@ namespace AIToolbox::MDP {
 
             struct PriorityQueueElement {
                 double priority;
-                size_t state;
+                std::pair<size_t, size_t> stateAction;
                 bool operator<(const PriorityQueueElement& arg2) const {
                     return priority < arg2.priority;
                 }
@@ -168,7 +168,7 @@ namespace AIToolbox::MDP {
 
             QueueType queue_;
 
-            std::unordered_map<size_t, typename QueueType::handle_type> queueHandles_;
+            std::unordered_map<std::pair<size_t, size_t>, typename QueueType::handle_type, boost::hash<std::pair<size_t, size_t>>> queueHandles_;
     };
 
     template <typename M>
@@ -201,15 +201,23 @@ namespace AIToolbox::MDP {
 
         p = std::fabs(values[s] - p);
 
-        // If it changed enough, we're going to update its parents.
-        if ( p > theta_ ) {
-            auto it = queueHandles_.find(s);
+        for ( size_t ss = 0; ss < S; ++ss ) {
+            for ( size_t a = 0; a < A; ++a ) {
+                const double delta = p * model_.getTransitionProbability(ss,a,s);
+                // If it changed enough, we're going to update its parents.
+                if ( delta > theta_ ) {
+                    const auto pair = std::make_pair(ss, a);
+                    auto it = queueHandles_.find(pair);
 
-            if (it != std::end(queueHandles_)) {
-                if ((*it->second).priority < p)
-                    queue_.increase(it->second, {p, s});
-            } else {
-                queueHandles_[s] = queue_.emplace(PriorityQueueElement{p, s});
+                    if (it != std::end(queueHandles_)) {
+                        if ((*it->second).priority < delta) {
+                            (*it->second).priority = delta;
+                            queue_.increase(it->second);
+                        }
+                    } else {
+                        queueHandles_[pair] = queue_.emplace(PriorityQueueElement{delta, pair});
+                    }
+                }
             }
         }
     }
@@ -221,16 +229,13 @@ namespace AIToolbox::MDP {
 
             // The state we extract has been processed already
             // So it is the future we have to backtrack from.
-            auto [p, s1] = queue_.top();
+            auto [p, pair] = queue_.top();
             (void)p;
 
             queue_.pop();
-            queueHandles_.erase(s1);
+            queueHandles_.erase(pair);
 
-            for ( size_t s = 0; s < S; ++s )
-                for ( size_t a = 0; a < A; ++a )
-                    if ( checkDifferentSmall(model_.getTransitionProbability(s,a,s1), 0.0) )
-                        stepUpdateQ(s, a);
+            stepUpdateQ(pair.first, pair.second);
         }
     }
 

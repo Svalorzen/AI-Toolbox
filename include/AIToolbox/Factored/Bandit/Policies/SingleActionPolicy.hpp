@@ -1,10 +1,9 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_SINGLE_ACTION_POLICY_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_SINGLE_ACTION_POLICY_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_SINGLE_ACTION_POLICY_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_SINGLE_ACTION_POLICY_HEADER_FILE
 
-#include <AIToolbox/PolicyInterface.hpp>
-#include <AIToolbox/Factored/MDP/Types.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
 
-namespace AIToolbox::Factored::MDP {
+namespace AIToolbox::Factored::Bandit {
     /**
      * @brief This class represents a policy always picking the same action.
      *
@@ -16,36 +15,30 @@ namespace AIToolbox::Factored::MDP {
      * This class is a simple wrapper that always return the last action
      * that has been set.
      */
-    class SingleActionPolicy : public PolicyInterface<State, State, Action> {
+    class SingleActionPolicy : public PolicyInterface {
         public:
-            using Base = PolicyInterface<State, State, Action>;
-
             /**
              * @brief Basic constructor.
              *
-             * @param s The number of states of the world.
              * @param a The number of actions available to the agent.
              */
-            SingleActionPolicy(State s, Action a);
+            SingleActionPolicy(Action a);
 
             /**
              * @brief This function always return the current action.
              *
-             * @param s The unused sampled state of the policy.
-             *
              * @return The currently saved action.
              */
-            virtual Action sampleAction(const State & s) const;
+            virtual Action sampleAction() const override;
 
             /**
              * @brief This function returns the probability of taking the specified action in the specified state.
              *
-             * @param s The selected state.
              * @param a The selected action.
              *
              * @return One if the action matches the currently saved one, zero otherwise.
              */
-            virtual double getActionProbability(const State & s, const Action & a) const;
+            virtual double getActionProbability(const Action & a) const override;
 
             /**
              * @brief This function updates the currently hold action.

@@ -3,7 +3,7 @@
 
 #include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
 #include <AIToolbox/Factored/Bandit/Types.hpp>
-#include <AIToolbox/Factored/Utils/FactoredContainer.hpp>
+#include <AIToolbox/Factored/Utils/FilterMap.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -23,12 +23,10 @@ namespace AIToolbox::Factored::Bandit {
              * @param a The number of actions available to the agent.
              * @param q The QFunction this policy is linked with.
              */
-            QGreedyPolicy(Action a, const FactoredContainer<QFunctionRule> & q);
+            QGreedyPolicy(Action a, const FilterMap<QFunctionRule> & q);
 
             /**
              * @brief This function chooses the greediest action for state s.
-             *
-             * @param s The sampled state of the policy.
              *
              * @return The chosen action.
              */
@@ -44,7 +42,7 @@ namespace AIToolbox::Factored::Bandit {
             virtual double getActionProbability(const Action & a) const override;
 
         private:
-            const FactoredContainer<QFunctionRule> & q_;
+            const FilterMap<QFunctionRule> & q_;
     };
 }
 

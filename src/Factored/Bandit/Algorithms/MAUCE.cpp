@@ -18,6 +18,8 @@ namespace AIToolbox::Factored::Bandit {
         // This allows us to allocate the rules_ only once, and to just
         // update their values at each timestep.
         for (const auto & dependency : rangesAndDependencies) {
+            // FIXME: This can probably be improved, as we don't need pAction
+            // anymore.
             PartialFactorsEnumerator enumerator(A, dependency.second);
             while (enumerator.isValid()) {
                 const auto & pAction = *enumerator;
@@ -67,13 +69,13 @@ namespace AIToolbox::Factored::Bandit {
         return toFactors(A.size(), std::get<0>(a_v));
     }
 
-    FactoredContainer<QFunctionRule> MAUCE::getQFunctionRules() const {
-        FactoredContainer<QFunctionRule>::ItemsContainer container;
+    FilterMap<QFunctionRule> MAUCE::getQFunctionRules() const {
+        FilterMap<QFunctionRule>::ItemsContainer container;
 
         for (size_t i = 0; i < averages_.size(); ++i)
             container.emplace_back(std::get<0>(rules_[i]), averages_[i].value);
 
-        return FactoredContainer<QFunctionRule>(averages_.getTrie(), std::move(container));
+        return FilterMap<QFunctionRule>(averages_.getTrie(), std::move(container));
     }
 
     unsigned MAUCE::getTimestep() const { return timestep_; }

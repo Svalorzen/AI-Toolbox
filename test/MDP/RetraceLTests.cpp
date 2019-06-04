@@ -7,7 +7,8 @@
 #include <AIToolbox/MDP/Algorithms/RetraceL.hpp>
 #include <AIToolbox/MDP/Utils.hpp>
 
-#include <AIToolbox/MDP/Policies/RandomPolicy.hpp>
+#include <AIToolbox/Bandit/Policies/RandomPolicy.hpp>
+#include <AIToolbox/MDP/Policies/BanditPolicyAdaptor.hpp>
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
 
@@ -21,7 +22,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
 
     auto model = makeCliffProblem(grid);
 
-    RandomPolicy behaviour(model.getS(), model.getA());
+    BanditPolicyAdaptor<AIToolbox::Bandit::RandomPolicy> behaviour(model.getS(), model.getA());
     RetraceL solver(behaviour);
 
     QGreedyPolicy gPolicy(solver.getQFunction());
@@ -34,7 +35,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
         solver.setEpsilon(0.1 - (0.1 / episodes) * episode);
         s = start;
         for ( int i = 0; i < 10000; ++i ) {
-            a = behaviour.sampleAction( s );
+            a = behaviour.sampleAction(s);
             const auto [s1, rew] = model.sampleSR( s, a );
 
             solver.stepUpdateQ( s, a, s1, rew );

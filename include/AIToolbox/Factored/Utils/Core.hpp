@@ -323,6 +323,28 @@ namespace AIToolbox::Factored {
     Factors toFactorsPartial(const PartialKeys & ids, const Factors & space, size_t id);
 
     /**
+     * @brief This function converts an index into the equivalent Factors of the input keys, within the specified factor space.
+     *
+     * \sa Factors toFactorsPartial(const PartialKeys & ids, const Factors & space, size_t id);
+     *
+     * This functioh outputs to a range beginning at `begin`, of the same size
+     * as the input `ids`.
+     *
+     * @param begin The beginning of the range where to write the output.
+     * @param ids The indeces to consider.
+     * @param space The global factors space to consider.
+     * @param id The integer uniquely identifying the factor.
+     */
+    template <typename It>
+    void toFactorsPartial(It begin, const PartialKeys & ids, const Factors & space, size_t id) {
+        for (auto key : ids) {
+            *begin = id % space[key];
+            id /= space[key];
+            ++begin;
+        }
+    }
+
+    /**
      * @brief This function converts the input factor in the input space to an unique index.
      *
      * This function returns an unique integer in range [0, factorSpace(space)).
@@ -482,14 +504,15 @@ namespace AIToolbox::Factored {
              * additionally remembers that the input factorToSkip will not
              * be enumerated, and will in fact be editable by the client.
              *
-             * The factorToSkip must be contained in the factors, or it
+             * The factorToSkip must be within the Factors space, or it
              * will not be taken into consideration.
              *
              * @param f The factor space for the internal PartialFactors.
              * @param factors The factors to take into considerations.
              * @param factorToSkip The factor to skip.
+             * @param missing Whether factorToSkip is already present in the input PartialKeys or it must be added.
              */
-            PartialFactorsEnumerator(Factors f, PartialKeys factors, size_t factorToSkip);
+            PartialFactorsEnumerator(Factors f, const PartialKeys & factors, size_t factorToSkip, bool missing = false);
 
             /**
              * @brief Skip constructor.
@@ -500,7 +523,7 @@ namespace AIToolbox::Factored {
              *
              * This constructor can be used to enumerate over all factors.
              *
-             * The factorToSkip must be contained in the factors, or it
+             * The factorToSkip must be within the Factors space, or it
              * will not be taken into consideration.
              *
              * @param f The factor space for the internal PartialFactors.

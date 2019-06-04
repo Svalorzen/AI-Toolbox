@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstdlib>
 
 namespace AIToolbox::MDP {
     GridWorld::State::State(int xx, int yy, size_t ss) :
@@ -9,11 +10,15 @@ namespace AIToolbox::MDP {
 
     GridWorld::State::operator size_t() { return s; }
 
-    GridWorld::GridWorld(unsigned w, unsigned h) :
-            width_(w), height_(h)
+    bool GridWorld::State::operator==(const State & other) const {
+        return s == other.s;
+    }
+
+    GridWorld::GridWorld(unsigned w, unsigned h, bool torus) :
+            width_(w), height_(h), isTorus_(torus)
     {
-        assert(x > 0);
-        assert(y > 0);
+        assert(width_ > 0);
+        assert(height_ > 0);
     }
 
     GridWorld::State GridWorld::getAdjacent(Direction d, State s) const {
@@ -26,6 +31,19 @@ namespace AIToolbox::MDP {
         }
     }
 
+    GridWorld::State GridWorld::getAdjacent(size_t d, State s) const {
+        return getAdjacent((GridWorldEnums::Direction)d, s);
+    }
+
+    unsigned GridWorld::distance(const State & s1, const State & s2) const {
+        if (!isTorus_)
+            return std::abs(s1.x - s2.x) + std::abs(s1.y - s2.y);
+
+        return
+            std::min(std::abs(s1.x - s2.x), static_cast<int>(width_) - std::abs(s1.x - s2.x)) +
+            std::min(std::abs(s1.y - s2.y), static_cast<int>(height_) - std::abs(s1.y - s2.y));
+    }
+
     GridWorld::State GridWorld::operator()(int x, int y) const {
         x = boundX(x);
         y = boundY(y);
@@ -33,6 +51,7 @@ namespace AIToolbox::MDP {
     }
 
     GridWorld::State GridWorld::operator()(const size_t s) const {
+        assert(s < getS());
         return State(
             std::min((int)s%width_, width_-1),
             std::min((int)s/width_, height_-1),
@@ -41,12 +60,20 @@ namespace AIToolbox::MDP {
     }
 
     int GridWorld::boundX(int x) const {
+        if (isTorus_) {
+            while (x < 0) x += width_;
+            return x % width_;
+        }
         if ( x < 0 ) return 0;
         if ( x >= (int)width_ ) return width_ - 1;
         return x;
     }
 
     int GridWorld::boundY(int y) const {
+        if (isTorus_) {
+            while (y < 0) y += height_;
+            return y % width_;
+        }
         if ( y < 0 ) return 0;
         if ( y >= (int)height_ ) return height_ - 1;
         return y;
@@ -54,4 +81,5 @@ namespace AIToolbox::MDP {
 
     unsigned GridWorld::getWidth() const { return width_; }
     unsigned GridWorld::getHeight() const { return height_; }
+    size_t GridWorld::getS() const { return width_ * height_; }
 }

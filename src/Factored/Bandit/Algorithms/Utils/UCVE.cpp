@@ -30,7 +30,7 @@ namespace AIToolbox::Factored::Bandit {
             void endFactorCrossSum();
             void endCrossSum();
             bool isValidNewFactor();
-            UCVE::GVE::Rules mergeRules(UCVE::GVE::Rules && lhs, UCVE::GVE::Rules && rhs);
+            void mergeFactors(UCVE::Factor & lhs, UCVE::Factor && rhs) const;
             void makeResult(UCVE::GVE::FinalFactors && finalFactors);
         };
     }
@@ -193,40 +193,8 @@ namespace AIToolbox::Factored::Bandit {
         return newFactor.size() > 0;
     }
 
-    UCVE::GVE::Rules Global::mergeRules(GVE::Rules && lhs, GVE::Rules && rhs) {
-        GVE::Rules retval;
-        // We're going to have at least these rules.
-        retval.reserve(lhs.size() + rhs.size());
-
-        auto ruleComp = [](const auto & lhs, const auto & rhs) {
-            return veccmp(lhs.first, rhs.first) < 0;
-        };
-
-        std::sort(std::begin(lhs), std::end(lhs), ruleComp);
-        std::sort(std::begin(rhs), std::end(rhs), ruleComp);
-
-        // Here we merge two lists of Rules. What we want is that if any of
-        // them match, we need to crossSum them. Otherwise, just bring them
-        // over to the result list unchanged.
-        size_t i = 0, j = 0;
-        while (i < lhs.size() && j < rhs.size()) {
-            auto first = veccmp(lhs[i].first, rhs[j].first);
-            if (first < 0)
-                retval.emplace_back(std::move(lhs[i++]));
-            else if (first > 0)
-                retval.emplace_back(std::move(rhs[j++]));
-            else {
-                retval.emplace_back(lhs[i].first, crossSumF(lhs[i].second, rhs[j].second));
-                ++i; ++j;
-            }
-        }
-        // Copy remaining ones.
-        for (; i < lhs.size(); ++i)
-            retval.emplace_back(std::move(lhs[i]));
-        for (; j < rhs.size(); ++j)
-            retval.emplace_back(std::move(rhs[j]));
-
-        return retval;
+    void Global::mergeFactors(UCVE::Factor & lhs, UCVE::Factor && rhs) const {
+        lhs = crossSumF(lhs, rhs);
     }
 
     void Global::makeResult(UCVE::GVE::FinalFactors && finalFactors) {
