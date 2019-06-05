@@ -253,12 +253,7 @@ namespace AIToolbox::Factored {
 
     PartialValues toFactorsPartial(const PartialKeys & keys, const Factors & space, size_t id) {
         PartialValues f(keys.size());
-        size_t i = 0;
-        for (auto key : keys) {
-            f[i] = id % space[key];
-            id /= space[key];
-            ++i;
-        }
+        toFactorsPartial(std::begin(f), keys, space, id);
         return f;
     }
 
