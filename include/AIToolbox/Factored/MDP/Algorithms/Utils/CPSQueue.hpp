@@ -98,6 +98,7 @@ namespace AIToolbox::Factored {
              */
             void reconstruct(State & s, Action & a);
 
+            double getNodeMaxPriority(size_t i) const;
             unsigned getNonZeroPriorities() const;
         private:
             const State & S;

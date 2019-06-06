@@ -185,15 +185,8 @@ namespace AIToolbox::Factored::MDP {
             // And use them to update Q.
             updateQ(s, a, s1, rews);
 
-            // Since adding to queue is a relatively expensive operation, we
-            // only update it once in a while. Here we update it if the
-            // priority of the max element we have just popped off the queue is
-            // lower than the current max update.
-            //
-            // If this is not called, each updateQ accumulates its changes to
-            // the deltaStorage_.
-            // if (deltaStorage_.maxCoeff() > priority)
-                addToQueue(s);
+            // Update the queue
+            addToQueue(s);
         }
     }
 
@@ -245,6 +238,9 @@ namespace AIToolbox::Factored::MDP {
         const auto & T = model_.getTransitionFunction();
 
         for (size_t i = 0; i < s1.size(); ++i) {
+            // If the delta to apply is very small, we don't bother with it yet.
+            // This allows us to save some work until it's actually worth it.
+            if (deltaStorage_[i] < queue_.getNodeMaxPriority(i)) continue;
             const auto & aNode = T.nodes[i];
             for (size_t a = 0; a < aNode.nodes.size(); ++a) {
                 const auto & sNode = aNode.nodes[a];
@@ -259,9 +255,9 @@ namespace AIToolbox::Factored::MDP {
                     queue_.update(i, a, s, p);
                 }
             }
+            // Reset this delta.
+            deltaStorage_[i] = 0.0;
         }
-        // Reset all deltas since we have updated the queue from them.
-        deltaStorage_.setZero();
     }
 }
 

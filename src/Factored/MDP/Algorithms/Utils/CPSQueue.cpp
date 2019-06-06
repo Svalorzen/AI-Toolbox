@@ -162,6 +162,9 @@ namespace AIToolbox::Factored {
         }
     }
 
+    double CPSQueue::getNodeMaxPriority(size_t i) const {
+        return nodes_[i].maxV;
+    }
     unsigned CPSQueue::getNonZeroPriorities() const {
         return nonZeroPriorities_;
     }
