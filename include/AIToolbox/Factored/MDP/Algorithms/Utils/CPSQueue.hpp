@@ -98,9 +98,11 @@ namespace AIToolbox::Factored {
              */
             std::tuple<State, Action> reconstruct();
 
+            unsigned getNonZeroPriorities() const;
         private:
             State S;
             Action A;
+            unsigned nonZeroPriorities_;
 
             std::vector<size_t> order_;
             std::vector<Node> nodes_;

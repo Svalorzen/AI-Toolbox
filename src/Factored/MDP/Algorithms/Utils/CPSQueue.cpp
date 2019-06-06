@@ -7,6 +7,7 @@
 namespace AIToolbox::Factored {
     CPSQueue::CPSQueue(State s, Action a, const FactoredDDN & ddn) :
             S(std::move(s)), A(std::move(a)),
+            nonZeroPriorities_(0),
             order_(S.size()), nodes_(S.size()),
             rand_(Impl::Seeder::getSeed())
     {
@@ -32,8 +33,14 @@ namespace AIToolbox::Factored {
     }
 
     void CPSQueue::update(size_t i, size_t a, size_t s, double p) {
+        assert(p > 0.0);
+        // If the priority was not assigned before, we increase the number of
+        // non-zero "rules" in the queue.
+        if (nodes_[i].nodes[a].priorities[s] <= 0.0)
+            ++nonZeroPriorities_;
         // Note that we assume no duplicates so we don't need to look around.
         nodes_[i].nodes[a].priorities[s] += p;
+        // We update the maxes if needed
         if (nodes_[i].nodes[a].priorities[s] > nodes_[i].nodes[a].maxV) {
             nodes_[i].nodes[a].maxV = nodes_[i].nodes[a].priorities[s];
             nodes_[i].nodes[a].maxS = s;
@@ -63,7 +70,7 @@ namespace AIToolbox::Factored {
             return true;
         };
 
-        auto assignMatch = [](const Factors & F, Factors & f, const PartialKeys & keys, size_t id) {
+        const auto assignMatch = [](const Factors & F, Factors & f, const PartialKeys & keys, size_t id) {
             for (size_t i = 0; i < keys.size(); ++i) {
                 const auto key = keys[i];
                 f[key] = id % F[key];
@@ -85,6 +92,8 @@ namespace AIToolbox::Factored {
 
                 // Update max of i
                 auto & nn = node.nodes[node.maxA];
+                if (nn.maxV > 0.0)
+                    --nonZeroPriorities_;
                 nn.priorities[nn.maxS] = 0.0;
                 nn.maxV = nn.priorities.maxCoeff(&nn.maxS);
 
@@ -121,17 +130,18 @@ namespace AIToolbox::Factored {
             if (partialMatch(S, rets, nn.tag, nn.maxS)) {
                 // If the current max is alright...
                 // Set to zero
+                if (nn.maxV > 0.0)
+                    --nonZeroPriorities_;
                 nn.priorities[nn.maxS] = 0.0;
                 // Find the new max
                 nn.maxV = nn.priorities.maxCoeff(&nn.maxS);
-                // This is lower than what was there before, and we are
-                // guaranteed not to have picked the top pick (since we're here
-                // looking in the first place) so we don't have to do any more
-                // work.
+                // The new max is <= than the one we popped, and since we are
+                // guaranteed not to have picked the global top pick (since
+                // we're here looking in the first place) we don't have to
+                // propagate the new max above.
             } else {
                 // We have to find another one
-                double ourMax = 0.0;
-                PartialValues vals;
+                double ourMax = -2.0;
 
                 for (size_t xx = 0; xx < static_cast<size_t>(nn.priorities.size()); ++xx) {
                     if (xx == nn.maxS) continue;
@@ -141,11 +151,17 @@ namespace AIToolbox::Factored {
                     }
                 }
                 // Set to zero
+                if (ourMax > 0.0)
+                    --nonZeroPriorities_;
                 nn.priorities[x] = 0.0;
                 // No max to update tho
             }
             assignMatch(S, rets, nn.tag, x);
         }
         return retval;
+    }
+
+    unsigned CPSQueue::getNonZeroPriorities() const {
+        return nonZeroPriorities_;
     }
 }
