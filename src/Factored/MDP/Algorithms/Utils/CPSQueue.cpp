@@ -5,8 +5,8 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox::Factored {
-    CPSQueue::CPSQueue(State s, Action a, const FactoredDDN & ddn) :
-            S(std::move(s)), A(std::move(a)),
+    CPSQueue::CPSQueue(const State & s, const Action & a, const FactoredDDN & ddn) :
+            S(s), A(a),
             nonZeroPriorities_(0),
             order_(S.size()), nodes_(S.size()),
             rand_(Impl::Seeder::getSeed())
@@ -16,7 +16,7 @@ namespace AIToolbox::Factored {
             const auto & ddnn = ddn.nodes[i];
             auto & n = nodes_[i];
             n.actionTag = ddnn.actionTag;
-            n.maxV = 0.0;
+            n.maxV = -1.0;
             n.maxA = 0;
             n.nodes.resize(ddnn.nodes.size());
             n.order.resize(ddnn.nodes.size());
@@ -24,7 +24,7 @@ namespace AIToolbox::Factored {
             for (size_t j = 0; j < ddnn.nodes.size(); ++j) {
                 auto & nn = n.nodes[j];
                 nn.tag = ddnn.nodes[j].tag;
-                nn.maxV = 0.0;
+                nn.maxV = -1.0;
                 nn.maxS = 0;
                 nn.priorities.resize(ddnn.nodes[j].matrix.rows());
                 nn.priorities.fill(-1.0);
@@ -36,8 +36,10 @@ namespace AIToolbox::Factored {
         assert(p > 0.0);
         // If the priority was not assigned before, we increase the number of
         // non-zero "rules" in the queue.
-        if (nodes_[i].nodes[a].priorities[s] <= 0.0)
+        if (nodes_[i].nodes[a].priorities[s] <= 0.0) {
+            nodes_[i].nodes[a].priorities[s] = 0.0;
             ++nonZeroPriorities_;
+        }
         // Note that we assume no duplicates so we don't need to look around.
         nodes_[i].nodes[a].priorities[s] += p;
         // We update the maxes if needed
@@ -52,13 +54,12 @@ namespace AIToolbox::Factored {
         }
     }
 
-    std::tuple<State, Action> CPSQueue::reconstruct() {
+    void CPSQueue::reconstruct(State & rets, State & reta) {
         // Initialize retval
-        std::tuple<State, Action> retval;
-        auto & [rets, reta] = retval;
         rets = S;
         reta = A;
 
+        // FIXME: find way to avoid calling this all the time when looping over actions/state ids
         const auto partialMatch = [](const Factors & F, const Factors & f, const PartialKeys & keys, size_t id) {
             for (size_t i = 0; i < keys.size(); ++i) {
                 const auto key = keys[i];
@@ -73,6 +74,7 @@ namespace AIToolbox::Factored {
         const auto assignMatch = [](const Factors & F, Factors & f, const PartialKeys & keys, size_t id) {
             for (size_t i = 0; i < keys.size(); ++i) {
                 const auto key = keys[i];
+                assert(f[key] == F[key] || f[key] == id % F[key]);
                 f[key] = id % F[key];
                 id /= F[key];
             }
@@ -158,7 +160,6 @@ namespace AIToolbox::Factored {
             }
             assignMatch(S, rets, nn.tag, x);
         }
-        return retval;
     }
 
     unsigned CPSQueue::getNonZeroPriorities() const {

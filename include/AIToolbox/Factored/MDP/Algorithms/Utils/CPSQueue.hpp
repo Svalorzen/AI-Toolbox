@@ -40,7 +40,7 @@ namespace AIToolbox::Factored {
              *
              * @param s The factored state space.
              */
-            CPSQueue(State S, Action A, const FactoredDDN & ddn);
+            CPSQueue(const State & S, const Action & A, const FactoredDDN & ddn);
 
             /**
              * @brief This function inserts a new id using the input as a key.
@@ -96,12 +96,12 @@ namespace AIToolbox::Factored {
              *
              * @return A set of Entry that match the input and each other, the Factors obtained by combining the input with the returned set.
              */
-            std::tuple<State, Action> reconstruct();
+            void reconstruct(State & s, Action & a);
 
             unsigned getNonZeroPriorities() const;
         private:
-            State S;
-            Action A;
+            const State & S;
+            const Action & A;
             unsigned nonZeroPriorities_;
 
             std::vector<size_t> order_;
