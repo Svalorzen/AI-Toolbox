@@ -8,10 +8,12 @@ namespace AIToolbox::Factored {
     CPSQueue::CPSQueue(const State & s, const Action & a, const FactoredDDN & ddn) :
             S(s), A(a),
             nonZeroPriorities_(0),
-            order_(S.size()), nodes_(S.size()),
+            order_(S.size()+1), nodes_(S.size()),
             rand_(Impl::Seeder::getSeed())
     {
-        std::iota(std::begin(order_), std::end(order_), 0);
+        order_[0] = S.size();
+        std::iota(std::begin(order_)+1, std::end(order_), 0);
+
         for (size_t i = 0; i < ddn.nodes.size(); ++i) {
             const auto & ddnn = ddn.nodes[i];
             auto & n = nodes_[i];
@@ -80,13 +82,41 @@ namespace AIToolbox::Factored {
             }
         };
 
-        // Random choice over nodes
-        std::shuffle(std::begin(order_), std::end(order_), rand_);
-        // Given action tag, random choice over compatible actions
+        // First we take the maximum rule to start off. The reason we really
+        // want this is that in problems where rewards are relatively sparse,
+        // we don't want to risk losing important rules by going around
+        // randomly, as it may "fix" the state and action in place with useless
+        // rules preventing the actual best stuff from being picked. We only
+        // can take the best cheaply, but at least is something.
+        double maxIV = -2.0;
+        size_t maxI = 0;
+        for (size_t i = 0; i < nodes_.size(); ++i) {
+            if (nodes_[i].maxV > maxIV) {
+                maxIV = nodes_[i].maxV;
+                maxI = i;
+            }
+        }
+
+        // We want to go over the nodes randomly, but we still want to pick the
+        // top. To avoid duplicating the 'canTakeMax' code, we do a slight
+        // trick. The first element of order is always equal to S.size(),
+        // so there we force the canTakeMax. Otherwise, if the currently
+        // iterated element is equal to maxI, then it's the one in the shuffle,
+        // and we can skip it (since we already parsed it as first element).
+        std::shuffle(std::begin(order_)+1, std::end(order_), rand_);
         for (auto i : order_) {
+            if (i == maxI) continue;
+            bool canTakeMax;
+            // See trick above
+            if (i == S.size()) {
+                canTakeMax = true;
+                i = maxI;
+            } else {
+                const auto & node = nodes_[i];
+                canTakeMax = partialMatch(A, reta, node.actionTag, node.maxA);
+                canTakeMax = canTakeMax && partialMatch(S, rets, node.nodes[node.maxA].tag, node.nodes[node.maxA].maxS);
+            }
             auto & node = nodes_[i];
-            bool canTakeMax = partialMatch(A, reta, node.actionTag, node.maxA);
-            canTakeMax = canTakeMax && partialMatch(S, rets, node.nodes[node.maxA].tag, node.nodes[node.maxA].maxS);
             if (canTakeMax) {
                 // Add to reta and rets the new values
                 assignMatch(A, reta, node.actionTag, node.maxA);
@@ -118,7 +148,7 @@ namespace AIToolbox::Factored {
             // contains all possible values of the parents).
             std::shuffle(std::begin(node.order), std::end(node.order), rand_);
             auto j = 0;
-            for (auto jj : node.order) {
+            for (const auto jj : node.order) {
                 if (partialMatch(A, reta, node.actionTag, jj)) {
                     assignMatch(A, reta, node.actionTag, jj);
                     j = jj;
