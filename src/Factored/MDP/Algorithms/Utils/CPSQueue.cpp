@@ -42,7 +42,6 @@ namespace AIToolbox::Factored {
             nodes_[i].nodes[a].priorities[s] = 0.0;
             ++nonZeroPriorities_;
         }
-        // Note that we assume no duplicates so we don't need to look around.
         nodes_[i].nodes[a].priorities[s] += p;
         // We update the maxes if needed
         if (nodes_[i].nodes[a].priorities[s] > nodes_[i].nodes[a].maxV) {
