@@ -79,7 +79,6 @@ if (MAKE_MDP)
     AddTest(MDP TreeBackupL)
     AddTest(MDP ValueIteration)
     AddTest(MDP LinearProgramming)
-    AddTest(MDP MCTSExtended)
 
     if (MAKE_PYTHON)
         AddTestPython(MDP Experience)

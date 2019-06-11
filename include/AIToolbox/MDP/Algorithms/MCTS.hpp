@@ -93,7 +93,7 @@ namespace AIToolbox::MDP {
              * @param s The initial state for the environment.
              * @param horizon The horizon to plan for.
              *
-             * @return The index of the best action.
+             * @return A tuple index of the best action and the action itself.
              */
             std::tuple<size_t, ActionT> sampleAction(StateT s, unsigned horizon);
 
@@ -113,7 +113,7 @@ namespace AIToolbox::MDP {
              * @param s1 The state experienced after the action was taken.
              * @param horizon The horizon to plan for.
              *
-             * @return The index of the best action.
+             * @return A tuple index of the best action and the action itself.
              */
             std::tuple<size_t, ActionT> sampleAction(size_t a, StateT s1, unsigned horizon);
 

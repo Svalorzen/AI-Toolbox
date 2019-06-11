@@ -74,7 +74,7 @@ namespace AIToolbox::MDP {
                     static_cast<size_t (Z::*)() const>                                      (&Z::getS),
                     static_cast<size_t (Z::*)() const>                                      (&Z::getA),
                     static_cast<double (Z::*)() const>                                      (&Z::getDiscount),
-                    static_cast<std::tuple<size_t, double> (Z::*)(size_t, size_t) const>    (&Z::sampleSR),
+                    static_cast<std::tuple<size_t, double> (Z::*)(size_t,size_t) const>     (&Z::sampleSR),
                     static_cast<bool (Z::*)(size_t) const>                                  (&Z::isTerminal),
 
                     bool()
