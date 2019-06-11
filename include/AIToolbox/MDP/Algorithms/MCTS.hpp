@@ -77,6 +77,17 @@ namespace AIToolbox::MDP {
             MCTS(const M& m, const Sel &s, unsigned iterations, double exp);
 
             /**
+             * @brief Basic constructor.
+             *
+             * @param m The MDP model that MCTS will operate upon.
+             * @param sel The selection algorithm to use for selecting the best action.
+             * @param iterations The number of episodes to run before completion.
+             * @param exp The exploration constant. This parameter is VERY important to determine the final MCTS performance.
+             * @param seed Seed to use for the random parts.
+             */
+            MCTS(const M& m, const Sel &s, unsigned iterations, double exp, unsigned seed);
+
+            /**
              * @brief This function resets the internal graph and samples for the provided state and horizon.
              *
              * @param s The initial state for the environment.
@@ -172,9 +183,13 @@ namespace AIToolbox::MDP {
     };
 
     template <typename M, typename Sel, typename ST, typename AT>
-    MCTS<M, Sel, ST, AT>::MCTS(const M& m, const Sel& s, const unsigned iter, const double exp) :
+    MCTS<M, Sel, ST, AT>::MCTS(const M& m, const Sel& s, const unsigned iter, const double exp, const unsigned seed) :
             model_(m), selector_(s), S(model_.getS()), A(model_.getA()), iterations_(iter),
-            exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
+            exploration_(exp), graph_(), rand_(seed) {}
+
+    template <typename M, typename Sel, typename ST, typename AT>
+    MCTS<M, Sel, ST, AT>::MCTS(const M& m, const Sel& s, const unsigned iter, const double exp) :
+            MCTS(m, s, iter, exp, Impl::Seeder::getSeed()) {}
 
     template <typename M, typename Sel, typename ST, typename AT>
     size_t MCTS<M, Sel, ST, AT>::sampleAction(const ST s, const unsigned horizon) {
