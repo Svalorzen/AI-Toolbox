@@ -5,6 +5,49 @@
 
 namespace AIToolbox::MDP {
     /**
+     * @brief This struct represents the required interface for a templated generative MDP, i.e.,
+     * a model where the actions and/or states are templated.
+     *
+     * This struct is used to check interfaces of classes in templates.
+     * In particular, this struct tests for the interface of a templated generative MDP model.
+     * The interface must be implemented and be public in the parameter
+     * class. The interface is the following:
+     *
+     * - size_t getS() const : Returns the number of states of the Model.
+     * - size_t getA() const : Returns the number of actions of the Model.
+     * - double getDiscount() const : Returns the discount factor of the Model.
+     * - std::tuple<size_t, double> sampleSR(StateT s, ActionT a) const : Returns a sampled state-reward pair from (s,a)
+     * - bool isTerminal(StateT s) const : Reports whether the input state is a terminal state.
+     *
+     * is_templated_generative_model<M>::value will be equal to true is M implements the interface,
+     * and false otherwise.
+     *
+     * @tparam M The class to test for the interface.
+     * @tparam StateT The type of the states
+     * @tparam ActionT The type of the actions
+     */
+    template <typename M, typename StateT, typename ActionT>
+    struct is_templated_generative_model {
+        private:
+            template <typename Z> static constexpr auto test(int) -> decltype(
+
+                    static_cast<double (Z::*)() const>                                                     (&Z::getDiscount),
+                    static_cast<std::tuple<StateT, double> (Z::*)(const StateT&, const ActionT&) const>    (&Z::sampleSR),
+                    static_cast<bool (Z::*)(StateT) const>                                                 (&Z::isTerminal),
+
+                    bool()
+            ) { return true; }
+
+            template <typename Z> static constexpr auto test(...) -> bool
+            { return false; }
+
+        public:
+            enum { value = test<M>(0) };
+    };
+    template <typename M, typename StateT = size_t, typename ActionT = size_t>
+    inline constexpr bool is_templated_generative_model_v = is_templated_generative_model<M, StateT, ActionT>::value;
+
+    /**
      * @brief This struct represents the required interface for a generative MDP.
      *
      * This struct is used to check interfaces of classes in templates.
@@ -23,7 +66,7 @@ namespace AIToolbox::MDP {
      *
      * @tparam M The class to test for the interface.
      */
-    template <typename M, typename ST, typename AT>
+    template <typename M>
     struct is_generative_model {
         private:
             template <typename Z> static constexpr auto test(int) -> decltype(
@@ -31,8 +74,8 @@ namespace AIToolbox::MDP {
                     static_cast<size_t (Z::*)() const>                                      (&Z::getS),
                     static_cast<size_t (Z::*)() const>                                      (&Z::getA),
                     static_cast<double (Z::*)() const>                                      (&Z::getDiscount),
-                    static_cast<std::tuple<ST, double> (Z::*)(ST,AT) const>                 (&Z::sampleSR),
-                    static_cast<bool (Z::*)(ST) const>                                      (&Z::isTerminal),
+                    static_cast<std::tuple<size_t, double> (Z::*)(size_t, size_t) const>    (&Z::sampleSR),
+                    static_cast<bool (Z::*)(size_t) const>                                  (&Z::isTerminal),
 
                     bool()
             ) { return true; }
@@ -43,8 +86,8 @@ namespace AIToolbox::MDP {
         public:
             enum { value = test<M>(0) };
     };
-    template <typename M, typename ST = size_t, typename AT = size_t>
-    inline constexpr bool is_generative_model_v = is_generative_model<M, ST, AT>::value;
+    template <typename M>
+    inline constexpr bool is_generative_model_v = is_generative_model<M>::value;
 
     /**
      * @brief This struct represents the required interface for a full MDP.
@@ -66,7 +109,7 @@ namespace AIToolbox::MDP {
      *
      * @tparam M The class to test for the interface.
      */
-    template <typename M, typename ST, typename AT>
+    template <typename M>
     struct is_model {
         private:
             template <typename Z> static constexpr auto test(int) -> decltype(
@@ -81,10 +124,10 @@ namespace AIToolbox::MDP {
             { return false; }
 
         public:
-            enum { value = test<M>(0) && is_generative_model_v<M, ST, AT> };
+            enum { value = test<M>(0) && is_generative_model_v<M> };
     };
-    template <typename M, typename ST = size_t, typename AT = size_t>
-    inline constexpr bool is_model_v = is_model<M, ST, AT>::value;
+    template <typename M>
+    inline constexpr bool is_model_v = is_model<M>::value;
 
     /**
      * @brief This struct represents the required interface that allows MDP algorithms to leverage Eigen.

@@ -15,7 +15,7 @@ class BitsetModel : public AIToolbox::MDP::Model {
     public:
         BitsetModel(const AIToolbox::MDP::Model &m) : AIToolbox::MDP::Model(m), model_(m) {}
 
-        std::tuple<size_t, double> sampleSR(const size_t s, const boost::dynamic_bitset<> a) const {
+        std::tuple<size_t, double> sampleSR(const size_t &s, const boost::dynamic_bitset<> &a) const {
             return model_.sampleSR(s, a.to_ulong());
         }
 

@@ -43,7 +43,7 @@ namespace AIToolbox::MDP {
      */
     template <typename M, typename Sel, typename StateT = size_t, typename ActionT = size_t>
     class MCTS {
-        static_assert(is_generative_model_v<M, StateT, ActionT>, "This class only works for generative MDP models!");
+        static_assert(is_templated_generative_model_v<M, StateT, ActionT> || is_generative_model_v<M>, "This class only works for generative MDP models!");
 
         public:
             using SampleBelief = std::vector<size_t>;
@@ -109,7 +109,7 @@ namespace AIToolbox::MDP {
              * observation, and prune the rest. The search will be started
              * using the existing graph: this should make search faster.
              *
-             * @param a The action taken in the last timestep.
+             * @param a The index of the action taken in the last timestep.
              * @param s1 The state experienced after the action was taken.
              * @param horizon The horizon to plan for.
              *
@@ -168,7 +168,6 @@ namespace AIToolbox::MDP {
         private:
             const M& model_;
             const Sel& selector_;
-            size_t S, A;
             unsigned iterations_, maxDepth_;
             double exploration_;
 
@@ -184,7 +183,7 @@ namespace AIToolbox::MDP {
 
     template <typename M, typename Sel, typename ST, typename AT>
     MCTS<M, Sel, ST, AT>::MCTS(const M& m, const Sel& s, const unsigned iter, const double exp, const unsigned seed) :
-            model_(m), selector_(s), S(model_.getS()), A(model_.getA()), iterations_(iter),
+            model_(m), selector_(s), iterations_(iter),
             exploration_(exp), graph_(), rand_(seed) {}
 
     template <typename M, typename Sel, typename ST, typename AT>
