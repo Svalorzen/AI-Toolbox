@@ -55,7 +55,7 @@ namespace AIToolbox::MDP {
     template <typename M, typename ST, typename AT>
     void UCB::initializeActions(typename MCTS<M, UCB, ST, AT>::StateNode &parent, const ST &, const M &m) const {
         if (parent.children.size() == 0) {
-            AT A = m.getA();
+            size_t A = m.getA();
             parent.children.resize(A);
             for (size_t i = 0; i < A; i++)
                 parent.children.at(i).action = i;

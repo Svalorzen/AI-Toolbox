@@ -95,7 +95,7 @@ namespace AIToolbox::MDP {
              *
              * @return The index of the best action.
              */
-            size_t sampleAction(StateT s, unsigned horizon);
+            std::tuple<size_t, ActionT> sampleAction(StateT s, unsigned horizon);
 
             /**
              * @brief This function uses the internal graph to plan.
@@ -115,7 +115,7 @@ namespace AIToolbox::MDP {
              *
              * @return The index of the best action.
              */
-            size_t sampleAction(size_t a, StateT s1, unsigned horizon);
+            std::tuple<size_t, ActionT> sampleAction(size_t a, StateT s1, unsigned horizon);
 
             /**
              * @brief This function sets the number of performed rollouts in MCTS.
@@ -192,16 +192,17 @@ namespace AIToolbox::MDP {
             MCTS(m, s, iter, exp, Impl::Seeder::getSeed()) {}
 
     template <typename M, typename Sel, typename ST, typename AT>
-    size_t MCTS<M, Sel, ST, AT>::sampleAction(const ST s, const unsigned horizon) {
+    std::tuple<size_t, AT> MCTS<M, Sel, ST, AT>::sampleAction(const ST s, const unsigned horizon) {
         // Reset graph
         graph_ = StateNode();
         selector_.initializeActions(graph_, s, model_);
 
-        return runSimulation(s, horizon);
+        size_t index = runSimulation(s, horizon);
+        return {index, graph_.children.at(index).action};
     }
 
     template <typename M, typename Sel, typename ST, typename AT>
-    size_t MCTS<M, Sel, ST, AT>::sampleAction(const size_t a, const ST s1, const unsigned horizon) {
+    std::tuple<size_t, AT> MCTS<M, Sel, ST, AT>::sampleAction(const size_t a, const ST s1, const unsigned horizon) {
         auto & states = graph_.children[a].children;
 
         auto it = states.find(s1);
@@ -220,7 +221,8 @@ namespace AIToolbox::MDP {
         // This would break the UCT call.
         selector_.initializeActions(graph_, s1, model_);
 
-        return runSimulation(s1, horizon);
+        size_t index = runSimulation(s1, horizon);
+        return {index, graph_.children.at(index).action};
     }
 
     template <typename M, typename Sel, typename ST, typename AT>
