@@ -7,9 +7,7 @@
 #include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 #include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
-
-#include <boost/functional/hash.hpp>
-#include <boost/heap/fibonacci_heap.hpp>
+#include <AIToolbox/Factored/MDP/Algorithms/Utils/CPSQueue.hpp>
 
 namespace AIToolbox::Factored::MDP {
     /**
@@ -97,21 +95,7 @@ namespace AIToolbox::Factored::MDP {
 
             QGreedyPolicy gp_;
 
-            using Backup = PartialFactors;
-
-            struct PriorityQueueElement {
-                double priority;
-                Backup stateAction;
-                bool operator<(const PriorityQueueElement& arg2) const {
-                    return priority < arg2.priority;
-                }
-            };
-
-            using QueueType = boost::heap::fibonacci_heap<PriorityQueueElement>;
-
-            QueueType queue_;
-            FasterTrie ids_;
-            std::unordered_map<Backup, typename QueueType::handle_type, boost::hash<Backup>> findByBackup_;
+            CPSQueue queue_;
 
             mutable RandomEngine rand_;
     };
@@ -124,7 +108,7 @@ namespace AIToolbox::Factored::MDP {
             rewardWeights_(model_.getS().size()),
             deltaStorage_(model_.getS().size()),
             gp_(model_.getS(), model_.getA(), q_),
-            ids_(join(model_.getS(), model_.getA())),
+            queue_(model_.getS(), model_.getA(), model_.getTransitionFunction()),
             rand_(Impl::Seeder::getSeed())
     {
         const auto & ddn = model_.getTransitionFunction();
@@ -135,6 +119,7 @@ namespace AIToolbox::Factored::MDP {
         // operations, but since then we won't be using those elements
         // anyway it's not a problem.
         rewardWeights_.setZero();
+        deltaStorage_.setZero();
 
         q_.bases.reserve(qDomains_.size());
         for (const auto & domain : qDomains_) {
@@ -176,38 +161,21 @@ namespace AIToolbox::Factored::MDP {
         Rewards rews(model_.getS().size());
 
         for (size_t n = 0; n < N; ++n) {
-            if (queue_.empty()) return;
+            if (!queue_.getNonZeroPriorities()) return;
 
-            // Pick top element from queue
-            auto [priority, stateAction] = queue_.top();
-            // And use it to extract all valid rules that apply.
-            auto [ids, factor] = ids_.reconstruct(stateAction, true);
-            // Remove them from the various datastructures.
-            for (const auto & id : ids) {
-                auto hIt = findByBackup_.find(id.second);
-                auto handle = hIt->second;
+            queue_.reconstruct(s, a);
 
-                queue_.erase(handle);
-                findByBackup_.erase(hIt);
-            }
-
-            // Copy the reconstructed factor to s and a, filling randomly the
-            // missing elements.
-            size_t x = 0;
-            for (size_t i = 0; i < s.size(); ++i, ++x) {
-                if (factor[x] == model_.getS()[i]) {
+            // Filling randomly the missing elements.
+            for (size_t i = 0; i < s.size(); ++i) {
+                if (s[i] == model_.getS()[i]) {
                     std::uniform_int_distribution<size_t> dist(0, model_.getS()[i]-1);
                     s[i] = dist(rand_);
-                } else {
-                    s[i] = factor[x];
                 }
             }
-            for (size_t i = 0; i < a.size(); ++i, ++x) {
-                if (factor[x] == model_.getA()[i]) {
+            for (size_t i = 0; i < a.size(); ++i) {
+                if (a[i] == model_.getA()[i]) {
                     std::uniform_int_distribution<size_t> dist(0, model_.getA()[i]-1);
                     a[i] = dist(rand_);
-                } else {
-                    a[i] = factor[x];
                 }
             }
 
@@ -217,15 +185,8 @@ namespace AIToolbox::Factored::MDP {
             // And use them to update Q.
             updateQ(s, a, s1, rews);
 
-            // Since adding to queue is a relatively expensive operation, we
-            // only update it once in a while. Here we update it if the
-            // priority of the max element we have just popped off the queue is
-            // lower than the current max update.
-            //
-            // If this is not called, each updateQ accumulates its changes to
-            // the deltaStorage_.
-            if (deltaStorage_.maxCoeff() > priority)
-                addToQueue(s);
+            // Update the queue
+            addToQueue(s);
         }
     }
 
@@ -277,21 +238,12 @@ namespace AIToolbox::Factored::MDP {
         const auto & T = model_.getTransitionFunction();
 
         for (size_t i = 0; i < s1.size(); ++i) {
+            // If the delta to apply is very small, we don't bother with it yet.
+            // This allows us to save some work until it's actually worth it.
+            if (deltaStorage_[i] < queue_.getNodeMaxPriority(i)) continue;
             const auto & aNode = T.nodes[i];
             for (size_t a = 0; a < aNode.nodes.size(); ++a) {
                 const auto & sNode = aNode.nodes[a];
-
-                // We pre-allocate the Backup node (since it's size it's going
-                // to remain the same throughout these loops. We'll change the
-                // 'state' part in the loop.
-                Backup backup{
-                    join(model_.getS().size(), sNode.tag, aNode.actionTag), // Keys
-                    {}
-                };
-                backup.second.resize(backup.first.size());
-                // Write the values for this action in, since they won't change.
-                toFactorsPartial(backup.second.begin() + sNode.tag.size(), aNode.actionTag, model_.getA(), a);
-
                 for (size_t s = 0; s < static_cast<size_t>(sNode.matrix.rows()); ++s) {
                     // Compute the priority for this update (probability of
                     // transition times delta)
@@ -300,29 +252,12 @@ namespace AIToolbox::Factored::MDP {
                     // If it's not large enough, skip it.
                     if (p < theta_) continue;
 
-                    // Write the values for this state.
-                    toFactorsPartial(backup.second.begin(), sNode.tag, model_.getS(), s);
-
-                    auto hIt = findByBackup_.find(backup);
-
-                    if (hIt != std::end(findByBackup_)) {
-                        // If we already had this entry, increase its priority.
-                        auto handle = hIt->second;
-
-                        (*handle).priority += p;
-                        queue_.increase(handle);
-                    } else {
-                        // Otherwise create a new entry in the queue.
-                        auto handle = queue_.emplace(PriorityQueueElement{p, backup});
-
-                        findByBackup_[backup] = handle;
-                        ids_.insert(backup);
-                    }
+                    queue_.update(i, a, s, p);
                 }
             }
+            // Reset this delta.
+            deltaStorage_[i] = 0.0;
         }
-        // Reset all deltas since we have updated the queue from them.
-        deltaStorage_.setZero();
     }
 }
 
