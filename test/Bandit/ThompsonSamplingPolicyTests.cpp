@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     constexpr size_t A = 3;
 
     Bandit::RollingAverage ra(A);
-    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getCounts());
+    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getM2s(), ra.getCounts());
 
     std::array<unsigned, A> counts{{0,0,0}};
     for (unsigned i = 0; i < 1000; ++i)
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE( probability ) {
     constexpr size_t A = 3;
 
     Bandit::RollingAverage ra(A);
-    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getCounts());
+    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getM2s(), ra.getCounts());
 
     for (unsigned i = 0; i < A; ++i) {
         const auto pp = p.getActionProbability(i);

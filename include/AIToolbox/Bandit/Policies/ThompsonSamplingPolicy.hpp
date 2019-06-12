@@ -10,17 +10,10 @@ namespace AIToolbox::Bandit {
     /**
      * @brief This class models a Thompson sampling policy.
      *
-     * This class uses the Normal distribution in order to estimate its
-     * certainty about each arm average reward. Thus, each arm is estimated
-     * through a Normal distribution centered on the average for the arm, with
-     * decreasing variance as more experience is gathered.
-     *
-     * Note that this class assumes that the reward obtained is normalized into
-     * a [0,1] range (which it does not check).
-     *
-     * The usage of the Normal distribution best matches a Normally distributed
-     * reward. Another implementation (not provided here) uses Beta
-     * distributions to handle Bernoulli distributed rewards.
+     * This class uses the Student-t distribution to model normally-distributed
+     * rewards with unknown mean and variance. As more experience is gained,
+     * each distribution becomes a Normal which models the mean of its
+     * respective arm.
      */
     class ThompsonSamplingPolicy : public PolicyInterface {
         public:
@@ -28,9 +21,10 @@ namespace AIToolbox::Bandit {
              * @brief Basic constructor.
              *
              * @param q The QFunction to use as means for each actions.
+             * @param M2s The sum over square distance from the mean.
              * @param counts The number of times each action has been tried before.
              */
-            ThompsonSamplingPolicy(const QFunction & q, const std::vector<unsigned> & counts);
+            ThompsonSamplingPolicy(const QFunction & q, const Vector & M2s, const std::vector<unsigned> & counts);
 
             /**
              * @brief This function chooses an action using Thompson sampling.
@@ -72,6 +66,7 @@ namespace AIToolbox::Bandit {
 
         private:
             const QFunction & q_;
+            const Vector & M2s_;
             const std::vector<unsigned> & counts_;
     };
 }

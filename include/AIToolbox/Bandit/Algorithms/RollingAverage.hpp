@@ -53,8 +53,20 @@ namespace AIToolbox::Bandit {
              */
             const std::vector<unsigned> & getCounts() const;
 
+            /**
+             * @brief This function returns the estimated squared distance of the samples from the mean.
+             *
+             * The retuned values estimate sum_i (x_i - mean_x)^2 for the
+             * rewards of each action. Note that these values only have
+             * meaning when the respective action has at least 2 samples.
+             *
+             * @return A reference to the estimated square distance from the mean.
+             */
+            const Vector & getM2s() const;
+
         private:
             QFunction q_;
+            Vector M2s_;
             std::vector<unsigned> counts_;
     };
 }

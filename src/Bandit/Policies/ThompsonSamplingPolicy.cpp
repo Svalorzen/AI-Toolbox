@@ -3,19 +3,36 @@
 #include <random>
 
 namespace AIToolbox::Bandit {
-    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const QFunction & q, const std::vector<unsigned> & counts) :
-            Base(q.size()), q_(q), counts_(counts) {}
+    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const QFunction & q, const Vector & M2s, const std::vector<unsigned> & counts) :
+            Base(q.size()), q_(q), M2s_(M2s), counts_(counts) {}
 
     size_t ThompsonSamplingPolicy::sampleAction() const {
+        // For each arm, we sample its mean. Note that here we use a
+        // standardized Student-t distribution, which we then scale using our
+        // QFunction and counts parameters to obtain the correct mean
+        // estimates.
         size_t bestAction = 0;
         double bestValue;
         {
-            std::normal_distribution<double> dist(q_[0], 1.0 / (counts_[0] + 1));
-            bestValue = dist(rand_);
+            // We need at least 2 samples per arm with student-t to estimate
+            // the variance.
+            if (counts_[0] < 2)
+                return 0;
+
+            //     mu = est_mu - t * s / sqrt(n)
+            // where
+            //     s = 1 / (n-1) * sum_i (x_i - est_mu)^2
+            // and
+            //     t = student_t sample with n-1 degrees of freedom
+            std::student_t_distribution<double> dist(counts_[0] - 1);
+            bestValue = q_[0] - dist(rand_) * (M2s_[0] / (counts_[0] - 1))/ std::sqrt(counts_[0]);
         }
         for ( size_t a = 1; a < A; ++a ) {
-            std::normal_distribution<double> dist(q_[a], 1.0 / (counts_[a] + 1));
-            const auto val = dist(rand_);
+            if (counts_[a] < 2)
+                return a;
+
+            std::student_t_distribution<double> dist(counts_[a] - 1);
+            const double val = q_[a] - dist(rand_) * (M2s_[a] / (counts_[a] - 1))/ std::sqrt(counts_[a]);
 
             if ( val > bestValue ) {
                 bestAction = a;

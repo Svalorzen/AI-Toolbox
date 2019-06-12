@@ -3,14 +3,20 @@
 #include <algorithm>
 
 namespace AIToolbox::Bandit {
-    RollingAverage::RollingAverage(const size_t A) : q_(A), counts_(A) {
+    RollingAverage::RollingAverage(const size_t A) : q_(A), M2s_(A), counts_(A) {
         q_.setZero();
+        M2s_.setZero();
     }
 
     void RollingAverage::stepUpdateQ(size_t a, double rew) {
-        // Rolling average for this bandit arm
-        q_[a] = (counts_[a] * q_[a] + rew) / (counts_[a] + 1);
+        // Count update
         ++counts_[a];
+
+        const auto delta = rew - q_[a];
+        // Rolling average for this bandit arm
+        q_[a] += delta / counts_[a];
+        // Rolling variance.
+        M2s_[a] += delta * (rew - q_[a]);
     }
 
     void RollingAverage::reset() {
@@ -21,4 +27,5 @@ namespace AIToolbox::Bandit {
     size_t RollingAverage::getA() const { return counts_.size(); }
     const QFunction & RollingAverage::getQFunction() const { return q_; }
     const std::vector<unsigned> & RollingAverage::getCounts() const { return counts_; }
+    const Vector & RollingAverage::getM2s() const { return M2s_; }
 }
