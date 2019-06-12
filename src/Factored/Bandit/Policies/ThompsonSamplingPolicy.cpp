@@ -28,11 +28,11 @@ namespace AIToolbox::Factored::Bandit {
                 } else {
                     //     mu = est_mu - t * s / sqrt(n)
                     // where
-                    //     s = 1 / (n-1) * sum_i (x_i - est_mu)^2
+                    //     s^2 = 1 / (n-1) * sum_i (x_i - est_mu)^2
                     // and
                     //     t = student_t sample with n-1 degrees of freedom
                     std::student_t_distribution<double> dist(counts[y] - 1);
-                    const auto value = basis.values[y] - dist(rand_) * (m2[y] / (counts[y] - 1))/ std::sqrt(counts[y]);
+                    const auto value = basis.values[y] - dist(rand_) * std::sqrt(m2[y]/(counts[y] * (counts[y] - 1)));
 
                     factorNode.emplace_back(y, VE::Factor{value, {}});
                 }

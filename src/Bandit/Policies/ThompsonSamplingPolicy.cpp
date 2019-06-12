@@ -21,18 +21,18 @@ namespace AIToolbox::Bandit {
 
             //     mu = est_mu - t * s / sqrt(n)
             // where
-            //     s = 1 / (n-1) * sum_i (x_i - est_mu)^2
+            //     s^2 = 1 / (n-1) * sum_i (x_i - est_mu)^2
             // and
             //     t = student_t sample with n-1 degrees of freedom
             std::student_t_distribution<double> dist(counts_[0] - 1);
-            bestValue = q_[0] - dist(rand_) * (M2s_[0] / (counts_[0] - 1))/ std::sqrt(counts_[0]);
+            bestValue = q_[0] - dist(rand_) * std::sqrt(M2s_[0] / (counts_[0] * (counts_[0] - 1)));
         }
         for (size_t a = 1; a < A; ++a) {
             if (counts_[a] < 2)
                 return a;
 
             std::student_t_distribution<double> dist(counts_[a] - 1);
-            const double val = q_[a] - dist(rand_) * (M2s_[a] / (counts_[a] - 1))/ std::sqrt(counts_[a]);
+            const double val = q_[a] - dist(rand_) * std::sqrt(M2s_[a] / (counts_[a] * (counts_[a] - 1)));
 
             if (val > bestValue) {
                 bestAction = a;
