@@ -15,12 +15,13 @@ namespace AIToolbox::Bandit {
         const auto delta = rew - q_[a];
         // Rolling average for this bandit arm
         q_[a] += delta / counts_[a];
-        // Rolling variance.
+        // Rolling sum of square diffs.
         M2s_[a] += delta * (rew - q_[a]);
     }
 
     void RollingAverage::reset() {
         q_.setZero();
+        M2s_.setZero();
         std::fill(std::begin(counts_), std::end(counts_), 0);
     }
 

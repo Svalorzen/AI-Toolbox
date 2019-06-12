@@ -27,14 +27,14 @@ namespace AIToolbox::Bandit {
             std::student_t_distribution<double> dist(counts_[0] - 1);
             bestValue = q_[0] - dist(rand_) * (M2s_[0] / (counts_[0] - 1))/ std::sqrt(counts_[0]);
         }
-        for ( size_t a = 1; a < A; ++a ) {
+        for (size_t a = 1; a < A; ++a) {
             if (counts_[a] < 2)
                 return a;
 
             std::student_t_distribution<double> dist(counts_[a] - 1);
             const double val = q_[a] - dist(rand_) * (M2s_[a] / (counts_[a] - 1))/ std::sqrt(counts_[a]);
 
-            if ( val > bestValue ) {
+            if (val > bestValue) {
                 bestAction = a;
                 bestValue = val;
             }
@@ -53,29 +53,13 @@ namespace AIToolbox::Bandit {
         //
         // Instead we sample, which is easier and possibly faster if we just
         // want a rough approximation.
-        constexpr unsigned trials = 100000;
+        constexpr unsigned trials = 1000;
         unsigned selected = 0;
 
-        // We avoid recreating the distributions thousands of times here.
-        std::vector<std::normal_distribution<double>> dists;
-        dists.reserve(A);
+        for (size_t i = 0; i < trials; ++i)
+            if (sampleAction() == a)
+                ++selected;
 
-        for (size_t aa = 0; aa < A; ++aa)
-            dists.emplace_back(q_[aa], 1.0 / (counts_[aa] + 1));
-
-        for (size_t i = 0; i < trials; ++i) {
-            size_t bestAction = 0;
-            double bestValue = dists[0](rand_);
-            for ( size_t aa = 1; aa < A; ++aa ) {
-                const auto val = dists[aa](rand_);
-
-                if ( val > bestValue ) {
-                    bestAction = aa;
-                    bestValue = val;
-                }
-            }
-            if (bestAction == a) ++selected;
-        }
         return static_cast<double>(selected) / trials;
     }
 
@@ -94,26 +78,9 @@ namespace AIToolbox::Bandit {
         Vector retval{A};
         retval.setZero();
 
-        // We avoid recreating the distributions thousands of times here.
-        std::vector<std::normal_distribution<double>> dists;
-        dists.reserve(A);
+        for (size_t i = 0; i < trials; ++i)
+            retval[sampleAction()] += 1.0;
 
-        for (size_t aa = 0; aa < A; ++aa)
-            dists.emplace_back(q_[aa], 1.0 / (counts_[aa] + 1));
-
-        for (size_t i = 0; i < trials; ++i) {
-            size_t bestAction = 0;
-            double bestValue = dists[0](rand_);
-            for ( size_t aa = 1; aa < A; ++aa ) {
-                const auto val = dists[aa](rand_);
-
-                if ( val > bestValue ) {
-                    bestAction = aa;
-                    bestValue = val;
-                }
-            }
-            retval[bestAction] += 1.0;
-        }
         retval /= retval.sum();
         return retval;
     }
