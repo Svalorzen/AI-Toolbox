@@ -29,9 +29,10 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @param A The action space to use.
              * @param q The QFunction to use as means for each actions.
+             * @param M2s The sum over square distance from the mean.
              * @param counts The number of times each action has been tried before.
              */
-            ThompsonSamplingPolicy(const Action & A, const QFunction & q, const std::vector<std::vector<unsigned>> & counts);
+            ThompsonSamplingPolicy(const Action & A, const QFunction & q, const std::vector<Vector> & M2s, const std::vector<std::vector<unsigned>> & counts);
 
             /**
              * @brief This function chooses an action using Thompson sampling.
@@ -70,6 +71,7 @@ namespace AIToolbox::Factored::Bandit {
 
         private:
             const QFunction & q_;
+            const std::vector<Vector> & M2s_;
             const std::vector<std::vector<unsigned>> & counts_;
     };
 }

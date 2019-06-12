@@ -4,8 +4,8 @@
 #include <random>
 
 namespace AIToolbox::Factored::Bandit {
-    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const Action & A, const QFunction & q, const std::vector<std::vector<unsigned>> & counts) :
-            Base(A), q_(q), counts_(counts) {}
+    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const Action & A, const QFunction & q, const std::vector<Vector> & M2s, const std::vector<std::vector<unsigned>> & counts) :
+            Base(A), q_(q), M2s_(M2s), counts_(counts) {}
 
     Action ThompsonSamplingPolicy::sampleAction() const {
         using VE = Bandit::VariableElimination;
@@ -13,6 +13,7 @@ namespace AIToolbox::Factored::Bandit {
 
         for (size_t i = 0; i < q_.bases.size(); ++i) {
             const auto & basis = q_.bases[i];
+            const auto & m2 = M2s_[i];
             const auto & counts = counts_[i];
             auto & factorNode = graph.getFactor(basis.tag)->getData();
 
@@ -21,6 +22,20 @@ namespace AIToolbox::Factored::Bandit {
             for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
                 std::normal_distribution<double> dist(basis.values(y), 1.0 / (counts[y] + 1));
                 factorNode.emplace_back(y, VE::Factor{dist(rand_), {}});
+
+                if (counts[y] < 2) {
+                    factorNode.emplace_back(y, VE::Factor{std::numeric_limits<double>::max(), {}});
+                } else {
+                    //     mu = est_mu - t * s / sqrt(n)
+                    // where
+                    //     s = 1 / (n-1) * sum_i (x_i - est_mu)^2
+                    // and
+                    //     t = student_t sample with n-1 degrees of freedom
+                    std::student_t_distribution<double> dist(counts[y] - 1);
+                    const auto value = basis.values[y] - dist(rand_) * (m2[y] / (counts[y] - 1))/ std::sqrt(counts[y]);
+
+                    factorNode.emplace_back(y, VE::Factor{value, {}});
+                }
             }
         }
         VE ve;

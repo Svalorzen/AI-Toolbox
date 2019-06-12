@@ -54,9 +54,21 @@ namespace AIToolbox::Factored::Bandit {
              */
             const std::vector<std::vector<unsigned>> & getCounts() const;
 
+            /**
+             * @brief This function returns the estimated squared distance of the samples from the mean.
+             *
+             * The retuned values estimate sum_i (x_i - mean_x)^2 for the
+             * rewards of each local action. Note that these values only have
+             * meaning when the respective action has at least 2 samples.
+             *
+             * @return A reference to the estimated square distance from the mean.
+             */
+            const std::vector<Vector> & getM2s() const;
+
         private:
             Action A;
             QFunction qfun_;
+            std::vector<Vector> M2s_;
             std::vector<std::vector<unsigned>> counts_;
     };
 }
