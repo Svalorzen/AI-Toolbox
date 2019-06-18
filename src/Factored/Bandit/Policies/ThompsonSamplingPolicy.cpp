@@ -20,9 +20,6 @@ namespace AIToolbox::Factored::Bandit {
             factorNode.reserve(basis.values.size());
 
             for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
-                std::normal_distribution<double> dist(basis.values(y), 1.0 / (counts[y] + 1));
-                factorNode.emplace_back(y, VE::Factor{dist(rand_), {}});
-
                 if (counts[y] < 2) {
                     factorNode.emplace_back(y, VE::Factor{std::numeric_limits<double>::max(), {}});
                 } else {
