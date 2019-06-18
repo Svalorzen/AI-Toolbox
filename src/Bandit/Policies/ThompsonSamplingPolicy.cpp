@@ -44,12 +44,7 @@ namespace AIToolbox::Bandit {
     }
 
     double ThompsonSamplingPolicy::getActionProbability(const size_t & a) const {
-        // The true formula here would be:
-        //
-        // \int_{-infty, +infty} PDF(N(a)) * CDF(N(0)) * ... * CDF(N(A-1))
-        //
-        // Where N(x) means the normal distribution obtained from the
-        // parameters of that action.
+        // The true formula here is hard, so we don't compute this exactly.
         //
         // Instead we sample, which is easier and possibly faster if we just
         // want a rough approximation.
@@ -64,12 +59,7 @@ namespace AIToolbox::Bandit {
     }
 
     Vector ThompsonSamplingPolicy::getPolicy() const {
-        // The true formula here would be:
-        //
-        // \int_{-infty, +infty} PDF(N(a)) * CDF(N(0)) * ... * CDF(N(A-1))
-        //
-        // Where N(x) means the normal distribution obtained from the
-        // parameters of that action.
+        // The true formula here is hard, so we don't compute this exactly.
         //
         // Instead we sample, which is easier and possibly faster if we just
         // want a rough approximation.
