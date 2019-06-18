@@ -5,7 +5,7 @@
 
 namespace AIToolbox::Factored::Bandit {
     LLR::LLR(Action a, const std::vector<Factors> & dependencies) :
-            A(std::move(a)), L(1), timestep_(0), rules_(A)
+            A(std::move(a)), L(1), groups_(dependencies.size()), timestep_(0), rules_(A)
     {
         // Note: L = 1 since we only do 1 action at a time.
 
@@ -43,8 +43,13 @@ namespace AIToolbox::Factored::Bandit {
         // and counts.
         for (size_t i = 0; i < rules_.size(); ++i) {
             // We give rules we haven't seen yet a headstart so they'll get picked first
+            // We divide by the number of groups_ here with the hope that the
+            // value itself is still high enough that it shadows the rest of
+            // the rules, but it also allows to sum and compare them so that we
+            // still get to optimize multiple actions at once (the max would
+            // just cap to inf).
             if (averages_[i].count == 0)
-                rules_[i].value = std::numeric_limits<double>::max();
+                rules_[i].value = std::numeric_limits<double>::max() / groups_;
             else
                 rules_[i].value = averages_[i].value + std::sqrt(LtLog / averages_[i].count);
         }

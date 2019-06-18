@@ -21,7 +21,12 @@ namespace AIToolbox::Factored::Bandit {
 
             for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
                 if (counts[y] < 2) {
-                    factorNode.emplace_back(y, VE::Factor{std::numeric_limits<double>::max(), {}});
+                    // We divide the value by the number of groups_ here with
+                    // the hope that the value itself is still high enough that
+                    // it shadows the rest of the rules, but it also allows to
+                    // sum and compare them so that we still get to optimize
+                    // multiple actions at once (the max would just cap to inf).
+                    factorNode.emplace_back(y, VE::Factor{std::numeric_limits<double>::max() / q_.bases.size(), {}});
                 } else {
                     //     mu = est_mu - t * s / sqrt(n)
                     // where

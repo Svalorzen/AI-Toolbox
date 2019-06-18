@@ -84,6 +84,8 @@ namespace AIToolbox::Factored::Bandit {
             Action A;
             /// The number of actions allowed at any one time (always 1)
             unsigned L;
+            /// The number of local groups.
+            unsigned groups_;
             /// The current timestep, to compute the UCB1 value
             unsigned timestep_;
             /// A vector containing all averages and counts for all local joint actions.
