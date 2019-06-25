@@ -43,7 +43,7 @@ namespace AIToolbox::Factored::Bandit {
              * @param a The action space.
              * @param dependencies The dependencies in the problem.
              */
-            LLR(Action a, const std::vector<Factors> & dependencies);
+            LLR(Action a, const std::vector<PartialKeys> & dependencies);
 
             /**
              * @brief This function updates the learning process from the previous action and reward.

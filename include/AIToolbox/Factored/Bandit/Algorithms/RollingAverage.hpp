@@ -17,8 +17,9 @@ namespace AIToolbox::Factored::Bandit {
              * @brief Basic constructor.
              *
              * @param A The size of the action space.
+             * @param dependencies The local groups to record.
              */
-            RollingAverage(Action A, const std::vector<std::vector<size_t>> & dependencies);
+            RollingAverage(Action A, const std::vector<PartialKeys> & dependencies);
 
             /**
              * @brief This function updates the QFunction and counts.

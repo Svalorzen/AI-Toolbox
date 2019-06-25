@@ -3,7 +3,7 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    RollingAverage::RollingAverage(Action a, const std::vector<std::vector<size_t>> & dependencies) :
+    RollingAverage::RollingAverage(Action a, const std::vector<PartialKeys> & dependencies) :
             A(std::move(a))
     {
         qfun_.bases.resize(dependencies.size());
