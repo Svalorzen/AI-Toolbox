@@ -22,7 +22,7 @@ namespace AIToolbox::Factored::Bandit {
     }
 
     void RollingAverage::stepUpdateQ(const Action & a, const Rewards & rews) {
-        assert(rews.size() == qfun_.bases.size());
+        assert(static_cast<size_t>(rews.size()) == qfun_.bases.size());
         for (size_t i = 0; i < qfun_.bases.size(); ++i) {
             const auto aId = toIndexPartial(qfun_.bases[i].tag, A, a);
 
