@@ -30,10 +30,13 @@ namespace AIToolbox::Factored::Bandit {
             // Estimated mean and inverse weighted counts
             using V = Eigen::Vector2d;
             // Tag - Vector pair
-            using Entry = std::tuple<PartialAction, V>;
+            struct Entry {
+                PartialAction tag;
+                V v;
+            };
             using Factor = std::vector<Entry>;
 
-            using Result = Entry;
+            using Result = std::tuple<Action, V>;
             using GVE = GenericVariableElimination<Factor>;
 
             /**
@@ -61,9 +64,9 @@ namespace AIToolbox::Factored::Bandit {
                     );
 
                     if (it != std::end(factorNode) && it->first == id)
-                        std::get<1>(it->second[0]) += v;
+                        it->second[0].v += v;
                     else
-                        factorNode.emplace(it, id, Factor{std::make_tuple(PartialAction(), v)});
+                        factorNode.emplace(it, id, Factor{{PartialAction(), v}});
                 }
                 // Start solving process.
                 return (*this)(A, logtA, graph);

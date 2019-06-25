@@ -18,22 +18,23 @@ BOOST_AUTO_TEST_CASE( testing ) {
     constexpr double logtA = 11.9829;
 
     fb::UCVE::Factor ucveVectors;
-    ucveVectors.emplace_back(fm::PartialAction{{0,1},{0,0}}, fb::UCVE::V{0.194357          , 0.0031348  });
-    ucveVectors.emplace_back(fm::PartialAction{{0,1},{1,0}}, fb::UCVE::V{0.0669014         , 0.0140845  });
-    ucveVectors.emplace_back(fm::PartialAction{{0,1},{0,1}}, fb::UCVE::V{0.25              , 0.000273598});
-    ucveVectors.emplace_back(fm::PartialAction{{0,1},{1,1}}, fb::UCVE::V{0.224084          , 0.00104712 });
-    ucveVectors.emplace_back(fm::PartialAction{{1,2},{0,0}}, fb::UCVE::V{0.183535          , 0.00302115 });
-    ucveVectors.emplace_back(fm::PartialAction{{1,2},{1,0}}, fb::UCVE::V{0.25              , 0.000269906});
-    ucveVectors.emplace_back(fm::PartialAction{{1,2},{0,1}}, fb::UCVE::V{0.0466102         , 0.0169492  });
-    ucveVectors.emplace_back(fm::PartialAction{{1,2},{1,1}}, fb::UCVE::V{0.225414          , 0.00110497 });
-    ucveVectors.emplace_back(fm::PartialAction{{2,3},{0,0}}, fb::UCVE::V{0.193182          , 0.0227273  });
-    ucveVectors.emplace_back(fm::PartialAction{{2,3},{1,0}}, fb::UCVE::V{0.0697674         , 0.0232558  });
-    ucveVectors.emplace_back(fm::PartialAction{{2,3},{0,1}}, fb::UCVE::V{0.25              , 0.000250501});
-    ucveVectors.emplace_back(fm::PartialAction{{2,3},{1,1}}, fb::UCVE::V{0.225299          , 0.00108578 });
-    ucveVectors.emplace_back(fm::PartialAction{{3,4},{0,0}}, fb::UCVE::V{0.19186           , 0.0232558  });
-    ucveVectors.emplace_back(fm::PartialAction{{3,4},{1,0}}, fb::UCVE::V{0.25              , 0.0263158  });
-    ucveVectors.emplace_back(fm::PartialAction{{3,4},{0,1}}, fb::UCVE::V{0.0511364         , 0.0227273  });
-    ucveVectors.emplace_back(fm::PartialAction{{3,4},{1,1}}, fb::UCVE::V{0.224256          , 0.000205128});
+    // FIXME: C++ 20 fix for aggregates
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{0,1},{0,0}}, {0.194357          , 0.0031348  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{0,1},{1,0}}, {0.0669014         , 0.0140845  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{0,1},{0,1}}, {0.25              , 0.000273598}});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{0,1},{1,1}}, {0.224084          , 0.00104712 }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{1,2},{0,0}}, {0.183535          , 0.00302115 }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{1,2},{1,0}}, {0.25              , 0.000269906}});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{1,2},{0,1}}, {0.0466102         , 0.0169492  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{1,2},{1,1}}, {0.225414          , 0.00110497 }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{2,3},{0,0}}, {0.193182          , 0.0227273  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{2,3},{1,0}}, {0.0697674         , 0.0232558  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{2,3},{0,1}}, {0.25              , 0.000250501}});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{2,3},{1,1}}, {0.225299          , 0.00108578 }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{3,4},{0,0}}, {0.19186           , 0.0232558  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{3,4},{1,0}}, {0.25              , 0.0263158  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{3,4},{0,1}}, {0.0511364         , 0.0227273  }});
+    ucveVectors.emplace_back(fb::UCVE::Entry{{{3,4},{1,1}}, {0.224256          , 0.000205128}});
 
     fb::UCVE ucve;
     auto [a, v] = ucve(A, logtA, ucveVectors);
@@ -54,8 +55,8 @@ BOOST_AUTO_TEST_CASE( testing ) {
         helper.setZero();
 
         for (const auto & e : ucveVectors)
-            if (fm::match(std::get<0>(e), jointAction))
-                helper += std::get<1>(e);
+            if (fm::match(e.tag, jointAction))
+                helper += e.v;
 
         double tmpV = value(helper);
         if (tmpV > bestV) {
@@ -68,7 +69,7 @@ BOOST_AUTO_TEST_CASE( testing ) {
     }
 
     // Check solutions match
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(a.second), std::end(a.second),
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(a), std::end(a),
                                   std::begin(bestAction.second), std::end(bestAction.second));
     BOOST_CHECK_EQUAL(v, bestValue);
 }
