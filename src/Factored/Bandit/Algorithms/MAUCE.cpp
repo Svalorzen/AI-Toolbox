@@ -5,53 +5,51 @@
 #include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    MAUCE::MAUCE(Action aa, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies) :
+    MAUCE::MAUCE(Action aa, const std::vector<PartialKeys> & dependencies, std::vector<double> ranges) :
             A(std::move(aa)), timestep_(0),
-            averages_(A), logA_(0.0)
+            averages_(A, dependencies), rangesSquared_(std::move(ranges)),
+            logA_(0.0)
     {
         // Compute log(|A|) without needing to compute |A| which may be too
         // big. We'll use it later to obtain log(t |A|)
         for (const auto a : A)
             logA_ += std::log(a);
 
-        // Build single rules for each dependency group.
-        // This allows us to allocate the rules_ only once, and to just
-        // update their values at each timestep.
-        for (const auto & dependency : rangesAndDependencies) {
-            // FIXME: This can probably be improved, as we don't need pAction
-            // anymore.
-            PartialFactorsEnumerator enumerator(A, dependency.second);
-            while (enumerator.isValid()) {
-                const auto & pAction = *enumerator;
-
-                averages_.emplace(pAction, Average{ 0.0, 0, dependency.first * dependency.first });
-                rules_.emplace_back(pAction, UCVE::V());
-
-                enumerator.advance();
-            }
-        }
+        // Square all ranges since that's the only form in which we use them.
+        for (auto & r : rangesSquared_)
+            r = r * r;
     }
 
     Action MAUCE::stepUpdateQ(const Action & a, const Rewards & rew) {
         AI_LOGGER(AI_SEVERITY_INFO, "Updating averages...");
 
-        // Update all averages with what we've learned this step.  Note: We
-        // know that the factors are going to be in the correct order when
-        // looping here since we are looping in the same order in which we
-        // have inserted them into the averages_ container, and filter
-        // returns sorted lists. So we can correctly match the rewards with
-        // the agent groups!
-        size_t i = 0;
-        auto filtered = averages_.filter(a);
-        for (auto & avg : filtered)
-            avg.value += (rew[i++] - avg.value) / (++avg.count);
+        averages_.stepUpdateQ(a, rew);
 
         // Build the vectors to pass to UCVE
-        AI_LOGGER(AI_SEVERITY_INFO, "Building vectors...");
-        for (size_t i = 0; i < averages_.size(); ++i) {
-            const double count = averages_[i].count ? averages_[i].count : 0.00001;
-            std::get<1>(rules_[i])[0] = averages_[i].value;
-            std::get<1>(rules_[i])[1] = averages_[i].rangeSquared / count;
+        AI_LOGGER(AI_SEVERITY_INFO, "Populating graph...");
+
+        UCVE::GVE::Graph graph(A.size());
+
+        const auto & q = averages_.getQFunction();
+        const auto & c = averages_.getCounts();
+
+        for (size_t x = 0; x < q.bases.size(); ++x) {
+            const auto & basis = q.bases[x];
+            const auto & cc = c[x];
+            auto & factorNode = graph.getFactor(basis.tag)->getData();
+
+            for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
+                // We give rules we haven't seen yet a headstart so they'll get picked first
+                // We divide by the number of groups_ here with the hope that the
+                // value itself is still high enough that it shadows the rest of
+                // the rules, but it also allows to sum and compare them so that we
+                // still get to optimize multiple actions at once (the max would
+                // just cap to inf).
+                if (cc[y] == 0)
+                    factorNode.emplace_back(y, UCVE::Factor{{{}, {std::numeric_limits<double>::max() / q.bases.size(), 0.0}}});
+                else
+                    factorNode.emplace_back(y, UCVE::Factor{{{}, UCVE::V{basis.values(y), rangesSquared_[x] / cc[y]}}});
+            }
         }
 
         // Update the timestep, and finish computing log(t |A|) for this
@@ -62,20 +60,14 @@ namespace AIToolbox::Factored::Bandit {
         // Create and run UCVE
         AI_LOGGER(AI_SEVERITY_INFO, "Now running UCVE...");
         UCVE ucve;
-        auto a_v = ucve(A, logtA, rules_);
+        auto a_v = ucve(A, logtA, graph);
         AI_LOGGER(AI_SEVERITY_INFO, "Done.");
 
-        // We convert the output (PartialAction) to a normal action.
-        return toFactors(A.size(), std::get<0>(a_v));
+        return std::get<0>(a_v);
     }
 
-    FilterMap<QFunctionRule> MAUCE::getQFunctionRules() const {
-        FilterMap<QFunctionRule>::ItemsContainer container;
-
-        for (size_t i = 0; i < averages_.size(); ++i)
-            container.emplace_back(std::get<0>(rules_[i]), averages_[i].value);
-
-        return FilterMap<QFunctionRule>(averages_.getTrie(), std::move(container));
+    const RollingAverage & MAUCE::getRollingAverage() const {
+        return averages_;
     }
 
     unsigned MAUCE::getTimestep() const { return timestep_; }
