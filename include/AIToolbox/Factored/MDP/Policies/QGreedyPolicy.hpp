@@ -36,7 +36,7 @@ namespace AIToolbox::Factored::MDP {
              * @param a The number of actions available to the agent.
              * @param q The QFunction this policy is linked with.
              */
-            QGreedyPolicy(State s, Action a, const FactoredMatrix2D & q);
+            QGreedyPolicy(State s, Action a, const QFunction & q);
 
             /**
              * @brief This function chooses the greediest action for state s.
@@ -59,7 +59,7 @@ namespace AIToolbox::Factored::MDP {
 
         private:
             const FilterMap<QFunctionRule> * qc_;
-            const FactoredMatrix2D * qm_;
+            const QFunction * qm_;
     };
 }
 
