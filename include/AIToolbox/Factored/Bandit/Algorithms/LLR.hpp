@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/RollingAverage.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
 
 namespace AIToolbox::Factored::Bandit {
@@ -60,19 +61,15 @@ namespace AIToolbox::Factored::Bandit {
             Action stepUpdateQ(const Action & a, const Rewards & r);
 
             /**
-             * @brief This function obtains the optimal QFunctionRules computed so far.
+             * @brief This function returns the RollingAverage learned from the data.
              *
              * These rules skip the exploration part, to allow the creation
              * of a policy using the learned QFunction (since otherwise
              * this algorithm would forever explore).
              *
-             * Note that this function must perform a complete copy of all
-             * internal rules, as those contain the exploration factors of
-             * UCB1 baked in.
-             *
-             * @return The learned optimal QFunctionRules.
+             * @return The RollingAverage containing all statistics from the input data.
              */
-            FilterMap<QFunctionRule> getQFunctionRules() const;
+            const RollingAverage & getRollingAverage() const;
 
         private:
             struct Average {
@@ -84,14 +81,10 @@ namespace AIToolbox::Factored::Bandit {
             Action A;
             /// The number of actions allowed at any one time (always 1)
             unsigned L;
-            /// The number of local groups.
-            unsigned groups_;
             /// The current timestep, to compute the UCB1 value
             unsigned timestep_;
             /// A vector containing all averages and counts for all local joint actions.
-            std::vector<Average> averages_;
-            /// A container for all QFunctionRules we have.
-            FilterMap<QFunctionRule> rules_;
+            RollingAverage averages_;
     };
 }
 
