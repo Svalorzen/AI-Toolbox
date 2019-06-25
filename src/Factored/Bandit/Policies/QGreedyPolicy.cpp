@@ -6,11 +6,28 @@
 
 namespace AIToolbox::Factored::Bandit {
     QGreedyPolicy::QGreedyPolicy(Action a, const FilterMap<QFunctionRule> & q) :
-            Base(std::move(a)), q_(q) {}
+            Base(std::move(a)), qc_(&q), qm_(nullptr) {}
+
+    QGreedyPolicy::QGreedyPolicy(Action a, const QFunction & q) :
+            Base(std::move(a)), qc_(nullptr), qm_(&q) {}
 
     Action QGreedyPolicy::sampleAction() const {
-        Bandit::VariableElimination ve;
-        return std::get<0>(ve(A, q_));
+        using VE = Bandit::VariableElimination;
+        VE ve;
+        if (qc_) {
+            return std::get<0>(ve(A, *qc_));
+        } else {
+            VE::GVE::Graph graph(A.size());
+
+            for (size_t x = 0; x < qm_->bases.size(); ++x) {
+                const auto & basis = qm_->bases[x];
+                auto & factorNode = graph.getFactor(basis.tag)->getData();
+
+                for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y)
+                    factorNode.emplace_back(y, VE::Factor{basis.values(y), {}});
+            }
+            return std::get<0>(ve(A, graph));
+        }
     }
 
     double QGreedyPolicy::getActionProbability(const Action & a) const {

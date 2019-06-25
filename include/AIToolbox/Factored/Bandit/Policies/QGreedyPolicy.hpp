@@ -18,12 +18,20 @@ namespace AIToolbox::Factored::Bandit {
     class QGreedyPolicy : public PolicyInterface {
         public:
             /**
-             * @brief Basic constructor.
+             * @brief Basic constructor with QFunctionRules.
+             *
+             * @param a The number of actions available to the agent.
+             * @param q The QFunctionRules this policy is linked with.
+             */
+            QGreedyPolicy(Action a, const FilterMap<QFunctionRule> & q);
+
+            /**
+             * @brief Basic constructor with QFunction.
              *
              * @param a The number of actions available to the agent.
              * @param q The QFunction this policy is linked with.
              */
-            QGreedyPolicy(Action a, const FilterMap<QFunctionRule> & q);
+            QGreedyPolicy(Action a, const QFunction & q);
 
             /**
              * @brief This function chooses the greediest action for state s.
@@ -42,7 +50,8 @@ namespace AIToolbox::Factored::Bandit {
             virtual double getActionProbability(const Action & a) const override;
 
         private:
-            const FilterMap<QFunctionRule> & q_;
+            const FilterMap<QFunctionRule> * qc_;
+            const QFunction * qm_;
     };
 }
 
