@@ -4,61 +4,48 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    LLR::LLR(Action a, const std::vector<Factors> & dependencies) :
-            A(std::move(a)), L(1), timestep_(0), rules_(A)
+    LLR::LLR(Action a, const std::vector<PartialKeys> & dependencies) :
+            A(std::move(a)), L(1), timestep_(0), averages_(A, dependencies)
     {
         // Note: L = 1 since we only do 1 action at a time.
-
-        // Build single rules for each dependency group.
-        // This allows us to allocate the rules_ only once, and to just
-        // update their values at each timestep.
-        for (const auto & agents : dependencies) {
-            PartialFactorsEnumerator enumerator(A, agents);
-            while (enumerator.isValid()) {
-                const auto & pAction = *enumerator;
-
-                rules_.emplace(pAction, pAction, 0.0);
-
-                enumerator.advance();
-            }
-        }
-        averages_.resize(rules_.size());
     }
 
     Action LLR::stepUpdateQ(const Action & a, const Rewards & rew) {
-        // We use the rules_'s Trie in order to obtain the ids of the
-        // actions we need to update. We keep in sync the rules_ container
-        // with the averages_ vector, so that we can use the Trie's ids for
-        // both.
-        const auto filtered = rules_.getTrie().filter(a);
-        size_t i = 0;
-        // We update the averages/counts based on the obtained rewards.
-        for (const auto id : filtered)
-            averages_[id].value += (rew[i++] - averages_[id].value) / (++averages_[id].count);
+        using VE = VariableElimination;
+
+        averages_.stepUpdateQ(a, rew);
 
         ++timestep_;
         const auto LtLog = (L+1) * std::log(timestep_);
 
-        // Otherwise, recompute all rules' values based on the new timestep
-        // and counts.
-        for (size_t i = 0; i < rules_.size(); ++i) {
-            // We give rules we haven't seen yet a headstart so they'll get picked first
-            if (averages_[i].count == 0)
-                rules_[i].value = std::numeric_limits<double>::max();
-            else
-                rules_[i].value = averages_[i].value + std::sqrt(LtLog / averages_[i].count);
+        VE::GVE::Graph graph(A.size());
+        const auto & q = averages_.getQFunction();
+        const auto & c = averages_.getCounts();
+
+        for (size_t x = 0; x < q.bases.size(); ++x) {
+            const auto & basis = q.bases[x];
+            const auto & cc = c[x];
+            auto & factorNode = graph.getFactor(basis.tag)->getData();
+
+            for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
+                // We give rules we haven't seen yet a headstart so they'll get picked first
+                // We divide by the number of groups_ here with the hope that the
+                // value itself is still high enough that it shadows the rest of
+                // the rules, but it also allows to sum and compare them so that we
+                // still get to optimize multiple actions at once (the max would
+                // just cap to inf).
+                if (cc[y] == 0)
+                    factorNode.emplace_back(y, VE::Factor{std::numeric_limits<double>::max() / q.bases.size(), {}});
+                else
+                    factorNode.emplace_back(y, VE::Factor{basis.values(y) + std::sqrt(LtLog / cc[y]), {}});
+            }
         }
 
         VariableElimination ve;
-        return std::get<0>(ve(A, rules_));
+        return std::get<0>(ve(A, graph));
     }
 
-    // FIXME: Wouldn't it make more sense to keep the averages in the rules?
-    // then we can return a const ref.
-    FilterMap<QFunctionRule> LLR::getQFunctionRules() const {
-        auto rulesCopy = rules_;
-        for (size_t i = 0; i < rulesCopy.size(); ++i)
-            rulesCopy[i].value = averages_[i].value;
-        return rulesCopy;
+    const RollingAverage & LLR::getRollingAverage() const {
+        return averages_;
     }
 }

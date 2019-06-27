@@ -79,9 +79,12 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/UCVE.cpp
         Factored/Bandit/Algorithms/LLR.cpp
         Factored/Bandit/Algorithms/MAUCE.cpp
+        Factored/Bandit/Algorithms/RollingAverage.cpp
         Factored/Bandit/Policies/SingleActionPolicy.cpp
         Factored/Bandit/Policies/RandomPolicy.cpp
+        Factored/Bandit/Policies/EpsilonPolicy.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
+        Factored/Bandit/Policies/ThompsonSamplingPolicy.cpp
         Factored/MDP/Utils.cpp
         Factored/MDP/Model.cpp
         Factored/MDP/CooperativeExperience.cpp

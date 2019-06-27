@@ -65,16 +65,17 @@ namespace AIToolbox::Factored::Bandit {
         // this class usage), so hopefully we can use the cache better.
         for (const auto & lhsVal : lhs) {
             for (const auto & rhsVal : rhs) {
-                auto tags = merge(std::get<0>(lhsVal), std::get<0>(rhsVal));
-                auto values = std::get<1>(lhsVal) + std::get<1>(rhsVal);
-                retval.emplace_back(std::move(tags), std::move(values));
+                auto tags = merge(lhsVal.tag, rhsVal.tag);
+                auto values = lhsVal.v + rhsVal.v;
+                // FIXME: C++20, remove useless temporary (they need to fix aggregates).
+                retval.emplace_back(UCVE::Entry{std::move(tags), std::move(values)});
             }
         }
         return retval;
     }
 
     double computeValue(const UCVE::Entry & e, const double x, const double logtA12) {
-        return std::get<1>(e)[0] + std::sqrt((std::get<1>(e)[1] + x) * logtA12);
+        return e.v[0] + std::sqrt((e.v[1] + x) * logtA12);
     };
 
     void Global::beginRemoval(const GVE::Graph & graph, const GVE::Graph::FactorItList & factors, size_t currAgent) {
@@ -94,9 +95,8 @@ namespace AIToolbox::Factored::Bandit {
             double currMin = std::numeric_limits<double>::max();
             for (const auto & rule : it->getData()) {
                 for (const auto & entry : std::get<1>(rule)) {
-                    const auto & v = std::get<1>(entry);
-                    currMax = std::max(currMax, v[1]);
-                    currMin = std::min(currMin, v[1]);
+                    currMax = std::max(currMax, entry.v[1]);
+                    currMin = std::min(currMin, entry.v[1]);
                 }
             }
             x_u += currMax;
@@ -146,7 +146,7 @@ namespace AIToolbox::Factored::Bandit {
             if (newFactorCrossSum.size() > newCrossSum.size() && newFactorCrossSum.size() > 1) {
                 // We first eliminate all dominated vectors, then we remove all that
                 // can't possibly be useful using the bounds we have computed.
-                const auto unwrap = +[](UCVE::Entry & entry) -> UCVE::V & {return std::get<1>(entry);};
+                const auto unwrap = +[](UCVE::Entry & entry) -> UCVE::V & {return entry.v;};
 
                 const auto begin = std::begin(newFactorCrossSum);
                 const auto end = std::end(newFactorCrossSum);
@@ -173,7 +173,7 @@ namespace AIToolbox::Factored::Bandit {
             AI_LOGGER(AI_SEVERITY_DEBUG, "Adding entries...");
             // Add tags
             for (auto & nv : newCrossSum) {
-                auto & [first, second] = std::get<0>(nv);
+                auto & [first, second] = nv.tag;
 
                 size_t i = 0;
                 while (i < first.size() && first[i] < agent) ++i;
@@ -201,6 +201,7 @@ namespace AIToolbox::Factored::Bandit {
         AI_LOGGER(AI_SEVERITY_DEBUG, "Picking best final factors...");
 
         auto & [action, value] = result;
+        action.resize(A.size());
         value.setZero();
         for (const auto & fValue : finalFactors) {
             auto & [maxA, maxV] = *max_element_unary(
@@ -209,8 +210,11 @@ namespace AIToolbox::Factored::Bandit {
                 [logtA12 = logtA12](const auto & v) { return computeValue(v, 0.0, logtA12); }
             ).first;
 
-            action = merge(action, maxA);
             value += maxV;
+
+            // Add tags together
+            for (size_t i = 0; i < maxA.first.size(); ++i)
+                action[maxA.first[i]] = maxA.second[i];
         }
     }
 }

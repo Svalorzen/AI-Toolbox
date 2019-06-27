@@ -64,8 +64,8 @@ BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
 
     const aif::Action solution{0, 1, 0};
 
-    const auto rules = llr.getQFunctionRules();
-    fb::QGreedyPolicy p(A, rules);
+    const auto q = llr.getRollingAverage().getQFunction();
+    fb::QGreedyPolicy p(A, q);
 
     const auto greedyAction = p.sampleAction();
 

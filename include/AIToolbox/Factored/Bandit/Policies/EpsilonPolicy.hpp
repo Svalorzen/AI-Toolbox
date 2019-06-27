@@ -1,16 +1,13 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_EPSILON_POLICY_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_EPSILON_POLICY_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_EPSILON_POLICY_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_EPSILON_POLICY_HEADER_FILE
 
-#include <AIToolbox/Factored/MDP/Types.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
 #include <AIToolbox/EpsilonPolicyInterface.hpp>
 
-namespace AIToolbox::Factored::MDP {
-    /**
-     * @brief This class represents an epsilon-greedy policy for Factored MDPs
-     */
-    class EpsilonPolicy : public EpsilonPolicyInterface<State, State, Action> {
+namespace AIToolbox::Factored::Bandit {
+    class EpsilonPolicy : public PolicyInterface, public EpsilonPolicyInterface<void, void, Action> {
         public:
-            using EpsilonBase = EpsilonPolicyInterface<State, State, Action>;
+            using EpsilonBase = EpsilonPolicyInterface<void, void, Action>;
 
             /**
              * @brief Basic constructor.
@@ -24,7 +21,7 @@ namespace AIToolbox::Factored::MDP {
              * @param p The policy that is being extended.
              * @param epsilon The parameter that controls the amount of exploration.
              */
-            EpsilonPolicy(const EpsilonBase::Base & p, double epsilon = 0.1);
+            EpsilonPolicy(const PolicyInterface & p, double epsilon = 0.1);
 
         protected:
             /**
@@ -32,14 +29,14 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return A valid random action.
              */
-            virtual Action sampleRandomAction() const;
+            virtual Action sampleRandomAction() const override;
 
             /**
              * @brief This function returns the probability of picking a random action.
              *
              * @return The probability of picking an an action at random.
              */
-            virtual double getRandomActionProbability() const;
+            virtual double getRandomActionProbability() const override;
 
             // Used to sampled random actions
             mutable std::vector<std::uniform_int_distribution<size_t>> randomDistribution_;
@@ -47,3 +44,4 @@ namespace AIToolbox::Factored::MDP {
 }
 
 #endif
+

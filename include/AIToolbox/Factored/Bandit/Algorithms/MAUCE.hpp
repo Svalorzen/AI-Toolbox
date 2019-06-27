@@ -4,6 +4,7 @@
 #include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/UCVE.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/RollingAverage.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -36,9 +37,10 @@ namespace AIToolbox::Factored::Bandit {
              * must be sorted!
              *
              * @param a The factored action space of the problem.
-             * @param rangesAndDependencies A list of [[range, [agent, ..]], ..] for each subgroup of connected agents.
+             * @param dependencies The local groups of connected agents.
+             * @param ranges The ranges for each local group.
              */
-            MAUCE(Action a, const std::vector<std::pair<double, std::vector<size_t>>> & rangesAndDependencies);
+            MAUCE(Action a, const std::vector<PartialKeys> & dependencies, std::vector<double> ranges);
 
             /**
              * @brief This function updates the learning process from the previous action and reward.
@@ -80,35 +82,25 @@ namespace AIToolbox::Factored::Bandit {
             void setTimestep(unsigned t);
 
             /**
-             * @brief This function obtains the optimal QFunctionRules computed so far.
+             * @brief This function returns the RollingAverage learned from the data.
              *
              * These rules skip the exploration part, to allow the creation
              * of a policy using the learned QFunction (since otherwise
              * this algorithm would forever explore).
              *
-             * Note that this function must perform a complete copy of all
-             * internal rules, as those contain the exploration factors of
-             * UCB1 baked in.
-             *
-             * @return The learned optimal QFunctionRules.
+             * @return The RollingAverage containing all statistics from the input data.
              */
-            FilterMap<QFunctionRule> getQFunctionRules() const;
+            const RollingAverage & getRollingAverage() const;
 
         private:
-            struct Average {
-                double value;
-                unsigned count;
-                double rangeSquared;
-            };
-
             /// The action space
             Action A;
             /// The current timestep, used to compute logtA
             unsigned timestep_;
-            /// The graph containing the averages and ranges for the agents.
-            FilterMap<Average> averages_;
-            /// The rules to pass to UCVE at each timestep.
-            std::vector<UCVE::Entry> rules_;
+            /// The averages and counts for the local actions.
+            RollingAverage averages_;
+            /// The squared ranges for each local group.
+            std::vector<double> rangesSquared_;
             /// Precomputed logA since it won't change.
             double logA_;
     };
