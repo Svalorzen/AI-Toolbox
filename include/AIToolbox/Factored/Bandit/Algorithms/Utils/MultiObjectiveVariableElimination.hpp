@@ -41,7 +41,10 @@ namespace AIToolbox::Factored::Bandit {
      */
     class MultiObjectiveVariableElimination {
         public:
-            using Entry = std::tuple<PartialAction, Rewards>;
+            struct Entry {
+                Rewards vals;
+                PartialAction tag;
+            };
             using Factor = std::vector<Entry>;
 
             using GVE = GenericVariableElimination<Factor>;
@@ -70,9 +73,9 @@ namespace AIToolbox::Factored::Bandit {
                     );
 
                     if (it != std::end(factorNode) && it->first == id)
-                        std::get<1>(it->second[0]) += rule.values;
+                        it->second[0].vals += rule.values;
                     else
-                        factorNode.emplace(it, id, Factor{std::make_tuple(PartialAction(), rule.values)});
+                        factorNode.emplace(it, id, Factor{{rule.values, PartialAction()}});
                 }
 
                 return (*this)(A, graph);

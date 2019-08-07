@@ -26,6 +26,9 @@ namespace AIToolbox::Factored::Bandit {
             const auto & basis = q.bases[x];
             const auto & cc = c[x];
             auto & factorNode = graph.getFactor(basis.tag)->getData();
+            const bool isFilled = factorNode.size() > 0;
+
+            if (!isFilled) factorNode.reserve(basis.values.size());
 
             for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
                 // We give rules we haven't seen yet a headstart so they'll get picked first
@@ -34,10 +37,19 @@ namespace AIToolbox::Factored::Bandit {
                 // the rules, but it also allows to sum and compare them so that we
                 // still get to optimize multiple actions at once (the max would
                 // just cap to inf).
-                if (cc[y] == 0)
-                    factorNode.emplace_back(y, VE::Factor{std::numeric_limits<double>::max() / q.bases.size(), {}});
-                else
-                    factorNode.emplace_back(y, VE::Factor{basis.values(y) + std::sqrt(LtLog / cc[y]), {}});
+                double val;
+                if (cc[y] == 0) {
+                    if (isFilled) continue;
+                    val = std::numeric_limits<double>::max() / q.bases.size();
+                } else {
+                    val = basis.values(y) + std::sqrt(LtLog / cc[y]);
+                }
+
+                if (isFilled) {
+                    factorNode[y].second.first += val;
+                } else {
+                    factorNode.emplace_back(y, VE::Factor{val, {}});
+                }
             }
         }
 

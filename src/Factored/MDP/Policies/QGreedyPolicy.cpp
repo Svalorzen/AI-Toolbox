@@ -22,16 +22,16 @@ namespace AIToolbox::Factored::MDP {
 
             for (const auto & basis : qm_->bases) {
                 auto & factorNode = graph.getFactor(basis.actionTag)->getData();
-                const bool isNew = factorNode.size() == 0;
+                const bool isFilled = factorNode.size() > 0;
                 const size_t x = toIndexPartial(basis.tag, S, s);
 
-                if (isNew) factorNode.reserve(basis.values.cols());
+                if (!isFilled) factorNode.reserve(basis.values.cols());
 
                 for (size_t y = 0; y < static_cast<size_t>(basis.values.cols()); ++y) {
-                    if (isNew) {
-                        factorNode.emplace_back(y, VE::Factor{basis.values(x, y), {}});
-                    } else {
+                    if (isFilled) {
                         factorNode[y].second.first += basis.values(x, y);
+                    } else {
+                        factorNode.emplace_back(y, VE::Factor{basis.values(x, y), {}});
                     }
                 }
             }

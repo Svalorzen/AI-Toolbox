@@ -22,9 +22,17 @@ namespace AIToolbox::Factored::Bandit {
             for (size_t x = 0; x < qm_->bases.size(); ++x) {
                 const auto & basis = qm_->bases[x];
                 auto & factorNode = graph.getFactor(basis.tag)->getData();
+                const bool isFilled = factorNode.size() > 0;
 
-                for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y)
-                    factorNode.emplace_back(y, VE::Factor{basis.values(y), {}});
+                if (!isFilled) factorNode.reserve(basis.values.size());
+
+                for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
+                    if (isFilled) {
+                        factorNode[y].second.first += basis.values(y);
+                    } else {
+                        factorNode.emplace_back(y, VE::Factor{basis.values(y), {}});
+                    }
+                }
             }
             return std::get<0>(ve(A, graph));
         }

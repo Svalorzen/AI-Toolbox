@@ -68,7 +68,7 @@ namespace AIToolbox::Factored::Bandit {
                 auto tags = merge(lhsVal.tag, rhsVal.tag);
                 auto values = lhsVal.v + rhsVal.v;
                 // FIXME: C++20, remove useless temporary (they need to fix aggregates).
-                retval.emplace_back(UCVE::Entry{std::move(tags), std::move(values)});
+                retval.emplace_back(UCVE::Entry{std::move(values), std::move(tags)});
             }
         }
         return retval;
@@ -204,7 +204,7 @@ namespace AIToolbox::Factored::Bandit {
         action.resize(A.size());
         value.setZero();
         for (const auto & fValue : finalFactors) {
-            auto & [maxA, maxV] = *max_element_unary(
+            auto & [maxV, maxA] = *max_element_unary(
                 std::begin(fValue),
                 std::end(fValue),
                 [logtA12 = logtA12](const auto & v) { return computeValue(v, 0.0, logtA12); }

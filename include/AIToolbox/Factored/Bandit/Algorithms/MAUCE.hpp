@@ -33,8 +33,9 @@ namespace AIToolbox::Factored::Bandit {
              * reach their goal. This is converted in a simple Q-Function
              * containing the learned averages for those groups.
              *
-             * Note: each group must be unique, and all lists of agents
-             * must be sorted!
+             * Note: there can be multiple groups with the same keys (to
+             * exploit structure of multiple reward functions between the same
+             * agents), but each PartialKeys must be sorted!
              *
              * @param a The factored action space of the problem.
              * @param dependencies The local groups of connected agents.

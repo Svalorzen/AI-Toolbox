@@ -17,7 +17,7 @@ namespace AIToolbox::Factored::Bandit {
              * @brief Basic constructor.
              *
              * @param A The size of the action space.
-             * @param dependencies The local groups to record.
+             * @param dependencies The local groups to record. Multiple groups with the same keys are allowed.
              */
             RollingAverage(Action A, const std::vector<PartialKeys> & dependencies);
 

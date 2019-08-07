@@ -31,8 +31,8 @@ namespace AIToolbox::Factored::Bandit {
             using V = Eigen::Vector2d;
             // Tag - Vector pair
             struct Entry {
-                PartialAction tag;
                 V v;
+                PartialAction tag;
             };
             using Factor = std::vector<Entry>;
 
@@ -52,7 +52,7 @@ namespace AIToolbox::Factored::Bandit {
                 GVE::Graph graph(A.size());
 
                 for (const Entry & rule : inputRules) {
-                    const auto & [a, v] = rule;
+                    const auto & [v, a] = rule;
                     auto & factorNode = graph.getFactor(a.first)->getData();
                     const auto id = toIndexPartial(A, a);
 
@@ -66,7 +66,7 @@ namespace AIToolbox::Factored::Bandit {
                     if (it != std::end(factorNode) && it->first == id)
                         it->second[0].v += v;
                     else
-                        factorNode.emplace(it, id, Factor{{PartialAction(), v}});
+                        factorNode.emplace(it, id, Factor{{v, PartialAction()}});
                 }
                 // Start solving process.
                 return (*this)(A, logtA, graph);

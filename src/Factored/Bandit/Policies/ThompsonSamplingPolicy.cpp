@@ -16,17 +16,20 @@ namespace AIToolbox::Factored::Bandit {
             const auto & m2 = M2s_[i];
             const auto & counts = counts_[i];
             auto & factorNode = graph.getFactor(basis.tag)->getData();
+            const bool isFilled = factorNode.size() > 0;
 
-            factorNode.reserve(basis.values.size());
+            if (!isFilled) factorNode.reserve(basis.values.size());
 
             for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
+                double val;
                 if (counts[y] < 2) {
+                    if (isFilled) continue;
                     // We divide the value by the number of groups_ here with
                     // the hope that the value itself is still high enough that
                     // it shadows the rest of the rules, but it also allows to
                     // sum and compare them so that we still get to optimize
                     // multiple actions at once (the max would just cap to inf).
-                    factorNode.emplace_back(y, VE::Factor{std::numeric_limits<double>::max() / q_.bases.size(), {}});
+                    val = std::numeric_limits<double>::max() / q_.bases.size();
                 } else {
                     //     mu = est_mu - t * s / sqrt(n)
                     // where
@@ -34,10 +37,13 @@ namespace AIToolbox::Factored::Bandit {
                     // and
                     //     t = student_t sample with n-1 degrees of freedom
                     std::student_t_distribution<double> dist(counts[y] - 1);
-                    const auto value = basis.values[y] - dist(rand_) * std::sqrt(m2[y]/(counts[y] * (counts[y] - 1)));
-
-                    factorNode.emplace_back(y, VE::Factor{value, {}});
+                    val = basis.values[y] - dist(rand_) * std::sqrt(m2[y]/(counts[y] * (counts[y] - 1)));
                 }
+
+                if (isFilled)
+                    factorNode[y].second.first += val;
+                else
+                    factorNode.emplace_back(y, VE::Factor{val, {}});
             }
         }
         VE ve;

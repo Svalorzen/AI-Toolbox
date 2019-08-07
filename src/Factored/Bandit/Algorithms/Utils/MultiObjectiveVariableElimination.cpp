@@ -62,9 +62,10 @@ namespace AIToolbox::Factored::Bandit {
         // this class usage), so hopefully we can use the cache better.
         for (const auto & lhsVal : lhs) {
             for (const auto & rhsVal : rhs) {
-                auto tags = merge(std::get<0>(lhsVal), std::get<0>(rhsVal));
-                auto values = std::get<1>(lhsVal) + std::get<1>(rhsVal);
-                retval.emplace_back(std::move(tags), std::move(values));
+                auto tags = merge(lhsVal.tag, rhsVal.tag);
+                auto values = lhsVal.vals + rhsVal.vals;
+                // FIXME: C++20, remove useless temporary (they need to fix aggregates).
+                retval.emplace_back(MOVE::Entry{std::move(values), std::move(tags)});
             }
         }
         return retval;
@@ -136,7 +137,7 @@ namespace AIToolbox::Factored::Bandit {
         if (newCrossSum.size() > 0) {
             // Add tags
             for (auto & nv : newCrossSum) {
-                auto & [first, second] = std::get<0>(nv);
+                auto & [first, second] = nv.tag;
 
                 size_t i = 0;
                 while (i < first.size() && first[i] < agent) ++i;
@@ -169,7 +170,7 @@ namespace AIToolbox::Factored::Bandit {
             results = crossSumF(results, fValue);
 
         // P1 pruning
-        const auto unwrap = +[](MOVE::Entry & e) -> Rewards & {return std::get<1>(e);};
+        const auto unwrap = +[](MOVE::Entry & e) -> Rewards & {return e.vals;};
 
         results.erase(extractDominated(unwrap(results[0]).size(), std::begin(results), std::end(results), unwrap), std::end(results));
     }

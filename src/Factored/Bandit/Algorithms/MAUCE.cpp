@@ -10,6 +10,7 @@ namespace AIToolbox::Factored::Bandit {
             averages_(A, dependencies), rangesSquared_(std::move(ranges)),
             logA_(0.0)
     {
+        assert(dependencies.size() == rangesSquared_.size());
         // Compute log(|A|) without needing to compute |A| which may be too
         // big. We'll use it later to obtain log(t |A|)
         for (const auto a : A)
@@ -37,6 +38,9 @@ namespace AIToolbox::Factored::Bandit {
             const auto & basis = q.bases[x];
             const auto & cc = c[x];
             auto & factorNode = graph.getFactor(basis.tag)->getData();
+            const bool isFilled = factorNode.size() > 0;
+
+            if (!isFilled) factorNode.reserve(basis.values.size());
 
             for (size_t y = 0; y < static_cast<size_t>(basis.values.size()); ++y) {
                 // We give rules we haven't seen yet a headstart so they'll get picked first
@@ -45,10 +49,26 @@ namespace AIToolbox::Factored::Bandit {
                 // the rules, but it also allows to sum and compare them so that we
                 // still get to optimize multiple actions at once (the max would
                 // just cap to inf).
-                if (cc[y] == 0)
-                    factorNode.emplace_back(y, UCVE::Factor{{{}, {std::numeric_limits<double>::max() / q.bases.size(), 0.0}}});
-                else
-                    factorNode.emplace_back(y, UCVE::Factor{{{}, UCVE::V{basis.values(y), rangesSquared_[x] / cc[y]}}});
+                UCVE::V val;
+                if (cc[y] == 0) {
+                    // If we have already filled this, then this transition has
+                    // already been set as seen (since the tag is the same), so
+                    // we don't really need to do anything and we skip.
+                    if (isFilled) continue;
+                    // Otherwise we put the max value to ensure it gets picked.
+                    val = {std::numeric_limits<double>::max() / q.bases.size(), 0.0};
+                } else {
+                    // Otherwise we get the correct value and exploration bonus
+                    // from the RollingAverage.
+                    val = {basis.values(y), rangesSquared_[x] / cc[y]}; // Range^2 / Count
+                }
+
+                if (isFilled) {
+                    // We accumulate all values, given that we have seen this at least once.
+                    factorNode[y].second[0].v += val;
+                } else {
+                    factorNode.emplace_back(y, UCVE::Factor{{val, {}}});
+                }
             }
         }
 

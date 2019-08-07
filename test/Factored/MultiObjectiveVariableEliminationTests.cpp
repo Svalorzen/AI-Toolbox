@@ -20,17 +20,17 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
         {  {{0, 1}, {1, 0}},      (aif::Rewards(2) << 2.0, 3.0).finished()},
     };
 
-    MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0, 1}, {0, 0}}, (aif::Rewards(2) << 9.0, 1.0).finished()),
-                         // std::make_tuple(aif::PartialAction{{0, 1}, {0, 1}}, (aif::Rewards(2) << 6.0, 2.0).finished()),
-                            std::make_tuple(aif::PartialAction{{0, 1}, {1, 0}}, (aif::Rewards(2) << 7.0, 4.0).finished())};
-                         // std::make_tuple(aif::PartialAction{{0, 1}, {1, 1}}, (aif::Rewards(2) << 2.0, 2.0).finished())
+    MOVE::Results solutions{MOVE::Entry{(aif::Rewards(2) << 9.0, 1.0).finished(), aif::PartialAction{{0, 1}, {0, 0}}},
+                         // MOVE::Entry((aif::Rewards(2) << 6.0, 2.0).finished(), aif::PartialAction{{0, 1}, {0, 1}}),
+                            MOVE::Entry{(aif::Rewards(2) << 7.0, 4.0).finished(), aif::PartialAction{{0, 1}, {1, 0}}}};
+                         // MOVE::Entry((aif::Rewards(2) << 2.0, 2.0).finished(), aif::PartialAction{{0, 1}, {1, 1}})
 
     auto comparer = [](const auto & lhs, const auto & rhs) {
         return std::lexicographical_compare(
-            std::begin(std::get<0>(lhs).second),
-            std::end(std::get<0>(lhs).second),
-            std::begin(std::get<0>(rhs).second),
-            std::end(std::get<0>(rhs).second)
+            std::begin(lhs.tag.second),
+            std::end(lhs.tag.second),
+            std::begin(rhs.tag.second),
+            std::end(rhs.tag.second)
         );
     };
 
@@ -45,16 +45,16 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
     std::sort(std::begin(bestActions), std::end(bestActions), comparer);
 
     for (size_t i = 0; i < solutions.size(); ++i) {
-        const auto & spa1 = std::get<0>(solutions[i]).first;
-        const auto & spa2 = std::get<0>(solutions[i]).second;
+        const auto & spa1 = solutions[i].tag.first;
+        const auto & spa2 = solutions[i].tag.second;
 
-        const auto & pa1 = std::get<0>(bestActions[i]).first;
-        const auto & pa2 = std::get<0>(bestActions[i]).second;
+        const auto & pa1 = bestActions[i].tag.first;
+        const auto & pa2 = bestActions[i].tag.second;
 
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa1), std::end(spa1), std::begin(pa1), std::end(pa1));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa2), std::end(spa2), std::begin(pa2), std::end(pa2));
 
-        BOOST_CHECK_EQUAL(std::get<1>(solutions[i]), std::get<1>(bestActions[i]));
+        BOOST_CHECK_EQUAL(solutions[i].vals, bestActions[i].vals);
     }
 }
 
@@ -65,15 +65,15 @@ BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
         {  {{0, 1}, {1, 0}},      (aif::Rewards(2) << 2.0, 3.0).finished()},
     };
 
-    MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0}, {0}},       (aif::Rewards(2) << 4.0, 0.0).finished()),
-                            std::make_tuple(aif::PartialAction{{0, 1}, {1, 0}}, (aif::Rewards(2) << 2.0, 3.0).finished())};
+    MOVE::Results solutions{MOVE::Entry{(aif::Rewards(2) << 4.0, 0.0).finished(), aif::PartialAction{{0}, {0}}      },
+                            MOVE::Entry{(aif::Rewards(2) << 2.0, 3.0).finished(), aif::PartialAction{{0, 1}, {1, 0}}}};
 
     auto comparer = [](const auto & lhs, const auto & rhs) {
         return std::lexicographical_compare(
-            std::begin(std::get<0>(lhs).second),
-            std::end(std::get<0>(lhs).second),
-            std::begin(std::get<0>(rhs).second),
-            std::end(std::get<0>(rhs).second)
+            std::begin(lhs.tag.second),
+            std::end(lhs.tag.second),
+            std::begin(rhs.tag.second),
+            std::end(rhs.tag.second)
         );
     };
 
@@ -88,18 +88,18 @@ BOOST_AUTO_TEST_CASE( simple_graph_2 ) {
     std::sort(std::begin(bestActions), std::end(bestActions), comparer);
 
     for (size_t i = 0; i < solutions.size(); ++i) {
-        const auto & spa1 = std::get<0>(solutions[i]).first;
-        const auto & spa2 = std::get<0>(solutions[i]).second;
+        const auto & spa1 = solutions[i].tag.first;
+        const auto & spa2 = solutions[i].tag.second;
 
-        const auto & pa1 = std::get<0>(bestActions[i]).first;
-        const auto & pa2 = std::get<0>(bestActions[i]).second;
+        const auto & pa1 = bestActions[i].tag.first;
+        const auto & pa2 = bestActions[i].tag.second;
 
         BOOST_TEST_INFO(i);
 
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa1), std::end(spa1), std::begin(pa1), std::end(pa1));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa2), std::end(spa2), std::begin(pa2), std::end(pa2));
 
-        BOOST_CHECK_EQUAL(std::get<1>(solutions[i]), std::get<1>(bestActions[i]));
+        BOOST_CHECK_EQUAL(solutions[i].vals, bestActions[i].vals);
     }
 }
 
@@ -144,16 +144,16 @@ BOOST_AUTO_TEST_CASE( radu_marinescu_graph ) {
     rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 1, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished()});
     rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 1, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished()});
 
-    MOVE::Results solutions{std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}, (aif::Rewards(2) << -7.0,  0.0).finished()),
-                            std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 1, 0, 0}}, (aif::Rewards(2) << -3.0, -5.0).finished()),
-                            std::make_tuple(aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 0, 0, 0}}, (aif::Rewards(2) << -4.0, -2.0).finished())};
+    MOVE::Results solutions{MOVE::Entry{(aif::Rewards(2) << -7.0,  0.0).finished(), aif::PartialAction{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}},
+                            MOVE::Entry{(aif::Rewards(2) << -3.0, -5.0).finished(), aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 1, 0, 0}}},
+                            MOVE::Entry{(aif::Rewards(2) << -4.0, -2.0).finished(), aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 0, 0, 0}}}};
 
     auto comparer = [](const auto & lhs, const auto & rhs) {
         return std::lexicographical_compare(
-            std::begin(std::get<0>(lhs).second),
-            std::end(std::get<0>(lhs).second),
-            std::begin(std::get<0>(rhs).second),
-            std::end(std::get<0>(rhs).second)
+            std::begin(lhs.tag.second),
+            std::end(lhs.tag.second),
+            std::begin(rhs.tag.second),
+            std::end(rhs.tag.second)
         );
     };
 
@@ -166,15 +166,15 @@ BOOST_AUTO_TEST_CASE( radu_marinescu_graph ) {
     std::sort(std::begin(bestActions), std::end(bestActions), comparer);
 
     for (size_t i = 0; i < solutions.size(); ++i) {
-        const auto & spa1 = std::get<0>(solutions[i]).first;
-        const auto & spa2 = std::get<0>(solutions[i]).second;
+        const auto & spa1 = solutions[i].tag.first;
+        const auto & spa2 = solutions[i].tag.second;
 
-        const auto & pa1 = std::get<0>(bestActions[i]).first;
-        const auto & pa2 = std::get<0>(bestActions[i]).second;
+        const auto & pa1 = bestActions[i].tag.first;
+        const auto & pa2 = bestActions[i].tag.second;
 
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa1), std::end(spa1), std::begin(pa1), std::end(pa1));
         BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(spa2), std::end(spa2), std::begin(pa2), std::end(pa2));
 
-        BOOST_CHECK_EQUAL(std::get<1>(solutions[i]), std::get<1>(bestActions[i]));
+        BOOST_CHECK_EQUAL(solutions[i].vals, bestActions[i].vals);
     }
 }
