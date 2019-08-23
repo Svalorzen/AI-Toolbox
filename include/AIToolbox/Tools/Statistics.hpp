@@ -43,6 +43,13 @@ namespace AIToolbox {
              * This function stores the input in a way that allows to obtain both
              * mean and standard deviation from the data later.
              *
+             * This function assumes that records are passed in order, for each
+             * run. If a new record has a timestep less than or equal to the
+             * previously passed timestep, it's going to assume that the new
+             * record refers to a new experiment run. This is important to
+             * compute the cumulative std statistic correctly, but does not
+             * otherwise affect the other ones.
+             *
              * @param value The value to register.
              * @param timestep The timestep of the value.
              */
@@ -56,10 +63,12 @@ namespace AIToolbox {
             Results process() const;
 
         private:
-            //                       Count,    sum,    sum squared
-            using Point = std::tuple<unsigned, double, double>;
+            //                       Count,    sum,    sum squared, squared sum
+            using Point = std::tuple<unsigned, double, double,      double>;
 
             std::vector<Point> data_;
+            size_t prevTimestep_;  /// Last recorded timestep
+            double currentCumulativeValue_; /// Cumulative trace for the current experiment run to record.
     };
 
     /**
