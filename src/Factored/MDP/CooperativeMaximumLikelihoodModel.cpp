@@ -1,9 +1,9 @@
-#include <AIToolbox/Factored/MDP/CooperativeRLModel.hpp>
+#include <AIToolbox/Factored/MDP/CooperativeMaximumLikelihoodModel.hpp>
 
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    CooperativeRLModel::CooperativeRLModel(const CooperativeExperience & exp, const double discount, const bool toSync)
+    CooperativeMaximumLikelihoodModel::CooperativeMaximumLikelihoodModel(const CooperativeExperience & exp, const double discount, const bool toSync)
             : experience_(exp), discount_(discount)
     {
         const auto & S = experience_.getS();
@@ -54,7 +54,7 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    void CooperativeRLModel::sync() {
+    void CooperativeMaximumLikelihoodModel::sync() {
         const auto & S = experience_.getS();
         const auto & vnodes = experience_.getVisitTable();
         const auto & rnodes = experience_.getRewardMatrix();
@@ -74,7 +74,7 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    void CooperativeRLModel::sync(const State & s, const Action & a) {
+    void CooperativeMaximumLikelihoodModel::sync(const State & s, const Action & a) {
         const auto & vnodes = experience_.getVisitTable();
         const auto & rnodes = experience_.getRewardMatrix();
 
@@ -96,7 +96,7 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    void CooperativeRLModel::sync(const CooperativeExperience::Indeces & indeces) {
+    void CooperativeMaximumLikelihoodModel::sync(const CooperativeExperience::Indeces & indeces) {
         const auto & vnodes = experience_.getVisitTable();
         const auto & rnodes = experience_.getRewardMatrix();
 
@@ -115,14 +115,14 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    std::tuple<State, double> CooperativeRLModel::sampleSR(const State & s, const Action & a) const {
+    std::tuple<State, double> CooperativeMaximumLikelihoodModel::sampleSR(const State & s, const Action & a) const {
         State s1(s.size());
         const double reward = sampleSR(s, a, &s1);
 
         return std::make_tuple(s1, reward);
     }
 
-    std::tuple<State, Rewards> CooperativeRLModel::sampleSRs(const State & s, const Action & a) const {
+    std::tuple<State, Rewards> CooperativeMaximumLikelihoodModel::sampleSRs(const State & s, const Action & a) const {
         State s1(s.size());
         Rewards rs(s.size());
 
@@ -131,7 +131,7 @@ namespace AIToolbox::Factored::MDP {
         return std::make_tuple(s1, rs);
     }
 
-    double CooperativeRLModel::sampleSR(const State & s, const Action & a, State * s1p) const {
+    double CooperativeMaximumLikelihoodModel::sampleSR(const State & s, const Action & a, State * s1p) const {
         assert(s1p);
 
         const auto & tnodes = transitions_.nodes;
@@ -151,7 +151,7 @@ namespace AIToolbox::Factored::MDP {
         return getExpectedReward(s, a, s1);
     }
 
-    void CooperativeRLModel::sampleSRs(const State & s, const Action & a, State * s1p, Rewards * rews) const {
+    void CooperativeMaximumLikelihoodModel::sampleSRs(const State & s, const Action & a, State * s1p, Rewards * rews) const {
         assert(s1p);
         assert(rews);
 
@@ -172,11 +172,11 @@ namespace AIToolbox::Factored::MDP {
         getExpectedRewards(s, a, s1, rews);
     }
 
-    double CooperativeRLModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {
+    double CooperativeMaximumLikelihoodModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {
         return transitions_.getTransitionProbability(getS(), getA(), s, a, s1);
     }
 
-    double CooperativeRLModel::getExpectedReward(const State & s, const Action & a, const State &) const {
+    double CooperativeMaximumLikelihoodModel::getExpectedReward(const State & s, const Action & a, const State &) const {
         double retval = 0.0;
 
         for (size_t i = 0; i < transitions_.nodes.size(); ++i) {
@@ -191,7 +191,7 @@ namespace AIToolbox::Factored::MDP {
         return retval;
     }
 
-    Rewards CooperativeRLModel::getExpectedRewards(const State & s, const Action & a, const State & s1) const {
+    Rewards CooperativeMaximumLikelihoodModel::getExpectedRewards(const State & s, const Action & a, const State & s1) const {
         Rewards rews(transitions_.nodes.size());
 
         getExpectedRewards(s, a, s1, &rews);
@@ -199,7 +199,7 @@ namespace AIToolbox::Factored::MDP {
         return rews;
     }
 
-    void CooperativeRLModel::getExpectedRewards(const State & s, const Action & a, const State &, Rewards * rewsp) const {
+    void CooperativeMaximumLikelihoodModel::getExpectedRewards(const State & s, const Action & a, const State &, Rewards * rewsp) const {
         assert(rewsp);
 
         auto & rews = *rewsp;
@@ -213,12 +213,12 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    void CooperativeRLModel::setDiscount(const double d) { discount_ = d; }
-    double CooperativeRLModel::getDiscount() const { return discount_; }
+    void CooperativeMaximumLikelihoodModel::setDiscount(const double d) { discount_ = d; }
+    double CooperativeMaximumLikelihoodModel::getDiscount() const { return discount_; }
 
-    const State & CooperativeRLModel::getS() const { return experience_.getS(); }
-    const Action & CooperativeRLModel::getA() const { return experience_.getA(); }
-    const CooperativeExperience & CooperativeRLModel::getExperience() const { return experience_; }
-    const CooperativeRLModel::TransitionMatrix & CooperativeRLModel::getTransitionFunction() const { return transitions_; }
-    const CooperativeRLModel::RewardMatrix & CooperativeRLModel::getRewardFunction() const { return rewards_; }
+    const State & CooperativeMaximumLikelihoodModel::getS() const { return experience_.getS(); }
+    const Action & CooperativeMaximumLikelihoodModel::getA() const { return experience_.getA(); }
+    const CooperativeExperience & CooperativeMaximumLikelihoodModel::getExperience() const { return experience_; }
+    const CooperativeMaximumLikelihoodModel::TransitionMatrix & CooperativeMaximumLikelihoodModel::getTransitionFunction() const { return transitions_; }
+    const CooperativeMaximumLikelihoodModel::RewardMatrix & CooperativeMaximumLikelihoodModel::getRewardFunction() const { return rewards_; }
 }

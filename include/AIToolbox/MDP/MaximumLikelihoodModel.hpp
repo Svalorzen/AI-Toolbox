@@ -1,18 +1,18 @@
-#ifndef AI_TOOLBOX_MDP_SPARSE_RLMODEL_HEADER_FILE
-#define AI_TOOLBOX_MDP_SPARSE_RLMODEL_HEADER_FILE
+#ifndef AI_TOOLBOX_MDP_MAXIMUM_LIKELIHOOD_MODEL_HEADER_FILE
+#define AI_TOOLBOX_MDP_MAXIMUM_LIKELIHOOD_MODEL_HEADER_FILE
 
 #include <tuple>
 #include <random>
 
-#include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
+#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::MDP {
     /**
-     * @brief This class models Experience as a Markov Decision Process.
+     * @brief This class models Experience as a Markov Decision Process using Maximum Likelihood.
      *
      * Often an MDP is not known in advance. It is known that it can assume
      * a certain set of states, and that a certain set of actions are
@@ -22,53 +22,45 @@ namespace AIToolbox::MDP {
      * functions of such a model. This task is called "reinforcement
      * learning".
      *
-     * This class helps with this. A naive approach to reinforcement
-     * learning is to keep track, for each action, of its results, and
-     * deduce transition probabilities and rewards based on the data
-     * collected in such a way. This class does just this.
+     * This class helps with this. A naive approach in reinforcement learning
+     * is to keep track, for each action, of its results, and deduce transition
+     * probabilities and rewards based on the data collected in such a way.
+     * This class does just this, using Maximum Likelihood Estimates to decide
+     * what the transition probabilities and rewards are.
      *
-     * This class normalizes an Experience object to produce a transition
-     * function and a reward function. The transition function is
-     * guaranteed to be a correct probability function, as in the sum of
-     * the probabilities of all transitions from a particular state and a
-     * particular action is always 1. Each instance is not directly synced
-     * with the supplied Experience object. This is to avoid possible
-     * overheads, as the user can optimize better depending on their use
-     * case. See sync().
+     * This class maps an Experience object to the most likely transition
+     * reward functions that produced it. The transition function is guaranteed
+     * to be a correct probability function, as in the sum of the probabilities
+     * of all transitions from a particular state and a particular action is
+     * always 1. Each instance is not directly synced with the supplied
+     * Experience object. This is to avoid possible overheads, as the user can
+     * optimize better depending on their use case. See sync().
      *
-     * A possible way to improve the data gathered using this class, is to
-     * artificially modify the data as to skew it towards certain
-     * distributions.  This could be done if some knowledge of the model
-     * (even approximate) is known, in order to speed up the learning
-     * process. Another way is to assume that all transitions are possible,
-     * add data to support that claim, and simply wait until the averages
-     * converge to the true values. Another thing that can be done is to
-     * associate with each fake datapoint an high reward: this will skew
-     * the agent into trying out new actions, thinking it will obtained the
-     * high rewards. This is able to obtain automatically a good degree of
-     * exploration in the early stages of an episode. Such a technique is
-     * called "optimistic initialization".
+     * When little data is available, the deduced transition and reward
+     * functions may be significantly subject to noise. A possible way to
+     * improve on this is to artificially bias the data as to skew it towards
+     * certain distributions.  This could be done if some knowledge of the
+     * model (even approximate) is known, in order to speed up the learning
+     * process. Another way is to assume that all transitions are possible, add
+     * data to support that claim, and simply wait until the averages converge
+     * to the true values.  Another thing that can be done is to associate with
+     * each fake datapoint an high reward: this will skew the agent into trying
+     * out new actions, thinking it will obtained the high rewards. This is
+     * able to obtain automatically a good degree of exploration in the early
+     * stages of an episode. Such a technique is called "optimistic
+     * initialization".
      *
      * Whether any of these techniques work or not can definitely depend on
      * the model you are trying to approximate. Trying out things is good!
-     *
-     * The difference between this class and the MDP::RLModel class is that
-     * this class stores transitions and rewards in sparse matrices. This
-     * results in a possibly slower access to individual probabilities and
-     * rewards, but immeasurably speeds up computation with some classes of
-     * planning algorithms in case the number of useful transitions is very
-     * small with respect to the total theoretic state action space of
-     * SxAxS. It also of course incredibly reduces memory consumption in
-     * such cases, which may also improve speed by effect of improved
-     * caching.
      */
     template <typename E>
-    class SparseRLModel {
+    class MaximumLikelihoodModel {
         static_assert(is_experience_v<E>, "This class only works for MDP experiences!");
 
         public:
-            using TransitionMatrix   = SparseMatrix3D;
-            using RewardMatrix       = SparseMatrix2D;
+            using TransitionMatrix   = Matrix3D;
+            using RewardMatrix       = Matrix2D;
+
             /**
              * @brief Constructor using previous Experience.
              *
@@ -76,19 +68,19 @@ namespace AIToolbox::MDP {
              * be used to learn an MDP Model from the data, and initializes
              * internal Model data.
              *
-             * The user can choose whether he wants to directly sync
-             * the SparseRLModel to the underlying Experience, or delay
-             * it for later.
+             * The user can choose whether he wants to directly sync the
+             * MaximumLikelihoodModel to the underlying Experience, or delay it
+             * for later.
              *
              * In the latter case the default transition function
              * defines a transition of probability 1 for each
              * state to itself, no matter the action.
              *
-             * In general it would be better to add some amount of bias
-             * to the Experience so that when a new state-action pair is
-             * tried, the SparseRLModel doesn't automatically compute 100%
-             * probability of transitioning to the resulting state, but
-             * smooths into it. This may depend on your problem though.
+             * In general it would be better to add some amount of bias to the
+             * Experience so that when a new state-action pair is tried, the
+             * MaximumLikelihoodModel doesn't automatically compute 100%
+             * probability of transitioning to the resulting state, but smooths
+             * into it. This may depend on your problem though.
              *
              * The default reward function is 0.
              *
@@ -96,7 +88,7 @@ namespace AIToolbox::MDP {
              * @param discount The discount used in solving methods.
              * @param sync Whether to sync with the Experience immediately or delay it.
              */
-            SparseRLModel(const E & exp, double discount = 1.0, bool sync = false);
+            MaximumLikelihoodModel(const E & exp, double discount = 1.0, bool sync = false);
 
             /**
              * @brief This function sets a new discount factor for the Model.
@@ -106,12 +98,13 @@ namespace AIToolbox::MDP {
             void setDiscount(double d);
 
             /**
-             * @brief This function syncs the whole SparseRLModel to the underlying Experience.
+             * @brief This function syncs the whole MaximumLikelihoodModel to the underlying Experience.
              *
-             * Since use cases in AI are very varied, one may not want to update
-             * its SparseRLModel for each single transition experienced by the agent. To
-             * avoid this we leave to the user the task of syncing between the
-             * underlying Experience and the SparseRLModel, as he/she sees fit.
+             * Since use cases in AI are very varied, one may not want to
+             * update its MaximumLikelihoodModel for each single transition
+             * experienced by the agent. To avoid this we leave to the user the
+             * task of syncing between the underlying Experience and the
+             * MaximumLikelihoodModel, as he/she sees fit.
              *
              * After this function is run the transition and reward functions
              * will accurately reflect the state of the underlying Experience.
@@ -119,17 +112,18 @@ namespace AIToolbox::MDP {
             void sync();
 
             /**
-             * @brief This function syncs a state action pair in the SparseRLModel to the underlying Experience.
+             * @brief This function syncs a state action pair in the MaximumLikelihoodModel to the underlying Experience.
              *
-             * Since use cases in AI are very varied, one may not want to update
-             * its SparseRLModel for each single transition experienced by the agent. To
-             * avoid this we leave to the user the task of syncing between the
-             * underlying Experience and the SparseRLModel, as he/she sees fit.
+             * Since use cases in AI are very varied, one may not want to
+             * update the MaximumLikelihoodModel for each single transition
+             * experienced by the agent. To avoid this we leave to the user the
+             * task of syncing between the underlying Experience and the
+             * MaximumLikelihoodModel, as he/she sees fit.
              *
-             * This function updates a single state action pair with the underlying
-             * Experience. This function is offered to avoid having to recompute the
-             * whole SparseRLModel if the user knows that only few transitions have been
-             * experienced by the agent.
+             * This function updates a single state action pair with the
+             * underlying Experience. This function is offered to avoid having
+             * to recompute the whole MaximumLikelihoodModel if the user knows
+             * that only few transitions have been experienced by the agent.
              *
              * After this function is run the transition and reward functions
              * will accurately reflect the state of the underlying Experience
@@ -141,7 +135,7 @@ namespace AIToolbox::MDP {
             void sync(size_t s, size_t a);
 
             /**
-             * @brief This function syncs a state action pair in the SparseRLModel to the underlying Experience in the fastest possible way.
+             * @brief This function syncs a state action pair in the MaximumLikelihoodModel to the underlying Experience in the fastest possible way.
              *
              * This function updates a state action pair given that the last increased transition
              * in the underlying Experience is the triplet s, a, s1. In addition, this function only
@@ -195,9 +189,9 @@ namespace AIToolbox::MDP {
             double getDiscount() const;
 
             /**
-             * @brief This function enables inspection of the underlying Experience of the SparseRLModel.
+             * @brief This function enables inspection of the underlying Experience of the MaximumLikelihoodModel.
              *
-             * @return The underlying Experience of the SparseRLModel.
+             * @return The underlying Experience of the MaximumLikelihoodModel.
              */
             const E & getExperience() const;
 
@@ -237,7 +231,7 @@ namespace AIToolbox::MDP {
              *
              * @return The transition function for the input action.
              */
-            const SparseMatrix2D & getTransitionFunction(size_t a) const;
+            const Matrix2D & getTransitionFunction(size_t a) const;
 
             /**
              * @brief This function returns the rewards matrix for inspection.
@@ -268,24 +262,22 @@ namespace AIToolbox::MDP {
     };
 
     template <typename E>
-    SparseRLModel<E>::SparseRLModel(const E & exp, const double discount, const bool toSync) :
-            S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, SparseMatrix2D(S, S)),
+    MaximumLikelihoodModel<E>::MaximumLikelihoodModel(const E& exp, const double discount, const bool toSync) :
+            S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, Matrix2D(S, S)),
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
     {
         setDiscount(discount);
+        rewards_.setZero();
 
         if ( toSync ) {
             sync();
             // Sync does not touch state-action pairs which have never been
             // seen. To keep the model consistent we set all of them as
             // self-absorbing.
-            for ( size_t a = 0; a < A; ++a ) {
+            for ( size_t a = 0; a < A; ++a )
                 for ( size_t s = 0; s < S; ++s )
                     if ( experience_.getVisitsSum(s, a) == 0ul )
-                        transitions_[a].insert(s, s) = 1.0;
-                // We don't bother making it compressed since it is bound
-                // to change eventually anyway
-            }
+                        transitions_[a](s, s) = 1.0;
         }
         else {
             // Make transition matrix true probability
@@ -295,26 +287,23 @@ namespace AIToolbox::MDP {
     }
 
     template <typename E>
-    void SparseRLModel<E>::setDiscount(const double d) {
+    void MaximumLikelihoodModel<E>::setDiscount(const double d) {
         if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
         discount_ = d;
     }
 
     template <typename E>
-    void SparseRLModel<E>::sync() {
+    void MaximumLikelihoodModel<E>::sync() {
         for ( size_t a = 0; a < A; ++a )
-            for ( size_t s = 0; s < S; ++s )
-                sync(s,a);
+        for ( size_t s = 0; s < S; ++s )
+            sync(s,a);
     }
 
     template <typename E>
-    void SparseRLModel<E>::sync(const size_t s, const size_t a) {
+    void MaximumLikelihoodModel<E>::sync(const size_t s, const size_t a) {
         // Nothing to do
         const auto visitSum = experience_.getVisitsSum(s, a);
         if ( visitSum == 0ul ) return;
-        // Clear beginning's identity matrix
-        if ( visitSum == 1ul )
-            transitions_[a].coeffRef(s, s) = 0.0;
 
         // Create reciprocal for fast division
         const double visitSumReciprocal = 1.0 / visitSum;
@@ -322,85 +311,79 @@ namespace AIToolbox::MDP {
         // Normalize
         for ( size_t s1 = 0; s1 < S; ++s1 ) {
             const auto visits = experience_.getVisits(s, a, s1);
-            if (visits > 0)
-                transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+            transitions_[a](s, s1) = static_cast<double>(visits) * visitSumReciprocal;
         }
-
-        const double rewValue = experience_.getRewardSum(s, a) * visitSumReciprocal;
-        if (checkDifferentGeneral(rewValue, rewards_.coeff(s, a)))
-            rewards_.coeffRef(s, a) = rewValue;
+        rewards_(s, a) = experience_.getRewardSum(s, a) * visitSumReciprocal;
     }
 
     template <typename E>
-    void SparseRLModel<E>::sync(const size_t s, const size_t a, const size_t s1) {
+    void MaximumLikelihoodModel<E>::sync(const size_t s, const size_t a, const size_t s1) {
         const auto visitSum = experience_.getVisitsSum(s, a);
         // The second condition is related to numerical errors. Once in a
         // while we reset those by forcing a true update using real data.
         if ( !(visitSum % 10000ul) ) return sync(s, a);
         if ( visitSum == 1ul ) {
-            transitions_[a].coeffRef(s, s) = 0.0;
-            transitions_[a].coeffRef(s, s1) = 1.0;
-            if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
-                rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a);
+            transitions_[a](s, s) = 0.0;
+            transitions_[a](s, s1) = 1.0;
+            rewards_(s, a) = experience_.getReward(s, a, s1);
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
-            const double rewValue = experience_.getRewardSum(s, a) / visitSum;
 
-            if (checkDifferentGeneral(rewValue, rewards_.coeff(s, a)))
-                rewards_.coeffRef(s, a) = rewValue;
+            // Update reward for this transition
+            rewards_(s, a) = experience_.getRewardSum(s, a) / visitSum;
 
             const double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
-            const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a].coeff(s, s1));
+            const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a](s, s1));
             // This works because as long as all the values in the transition have the same denominator
             // (in this case visitSum-1), then the numerators do not matter, as we can simply normalize.
             // In the end of the process the new values will be the same as if we updated directly using
             // an increased denominator, and thus we will be able to call this function again correctly.
-            transitions_[a].coeffRef(s, s1) = newTransitionValue;
+            transitions_[a](s, s1) = newTransitionValue;
             transitions_[a].row(s) /= newVectorSum;
         }
     }
 
     template <typename E>
-    std::tuple<size_t, double> SparseRLModel<E>::sampleSR(const size_t s, const size_t a) const {
+    std::tuple<size_t, double> MaximumLikelihoodModel<E>::sampleSR(const size_t s, const size_t a) const {
         const size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
-        return std::make_tuple(s1, rewards_.coeff(s, a));
+        return std::make_tuple(s1, rewards_(s, a));
     }
 
     template <typename E>
-    double SparseRLModel<E>::getTransitionProbability(const size_t s, const size_t a, const size_t s1) const {
-        return transitions_[a].coeff(s, s1);
+    double MaximumLikelihoodModel<E>::getTransitionProbability(const size_t s, const size_t a, const size_t s1) const {
+        return transitions_[a](s, s1);
     }
 
     template <typename E>
-    double SparseRLModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t) const {
-        return rewards_.coeff(s, a);
+    double MaximumLikelihoodModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t) const {
+        return rewards_(s, a);
     }
 
     template <typename E>
-    bool SparseRLModel<E>::isTerminal(const size_t s) const {
+    bool MaximumLikelihoodModel<E>::isTerminal(const size_t s) const {
         for ( size_t a = 0; a < A; ++a )
-            if ( !checkEqualSmall(1.0, transitions_[a].coeff(s, s)) )
+            if ( !checkEqualSmall(1.0, transitions_[a](s, s)) )
                 return false;
         return true;
     }
 
     template <typename E>
-    size_t SparseRLModel<E>::getS() const { return S; }
+    size_t MaximumLikelihoodModel<E>::getS() const { return S; }
     template <typename E>
-    size_t SparseRLModel<E>::getA() const { return A; }
+    size_t MaximumLikelihoodModel<E>::getA() const { return A; }
     template <typename E>
-    double SparseRLModel<E>::getDiscount() const { return discount_; }
+    double MaximumLikelihoodModel<E>::getDiscount() const { return discount_; }
     template <typename E>
-    const E & SparseRLModel<E>::getExperience() const { return experience_; }
+    const E & MaximumLikelihoodModel<E>::getExperience() const { return experience_; }
 
     template <typename E>
-    const typename SparseRLModel<E>::TransitionMatrix & SparseRLModel<E>::getTransitionFunction() const { return transitions_; }
+    const typename MaximumLikelihoodModel<E>::TransitionMatrix & MaximumLikelihoodModel<E>::getTransitionFunction() const { return transitions_; }
     template <typename E>
-    const typename SparseRLModel<E>::RewardMatrix &     SparseRLModel<E>::getRewardFunction()     const { return rewards_; }
+    const typename MaximumLikelihoodModel<E>::RewardMatrix &     MaximumLikelihoodModel<E>::getRewardFunction()     const { return rewards_; }
 
     template <typename E>
-    const SparseMatrix2D & SparseRLModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }
+    const Matrix2D & MaximumLikelihoodModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }
 }
 
 #endif
