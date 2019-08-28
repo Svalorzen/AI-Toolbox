@@ -3,9 +3,9 @@
 #include <AIToolbox/MDP/Types.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
@@ -55,7 +55,7 @@ void exportMDPPolicyIteration() {
                 "@return The QFunction of the optimal policy found."
         , (arg("self"), "m"))
 
-        .def("__call__",                &PolicyIteration::operator()<RLModel<Experience>>,
+        .def("__call__",                &PolicyIteration::operator()<MaximumLikelihoodModel<Experience>>,
                 "This function applies policy iteration on an MDP to solve it.\n"
                 "\n"
                 "The algorithm is constrained by the currently set parameters.\n"
@@ -64,7 +64,7 @@ void exportMDPPolicyIteration() {
                 "@return The QFunction of the optimal policy found."
         , (arg("self"), "m"))
 
-        .def("__call__",                &PolicyIteration::operator()<SparseRLModel<SparseExperience>>,
+        .def("__call__",                &PolicyIteration::operator()<SparseMaximumLikelihoodModel<SparseExperience>>,
                 "This function applies policy iteration on an MDP to solve it.\n"
                 "\n"
                 "The algorithm is constrained by the currently set parameters.\n"

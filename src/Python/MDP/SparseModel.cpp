@@ -1,9 +1,9 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 
 #include <boost/python.hpp>
@@ -109,21 +109,21 @@ void exportMDPSparseModel() {
                  "and actions is not too big."
         , (arg("self"), "sparseModel")))
 
-        .def(init<const RLModel<Experience> &>(
+        .def(init<const MaximumLikelihoodModel<Experience> &>(
                  "This allows to copy from any other model. A nice use for this is to\n"
                  "convert any model which computes probabilities on the fly into an\n"
                  "MDP::Model where probabilities are all stored for fast access. Of\n"
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
-        , (arg("self"), "rlModel")))
+        , (arg("self"), "maximumLikelihoodModel")))
 
-        .def(init<const SparseRLModel<SparseExperience> &>(
+        .def(init<const SparseMaximumLikelihoodModel<SparseExperience> &>(
                  "This allows to copy from any other model. A nice use for this is to\n"
                  "convert any model which computes probabilities on the fly into an\n"
                  "MDP::Model where probabilities are all stored for fast access. Of\n"
                  "course such a solution can be done only when the number of states\n"
                  "and actions is not too big."
-        , (arg("self"), "sparseRLModel")))
+        , (arg("self"), "sparseMaximumLikelihoodModel")))
 
         .def("setDiscount",                 &SparseModel::setDiscount,
                 "This function sets a new discount factor for the SparseModel."

@@ -1,9 +1,9 @@
 #include <AIToolbox/MDP/Algorithms/QLearning.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
@@ -59,8 +59,8 @@ void exportMDPQLearning() {
                  "@param alpha The learning rate of the QLearning method."
         , (arg("self"), "S", "A", "discount", "alpha")))
 
-        .def(init<const RLModel<Experience>&, optional<double>>(
-                 "Basic constructor from RLModel\n"
+        .def(init<const MaximumLikelihoodModel<Experience>&, optional<double>>(
+                 "Basic constructor from MaximumLikelihoodModel\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
                  "constructor will throw an std::invalid_argument.\n"
@@ -74,8 +74,8 @@ void exportMDPQLearning() {
                  "@param alpha The learning rate of the QLearning method."
         , (arg("self"), "model", "alpha")))
 
-        .def(init<const SparseRLModel<SparseExperience>&, optional<double>>(
-                 "Basic constructor from SparseRLModel\n"
+        .def(init<const SparseMaximumLikelihoodModel<SparseExperience>&, optional<double>>(
+                 "Basic constructor from SparseMaximumLikelihoodModel\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
                  "constructor will throw an std::invalid_argument.\n"

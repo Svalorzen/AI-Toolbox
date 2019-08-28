@@ -1,9 +1,9 @@
 #include <AIToolbox/MDP/Algorithms/ExpectedSARSA.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
@@ -60,8 +60,8 @@ void exportMDPExpectedSARSA() {
                  "@param alpha The learning rate of the ExpectedSARSA method."
         , (arg("self"), "qfun", "policy", "discount", "alpha")))
 
-        .def(init<QFunction &, const PolicyInterface &, const RLModel<Experience>&, optional<double>>(
-                 "Basic constructor for RLModel.\n"
+        .def(init<QFunction &, const PolicyInterface &, const MaximumLikelihoodModel<Experience>&, optional<double>>(
+                 "Basic constructor for MaximumLikelihoodModel.\n"
                  "\n"
                  "Note that differently from normal SARSA, ExpectedSARSA does not\n"
                  "self-contain its own QFunction. This is because many policies\n"
@@ -87,8 +87,8 @@ void exportMDPExpectedSARSA() {
                  "@param alpha The learning rate of the ExpectedSARSA method."
         , (arg("self"), "qfun", "policy", "model", "alpha")))
 
-        .def(init<QFunction &, const PolicyInterface &, const SparseRLModel<SparseExperience>&, optional<double>>(
-                 "Basic constructor for SparseRLModel.\n"
+        .def(init<QFunction &, const PolicyInterface &, const SparseMaximumLikelihoodModel<SparseExperience>&, optional<double>>(
+                 "Basic constructor for SparseMaximumLikelihoodModel.\n"
                  "\n"
                  "Note that differently from normal SARSA, ExpectedSARSA does not\n"
                  "self-contain its own QFunction. This is because many policies\n"

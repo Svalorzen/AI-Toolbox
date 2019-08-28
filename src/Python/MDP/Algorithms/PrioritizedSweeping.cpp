@@ -4,9 +4,9 @@
 #include "../../Utils.hpp"
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
@@ -127,8 +127,8 @@ void exportPrioritizedSweepingByModel(std::string className) {
 void exportMDPPrioritizedSweeping() {
     using namespace AIToolbox::MDP;
 
-    exportPrioritizedSweepingByModel<RLModel<Experience>>("RLModel");
-    exportPrioritizedSweepingByModel<SparseRLModel<SparseExperience>>("SparseRLModel");
+    exportPrioritizedSweepingByModel<MaximumLikelihoodModel<Experience>>("MaximumLikelihoodModel");
+    exportPrioritizedSweepingByModel<SparseMaximumLikelihoodModel<SparseExperience>>("SparseMaximumLikelihoodModel");
     exportPrioritizedSweepingByModel<Model>("Model");
     exportPrioritizedSweepingByModel<SparseModel>("SparseModel");
 }

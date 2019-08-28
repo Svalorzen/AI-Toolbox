@@ -1,9 +1,9 @@
 #include <AIToolbox/MDP/Algorithms/SARSAL.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
@@ -54,8 +54,8 @@ void exportMDPSARSAL() {
                  "@param tolerance The cutoff point for eligibility traces."
         , (arg("self"), "S", "A", "discount", "alpha", "lambda", "tolerance")))
 
-        .def(init<const RLModel<Experience>&, optional<double, double, double>>(
-                 "Basic constructor for RLModel.\n"
+        .def(init<const MaximumLikelihoodModel<Experience>&, optional<double, double, double>>(
+                 "Basic constructor for MaximumLikelihoodModel.\n"
                  "\n"
                  "The learning rate must be > 0.0 and <= 1.0, otherwise the\n"
                  "constructor will throw an std::invalid_argument.\n"
@@ -71,8 +71,8 @@ void exportMDPSARSAL() {
                  "@param tolerance The cutoff point for eligibility traces."
         , (arg("self"), "model", "alpha", "lambda", "tolerance")))
 
-        .def(init<const SparseRLModel<SparseExperience>&, optional<double, double, double>>(
-                 "Basic constructor for SparseRLModel.\n"
+        .def(init<const SparseMaximumLikelihoodModel<SparseExperience>&, optional<double, double, double>>(
+                 "Basic constructor for SparseMaximumLikelihoodModel.\n"
                  "\n"
                  "This constructor copies the S and A and discount parameters from\n"
                  "the supplied model. It does not keep the reference, so if the\n"
