@@ -1,10 +1,10 @@
-#define BOOST_TEST_MODULE Factored_MDP_CooperativeRLModel
+#define BOOST_TEST_MODULE Factored_MDP_CooperativeMaximumLikelihoodModel
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Factored/MDP/CooperativeRLModel.hpp>
+#include <AIToolbox/Factored/MDP/CooperativeMaximumLikelihoodModel.hpp>
 
 #include <AIToolbox/Factored/MDP/Environments/SysAdmin.hpp>
 
@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     auto model = afm::makeSysAdminBiRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
 
     afm::CooperativeExperience exp(model.getS(), model.getA(), model.getTransitionFunction().nodes);
-    afm::CooperativeRLModel rl(exp, 0.9, false);
+    afm::CooperativeMaximumLikelihoodModel rl(exp, 0.9, false);
 
     const auto & tt = model.getTransitionFunction();
     const auto & t = rl.getTransitionFunction();
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     auto model = afm::makeSysAdminUniRing(3, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
 
     afm::CooperativeExperience exp(model.getS(), model.getA(), model.getTransitionFunction().nodes);
-    afm::CooperativeRLModel rl1(exp, 0.9, false);
+    afm::CooperativeMaximumLikelihoodModel rl1(exp, 0.9, false);
 
     aif::Rewards rew(6); rew.setZero();
 
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     exp.record({1, 1, 0, 1, 2, 1}, {0, 0, 1}, {1, 2, 0, 1, 0, 0}, rew);
 
     rl1.sync();
-    afm::CooperativeRLModel rl2(exp, 0.9, true);
+    afm::CooperativeMaximumLikelihoodModel rl2(exp, 0.9, true);
 
     const auto & t1 = rl1.getTransitionFunction();
     const auto & r1 = rl1.getRewardFunction();

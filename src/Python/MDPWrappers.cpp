@@ -7,9 +7,9 @@ void exportMDPTypes();
 void exportMDPUtils();
 
 void exportMDPExperience();
-void exportMDPRLModel();
+void exportMDPMaximumLikelihoodModel();
 void exportMDPSparseExperience();
-void exportMDPSparseRLModel();
+void exportMDPSparseMaximumLikelihoodModel();
 void exportMDPModel();
 void exportMDPSparseModel();
 void exportMDPGenerativeModelPython();
@@ -50,8 +50,8 @@ void exportMDP() {
 
     exportMDPExperience();
     exportMDPSparseExperience();
-    exportMDPRLModel();
-    exportMDPSparseRLModel();
+    exportMDPMaximumLikelihoodModel();
+    exportMDPSparseMaximumLikelihoodModel();
     exportMDPModel();
     exportMDPSparseModel();
     exportMDPGenerativeModelPython();

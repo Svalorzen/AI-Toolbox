@@ -7,7 +7,7 @@
 #include <AIToolbox/Factored/MDP/Algorithms/LinearProgramming.hpp>
 #include <AIToolbox/Factored/MDP/Algorithms/CooperativePrioritizedSweeping.hpp>
 #include <AIToolbox/Factored/MDP/CooperativeExperience.hpp>
-#include <AIToolbox/Factored/MDP/CooperativeRLModel.hpp>
+#include <AIToolbox/Factored/MDP/CooperativeMaximumLikelihoodModel.hpp>
 
 #include <AIToolbox/Factored/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     auto problem = fm::makeSysAdminUniRing(2, 0.1, 0.2, 0.3, 0.4, 0.4, 0.4, 0.3);
 
     fm::CooperativeExperience exp(problem.getS(), problem.getA(), problem.getTransitionFunction().nodes);
-    fm::CooperativeRLModel model(exp, 0.95);
+    fm::CooperativeMaximumLikelihoodModel model(exp, 0.95);
 
     std::vector<std::vector<size_t>> domains{
         {0, 1},

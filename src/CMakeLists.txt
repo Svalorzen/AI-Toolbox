@@ -88,7 +88,7 @@ if (MAKE_FMDP)
         Factored/MDP/Utils.cpp
         Factored/MDP/Model.cpp
         Factored/MDP/CooperativeExperience.cpp
-        Factored/MDP/CooperativeRLModel.cpp
+        Factored/MDP/CooperativeMaximumLikelihoodModel.cpp
         Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
@@ -135,9 +135,9 @@ if (MAKE_PYTHON)
             Python/MDP/Utils.cpp
             Python/MDP/Types.cpp
             Python/MDP/Experience.cpp
-            Python/MDP/RLModel.cpp
+            Python/MDP/MaximumLikelihoodModel.cpp
             Python/MDP/SparseExperience.cpp
-            Python/MDP/SparseRLModel.cpp
+            Python/MDP/SparseMaximumLikelihoodModel.cpp
             Python/MDP/Model.cpp
             Python/MDP/SparseModel.cpp
             Python/MDP/GenerativeModelPython.cpp
