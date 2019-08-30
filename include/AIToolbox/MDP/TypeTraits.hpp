@@ -190,8 +190,8 @@ namespace AIToolbox::MDP {
 
                     static_cast<long unsigned   (Z::*)(size_t,size_t,size_t) const>  (&Z::getVisits),
                     static_cast<long unsigned   (Z::*)(size_t,size_t) const>         (&Z::getVisitsSum),
-                    static_cast<double          (Z::*)(size_t,size_t,size_t) const>  (&Z::getReward),
-                    static_cast<double          (Z::*)(size_t,size_t) const>         (&Z::getRewardSum),
+                    static_cast<double          (Z::*)(size_t,size_t) const>  (&Z::getReward),
+                    static_cast<double          (Z::*)(size_t,size_t) const>  (&Z::getM2),
 
                     bool()
             ) { return true; }
