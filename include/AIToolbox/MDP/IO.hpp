@@ -88,11 +88,12 @@ namespace AIToolbox::MDP {
 
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
+                // Visits, then rewards and M2s
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    os << exp.getVisits(s, a, s1) << '\t' << exp.getReward(s, a, s1) << '\t';
+                    os << exp.getVisits(s, a, s1) << ' ';
                 }
+                os << '\n' << exp.getReward(s, a) << ' ' << exp.getM2(s, a) << '\n';
             }
-            os << '\n';
         }
         return os;
     }
