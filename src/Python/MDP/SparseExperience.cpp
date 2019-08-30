@@ -10,11 +10,14 @@ void exportMDPSparseExperience() {
 
          "This class keeps track of registered events and rewards.\n"
          "\n"
-         "This class is a simple logger of events. It keeps track of both\n"
-         "the number of times a particular transition has happened, and the\n"
-         "total reward gained in any particular transition. However, it\n"
-         "does not record each event separately (i.e. you can't extract\n"
-         "the results of a particular transition in the past).\n"
+         "This class is a simple aggregator of events. It keeps track of both the\n"
+         "number of times a particular transition has been visited, and the\n"
+         "average reward gained per state-action pair (i.e. the maximum likelihood\n"
+         "estimator of a QFunction from the data). It also computes the M2\n"
+         "statistic for the rewards (avg sum of squares minus square avg).\n"
+         "\n"
+         "It does not record each event separately (i.e. you can't extract the\n"
+         "results of a particular transition in the past).\n"
          "\n"
          "The difference between this class and the MDP.Experience class is\n"
          "that this class stores recorded events in sparse matrices. This\n"
@@ -64,17 +67,14 @@ void exportMDPSparseExperience() {
                  "This function returns the cumulative rewards obtained from a specific transition.\n"
                  "\n"
                  "@param s     Old state.\n"
-                 "@param a     Performed action.\n"
-                 "@param s1    New state."
-        , (arg("self"), "s", "a", "s1"))
+                 "@param a     Performed action."
+        , (arg("self"), "s", "a"))
 
-        .def("getRewardSum",    &SparseExperience::getRewardSum,
-                 "This function returns the total reward obtained from transitions that start with the specified state and action.\n"
+        .def("getM2",           &SparseExperience::getM2,
+                 "This function returns the M2 statistic for the specified state-action pair.\n"
                  "\n"
-                 "@param s     The initial state.\n"
-                 "@param a     Performed action.\n"
-                 "\n"
-                 "@return The total number of transitions that start with the specified state-action pair."
+                 "@param s     Old state.\n"
+                 "@param a     Performed action."
         , (arg("self"), "s", "a"))
 
         .def("getS",            &SparseExperience::getS,
