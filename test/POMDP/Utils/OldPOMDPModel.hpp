@@ -102,7 +102,6 @@ class OldPOMDPModel<M> : public M {
          *
          * In addition, the observation container must contain a
          * valid transition function.
-         * \sa transitionCheck()
          *
          * \sa copyDumb3D()
          *

@@ -111,7 +111,7 @@ class OldMDPModel {
          * double, so these conversions must be possible.
          *
          * In addition, the transition container must contain a valid
-         * transition function.  \sa transitionCheck()
+         * transition function.
          *
          * \sa copyDumb3D()
          *

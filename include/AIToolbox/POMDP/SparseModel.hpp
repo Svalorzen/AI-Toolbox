@@ -115,9 +115,6 @@ namespace AIToolbox::POMDP {
              *
              * In addition, the observation container must contain a
              * valid transition function.
-             * \sa transitionCheck()
-             *
-             * \sa copyDumb3D()
              *
              * @tparam ObFun The external observations container type.
              * @param o The number of possible observations the agent could make.

@@ -107,9 +107,7 @@ namespace AIToolbox::MDP {
              * double, so these conversions must be possible.
              *
              * In addition, the transition container must contain a valid
-             * transition function.  \sa transitionCheck()
-             *
-             * \sa copyDumb3D()
+             * transition function.
              *
              * The discount parameter must be between 0 and 1 included,
              * otherwise the constructor will throw an
