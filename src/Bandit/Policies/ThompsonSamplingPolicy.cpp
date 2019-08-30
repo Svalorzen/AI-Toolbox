@@ -12,25 +12,19 @@ namespace AIToolbox::Bandit {
         // QFunction and counts parameters to obtain the correct mean
         // estimates.
         size_t bestAction = 0;
-        double bestValue;
-        {
+        double bestValue = std::numeric_limits<double>::min();
+
+        for (size_t a = 0; a < A; ++a) {
             // We need at least 2 samples per arm with student-t to estimate
             // the variance.
-            if (counts_[0] < 2)
-                return 0;
+            if (counts_[a] < 2)
+                return a;
 
             //     mu = est_mu - t * s / sqrt(n)
             // where
             //     s^2 = 1 / (n-1) * sum_i (x_i - est_mu)^2
             // and
             //     t = student_t sample with n-1 degrees of freedom
-            std::student_t_distribution<double> dist(counts_[0] - 1);
-            bestValue = q_[0] - dist(rand_) * std::sqrt(M2s_[0] / (counts_[0] * (counts_[0] - 1)));
-        }
-        for (size_t a = 1; a < A; ++a) {
-            if (counts_[a] < 2)
-                return a;
-
             std::student_t_distribution<double> dist(counts_[a] - 1);
             const double val = q_[a] - dist(rand_) * std::sqrt(M2s_[a] / (counts_[a] * (counts_[a] - 1)));
 
