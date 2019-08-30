@@ -20,10 +20,10 @@ class MDPPythonExperienceTests(unittest.TestCase):
         self.assertEqual(exp.getS(), S)
         self.assertEqual(exp.getA(), A)
         self.assertEqual(exp.getVisits(0,0,0), 0)
-        self.assertEqual(exp.getReward(0,0,0), 0.0)
+        self.assertEqual(exp.getReward(0,0), 0.0)
 
         self.assertEqual(exp.getVisits(S-1,A-1,S-1), 0)
-        self.assertEqual(exp.getReward(S-1,A-1,S-1), 0.0)
+        self.assertEqual(exp.getReward(S-1,A-1), 0.0)
 
     def testRecording(self):
         S , A = 5, 6
@@ -37,21 +37,22 @@ class MDPPythonExperienceTests(unittest.TestCase):
         exp.record(s,a,s1,rew)
 
         self.assertEqual(exp.getVisits(s,a,s1), 1)
-        self.assertEqual(exp.getReward(s,a,s1), rew)
+        self.assertEqual(exp.getReward(s,a), rew)
 
         exp.reset()
 
         self.assertEqual(exp.getVisits(s,a,s1), 0)
+        self.assertEqual(exp.getReward(s,a), 0)
 
         exp.record(s,a,s1,negrew)
 
         self.assertEqual(exp.getVisits(s,a,s1), 1)
-        self.assertEqual(exp.getReward(s,a,s1), negrew)
+        self.assertEqual(exp.getReward(s,a), negrew)
 
         exp.record(s,a,s1,zerorew)
 
         self.assertEqual(exp.getVisits(s,a,s1), 2)
-        self.assertEqual(exp.getReward(s,a,s1), negrew)
+        self.assertEqual(exp.getReward(s,a), negrew / 2.0)
 
         self.assertEqual(exp.getVisitsSum(s, a), 2)
 
@@ -65,26 +66,23 @@ class MDPPythonExperienceTests(unittest.TestCase):
             visits.append([])
             rewards.append([])
             for a in xrange(0, A):
+                rewards[s].append(generator())
                 visits[s].append([])
-                rewards[s].append([])
                 for s1 in xrange(0, S):
                     visits[s][a].append(generator())
-                    rewards[s][a].append(generator())
 
-        exp.setVisits(visits);
-        exp.setRewards(rewards);
+        exp.setVisitsTable(visits);
+        exp.setRewardMatrix(rewards);
 
         for s in xrange(0, S):
             for a in xrange(0, A):
-                visitsSum, rewardSum = 0, 0
+                visitsSum = 0
                 for s1 in xrange(0, S):
                     self.assertEqual( exp.getVisits(s,a,s1), visits[s][a][s1] );
-                    self.assertEqual( exp.getReward(s,a,s1), rewards[s][a][s1] );
                     visitsSum += visits[s][a][s1];
-                    rewardSum += rewards[s][a][s1];
 
                 self.assertEqual( exp.getVisitsSum(s,a), visitsSum );
-                self.assertEqual( exp.getRewardSum(s,a), rewardSum );
+                self.assertEqual( exp.getReward(s,a), rewards[s][a] );
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
