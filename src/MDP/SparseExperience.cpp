@@ -2,25 +2,33 @@
 
 namespace AIToolbox::MDP {
     SparseExperience::SparseExperience(const size_t s, const size_t a) :
-            S(s), A(a), visits_(A, SparseTable2D(S, S)),
-            visitsSum_(SparseTable2D(S, A)), rewards_(A, SparseMatrix2D(S, S)),
-            rewardsSum_(SparseMatrix2D(S, A)) {}
+            S(s), A(a), visits_(A, SparseTable2D(S, S)), visitsSum_(S, A), rewards_(S, A), M2s_(S, A) {}
 
     void SparseExperience::record(const size_t s, const size_t a, const size_t s1, const double rew) {
-        visits_[a].coeffRef(s, s1)  += 1;
-        visitsSum_.coeffRef(s, a)   += 1;
+        // Count updates
+        visits_[a].coeffRef(s, s1) += 1;
+        visitsSum_.coeffRef(s, a)  += 1;
 
-        rewards_[a].coeffRef(s, s1) += rew;
-        rewardsSum_.coeffRef(s, a)  += rew;
+        const auto delta = rew - rewards_.coeffRef(s, a);
+        // Rolling average for this s,a,s1 tuple
+        rewards_.coeffRef(s, a) += delta / visitsSum_.coeffRef(s, a);
+        // Rolling sum of square diffs.
+        M2s_.coeffRef(s, a) += delta * (rew - rewards_.coeffRef(s, a));
     }
 
     void SparseExperience::reset() {
         for ( size_t a = 0; a < A; ++a ) {
             visits_[a].setZero();
-            rewards_[a].setZero();
+            visits_[a].makeCompressed();
         }
         visitsSum_.setZero();
-        rewardsSum_.setZero();
+        visitsSum_.makeCompressed();
+
+        rewards_.setZero();
+        rewards_.makeCompressed();
+
+        M2s_.setZero();
+        M2s_.makeCompressed();
     }
 
     unsigned long SparseExperience::getVisits(const size_t s, const size_t a, const size_t s1) const {
@@ -31,27 +39,18 @@ namespace AIToolbox::MDP {
         return visitsSum_.coeff(s, a);
     }
 
-    double SparseExperience::getReward(const size_t s, const size_t a, const size_t s1) const {
-        return rewards_[a].coeff(s, s1);
+    double SparseExperience::getReward(const size_t s, const size_t a) const {
+        return rewards_.coeff(s, a);
     }
 
-    double SparseExperience::getRewardSum(const size_t s, const size_t a) const {
-        return rewardsSum_.coeff(s, a);
+    double SparseExperience::getM2(const size_t s, const size_t a) const {
+        return M2s_.coeff(s, a);
     }
 
-    const SparseExperience::VisitTable & SparseExperience::getVisitTable() const {
-        return visits_;
-    }
-
-    const SparseExperience::RewardMatrix & SparseExperience::getRewardMatrix() const {
-        return rewards_;
-    }
-
-    size_t SparseExperience::getS() const {
-        return S;
-    }
-
-    size_t SparseExperience::getA() const {
-        return A;
-    }
+    const SparseTable3D & SparseExperience::getVisitsTable() const { return visits_; }
+    const SparseTable2D & SparseExperience::getVisitsSumTable() const { return visitsSum_; }
+    const SparseMatrix2D & SparseExperience::getRewardMatrix() const { return rewards_; }
+    const SparseMatrix2D & SparseExperience::getM2Matrix() const { return M2s_; }
+    size_t SparseExperience::getS() const { return S; }
+    size_t SparseExperience::getA() const { return A; }
 }

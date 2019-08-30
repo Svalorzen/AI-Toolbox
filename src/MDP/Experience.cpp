@@ -4,54 +4,51 @@
 
 namespace AIToolbox::MDP {
     Experience::Experience(const size_t s, const size_t a) :
-            S(s), A(a), visits_(boost::extents[S][A][S]), visitsSum_(boost::extents[S][A]),
-            rewards_(boost::extents[S][A][S]), rewardsSum_(boost::extents[S][A]) {}
+            S(s), A(a), visits_(A, Table2D(S, S)), visitsSum_(S, A), rewards_(S, A), M2s_(S, A)
+    {
+        reset();
+    }
 
     void Experience::record(const size_t s, const size_t a, const size_t s1, const double rew) {
-        visits_[s][a][s1]   += 1;
-        visitsSum_[s][a]    += 1;
+        // Count updates
+        visits_[a](s, s1) += 1;
+        visitsSum_(s, a) += 1;
 
-        rewards_[s][a][s1]  += rew;
-        rewardsSum_[s][a]   += rew;
+        const auto delta = rew - rewards_(s, a);
+        // Rolling average for this s,a,s1 tuple
+        rewards_(s, a) += delta / visitsSum_(s, a);
+        // Rolling sum of square diffs.
+        M2s_(s, a) += delta * (rew - rewards_(s, a));
     }
 
     void Experience::reset() {
-        std::fill(visits_.data(), visits_.data() + visits_.num_elements(), 0ul);
-        std::fill(visitsSum_.data(), visitsSum_.data() + visitsSum_.num_elements(), 0ul);
-
-        std::fill(rewards_.data(), rewards_.data() + rewards_.num_elements(), 0.0);
-        std::fill(rewardsSum_.data(), rewardsSum_.data() + rewardsSum_.num_elements(), 0.0);
+        for (size_t a = 0; a < A; ++a)
+            visits_[a].setZero();
+        visitsSum_.setZero();
+        rewards_.setZero();
+        M2s_.setZero();
     }
 
     unsigned long Experience::getVisits(const size_t s, const size_t a, const size_t s1) const {
-        return visits_[s][a][s1];
+        return visits_[a](s, s1);
     }
 
     unsigned long Experience::getVisitsSum(const size_t s, const size_t a) const {
-        return visitsSum_[s][a];
+        return visitsSum_(s, a);
     }
 
-    double Experience::getReward(const size_t s, const size_t a, const size_t s1) const {
-        return rewards_[s][a][s1];
+    double Experience::getReward(const size_t s, const size_t a) const {
+        return rewards_(s, a);
     }
 
-    double Experience::getRewardSum(const size_t s, const size_t a) const {
-        return rewardsSum_[s][a];
+    double Experience::getM2(const size_t s, const size_t a) const {
+        return M2s_(s, a);
     }
 
-    const Experience::VisitTable & Experience::getVisitTable() const {
-        return visits_;
-    }
-
-    const Experience::RewardMatrix & Experience::getRewardMatrix() const {
-        return rewards_;
-    }
-
-    size_t Experience::getS() const {
-        return S;
-    }
-
-    size_t Experience::getA() const {
-        return A;
-    }
+    const Table3D & Experience::getVisitsTable() const { return visits_; }
+    const Table2D & Experience::getVisitsSumTable() const { return visitsSum_; }
+    const QFunction & Experience::getRewardMatrix() const { return rewards_; }
+    const QFunction & Experience::getM2Matrix() const { return M2s_; }
+    size_t Experience::getS() const { return S; }
+    size_t Experience::getA() const { return A; }
 }
