@@ -155,6 +155,15 @@ namespace AIToolbox::MDP {
             const Table3D & getVisitsTable() const;
 
             /**
+             * @brief This function returns the visits table for inspection.
+             *
+             * @param a The action requested.
+             *
+             * @return The visits table.
+             */
+            const Table2D & getVisitsTable(size_t a) const;
+
+            /**
              * @brief This function returns the visits sum table for inspection.
              *
              * This table contains per state-action pair visit counts.

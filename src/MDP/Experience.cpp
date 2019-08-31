@@ -46,6 +46,7 @@ namespace AIToolbox::MDP {
     }
 
     const Table3D & Experience::getVisitsTable() const { return visits_; }
+    const Table2D & Experience::getVisitsTable(const size_t a) const { return visits_[a]; }
     const Table2D & Experience::getVisitsSumTable() const { return visitsSum_; }
     const QFunction & Experience::getRewardMatrix() const { return rewards_; }
     const QFunction & Experience::getM2Matrix() const { return M2s_; }

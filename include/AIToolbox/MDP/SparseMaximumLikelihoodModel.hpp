@@ -331,11 +331,15 @@ namespace AIToolbox::MDP {
         // Create reciprocal for fast division
         const double visitSumReciprocal = 1.0 / visitSum;
 
-        // Normalize
-        for ( size_t s1 = 0; s1 < S; ++s1 ) {
-            const auto visits = experience_.getVisits(s, a, s1);
-            if (visits > 0)
-                transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+        if constexpr (is_experience_eigen_v<E>) {
+            transitions_[a].row(s) = experience_.getVisitsTable(a).row(s).template cast<double>() * visitSumReciprocal;
+        } else {
+            // Normalize
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                const auto visits = experience_.getVisits(s, a, s1);
+                if (visits > 0)
+                    transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+            }
         }
     }
 

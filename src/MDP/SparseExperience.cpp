@@ -48,6 +48,7 @@ namespace AIToolbox::MDP {
     }
 
     const SparseTable3D & SparseExperience::getVisitsTable() const { return visits_; }
+    const SparseTable2D & SparseExperience::getVisitsTable(const size_t a) const { return visits_[a]; }
     const SparseTable2D & SparseExperience::getVisitsSumTable() const { return visitsSum_; }
     const SparseMatrix2D & SparseExperience::getRewardMatrix() const { return rewards_; }
     const SparseMatrix2D & SparseExperience::getM2Matrix() const { return M2s_; }

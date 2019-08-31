@@ -96,7 +96,7 @@ namespace AIToolbox::MDP {
      * class. The interface is the following:
      *
      * - T getTransitionFunction(size_t a) const : Returns the transition function for a given action as a matrix SxS', where T is some Eigen matrix type.
-     * - R getRewardFunction(size_t a) const : Returns the reward function for a given action as a matrix SxS', where R is some Eigen matrix type.
+     * - R getRewardFunction() const : Returns the reward function as a matrix SxA', where R is some Eigen matrix type.
      *
      * In addition the MDP needs to respect the interface for the MDP model.
      *
@@ -204,6 +204,76 @@ namespace AIToolbox::MDP {
     };
     template <typename M>
     inline constexpr bool is_experience_v = is_experience<M>::value;
+
+    /**
+     * @brief This struct represents the required Experience interface that allows leverage Eigen.
+     *
+     * This struct is used to check interfaces of classes in templates.  In
+     * particular, this struct tests for the interface of an MDP Experience
+     * which uses Eigen matrices internally.
+     * The interface must be implemented and be public in the parameter
+     * class. The interface is the following:
+     *
+     * - T getVisitsTable(size_t a) const : Returns the visits table for a given action as a matrix SxS', where T is some Eigen matrix type.
+     * - R getRewardFunction() const : Returns the reward matrix as a matrix SxA', where R is some Eigen matrix type.
+     * - S getM2Matrix() const : Returns the M2 matrix as a matrix SxA', where S is some Eigen matrix type.
+     *
+     * In addition the MDP needs to respect the interface for the MDP model.
+     *
+     * \sa MDP::is_model
+     *
+     * is_model_eigen<M>::value will be equal to true is M implements the interface,
+     * and false otherwise.
+     *
+     * @tparam M The class to test for the interface.
+     */
+    template <typename E>
+    struct is_experience_eigen {
+        private:
+            // With this macro we can find out the return type of a given member function; we use it
+            // so that we can check whether the class offers methods which return Eigen types, so we
+            // can enable the high-performance algorithm variants.
+            #define RETVAL_EXTRACTOR(fun_name)                                                                                      \
+                                                                                                                                    \
+            template <typename Z, typename ...Args> static auto fun_name##RetType(Z* z) ->                                          \
+                                                                remove_cv_ref_t<decltype(z->fun_name(std::declval<Args>()...))>;    \
+                                                                                                                                    \
+            template <typename Z, typename ...Args> static auto fun_name##RetType(...) -> int
+
+            RETVAL_EXTRACTOR(getVisitsTable);
+            RETVAL_EXTRACTOR(getRewardMatrix);
+            RETVAL_EXTRACTOR(getM2Matrix);
+
+            // The template parameters here must match the ones used in the test function!
+            // So const M if the function is const, and then the parameter types.
+            using F = decltype(getVisitsTableRetType<const E, size_t>(0));
+            using R = decltype(getRewardMatrixRetType<const E>(0));
+            using S = decltype(getM2MatrixRetType<const E>(0));
+
+            template <typename Z> static constexpr auto test(int) -> decltype(
+
+                    static_cast<const F & (Z::*)(size_t) const>         (&Z::getVisitsTable),
+                    static_cast<const R & (Z::*)()       const>         (&Z::getRewardMatrix),
+                    static_cast<const S & (Z::*)()       const>         (&Z::getM2Matrix),
+
+                    bool()
+            ) { return true; }
+
+            template <typename Z> static constexpr auto test(...) -> bool
+            { return false; }
+
+            #undef RETVAL_EXTRACTOR
+
+        public:
+            enum {
+                value = is_experience_v<E> && test<E>(0) &&
+                        std::is_base_of_v<Eigen::EigenBase<F>, F> &&
+                        std::is_base_of_v<Eigen::EigenBase<R>, R> &&
+                        std::is_base_of_v<Eigen::EigenBase<S>, S>
+            };
+    };
+    template <typename M>
+    inline constexpr bool is_experience_eigen_v = is_experience_eigen<M>::value;
 }
 
 #endif
