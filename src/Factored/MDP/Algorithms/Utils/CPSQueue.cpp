@@ -146,10 +146,21 @@ namespace AIToolbox::Factored {
             // one element in its node which is compatible with us (since it
             // contains all possible values of the parents).
             std::shuffle(std::begin(node.order), std::end(node.order), rand_);
+            // FIXME: Here we should change 2 things:
+            // - First check whether reta or rets are fixed and if so take
+            // what's there (optional) (this could be done at the top once for
+            // the action, also final assignment at bottom should be done only
+            // if not fully set) -> only needed for possible speed.
+            // - Secondly, the jj loop should probably span the rest of the
+            // block. Here basically we take a shot at the first action that is
+            // compatible, and we bail if we don't find anything useful.
+            // Instead we should just try again until we have found something,
+            // otherwise we might leave a lot of rules behind just because we
+            // picked the wrong action to try.
             auto j = 0;
             for (const auto jj : node.order) {
+                if (jj == node.maxA) continue;
                 if (partialMatch(A, reta, node.actionTag, jj)) {
-                    assignMatch(A, reta, node.actionTag, jj);
                     j = jj;
                     break;
                 }
@@ -158,6 +169,7 @@ namespace AIToolbox::Factored {
             // Select compatible parent set with highest priority
             auto && nn = node.nodes[j];
             auto x = nn.maxS;
+            auto xVal = nn.maxV;
             if (partialMatch(S, rets, nn.tag, nn.maxS)) {
                 // If the current max is alright...
                 // Set to zero
@@ -172,22 +184,27 @@ namespace AIToolbox::Factored {
                 // propagate the new max above.
             } else {
                 // We have to find another one
-                double ourMax = -2.0;
+                xVal = -2.0;
 
                 for (size_t xx = 0; xx < static_cast<size_t>(nn.priorities.size()); ++xx) {
                     if (xx == nn.maxS) continue;
-                    if (nn.priorities[xx] > ourMax && partialMatch(S, rets, nn.tag, xx)) {
-                        ourMax = nn.priorities[xx];
+                    if (nn.priorities[xx] > xVal && partialMatch(S, rets, nn.tag, xx)) {
                         x = xx;
+                        xVal = nn.priorities[x];
                     }
                 }
                 // Set to zero
-                if (ourMax > 0.0)
+                if (xVal > 0.0)
                     --nonZeroPriorities_;
                 nn.priorities[x] = 0.0;
                 // No max to update tho
             }
-            assignMatch(S, rets, nn.tag, x);
+            // We only assign if we found something interesting, otherwise we
+            // avoid setting variables and wait till the end.
+            if (xVal > 0.0) {
+                assignMatch(A, reta, node.actionTag, j);
+                assignMatch(S, rets, nn.tag, x);
+            }
         }
     }
 
