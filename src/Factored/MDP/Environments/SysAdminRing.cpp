@@ -47,7 +47,7 @@ namespace AIToolbox::Factored::MDP {
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            DBN::Node sa0{{}, {}};
+            FactoredDDN::DBNNode sa0{{}, {}};
             unsigned neighborId;
             // Set the correct dependencies for the ring
             if (a == 0) {
@@ -60,7 +60,7 @@ namespace AIToolbox::Factored::MDP {
             }
             sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
 
-            DBN::Node sa1{{a * 2}, sa1Matrix};
+            FactoredDDN::DBNNode sa1{{a * 2}, sa1Matrix};
 
             nodeStatus.nodes.emplace_back(std::move(sa0));
             nodeStatus.nodes.emplace_back(std::move(sa1));
@@ -68,8 +68,8 @@ namespace AIToolbox::Factored::MDP {
             FactoredDDN::Node nodeLoad{{a}, {}};
 
             // Here we only depend on our own previous load state
-            DBN::Node la0{{a * 2, (a * 2) + 1}, la0Matrix};
-            DBN::Node la1{{(a * 2) + 1}, la1Matrix};
+            FactoredDDN::DBNNode la0{{a * 2, (a * 2) + 1}, la0Matrix};
+            FactoredDDN::DBNNode la1{{(a * 2) + 1}, la1Matrix};
 
             nodeLoad.nodes.emplace_back(std::move(la0));
             nodeLoad.nodes.emplace_back(std::move(la1));
@@ -137,7 +137,7 @@ namespace AIToolbox::Factored::MDP {
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            DBN::Node sa0{{}, {}};
+            FactoredDDN::DBNNode sa0{{}, {}};
             unsigned neighborId;
             // Set the correct dependencies for the ring
             if (a == 0) {
@@ -154,7 +154,7 @@ namespace AIToolbox::Factored::MDP {
             }
             sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
 
-            DBN::Node sa1{{a * 2}, sa1Matrix};
+            FactoredDDN::DBNNode sa1{{a * 2}, sa1Matrix};
 
             nodeStatus.nodes.emplace_back(std::move(sa0));
             nodeStatus.nodes.emplace_back(std::move(sa1));
@@ -162,8 +162,8 @@ namespace AIToolbox::Factored::MDP {
             FactoredDDN::Node nodeLoad{{a}, {}};
 
             // Here we only depend on our own previous load state
-            DBN::Node la0{{a * 2, (a * 2) + 1}, la0Matrix};
-            DBN::Node la1{{(a * 2) + 1}, la1Matrix};
+            FactoredDDN::DBNNode la0{{a * 2, (a * 2) + 1}, la0Matrix};
+            FactoredDDN::DBNNode la1{{(a * 2) + 1}, la1Matrix};
 
             nodeLoad.nodes.emplace_back(std::move(la0));
             nodeLoad.nodes.emplace_back(std::move(la1));

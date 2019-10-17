@@ -49,7 +49,7 @@ namespace AIToolbox::Factored::MDP {
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            DBN::Node sa0{{}, {}};
+            FactoredDDN::DBNNode sa0{{}, {}};
             auto cell = grid(a);
             sa0.tag = {cell * 2};
             // Add to tag all elements around it.
@@ -67,7 +67,7 @@ namespace AIToolbox::Factored::MDP {
             unsigned neighborId = std::distance(beg, std::find(beg, end, cell * 2));
             sa0.matrix = makeA0MatrixStatus(sa0.tag.size() - 1, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
 
-            DBN::Node sa1{{cell * 2}, sa1Matrix};
+            FactoredDDN::DBNNode sa1{{cell * 2}, sa1Matrix};
 
             nodeStatus.nodes.emplace_back(std::move(sa0));
             nodeStatus.nodes.emplace_back(std::move(sa1));
@@ -75,8 +75,8 @@ namespace AIToolbox::Factored::MDP {
             FactoredDDN::Node nodeLoad{{a}, {}};
 
             // Here we only depend on our own previous load state
-            DBN::Node la0{{cell * 2, (cell * 2) + 1}, la0Matrix};
-            DBN::Node la1{{(cell * 2) + 1}, la1Matrix};
+            FactoredDDN::DBNNode la0{{cell * 2, (cell * 2) + 1}, la0Matrix};
+            FactoredDDN::DBNNode la1{{(cell * 2) + 1}, la1Matrix};
 
             nodeLoad.nodes.emplace_back(std::move(la0));
             nodeLoad.nodes.emplace_back(std::move(la1));
@@ -147,7 +147,7 @@ namespace AIToolbox::Factored::MDP {
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            DBN::Node sa0{{}, {}};
+            FactoredDDN::DBNNode sa0{{}, {}};
             auto cell = grid(a);
             sa0.tag = {cell * 2};
             // Add to tag all elements around it.
@@ -162,7 +162,7 @@ namespace AIToolbox::Factored::MDP {
             unsigned neighborId = std::distance(beg, std::find(beg, end, cell * 2));
             sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
 
-            DBN::Node sa1{{cell * 2}, sa1Matrix};
+            FactoredDDN::DBNNode sa1{{cell * 2}, sa1Matrix};
 
             nodeStatus.nodes.emplace_back(std::move(sa0));
             nodeStatus.nodes.emplace_back(std::move(sa1));
@@ -170,8 +170,8 @@ namespace AIToolbox::Factored::MDP {
             FactoredDDN::Node nodeLoad{{a}, {}};
 
             // Here we only depend on our own previous load state
-            DBN::Node la0{{cell * 2, (cell * 2) + 1}, la0Matrix};
-            DBN::Node la1{{(cell * 2) + 1}, la1Matrix};
+            FactoredDDN::DBNNode la0{{cell * 2, (cell * 2) + 1}, la0Matrix};
+            FactoredDDN::DBNNode la1{{(cell * 2) + 1}, la1Matrix};
 
             nodeLoad.nodes.emplace_back(std::move(la0));
             nodeLoad.nodes.emplace_back(std::move(la1));

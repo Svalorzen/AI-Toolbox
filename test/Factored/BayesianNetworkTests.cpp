@@ -10,8 +10,9 @@
 namespace ai = AIToolbox;
 namespace aif = AIToolbox::Factored;
 
-BOOST_AUTO_TEST_CASE( back_projection ) {
+BOOST_AUTO_TEST_CASE( back_project ) {
     aif::State s{3,3,3};
+    aif::Action a{2,2};
 
     aif::FactoredVector A;
     aif::BasisFunction a1{{0,1}, {}};
@@ -37,79 +38,43 @@ BOOST_AUTO_TEST_CASE( back_projection ) {
        0.20, 0.10, 0.70, // 2, 1
        0.50, 0.10, 0.40  // 2, 2
     ;
-    aif::DBN::Node f1{{0,1}, p};
-    aif::DBN::Node f2{{1,2}, p};
-    aif::DBN::Node f3{{0,2}, p};
-    auto T = aif::DynamicBayesianNetwork{{f1, f2, f3}};
+    aif::FactoredDDN::Node f1{{0}, {
+        {{0,1}, p}, {{0,2}, p}
+    }};
+    aif::FactoredDDN::Node f2{{1}, {
+        {{0,1}, p}, {{0,2}, p}
+    }};
+    aif::FactoredDDN::Node f3{{1}, {
+        {{0,1}, p}, {{0,2}, p}
+    }};
+    auto T = aif::FactoredDDN{{f1, f2, f3}};
 
     ai::Vector w(2); w << 2.0, 3.0;
 
-    aif::FactoredVector vbp = aif::backProject(s, T, A * w);
-
     auto Aw = A * w;
+    aif::FactoredMatrix2D vbp = aif::backProject(s, a, T, Aw);
 
-    aif::PartialFactorsEnumerator e(s);
-    while (e.isValid()) {
-        double valueBP = vbp.getValue(s, (*e).second);
-        double value = 0.0;
+    aif::PartialFactorsEnumerator es(s);
+    aif::PartialFactorsEnumerator ea(a);
+    while (es.isValid()) {
+        while (ea.isValid()) {
+            double valueBP = vbp.getValue(s, a, (*es).second, (*ea).second);
+            double value = 0.0;
 
-        aif::PartialFactorsEnumerator s1(s);
-        while (s1.isValid()) {
-            value +=  T.getTransitionProbability(s, *e, *s1) *
-                  Aw.getValue(s, (*s1).second);
+            aif::PartialFactorsEnumerator s1(s);
+            while (s1.isValid()) {
+                value += T.getTransitionProbability(s, a, *es, *ea, *s1) *
+                      Aw.getValue(s, (*s1).second);
 
-            s1.advance();
-        }
-
-        BOOST_TEST_INFO("Value: " << value << "; Backprop V: " << valueBP);
-        BOOST_CHECK(ai::checkEqualGeneral(value, valueBP));
-
-        e.advance();
-    }
-}
-
-BOOST_AUTO_TEST_CASE( compact_ddn ) {
-    aif::State s{3,3,3};
-    ai::Matrix2D p1(9, 3); // x,y->z
-    p1 <<
-       0.90, 0.05, 0.05, // 0, 0
-       0.70, 0.20, 0.10, // 0, 1
-       0.20, 0.50, 0.30, // 0, 2
-       0.05, 0.90, 0.05, // 1, 0
-       0.10, 0.70, 0.20, // 1, 1
-       0.20, 0.50, 0.30, // 1, 2
-       0.05, 0.05, 0.90, // 2, 0
-       0.20, 0.10, 0.70, // 2, 1
-       0.50, 0.10, 0.40  // 2, 2
-    ;
-
-    ai::Matrix2D p2(3, 3);
-    p2.setIdentity();
-
-    std::vector<aif::DBN::Node> f {
-        {{0,1}, p1},
-        {{1,2}, p1},
-        {{0,2}, p1}
-    };
-
-    aif::CompactDDN::Node d1{0, {{0}, p2}};
-    aif::CompactDDN::Node d2{1, {{1}, p2}};
-    aif::CompactDDN::Node d3{2, {{2}, p2}};
-
-    auto T = aif::CompactDDN({{d1}, {d2}, {d3}}, {f});
-
-    for (size_t a = 0; a < 3; ++a) {
-        auto tmp = T.makeDiffTransition(a);
-
-        for (size_t i = 0; i < 3; ++i) {
-            if (i == a) {
-                BOOST_CHECK_EQUAL(tmp[i].matrix, p2);
-                BOOST_CHECK_EQUAL(tmp[i].tag.size(), 1);
-                BOOST_CHECK_EQUAL(tmp[i].tag[0], i);
-            } else {
-                BOOST_CHECK_EQUAL(tmp[i].matrix, p1);
-                BOOST_CHECK_EQUAL(ai::veccmp(tmp[i].tag, f[i].tag), 0);
+                s1.advance();
             }
+
+            BOOST_TEST_INFO("Value: " << value << "; Backprop V: " << valueBP);
+            BOOST_CHECK(ai::checkEqualGeneral(value, valueBP));
+
+            ea.advance();
         }
+        ea.reset();
+        es.advance();
     }
 }
