@@ -4,7 +4,7 @@
 
 namespace AIToolbox::Factored::MDP {
     CooperativeExperience::CooperativeExperience(const DDNGraph & graph)
-            : graph_(graph)
+            : graph_(graph), timesteps_(0)
     {
         const auto & S = graph_.getS();
         // init visits with unsigned structure
@@ -23,6 +23,8 @@ namespace AIToolbox::Factored::MDP {
     }
 
     const CooperativeExperience::Indeces & CooperativeExperience::record(const State & s, const Action & a, const State & s1, const Rewards & rew) {
+        ++timesteps_;
+
         const auto & S = graph_.getS();
         for (size_t i = 0; i < S.size(); ++i) {
             auto & rNode = rewards_[i];
@@ -53,6 +55,11 @@ namespace AIToolbox::Factored::MDP {
             M2s_[i].setZero();
             visits_[i].setZero();
         }
+        timesteps_ = 0;
+    }
+
+    unsigned long CooperativeExperience::getTimesteps() const {
+        return timesteps_;
     }
 
     const CooperativeExperience::VisitsTable & CooperativeExperience::getVisitsTable() const {

@@ -70,6 +70,13 @@ namespace AIToolbox::Factored::MDP {
             void reset();
 
             /**
+             * @brief This function returns the number of times the record function has been called.
+             *
+             * @return The number of recorded timesteps.
+             */
+            unsigned long getTimesteps() const;
+
+            /**
              * @brief This function returns the visits table for inspection.
              *
              * @return The visits table.
@@ -118,6 +125,8 @@ namespace AIToolbox::Factored::MDP {
             RewardMatrix rewards_;
             RewardMatrix M2s_;
             Indeces indeces_;
+
+            unsigned long timesteps_;
     };
 }
 
