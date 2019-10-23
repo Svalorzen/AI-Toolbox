@@ -124,6 +124,13 @@ namespace AIToolbox::MDP {
             void reset();
 
             /**
+             * @brief This function returns the number of times the record function has been called.
+             *
+             * @return The number of recorded timesteps.
+             */
+            unsigned long getTimesteps() const;
+
+            /**
              * @brief This function returns the current recorded visits for a transition.
              *
              * @param s Old state.
@@ -216,6 +223,7 @@ namespace AIToolbox::MDP {
             SparseTable2D visitsSum_;
             SparseMatrix2D rewards_;
             SparseMatrix2D M2s_;
+            unsigned long timesteps_;
 
             friend std::istream& operator>>(std::istream &is, SparseExperience &);
     };

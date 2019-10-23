@@ -39,6 +39,10 @@ void exportMDPExperience() {
                 "This function resets all experienced rewards and transitions."
         , (arg("self")))
 
+        .def("getTimesteps",    &Experience::getTimesteps,
+                 "This function returns the number of times that record has been called."
+        , (arg("self")))
+
         .def("setVisitsTable",       &Experience::setVisitsTable<std::vector<std::vector<std::vector<int>>>>,
                  "Compatibility setter.\n"
                  "\n"

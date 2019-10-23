@@ -46,6 +46,10 @@ void exportMDPSparseExperience() {
                  "This function resets all experienced rewards and transitions."
         , (arg("self")))
 
+        .def("getTimesteps",    &SparseExperience::getTimesteps,
+                 "This function returns the number of times that record has been called."
+        , (arg("self")))
+
         .def("getVisits",       &SparseExperience::getVisits,
                  "This function returns the current recorded visits for a transitions.\n"
                  "\n"

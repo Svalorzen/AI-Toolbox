@@ -2,9 +2,11 @@
 
 namespace AIToolbox::MDP {
     SparseExperience::SparseExperience(const size_t s, const size_t a) :
-            S(s), A(a), visits_(A, SparseTable2D(S, S)), visitsSum_(S, A), rewards_(S, A), M2s_(S, A) {}
+            S(s), A(a), visits_(A, SparseTable2D(S, S)), visitsSum_(S, A), rewards_(S, A), M2s_(S, A), timesteps_(0) {}
 
     void SparseExperience::record(const size_t s, const size_t a, const size_t s1, const double rew) {
+        ++timesteps_;
+
         // Count updates
         visits_[a].coeffRef(s, s1) += 1;
         visitsSum_.coeffRef(s, a)  += 1;
@@ -29,6 +31,12 @@ namespace AIToolbox::MDP {
 
         M2s_.setZero();
         M2s_.makeCompressed();
+
+        timesteps_ = 0;
+    }
+
+    unsigned long SparseExperience::getTimesteps() const {
+        return timesteps_;
     }
 
     unsigned long SparseExperience::getVisits(const size_t s, const size_t a, const size_t s1) const {
