@@ -1,12 +1,12 @@
-#include <AIToolbox/Factored/Bandit/Algorithms/MAUCE.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/MAUCEPolicy.hpp>
 
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 #include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    MAUCE::MAUCE(const Experience & exp, std::vector<double> ranges) :
-            exp_(exp), rangesSquared_(std::move(ranges)),
+    MAUCEPolicy::MAUCEPolicy(const Experience & exp, std::vector<double> ranges) :
+            Base(exp.getA()), exp_(exp), rangesSquared_(std::move(ranges)),
             logA_(0.0)
     {
         assert(exp_.getRewardMatrix().bases.size() == rangesSquared_.size());
@@ -20,7 +20,7 @@ namespace AIToolbox::Factored::Bandit {
             r = r * r;
     }
 
-    Action MAUCE::sampleAction() const {
+    Action MAUCEPolicy::sampleAction() const {
         // Build the vectors to pass to UCVE
         AI_LOGGER(AI_SEVERITY_INFO, "Populating graph...");
 
@@ -79,7 +79,12 @@ namespace AIToolbox::Factored::Bandit {
         return std::get<0>(a_v);
     }
 
-    const Experience & MAUCE::getExperience() const {
+    double MAUCEPolicy::getActionProbability(const Action & a) const {
+        if (veccmp(a, sampleAction()) == 0) return 1.0;
+        return 0.0;
+    }
+
+    const Experience & MAUCEPolicy::getExperience() const {
         return exp_;
     }
 }

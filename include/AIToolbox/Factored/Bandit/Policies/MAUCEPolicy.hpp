@@ -1,10 +1,11 @@
-#ifndef AI_TOOLBOX_FACTORED_BANDIT_MAUCE_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_BANDIT_MAUCE_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_MAUCE_POLICY_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_MAUCE_POLICY_HEADER_FILE
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/UCVE.hpp>
 #include <AIToolbox/Factored/Bandit/Experience.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -23,7 +24,7 @@ namespace AIToolbox::Factored::Bandit {
      * are tracked during the cross-sums, which allows pruning actions that are
      * known to be suboptimal.
      */
-    class MAUCE {
+    class MAUCEPolicy : public PolicyInterface {
         public:
             /**
              * @brief Basic constructor.
@@ -40,7 +41,7 @@ namespace AIToolbox::Factored::Bandit {
              * @param exp The Experience we learn from.
              * @param ranges The ranges for each local group.
              */
-            MAUCE(const Experience & exp, std::vector<double> ranges);
+            MAUCEPolicy(const Experience & exp, std::vector<double> ranges);
 
             /**
              * @brief This function selects an action using MAUCE.
@@ -55,7 +56,19 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return The new optimal action to be taken at the next timestep.
              */
-            Action sampleAction() const;
+            virtual Action sampleAction() const override;
+
+            /**
+             * @brief This function returns the probability of taking the specified action.
+             *
+             * As sampleAction() is deterministic, we simply run it to check
+             * that the Action it returns is equal to the one passed as input.
+             *
+             * @param a The selected action.
+             *
+             * @return This function returns an approximation of the probability of choosing the input action.
+             */
+            virtual double getActionProbability(const Action & a) const override;
 
             /**
              * @brief This function returns the RollingAverage learned from the data.

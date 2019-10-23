@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE Factored_Bandit_MAUCE
+#define BOOST_TEST_MODULE Factored_Bandit_MAUCEPolicy
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
@@ -6,7 +6,7 @@
 
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Factored/Bandit/Algorithms/MAUCE.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/MAUCEPolicy.hpp>
 #include <AIToolbox/Factored/Bandit/Policies/QGreedyPolicy.hpp>
 
 namespace fm = AIToolbox::Factored;
@@ -15,7 +15,7 @@ namespace fb = fm::Bandit;
 BOOST_AUTO_TEST_CASE( simple_example_small ) {
     fm::Action A{2,2,2};
     fb::Experience exp(A, {{0,1}, {1,2}});
-    fb::MAUCE x(exp, {1.0, 1.0});
+    fb::MAUCEPolicy x(exp, {1.0, 1.0});
 
     // Two rewards since we have two agent groups.
     fm::Rewards rew(2);
