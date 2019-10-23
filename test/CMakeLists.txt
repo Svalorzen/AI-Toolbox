@@ -109,11 +109,12 @@ if (MAKE_FMDP)
     AddTest(Factored CooperativeMaximumLikelihoodModel)
     AddTest(Factored CooperativeModel)
 
-    AddTest(Factored LLR)
     AddTest(Factored MAUCE)
     AddTest(Factored MultiObjectiveVariableElimination)
     AddTest(Factored UCVE)
     AddTest(Factored VariableElimination)
+
+    AddTest(Factored LLRPolicy)
 
     AddTest(Factored SparseCooperativeQLearning)
     AddTest(Factored LinearProgramming)

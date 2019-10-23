@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE Factored_Bandit_LLR
+#define BOOST_TEST_MODULE Factored_Bandit_LLRPolicy
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
@@ -7,7 +7,7 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
-#include <AIToolbox/Factored/Bandit/Algorithms/LLR.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/LLRPolicy.hpp>
 #include <AIToolbox/Factored/Bandit/Policies/QGreedyPolicy.hpp>
 
 namespace aif = AIToolbox::Factored;
@@ -16,7 +16,7 @@ namespace fb = AIToolbox::Factored::Bandit;
 BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
     aif::Action A{2,2,2};
     fb::Experience exp(A, {{0,1}, {1,2}});
-    fb::LLR llr(exp);
+    fb::LLRPolicy llr(exp);
 
     // Two rewards since we have two agent groups.
     aif::Rewards rew(2);

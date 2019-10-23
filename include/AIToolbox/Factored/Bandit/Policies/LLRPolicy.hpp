@@ -1,9 +1,10 @@
-#ifndef AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_POLICY_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_POLICY_HEADER_FILE
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Bandit/Experience.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -27,14 +28,14 @@ namespace AIToolbox::Factored::Bandit {
      * This pretty much results in simply solving VE with UCB1 weights,
      * together with some learning.
      */
-    class LLR {
+    class LLRPolicy : public PolicyInterface {
         public:
             /**
              * @brief Basic constructor.
              *
              * @param exp The Experience we learn from.
              */
-            LLR(const Experience & exp);
+            LLRPolicy(const Experience & exp);
 
             /**
              * @brief This function selects an action using LLR.
@@ -50,7 +51,19 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return The optimal action to take at the next timestep.
              */
-            Action sampleAction() const;
+            virtual Action sampleAction() const override;
+
+            /**
+             * @brief This function returns the probability of taking the specified action.
+             *
+             * As sampleAction() is deterministic, we simply run it to check
+             * that the Action it returns is equal to the one passed as input.
+             *
+             * @param a The selected action.
+             *
+             * @return This function returns an approximation of the probability of choosing the input action.
+             */
+            virtual double getActionProbability(const Action & a) const override;
 
             /**
              * @brief This function returns the Experience we use to learn.

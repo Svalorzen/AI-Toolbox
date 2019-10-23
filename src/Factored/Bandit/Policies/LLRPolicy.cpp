@@ -1,15 +1,16 @@
-#include <AIToolbox/Factored/Bandit/Algorithms/LLR.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/LLRPolicy.hpp>
 
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    LLR::LLR(const Experience & exp) : exp_(exp), L(1)
+    LLRPolicy::LLRPolicy(const Experience & exp) :
+            Base(exp.getA()), exp_(exp), L(1)
     {
         // Note: L = 1 since we only do 1 action at a time.
     }
 
-    Action LLR::sampleAction() const {
+    Action LLRPolicy::sampleAction() const {
         using VE = VariableElimination;
 
         const auto & A = exp_.getA();
@@ -55,7 +56,12 @@ namespace AIToolbox::Factored::Bandit {
         return std::get<0>(ve(A, graph));
     }
 
-    const Experience & LLR::getExperience() const {
+    double LLRPolicy::getActionProbability(const Action & a) const {
+        if (veccmp(a, sampleAction()) == 0) return 1.0;
+        return 0.0;
+    }
+
+    const Experience & LLRPolicy::getExperience() const {
         return exp_;
     }
 }
