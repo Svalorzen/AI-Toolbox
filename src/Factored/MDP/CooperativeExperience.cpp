@@ -3,58 +3,48 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    CooperativeExperience::CooperativeExperience(State s, Action a, std::vector<FactoredDDN::Node> structure)
-            : S(std::move(s)), A(std::move(a))
+    CooperativeExperience::CooperativeExperience(const DDNGraph & graph)
+            : graph_(graph)
     {
+        const auto & S = graph_.getS();
         // init visits with unsigned structure
-        rewards_ = std::move(structure);
-        visits_.resize(rewards_.size());
+        rewards_.reserve(S.size());
+        visits_.reserve(S.size());
 
         for (size_t i = 0; i < S.size(); ++i) {
-            visits_[i].reserve(rewards_[i].nodes.size());
-
-            for (size_t a = 0; a < rewards_[i].nodes.size(); ++a) {
-                auto & rNode = rewards_[i].nodes[a];
-
-                const auto rows = factorSpacePartial(rNode.tag, S);
-
-                rNode.matrix.resize(rows, S[i]+1);
-                rNode.matrix.setZero();
-                visits_[i].emplace_back(rows, S[i]+1);
-                visits_[i].back().setZero();
-            }
+            rewards_.emplace_back(graph_.getSize(i), S[i] + 1);
+            rewards_.back().setZero();
+            visits_.emplace_back(graph_.getSize(i), S[i] + 1);
+            visits_.back().setZero();
         }
         indeces_.resize(S.size());
     }
 
     const CooperativeExperience::Indeces & CooperativeExperience::record(const State & s, const Action & a, const State & s1, const Rewards & rew) {
+        const auto & S = graph_.getS();
         for (size_t i = 0; i < S.size(); ++i) {
             auto & rNode = rewards_[i];
+            auto & vNode = visits_[i];
 
-            // Compute action ID based on the actions that affect state factor 'i'.
-            const auto actionId = toIndexPartial(rNode.actionTag, A, a);
-            // Compute parent ID based on the parents of state factor 'i' under this action.
-            const auto parentId = toIndexPartial(rNode.nodes[actionId].tag, S, s);
+            auto id = graph_.getId(i, s, a);
 
             // Update single values
-            rNode.nodes[actionId].matrix(parentId, s1[i]) += rew[i];
-            visits_[i][actionId](parentId, s1[i]) += 1;
+            rNode(id, s1[i]) += rew[i];
+            vNode(id, s1[i]) += 1;
             // Update sums
-            rNode.nodes[actionId].matrix(parentId, S[i]) += rew[i];
-            visits_[i][actionId](parentId, S[i]) += 1;
+            rNode(id, S[i]) += rew[i];
+            vNode(id, S[i]) += 1;
 
             // Save indeces to return to avoid recomputation.
-            indeces_[i] = {actionId, parentId};
+            indeces_[i] = id;
         }
         return indeces_;
     }
 
     void CooperativeExperience::reset() {
-        for (size_t i = 0; i < S.size(); ++i) {
-            for (size_t a = 0; a < rewards_[i].nodes.size(); ++a) {
-                rewards_[i].nodes[a].matrix.setZero();
-                visits_[i][a].setZero();
-            }
+        for (size_t i = 0; i < graph_.getS().size(); ++i) {
+            rewards_[i].setZero();
+            visits_[i].setZero();
         }
     }
 
@@ -66,6 +56,7 @@ namespace AIToolbox::Factored::MDP {
         return rewards_;
     }
 
-    const State & CooperativeExperience::getS() const { return S; }
-    const Action & CooperativeExperience::getA() const { return A; }
+    const State & CooperativeExperience::getS() const { return graph_.getS(); }
+    const Action & CooperativeExperience::getA() const { return graph_.getA(); }
+    const DDNGraph & CooperativeExperience::getGraph() const { return graph_; }
 }

@@ -108,11 +108,9 @@ namespace AIToolbox::Factored::MDP {
             rewardWeights_(model_.getS().size()),
             deltaStorage_(model_.getS().size()),
             gp_(model_.getS(), model_.getA(), q_),
-            queue_(model_.getS(), model_.getA(), model_.getTransitionFunction()),
+            queue_(model_.getGraph()),
             rand_(Impl::Seeder::getSeed())
     {
-        const auto & ddn = model_.getTransitionFunction();
-
         // We weight the rewards so that they are split correctly between the
         // components of the QFunction.
         // Note that unused reward weights might result in r/0 or 0/0
@@ -120,6 +118,8 @@ namespace AIToolbox::Factored::MDP {
         // anyway it's not a problem.
         rewardWeights_.setZero();
         deltaStorage_.setZero();
+
+        const auto & nodes = model_.getGraph().getNodes();
 
         q_.bases.reserve(qDomains_.size());
         for (const auto & domain : qDomains_) {
@@ -132,9 +132,9 @@ namespace AIToolbox::Factored::MDP {
                 rewardWeights_[d] += 1.0;
 
                 // Compute state-action domain for this Q factor.
-                fm.actionTag = merge(fm.actionTag, ddn[d].actionTag);
-                for (const auto & n : ddn[d].nodes)
-                    fm.tag = merge(fm.tag, n.tag);
+                fm.actionTag = merge(fm.actionTag, nodes[d].agents);
+                for (const auto & n : nodes[d].parents)
+                    fm.tag = merge(fm.tag, n);
             }
 
             // Initialize this factor's matrix.
@@ -182,6 +182,7 @@ namespace AIToolbox::Factored::MDP {
             // Finally, sample a new s1/rews from the model.
             model_.sampleSRs(s, a, &s1, &rews);
             rews.array() /= rewardWeights_.array();
+
             // And use them to update Q.
             updateQ(s, a, s1, rews);
 
@@ -236,19 +237,22 @@ namespace AIToolbox::Factored::MDP {
         // Note that s1 was s before, but here we consider it as the
         // "future" state as we look for its parents.
         const auto & T = model_.getTransitionFunction();
+        const auto & graph = model_.getGraph();
 
         for (size_t i = 0; i < s1.size(); ++i) {
             // If the delta to apply is very small, we don't bother with it yet.
             // This allows us to save some work until it's actually worth it.
             if (deltaStorage_[i] < queue_.getNodeMaxPriority(i)) continue;
-            const auto & aNode = T.nodes[i];
-            for (size_t a = 0; a < aNode.nodes.size(); ++a) {
-                const auto & sNode = aNode.nodes[a];
-                for (size_t s = 0; s < static_cast<size_t>(sNode.matrix.rows()); ++s) {
-                    // Compute the priority for this update (probability of
-                    // transition times delta)
-                    const auto p = sNode.matrix(s, s1[i]) * deltaStorage_[i];
 
+            // Here we need to iterate over j, but the queue still needs the
+            // a,s variables. So we keep all of them in mind to keep things easy.
+            size_t j = 0;
+            for (size_t a = 0; a < graph.getPartialSize(i); ++a) {
+                for (size_t s = 0; s < graph.getPartialSize(i, a); ++s) {
+                    const auto p = T.transitions[i](j, s1[i]) * deltaStorage_[i];
+
+                    // Increase j before we check if we want to skip.
+                    ++j;
                     // If it's not large enough, skip it.
                     if (p < theta_) continue;
 

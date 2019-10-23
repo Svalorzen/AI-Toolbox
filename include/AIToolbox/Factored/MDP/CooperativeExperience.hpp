@@ -24,16 +24,11 @@ namespace AIToolbox::Factored::MDP {
      */
     class CooperativeExperience {
         public:
-            using RewardMatrix = std::vector<FactoredDDN::Node>;
-
-            // Here we define the visit structure; it's the same as a vector of
-            // FactoredDDN::Node, but uses unsigned so we have to use a 2D
-            // unsigned table rather than Matrix2D. We also don't really need
-            // the tags again, so it's just a vector of vectors.
-            using VisitTable = std::vector<std::vector<Table2D>>;
+            using RewardMatrix = std::vector<Matrix2D>;
+            using VisitTable = std::vector<Table2D>;
 
             // Used to avoid recomputation when doing sync in RL.
-            using Indeces = std::vector<std::pair<size_t, size_t>>;
+            using Indeces = std::vector<size_t>;
 
             /**
              * @brief Basic constructor.
@@ -42,11 +37,9 @@ namespace AIToolbox::Factored::MDP {
              * value matrices, nor to fill their values, since we do that
              * internally. Here we only need the structure of the problem.
              *
-             * @param s The state space to record.
-             * @param a The action space to record.
-             * @param structure The coordination graph of the cooperative problem.
+             * @param graph The coordination graph of the cooperative problem.
              */
-            CooperativeExperience(State s, Action a, std::vector<FactoredDDN::Node> structure);
+            CooperativeExperience(const DDNGraph & graph);
 
             /**
              * @brief This function adds a new event to the recordings.
@@ -101,13 +94,19 @@ namespace AIToolbox::Factored::MDP {
              */
             const Action & getA() const;
 
+            /**
+             * @brief This function returns the underlying DDNGraph of the CooperativeExperience.
+             *
+             * @return The underlying DDNGraph.
+             */
+            const DDNGraph & getGraph() const;
+
         private:
-            State S;
-            Action A;
+            const DDNGraph & graph_;
 
             VisitTable visits_;
             RewardMatrix rewards_;
-            std::vector<std::pair<size_t, size_t>> indeces_;
+            Indeces indeces_;
     };
 }
 

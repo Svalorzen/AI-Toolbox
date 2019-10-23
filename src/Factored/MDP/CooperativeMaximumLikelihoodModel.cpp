@@ -4,114 +4,77 @@
 
 namespace AIToolbox::Factored::MDP {
     CooperativeMaximumLikelihoodModel::CooperativeMaximumLikelihoodModel(const CooperativeExperience & exp, const double discount, const bool toSync)
-            : experience_(exp), discount_(discount)
+            : experience_(exp), discount_(discount), transitions_({experience_.getGraph(), {}})
     {
         const auto & S = experience_.getS();
-        const auto & vnodes = experience_.getVisitTable();
-        const auto & rnodes = experience_.getRewardMatrix();
+        auto & tProbs = transitions_.transitions;
 
-        transitions_.nodes.resize(rnodes.size());
-        rewards_.resize(rnodes.size());
+        tProbs.reserve(S.size());
+        rewards_.reserve(S.size());
 
-        auto & tnodes = transitions_.nodes;
+        for (size_t i = 0; i < S.size(); ++i) {
+            const auto d1 = experience_.getGraph().getSize(i);
+            const auto d2 = S[i];
 
-        for (size_t i = 0; i < rnodes.size(); ++i) {
-            tnodes[i].actionTag = rnodes[i].actionTag;
+            tProbs.emplace_back(d1, d2);
+            rewards_.emplace_back(d1);
 
-            tnodes[i].nodes.resize(rnodes[i].nodes.size());
-            rewards_[i].resize(rnodes[i].nodes.size());
+            tProbs.back().setZero();
+            tProbs.back().col(0).fill(1.0);
 
-            for (size_t j = 0; j < rnodes[i].nodes.size(); ++j) {
-                tnodes[i].nodes[j].tag = rnodes[i].nodes[j].tag;
-
-                tnodes[i].nodes[j].matrix.resize(
-                    rnodes[i].nodes[j].matrix.rows(),
-                    rnodes[i].nodes[j].matrix.cols() - 1 // vnodes also has the overall sum column
-                );
-                rewards_[i][j].resize(rnodes[i].nodes[j].matrix.rows());
-
-                if (!toSync) {
-                    tnodes[i].nodes[j].matrix.setZero();
-                    tnodes[i].nodes[j].matrix.col(0).fill(1.0);
-
-                    rewards_[i][j].setZero();
-                } else {
-                    for (int p = 0; p < tnodes[i].nodes[j].matrix.rows(); ++p) {
-                        const double totalVisits = vnodes[i][j](p, S[i]);
-                        if (totalVisits == 0) {
-                            tnodes[i].nodes[j].matrix.row(p).setZero();
-                            tnodes[i].nodes[j].matrix(p, 0) = 1.0;
-
-                            rewards_[i][j][p] = 0.0;
-                            continue;
-                        }
-
-                        tnodes[i].nodes[j].matrix.row(p) = vnodes[i][j].row(p).head(S[i]).cast<double>() / totalVisits;
-                        rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]) / totalVisits;
-                    }
-                }
-            }
+            rewards_.back().setZero();
         }
+        if (toSync) sync();
     }
 
     void CooperativeMaximumLikelihoodModel::sync() {
         const auto & S = experience_.getS();
-        const auto & vnodes = experience_.getVisitTable();
-        const auto & rnodes = experience_.getRewardMatrix();
+        const auto & vtable  = experience_.getVisitTable();
+        const auto & rmatrix = experience_.getRewardMatrix();
+        auto & tProbs = transitions_.transitions;
 
-        auto & tnodes = transitions_.nodes;
+        for (size_t i = 0; i < S.size(); ++i) {
+            for (size_t j = 0; j < experience_.getGraph().getSize(i); ++j) {
+                const auto totalVisits = vtable[i](j, S[i]);
+                if (totalVisits == 0) continue;
 
-        for (size_t i = 0; i < rnodes.size(); ++i) {
-            for (size_t j = 0; j < rnodes[i].nodes.size(); ++j) {
-                for (int p = 0; p < tnodes[i].nodes[j].matrix.rows(); ++p) {
-                    const double totalVisits = vnodes[i][j](p, S[i]);
-                    if (totalVisits == 0) continue;
-
-                    tnodes[i].nodes[j].matrix.row(p) = vnodes[i][j].row(p).head(S[i]).cast<double>() / totalVisits;
-                    rewards_[i][j][p] = rnodes[i].nodes[j].matrix(p, S[i]) / totalVisits;
-                }
+                tProbs[i].row(j) = vtable[i].row(j).head(S[i]).cast<double>() / totalVisits;
+                rewards_[i][j] = rmatrix[i](j, S[i]) / totalVisits;
             }
         }
     }
 
     void CooperativeMaximumLikelihoodModel::sync(const State & s, const Action & a) {
-        const auto & vnodes = experience_.getVisitTable();
-        const auto & rnodes = experience_.getRewardMatrix();
-
-        auto & tnodes = transitions_.nodes;
         const auto & S = experience_.getS();
+        const auto & vtable  = experience_.getVisitTable();
+        const auto & rmatrix = experience_.getRewardMatrix();
+        auto & tProbs = transitions_.transitions;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto aId = toIndexPartial(tnodes[i].actionTag, getA(), a);
+            const auto j = experience_.getGraph().getId(i, s, a);
 
-            const auto & node = tnodes[i].nodes[aId];
-            const auto pId = toIndexPartial(node.tag, getS(), s);
-
-            const double totalVisits = vnodes[i][aId](pId, S[i]);
+            const auto totalVisits = vtable[i](j, S[i]);
             if (totalVisits == 0) continue;
 
-            tnodes[i].nodes[aId].matrix.row(pId) = vnodes[i][aId].row(pId).head(S[i]).cast<double>() / totalVisits;
-
-            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]) / totalVisits;
+            tProbs[i].row(j) = vtable[i].row(j).head(S[i]).cast<double>() / totalVisits;
+            rewards_[i][j] = rmatrix[i](j, S[i]) / totalVisits;
         }
     }
 
     void CooperativeMaximumLikelihoodModel::sync(const CooperativeExperience::Indeces & indeces) {
-        const auto & vnodes = experience_.getVisitTable();
-        const auto & rnodes = experience_.getRewardMatrix();
-
-        auto & tnodes = transitions_.nodes;
         const auto & S = experience_.getS();
+        const auto & vtable  = experience_.getVisitTable();
+        const auto & rmatrix = experience_.getRewardMatrix();
+        auto & tProbs = transitions_.transitions;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto [aId, pId] = indeces[i];
+            const auto j = indeces[i];
 
-            const double totalVisits = vnodes[i][aId](pId, S[i]);
+            const auto totalVisits = vtable[i](j, S[i]);
             if (totalVisits == 0) continue;
 
-            tnodes[i].nodes[aId].matrix.row(pId) = vnodes[i][aId].row(pId).head(S[i]).cast<double>() / totalVisits;
-
-            rewards_[i][aId][pId] = rnodes[i].nodes[aId].matrix(pId, S[i]) / totalVisits;
+            tProbs[i].row(j) = vtable[i].row(j).head(S[i]).cast<double>() / totalVisits;
+            rewards_[i][j] = rmatrix[i](j, S[i]) / totalVisits;
         }
     }
 
@@ -123,8 +86,10 @@ namespace AIToolbox::Factored::MDP {
     }
 
     std::tuple<State, Rewards> CooperativeMaximumLikelihoodModel::sampleSRs(const State & s, const Action & a) const {
-        State s1(s.size());
-        Rewards rs(s.size());
+        const auto & S = experience_.getS();
+
+        State s1(S.size());
+        Rewards rs(S.size());
 
         sampleSRs(s, a, &s1, &rs);
 
@@ -134,18 +99,15 @@ namespace AIToolbox::Factored::MDP {
     double CooperativeMaximumLikelihoodModel::sampleSR(const State & s, const Action & a, State * s1p) const {
         assert(s1p);
 
-        const auto & tnodes = transitions_.nodes;
+        const auto & S = experience_.getS();
+        auto & tProbs = transitions_.transitions;
+
         State & s1 = *s1p;
 
-        for (size_t i = 0; i < s.size(); ++i) {
-            const auto actionId = toIndexPartial(tnodes[i].actionTag, getA(), a);
+        for (size_t i = 0; i < S.size(); ++i) {
+            const auto j = experience_.getGraph().getId(i, s, a);
 
-            const auto & node = tnodes[i].nodes[actionId];
-            const auto parentId = toIndexPartial(node.tag, getS(), s);
-
-            const size_t newS = sampleProbability(getS()[i], node.matrix.row(parentId), rand_);
-
-            s1[i] = newS;
+            s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
 
         return getExpectedReward(s, a, s1);
@@ -155,44 +117,41 @@ namespace AIToolbox::Factored::MDP {
         assert(s1p);
         assert(rews);
 
-        const auto & tnodes = transitions_.nodes;
+        const auto & S = experience_.getS();
+        auto & tProbs = transitions_.transitions;
+
         State & s1 = *s1p;
 
-        for (size_t i = 0; i < s.size(); ++i) {
-            const auto actionId = toIndexPartial(tnodes[i].actionTag, getA(), a);
+        for (size_t i = 0; i < S.size(); ++i) {
+            const auto j = experience_.getGraph().getId(i, s, a);
 
-            const auto & node = tnodes[i].nodes[actionId];
-            const auto parentId = toIndexPartial(node.tag, getS(), s);
-
-            const size_t newS = sampleProbability(getS()[i], node.matrix.row(parentId), rand_);
-
-            s1[i] = newS;
+            s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
 
         getExpectedRewards(s, a, s1, rews);
     }
 
     double CooperativeMaximumLikelihoodModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {
-        return transitions_.getTransitionProbability(getS(), getA(), s, a, s1);
+        return transitions_.getTransitionProbability(s, a, s1);
     }
 
     double CooperativeMaximumLikelihoodModel::getExpectedReward(const State & s, const Action & a, const State &) const {
+        const auto & S = experience_.getS();
+
         double retval = 0.0;
+        for (size_t i = 0; i < S.size(); ++i) {
+            const auto j = experience_.getGraph().getId(i, s, a);
 
-        for (size_t i = 0; i < transitions_.nodes.size(); ++i) {
-            const auto actionId = toIndexPartial(transitions_[i].actionTag, getA(), a);
-
-            const auto & node = transitions_[i].nodes[actionId];
-            const auto parentId = toIndexPartial(node.tag, getS(), s);
-
-            retval += rewards_[i][actionId][parentId];
+            retval += rewards_[i][j];
         }
 
         return retval;
     }
 
     Rewards CooperativeMaximumLikelihoodModel::getExpectedRewards(const State & s, const Action & a, const State & s1) const {
-        Rewards rews(transitions_.nodes.size());
+        const auto & S = experience_.getS();
+
+        Rewards rews(S.size());
 
         getExpectedRewards(s, a, s1, &rews);
 
@@ -202,14 +161,14 @@ namespace AIToolbox::Factored::MDP {
     void CooperativeMaximumLikelihoodModel::getExpectedRewards(const State & s, const Action & a, const State &, Rewards * rewsp) const {
         assert(rewsp);
 
+        const auto & S = experience_.getS();
+
         auto & rews = *rewsp;
-        for (size_t i = 0; i < transitions_.nodes.size(); ++i) {
-            const auto actionId = toIndexPartial(transitions_[i].actionTag, getA(), a);
 
-            const auto & node = transitions_[i].nodes[actionId];
-            const auto parentId = toIndexPartial(node.tag, getS(), s);
+        for (size_t i = 0; i < S.size(); ++i) {
+            const auto j = experience_.getGraph().getId(i, s, a);
 
-            rews[i] = rewards_[i][actionId][parentId];
+            rews[i] = rewards_[i][j];
         }
     }
 
@@ -221,4 +180,5 @@ namespace AIToolbox::Factored::MDP {
     const CooperativeExperience & CooperativeMaximumLikelihoodModel::getExperience() const { return experience_; }
     const CooperativeMaximumLikelihoodModel::TransitionMatrix & CooperativeMaximumLikelihoodModel::getTransitionFunction() const { return transitions_; }
     const CooperativeMaximumLikelihoodModel::RewardMatrix & CooperativeMaximumLikelihoodModel::getRewardFunction() const { return rewards_; }
+    const DDNGraph & CooperativeMaximumLikelihoodModel::getGraph() const { return experience_.getGraph(); }
 }
