@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
 
     const auto & t = model.getTransitionFunction();
     const auto & tt = t.transitions;
-    const auto & v = exp.getVisitTable();
+    const auto & v = exp.getVisitsTable();
     const auto & r = exp.getRewardMatrix();
     const auto & m = exp.getM2Matrix();
 
@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE( recording ) {
     solutions.emplace_back(Solution{id({1,2}), {{2, 1}},  1, 0.0});
     solutions.emplace_back(Solution{id({2,2}), {{0, 1}},  1, 0.0});
 
-    const auto & v = exp.getVisitTable();
+    const auto & v = exp.getVisitsTable();
     const auto & r = exp.getRewardMatrix();
 
     // For each state features

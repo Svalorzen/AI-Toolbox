@@ -33,7 +33,7 @@ namespace AIToolbox::Factored::MDP {
         // Update reward by just copying the average from experience
         rewards_ = experience_.getRewardMatrix();
 
-        const auto & vtable  = experience_.getVisitTable();
+        const auto & vtable  = experience_.getVisitsTable();
         auto & tProbs = transitions_.transitions;
 
         for (size_t i = 0; i < S.size(); ++i) {
@@ -48,7 +48,7 @@ namespace AIToolbox::Factored::MDP {
 
     void CooperativeMaximumLikelihoodModel::sync(const State & s, const Action & a) {
         const auto & S = experience_.getS();
-        const auto & vtable  = experience_.getVisitTable();
+        const auto & vtable  = experience_.getVisitsTable();
         const auto & rmatrix = experience_.getRewardMatrix();
         auto & tProbs = transitions_.transitions;
 
@@ -65,7 +65,7 @@ namespace AIToolbox::Factored::MDP {
 
     void CooperativeMaximumLikelihoodModel::sync(const CooperativeExperience::Indeces & indeces) {
         const auto & S = experience_.getS();
-        const auto & vtable  = experience_.getVisitTable();
+        const auto & vtable  = experience_.getVisitsTable();
         const auto & rmatrix = experience_.getRewardMatrix();
         auto & tProbs = transitions_.transitions;
 

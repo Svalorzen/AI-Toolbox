@@ -21,14 +21,14 @@ namespace AIToolbox::Factored::MDP {
      * match the one of the generative model.
      *
      * Note that since this class contains data in a DDN format, it's probably
-     * only usable by directly inspecting the stored VisitTable and
+     * only usable by directly inspecting the stored VisitsTable and
      * RewardMatrix. Thus we don't yet provide general getters for state/action
      * pairs.
      */
     class CooperativeExperience {
         public:
             using RewardMatrix = std::vector<Vector>;
-            using VisitTable = std::vector<Table2D>;
+            using VisitsTable = std::vector<Table2D>;
 
             // Used to avoid recomputation when doing sync in RL.
             using Indeces = std::vector<size_t>;
@@ -74,7 +74,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The visits table.
              */
-            const VisitTable & getVisitTable() const;
+            const VisitsTable & getVisitsTable() const;
 
             /**
              * @brief This function returns the rewards matrix for inspection.
@@ -114,7 +114,7 @@ namespace AIToolbox::Factored::MDP {
         private:
             const DDNGraph & graph_;
 
-            VisitTable visits_;
+            VisitsTable visits_;
             RewardMatrix rewards_;
             RewardMatrix M2s_;
             Indeces indeces_;
