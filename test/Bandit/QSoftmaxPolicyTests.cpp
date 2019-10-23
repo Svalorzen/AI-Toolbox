@@ -5,7 +5,7 @@
 
 #include <AIToolbox/Utils/Core.hpp>
 
-#include <AIToolbox/Bandit/Algorithms/RollingAverage.hpp>
+#include <AIToolbox/Bandit/Experience.hpp>
 #include <AIToolbox/Bandit/Policies/QSoftmaxPolicy.hpp>
 
 BOOST_AUTO_TEST_CASE( sampling ) {
@@ -13,12 +13,12 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     constexpr size_t A = 3;
     constexpr double d = 2.0;
 
-    Bandit::RollingAverage ra(A);
-    Bandit::QSoftmaxPolicy p(ra.getQFunction(), d);
+    Bandit::Experience exp(A);
+    Bandit::QSoftmaxPolicy p(exp.getRewardMatrix(), d);
 
-    ra.stepUpdateQ(0, 10);
-    ra.stepUpdateQ(1, 11);
-    ra.stepUpdateQ(2, 12);
+    exp.record(0, 10);
+    exp.record(1, 11);
+    exp.record(2, 12);
 
     double p0 = std::exp(10 / d);
     double p1 = std::exp(11 / d);

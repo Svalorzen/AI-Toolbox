@@ -1,12 +1,12 @@
-#include <AIToolbox/Bandit/Algorithms/RollingAverage.hpp>
+#include <AIToolbox/Bandit/Experience.hpp>
 
 #include <boost/python.hpp>
 
-void exportBanditRollingAverage() {
+void exportBanditExperience() {
     using namespace AIToolbox::Bandit;
     using namespace boost::python;
 
-    class_<RollingAverage>{"RollingAverage",
+    class_<Experience>{"Experience",
 
          "This class computes averages and counts for a Bandit problem.\n"
          "\n"
@@ -19,26 +19,30 @@ void exportBanditRollingAverage() {
                  "@param A The size of the action space."
         , (arg("self"), "A")))
 
-        .def("stepUpdateQ",     &RollingAverage::stepUpdateQ,
-                 "This function updates the QFunction and counts.\n"
+        .def("record",     &Experience::record,
+                 "This function updates the the reward matrix and counts.\n"
                  "\n"
                  "@param a The action taken.\n"
                  "@param rew The reward obtained."
         , (arg("self"), "a", "rew"))
 
-        .def("reset",           &RollingAverage::reset,
+        .def("reset",           &Experience::reset,
                  "This function resets the QFunction and counts to zero."
         , (arg("self")))
 
-        .def("getA",            &RollingAverage::getA,
+        .def("getA",            &Experience::getA,
                  "This function returns the size of the action space."
         , (arg("self")))
 
-        .def("getQFunction",    &RollingAverage::getQFunction, return_internal_reference<>(),
+        .def("getRewardMatrix", &Experience::getRewardMatrix, return_internal_reference<>(),
                  "This function returns a reference to the internal QFunction."
         , (arg("self")))
 
-        .def("getCounts",       &RollingAverage::getCounts, return_internal_reference<>(),
+        .def("getM2Matrix",     &Experience::getM2Matrix, return_internal_reference<>(),
+                 "This function returns a reference to the internal QFunction."
+        , (arg("self")))
+
+        .def("getVisitsTable",  &Experience::getVisitsTable, return_internal_reference<>(),
                  "This function returns a reference for the counts for the actions"
         , (arg("self")));
 }

@@ -5,32 +5,32 @@
 
 #include <array>
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Bandit/Algorithms/RollingAverage.hpp>
+#include <AIToolbox/Bandit/Experience.hpp>
 #include <AIToolbox/Bandit/Policies/ThompsonSamplingPolicy.hpp>
 
 BOOST_AUTO_TEST_CASE( sampling ) {
     using namespace AIToolbox;
     constexpr size_t A = 3;
 
-    Bandit::RollingAverage ra(A);
-    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getM2s(), ra.getCounts());
+    Bandit::Experience exp(A);
+    Bandit::ThompsonSamplingPolicy p(exp.getRewardMatrix(), exp.getM2Matrix(), exp.getVisitsTable());
 
     std::array<unsigned, A> counts{{0,0,0}};
 
     // We must give at least a couple of observation per arm, and with some
     // spread
-    ra.stepUpdateQ(0, -0.5);
-    ra.stepUpdateQ(0, 0.5);
-    ra.stepUpdateQ(1, 1.5);
-    ra.stepUpdateQ(1, 2.0);
-    ra.stepUpdateQ(1, 0.5);
-    ra.stepUpdateQ(1, 0.0);
-    ra.stepUpdateQ(1, 1.0);
-    ra.stepUpdateQ(2, 1.5);
-    ra.stepUpdateQ(2, 2.0);
-    ra.stepUpdateQ(2, 0.5);
-    ra.stepUpdateQ(2, 0.0);
-    ra.stepUpdateQ(2, 1.0);
+    exp.record(0, -0.5);
+    exp.record(0, 0.5);
+    exp.record(1, 1.5);
+    exp.record(1, 2.0);
+    exp.record(1, 0.5);
+    exp.record(1, 0.0);
+    exp.record(1, 1.0);
+    exp.record(2, 1.5);
+    exp.record(2, 2.0);
+    exp.record(2, 0.5);
+    exp.record(2, 0.0);
+    exp.record(2, 1.0);
 
     for (unsigned i = 0; i < 1000; ++i)
         ++counts[p.sampleAction()];
@@ -47,23 +47,23 @@ BOOST_AUTO_TEST_CASE( probability ) {
     using namespace AIToolbox;
     constexpr size_t A = 3;
 
-    Bandit::RollingAverage ra(A);
-    Bandit::ThompsonSamplingPolicy p(ra.getQFunction(), ra.getM2s(), ra.getCounts());
+    Bandit::Experience exp(A);
+    Bandit::ThompsonSamplingPolicy p(exp.getRewardMatrix(), exp.getM2Matrix(), exp.getVisitsTable());
 
     // We must give at least a couple of observation per arm, and with some
     // spread
-    ra.stepUpdateQ(0, -0.5);
-    ra.stepUpdateQ(0, 0.5);
-    ra.stepUpdateQ(1, 1.5);
-    ra.stepUpdateQ(1, 2.0);
-    ra.stepUpdateQ(1, 0.5);
-    ra.stepUpdateQ(1, 0.0);
-    ra.stepUpdateQ(1, 1.0);
-    ra.stepUpdateQ(2, 1.5);
-    ra.stepUpdateQ(2, 2.0);
-    ra.stepUpdateQ(2, 0.5);
-    ra.stepUpdateQ(2, 0.0);
-    ra.stepUpdateQ(2, 1.0);
+    exp.record(0, -0.5);
+    exp.record(0, 0.5);
+    exp.record(1, 1.5);
+    exp.record(1, 2.0);
+    exp.record(1, 0.5);
+    exp.record(1, 0.0);
+    exp.record(1, 1.0);
+    exp.record(2, 1.5);
+    exp.record(2, 2.0);
+    exp.record(2, 0.5);
+    exp.record(2, 0.0);
+    exp.record(2, 1.0);
 
     const auto p0 = p.getActionProbability(0);
     const auto p1 = p.getActionProbability(1);

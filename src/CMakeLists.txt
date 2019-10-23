@@ -9,7 +9,7 @@ if (MAKE_MDP)
         Utils/Polytope.cpp
         Utils/LP/LpSolveWrapper.cpp
         Tools/Statistics.cpp
-        Bandit/Algorithms/RollingAverage.cpp
+        Bandit/Experience.cpp
         Bandit/Policies/EpsilonPolicy.cpp
         Bandit/Policies/RandomPolicy.cpp
         Bandit/Policies/QGreedyPolicy.cpp
@@ -120,7 +120,7 @@ if (MAKE_PYTHON)
     if (MAKE_MDP)
         set(PYTHON_FILES ${PYTHON_FILES}
             # Bandits
-            Python/Bandit/Algorithms/RollingAverage.cpp
+            Python/Bandit/Experience.cpp
             Python/Bandit/Policies/PolicyInterface.cpp
             Python/Bandit/Policies/EpsilonPolicy.cpp
             Python/Bandit/Policies/RandomPolicy.cpp
