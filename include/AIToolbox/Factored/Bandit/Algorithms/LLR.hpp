@@ -2,7 +2,7 @@
 #define AI_TOOLBOX_FACTORED_BANDIT_LEARNING_WITH_LINEAR_REWARDS_HEADER_FILE
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
-#include <AIToolbox/Factored/Bandit/Algorithms/RollingAverage.hpp>
+#include <AIToolbox/Factored/Bandit/Experience.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
 
 namespace AIToolbox::Factored::Bandit {
@@ -32,59 +32,38 @@ namespace AIToolbox::Factored::Bandit {
             /**
              * @brief Basic constructor.
              *
-             * In order to keep track of each partial action's averages and
-             * counts, we need to know which factors are actually dependent
-             * on each other.
-             *
-             * So suppose we have a three-factored action space {1,2,3},
-             * and two local reward functions using factors {0,1}, and
-             * {1,2}. Then {{0,1}, {1,2}} is going to be the dependency
-             * parameter.
-             *
-             * @param a The action space.
-             * @param dependencies The dependencies in the problem.
+             * @param exp The Experience we learn from.
              */
-            LLR(Action a, const std::vector<PartialKeys> & dependencies);
+            LLR(const Experience & exp);
 
             /**
-             * @brief This function updates the learning process from the previous action and reward.
+             * @brief This function selects an action using LLR.
              *
-             * Note that the rewards parameter is going to have as many
-             * elements as the number of local payoff functions passed as
-             * input in the constructor.
+             * We construct a VE process, where for each entry we compute
+             * independently its exploration bonus. This is imprecise because
+             * we end up overestimating the bonus and over-exploring.
              *
-             * @param a The action taken in the previous step.
-             * @param r The rewards obtained in the previous step.
+             * For improved alternatives, look at MAUCE or ThompsonSamplingPolicy.
+             *
+             * \sa MAUCE
+             * \sa ThompsonSamplingPolicy
              *
              * @return The optimal action to take at the next timestep.
              */
-            Action stepUpdateQ(const Action & a, const Rewards & r);
+            Action sampleAction() const;
 
             /**
-             * @brief This function returns the RollingAverage learned from the data.
+             * @brief This function returns the Experience we use to learn.
              *
-             * These rules skip the exploration part, to allow the creation
-             * of a policy using the learned QFunction (since otherwise
-             * this algorithm would forever explore).
-             *
-             * @return The RollingAverage containing all statistics from the input data.
+             * @return The underlying Experience.
              */
-            const RollingAverage & getRollingAverage() const;
+            const Experience & getExperience() const;
 
         private:
-            struct Average {
-                double value = 0.0;
-                unsigned count = 0;
-            };
-
-            /// The action space
-            Action A;
+            /// The Experience containing all averages and counts for all local joint actions.
+            const Experience & exp_;
             /// The number of actions allowed at any one time (always 1)
             unsigned L;
-            /// The current timestep, to compute the UCB1 value
-            unsigned timestep_;
-            /// A vector containing all averages and counts for all local joint actions.
-            RollingAverage averages_;
     };
 }
 

@@ -15,7 +15,8 @@ namespace fb = AIToolbox::Factored::Bandit;
 
 BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
     aif::Action A{2,2,2};
-    fb::LLR llr(A, {{0,1}, {1,2}});
+    fb::Experience exp(A, {{0,1}, {1,2}});
+    fb::LLR llr(exp);
 
     // Two rewards since we have two agent groups.
     aif::Rewards rew(2);
@@ -59,12 +60,13 @@ BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
         rew[0] = getEvenReward(action[0], action[1]);
         rew[1] = getOddReward(action[1], action[2]);
 
-        action = llr.stepUpdateQ(action, rew);
+        exp.record(action, rew);
+        action = llr.sampleAction();
     }
 
     const aif::Action solution{0, 1, 0};
 
-    const auto q = llr.getRollingAverage().getQFunction();
+    const auto q = llr.getExperience().getRewardMatrix();
     fb::QGreedyPolicy p(A, q);
 
     const auto greedyAction = p.sampleAction();

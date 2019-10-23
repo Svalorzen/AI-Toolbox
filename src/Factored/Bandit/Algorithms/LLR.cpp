@@ -4,23 +4,21 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    LLR::LLR(Action a, const std::vector<PartialKeys> & dependencies) :
-            A(std::move(a)), L(1), timestep_(0), averages_(A, dependencies)
+    LLR::LLR(const Experience & exp) : exp_(exp), L(1)
     {
         // Note: L = 1 since we only do 1 action at a time.
     }
 
-    Action LLR::stepUpdateQ(const Action & a, const Rewards & rew) {
+    Action LLR::sampleAction() const {
         using VE = VariableElimination;
 
-        averages_.stepUpdateQ(a, rew);
+        const auto & A = exp_.getA();
 
-        ++timestep_;
-        const auto LtLog = (L+1) * std::log(timestep_);
+        const auto LtLog = (L+1) * std::log(exp_.getTimesteps());
 
         VE::GVE::Graph graph(A.size());
-        const auto & q = averages_.getQFunction();
-        const auto & c = averages_.getCounts();
+        const auto & q = exp_.getRewardMatrix();
+        const auto & c = exp_.getVisitsTable();
 
         for (size_t x = 0; x < q.bases.size(); ++x) {
             const auto & basis = q.bases[x];
@@ -57,7 +55,7 @@ namespace AIToolbox::Factored::Bandit {
         return std::get<0>(ve(A, graph));
     }
 
-    const RollingAverage & LLR::getRollingAverage() const {
-        return averages_;
+    const Experience & LLR::getExperience() const {
+        return exp_;
     }
 }
