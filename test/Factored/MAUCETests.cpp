@@ -14,7 +14,8 @@ namespace fb = fm::Bandit;
 
 BOOST_AUTO_TEST_CASE( simple_example_small ) {
     fm::Action A{2,2,2};
-    fb::MAUCE x(A, {{0,1}, {1,2}}, {1.0, 1.0});
+    fb::Experience exp(A, {{0,1}, {1,2}});
+    fb::MAUCE x(exp, {1.0, 1.0});
 
     // Two rewards since we have two agent groups.
     fm::Rewards rew(2);
@@ -58,12 +59,13 @@ BOOST_AUTO_TEST_CASE( simple_example_small ) {
         rew[0] = getEvenReward(action[0], action[1]);
         rew[1] = getOddReward(action[1], action[2]);
 
-        action = x.stepUpdateQ(action, rew);
+        exp.record(action, rew);
+        action = x.sampleAction();
     }
 
     const fm::Action solution{0, 1, 0};
 
-    const auto q = x.getRollingAverage().getQFunction();
+    const auto q = x.getExperience().getRewardMatrix();
     fb::QGreedyPolicy p(A, q);
 
     const auto greedyAction = p.sampleAction();
