@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE( back_project ) {
        0.50, 0.10, 0.40  // 2, 2
     ;
 
-    auto T = aif::FactoredDDN{graph, {}};
+    auto T = aif::DDN{graph, {}};
     T.transitions.resize(3);
 
     // We simply paste p two times in each transition matrix to store the

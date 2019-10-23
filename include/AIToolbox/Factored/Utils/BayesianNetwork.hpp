@@ -269,11 +269,13 @@ namespace AIToolbox::Factored {
     /**
      * @brief This class represents a Dynamic Decision Network with factored actions.
      *
-     * This class is able to represent a Dynamic Decision Network with factored
-     * actions, where the parents of each factor of the state depend on a
-     * particular subset of actions.
+     * This class is able to represent a Dynamic Decision Network where the
+     * parents of each factor of the state depend on a particular subset of
+     * actions.
+     *
+     * \sa DynamicDecisionNetworkGraph
      */
-    struct FactoredDynamicDecisionNetwork {
+    struct DynamicDecisionNetwork {
         using TransitionMatrix = std::vector<Matrix2D>;
 
         /**
@@ -306,10 +308,10 @@ namespace AIToolbox::Factored {
         TransitionMatrix transitions;
     };
 
-    using FactoredDDN = FactoredDynamicDecisionNetwork;
+    using DDN = DynamicDecisionNetwork;
 
-    BasisMatrix backProject(const FactoredDDN & ddn, const BasisFunction & bf);
-    FactoredMatrix2D backProject(const FactoredDDN & ddn, const FactoredVector & fv);
+    BasisMatrix backProject(const DDN & ddn, const BasisFunction & bf);
+    FactoredMatrix2D backProject(const DDN & ddn, const FactoredVector & fv);
 }
 
 #endif

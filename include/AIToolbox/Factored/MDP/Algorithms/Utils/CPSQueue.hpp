@@ -14,7 +14,7 @@ namespace AIToolbox::Factored {
      * more constrained way, so that it can be as fast as possible.
      *
      * This class assumes keys are always the parent sets of some variable as
-     * represented in a FactoredDDN.
+     * represented in a DDN.
      *
      * When doing the reconstruction, we select a single rule from each node,
      * since all nodes's parents are by definition incompatible with each

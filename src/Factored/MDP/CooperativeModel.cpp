@@ -5,7 +5,7 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    CooperativeModel::CooperativeModel(DDNGraph graph, FactoredDDN::TransitionMatrix transitions, FactoredMatrix2D rewards, const double discount) :
+    CooperativeModel::CooperativeModel(DDNGraph graph, DDN::TransitionMatrix transitions, FactoredMatrix2D rewards, const double discount) :
             discount_(discount),
             graph_(std::move(graph)),
             transitions_({graph_, std::move(transitions)}), rewards_(std::move(rewards)),
@@ -142,7 +142,7 @@ namespace AIToolbox::Factored::MDP {
     const State & CooperativeModel::getS() const { return graph_.getS(); }
     const Action & CooperativeModel::getA() const { return graph_.getA(); }
     double CooperativeModel::getDiscount() const { return discount_; }
-    const FactoredDDN & CooperativeModel::getTransitionFunction() const { return transitions_; }
+    const DDN & CooperativeModel::getTransitionFunction() const { return transitions_; }
     const FactoredMatrix2D & CooperativeModel::getRewardFunction() const { return rewards_; }
     const DDNGraph & CooperativeModel::getGraph() const { return graph_; }
 }

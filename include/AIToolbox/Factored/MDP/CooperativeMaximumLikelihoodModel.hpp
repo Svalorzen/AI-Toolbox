@@ -7,7 +7,7 @@
 namespace AIToolbox::Factored::MDP {
     class CooperativeMaximumLikelihoodModel {
         public:
-            using TransitionMatrix   = FactoredDDN;
+            using TransitionMatrix   = DDN;
             using RewardMatrix       = std::vector<Vector>;
 
             /**

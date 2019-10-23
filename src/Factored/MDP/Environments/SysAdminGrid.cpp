@@ -38,7 +38,7 @@ namespace AIToolbox::Factored::MDP {
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
         const auto la1Matrix = makeA1MatrixLoad();
 
-        auto transitions = FactoredDDN::TransitionMatrix();
+        auto transitions = DDN::TransitionMatrix();
 
         for (size_t a = 0; a < agents; ++a) {
             // Here, for each action, we have to create two transition nodes: one
@@ -143,7 +143,7 @@ namespace AIToolbox::Factored::MDP {
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
         const auto la1Matrix = makeA1MatrixLoad();
 
-        auto transitions = FactoredDDN::TransitionMatrix();
+        auto transitions = DDN::TransitionMatrix();
 
         for (size_t a = 0; a < agents; ++a) {
             // Here, for each action, we have to create two transition nodes: one

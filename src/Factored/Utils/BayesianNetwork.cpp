@@ -129,9 +129,9 @@ namespace AIToolbox::Factored {
     const Action & DDNGraph::getA() const { return A; }
     const std::vector<DDNGraph::Node> & DDNGraph::getNodes() const { return nodes_; }
 
-    // FactoredDDN
+    // DDN
 
-    double FactoredDDN::getTransitionProbability(const Factors & s, const Factors & a, const Factors & s1) const {
+    double DDN::getTransitionProbability(const Factors & s, const Factors & a, const Factors & s1) const {
         double retval = 1.0;
 
         // For each partial transition matrix, we compute the entry which
@@ -143,7 +143,7 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    double FactoredDDN::getTransitionProbability(const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const {
+    double DDN::getTransitionProbability(const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const {
         double retval = 1.0;
 
         // The matrix is made up of one component per child, and we
@@ -159,7 +159,7 @@ namespace AIToolbox::Factored {
 
     // Free functions
 
-    BasisMatrix backProject(const FactoredDDN & ddn, const BasisFunction & rhs) {
+    BasisMatrix backProject(const DDN & ddn, const BasisFunction & rhs) {
         BasisMatrix retval;
 
         auto & graph = ddn.graph;
@@ -203,7 +203,7 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    FactoredMatrix2D backProject(const FactoredDDN & ddn, const FactoredVector & fv) {
+    FactoredMatrix2D backProject(const DDN & ddn, const FactoredVector & fv) {
         FactoredMatrix2D retval;
         retval.bases.reserve(fv.bases.size());
 
