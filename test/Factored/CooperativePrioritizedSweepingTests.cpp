@@ -89,5 +89,5 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     }
     // This test is not very informative but not much we can do about it.. this
     // is mostly to see that the output at least makes somewhat sense.
-    BOOST_CHECK_EQUAL(maxDiff, 0.60156176468282219);
+    BOOST_CHECK_EQUAL(maxDiff, 0.53933811894995998);
 }

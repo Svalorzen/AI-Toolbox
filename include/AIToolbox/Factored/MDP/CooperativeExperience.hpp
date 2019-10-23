@@ -10,9 +10,12 @@ namespace AIToolbox::Factored::MDP {
      *
      * This class is a simple logger of events. It keeps track of both
      * the number of times a particular transition has happened, and the
-     * total reward gained in any particular transition. However, it
-     * does not record each event separately (i.e. you can't extract
-     * the results of a particular transition in the past).
+     * average reward gained in any particular transition. (i.e. the maximum
+     * likelihood estimator of a QFunction from the data). It also computes the
+     * M2 statistic for the rewards (avg sum of squares minus square avg).
+     *
+     * However, it does not record each event separately (i.e. you can't
+     * extract the results of a particular transition in the past).
      *
      * The events are recorded with respect to a given structure, which should
      * match the one of the generative model.
@@ -24,7 +27,7 @@ namespace AIToolbox::Factored::MDP {
      */
     class CooperativeExperience {
         public:
-            using RewardMatrix = std::vector<Matrix2D>;
+            using RewardMatrix = std::vector<Vector>;
             using VisitTable = std::vector<Table2D>;
 
             // Used to avoid recomputation when doing sync in RL.
@@ -74,11 +77,18 @@ namespace AIToolbox::Factored::MDP {
             const VisitTable & getVisitTable() const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
             const RewardMatrix & getRewardMatrix() const;
+
+            /**
+             * @brief This function returns the rewards squared matrix for inspection.
+             *
+             * @return The rewards squared matrix.
+             */
+            const RewardMatrix & getM2Matrix() const;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -106,6 +116,7 @@ namespace AIToolbox::Factored::MDP {
 
             VisitTable visits_;
             RewardMatrix rewards_;
+            RewardMatrix M2s_;
             Indeces indeces_;
     };
 }

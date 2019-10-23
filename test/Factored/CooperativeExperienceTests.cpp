@@ -22,6 +22,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     const auto & tt = t.transitions;
     const auto & v = exp.getVisitTable();
     const auto & r = exp.getRewardMatrix();
+    const auto & m = exp.getM2Matrix();
 
     const auto & S = model.getS();
     const auto & A = model.getA();
@@ -37,8 +38,8 @@ BOOST_AUTO_TEST_CASE( construction ) {
         BOOST_CHECK_EQUAL(r[i].rows(), tt[i].rows());
         BOOST_CHECK_EQUAL(r[i].rows(), v[i].rows());
 
-        BOOST_CHECK_EQUAL(r[i].cols(), tt[i].cols() + 1);
-        BOOST_CHECK_EQUAL(r[i].cols(), v[i].cols());
+        BOOST_CHECK_EQUAL(r[i].cols(), 1);
+        BOOST_CHECK_EQUAL(m[i].cols(), 1);
 
         BOOST_CHECK(r[i].isZero());
         BOOST_CHECK(v[i].isZero());
@@ -120,31 +121,31 @@ BOOST_AUTO_TEST_CASE( recording ) {
     struct Solution {
         // Id of the updated row
         size_t parent;
-        //                   s1 value, visits, reward
-        std::vector<std::tuple<size_t, size_t, double>> data;
+        //                   s1 value, visits
+        std::vector<std::tuple<size_t, size_t>> data;
         size_t visitSum;
-        double rewardSum;
+        double rewardAvg;
     };
 
     std::vector<Solution> solutions;
 
-    //                               s values   s1 vis  r       sums
-    //                                  |        |  |   |
-    //                                  v        v  v   v
-    solutions.emplace_back(Solution{id({0,2}), {{0, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{0, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({0,1}), {{1, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 1, 1.0}},  1, 1.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({1,1}), {{1, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 1, 1.0}},  1, 1.0});
-    solutions.emplace_back(Solution{id({1,2}), {{2, 1, 0.0}},  1, 0.0});
-    solutions.emplace_back(Solution{id({2,2}), {{0, 1, 0.0}},  1, 0.0});
+    //                               s values   s1 vis vsums ravg
+    //                                  |        |  |
+    //                                  v        v  v
+    solutions.emplace_back(Solution{id({0,2}), {{0, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{0, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({0,1}), {{1, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 1}},  1, 1.0});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({1,1}), {{1, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 1}},  1, 1.0});
+    solutions.emplace_back(Solution{id({1,2}), {{2, 1}},  1, 0.0});
+    solutions.emplace_back(Solution{id({2,2}), {{0, 1}},  1, 0.0});
 
     const auto & v = exp.getVisitTable();
     const auto & r = exp.getRewardMatrix();
@@ -164,10 +165,10 @@ BOOST_AUTO_TEST_CASE( recording ) {
             // Here we check the sums.
             if (ps) {
                 BOOST_CHECK_EQUAL(v[i](j, 3), ps->visitSum);
-                BOOST_CHECK_EQUAL(r[i](j, 3), ps->rewardSum);
+                BOOST_CHECK_EQUAL(r[i][j], ps->rewardAvg);
             } else {
                 BOOST_CHECK_EQUAL(v[i](j, 3), 0);
-                BOOST_CHECK_EQUAL(r[i](j, 3), 0.0);
+                BOOST_CHECK_EQUAL(r[i][j], 0.0);
             }
 
             // Here we check individual values.
@@ -182,10 +183,8 @@ BOOST_AUTO_TEST_CASE( recording ) {
                 // Otherwise, everything should be empty.
                 if (ps && z < ps->data.size()) {
                     BOOST_CHECK_EQUAL(v[i](j, y), std::get<1>(ps->data[z]));
-                    BOOST_CHECK_EQUAL(r[i](j, y), std::get<2>(ps->data[z]));
                 } else {
                     BOOST_CHECK_EQUAL(v[i](j, y), 0);
-                    BOOST_CHECK_EQUAL(r[i](j, y), 0.0);
                 }
             }
         }
@@ -210,23 +209,23 @@ BOOST_AUTO_TEST_CASE( recording ) {
 
     solutions.clear();
 
-    //                               s values   s1 vis  r                    sums
-    //                                  |        |  |   |
-    //                                  v        v  v   v
-    solutions.emplace_back(Solution{id({0,2}), {{0, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{0, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({0,0}), {{1, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({0,1}), {{1, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 2, 2.0}},               2, 2.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 1, 0.0}, {1, 1, 0.0}},  2, 0.0});
-    solutions.emplace_back(Solution{id({1,1}), {{1, 1, 0.0}, {2, 1, 1.0}},  2, 1.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({1,1}), {{2, 1, 1.0}, {1, 1, 0.0}},  2, 1.0});
-    solutions.emplace_back(Solution{id({1,2}), {{2, 2, 0.0}},               2, 0.0});
-    solutions.emplace_back(Solution{id({2,2}), {{0, 2, 0.0}},               2, 0.0});
+    //                               s values   s1 vis        vsums ravg
+    //                                  |        |  |
+    //                                  v        v  v
+    solutions.emplace_back(Solution{id({0,2}), {{0, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{0, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({0,0}), {{1, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({0,1}), {{1, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 2}},         2, 2.0/2});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 1}, {1, 1}}, 2, 0.0});
+    solutions.emplace_back(Solution{id({1,1}), {{1, 1}, {2, 1}}, 2, 1.0/2});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({1,1}), {{2, 1}, {1, 1}}, 2, 1.0/2});
+    solutions.emplace_back(Solution{id({1,2}), {{2, 2}},         2, 0.0});
+    solutions.emplace_back(Solution{id({2,2}), {{0, 2}},         2, 0.0});
 
     // Same as before, with the updated counters.
     for (size_t i = 0; i < solutions.size(); ++i) {
@@ -239,10 +238,10 @@ BOOST_AUTO_TEST_CASE( recording ) {
             // Sums..
             if (ps) {
                 BOOST_CHECK_EQUAL(v[i](j, 3), ps->visitSum);
-                BOOST_CHECK_EQUAL(r[i](j, 3), ps->rewardSum);
+                BOOST_CHECK_EQUAL(r[i][j], ps->rewardAvg);
             } else {
                 BOOST_CHECK_EQUAL(v[i](j, 3), 0);
-                BOOST_CHECK_EQUAL(r[i](j, 3), 0.0);
+                BOOST_CHECK_EQUAL(r[i][j], 0.0);
             }
 
             // Individual entries..
@@ -254,10 +253,8 @@ BOOST_AUTO_TEST_CASE( recording ) {
 
                 if (ps && z < ps->data.size()) {
                     BOOST_CHECK_EQUAL(v[i](j, y), std::get<1>(ps->data[z]));
-                    BOOST_CHECK_EQUAL(r[i](j, y), std::get<2>(ps->data[z]));
                 } else {
                     BOOST_CHECK_EQUAL(v[i](j, y), 0);
-                    BOOST_CHECK_EQUAL(r[i](j, y), 0.0);
                 }
             }
         }
