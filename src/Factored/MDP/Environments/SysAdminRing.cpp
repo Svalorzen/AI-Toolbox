@@ -27,6 +27,8 @@ namespace AIToolbox::Factored::MDP {
         Action A(agents);
         std::fill(std::begin(A), std::end(A), 2);
 
+        auto graph = DDNGraph(S, A);
+
         // All matrices but the a0 status transitions do not depend on the
         // neighbors, so we can create them only once and just copy them when we
         // need them.
@@ -34,48 +36,59 @@ namespace AIToolbox::Factored::MDP {
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
         const auto la1Matrix = makeA1MatrixLoad();
 
-        auto ddn = FactoredDDN();
+        auto transitions = FactoredDDN::TransitionMatrix();
+
         for (size_t a = 0; a < agents; ++a) {
             // Here, for each action, we have to create two transition nodes: one
             // for the status of the machine, and another for the load.
             // Both nodes only depend on the action of its agent.
 
-            // Status node, only depends on the action of 'a'
-            FactoredDDN::Node nodeStatus{{a}, {}};
+            // ----- Status ------
+
+            DDNGraph::Node nodeStatus{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            FactoredDDN::DBNNode sa0{{}, {}};
             unsigned neighborId;
             // Set the correct dependencies for the ring
             if (a == 0) {
-                sa0.tag = {0, (agents - 1) * 2};
+                nodeStatus.parents.push_back({0, (agents - 1) * 2});
                 neighborId = 0;
             }
             else {
-                sa0.tag = {(a - 1) * 2, a * 2};
+                nodeStatus.parents.push_back({(a - 1) * 2, a * 2});
                 neighborId = 1;
             }
-            sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+            nodeStatus.parents.push_back({a * 2});
+            graph.pushNode(std::move(nodeStatus));
 
-            FactoredDDN::DBNNode sa1{{a * 2}, sa1Matrix};
+            transitions.emplace_back(graph.getSize(a * 2), S[a * 2]);
+            {
+                auto & T = transitions.back();
 
-            nodeStatus.nodes.emplace_back(std::move(sa0));
-            nodeStatus.nodes.emplace_back(std::move(sa1));
+                T.topRows(T.rows() - sa1Matrix.rows()) = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+                T.bottomRows(sa1Matrix.rows()) = sa1Matrix;
+            }
 
-            FactoredDDN::Node nodeLoad{{a}, {}};
+            // ----- Load ------
+
+            DDNGraph::Node nodeLoad{{a}, {}};
 
             // Here we only depend on our own previous load state
-            FactoredDDN::DBNNode la0{{a * 2, (a * 2) + 1}, la0Matrix};
-            FactoredDDN::DBNNode la1{{(a * 2) + 1}, la1Matrix};
+            nodeLoad.parents.push_back({a * 2, (a * 2) + 1});
+            nodeLoad.parents.push_back({(a * 2) + 1});
 
-            nodeLoad.nodes.emplace_back(std::move(la0));
-            nodeLoad.nodes.emplace_back(std::move(la1));
+            graph.pushNode(std::move(nodeLoad));
 
-            ddn.nodes.emplace_back(std::move(nodeStatus));
-            ddn.nodes.emplace_back(std::move(nodeLoad));
+            transitions.emplace_back(graph.getSize(a * 2 + 1), S[a * 2 + 1]);
+            {
+                auto & T = transitions.back();
+
+                T.topRows(la0Matrix.rows()) = la0Matrix;
+                T.bottomRows(la1Matrix.rows()) = la1Matrix;
+            }
         }
 
         // All reward matrices for all agents are the same, so we build it here
@@ -93,7 +106,7 @@ namespace AIToolbox::Factored::MDP {
             rewards.bases.emplace_back(std::move(basis));
         }
 
-        return CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
+        return CooperativeModel(std::move(graph), std::move(transitions), std::move(rewards), 0.95);
     }
 
     CooperativeModel makeSysAdminBiRing(unsigned agents,
@@ -117,6 +130,8 @@ namespace AIToolbox::Factored::MDP {
         Action A(agents);
         std::fill(std::begin(A), std::end(A), 2);
 
+        auto graph = DDNGraph(S, A);
+
         // All matrices but the a0 status transitions do not depend on the
         // neighbors, so we can create them only once and just copy them when we
         // need them.
@@ -124,52 +139,62 @@ namespace AIToolbox::Factored::MDP {
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
         const auto la1Matrix = makeA1MatrixLoad();
 
-        auto ddn = FactoredDDN();
+        auto transitions = FactoredDDN::TransitionMatrix();
+
         for (size_t a = 0; a < agents; ++a) {
+            // Status dependencies
             // Here, for each action, we have to create two transition nodes: one
             // for the status of the machine, and another for the load.
             // Both nodes only depend on the action of its agent.
 
-            // Status node, only depends on the action of 'a'
-            FactoredDDN::Node nodeStatus{{a}, {}};
+            // ----- Status ------
+
+            DDNGraph::Node nodeStatus{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            FactoredDDN::DBNNode sa0{{}, {}};
             unsigned neighborId;
             // Set the correct dependencies for the ring
             if (a == 0) {
-                sa0.tag = {0, 2, (agents - 1) * 2};
+                nodeStatus.parents.push_back({0, 2, (agents - 1) * 2});
                 neighborId = 0;
             }
             else if (a == agents - 1) {
-                sa0.tag = {0, (a - 1) * 2, a * 2};
+                nodeStatus.parents.push_back({0, (a - 1) * 2, a * 2});
                 neighborId = 2;
             }
             else {
-                sa0.tag = {(a - 1) * 2, a * 2, (a + 1) * 2};
+                nodeStatus.parents.push_back({(a - 1) * 2, a * 2, (a + 1) * 2});
                 neighborId = 1;
             }
-            sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+            nodeStatus.parents.push_back({a*2});
+            graph.pushNode(std::move(nodeStatus));
 
-            FactoredDDN::DBNNode sa1{{a * 2}, sa1Matrix};
+            transitions.emplace_back(graph.getSize(a * 2), S[a * 2]);
+            {
+                auto & T = transitions.back();
 
-            nodeStatus.nodes.emplace_back(std::move(sa0));
-            nodeStatus.nodes.emplace_back(std::move(sa1));
+                T.topRows(T.rows() - sa1Matrix.rows()) = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+                T.bottomRows(sa1Matrix.rows()) = sa1Matrix;
+            }
 
-            FactoredDDN::Node nodeLoad{{a}, {}};
+            // ----- Load ------
 
-            // Here we only depend on our own previous load state
-            FactoredDDN::DBNNode la0{{a * 2, (a * 2) + 1}, la0Matrix};
-            FactoredDDN::DBNNode la1{{(a * 2) + 1}, la1Matrix};
+            DDNGraph::Node nodeLoad{{a}, {}};
+            nodeLoad.parents.push_back({a * 2, (a * 2) + 1});
+            nodeLoad.parents.push_back({(a * 2) + 1});
 
-            nodeLoad.nodes.emplace_back(std::move(la0));
-            nodeLoad.nodes.emplace_back(std::move(la1));
+            graph.pushNode(std::move(nodeLoad));
 
-            ddn.nodes.emplace_back(std::move(nodeStatus));
-            ddn.nodes.emplace_back(std::move(nodeLoad));
+            transitions.emplace_back(graph.getSize(a * 2 + 1), S[a * 2 + 1]);
+            {
+                auto & T = transitions.back();
+
+                T.topRows(la0Matrix.rows()) = la0Matrix;
+                T.bottomRows(la1Matrix.rows()) = la1Matrix;
+            }
         }
 
         // All reward matrices for all agents are the same, so we build it here
@@ -187,7 +212,7 @@ namespace AIToolbox::Factored::MDP {
             rewards.bases.emplace_back(std::move(basis));
         }
 
-        return CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
+        return CooperativeModel(std::move(graph), std::move(transitions), std::move(rewards), 0.95);
     }
 
     std::string printSysAdminRing(const State & s) {

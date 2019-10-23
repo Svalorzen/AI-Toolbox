@@ -14,17 +14,16 @@ BOOST_AUTO_TEST_CASE( back_project ) {
     aif::State s{3,3,3};
     aif::Action a{2,2};
 
-    aif::FactoredVector A;
-    aif::BasisFunction a1{{0,1}, {}};
-    a1.values.resize(9);
-    a1.values << 1.0, 3.0, 2.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0;
-
-    aif::BasisFunction a2{{0,2}, {}};
-    a2.values.resize(9);
-    a2.values << 7.0, 9.0, 8.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0;
-
-    A.bases.emplace_back(std::move(a1));
-    A.bases.emplace_back(std::move(a2));
+    aif::DDNGraph graph(s, a);
+    graph.pushNode({{0},
+        {{0,1},{0,2}}
+    });
+    graph.pushNode({{1},
+        {{0,1},{0,2}}
+    });
+    graph.pushNode({{1},
+        {{0,1},{0,2}}
+    });
 
     ai::Matrix2D p(9, 3); // x,y->z
     p <<
@@ -38,21 +37,33 @@ BOOST_AUTO_TEST_CASE( back_project ) {
        0.20, 0.10, 0.70, // 2, 1
        0.50, 0.10, 0.40  // 2, 2
     ;
-    aif::FactoredDDN::Node f1{{0}, {
-        {{0,1}, p}, {{0,2}, p}
-    }};
-    aif::FactoredDDN::Node f2{{1}, {
-        {{0,1}, p}, {{0,2}, p}
-    }};
-    aif::FactoredDDN::Node f3{{1}, {
-        {{0,1}, p}, {{0,2}, p}
-    }};
-    auto T = aif::FactoredDDN{{f1, f2, f3}};
+
+    auto T = aif::FactoredDDN{graph, {}};
+    T.transitions.resize(3);
+
+    // We simply paste p two times in each transition matrix to store the
+    // probabilities for every parent set.
+    T.transitions[0] = p.replicate<2, 1>();
+    T.transitions[1] = p.replicate<2, 1>();
+    T.transitions[2] = p.replicate<2, 1>();
+
+    // Setup the matrices for backpropagation.
+    aif::FactoredVector A;
+    aif::BasisFunction a1{{0,1}, {}};
+    a1.values.resize(9);
+    a1.values << 1.0, 3.0, 2.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0;
+
+    aif::BasisFunction a2{{0,2}, {}};
+    a2.values.resize(9);
+    a2.values << 7.0, 9.0, 8.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0;
+
+    A.bases.emplace_back(std::move(a1));
+    A.bases.emplace_back(std::move(a2));
 
     ai::Vector w(2); w << 2.0, 3.0;
 
     auto Aw = A * w;
-    aif::FactoredMatrix2D vbp = aif::backProject(s, a, T, Aw);
+    aif::FactoredMatrix2D vbp = aif::backProject(T, Aw);
 
     aif::PartialFactorsEnumerator es(s);
     aif::PartialFactorsEnumerator ea(a);
@@ -63,7 +74,7 @@ BOOST_AUTO_TEST_CASE( back_project ) {
 
             aif::PartialFactorsEnumerator s1(s);
             while (s1.isValid()) {
-                value += T.getTransitionProbability(s, a, *es, *ea, *s1) *
+                value += T.getTransitionProbability(*es, *ea, *s1) *
                       Aw.getValue(s, (*s1).second);
 
                 s1.advance();

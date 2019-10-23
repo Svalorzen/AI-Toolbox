@@ -8,9 +8,7 @@ namespace AIToolbox::Factored::MDP {
     class CooperativeMaximumLikelihoodModel {
         public:
             using TransitionMatrix   = FactoredDDN;
-            // Same shape as the DDN, without tags and with the last dimension
-            // summed over (matrix->vector).
-            using RewardMatrix       = std::vector<std::vector<Vector>>;
+            using RewardMatrix       = std::vector<Vector>;
 
             /**
              * @brief Constructor using previous Experience.
@@ -260,7 +258,9 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The rewards matrix.
              */
-            const RewardMatrix & getRewardFunction()     const;
+            const RewardMatrix & getRewardFunction() const;
+
+            const DDNGraph & getGraph() const;
 
         private:
             const CooperativeExperience & experience_;

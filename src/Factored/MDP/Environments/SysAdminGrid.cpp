@@ -29,6 +29,8 @@ namespace AIToolbox::Factored::MDP {
         Action A(agents);
         std::fill(std::begin(A), std::end(A), 2);
 
+        DDNGraph graph(S, A);
+
         // All matrices but the a0 status transitions do not depend on the
         // neighbors, so we can create them only once and just copy them when we
         // need them.
@@ -36,53 +38,58 @@ namespace AIToolbox::Factored::MDP {
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
         const auto la1Matrix = makeA1MatrixLoad();
 
-        auto ddn = FactoredDDN();
+        auto transitions = FactoredDDN::TransitionMatrix();
+
         for (size_t a = 0; a < agents; ++a) {
             // Here, for each action, we have to create two transition nodes: one
             // for the status of the machine, and another for the load.
             // Both nodes only depend on the action of its agent.
 
             // Status node, only depends on the action of 'a'
-            FactoredDDN::Node nodeStatus{{a}, {}};
+            DDNGraph::Node nodeStatus{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            FactoredDDN::DBNNode sa0{{}, {}};
             auto cell = grid(a);
-            sa0.tag = {cell * 2};
+            PartialKeys sa0 = {cell * 2};
             // Add to tag all elements around it.
             for (auto d : AIToolbox::MDP::GridWorldEnums::Directions) {
                 const auto adj = grid.getAdjacent(d, cell);
                 if (adj == cell) continue;
-                sa0.tag.push_back(grid.getAdjacent(d, cell) * 2);
+                sa0.push_back(grid.getAdjacent(d, cell) * 2);
             }
 
             // Sort them so the tag is valid.
-            auto beg = std::begin(sa0.tag), end = std::end(sa0.tag);
+            auto beg = std::begin(sa0), end = std::end(sa0);
             std::sort(beg, end);
 
-            // Find out where we are in the tag so we can generate the matrix correctly.
-            unsigned neighborId = std::distance(beg, std::find(beg, end, cell * 2));
-            sa0.matrix = makeA0MatrixStatus(sa0.tag.size() - 1, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+            nodeStatus.parents.push_back(sa0);
+            nodeStatus.parents.push_back({cell*2});
 
-            FactoredDDN::DBNNode sa1{{cell * 2}, sa1Matrix};
+            transitions.emplace_back(graph.getSize(cell * 2), S[cell * 2]);
+            {
+                auto & T = transitions.back();
 
-            nodeStatus.nodes.emplace_back(std::move(sa0));
-            nodeStatus.nodes.emplace_back(std::move(sa1));
+                // Find out where we are in the tag so we can generate the matrix correctly.
+                unsigned neighborId = std::distance(beg, std::find(beg, end, cell * 2));
+                T.topRows(T.rows() - sa1Matrix.rows()) = makeA0MatrixStatus(sa0.size() - 1, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+                T.bottomRows(sa1Matrix.rows()) = sa1Matrix;
+            }
 
-            FactoredDDN::Node nodeLoad{{a}, {}};
+            DDNGraph::Node nodeLoad{{a}, {}};
 
-            // Here we only depend on our own previous load state
-            FactoredDDN::DBNNode la0{{cell * 2, (cell * 2) + 1}, la0Matrix};
-            FactoredDDN::DBNNode la1{{(cell * 2) + 1}, la1Matrix};
+            nodeLoad.parents.push_back({cell * 2, (cell * 2) + 1});
+            nodeLoad.parents.push_back({(cell * 2) + 1});
 
-            nodeLoad.nodes.emplace_back(std::move(la0));
-            nodeLoad.nodes.emplace_back(std::move(la1));
+            transitions.emplace_back(graph.getSize(cell * 2 + 1), S[cell * 2 + 1]);
+            {
+                auto & T = transitions.back();
 
-            ddn.nodes.emplace_back(std::move(nodeStatus));
-            ddn.nodes.emplace_back(std::move(nodeLoad));
+                T.topRows(la0Matrix.rows()) = la0Matrix;
+                T.bottomRows(la1Matrix.rows()) = la1Matrix;
+            }
         }
 
         // All reward matrices for all agents are the same, so we build it here
@@ -99,7 +106,7 @@ namespace AIToolbox::Factored::MDP {
 
             rewards.bases.emplace_back(std::move(basis));
         }
-        return CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
+        return CooperativeModel(std::move(graph), std::move(transitions), std::move(rewards), 0.95);
     }
 
     CooperativeModel makeSysAdminTorus(unsigned width, unsigned height,
@@ -127,6 +134,8 @@ namespace AIToolbox::Factored::MDP {
         Action A(agents);
         std::fill(std::begin(A), std::end(A), 2);
 
+        DDNGraph graph(S, A);
+
         // All matrices but the a0 status transitions do not depend on the
         // neighbors, so we can create them only once and just copy them when we
         // need them.
@@ -134,50 +143,56 @@ namespace AIToolbox::Factored::MDP {
         const auto la0Matrix = makeA0MatrixLoad(pLoad, pDoneG, pDoneF);
         const auto la1Matrix = makeA1MatrixLoad();
 
-        auto ddn = FactoredDDN();
+        auto transitions = FactoredDDN::TransitionMatrix();
+
         for (size_t a = 0; a < agents; ++a) {
             // Here, for each action, we have to create two transition nodes: one
             // for the status of the machine, and another for the load.
             // Both nodes only depend on the action of its agent.
 
             // Status node, only depends on the action of 'a'
-            FactoredDDN::Node nodeStatus{{a}, {}};
+            DDNGraph::Node nodeStatus{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
             // Node that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
-            FactoredDDN::DBNNode sa0{{}, {}};
             auto cell = grid(a);
-            sa0.tag = {cell * 2};
+            PartialKeys sa0 = {cell * 2};
             // Add to tag all elements around it.
             for (auto d : AIToolbox::MDP::GridWorldEnums::Directions)
-                sa0.tag.push_back(grid.getAdjacent(d, cell) * 2);
+                sa0.push_back(grid.getAdjacent(d, cell) * 2);
 
             // Sort them so the tag is valid.
-            auto beg = std::begin(sa0.tag), end = std::end(sa0.tag);
+            auto beg = std::begin(sa0), end = std::end(sa0);
             std::sort(beg, end);
 
-            // Find out where we are in the tag so we can generate the matrix correctly.
-            unsigned neighborId = std::distance(beg, std::find(beg, end, cell * 2));
-            sa0.matrix = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+            nodeStatus.parents.push_back(sa0);
+            nodeStatus.parents.push_back({cell * 2});
 
-            FactoredDDN::DBNNode sa1{{cell * 2}, sa1Matrix};
+            transitions.emplace_back(graph.getSize(cell * 2), S[cell * 2]);
+            {
+                auto & T = transitions.back();
 
-            nodeStatus.nodes.emplace_back(std::move(sa0));
-            nodeStatus.nodes.emplace_back(std::move(sa1));
+                // Find out where we are in the tag so we can generate the matrix correctly.
+                unsigned neighborId = std::distance(beg, std::find(beg, end, cell * 2));
+                T.topRows(T.rows() - sa1Matrix.rows()) = makeA0MatrixStatus(neighbors, neighborId, pFailBase, pFailBonus, pDeadBase, pDeadBonus);
+                T.bottomRows(sa1Matrix.rows()) = sa1Matrix;
+            }
 
-            FactoredDDN::Node nodeLoad{{a}, {}};
+            DDNGraph::Node nodeLoad{{a}, {}};
 
-            // Here we only depend on our own previous load state
-            FactoredDDN::DBNNode la0{{cell * 2, (cell * 2) + 1}, la0Matrix};
-            FactoredDDN::DBNNode la1{{(cell * 2) + 1}, la1Matrix};
+            nodeLoad.parents.push_back({cell * 2, (cell * 2) + 1});
+            nodeLoad.parents.push_back({(cell * 2) + 1});
 
-            nodeLoad.nodes.emplace_back(std::move(la0));
-            nodeLoad.nodes.emplace_back(std::move(la1));
+            transitions.emplace_back(graph.getSize(cell * 2 + 1), S[cell * 2 + 1]);
+            {
+                auto & T = transitions.back();
 
-            ddn.nodes.emplace_back(std::move(nodeStatus));
-            ddn.nodes.emplace_back(std::move(nodeLoad));
+                // Here we only depend on our own previous load state
+                T.topRows(la0Matrix.rows()) = la0Matrix;
+                T.bottomRows(la1Matrix.rows()) = la1Matrix;
+            }
         }
 
         // All reward matrices for all agents are the same, so we build it here
@@ -194,7 +209,7 @@ namespace AIToolbox::Factored::MDP {
 
             rewards.bases.emplace_back(std::move(basis));
         }
-        return CooperativeModel(std::move(S), std::move(A), std::move(ddn), std::move(rewards), 0.95);
+        return CooperativeModel(std::move(graph), std::move(transitions), std::move(rewards), 0.95);
     }
 
     std::string printSysAdminGrid(const State & s, const unsigned width) {

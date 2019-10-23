@@ -5,66 +5,54 @@
 namespace AIToolbox::Factored {
     // FactoredDDN
 
-    double FactoredDDN::getTransitionProbability(const Factors & space, const Factors & actions, const Factors & s, const Factors & a, const Factors & s1) const {
+    double FactoredDDN::getTransitionProbability(const Factors & s, const Factors & a, const Factors & s1) const {
         double retval = 1.0;
 
         // For each partial transition matrix, we compute the entry which
         // applies to this transition, and we multiply all entries together.
-        for (size_t i = 0; i < space.size(); ++i) {
-            const auto & node = nodes[i];
-            // Compute action ID based on the actions that affect state factor 'i'.
-            const auto actionId = toIndexPartial(node.actionTag, actions, a);
-            // Compute parent ID based on the parents of state factor 'i' under this action.
-            const auto parentId = toIndexPartial(node.nodes[actionId].tag, space, s);
-
-            retval *= node.nodes[actionId].matrix(parentId, s1[i]);
+        for (size_t i = 0; i < graph.getS().size(); ++i) {
+            retval *= transitions[i](graph.getId(s, a, i), s1[i]);
         }
 
         return retval;
     }
 
-    double FactoredDDN::getTransitionProbability(const Factors & space, const Factors & actions, const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const {
+    double FactoredDDN::getTransitionProbability(const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const {
         double retval = 1.0;
 
         // The matrix is made up of one component per child, and we
         // need to multiply all of them together. At each iteration we
         // look at a different "child".
         for (size_t j = 0; j < s1.first.size(); ++j) {
-            const auto & node = nodes[s1.first[j]];
-            // Compute action ID based on the actions that affect state factor 'i'.
-            const auto actionId = toIndexPartial(node.actionTag, actions, a);
-            // Compute parent ID based on the parents of state factor 'i' under this action.
-            const auto parentId = toIndexPartial(node.nodes[actionId].tag, space, s);
-
-            retval *= node.nodes[actionId].matrix(parentId, s1.second[j]);
+            const auto nodeId = s1.first[j];
+            retval *= transitions[nodeId](graph.getId(s, a, nodeId), s1.second[j]);
         }
 
         return retval;
     }
 
-    const FactoredDDN::Node & FactoredDDN::operator[](size_t i) const {
-        return nodes[i];
-    }
-
     // Free functions
 
-    BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & rhs) {
+    BasisMatrix backProject(const FactoredDDN & ddn, const BasisFunction & rhs) {
         BasisMatrix retval;
 
+        auto & graph = ddn.graph;
+        auto & nodes = graph.getNodes();
+
         for (auto d : rhs.tag) {
-            retval.actionTag = merge(retval.actionTag, ddn[d].actionTag);
-            for (const auto & n : ddn[d].nodes)
-                retval.tag = merge(retval.tag, n.tag);
+            retval.actionTag = merge(retval.actionTag, nodes[d].agents);
+            for (const auto & n : nodes[d].parents)
+                retval.tag = merge(retval.tag, n);
         }
 
-        const size_t sizeA = factorSpacePartial(retval.actionTag, actions);
-        const size_t sizeS = factorSpacePartial(retval.tag, space);
+        const size_t sizeA = factorSpacePartial(retval.actionTag, graph.getA());
+        const size_t sizeS = factorSpacePartial(retval.tag, graph.getS());
 
         retval.values.resize(sizeS, sizeA);
 
-        PartialFactorsEnumerator sDomain(space, retval.tag);
-        PartialFactorsEnumerator aDomain(actions, retval.actionTag);
-        PartialFactorsEnumerator rDomain(space, rhs.tag);
+        PartialFactorsEnumerator sDomain(graph.getS(), retval.tag);
+        PartialFactorsEnumerator aDomain(graph.getA(), retval.actionTag);
+        PartialFactorsEnumerator rDomain(graph.getS(), rhs.tag);
 
         for (size_t sId = 0; sDomain.isValid(); sDomain.advance(), ++sId) {
             for (size_t aId = 0; aDomain.isValid(); aDomain.advance(), ++aId) {
@@ -79,7 +67,7 @@ namespace AIToolbox::Factored {
                 // domain & children.
                 double currentVal = 0.0;
                 for (size_t rId = 0; rDomain.isValid(); rDomain.advance(), ++rId)
-                    currentVal += rhs.values[rId] * ddn.getTransitionProbability(space, actions, *sDomain, *aDomain, *rDomain);
+                    currentVal += rhs.values[rId] * ddn.getTransitionProbability(*sDomain, *aDomain, *rDomain);
                 rDomain.reset();
 
                 retval.values(sId, aId) = currentVal;
@@ -89,14 +77,14 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    FactoredMatrix2D backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv) {
+    FactoredMatrix2D backProject(const FactoredDDN & ddn, const FactoredVector & fv) {
         FactoredMatrix2D retval;
         retval.bases.reserve(fv.bases.size());
 
         for (const auto & basis : fv.bases) {
             // Note that we don't do plusEqual since we don't necessarily
             // want to merge entries here.
-            retval.bases.emplace_back(backProject(space, actions, ddn, basis));
+            retval.bases.emplace_back(backProject(ddn, basis));
         }
 
         return retval;

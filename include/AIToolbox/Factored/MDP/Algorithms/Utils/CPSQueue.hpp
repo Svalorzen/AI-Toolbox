@@ -31,11 +31,9 @@ namespace AIToolbox::Factored {
              * representation for priority rules, following the structure of
              * the ddn.
              *
-             * @param S The factored state space.
-             * @param A The factored action space.
-             * @param ddn The ddn of the transition function of the problem.
+             * @param graph The ddn of the transition function of the problem.
              */
-            CPSQueue(const State & S, const Action & A, const FactoredDDN & ddn);
+            CPSQueue(const DDNGraph & graph);
 
             /**
              * @brief This function updates the probability of the input parent set.
@@ -98,20 +96,17 @@ namespace AIToolbox::Factored {
             unsigned getNonZeroPriorities() const;
 
         private:
-            const State & S;
-            const Action & A;
+            const DDNGraph & graph_;
             unsigned nonZeroPriorities_;
 
             std::vector<size_t> order_;
 
             struct ActionNode {
-                PartialKeys tag;
                 Vector priorities;
                 double maxV;
                 size_t maxS;
             };
             struct Node {
-                PartialKeys actionTag;
                 double maxV;
                 size_t maxA;
                 std::vector<size_t> order;
