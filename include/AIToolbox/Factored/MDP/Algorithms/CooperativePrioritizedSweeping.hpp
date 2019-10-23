@@ -247,8 +247,8 @@ namespace AIToolbox::Factored::MDP {
             // Here we need to iterate over j, but the queue still needs the
             // a,s variables. So we keep all of them in mind to keep things easy.
             size_t j = 0;
-            for (size_t a = 0; a < graph.getNodes()[i].parents.size(); ++a) {
-                for (size_t s = 0; s < graph.getSize(a, i); ++s) {
+            for (size_t a = 0; a < graph.getPartialSize(i); ++a) {
+                for (size_t s = 0; s < graph.getPartialSize(i, a); ++s) {
                     const auto p = T.transitions[i](j, s1[i]) * deltaStorage_[i];
 
                     // Increase j before we check if we want to skip.

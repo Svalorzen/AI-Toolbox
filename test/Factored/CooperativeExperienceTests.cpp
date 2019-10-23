@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE( recording ) {
     // For each state features
     for (size_t i = 0; i < S.size(); ++i) {
         // For entries referring to action 0
-        for (size_t j = 0; j < model.getGraph().getSize(0, i); ++j) {
+        for (size_t j = 0; j < model.getGraph().getPartialSize(i, 0); ++j) {
             // Check whether we should have updated something in this line
             const Solution * ps = nullptr;
             if (solutions[i].parent == j)
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE( recording ) {
 
     // No action 1
     for (size_t i = 0; i < S.size(); ++i) {
-        auto action1Rows = exp.getGraph().getSize(1, i);
+        auto action1Rows = exp.getGraph().getPartialSize(i, 1);
 
         BOOST_CHECK(v[i].bottomRows(action1Rows).isZero());
         BOOST_CHECK(r[i].bottomRows(action1Rows).isZero());
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE( recording ) {
     // Same as before, with the updated counters.
     for (size_t i = 0; i < solutions.size(); ++i) {
         // For entries referring to action 0
-        for (size_t j = 0; j < model.getGraph().getSize(0, i); ++j) {
+        for (size_t j = 0; j < model.getGraph().getPartialSize(i, 0); ++j) {
             const Solution * ps = nullptr;
             if (solutions[i].parent == j)
                 ps = &solutions[i];
@@ -265,7 +265,7 @@ BOOST_AUTO_TEST_CASE( recording ) {
 
     // No action 1
     for (size_t i = 0; i < S.size(); ++i) {
-        auto action1Rows = exp.getGraph().getSize(1, i);
+        auto action1Rows = exp.getGraph().getPartialSize(i, 1);
 
         BOOST_CHECK(v[i].bottomRows(action1Rows).isZero());
         BOOST_CHECK(r[i].bottomRows(action1Rows).isZero());

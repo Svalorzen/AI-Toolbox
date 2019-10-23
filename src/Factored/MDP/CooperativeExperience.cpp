@@ -26,7 +26,7 @@ namespace AIToolbox::Factored::MDP {
             auto & rNode = rewards_[i];
             auto & vNode = visits_[i];
 
-            auto id = graph_.getId(s, a, i);
+            auto id = graph_.getId(i, s, a);
 
             // Update single values
             rNode(id, s1[i]) += rew[i];

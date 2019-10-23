@@ -51,7 +51,7 @@ namespace AIToolbox::Factored::MDP {
         auto & tProbs = transitions_.transitions;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto j = experience_.getGraph().getId(s, a, i);
+            const auto j = experience_.getGraph().getId(i, s, a);
 
             const auto totalVisits = vtable[i](j, S[i]);
             if (totalVisits == 0) continue;
@@ -105,7 +105,7 @@ namespace AIToolbox::Factored::MDP {
         State & s1 = *s1p;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto j = experience_.getGraph().getId(s, a, i);
+            const auto j = experience_.getGraph().getId(i, s, a);
 
             s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
@@ -123,7 +123,7 @@ namespace AIToolbox::Factored::MDP {
         State & s1 = *s1p;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto j = experience_.getGraph().getId(s, a, i);
+            const auto j = experience_.getGraph().getId(i, s, a);
 
             s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
@@ -140,7 +140,7 @@ namespace AIToolbox::Factored::MDP {
 
         double retval = 0.0;
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto j = experience_.getGraph().getId(s, a, i);
+            const auto j = experience_.getGraph().getId(i, s, a);
 
             retval += rewards_[i][j];
         }
@@ -166,7 +166,7 @@ namespace AIToolbox::Factored::MDP {
         auto & rews = *rewsp;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto j = experience_.getGraph().getId(s, a, i);
+            const auto j = experience_.getGraph().getId(i, s, a);
 
             rews[i] = rewards_[i][j];
         }

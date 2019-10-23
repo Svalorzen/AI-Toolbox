@@ -94,6 +94,11 @@ namespace AIToolbox::Factored::MDP {
              */
             const Action & getA() const;
 
+            /**
+             * @brief This function returns the underlying DDNGraph of the CooperativeExperience.
+             *
+             * @return The underlying DDNGraph.
+             */
             const DDNGraph & getGraph() const;
 
         private:

@@ -31,7 +31,7 @@ namespace AIToolbox::Factored {
                 auto & nn = n.nodes[a];
                 nn.maxV = -1.0;
                 nn.maxS = 0;
-                nn.priorities.resize(graph_.getSize(a, i));
+                nn.priorities.resize(graph_.getPartialSize(i, a));
                 nn.priorities.fill(-1.0);
             }
         }

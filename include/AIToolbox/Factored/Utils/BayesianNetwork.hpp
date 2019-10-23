@@ -6,134 +6,256 @@
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 
 namespace AIToolbox::Factored {
-    class DDNGraph {
+    /**
+     * @brief This class represents the structure of a dynamic decision network.
+     *
+     * A DDN is a graph that relates how state features and agents are related
+     * over a single time steps. In particular, it contains which
+     * state-features and agents each next-state-feature depends on.
+     *
+     * This class constains this information, and allows to compute easily
+     * indices to reference outside matrices for data; for example transition
+     * probabilities or rewards.
+     *
+     * This class is supposed to be created once and passed as reference to
+     * everybody who needs it, to avoid duplicating information for no reason.
+     *
+     * This class considers DDNs where the action-parent features are fixed for
+     * each next-state-feature, but the state-parent features depend on both
+     * the next-state-feature and on what action the parent agents took.
+     *
+     * For example, if I have a state space
+     *
+     *     [3, 4, 2]
+     *
+     * then I have 3 state features. If I have an action space
+     *
+     *     [2, 5, 4, 2]
+     *
+     * then I have 4 agents. For each state feature, the DDNGraph has one
+     * DDNGraph::Node, so we have 3 of them. Let's assume that the state
+     * feature 0 depends on agents 0 and 3; then we will have that, in node 0,
+     *
+     *     nodes_[0].agents = [0, 3]
+     *
+     * Now, the space of joint actions for these two agents is 4 (2 * 2). For
+     * each one of these, state feature 0 might depend on different sets of
+     * state features. So we could have that
+     *
+     *    nodes_[0].parents = [
+     *         [0, 1],     // For joint action value 0,0
+     *         [1, 2, 3],  // For joint action value 1,0
+     *         [0, 2],     // For joint action value 0,1
+     *         [1, 3],     // For joint action value 1,1
+     *    ]
+     */
+    class DynamicDecisionNetworkGraph {
         public:
+            /**
+             * @brief This class contains the parent information for a single next-state feature.
+             */
             struct Node {
+                /**
+                 * @brief The
+                 */
                 PartialKeys agents;
                 std::vector<PartialKeys> parents;
             };
 
-            DDNGraph(State SS, Action AA) : S(std::move(SS)), A(std::move(AA)) {
-                nodes_.reserve(S.size());
-            }
+            /**
+             * @brief Basic constructor.
+             *
+             * Note that in order to be fully initialized, the pushNode(Node&&)
+             * method must be called for each state feature.
+             *
+             * That method is separate to simplify construction and API.
+             *
+             * \sa pushNode(Node &&);
+             *
+             * @param S The state space of the DDN.
+             * @param A The action space of the DDN.
+             */
+            DynamicDecisionNetworkGraph(State S, Action A);
 
-            void pushNode(Node && node) {
-                // Begin sanity check to only construct graphs that make sense.
-                if (nodes_.size() == S.size())
-                    throw std::runtime_error("Pushed too many nodes in DDNGraph");
+            /**
+             * @brief This function adds a node to the graph.
+             *
+             * This method *MUST* be called once per state feature, after
+             * construction.
+             *
+             * This method will sanity check all sets of parents, both agents
+             * and state features. Additionally, it will pre-compute the size
+             * of each set to speed up the computation of ids.
+             *
+             * @param node The node to insert.
+             */
+            void pushNode(Node && node);
 
-                TagErrors error;
-                std::tie(error, std::ignore) = checkTag(A, node.agents);
-                switch (error) {
-                    case TagErrors::NoElements:
-                        throw std::invalid_argument("Pushed node in DDNGraph contains agents tag with no elements!");
-                    case TagErrors::TooManyElements:
-                        throw std::invalid_argument("Pushed node in DDNGraph contains agents tag with too many elements!");
-                    case TagErrors::IdTooHigh:
-                        throw std::invalid_argument("Pushed node in DDNGraph references agent IDs too high for the action space!");
-                    case TagErrors::NotSorted:
-                        throw std::invalid_argument("Pushed node in DDNGraph contains agents tag that are not sorted!");
-                    case TagErrors::Duplicates:
-                        throw std::invalid_argument("Pushed node in DDNGraph contains duplicate agents in agents tag!");
-                    default:;
-                }
+            /**
+             * @brief This function computes an id for the input state and action, for the specified feature.
+             *
+             * \sa getSize(size_t);
+             *
+             * @param feature The feature to compute the id for.
+             * @param s The state to compute the id for.
+             * @param a The action to compute the id for.
+             *
+             * @return A unique id in [0, getSize(feature)).
+             */
+            size_t getId(size_t feature, const State & s, const Action & a) const;
 
-                if (node.parents.size() != factorSpacePartial(node.agents, A))
-                    throw std::invalid_argument("Pushed node DDNGraph has an incorrect number of parent sets for the specified agents tag!");
+            /**
+             * @brief This function computes an id for the input state and action, for the specified feature.
+             *
+             * \sa getSize(size_t);
+             *
+             * @param feature The feature to compute the id for.
+             * @param s The state to compute the id for.
+             * @param a The action to compute the id for.
+             *
+             * @return A unique id in [0, getSize(feature)).
+             */
+            size_t getId(size_t feature, const PartialState & s, const PartialAction & a) const;
 
-                for (size_t i = 0; i < node.parents.size(); ++i) {
-                    std::tie(error, std::ignore) = checkTag(S, node.parents[i]);
+            /**
+             * @brief This function computes an id from the input action-parent ids, for the specified feature.
+             *
+             * \sa getIds(const State &, const Action &, size_t);
+             * \sa getSize(size_t);
+             *
+             * @param feature The feature to compute the id for.
+             * @param actionId The precomputed action id.
+             * @param parentId The precomputed parent id.
+             *
+             * @return A unique id in [0, getSize(feature)).
+             */
+            size_t getId(size_t feature, size_t actionId, size_t parentId) const;
 
-                    switch (error) {
-                        case TagErrors::NoElements:
-                            throw std::invalid_argument("Pushed node in DDNGraph contains parents tags with no elements!");
-                        case TagErrors::TooManyElements:
-                            throw std::invalid_argument("Pushed node in DDNGraph contains parents tags with too many elements!");
-                        case TagErrors::IdTooHigh:
-                            throw std::invalid_argument("Pushed node in DDNGraph references parent IDs too high for the state space!");
-                        case TagErrors::NotSorted:
-                            throw std::invalid_argument("Pushed node in DDNGraph contains parents tags that are not sorted!");
-                        case TagErrors::Duplicates:
-                            throw std::invalid_argument("Pushed node in DDNGraph contains duplicate parents in parents tags!");
-                        default:;
-                    }
-                }
+            /**
+             * @brief This function computes an action and parent ids for the input state, action and feature.
+             *
+             * This function is provided in case some code still needs to store
+             * the "intermediate" ids of the graph.
+             *
+             * The actionId, which is the first in the pair, is a number
+             * between 0 and the factorSpacePartial of the parent agents of the
+             * feature.
+             *
+             * The parentId, which is the second in the pair, is a number
+             * between 0 and the factorSpacePartial of the state parent
+             * features of the feature, given the input action.
+             *
+             * \sa getPartialSize(size_t);
+             * \sa getPartialSize(size_t, size_t);
+             *
+             * @param feature The feature to compute the id for.
+             * @param s The state to compute the id for.
+             * @param a The action to compute the id for.
+             *
+             * @return A pair of ids, the first for the action, and the second for the features.
+             */
+            std::pair<size_t, size_t> getIds(size_t feature, const State & s, const Action & a) const;
 
-                // Sanity check ended, we can pull the node in.
-                nodes_.emplace_back(std::move(node));
+            /**
+             * @brief This function computes an action and parent ids for the input state, action and feature.
+             *
+             * This function is provided in case some code still needs to store
+             * the "intermediate" ids of the graph.
+             *
+             * The actionId, which is the first in the pair, is a number
+             * between 0 and the factorSpacePartial of the parent agents of the
+             * feature.
+             *
+             * The parentId, which is the second in the pair, is a number
+             * between 0 and the factorSpacePartial of the state parent
+             * features of the feature, given the input action.
+             *
+             * \sa getPartialSize(size_t);
+             * \sa getPartialSize(size_t, size_t);
+             *
+             * @param feature The feature to compute the id for.
+             * @param s The state to compute the id for.
+             * @param a The action to compute the id for.
+             *
+             * @return A pair of ids, the first for the action, and the second for the features.
+             */
+            std::pair<size_t, size_t> getIds(size_t feature, const PartialState & s, const PartialAction & a) const;
 
-                auto & newNode = nodes_.back();
-                startIds_.emplace_back(newNode.parents.size() + 1);
-                auto & newStartIds = startIds_.back();
+            /**
+             * @brief This function computes an action and parent ids for the input id and feature.
+             *
+             * This function transform the input "global" id into the action
+             * and parent ids.
+             *
+             * \sa getPartialSize(size_t);
+             * \sa getPartialSize(size_t, size_t);
+             *
+             * @param feature The feature to compute the id for.
+             * @param j The global id to decompose.
+             *
+             * @return A pair of ids, the first for the action, and the second for the features.
+             */
+            std::pair<size_t, size_t> getIds(size_t feature, size_t j);
 
-                size_t newStartId = 0;
-                for (size_t i = 0; i < newNode.parents.size(); ++i) {
-                    newStartIds[i] = newStartId;
-                    newStartId += factorSpacePartial(newNode.parents[i], S);
-                }
-                // Save overall length needed to store one element per parent
-                // set for this node.
-                newStartIds.back() = newStartId;
-            }
+            /**
+             * @brief This function returns the size required to store one element per value of a parent set.
+             *
+             * Given the input feature, this function returns the number of
+             * possible parent sets the feature can have. In other words, it's
+             * the sum of the sizes of all state parent features over all
+             * possible parent action values.
+             *
+             * This function is fast as these sizes are pre-computed.
+             *
+             * @param feature The feature to compute the size for.
+             *
+             * @return The "global" size of the feature.
+             */
+            size_t getSize(size_t feature) const;
 
-            size_t getId(const State & s, const Action & a, const size_t feature) const {
-                const auto actionId = toIndexPartial(nodes_[feature].agents, A, a);
-                const auto & parents = nodes_[feature].parents[actionId];
-                const auto parentId = toIndexPartial(parents, S, s);
+            /**
+             * @brief Thus function returns the number of possible values of the parent agents of the feature.
+             *
+             * This function is fast as these sizes are pre-computed.
+             *
+             * @param feature The feature to compute the size for.
+             *
+             * @return The "action" size of the feature.
+             */
+            size_t getPartialSize(size_t feature) const;
 
-                return startIds_[feature][actionId] + parentId;
-            }
+            /**
+             * @brief Thus function returns the number of possible values of the state parent features of the input feature, given the input action id.
+             *
+             * This function is fast as these sizes are pre-computed.
+             *
+             * @param feature The feature to compute the size for.
+             * @param actionId The id of the action values of the parent agents.
+             *
+             * @return The "parent" size of the feature, given the parent action.
+             */
+            size_t getPartialSize(size_t feature, size_t actionId) const;
 
-            size_t getId(const PartialState & s, const PartialAction & a, const size_t feature) const {
-                const auto actionId = toIndexPartial(nodes_[feature].agents, A, a);
-                const auto & parents = nodes_[feature].parents[actionId];
-                const auto parentId = toIndexPartial(parents, S, s);
+            /**
+             * @brief This function returns the state space of the DDNGraph.
+             *
+             * @return The state space.
+             */
+            const State & getS() const;
 
-                return startIds_[feature][actionId] + parentId;
-            }
+            /**
+             * @brief This function returns the action space of the DDNGraph.
+             *
+             * @return The action space.
+             */
+            const Action & getA() const;
 
-            size_t getId(size_t actionId, size_t parentId, const size_t feature) const {
-                return startIds_[feature][actionId] + parentId;
-            }
-
-            std::pair<size_t, size_t> getIds(const State & s, const Action & a, const size_t feature) const {
-                const auto actionId = toIndexPartial(nodes_[feature].agents, A, a);
-                const auto & parents = nodes_[feature].parents[actionId];
-                const auto parentId = toIndexPartial(parents, S, s);
-
-                return {actionId, parentId};
-            }
-
-            std::pair<size_t, size_t> getIds(const PartialState & s, const PartialAction & a, const size_t feature) const {
-                const auto actionId = toIndexPartial(nodes_[feature].agents, A, a);
-                const auto & parents = nodes_[feature].parents[actionId];
-                const auto parentId = toIndexPartial(parents, S, s);
-
-                return {actionId, parentId};
-            }
-
-            std::pair<size_t, size_t> getIds(size_t j, size_t feature) {
-                // Start from the end (the -2 is there because the last element is the overall bound).
-                std::pair<size_t, size_t> retval{startIds_[feature].size() - 2, 0};
-                auto & [actionId, parentId] = retval;
-
-                // While we are above, go down. This cannot go lower than zero,
-                // so we only have to do 1 check.
-                while (startIds_[feature][actionId] > j)
-                    --actionId;
-
-                parentId = j - startIds_[feature][actionId];
-
-                return retval;
-            }
-
-            const State & getS() const { return S; }
-            const Action & getA() const { return A; }
-            const std::vector<Node> & getNodes() const { return nodes_; }
-            size_t getSize(const size_t feature) const { return startIds_[feature].back(); }
-            size_t getSize(const size_t actionId, const size_t feature) const {
-                return startIds_[feature][actionId+1] - startIds_[feature][actionId];
-            }
+            /**
+             * @brief This function returns the internal nodes of the DDNGraph.
+             *
+             * @return The internal nodes.
+             */
+            const std::vector<Node> & getNodes() const;
 
         private:
             State S;
@@ -141,6 +263,8 @@ namespace AIToolbox::Factored {
             std::vector<Node> nodes_;
             std::vector<std::vector<size_t>> startIds_;
     };
+
+    using DDNGraph = DynamicDecisionNetworkGraph;
 
     /**
      * @brief This class represents a Dynamic Decision Network with factored actions.

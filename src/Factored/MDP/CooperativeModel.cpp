@@ -96,7 +96,7 @@ namespace AIToolbox::Factored::MDP {
         State & s1 = *s1p;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto j = graph_.getId(s, a, i);
+            const auto j = graph_.getId(i, s, a);
 
             s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
@@ -115,7 +115,7 @@ namespace AIToolbox::Factored::MDP {
         rews.resize(rewards_.bases.size());
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto j = graph_.getId(s, a, i);
+            const auto j = graph_.getId(i, s, a);
 
             s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
