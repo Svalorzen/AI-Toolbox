@@ -1,10 +1,11 @@
-#ifndef AI_TOOLBOX_FACTORED_BANDIT_MAUCE_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_BANDIT_MAUCE_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_BANDIT_MAUCE_POLICY_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_BANDIT_MAUCE_POLICY_HEADER_FILE
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/UCVE.hpp>
-#include <AIToolbox/Factored/Bandit/Algorithms/RollingAverage.hpp>
+#include <AIToolbox/Factored/Bandit/Experience.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -23,7 +24,7 @@ namespace AIToolbox::Factored::Bandit {
      * are tracked during the cross-sums, which allows pruning actions that are
      * known to be suboptimal.
      */
-    class MAUCE {
+    class MAUCEPolicy : public PolicyInterface {
         public:
             /**
              * @brief Basic constructor.
@@ -37,50 +38,37 @@ namespace AIToolbox::Factored::Bandit {
              * exploit structure of multiple reward functions between the same
              * agents), but each PartialKeys must be sorted!
              *
-             * @param a The factored action space of the problem.
-             * @param dependencies The local groups of connected agents.
+             * @param exp The Experience we learn from.
              * @param ranges The ranges for each local group.
              */
-            MAUCE(Action a, const std::vector<PartialKeys> & dependencies, std::vector<double> ranges);
+            MAUCEPolicy(const Experience & exp, std::vector<double> ranges);
 
             /**
-             * @brief This function updates the learning process from the previous action and reward.
+             * @brief This function selects an action using MAUCE.
              *
-             * This function automatically increases the current internal timestep counter.
+             * We construct an UCVE process, which is able to compute the
+             * Action that maximizes the correct overall UCB exploration bonus.
              *
-             * The rewards must be in the same order as the groups were
-             * given in the constructor.
+             * UCVE is however a somewhat complex and slow algorithm; for a
+             * faster alternative you can look into ThompsonSamplingPolicy.
              *
-             * @param a The action performed in the previous timestep.
-             * @param rew The rewards obtained in the previous timestep, one per agent group.
+             * \sa ThompsonSamplingPolicy
              *
              * @return The new optimal action to be taken at the next timestep.
              */
-            Action stepUpdateQ(const Action & a, const Rewards & rew);
+            virtual Action sampleAction() const override;
 
             /**
-             * @brief This function returns the currently set internal timestep.
+             * @brief This function returns the probability of taking the specified action.
              *
-             * @return The currently set internal timestep.
+             * As sampleAction() is deterministic, we simply run it to check
+             * that the Action it returns is equal to the one passed as input.
+             *
+             * @param a The selected action.
+             *
+             * @return This function returns an approximation of the probability of choosing the input action.
              */
-            unsigned getTimestep() const;
-
-            /**
-             * @brief This function sets the internal timestep.
-             *
-             * This function normally does not need to be called since
-             * stepUpdateQ() automatically increases the timestep. This
-             * function is provided if that functionality is not enough for
-             * some reason.
-             *
-             * Keep in mind that stepUpdateQ will first increase the
-             * internal timestep, then use the increased one. So to signal
-             * that this is going to be the first timestep, the input
-             * should be 0, and so on.
-             *
-             * @param t The new internal timestep.
-             */
-            void setTimestep(unsigned t);
+            virtual double getActionProbability(const Action & a) const override;
 
             /**
              * @brief This function returns the RollingAverage learned from the data.
@@ -91,15 +79,11 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return The RollingAverage containing all statistics from the input data.
              */
-            const RollingAverage & getRollingAverage() const;
+            const Experience & getExperience() const;
 
         private:
-            /// The action space
-            Action A;
-            /// The current timestep, used to compute logtA
-            unsigned timestep_;
             /// The averages and counts for the local actions.
-            RollingAverage averages_;
+            const Experience & exp_;
             /// The squared ranges for each local group.
             std::vector<double> rangesSquared_;
             /// Precomputed logA since it won't change.

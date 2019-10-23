@@ -1,10 +1,10 @@
-#include <AIToolbox/Factored/Bandit/Algorithms/RollingAverage.hpp>
+#include <AIToolbox/Factored/Bandit/Experience.hpp>
 
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    RollingAverage::RollingAverage(Action a, const std::vector<PartialKeys> & dependencies) :
-            A(std::move(a))
+    Experience::Experience(Action a, const std::vector<PartialKeys> & dependencies) :
+            A(std::move(a)), timesteps_(0)
     {
         qfun_.bases.resize(dependencies.size());
         counts_.resize(dependencies.size());
@@ -21,8 +21,11 @@ namespace AIToolbox::Factored::Bandit {
         }
     }
 
-    void RollingAverage::stepUpdateQ(const Action & a, const Rewards & rews) {
+    void Experience::record(const Action & a, const Rewards & rews) {
         assert(static_cast<size_t>(rews.size()) == qfun_.bases.size());
+
+        ++timesteps_;
+
         for (size_t i = 0; i < qfun_.bases.size(); ++i) {
             const auto aId = toIndexPartial(qfun_.bases[i].tag, A, a);
 
@@ -40,17 +43,19 @@ namespace AIToolbox::Factored::Bandit {
         }
     }
 
-    void RollingAverage::reset() {
+    void Experience::reset() {
         for (auto & basis : qfun_.bases)
             basis.values.setZero();
         for (auto & m : M2s_)
             m.setZero();
         for (auto & c : counts_)
             std::fill(std::begin(c), std::end(c), 0);
+        timesteps_ = 0;
     }
 
-    const Action & RollingAverage::getA() const { return A; }
-    const QFunction & RollingAverage::getQFunction() const { return qfun_; }
-    const std::vector<std::vector<unsigned>> & RollingAverage::getCounts() const { return counts_; }
-    const std::vector<Vector> & RollingAverage::getM2s() const { return M2s_; }
+    unsigned long Experience::getTimesteps() const { return timesteps_; }
+    const QFunction & Experience::getRewardMatrix() const { return qfun_; }
+    const Experience::VisitsTable & Experience::getVisitsTable() const { return counts_; }
+    const std::vector<Vector> & Experience::getM2Matrix () const { return M2s_; }
+    const Action & Experience::getA() const { return A; }
 }

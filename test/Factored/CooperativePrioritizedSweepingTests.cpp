@@ -19,9 +19,10 @@ namespace aif = AIToolbox::Factored;
 namespace fm = AIToolbox::Factored::MDP;
 
 BOOST_AUTO_TEST_CASE( simple_rule_update ) {
+    ai::Impl::Seeder::setRootSeed(199);
     auto problem = fm::makeSysAdminUniRing(2, 0.1, 0.2, 0.3, 0.4, 0.4, 0.4, 0.3);
 
-    fm::CooperativeExperience exp(problem.getS(), problem.getA(), problem.getTransitionFunction().nodes);
+    fm::CooperativeExperience exp(problem.getGraph());
     fm::CooperativeMaximumLikelihoodModel model(exp, 0.95);
 
     std::vector<std::vector<size_t>> domains{
@@ -39,6 +40,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     r.setZero();
     for (size_t t = 0; t < 1000; ++t) {
         auto a = ep.sampleAction(s);
+
         auto [s1, x] = problem.sampleSR(s, a);
         (void)x;
 
@@ -87,6 +89,5 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     }
     // This test is not very informative but not much we can do about it.. this
     // is mostly to see that the output at least makes somewhat sense.
-    BOOST_TEST_INFO(maxDiff);
-    BOOST_CHECK(maxDiff < 2);
+    BOOST_CHECK_EQUAL(maxDiff, 0.53933811894995998);
 }

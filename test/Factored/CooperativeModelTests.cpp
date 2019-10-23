@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(model.getA()), std::end(model.getA()),
                                   std::begin(a), std::end(a));
 
-    BOOST_CHECK_EQUAL(model.getTransitionFunction().nodes.size(), model.getS().size());
+    BOOST_CHECK_EQUAL(model.getGraph().getNodes().size(), model.getS().size());
 }
 
 BOOST_AUTO_TEST_CASE( sampling ) {

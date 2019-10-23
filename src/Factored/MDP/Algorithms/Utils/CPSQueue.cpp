@@ -5,30 +5,33 @@
 #include <AIToolbox/Impl/Seeder.hpp>
 
 namespace AIToolbox::Factored {
-    CPSQueue::CPSQueue(const State & s, const Action & a, const FactoredDDN & ddn) :
-            S(s), A(a),
+    CPSQueue::CPSQueue(const DDNGraph & graph) :
+            graph_(graph),
             nonZeroPriorities_(0),
-            order_(S.size()+1), nodes_(S.size()),
+            order_(graph_.getS().size()+1), nodes_(graph_.getS().size()),
             rand_(Impl::Seeder::getSeed())
     {
+        const auto & S = graph_.getS();
+
         order_[0] = S.size();
         std::iota(std::begin(order_)+1, std::end(order_), 0);
 
-        for (size_t i = 0; i < ddn.nodes.size(); ++i) {
-            const auto & ddnn = ddn.nodes[i];
+        for (size_t i = 0; i < S.size(); ++i) {
+            const auto & gn = graph_.getNodes()[i];
             auto & n = nodes_[i];
-            n.actionTag = ddnn.actionTag;
+
             n.maxV = -1.0;
             n.maxA = 0;
-            n.nodes.resize(ddnn.nodes.size());
-            n.order.resize(ddnn.nodes.size());
+
+            n.nodes.resize(gn.parents.size());
+            n.order.resize(gn.parents.size());
             std::iota(std::begin(n.order), std::end(n.order), 0);
-            for (size_t j = 0; j < ddnn.nodes.size(); ++j) {
-                auto & nn = n.nodes[j];
-                nn.tag = ddnn.nodes[j].tag;
+
+            for (size_t a = 0; a < gn.parents.size(); ++a) {
+                auto & nn = n.nodes[a];
                 nn.maxV = -1.0;
                 nn.maxS = 0;
-                nn.priorities.resize(ddnn.nodes[j].matrix.rows());
+                nn.priorities.resize(graph_.getPartialSize(i, a));
                 nn.priorities.fill(-1.0);
             }
         }
@@ -56,6 +59,8 @@ namespace AIToolbox::Factored {
     }
 
     void CPSQueue::reconstruct(State & rets, State & reta) {
+        const auto & S = graph_.getS();
+        const auto & A = graph_.getA();
         // Initialize retval
         rets = S;
         reta = A;
@@ -111,15 +116,17 @@ namespace AIToolbox::Factored {
                 canTakeMax = true;
                 i = maxI;
             } else {
+                const auto & gNode = graph_.getNodes()[i];
                 const auto & node = nodes_[i];
-                canTakeMax = partialMatch(A, reta, node.actionTag, node.maxA);
-                canTakeMax = canTakeMax && partialMatch(S, rets, node.nodes[node.maxA].tag, node.nodes[node.maxA].maxS);
+                canTakeMax = partialMatch(A, reta, gNode.agents, node.maxA);
+                canTakeMax = canTakeMax && partialMatch(S, rets, gNode.parents[node.maxA], node.nodes[node.maxA].maxS);
             }
+            const auto & gNode = graph_.getNodes()[i];
             auto & node = nodes_[i];
             if (canTakeMax) {
                 // Add to reta and rets the new values
-                assignMatch(A, reta, node.actionTag, node.maxA);
-                assignMatch(S, rets, node.nodes[node.maxA].tag, node.nodes[node.maxA].maxS);
+                assignMatch(A, reta, gNode.agents, node.maxA);
+                assignMatch(S, rets, gNode.parents[node.maxA], node.nodes[node.maxA].maxS);
 
                 // Update max of i
                 auto & nn = node.nodes[node.maxA];
@@ -146,19 +153,31 @@ namespace AIToolbox::Factored {
             // one element in its node which is compatible with us (since it
             // contains all possible values of the parents).
             std::shuffle(std::begin(node.order), std::end(node.order), rand_);
+            // FIXME: Here we should change 2 things:
+            // - First check whether reta or rets are fixed and if so take
+            // what's there (optional) (this could be done at the top once for
+            // the action, also final assignment at bottom should be done only
+            // if not fully set) -> only needed for possible speed.
+            // - Secondly, the jj loop should probably span the rest of the
+            // block. Here basically we take a shot at the first action that is
+            // compatible, and we bail if we don't find anything useful.
+            // Instead we should just try again until we have found something,
+            // otherwise we might leave a lot of rules behind just because we
+            // picked the wrong action to try.
             auto j = 0;
             for (const auto jj : node.order) {
-                if (partialMatch(A, reta, node.actionTag, jj)) {
-                    assignMatch(A, reta, node.actionTag, jj);
+                if (partialMatch(A, reta, gNode.agents, jj)) {
                     j = jj;
                     break;
                 }
             }
 
             // Select compatible parent set with highest priority
+            const auto & parents = gNode.parents[j];
             auto && nn = node.nodes[j];
             auto x = nn.maxS;
-            if (partialMatch(S, rets, nn.tag, nn.maxS)) {
+            auto xVal = nn.maxV;
+            if (partialMatch(S, rets, parents, nn.maxS)) {
                 // If the current max is alright...
                 // Set to zero
                 if (nn.maxV > 0.0)
@@ -172,22 +191,27 @@ namespace AIToolbox::Factored {
                 // propagate the new max above.
             } else {
                 // We have to find another one
-                double ourMax = -2.0;
+                xVal = -2.0;
 
                 for (size_t xx = 0; xx < static_cast<size_t>(nn.priorities.size()); ++xx) {
                     if (xx == nn.maxS) continue;
-                    if (nn.priorities[xx] > ourMax && partialMatch(S, rets, nn.tag, xx)) {
-                        ourMax = nn.priorities[xx];
+                    if (nn.priorities[xx] > xVal && partialMatch(S, rets, parents, xx)) {
                         x = xx;
+                        xVal = nn.priorities[x];
                     }
                 }
                 // Set to zero
-                if (ourMax > 0.0)
+                if (xVal > 0.0)
                     --nonZeroPriorities_;
                 nn.priorities[x] = 0.0;
                 // No max to update tho
             }
-            assignMatch(S, rets, nn.tag, x);
+            // We only assign if we found something interesting, otherwise we
+            // avoid setting variables and wait till the end.
+            if (xVal > 0.0) {
+                assignMatch(A, reta, gNode.agents, j);
+                assignMatch(S, rets, parents, x);
+            }
         }
     }
 

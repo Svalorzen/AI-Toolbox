@@ -20,13 +20,11 @@ namespace AIToolbox::Factored::MDP {
             /**
              * @brief Basic constructor
              *
-             * @param s The state space.
-             * @param a The action space.
              * @param transitions The transition function.
              * @param rewards The reward function.
              * @param discount The discount factor for the MDP.
              */
-            CooperativeModel(State s, Action a, FactoredDDN transitions, FactoredMatrix2D rewards, double discount = 1.0);
+            CooperativeModel(DDNGraph graph, DDN::TransitionMatrix transitions, FactoredMatrix2D rewards, double discount = 1.0);
 
             /**
              * @brief This function samples the MDP with the specified state action pair.
@@ -144,7 +142,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The transition function of the MDP.
              */
-            const FactoredDDN & getTransitionFunction() const;
+            const DDN & getTransitionFunction() const;
 
             /**
              * @brief This function returns the reward function of the MDP.
@@ -153,12 +151,18 @@ namespace AIToolbox::Factored::MDP {
              */
             const FactoredMatrix2D & getRewardFunction() const;
 
+            /**
+             * @brief This function returns the underlying DDNGraph of the CooperativeExperience.
+             *
+             * @return The underlying DDNGraph.
+             */
+            const DDNGraph & getGraph() const;
+
         private:
-            State S;
-            Action A;
             double discount_;
 
-            FactoredDDN transitions_;
+            DDNGraph graph_;
+            DDN transitions_;
             FactoredMatrix2D rewards_;
 
             mutable RandomEngine rand_;

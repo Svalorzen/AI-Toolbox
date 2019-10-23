@@ -3,231 +3,182 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored {
-    namespace Impl {
-        template <typename DBN>
-        double getTransitionProbabilityDBN(const DBN & dbn, const Factors & space, const Factors & s, const Factors & s1) {
-            double retval = 1.0;
+    // DDNGraph
 
-            // For each partial transition matrix, we compute the entry which
-            // applies to this transition, and we multiply all entries together.
-            for (size_t i = 0; i < space.size(); ++i) {
-                // Compute parent ID based on the parents of state factor 'i'
-                const auto parentId = toIndexPartial(dbn[i].tag, space, s);
-                retval *= dbn[i].matrix(parentId, s1[i]);
-            }
+    DDNGraph::DynamicDecisionNetworkGraph(State SS, Action AA) : S(std::move(SS)), A(std::move(AA)) {
+        nodes_.reserve(S.size());
+    }
 
-            return retval;
+    void DDNGraph::pushNode(Node && node) {
+        // Begin sanity check to only construct graphs that make sense.
+        if (nodes_.size() == S.size())
+            throw std::runtime_error("Pushed too many nodes in DDNGraph");
+
+        TagErrors error;
+        std::tie(error, std::ignore) = checkTag(A, node.agents);
+        switch (error) {
+            case TagErrors::NoElements:
+                throw std::invalid_argument("Pushed node in DDNGraph contains agents tag with no elements!");
+            case TagErrors::TooManyElements:
+                throw std::invalid_argument("Pushed node in DDNGraph contains agents tag with too many elements!");
+            case TagErrors::IdTooHigh:
+                throw std::invalid_argument("Pushed node in DDNGraph references agent IDs too high for the action space!");
+            case TagErrors::NotSorted:
+                throw std::invalid_argument("Pushed node in DDNGraph contains agents tag that are not sorted!");
+            case TagErrors::Duplicates:
+                throw std::invalid_argument("Pushed node in DDNGraph contains duplicate agents in agents tag!");
+            default:;
         }
 
-        template <typename DBN>
-        double getTransitionProbabilityDBN(const DBN & dbn, const Factors & space, const PartialFactors & s, const PartialFactors & s1) {
-            double retval = 1.0;
-            // The matrix is made up of one component per child, and we
-            // need to multiply all of them together. At each iteration we
-            // look at a different "child".
-            for (size_t j = 0; j < s1.first.size(); ++j) {
-                // Find the matrix relative to this child
-                const auto & node = dbn[s1.first[j]];
-                // Compute the "dense" id for the needed parents
-                // from the current domain.
-                const auto id = toIndexPartial(node.tag, space, s);
-                // Multiply the current value by the lhs value.
-                retval *= node.matrix(id, s1.second[j]);
-            }
-            return retval;
-        }
-    }
+        if (node.parents.size() != factorSpacePartial(node.agents, A))
+            throw std::invalid_argument("Pushed node DDNGraph has an incorrect number of parent sets for the specified agents tag!");
 
-    // DBN
+        for (size_t i = 0; i < node.parents.size(); ++i) {
+            std::tie(error, std::ignore) = checkTag(S, node.parents[i]);
 
-    double DBN::getTransitionProbability(const Factors & space, const Factors & s, const Factors & s1) const {
-        return Impl::getTransitionProbabilityDBN(*this, space, s, s1);
-    }
-
-    double DBN::getTransitionProbability(const Factors & space, const PartialFactors & s, const PartialFactors & s1) const {
-        return Impl::getTransitionProbabilityDBN(*this, space, s, s1);
-    }
-
-    const DBN::Node & DBN::operator[](size_t i) const {
-        return nodes[i];
-    }
-
-    // DBNRef
-
-    double DBNRef::getTransitionProbability(const Factors & space, const Factors & s, const Factors & s1) const {
-        return Impl::getTransitionProbabilityDBN(*this, space, s, s1);
-    }
-
-    double DBNRef::getTransitionProbability(const Factors & space, const PartialFactors & s, const PartialFactors & s1) const {
-        return Impl::getTransitionProbabilityDBN(*this, space, s, s1);
-    }
-
-    const DBN::Node & DBNRef::operator[](size_t i) const {
-        return nodes[i].get();
-    }
-
-    // CompactDDN
-
-    CompactDDN::CompactDynamicDecisionNetwork(
-                std::vector<std::vector<Node>> diffs,
-                DynamicBayesianNetwork defaultTransition
-            ) : diffs_(std::move(diffs)), defaultTransition_(std::move(defaultTransition)) {}
-
-    DBNRef CompactDDN::makeDiffTransition(const size_t a) const {
-        DBNRef retval;
-        retval.nodes.reserve(defaultTransition_.nodes.size());
-
-        size_t j = 0;
-        for (size_t i = 0; i < defaultTransition_.nodes.size(); ++i) {
-            if (j < diffs_[a].size() && diffs_[a][j].id == i) {
-                retval.nodes.emplace_back(std::ref(diffs_[a][j].node));
-                ++j;
-            } else {
-                retval.nodes.emplace_back(std::ref(defaultTransition_.nodes[i]));
+            switch (error) {
+                case TagErrors::NoElements:
+                    throw std::invalid_argument("Pushed node in DDNGraph contains parents tags with no elements!");
+                case TagErrors::TooManyElements:
+                    throw std::invalid_argument("Pushed node in DDNGraph contains parents tags with too many elements!");
+                case TagErrors::IdTooHigh:
+                    throw std::invalid_argument("Pushed node in DDNGraph references parent IDs too high for the state space!");
+                case TagErrors::NotSorted:
+                    throw std::invalid_argument("Pushed node in DDNGraph contains parents tags that are not sorted!");
+                case TagErrors::Duplicates:
+                    throw std::invalid_argument("Pushed node in DDNGraph contains duplicate parents in parents tags!");
+                default:;
             }
         }
+
+        // Sanity check ended, we can pull the node in.
+        nodes_.emplace_back(std::move(node));
+
+        auto & newNode = nodes_.back();
+        startIds_.emplace_back(newNode.parents.size() + 1);
+        auto & newStartIds = startIds_.back();
+
+        size_t newStartId = 0;
+        for (size_t i = 0; i < newNode.parents.size(); ++i) {
+            newStartIds[i] = newStartId;
+            newStartId += factorSpacePartial(newNode.parents[i], S);
+        }
+        // Save overall length needed to store one element per parent
+        // set for this node.
+        newStartIds.back() = newStartId;
+    }
+
+    size_t DDNGraph::getId(const size_t feature, const State & s, const Action & a) const {
+        const auto [actionId, parentId] = getIds(feature, s, a);
+
+        return getId(feature, actionId, parentId);
+    }
+
+    size_t DDNGraph::getId(const size_t feature, const PartialState & s, const PartialAction & a) const {
+        const auto [actionId, parentId] = getIds(feature, s, a);
+
+        return getId(feature, actionId, parentId);
+    }
+
+    size_t DDNGraph::getId(const size_t feature, size_t actionId, size_t parentId) const {
+        return startIds_[feature][actionId] + parentId;
+    }
+
+    std::pair<size_t, size_t> DDNGraph::getIds(const size_t feature, const State & s, const Action & a) const {
+        const auto actionId = toIndexPartial(nodes_[feature].agents, A, a);
+        const auto & parents = nodes_[feature].parents[actionId];
+        const auto parentId = toIndexPartial(parents, S, s);
+
+        return {actionId, parentId};
+    }
+
+    std::pair<size_t, size_t> DDNGraph::getIds(const size_t feature, const PartialState & s, const PartialAction & a) const {
+        const auto actionId = toIndexPartial(nodes_[feature].agents, A, a);
+        const auto & parents = nodes_[feature].parents[actionId];
+        const auto parentId = toIndexPartial(parents, S, s);
+
+        return {actionId, parentId};
+    }
+
+    std::pair<size_t, size_t> DDNGraph::getIds(const size_t feature, const size_t j) {
+        // Start from the end (the -2 is there because the last element is the overall bound).
+        std::pair<size_t, size_t> retval{startIds_[feature].size() - 2, 0};
+        auto & [actionId, parentId] = retval;
+
+        // While we are above, go down. This cannot go lower than zero,
+        // so we only have to do 1 check.
+        while (startIds_[feature][actionId] > j)
+            --actionId;
+
+        parentId = j - startIds_[feature][actionId];
+
         return retval;
     }
 
-    const DBN & CompactDDN::getDefaultTransition() const {
-        return defaultTransition_;
+    size_t DDNGraph::getSize(const size_t feature) const {
+        return startIds_[feature].back();
     }
 
-    const std::vector<std::vector<CompactDDN::Node>> & CompactDDN::getDiffNodes() const {
-        return diffs_;
+    size_t DDNGraph::getPartialSize(const size_t feature) const {
+        return nodes_[feature].parents.size();
     }
+    size_t DDNGraph::getPartialSize(const size_t feature, const size_t actionId) const {
+        return startIds_[feature][actionId+1] - startIds_[feature][actionId];
+    }
+    const State & DDNGraph::getS() const { return S; }
+    const Action & DDNGraph::getA() const { return A; }
+    const std::vector<DDNGraph::Node> & DDNGraph::getNodes() const { return nodes_; }
 
-    // FactoredDDN
+    // DDN
 
-    double FactoredDDN::getTransitionProbability(const Factors & space, const Factors & actions, const Factors & s, const Factors & a, const Factors & s1) const {
+    double DDN::getTransitionProbability(const Factors & s, const Factors & a, const Factors & s1) const {
         double retval = 1.0;
 
         // For each partial transition matrix, we compute the entry which
         // applies to this transition, and we multiply all entries together.
-        for (size_t i = 0; i < space.size(); ++i) {
-            const auto & node = nodes[i];
-            // Compute action ID based on the actions that affect state factor 'i'.
-            const auto actionId = toIndexPartial(node.actionTag, actions, a);
-            // Compute parent ID based on the parents of state factor 'i' under this action.
-            const auto parentId = toIndexPartial(node.nodes[actionId].tag, space, s);
-
-            retval *= node.nodes[actionId].matrix(parentId, s1[i]);
+        for (size_t i = 0; i < graph.getS().size(); ++i) {
+            retval *= transitions[i](graph.getId(i, s, a), s1[i]);
         }
 
         return retval;
     }
 
-    double FactoredDDN::getTransitionProbability(const Factors & space, const Factors & actions, const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const {
+    double DDN::getTransitionProbability(const PartialFactors & s, const PartialFactors & a, const PartialFactors & s1) const {
         double retval = 1.0;
 
         // The matrix is made up of one component per child, and we
         // need to multiply all of them together. At each iteration we
         // look at a different "child".
         for (size_t j = 0; j < s1.first.size(); ++j) {
-            const auto & node = nodes[s1.first[j]];
-            // Compute action ID based on the actions that affect state factor 'i'.
-            const auto actionId = toIndexPartial(node.actionTag, actions, a);
-            // Compute parent ID based on the parents of state factor 'i' under this action.
-            const auto parentId = toIndexPartial(node.nodes[actionId].tag, space, s);
-
-            retval *= node.nodes[actionId].matrix(parentId, s1.second[j]);
+            const auto nodeId = s1.first[j];
+            retval *= transitions[nodeId](graph.getId(nodeId, s, a), s1.second[j]);
         }
 
         return retval;
     }
 
-    const FactoredDDN::Node & FactoredDDN::operator[](size_t i) const {
-        return nodes[i];
-    }
-
     // Free functions
 
-    namespace Impl {
-        template <typename Net>
-        BasisFunction backProject(const Factors & space, const Net & dbn, const BasisFunction & bf) {
-            // Here we have the two function inputs, in this form:
-            //
-            //     lhs: [parents, child] -> value
-            //     rhs: [children] -> value
-            BasisFunction retval;
-
-            // The domain here depends on the parents of all elements of
-            // the domain of the input basis.
-            for (auto d : bf.tag)
-                retval.tag = merge(retval.tag, dbn[d].tag);
-
-            retval.values.resize(factorSpacePartial(retval.tag, space));
-            // Don't need to zero fill
-
-            // Iterate over the domain, since the output basis is going to
-            // be dense pretty much.
-            PartialFactorsEnumerator domain(space, retval.tag);
-            PartialFactorsEnumerator rhsDomain(space, bf.tag);
-            for (size_t id = 0; domain.isValid(); domain.advance(), ++id) {
-                // For each domain assignment, we need to go over every
-                // possible children assignment. As we are computing
-                // products, it is sufficient to go over the elements
-                // stored in the RHS (as all other children combinations
-                // are zero by definition).
-                //
-                // For each such assignment, we compute the product of the
-                // rhs there with the value of the lhs at the current
-                // domain & children.
-                double currentVal = 0.0;
-                for (size_t i = 0; rhsDomain.isValid(); rhsDomain.advance(), ++i)
-                    currentVal += bf.values[i] * dbn.getTransitionProbability(space, *domain, *rhsDomain);
-                rhsDomain.reset();
-
-                retval.values[id] = currentVal;
-            }
-            return retval;
-        }
-
-        template <typename Net>
-        FactoredVector backProject(const Factors & space, const Net & dbn, const FactoredVector & fv) {
-            FactoredVector retval;
-            retval.bases.reserve(fv.bases.size());
-
-            for (const auto & basis : fv.bases) {
-                // Note that we don't do plusEqual since we don't necessarily
-                // want to merge entries here.
-                retval.bases.emplace_back(backProject(space, dbn, basis));
-            }
-
-            return retval;
-        }
-    }
-
-    BasisFunction backProject(const Factors & space, const DBN & dbn, const BasisFunction & bf) {
-        return Impl::backProject(space, dbn, bf);
-    }
-    BasisFunction backProject(const Factors & space, const DBNRef & dbn, const BasisFunction & bf) {
-        return Impl::backProject(space, dbn, bf);
-    }
-    FactoredVector backProject(const Factors & space, const DBN & dbn, const FactoredVector & fv) {
-        return Impl::backProject(space, dbn, fv);
-    }
-    FactoredVector backProject(const Factors & space, const DBNRef & dbn, const FactoredVector & fv) {
-        return Impl::backProject(space, dbn, fv);
-    }
-
-    BasisMatrix backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const BasisFunction & rhs) {
+    BasisMatrix backProject(const DDN & ddn, const BasisFunction & rhs) {
         BasisMatrix retval;
 
+        auto & graph = ddn.graph;
+        auto & nodes = graph.getNodes();
+
         for (auto d : rhs.tag) {
-            retval.actionTag = merge(retval.actionTag, ddn[d].actionTag);
-            for (const auto & n : ddn[d].nodes)
-                retval.tag = merge(retval.tag, n.tag);
+            retval.actionTag = merge(retval.actionTag, nodes[d].agents);
+            for (const auto & n : nodes[d].parents)
+                retval.tag = merge(retval.tag, n);
         }
 
-        const size_t sizeA = factorSpacePartial(retval.actionTag, actions);
-        const size_t sizeS = factorSpacePartial(retval.tag, space);
+        const size_t sizeA = factorSpacePartial(retval.actionTag, graph.getA());
+        const size_t sizeS = factorSpacePartial(retval.tag, graph.getS());
 
         retval.values.resize(sizeS, sizeA);
 
-        PartialFactorsEnumerator sDomain(space, retval.tag);
-        PartialFactorsEnumerator aDomain(actions, retval.actionTag);
-        PartialFactorsEnumerator rDomain(space, rhs.tag);
+        PartialFactorsEnumerator sDomain(graph.getS(), retval.tag);
+        PartialFactorsEnumerator aDomain(graph.getA(), retval.actionTag);
+        PartialFactorsEnumerator rDomain(graph.getS(), rhs.tag);
 
         for (size_t sId = 0; sDomain.isValid(); sDomain.advance(), ++sId) {
             for (size_t aId = 0; aDomain.isValid(); aDomain.advance(), ++aId) {
@@ -242,7 +193,7 @@ namespace AIToolbox::Factored {
                 // domain & children.
                 double currentVal = 0.0;
                 for (size_t rId = 0; rDomain.isValid(); rDomain.advance(), ++rId)
-                    currentVal += rhs.values[rId] * ddn.getTransitionProbability(space, actions, *sDomain, *aDomain, *rDomain);
+                    currentVal += rhs.values[rId] * ddn.getTransitionProbability(*sDomain, *aDomain, *rDomain);
                 rDomain.reset();
 
                 retval.values(sId, aId) = currentVal;
@@ -252,14 +203,14 @@ namespace AIToolbox::Factored {
         return retval;
     }
 
-    FactoredMatrix2D backProject(const Factors & space, const Factors & actions, const FactoredDDN & ddn, const FactoredVector & fv) {
+    FactoredMatrix2D backProject(const DDN & ddn, const FactoredVector & fv) {
         FactoredMatrix2D retval;
         retval.bases.reserve(fv.bases.size());
 
         for (const auto & basis : fv.bases) {
             // Note that we don't do plusEqual since we don't necessarily
             // want to merge entries here.
-            retval.bases.emplace_back(backProject(space, actions, ddn, basis));
+            retval.bases.emplace_back(backProject(ddn, basis));
         }
 
         return retval;

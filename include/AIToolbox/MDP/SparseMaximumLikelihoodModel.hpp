@@ -316,6 +316,14 @@ namespace AIToolbox::MDP {
         // Nothing to do
         const auto visitSum = experience_.getVisitsSum(s, a);
         if ( visitSum == 0ul ) return;
+
+        // Update reward by just copying the average from experience Note that
+        // we check different from rewards_, rather than zero, because it's
+        // possible that by averaging some rewards go BACK to zero, rather than
+        // away from it. In those case we still have to set the new rewards to zero.
+        if (checkDifferentSmall(rewards_.coeffRef(s, a), experience_.getReward(s, a)))
+            rewards_.coeffRef(s, a) = experience_.getReward(s, a);
+
         // Clear beginning's identity matrix
         if ( visitSum == 1ul )
             transitions_[a].coeffRef(s, s) = 0.0;
@@ -323,16 +331,16 @@ namespace AIToolbox::MDP {
         // Create reciprocal for fast division
         const double visitSumReciprocal = 1.0 / visitSum;
 
-        // Normalize
-        for ( size_t s1 = 0; s1 < S; ++s1 ) {
-            const auto visits = experience_.getVisits(s, a, s1);
-            if (visits > 0)
-                transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+        if constexpr (is_experience_eigen_v<E>) {
+            transitions_[a].row(s) = experience_.getVisitsTable(a).row(s).template cast<double>() * visitSumReciprocal;
+        } else {
+            // Normalize
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                const auto visits = experience_.getVisits(s, a, s1);
+                if (visits > 0)
+                    transitions_[a].coeffRef(s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+            }
         }
-
-        const double rewValue = experience_.getRewardSum(s, a) * visitSumReciprocal;
-        if (checkDifferentGeneral(rewValue, rewards_.coeff(s, a)))
-            rewards_.coeffRef(s, a) = rewValue;
     }
 
     template <typename E>
@@ -341,17 +349,19 @@ namespace AIToolbox::MDP {
         // The second condition is related to numerical errors. Once in a
         // while we reset those by forcing a true update using real data.
         if ( !(visitSum % 10000ul) ) return sync(s, a);
+
+        // Update reward by just copying the average from experience Note that
+        // we check different from rewards_, rather than zero, because it's
+        // possible that by averaging some rewards go BACK to zero, rather than
+        // away from it. In those case we still have to set the new rewards to zero.
+        if (checkDifferentSmall(rewards_.coeffRef(s, a), experience_.getReward(s, a)))
+            rewards_.coeffRef(s, a) = experience_.getReward(s, a);
+
         if ( visitSum == 1ul ) {
             transitions_[a].coeffRef(s, s) = 0.0;
             transitions_[a].coeffRef(s, s1) = 1.0;
-            if (checkDifferentSmall(0.0, experience_.getRewardSum(s, a)))
-                rewards_.coeffRef(s, a) = experience_.getRewardSum(s, a);
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
-            const double rewValue = experience_.getRewardSum(s, a) / visitSum;
-
-            if (checkDifferentGeneral(rewValue, rewards_.coeff(s, a)))
-                rewards_.coeffRef(s, a) = rewValue;
 
             const double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
             const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a].coeff(s, s1));
@@ -401,7 +411,7 @@ namespace AIToolbox::MDP {
     template <typename E>
     const typename SparseMaximumLikelihoodModel<E>::TransitionMatrix & SparseMaximumLikelihoodModel<E>::getTransitionFunction() const { return transitions_; }
     template <typename E>
-    const typename SparseMaximumLikelihoodModel<E>::RewardMatrix &     SparseMaximumLikelihoodModel<E>::getRewardFunction()     const { return rewards_; }
+    const typename SparseMaximumLikelihoodModel<E>::RewardMatrix & SparseMaximumLikelihoodModel<E>::getRewardFunction() const { return rewards_; }
 
     template <typename E>
     const SparseMatrix2D & SparseMaximumLikelihoodModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }

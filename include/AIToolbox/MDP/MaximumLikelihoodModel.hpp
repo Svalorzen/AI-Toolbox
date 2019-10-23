@@ -305,15 +305,21 @@ namespace AIToolbox::MDP {
         const auto visitSum = experience_.getVisitsSum(s, a);
         if ( visitSum == 0ul ) return;
 
+        // Update reward by just copying the average from experience
+        rewards_(s, a) = experience_.getReward(s, a);
+
         // Create reciprocal for fast division
         const double visitSumReciprocal = 1.0 / visitSum;
 
-        // Normalize
-        for ( size_t s1 = 0; s1 < S; ++s1 ) {
-            const auto visits = experience_.getVisits(s, a, s1);
-            transitions_[a](s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+        if constexpr (is_experience_eigen_v<E>) {
+            transitions_[a].row(s) = experience_.getVisitsTable(a).row(s).template cast<double>() * visitSumReciprocal;
+        } else {
+            // Normalize
+            for ( size_t s1 = 0; s1 < S; ++s1 ) {
+                const auto visits = experience_.getVisits(s, a, s1);
+                transitions_[a](s, s1) = static_cast<double>(visits) * visitSumReciprocal;
+            }
         }
-        rewards_(s, a) = experience_.getRewardSum(s, a) * visitSumReciprocal;
     }
 
     template <typename E>
@@ -322,15 +328,15 @@ namespace AIToolbox::MDP {
         // The second condition is related to numerical errors. Once in a
         // while we reset those by forcing a true update using real data.
         if ( !(visitSum % 10000ul) ) return sync(s, a);
+
+        // Update reward by just copying the average from experience
+        rewards_(s, a) = experience_.getReward(s, a);
+
         if ( visitSum == 1ul ) {
             transitions_[a](s, s) = 0.0;
             transitions_[a](s, s1) = 1.0;
-            rewards_(s, a) = experience_.getReward(s, a, s1);
         } else {
             const double newVisits = static_cast<double>(experience_.getVisits(s, a, s1));
-
-            // Update reward for this transition
-            rewards_(s, a) = experience_.getRewardSum(s, a) / visitSum;
 
             const double newTransitionValue = newVisits / static_cast<double>(visitSum - 1);
             const double newVectorSum = 1.0 + (newTransitionValue - transitions_[a](s, s1));

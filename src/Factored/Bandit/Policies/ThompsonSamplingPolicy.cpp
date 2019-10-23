@@ -4,17 +4,21 @@
 #include <random>
 
 namespace AIToolbox::Factored::Bandit {
-    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const Action & A, const QFunction & q, const std::vector<Vector> & M2s, const std::vector<std::vector<unsigned>> & counts) :
-            Base(A), q_(q), M2s_(M2s), counts_(counts) {}
+    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const Experience & exp) :
+            Base(exp.getA()), exp_(exp) {}
 
     Action ThompsonSamplingPolicy::sampleAction() const {
         using VE = Bandit::VariableElimination;
         VE::GVE::Graph graph(A.size());
 
-        for (size_t i = 0; i < q_.bases.size(); ++i) {
-            const auto & basis = q_.bases[i];
-            const auto & m2 = M2s_[i];
-            const auto & counts = counts_[i];
+        const auto & allCounts = exp_.getVisitsTable();
+        const auto & q = exp_.getRewardMatrix();
+        const auto & M2s = exp_.getM2Matrix();
+
+        for (size_t i = 0; i < q.bases.size(); ++i) {
+            const auto & basis = q.bases[i];
+            const auto & m2 = M2s[i];
+            const auto & counts = allCounts[i];
             auto & factorNode = graph.getFactor(basis.tag)->getData();
             const bool isFilled = factorNode.size() > 0;
 
@@ -29,7 +33,7 @@ namespace AIToolbox::Factored::Bandit {
                     // it shadows the rest of the rules, but it also allows to
                     // sum and compare them so that we still get to optimize
                     // multiple actions at once (the max would just cap to inf).
-                    val = std::numeric_limits<double>::max() / q_.bases.size();
+                    val = std::numeric_limits<double>::max() / q.bases.size();
                 } else {
                     //     mu = est_mu - t * s / sqrt(n)
                     // where

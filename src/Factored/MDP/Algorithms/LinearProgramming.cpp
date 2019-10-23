@@ -26,7 +26,7 @@ namespace AIToolbox::Factored::MDP {
         std::tuple<Vector, QFunction> retval;
         auto & [v, g] = retval;
 
-        g = backProject(m.getS(), m.getA(), m.getTransitionFunction(), h);
+        g = backProject(m.getTransitionFunction(), h);
         auto values = solveLP(m, g, h);
 
         if (!values)
