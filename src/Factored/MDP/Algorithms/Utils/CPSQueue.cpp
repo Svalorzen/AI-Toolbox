@@ -166,7 +166,6 @@ namespace AIToolbox::Factored {
             // picked the wrong action to try.
             auto j = 0;
             for (const auto jj : node.order) {
-                if (jj == node.maxA) continue;
                 if (partialMatch(A, reta, gNode.agents, jj)) {
                     j = jj;
                     break;
