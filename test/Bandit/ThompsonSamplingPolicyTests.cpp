@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     constexpr size_t A = 3;
 
     Bandit::Experience exp(A);
-    Bandit::ThompsonSamplingPolicy p(exp.getRewardMatrix(), exp.getM2Matrix(), exp.getVisitsTable());
+    Bandit::ThompsonSamplingPolicy p(exp);
 
     std::array<unsigned, A> counts{{0,0,0}};
 
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE( probability ) {
     constexpr size_t A = 3;
 
     Bandit::Experience exp(A);
-    Bandit::ThompsonSamplingPolicy p(exp.getRewardMatrix(), exp.getM2Matrix(), exp.getVisitsTable());
+    Bandit::ThompsonSamplingPolicy p(exp);
 
     // We must give at least a couple of observation per arm, and with some
     // spread

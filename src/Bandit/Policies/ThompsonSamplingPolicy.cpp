@@ -3,8 +3,8 @@
 #include <random>
 
 namespace AIToolbox::Bandit {
-    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const QFunction & q, const Vector & M2s, const std::vector<unsigned> & counts) :
-            Base(q.size()), q_(q), M2s_(M2s), counts_(counts) {}
+    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const Experience & exp) :
+            Base(exp.getRewardMatrix().size()), exp_(exp) {}
 
     size_t ThompsonSamplingPolicy::sampleAction() const {
         // For each arm, we sample its mean. Note that here we use a
@@ -14,10 +14,14 @@ namespace AIToolbox::Bandit {
         size_t bestAction = 0;
         double bestValue = std::numeric_limits<double>::min();
 
+        const auto & counts = exp_.getVisitsTable();
+        const auto & q = exp_.getRewardMatrix();
+        const auto & m2 = exp_.getM2Matrix();
+
         for (size_t a = 0; a < A; ++a) {
             // We need at least 2 samples per arm with student-t to estimate
             // the variance.
-            if (counts_[a] < 2)
+            if (counts[a] < 2)
                 return a;
 
             //     mu = est_mu - t * s / sqrt(n)
@@ -25,8 +29,8 @@ namespace AIToolbox::Bandit {
             //     s^2 = 1 / (n-1) * sum_i (x_i - est_mu)^2
             // and
             //     t = student_t sample with n-1 degrees of freedom
-            std::student_t_distribution<double> dist(counts_[a] - 1);
-            const double val = q_[a] - dist(rand_) * std::sqrt(M2s_[a] / (counts_[a] * (counts_[a] - 1)));
+            std::student_t_distribution<double> dist(counts[a] - 1);
+            const double val = q[a] - dist(rand_) * std::sqrt(m2[a] / (counts[a] * (counts[a] - 1)));
 
             if (val > bestValue) {
                 bestAction = a;
