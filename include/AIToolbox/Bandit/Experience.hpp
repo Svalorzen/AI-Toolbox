@@ -12,6 +12,8 @@ namespace AIToolbox::Bandit {
      */
     class Experience {
         public:
+            using VisitsTable = std::vector<unsigned long>;
+
             /**
              * @brief Basic constructor.
              *
@@ -33,6 +35,13 @@ namespace AIToolbox::Bandit {
             void reset();
 
             /**
+             * @brief This function returns the number of times the record function has been called.
+             *
+             * @return The number of recorded timesteps.
+             */
+            unsigned long getTimesteps() const;
+
+            /**
              * @brief This function returns a reference to the internal reward matrix.
              *
              * @return A reference to the internal reward matrix.
@@ -44,7 +53,7 @@ namespace AIToolbox::Bandit {
              *
              * @return A reference to the counts of the actions.
              */
-            const std::vector<unsigned> & getVisitsTable() const;
+            const VisitsTable & getVisitsTable() const;
 
             /**
              * @brief This function returns the estimated squared distance of the samples from the mean.
@@ -67,7 +76,8 @@ namespace AIToolbox::Bandit {
         private:
             QFunction q_;
             Vector M2s_;
-            std::vector<unsigned> counts_;
+            VisitsTable counts_;
+            unsigned long timesteps_;
     };
 }
 

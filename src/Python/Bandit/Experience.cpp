@@ -30,6 +30,10 @@ void exportBanditExperience() {
                  "This function resets the QFunction and counts to zero."
         , (arg("self")))
 
+        .def("getTimesteps",    &Experience::getTimesteps,
+                 "This function returns the number of times that record has been called."
+        , (arg("self")))
+
         .def("getA",            &Experience::getA,
                  "This function returns the size of the action space."
         , (arg("self")))
