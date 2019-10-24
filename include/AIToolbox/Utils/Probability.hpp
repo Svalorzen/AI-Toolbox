@@ -154,13 +154,9 @@ namespace AIToolbox {
     template <typename TIn, typename G>
     ProbabilityVector sampleDirichletDistribution(const TIn & params, G & generator) {
         ProbabilityVector retval(params.size());
-        double sum = 0.0;
-        for (size_t i = 0; i < static_cast<size_t>(params.size()); ++i) {
-            std::gamma_distribution<double> dist(params[i], 1.0);
-            retval[i] = dist(generator);
-            sum += retval[i];
-        }
-        retval /= sum;
+
+        sampleDirichletDistribution(params, generator, retval);
+
         return retval;
     }
 
@@ -176,7 +172,7 @@ namespace AIToolbox {
      * @param out The output container.
      */
     template <typename TIn, typename TOut, typename G>
-    void sampleDirichletDistribution(const TIn & params, G & generator, TOut & out) {
+    void sampleDirichletDistribution(const TIn & params, G & generator, TOut && out) {
         assert(params.size() == out.size());
 
         double sum = 0.0;
