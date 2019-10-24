@@ -1,9 +1,9 @@
 #include <AIToolbox/MDP/Algorithms/HystereticQLearning.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
@@ -68,8 +68,8 @@ void exportMDPHystereticQLearning() {
                  "@param beta The learning rate for negative updates."
         , (arg("self"), "S", "A", "discount", "alpha", "beta")))
 
-        .def(init<const RLModel<Experience>&, optional<double, double>>(
-                 "Basic constructor for RLModel.\n"
+        .def(init<const MaximumLikelihoodModel<Experience>&, optional<double, double>>(
+                 "Basic constructor for MaximumLikelihoodModel.\n"
                  "\n"
                  "The alpha learning rate must be > 0.0 and <= 1.0, otherwise the\n"
                  "constructor will throw an std::invalid_argument.\n"
@@ -90,8 +90,8 @@ void exportMDPHystereticQLearning() {
                  "@param beta The learning rate for negative updates."
         , (arg("self"), "model", "alpha", "beta")))
 
-        .def(init<const SparseRLModel<SparseExperience>&, optional<double, double>>(
-                 "Basic constructor for SparseRLModel.\n"
+        .def(init<const SparseMaximumLikelihoodModel<SparseExperience>&, optional<double, double>>(
+                 "Basic constructor for SparseMaximumLikelihoodModel.\n"
                  "\n"
                  "The alpha learning rate must be > 0.0 and <= 1.0, otherwise the\n"
                  "constructor will throw an std::invalid_argument.\n"

@@ -114,7 +114,7 @@ namespace AIToolbox::MDP {
              * double, so these conversions must be possible.
              *
              * In addition, the transition container must contain a valid
-             * transition function.  \sa transitionCheck()
+             * transition function.
              *
              * Note that if you are using a sparse container due
              * to the size of the state space, using this function
@@ -123,8 +123,6 @@ namespace AIToolbox::MDP {
              * container as a start you may look into converting
              * it into an Eigen Sparse container and feeding that
              * to this class.
-             *
-             * \sa copyDumb3D()
              *
              * The discount parameter must be between 0 and 1 included,
              * otherwise the constructor will throw an

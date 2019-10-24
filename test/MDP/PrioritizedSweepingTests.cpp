@@ -7,7 +7,7 @@
 
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 
 #include <AIToolbox/MDP/Policies/EpsilonPolicy.hpp>
 #include <AIToolbox/MDP/Policies/QGreedyPolicy.hpp>
@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE( cliff ) {
     Model model = makeCliffProblem(grid);
 
     Experience exp(model.getS(), model.getA());
-    RLModel<Experience> learnedModel(exp, 1.0, false);
+    MaximumLikelihoodModel<Experience> learnedModel(exp, 1.0, false);
 
     PrioritizedSweeping solver(learnedModel);
 

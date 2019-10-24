@@ -10,30 +10,28 @@ namespace AIToolbox::Factored::MDP {
      *
      * This class is a simple logger of events. It keeps track of both
      * the number of times a particular transition has happened, and the
-     * total reward gained in any particular transition. However, it
-     * does not record each event separately (i.e. you can't extract
-     * the results of a particular transition in the past).
+     * average reward gained in any particular transition. (i.e. the maximum
+     * likelihood estimator of a QFunction from the data). It also computes the
+     * M2 statistic for the rewards (avg sum of squares minus square avg).
+     *
+     * However, it does not record each event separately (i.e. you can't
+     * extract the results of a particular transition in the past).
      *
      * The events are recorded with respect to a given structure, which should
      * match the one of the generative model.
      *
      * Note that since this class contains data in a DDN format, it's probably
-     * only usable by directly inspecting the stored VisitTable and
+     * only usable by directly inspecting the stored VisitsTable and
      * RewardMatrix. Thus we don't yet provide general getters for state/action
      * pairs.
      */
     class CooperativeExperience {
         public:
-            using RewardMatrix = std::vector<FactoredDDN::Node>;
-
-            // Here we define the visit structure; it's the same as a vector of
-            // FactoredDDN::Node, but uses unsigned so we have to use a 2D
-            // unsigned table rather than Matrix2D. We also don't really need
-            // the tags again, so it's just a vector of vectors.
-            using VisitTable = std::vector<std::vector<Table2D>>;
+            using RewardMatrix = std::vector<Vector>;
+            using VisitsTable = std::vector<Table2D>;
 
             // Used to avoid recomputation when doing sync in RL.
-            using Indeces = std::vector<std::pair<size_t, size_t>>;
+            using Indeces = std::vector<size_t>;
 
             /**
              * @brief Basic constructor.
@@ -42,11 +40,9 @@ namespace AIToolbox::Factored::MDP {
              * value matrices, nor to fill their values, since we do that
              * internally. Here we only need the structure of the problem.
              *
-             * @param s The state space to record.
-             * @param a The action space to record.
-             * @param structure The coordination graph of the cooperative problem.
+             * @param graph The coordination graph of the cooperative problem.
              */
-            CooperativeExperience(State s, Action a, std::vector<FactoredDDN::Node> structure);
+            CooperativeExperience(const DDNGraph & graph);
 
             /**
              * @brief This function adds a new event to the recordings.
@@ -74,18 +70,32 @@ namespace AIToolbox::Factored::MDP {
             void reset();
 
             /**
+             * @brief This function returns the number of times the record function has been called.
+             *
+             * @return The number of recorded timesteps.
+             */
+            unsigned long getTimesteps() const;
+
+            /**
              * @brief This function returns the visits table for inspection.
              *
              * @return The visits table.
              */
-            const VisitTable & getVisitTable() const;
+            const VisitsTable & getVisitsTable() const;
 
             /**
-             * @brief This function returns the rewards table for inspection.
+             * @brief This function returns the rewards matrix for inspection.
              *
-             * @return The rewards table.
+             * @return The rewards matrix.
              */
             const RewardMatrix & getRewardMatrix() const;
+
+            /**
+             * @brief This function returns the rewards squared matrix for inspection.
+             *
+             * @return The rewards squared matrix.
+             */
+            const RewardMatrix & getM2Matrix() const;
 
             /**
              * @brief This function returns the number of states of the world.
@@ -101,13 +111,22 @@ namespace AIToolbox::Factored::MDP {
              */
             const Action & getA() const;
 
-        private:
-            State S;
-            Action A;
+            /**
+             * @brief This function returns the underlying DDNGraph of the CooperativeExperience.
+             *
+             * @return The underlying DDNGraph.
+             */
+            const DDNGraph & getGraph() const;
 
-            VisitTable visits_;
+        private:
+            const DDNGraph & graph_;
+
+            VisitsTable visits_;
             RewardMatrix rewards_;
-            std::vector<std::pair<size_t, size_t>> indeces_;
+            RewardMatrix M2s_;
+            Indeces indeces_;
+
+            unsigned long timesteps_;
     };
 }
 

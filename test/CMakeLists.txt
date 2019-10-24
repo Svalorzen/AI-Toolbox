@@ -53,10 +53,11 @@ if (MAKE_MDP)
 
     AddTest(MDP Experience)
     AddTest(MDP Model)
-    AddTest(MDP RLModel)
+    AddTest(MDP MaximumLikelihoodModel)
+    AddTest(MDP ThompsonModel)
     AddTest(MDP SparseExperience)
     AddTest(MDP SparseModel)
-    AddTest(MDP SparseRLModel)
+    AddTest(MDP SparseMaximumLikelihoodModel)
 
     AddTest(MDP PGAAPPPolicy)
     AddTest(MDP QGreedyPolicy)
@@ -106,14 +107,15 @@ if (MAKE_FMDP)
     AddTest(Factored FactoredLP)
 
     AddTest(Factored CooperativeExperience)
-    AddTest(Factored CooperativeRLModel)
+    AddTest(Factored CooperativeMaximumLikelihoodModel)
     AddTest(Factored CooperativeModel)
 
-    AddTest(Factored LLR)
-    AddTest(Factored MAUCE)
     AddTest(Factored MultiObjectiveVariableElimination)
     AddTest(Factored UCVE)
     AddTest(Factored VariableElimination)
+
+    AddTest(Factored LLRPolicy)
+    AddTest(Factored MAUCEPolicy)
 
     AddTest(Factored SparseCooperativeQLearning)
     AddTest(Factored LinearProgramming)

@@ -3,9 +3,9 @@
 #include <AIToolbox/MDP/Types.hpp>
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 
@@ -69,7 +69,7 @@ void exportMDPValueIteration() {
                  "        QFunction for the Model."
         , (arg("self"), "m"))
 
-        .def("__call__",                &ValueIteration::operator()<RLModel<Experience>>,
+        .def("__call__",                &ValueIteration::operator()<MaximumLikelihoodModel<Experience>>,
                  "This function applies value iteration on an MDP to solve it.\n"
                  "\n"
                  "The algorithm is constrained by the currently set parameters.\n"
@@ -80,7 +80,7 @@ void exportMDPValueIteration() {
                  "        QFunction for the Model."
         , (arg("self"), "m"))
 
-        .def("__call__",                &ValueIteration::operator()<SparseRLModel<SparseExperience>>,
+        .def("__call__",                &ValueIteration::operator()<SparseMaximumLikelihoodModel<SparseExperience>>,
                  "This function applies value iteration on an MDP to solve it.\n"
                  "\n"
                  "The algorithm is constrained by the currently set parameters.\n"

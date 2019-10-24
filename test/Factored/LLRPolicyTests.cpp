@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE Factored_Bandit_MAUCE
+#define BOOST_TEST_MODULE Factored_Bandit_LLRPolicy
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
@@ -6,18 +6,20 @@
 
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Factored/Bandit/Algorithms/MAUCE.hpp>
+#include <AIToolbox/Factored/Utils/Core.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/LLRPolicy.hpp>
 #include <AIToolbox/Factored/Bandit/Policies/QGreedyPolicy.hpp>
 
-namespace fm = AIToolbox::Factored;
-namespace fb = fm::Bandit;
+namespace aif = AIToolbox::Factored;
+namespace fb = AIToolbox::Factored::Bandit;
 
-BOOST_AUTO_TEST_CASE( simple_example_small ) {
-    fm::Action A{2,2,2};
-    fb::MAUCE x(A, {{0,1}, {1,2}}, {1.0, 1.0});
+BOOST_AUTO_TEST_CASE( xxx_simple_example_small ) {
+    aif::Action A{2,2,2};
+    fb::Experience exp(A, {{0,1}, {1,2}});
+    fb::LLRPolicy llr(exp);
 
     // Two rewards since we have two agent groups.
-    fm::Rewards rew(2);
+    aif::Rewards rew(2);
 
     auto getEvenReward = [](size_t a1, size_t a2){
         static AIToolbox::RandomEngine rand(0);
@@ -53,17 +55,18 @@ BOOST_AUTO_TEST_CASE( simple_example_small ) {
         }
     };
 
-    fm::Action action{0,0,0};
+    aif::Action action{0,0,0};
     for (unsigned t = 0; t < 10000; ++t) {
         rew[0] = getEvenReward(action[0], action[1]);
         rew[1] = getOddReward(action[1], action[2]);
 
-        action = x.stepUpdateQ(action, rew);
+        exp.record(action, rew);
+        action = llr.sampleAction();
     }
 
-    const fm::Action solution{0, 1, 0};
+    const aif::Action solution{0, 1, 0};
 
-    const auto q = x.getRollingAverage().getQFunction();
+    const auto q = llr.getExperience().getRewardMatrix();
     fb::QGreedyPolicy p(A, q);
 
     const auto greedyAction = p.sampleAction();

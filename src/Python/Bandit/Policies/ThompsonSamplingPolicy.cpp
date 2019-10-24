@@ -15,11 +15,9 @@ void exportBanditThompsonSamplingPolicy() {
          "each distribution becomes a Normal which models the mean of its\n"
          "respective arm.", no_init}
 
-        .def(init<const QFunction &, const AIToolbox::Vector &, const std::vector<unsigned> &>(
+        .def(init<const Experience &>(
                  "Basic constructor.\n"
                  "\n"
-                 "@param q The QFunction to use as means for each actions.\n"
-                 "@param M2s The sum over square distance from the mean.\n"
-                 "@param counts The number of times each action has been tried before."
-        , (arg("self"), "q", "M2s", "counts")));
+                 "@param exp The Experience we learn from."
+        , (arg("self"), "exp")));
 }

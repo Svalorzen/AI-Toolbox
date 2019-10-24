@@ -10,11 +10,14 @@ void exportMDPExperience() {
 
          "This class keeps track of registered events and rewards.\n"
          "\n"
-         "This class is a simple logger of events. It keeps track of both\n"
-         "the number of times a particular transition has happened, and the\n"
-         "total reward gained in any particular transition. However, it\n"
-         "does not record each event separately (i.e. you can't extract\n"
-         "the results of a particular transition in the past).", no_init}
+         "This class is a simple aggregator of events. It keeps track of both the\n"
+         "number of times a particular transition has been visited, and the\n"
+         "average reward gained per state-action pair (i.e. the maximum likelihood\n"
+         "estimator of a QFunction from the data). It also computes the M2\n"
+         "statistic for the rewards (avg sum of squares minus square avg).\n"
+         "\n"
+         "It does not record each event separately (i.e. you can't extract the\n"
+         "results of a particular transition in the past).", no_init}
 
         .def(init<size_t, size_t>(
                  "Basic constructor.\n"
@@ -36,7 +39,11 @@ void exportMDPExperience() {
                 "This function resets all experienced rewards and transitions."
         , (arg("self")))
 
-        .def("setVisits",       &Experience::setVisits<std::vector<std::vector<std::vector<int>>>>,
+        .def("getTimesteps",    &Experience::getTimesteps,
+                 "This function returns the number of times that record has been called."
+        , (arg("self")))
+
+        .def("setVisitsTable",       &Experience::setVisitsTable<std::vector<std::vector<std::vector<int>>>>,
                  "Compatibility setter.\n"
                  "\n"
                  "This function takes an arbitrary three dimensional\n"
@@ -50,19 +57,33 @@ void exportMDPExperience() {
                  "@param v The external visits container.\n"
         , (arg("self"), "v"))
 
-        .def("setRewards",       &Experience::setRewards<std::vector<std::vector<std::vector<double>>>>,
+        .def("setRewardMatrix",       &Experience::setRewardMatrix<std::vector<std::vector<double>>>,
                  "Compatibility setter.\n"
                  "\n"
-                 "This function takes an arbitrary three dimensional\n"
+                 "This function takes an arbitrary two dimensional\n"
                  "container and tries to copy its contents into the\n"
                  "rewards matrix.\n"
                  "\n"
                  "Currently the Python wrappings support reading through native\n"
-                 "3d Python arrays (so [][][]). As long as the dimensions are\n"
+                 "2d Python arrays (so [][]). As long as the dimensions are\n"
                  "correct it should work.\n"
                  "\n"
-                 "@param v The external visits container.\n"
-        , (arg("self"), "v"))
+                 "@param r The external rewards matrix.\n"
+        , (arg("self"), "r"))
+
+        .def("setM2Matrix",           &Experience::setM2Matrix<std::vector<std::vector<double>>>,
+                 "Compatibility setter.\n"
+                 "\n"
+                 "This function takes an arbitrary two dimensional\n"
+                 "container and tries to copy its contents into the\n"
+                 "M2s matrix.\n"
+                 "\n"
+                 "Currently the Python wrappings support reading through native\n"
+                 "2d Python arrays (so [][]). As long as the dimensions are\n"
+                 "correct it should work.\n"
+                 "\n"
+                 "@param mm The external M2s matrix.\n"
+        , (arg("self"), "mm"))
 
         .def("getVisits",       &Experience::getVisits,
                  "This function returns the current recorded visits for a transitions.\n"
@@ -82,20 +103,17 @@ void exportMDPExperience() {
         , (arg("self"), "s", "a"))
 
         .def("getReward",       &Experience::getReward,
-                 "This function returns the cumulative rewards obtained from a specific transition.\n"
+                 "This function returns the average reward obtained for the specified state-action pair.\n"
                  "\n"
                  "@param s     Old state.\n"
-                 "@param a     Performed action.\n"
-                 "@param s1    New state."
-        , (arg("self"), "s", "a", "s1"))
+                 "@param a     Performed action."
+        , (arg("self"), "s", "a"))
 
-        .def("getRewardSum",    &Experience::getRewardSum,
-                 "This function returns the total reward obtained from transitions that start with the specified state and action.\n"
+        .def("getM2",           &Experience::getM2,
+                 "This function returns the M2 statistic for the specified state-action pair.\n"
                  "\n"
-                 "@param s     The initial state.\n"
-                 "@param a     Performed action.\n"
-                 "\n"
-                 "@return The total number of transitions that start with the specified state-action pair."
+                 "@param s     Old state.\n"
+                 "@param a     Performed action."
         , (arg("self"), "s", "a"))
 
         .def("getS",            &Experience::getS,

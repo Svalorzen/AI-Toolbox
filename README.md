@@ -90,6 +90,11 @@ Policies:
 
 ### Single Agent MDP/Stochastic Games: ###
 
+Models:
+
+- Maximum Likelihood Model
+- Thompson Model
+
 Algorithms:
 
 - [Dyna-Q](http://incompleteideas.net/book/ebook/node96.html, "Reinforcement Learning: An Introduction, Ch 9.2, Sutton & Barto")
@@ -163,6 +168,10 @@ Policies:
 #### MDP: ####
 
 Not in Python yet.
+
+Models:
+
+- Cooperative Maximum Likelihood Model
 
 Algorithms:
 

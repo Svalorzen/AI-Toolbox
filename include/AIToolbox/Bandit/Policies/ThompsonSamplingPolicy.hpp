@@ -4,6 +4,7 @@
 #include <random>
 
 #include <AIToolbox/Bandit/Types.hpp>
+#include <AIToolbox/Bandit/Experience.hpp>
 #include <AIToolbox/Bandit/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::Bandit {
@@ -20,11 +21,9 @@ namespace AIToolbox::Bandit {
             /**
              * @brief Basic constructor.
              *
-             * @param q The QFunction to use as means for each actions.
-             * @param M2s The sum over square distance from the mean.
-             * @param counts The number of times each action has been tried before.
+             * @param exp The Experience we learn from.
              */
-            ThompsonSamplingPolicy(const QFunction & q, const Vector & M2s, const std::vector<unsigned> & counts);
+            ThompsonSamplingPolicy(const Experience & exp);
 
             /**
              * @brief This function chooses an action using Thompson sampling.
@@ -65,9 +64,7 @@ namespace AIToolbox::Bandit {
             virtual Vector getPolicy() const override;
 
         private:
-            const QFunction & q_;
-            const Vector & M2s_;
-            const std::vector<unsigned> & counts_;
+            const Experience & exp_;
     };
 }
 

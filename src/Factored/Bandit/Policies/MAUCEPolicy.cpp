@@ -1,19 +1,18 @@
-#include <AIToolbox/Factored/Bandit/Algorithms/MAUCE.hpp>
+#include <AIToolbox/Factored/Bandit/Policies/MAUCEPolicy.hpp>
 
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 #include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    MAUCE::MAUCE(Action aa, const std::vector<PartialKeys> & dependencies, std::vector<double> ranges) :
-            A(std::move(aa)), timestep_(0),
-            averages_(A, dependencies), rangesSquared_(std::move(ranges)),
+    MAUCEPolicy::MAUCEPolicy(const Experience & exp, std::vector<double> ranges) :
+            Base(exp.getA()), exp_(exp), rangesSquared_(std::move(ranges)),
             logA_(0.0)
     {
-        assert(dependencies.size() == rangesSquared_.size());
+        assert(exp_.getRewardMatrix().bases.size() == rangesSquared_.size());
         // Compute log(|A|) without needing to compute |A| which may be too
         // big. We'll use it later to obtain log(t |A|)
-        for (const auto a : A)
+        for (const auto a : exp_.getA())
             logA_ += std::log(a);
 
         // Square all ranges since that's the only form in which we use them.
@@ -21,18 +20,14 @@ namespace AIToolbox::Factored::Bandit {
             r = r * r;
     }
 
-    Action MAUCE::stepUpdateQ(const Action & a, const Rewards & rew) {
-        AI_LOGGER(AI_SEVERITY_INFO, "Updating averages...");
-
-        averages_.stepUpdateQ(a, rew);
-
+    Action MAUCEPolicy::sampleAction() const {
         // Build the vectors to pass to UCVE
         AI_LOGGER(AI_SEVERITY_INFO, "Populating graph...");
 
-        UCVE::GVE::Graph graph(A.size());
+        UCVE::GVE::Graph graph(exp_.getA().size());
 
-        const auto & q = averages_.getQFunction();
-        const auto & c = averages_.getCounts();
+        const auto & q = exp_.getRewardMatrix();
+        const auto & c = exp_.getVisitsTable();
 
         for (size_t x = 0; x < q.bases.size(); ++x) {
             const auto & basis = q.bases[x];
@@ -72,24 +67,24 @@ namespace AIToolbox::Factored::Bandit {
             }
         }
 
-        // Update the timestep, and finish computing log(t |A|) for this
-        // timestep.
-        ++timestep_;
-        const auto logtA = logA_ + std::log(timestep_);
+        // Finish computing log(t |A|) for this timestep.
+        const auto logtA = logA_ + std::log(exp_.getTimesteps());
 
         // Create and run UCVE
         AI_LOGGER(AI_SEVERITY_INFO, "Now running UCVE...");
         UCVE ucve;
-        auto a_v = ucve(A, logtA, graph);
+        auto a_v = ucve(exp_.getA(), logtA, graph);
         AI_LOGGER(AI_SEVERITY_INFO, "Done.");
 
         return std::get<0>(a_v);
     }
 
-    const RollingAverage & MAUCE::getRollingAverage() const {
-        return averages_;
+    double MAUCEPolicy::getActionProbability(const Action & a) const {
+        if (veccmp(a, sampleAction()) == 0) return 1.0;
+        return 0.0;
     }
 
-    unsigned MAUCE::getTimestep() const { return timestep_; }
-    void MAUCE::setTimestep(unsigned t) { timestep_ = t; }
+    const Experience & MAUCEPolicy::getExperience() const {
+        return exp_;
+    }
 }

@@ -43,23 +43,27 @@ namespace AIToolbox::MDP {
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
                 long vSum = 0;
-                double rSum = 0.0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    if ( !(is >> e.visits_[s][a][s1] >> e.rewards_[s][a][s1] )) {
+                    if ( !(is >> e.visits_[a](s, s1)) ) {
                         AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
                         is.setstate(std::ios::failbit);
                         return is;
                     }
-                    // Verification/Sanitization
-                    // Ignoring input reward if no visits.
-                    if ( e.visits_[s][a][s1] == 0 )
-                        e.rewards_[s][a][s1] = 0.0;
-
-                    vSum += e.visits_[s][a][s1];
-                    rSum += e.rewards_[s][a][s1];
+                    vSum += e.visits_[a](s, s1);
                 }
-                e.visitsSum_[s][a] = vSum;
-                e.rewardsSum_[s][a] = rSum;
+                e.visitsSum_(s, a) = vSum;
+
+                if ( !(is >> e.rewards_(s, a) >> e.M2s_(s, a) )) {
+                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
+                    is.setstate(std::ios::failbit);
+                    return is;
+                }
+                // Verification/Sanitization
+                // Ignoring input reward if no visits.
+                if ( vSum == 0 ) {
+                    e.rewards_(s, a) = 0.0;
+                    e.M2s_(s, a) = 0.0;
+                }
             }
         }
         // This guarantees that if input is invalid we still keep the old Exp.
@@ -74,33 +78,37 @@ namespace AIToolbox::MDP {
         const size_t A = exp.getA();
 
         long l;
-        double d;
+        double d1, d2;
 
         SparseExperience e(S,A);
 
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
                 long vSum = 0;
-                double rSum = 0.0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    if ( !(is >> l >> d) ) {
+                    if ( !(is >> l) ) {
                         AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
                         is.setstate(std::ios::failbit);
                         return is;
                     }
-                    e.visits_[a].insert(s, s1) = l;
-                    vSum += l;
-
-                    // Verification/Sanitization
-                    // Ignoring input reward if no visits.
-                    if ( l > 0 && checkDifferentSmall(0.0, d) ) {
-                        e.rewards_[a].insert(s, s1) = d;
-                        rSum += d;
+                    if (l > 0) {
+                        e.visits_[a].insert(s, s1) = l;
+                        vSum += l;
                     }
                 }
-                if ( vSum > 0 ) {
+                if ( vSum > 0 )
                     e.visitsSum_.insert(s, a) = vSum;
-                    if ( checkDifferentSmall(0.0, rSum) ) e.rewardsSum_.insert(s, a) = rSum;
+
+                if ( !(is >> d1 >> d2) ) {
+                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
+                    is.setstate(std::ios::failbit);
+                    return is;
+                }
+                // Verification/Sanitization
+                // Ignoring input reward if no visits.
+                if ( vSum > 0 ) {
+                    if ( checkDifferentSmall(0.0, d1) ) e.rewards_.insert(s, a) = d1;
+                    if ( checkDifferentSmall(0.0, d2) ) e.M2s_.insert(s, a) = d2;
                 }
             }
         }

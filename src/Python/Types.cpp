@@ -151,6 +151,7 @@ void exportTypes() {
     VectorFromPython<Vector>();
 
     // Enable passing 3D matrices/tables from Python
+    Vector2DFromPython<double>();
     Vector3DFromPython<double>();
     Vector3DFromPython<int>();
 

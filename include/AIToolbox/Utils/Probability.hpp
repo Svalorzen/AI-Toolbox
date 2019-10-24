@@ -116,6 +116,75 @@ namespace AIToolbox {
     }
 
     /**
+     * @brief This function samples from a Beta distribution.
+     *
+     * The Beta distribution can be useful as it is the conjugate prior of the
+     * Bernoulli and Binomial distributions (and others).
+     *
+     * As C++ does not yet have a Beta distribution in the standard, we emulate
+     * the sampling using two gamma distributions.
+     *
+     * @tparam G The type of the generator used.
+     * @param a The 'a' shape parameter of the Beta distribution to sample.
+     * @param b The 'b' shape parameter of the Beta distribution to sample.
+     * @param generator A random number generator.
+     *
+     * @return The sampled number.
+     */
+    template <typename G>
+    double sampleBetaDistribution(double a, double b, G & generator) {
+        std::gamma_distribution<double> dista(a, 1.0);
+        std::gamma_distribution<double> distb(b, 1.0);
+        const auto X = dista(generator);
+        const auto Y = distb(generator);
+        return X / (X + Y);
+    }
+
+    /**
+     * @brief This function samples from the input Dirichlet distribution.
+     *
+     * The input parameters's type must support size() and square bracket
+     * access.
+     *
+     * @param params The parameters of the Dirichlet distribution.
+     * @param generator The random generator to sample from.
+     *
+     * @return A ProbabilityVector containing the sampled Dirichlet.
+     */
+    template <typename TIn, typename G>
+    ProbabilityVector sampleDirichletDistribution(const TIn & params, G & generator) {
+        ProbabilityVector retval(params.size());
+
+        sampleDirichletDistribution(params, generator, retval);
+
+        return retval;
+    }
+
+    /**
+     * @brief This function samples from the input Dirichlet distribution inline.
+     *
+     * The input parameters's type must support size() and square bracket
+     * access. The output parameter's type must be a dense Eigen type (Vector,
+     * row, etc).
+     *
+     * @param params The parameters of the Dirichlet distribution.
+     * @param generator The random generator to sample from.
+     * @param out The output container.
+     */
+    template <typename TIn, typename TOut, typename G>
+    void sampleDirichletDistribution(const TIn & params, G & generator, TOut && out) {
+        assert(params.size() == out.size());
+
+        double sum = 0.0;
+        for (size_t i = 0; i < static_cast<size_t>(params.size()); ++i) {
+            std::gamma_distribution<double> dist(params[i], 1.0);
+            out[i] = dist(generator);
+            sum += out[i];
+        }
+        out /= sum;
+    }
+
+    /**
      * @brief This function generates a random probability vector.
      *
      * This function will sample uniformly from the simplex space with the

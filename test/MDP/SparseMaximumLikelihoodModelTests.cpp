@@ -1,24 +1,23 @@
-#define BOOST_TEST_MODULE MDP_RLModel
+#define BOOST_TEST_MODULE MDP_SparseMaximumLikelihoodModel
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/SparseExperience.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 
 // #include <AIToolbox/MDP/IO.hpp>
 // #include <fstream>
 
 BOOST_AUTO_TEST_CASE( eigen_model ) {
-    BOOST_CHECK(AIToolbox::MDP::is_model_eigen_v<AIToolbox::MDP::RLModel<AIToolbox::MDP::Experience>>);
+    BOOST_CHECK(AIToolbox::MDP::is_model_eigen_v<AIToolbox::MDP::SparseMaximumLikelihoodModel<AIToolbox::MDP::SparseExperience>>);
 }
 
 BOOST_AUTO_TEST_CASE( construction ) {
-    using namespace AIToolbox::MDP;
     const size_t S = 10, A = 8;
 
-    Experience exp(S,A);
-    RLModel model(exp, 1.0, false);
+    AIToolbox::MDP::SparseExperience exp(S,A);
+    AIToolbox::MDP::SparseMaximumLikelihoodModel model(exp, 1.0, false);
 
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
@@ -30,13 +29,12 @@ BOOST_AUTO_TEST_CASE( construction ) {
 }
 
 BOOST_AUTO_TEST_CASE( syncing ) {
-    using namespace AIToolbox::MDP;
     const size_t S = 10, A = 8;
 
-    Experience exp(S,A);
+    AIToolbox::MDP::SparseExperience exp(S,A);
     // Single state sync
     {
-        RLModel model(exp, 1.0, false);
+        AIToolbox::MDP::SparseMaximumLikelihoodModel model(exp, 1.0, false);
 
         exp.record(0,0,1,10);
         exp.record(0,0,2,10);
@@ -68,10 +66,10 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     }
     // Full sync, manual or on construction
     {
-        RLModel model(exp, 1.0, false);
+        AIToolbox::MDP::SparseMaximumLikelihoodModel<decltype(exp)>  model(exp, 1.0, false);
         model.sync();
 
-        RLModel model2(exp, 1.0, true);
+        AIToolbox::MDP::SparseMaximumLikelihoodModel<decltype(exp)>  model2(exp, 1.0, true);
 
         BOOST_CHECK_EQUAL( model.getTransitionProbability (0,0,1), 1.0/3.0 );
         BOOST_CHECK_EQUAL( model2.getTransitionProbability(0,0,1), 1.0/3.0 );
@@ -87,11 +85,45 @@ BOOST_AUTO_TEST_CASE( syncing ) {
     }
 }
 
+BOOST_AUTO_TEST_CASE( syncing_rew_to_zero ) {
+    const size_t S = 10, A = 8;
+
+    AIToolbox::MDP::SparseExperience exp(S,A);
+
+    AIToolbox::MDP::SparseMaximumLikelihoodModel model(exp, 1.0, false);
+
+    exp.record(0,0,1,10);
+    model.sync();
+
+    exp.record(0,1,2,10);
+    model.sync(0, 1);
+
+    exp.record(0,2,3,10);
+    model.sync(0, 2, 3);
+
+    BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,1), 10.0 );
+    BOOST_CHECK_EQUAL( model.getExpectedReward(0,1,2), 10.0 );
+    BOOST_CHECK_EQUAL( model.getExpectedReward(0,2,3), 10.0 );
+
+    exp.record(0,0,1,-10);
+    model.sync();
+
+    exp.record(0,1,2,-10);
+    model.sync(0, 1);
+
+    exp.record(0,2,3,-10);
+    model.sync(0, 2, 3);
+
+    BOOST_CHECK_EQUAL( model.getExpectedReward(0,0,1), 0.0 );
+    BOOST_CHECK_EQUAL( model.getExpectedReward(0,1,2), 0.0 );
+    BOOST_CHECK_EQUAL( model.getExpectedReward(0,2,3), 0.0 );
+}
+
 BOOST_AUTO_TEST_CASE( clearInitialTransition ) {
     const size_t S = 2, A = 2;
 
-    AIToolbox::MDP::Experience exp(S,A);
-    AIToolbox::MDP::RLModel model(exp, 1.0, false);
+    AIToolbox::MDP::SparseExperience exp(S,A);
+    AIToolbox::MDP::SparseMaximumLikelihoodModel model(exp, 1.0, false);
 
     exp.record(0,0,1,10);
     model.sync(0,0);
@@ -104,11 +136,10 @@ BOOST_AUTO_TEST_CASE( clearInitialTransition ) {
 }
 
 BOOST_AUTO_TEST_CASE( sampling ) {
-    using namespace AIToolbox::MDP;
     const size_t S = 10, A = 8;
 
-    Experience exp(S,A);
-    RLModel model(exp, 1.0, false);
+    AIToolbox::MDP::SparseExperience exp(S,A);
+    AIToolbox::MDP::SparseMaximumLikelihoodModel model(exp, 1.0, false);
 
     exp.record(0,0,0,0);
     exp.record(0,0,1,0);
@@ -140,14 +171,13 @@ BOOST_AUTO_TEST_CASE( sampling ) {
 
 /*
 BOOST_AUTO_TEST_CASE( IO ) {
-    using namespace AIToolbox::MDP;
     const int S = 10, A = 8;
 
     std::string inputExpFilename     = "./data/experience.txt";
     std::string inputModelFilename   = "./data/model.txt";
     std::string outputFilename       = "./computedModule.txt";
 
-    Experience exp(S,A);
+    AIToolbox::MDP::SparseExperience exp(S,A);
     {
         std::ifstream inputExpFile(inputExpFilename);
 
@@ -155,7 +185,7 @@ BOOST_AUTO_TEST_CASE( IO ) {
         BOOST_CHECK( inputExpFile >> exp );
     }
 
-    RLModel<decltype(exp)> model(exp, 1.0, true);
+    AIToolbox::MDP::MaximumLikelihoodModel<decltype(exp)>  model(exp, 1.0, true);
     {
         std::ofstream outputFile(outputFilename);
 

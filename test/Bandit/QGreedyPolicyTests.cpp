@@ -5,15 +5,15 @@
 
 #include <array>
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Bandit/Algorithms/RollingAverage.hpp>
+#include <AIToolbox/Bandit/Experience.hpp>
 #include <AIToolbox/Bandit/Policies/QGreedyPolicy.hpp>
 
 BOOST_AUTO_TEST_CASE( sampling ) {
     using namespace AIToolbox;
     constexpr size_t A = 3;
 
-    Bandit::RollingAverage ra(A);
-    Bandit::QGreedyPolicy p(ra.getQFunction());
+    Bandit::Experience exp(A);
+    Bandit::QGreedyPolicy p(exp.getRewardMatrix());
 
     std::array<unsigned, A> counts{{0,0,0}};
     for (unsigned i = 0; i < 1000; ++i)
@@ -24,8 +24,8 @@ BOOST_AUTO_TEST_CASE( sampling ) {
     BOOST_CHECK(counts[1] > 200);
     BOOST_CHECK(counts[2] > 200);
 
-    ra.stepUpdateQ(1, 1.0);
-    ra.stepUpdateQ(2, 1.0);
+    exp.record(1, 1.0);
+    exp.record(2, 1.0);
 
     // Reset counts
     std::fill(std::begin(counts), std::end(counts), 0);
@@ -42,14 +42,14 @@ BOOST_AUTO_TEST_CASE( probability ) {
     using namespace AIToolbox;
     constexpr size_t A = 3;
 
-    Bandit::RollingAverage ra(A);
-    Bandit::QGreedyPolicy p(ra.getQFunction());
+    Bandit::Experience exp(A);
+    Bandit::QGreedyPolicy p(exp.getRewardMatrix());
 
     for (unsigned i = 0; i < A; ++i)
         BOOST_CHECK_EQUAL(p.getActionProbability(i), 1.0 / A);
 
-    ra.stepUpdateQ(1, 1.0);
-    ra.stepUpdateQ(2, 1.0);
+    exp.record(1, 1.0);
+    exp.record(2, 1.0);
 
     BOOST_CHECK_EQUAL(p.getActionProbability(0), 0.0);
     BOOST_CHECK_EQUAL(p.getActionProbability(1), 0.5);

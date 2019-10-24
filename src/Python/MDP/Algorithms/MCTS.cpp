@@ -4,9 +4,9 @@
 #include "../../Utils.hpp"
 
 #include <AIToolbox/MDP/Experience.hpp>
-#include <AIToolbox/MDP/RLModel.hpp>
+#include <AIToolbox/MDP/MaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
-#include <AIToolbox/MDP/SparseRLModel.hpp>
+#include <AIToolbox/MDP/SparseMaximumLikelihoodModel.hpp>
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include "../GenerativeModelPython.hpp"
@@ -133,8 +133,8 @@ void exportMCTSByModel(std::string className) {
 void exportMDPMCTS() {
     using namespace AIToolbox::MDP;
 
-    exportMCTSByModel<RLModel<Experience>>("RLModel");
-    exportMCTSByModel<SparseRLModel<SparseExperience>>("SparseRLModel");
+    exportMCTSByModel<MaximumLikelihoodModel<Experience>>("MaximumLikelihoodModel");
+    exportMCTSByModel<SparseMaximumLikelihoodModel<SparseExperience>>("SparseMaximumLikelihoodModel");
     exportMCTSByModel<Model>("Model");
     exportMCTSByModel<SparseModel>("SparseModel");
     exportMCTSByModel<GenerativeModelPython>("GenerativeModelPython");

@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_BANDIT_ROLLING_AVERAGE_HEADER_FILE
-#define AI_TOOLBOX_BANDIT_ROLLING_AVERAGE_HEADER_FILE
+#ifndef AI_TOOLBOX_BANDIT_EXPERIENCE_HEADER_FILE
+#define AI_TOOLBOX_BANDIT_EXPERIENCE_HEADER_FILE
 
 #include <AIToolbox/Bandit/Types.hpp>
 
@@ -10,22 +10,24 @@ namespace AIToolbox::Bandit {
      * This class can be used to compute the averages and counts for all
      * actions in a Bandit problem over time.
      */
-    class RollingAverage {
+    class Experience {
         public:
+            using VisitsTable = std::vector<unsigned long>;
+
             /**
              * @brief Basic constructor.
              *
              * @param A The size of the action space.
              */
-            RollingAverage(size_t A);
+            Experience(size_t A);
 
             /**
-             * @brief This function updates the QFunction and counts.
+             * @brief This function updates the reward matrix and counts.
              *
              * @param a The action taken.
              * @param rew The reward obtained.
              */
-            void stepUpdateQ(size_t a, double rew);
+            void record(size_t a, double rew);
 
             /**
              * @brief This function resets the QFunction and counts to zero.
@@ -33,25 +35,25 @@ namespace AIToolbox::Bandit {
             void reset();
 
             /**
-             * @brief This function returns the size of the action space.
+             * @brief This function returns the number of times the record function has been called.
              *
-             * @return The size of the action space.
+             * @return The number of recorded timesteps.
              */
-            size_t getA() const;
+            unsigned long getTimesteps() const;
 
             /**
-             * @brief This function returns a reference to the internal QFunction.
+             * @brief This function returns a reference to the internal reward matrix.
              *
-             * @return A reference to the internal QFunction.
+             * @return A reference to the internal reward matrix.
              */
-            const QFunction & getQFunction() const;
+            const QFunction & getRewardMatrix() const;
 
             /**
              * @brief This function returns a reference for the counts for the actions.
              *
              * @return A reference to the counts of the actions.
              */
-            const std::vector<unsigned> & getCounts() const;
+            const VisitsTable & getVisitsTable() const;
 
             /**
              * @brief This function returns the estimated squared distance of the samples from the mean.
@@ -62,12 +64,20 @@ namespace AIToolbox::Bandit {
              *
              * @return A reference to the estimated square distance from the mean.
              */
-            const Vector & getM2s() const;
+            const Vector & getM2Matrix() const;
+
+            /**
+             * @brief This function returns the size of the action space.
+             *
+             * @return The size of the action space.
+             */
+            size_t getA() const;
 
         private:
             QFunction q_;
             Vector M2s_;
-            std::vector<unsigned> counts_;
+            VisitsTable counts_;
+            unsigned long timesteps_;
     };
 }
 

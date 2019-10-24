@@ -9,7 +9,7 @@ if (MAKE_MDP)
         Utils/Polytope.cpp
         Utils/LP/LpSolveWrapper.cpp
         Tools/Statistics.cpp
-        Bandit/Algorithms/RollingAverage.cpp
+        Bandit/Experience.cpp
         Bandit/Policies/EpsilonPolicy.cpp
         Bandit/Policies/RandomPolicy.cpp
         Bandit/Policies/QGreedyPolicy.cpp
@@ -77,18 +77,17 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/VariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/UCVE.cpp
-        Factored/Bandit/Algorithms/LLR.cpp
-        Factored/Bandit/Algorithms/MAUCE.cpp
-        Factored/Bandit/Algorithms/RollingAverage.cpp
+        Factored/Bandit/Experience.cpp
         Factored/Bandit/Policies/SingleActionPolicy.cpp
         Factored/Bandit/Policies/RandomPolicy.cpp
         Factored/Bandit/Policies/EpsilonPolicy.cpp
         Factored/Bandit/Policies/QGreedyPolicy.cpp
         Factored/Bandit/Policies/ThompsonSamplingPolicy.cpp
+        Factored/Bandit/Policies/LLRPolicy.cpp
+        Factored/Bandit/Policies/MAUCEPolicy.cpp
         Factored/MDP/Utils.cpp
-        Factored/MDP/Model.cpp
         Factored/MDP/CooperativeExperience.cpp
-        Factored/MDP/CooperativeRLModel.cpp
+        Factored/MDP/CooperativeMaximumLikelihoodModel.cpp
         Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
@@ -121,7 +120,7 @@ if (MAKE_PYTHON)
     if (MAKE_MDP)
         set(PYTHON_FILES ${PYTHON_FILES}
             # Bandits
-            Python/Bandit/Algorithms/RollingAverage.cpp
+            Python/Bandit/Experience.cpp
             Python/Bandit/Policies/PolicyInterface.cpp
             Python/Bandit/Policies/EpsilonPolicy.cpp
             Python/Bandit/Policies/RandomPolicy.cpp
@@ -135,9 +134,9 @@ if (MAKE_PYTHON)
             Python/MDP/Utils.cpp
             Python/MDP/Types.cpp
             Python/MDP/Experience.cpp
-            Python/MDP/RLModel.cpp
+            Python/MDP/MaximumLikelihoodModel.cpp
             Python/MDP/SparseExperience.cpp
-            Python/MDP/SparseRLModel.cpp
+            Python/MDP/SparseMaximumLikelihoodModel.cpp
             Python/MDP/Model.cpp
             Python/MDP/SparseModel.cpp
             Python/MDP/GenerativeModelPython.cpp

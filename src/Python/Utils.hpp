@@ -155,6 +155,42 @@ struct VectorFromPython {
 };
 
 template <typename T>
+struct Vector2DFromPython {
+    using V2D = std::vector<std::vector<T>>;
+
+    Vector2DFromPython() {
+        boost::python::converter::registry::push_back(&Vector2DFromPython<T>::convertible, &Vector2DFromPython<T>::construct, boost::python::type_id<V2D>());
+    }
+
+    static void* convertible(PyObject* obj_ptr) {
+        if (!PyList_Check(obj_ptr) ||
+            !PyList_Check(PyList_GetItem(obj_ptr,0))) return 0;
+        return obj_ptr;
+    }
+
+    static void construct(PyObject* list, boost::python::converter::rvalue_from_python_stage1_data* data) {
+        // Grab pointer to memory into which to construct the new std::vector<T>
+        void* storage = ((boost::python::converter::rvalue_from_python_storage<V2D>*)data)->storage.bytes;
+
+        V2D& v = *(new (storage) V2D());
+
+        // Copy item by item the list
+        auto size2 = PyList_Size(list);
+        v.resize(size2);
+        for(decltype(size2) i = 0; i < size2; ++i) {
+            auto size1 = PyList_Size(PyList_GetItem(list,0));
+            v[i].resize(size1);
+            for(decltype(size1) j = 0; j < size1; ++j) {
+                v[i][j] = boost::python::extract<T>(PyList_GetItem(PyList_GetItem(list, i), j));
+            }
+        }
+
+        // Stash the memory chunk pointer for later use by boost.python
+        data->convertible = storage;
+    }
+};
+
+template <typename T>
 struct Vector3DFromPython {
     using V3D = std::vector<std::vector<std::vector<T>>>;
 

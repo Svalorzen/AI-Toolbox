@@ -4,6 +4,7 @@
 #include <random>
 
 #include <AIToolbox/Factored/Bandit/Types.hpp>
+#include <AIToolbox/Factored/Bandit/Experience.hpp>
 #include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
 
 namespace AIToolbox::Factored::Bandit {
@@ -27,12 +28,9 @@ namespace AIToolbox::Factored::Bandit {
             /**
              * @brief Basic constructor.
              *
-             * @param A The action space to use.
-             * @param q The QFunction to use as means for each actions.
-             * @param M2s The sum over square distance from the mean.
-             * @param counts The number of times each action has been tried before.
+             * @param exp The Experience we learn from.
              */
-            ThompsonSamplingPolicy(const Action & A, const QFunction & q, const std::vector<Vector> & M2s, const std::vector<std::vector<unsigned>> & counts);
+            ThompsonSamplingPolicy(const Experience & exp);
 
             /**
              * @brief This function chooses an action using Thompson sampling.
@@ -70,9 +68,7 @@ namespace AIToolbox::Factored::Bandit {
             virtual double getActionProbability(const Action & a) const override;
 
         private:
-            const QFunction & q_;
-            const std::vector<Vector> & M2s_;
-            const std::vector<std::vector<unsigned>> & counts_;
+            const Experience & exp_;
     };
 }
 

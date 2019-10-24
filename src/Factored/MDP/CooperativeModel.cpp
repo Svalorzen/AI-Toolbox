@@ -5,68 +5,40 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    CooperativeModel::CooperativeModel(State s, Action a, FactoredDDN transitions, FactoredMatrix2D rewards, const double discount) :
-            S(std::move(s)), A(std::move(a)), discount_(discount),
-            transitions_(std::move(transitions)), rewards_(std::move(rewards)),
+    CooperativeModel::CooperativeModel(DDNGraph graph, DDN::TransitionMatrix transitions, FactoredMatrix2D rewards, const double discount) :
+            discount_(discount),
+            graph_(std::move(graph)),
+            transitions_({graph_, std::move(transitions)}), rewards_(std::move(rewards)),
             rand_(Impl::Seeder::getSeed())
     {
         // Now we validate both the transition function and the rewards.
-        if (transitions_.nodes.size() != S.size())
-            throw std::invalid_argument("Input DDN has an incorrect number of nodes!");
+        // The DDN graph we can already trust since it's a class and not a
+        // struct, but we can still check that all the nodes have been pushed.
+        const auto & S = graph_.getS();
+        const auto & A = graph_.getA();
+        if (S.size() == 0)
+            throw std::invalid_argument("Input DDN has empty state space in its DDNGraph");
+        if (A.size() == 0)
+            throw std::invalid_argument("Input DDN has empty action space in its DDNGraph");
+        if (graph_.getNodes().size() != S.size())
+            throw std::invalid_argument("Input DDN has an incorrect number of nodes in its DDNGraph!");
 
-        TagErrors error;
-        for (size_t s = 0; s < S.size(); ++s) {
-            const auto & node = transitions_.nodes[s];
+        if (transitions_.transitions.size() != S.size()) {
+            throw std::invalid_argument("Input DDN has an incorrect number of transition nodes!");
+        }
 
-            std::tie(error, std::ignore) = checkTag(A, node.actionTag);
-            switch (error) {
-                case TagErrors::NoElements:
-                    throw std::invalid_argument("Input DDN contains action tags with no elements!");
-                case TagErrors::TooManyElements:
-                    throw std::invalid_argument("Input DDN contains action tags with too many elements!");
-                case TagErrors::IdTooHigh:
-                    throw std::invalid_argument("Input DDN references action IDs too high for the action space!");
-                case TagErrors::NotSorted:
-                    throw std::invalid_argument("Input DDN contains action tags that are not sorted!");
-                case TagErrors::Duplicates:
-                    throw std::invalid_argument("Input DDN contains duplicate action tags entries!");
-                default:;
+        for (size_t i = 0; i < S.size(); ++i) {
+            if (static_cast<size_t>(transitions_.transitions[i].rows()) != graph_.getSize(i)) {
+                throw std::invalid_argument("Input DDN contains matrices with incorrect number of rows!");
+            }
+            if (static_cast<size_t>(transitions_.transitions[i].cols()) != graph_.getS()[i]) {
+                throw std::invalid_argument("Input DDN contains matrices with incorrect number of columns!");
             }
 
-            // Check number of nodes is correct.
-            if (node.nodes.size() != factorSpacePartial(node.actionTag, A))
-                throw std::invalid_argument("Input DDN has an incorrect number of bayesian nodes for the specified action tag!");
-
-            for (size_t a = 0; a < node.nodes.size(); ++a) {
-                const auto & subnode = node.nodes[a];
-
-                std::tie(error, std::ignore) = checkTag(S, subnode.tag);
-                switch (error) {
-                    case TagErrors::NoElements:
-                        throw std::invalid_argument("Input DDN contains subnode tags with no elements!");
-                    case TagErrors::TooManyElements:
-                        throw std::invalid_argument("Input DDN contains subnode tags with too many elements!");
-                    case TagErrors::IdTooHigh:
-                        throw std::invalid_argument("Input DDN references state IDs too high for the state space!");
-                    case TagErrors::NotSorted:
-                        throw std::invalid_argument("Input DDN contains state tags that are not sorted!");
-                    case TagErrors::Duplicates:
-                        throw std::invalid_argument("Input DDN contains duplicate state tags entries!");
-                    default:;
-                }
-
-                // Check size of matrix is correct
-                if (subnode.matrix.cols() != static_cast<long>(S[s]))
-                    throw std::invalid_argument("Input DDN contains matrices with incorrect number of columns!");
-
-                if (subnode.matrix.rows() != static_cast<long>(factorSpacePartial(subnode.tag, S)))
-                    throw std::invalid_argument("Input DDN contains matrices with incorrect number of rows!");
-
-                // Check each row is a probability.
-                for (int i = 0; i < subnode.matrix.rows(); ++i)
-                    if (!isProbability(S[s], subnode.matrix.row(i)))
-                        throw std::invalid_argument("Input DDN contains invalid probabilities!");
-            }
+            // Check each row is a probability.
+            for (size_t j = 0; j < graph_.getSize(i); ++j)
+                if (!isProbability(S[i], transitions_.transitions[i].row(j)))
+                    throw std::invalid_argument("Input DDN contains invalid probabilities!");
         }
 
         for (const auto & r : rewards_.bases) {
@@ -109,6 +81,8 @@ namespace AIToolbox::Factored::MDP {
     }
 
     std::tuple<State, double> CooperativeModel::sampleSR(const State & s, const Action & a) const {
+        const auto & S = graph_.getS();
+
         State s1(S.size());
         const double reward = sampleSR(s, a, &s1);
 
@@ -116,23 +90,24 @@ namespace AIToolbox::Factored::MDP {
     }
 
     double CooperativeModel::sampleSR(const State & s, const Action & a, State * s1p) const {
+        const auto & tProbs = transitions_.transitions;
+        const auto & S = graph_.getS();
+
         State & s1 = *s1p;
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto actionId = toIndexPartial(transitions_[i].actionTag, A, a);
+            const auto j = graph_.getId(i, s, a);
 
-            const auto & node = transitions_[i].nodes[actionId];
-            const auto parentId = toIndexPartial(node.tag, S, s);
-
-            const size_t newS = sampleProbability(S[i], node.matrix.row(parentId), rand_);
-
-            s1[i] = newS;
+            s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
 
-        return rewards_.getValue(S, A, s, a);
+        return rewards_.getValue(S, graph_.getA(), s, a);
     }
 
     std::tuple<State, Rewards> CooperativeModel::sampleSRs(const State & s, const Action & a) const {
+        const auto & tProbs = transitions_.transitions;
+        const auto & S = graph_.getS();
+
         std::tuple<State, Rewards> retval;
         auto & [s1, rews] = retval;
 
@@ -140,20 +115,15 @@ namespace AIToolbox::Factored::MDP {
         rews.resize(rewards_.bases.size());
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto actionId = toIndexPartial(transitions_[i].actionTag, A, a);
+            const auto j = graph_.getId(i, s, a);
 
-            const auto & node = transitions_[i].nodes[actionId];
-            const auto parentId = toIndexPartial(node.tag, S, s);
-
-            const size_t newS = sampleProbability(S[i], node.matrix.row(parentId), rand_);
-
-            s1[i] = newS;
+            s1[i] = sampleProbability(S[i], tProbs[i].row(j), rand_);
         }
 
         for (size_t i = 0; i < rewards_.bases.size(); ++i) {
             const auto & e = rewards_.bases[i];
             const auto fid = toIndexPartial(e.tag, S, s);
-            const auto aid = toIndexPartial(e.actionTag, A, a);
+            const auto aid = toIndexPartial(e.actionTag, graph_.getA(), a);
 
             rews[i] = e.values(fid, aid);
         }
@@ -162,17 +132,18 @@ namespace AIToolbox::Factored::MDP {
     }
 
     double CooperativeModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {
-        return transitions_.getTransitionProbability(S, A, s, a, s1);
+        return transitions_.getTransitionProbability(s, a, s1);
     }
 
     double CooperativeModel::getExpectedReward(const State & s, const Action & a, const State &) const {
-        return rewards_.getValue(S, A, s, a);
+        return rewards_.getValue(graph_.getS(), graph_.getA(), s, a);
     }
 
-    const State & CooperativeModel::getS() const { return S; }
-    const Action & CooperativeModel::getA() const { return A; }
+    const State & CooperativeModel::getS() const { return graph_.getS(); }
+    const Action & CooperativeModel::getA() const { return graph_.getA(); }
     double CooperativeModel::getDiscount() const { return discount_; }
-    const FactoredDDN & CooperativeModel::getTransitionFunction() const { return transitions_; }
+    const DDN & CooperativeModel::getTransitionFunction() const { return transitions_; }
     const FactoredMatrix2D & CooperativeModel::getRewardFunction() const { return rewards_; }
+    const DDNGraph & CooperativeModel::getGraph() const { return graph_; }
 }
 

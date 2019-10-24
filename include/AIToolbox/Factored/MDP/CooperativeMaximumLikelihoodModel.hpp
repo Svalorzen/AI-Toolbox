@@ -1,16 +1,14 @@
-#ifndef AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_RLMODEL_HEADER_FILE
-#define AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_RLMODEL_HEADER_FILE
+#ifndef AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_MAXIMUM_LIKELIHOOD_MODEL_HEADER_FILE
+#define AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_MAXIMUM_LIKELIHOOD_MODEL_HEADER_FILE
 
 #include <AIToolbox/Factored/MDP/CooperativeExperience.hpp>
 #include <AIToolbox/Factored/Utils/BayesianNetwork.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    class CooperativeRLModel {
+    class CooperativeMaximumLikelihoodModel {
         public:
-            using TransitionMatrix   = FactoredDDN;
-            // Same shape as the DDN, without tags and with the last dimension
-            // summed over (matrix->vector).
-            using RewardMatrix       = std::vector<std::vector<Vector>>;
+            using TransitionMatrix   = DDN;
+            using RewardMatrix       = std::vector<Vector>;
 
             /**
              * @brief Constructor using previous Experience.
@@ -20,8 +18,8 @@ namespace AIToolbox::Factored::MDP {
              * initializes internal Model data.
              *
              * The user can choose whether he wants to directly sync the
-             * CooperativeRLModel to the underlying CooperativeExperience, or
-             * delay it for later.
+             * CooperativeMaximumLikelihoodModel to the underlying
+             * CooperativeExperience, or delay it for later.
              *
              * In the latter case the default transition function defines a
              * transition of probability 1 for each state factor to 0, no
@@ -29,9 +27,10 @@ namespace AIToolbox::Factored::MDP {
              *
              * In general it would be better to add some amount of bias to the
              * CooperativeExperience so that when a new state-action pair is
-             * tried, the CooperativeRLModel doesn't automatically compute 100%
-             * probability of transitioning to the resulting state, but smooths
-             * into it. This may depend on your problem though.
+             * tried, the CooperativeMaximumLikelihoodModel doesn't
+             * automatically compute 100% probability of transitioning to the
+             * resulting state, but smooths into it. This may depend on your
+             * problem though.
              *
              * The default reward function is 0.
              *
@@ -39,16 +38,16 @@ namespace AIToolbox::Factored::MDP {
              * @param discount The discount used in solving methods.
              * @param sync Whether to sync with the CooperativeExperience immediately or delay it.
              */
-            CooperativeRLModel(const CooperativeExperience & exp, double discount = 1.0, bool sync = false);
+            CooperativeMaximumLikelihoodModel(const CooperativeExperience & exp, double discount = 1.0, bool sync = false);
 
             /**
-             * @brief This function syncs the whole CooperativeRLModel to the underlying CooperativeExperience.
+             * @brief This function syncs the whole CooperativeMaximumLikelihoodModel to the underlying CooperativeExperience.
              *
              * Since use cases in AI are very varied, one may not want to
-             * update its CooperativeRLModel for each single transition
+             * update its CooperativeMaximumLikelihoodModel for each single transition
              * experienced by the agent. To avoid this we leave to the user the
              * task of syncing between the underlying CooperativeExperience and
-             * the CooperativeRLModel, as he/she sees fit.
+             * the CooperativeMaximumLikelihoodModel, as he/she sees fit.
              *
              * After this function is run the transition and reward functions
              * will accurately reflect the state of the underlying
@@ -73,9 +72,9 @@ namespace AIToolbox::Factored::MDP {
              * underlying CooperativeExperience during its record() call.
              *
              * This works because the CooperativeExperience and
-             * CooperativeRLModel use the same factoring of their data
-             * structures, and thus the indeces can be used unchanged in both
-             * classes.
+             * CooperativeMaximumLikelihoodModel use the same factoring of
+             * their data structures, and thus the indeces can be used
+             * unchanged in both classes.
              *
              * @param indeces The indeces provided by the CooperativeExperience.
              */
@@ -259,7 +258,14 @@ namespace AIToolbox::Factored::MDP {
              *
              * @return The rewards matrix.
              */
-            const RewardMatrix & getRewardFunction()     const;
+            const RewardMatrix & getRewardFunction() const;
+
+            /**
+             * @brief This function returns the underlying DDNGraph of the CooperativeExperience.
+             *
+             * @return The underlying DDNGraph.
+             */
+            const DDNGraph & getGraph() const;
 
         private:
             const CooperativeExperience & experience_;
