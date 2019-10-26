@@ -268,6 +268,16 @@ namespace AIToolbox::Factored::MDP {
             const DDNGraph & getGraph() const;
 
         private:
+            /**
+             * @brief This function syncs a single row of T and R.
+             *
+             * This is used internally to avoid duplicating code.
+             *
+             * @param i The feature to sync.
+             * @param j The row to sync.
+             */
+            void syncRow(size_t i, size_t j);
+
             const CooperativeExperience & experience_;
             double discount_;
 

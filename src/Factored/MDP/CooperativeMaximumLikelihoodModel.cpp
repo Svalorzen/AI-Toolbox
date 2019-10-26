@@ -30,54 +30,44 @@ namespace AIToolbox::Factored::MDP {
     void CooperativeMaximumLikelihoodModel::sync() {
         const auto & S = experience_.getS();
 
-        // Update reward by just copying the average from experience
-        rewards_ = experience_.getRewardMatrix();
-
-        const auto & vtable  = experience_.getVisitsTable();
-        auto & tProbs = transitions_.transitions;
-
         for (size_t i = 0; i < S.size(); ++i) {
             for (size_t j = 0; j < getGraph().getSize(i); ++j) {
-                const auto totalVisits = vtable[i](j, S[i]);
-                if (totalVisits == 0) continue;
-
-                tProbs[i].row(j) = vtable[i].row(j).head(S[i]).cast<double>() / totalVisits;
+                syncRow(i, j);
             }
         }
     }
 
     void CooperativeMaximumLikelihoodModel::sync(const State & s, const Action & a) {
         const auto & S = experience_.getS();
-        const auto & vtable  = experience_.getVisitsTable();
-        const auto & rmatrix = experience_.getRewardMatrix();
-        auto & tProbs = transitions_.transitions;
 
         for (size_t i = 0; i < S.size(); ++i) {
             const auto j = experience_.getGraph().getId(i, s, a);
 
-            const auto totalVisits = vtable[i](j, S[i]);
-            if (totalVisits == 0) continue;
-
-            tProbs[i].row(j) = vtable[i].row(j).head(S[i]).cast<double>() / totalVisits;
-            rewards_[i][j] = rmatrix[i][j];
+            syncRow(i, j);
         }
     }
 
     void CooperativeMaximumLikelihoodModel::sync(const CooperativeExperience::Indeces & indeces) {
         const auto & S = experience_.getS();
-        const auto & vtable  = experience_.getVisitsTable();
-        const auto & rmatrix = experience_.getRewardMatrix();
-        auto & tProbs = transitions_.transitions;
 
         for (size_t i = 0; i < S.size(); ++i) {
             const auto j = indeces[i];
 
-            const auto totalVisits = vtable[i](j, S[i]);
-            if (totalVisits == 0) continue;
-
-            tProbs[i].row(j) = vtable[i].row(j).head(S[i]).cast<double>() / totalVisits;
-            rewards_[i][j] = rmatrix[i][j];
+            syncRow(i, j);
         }
+    }
+
+    void CooperativeMaximumLikelihoodModel::syncRow(size_t i, size_t j) {
+        const auto & S = experience_.getS();
+        const auto & vtable  = experience_.getVisitsTable();
+        const auto & rmatrix = experience_.getRewardMatrix();
+        auto & tProbs = transitions_.transitions;
+
+        const auto totalVisits = vtable[i](j, S[i]);
+        if (totalVisits == 0) return;
+
+        tProbs[i].row(j) = vtable[i].row(j).head(S[i]).cast<double>() / totalVisits;
+        rewards_[i][j] = rmatrix[i][j];
     }
 
     std::tuple<State, double> CooperativeMaximumLikelihoodModel::sampleSR(const State & s, const Action & a) const {
