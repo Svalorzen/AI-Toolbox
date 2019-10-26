@@ -43,9 +43,9 @@ namespace AIToolbox::MDP {
      * the result. Additionally, this class uses Jeffreys prior when sampling.
      * For a Dirichlet distribution, this is equivalent to having 0.5 priors on
      * all parameters (which can't be set via the Experience, as they are not
-     * integers). For the reward, the prior is built in the student-t
-     * distribution. A Jeffreys prior ensures that the sampling is non-biased
-     * through any transformation of the original parameters.
+     * integers). For the reward, the posteriora are student-t distributions. A
+     * Jeffreys prior ensures that the sampling is non-biased through any
+     * transformation of the original parameters.
      *
      * The strength of ThompsonModel is that it can replace traditional
      * exploration techniques, embedding our beliefs of what transitions and
