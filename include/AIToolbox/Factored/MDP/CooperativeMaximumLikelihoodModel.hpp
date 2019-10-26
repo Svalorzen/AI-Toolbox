@@ -5,6 +5,49 @@
 #include <AIToolbox/Factored/Utils/BayesianNetwork.hpp>
 
 namespace AIToolbox::Factored::MDP {
+    /**
+     * @brief This class models CooperativeExperience as a CooperativeModel using Maximum Likelihood.
+     *
+     * Often an MDP is not known in advance. It is known that it can assume
+     * a certain set of states, and that a certain set of actions are
+     * available to the agent, but not much more. Thus, in these cases, the
+     * goal is not only to find out the best policy for the MDP we have,
+     * but at the same time learn the actual transition and reward
+     * functions of such a model. This task is called "reinforcement
+     * learning".
+     *
+     * This class helps with this. A naive approach in reinforcement learning
+     * is to keep track, for each action, of its results, and deduce transition
+     * probabilities and rewards based on the data collected in such a way.
+     * This class does just this, using Maximum Likelihood Estimates to decide
+     * what the transition probabilities and rewards are.
+     *
+     * This class maps a CooperativeExperience object to the most likely
+     * transition reward functions that produced it. The transition function is
+     * guaranteed to be a correct probability function, as in the sum of the
+     * probabilities of all transitions from a particular state and a
+     * particular action is always 1. Each instance is not directly synced with
+     * the supplied CooperativeExperience object. This is to avoid possible
+     * overheads, as the user can optimize better depending on their use case.
+     * See sync().
+     *
+     * When little data is available, the deduced transition and reward
+     * functions may be significantly subject to noise. A possible way to
+     * improve on this is to artificially bias the data as to skew it towards
+     * certain distributions.  This could be done if some knowledge of the
+     * model (even approximate) is known, in order to speed up the learning
+     * process. Another way is to assume that all transitions are possible, add
+     * data to support that claim, and simply wait until the averages converge
+     * to the true values.  Another thing that can be done is to associate with
+     * each fake datapoint an high reward: this will skew the agent into trying
+     * out new actions, thinking it will obtained the high rewards. This is
+     * able to obtain automatically a good degree of exploration in the early
+     * stages of an episode. Such a technique is called "optimistic
+     * initialization".
+     *
+     * Whether any of these techniques work or not can definitely depend on
+     * the model you are trying to approximate. Trying out things is good!
+     */
     class CooperativeMaximumLikelihoodModel {
         public:
             using TransitionMatrix   = DDN;
