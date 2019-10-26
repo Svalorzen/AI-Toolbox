@@ -88,6 +88,7 @@ if (MAKE_FMDP)
         Factored/MDP/Utils.cpp
         Factored/MDP/CooperativeExperience.cpp
         Factored/MDP/CooperativeMaximumLikelihoodModel.cpp
+        Factored/MDP/CooperativeThompsonModel.cpp
         Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
         Factored/MDP/Policies/QGreedyPolicy.cpp
