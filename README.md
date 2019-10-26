@@ -173,6 +173,7 @@ Not in Python yet.
 Models:
 
 - Cooperative Maximum Likelihood Model
+- Cooperative Thompson Model (Dirichlet + Student-t distributions)
 
 Algorithms:
 
