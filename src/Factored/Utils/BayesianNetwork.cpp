@@ -9,6 +9,11 @@ namespace AIToolbox::Factored {
         nodes_.reserve(S.size());
     }
 
+    void DDNGraph::pushNode(const Node & node) {
+        auto n = node;
+        pushNode(std::move(n));
+    }
+
     void DDNGraph::pushNode(Node && node) {
         // Begin sanity check to only construct graphs that make sense.
         if (nodes_.size() == S.size())

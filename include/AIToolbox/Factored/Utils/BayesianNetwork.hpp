@@ -92,6 +92,20 @@ namespace AIToolbox::Factored {
             void pushNode(Node && node);
 
             /**
+             * @brief This function adds a node to the graph.
+             *
+             * This method *MUST* be called once per state feature, after
+             * construction.
+             *
+             * This method will sanity check all sets of parents, both agents
+             * and state features. Additionally, it will pre-compute the size
+             * of each set to speed up the computation of ids.
+             *
+             * @param node The node to insert.
+             */
+            void pushNode(const Node & node);
+
+            /**
              * @brief This function computes an id for the input state and action, for the specified feature.
              *
              * \sa getSize(size_t);
