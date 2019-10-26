@@ -66,7 +66,7 @@ namespace AIToolbox::Factored::MDP {
             // should simply create a wrapper Eigen object which is passed
             // by reference, so should be still as efficient as doing it by
             // hand.
-            vtable[i].row(j).array().template cast<double>() + 0.5,
+            vtable[i].row(j).head(S[i]).array().cast<double>() + 0.5,
             rand_, tProbs[i].row(j)
         );
 
