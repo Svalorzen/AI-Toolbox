@@ -24,6 +24,35 @@ BOOST_AUTO_TEST_CASE( construction ) {
     BOOST_CHECK_EQUAL(model.getGraph().getNodes().size(), model.getS().size());
 }
 
+BOOST_AUTO_TEST_CASE( copy_construction ) {
+    using namespace AIToolbox::Factored;
+    using namespace AIToolbox::Factored::MDP;
+
+    auto model = makeSysAdminBiRing(7, 0.1, 0.2, 0.3, 0.4, 0.2, 0.2, 0.1);
+    State s{3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
+    State a{2, 2, 2, 2, 2, 2, 2};
+
+    auto copiedModel = model;
+
+    // S A
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(model.getS()), std::end(model.getS()),
+                                  std::begin(copiedModel.getS()), std::end(copiedModel.getS()));
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(model.getA()), std::end(model.getA()),
+                                  std::begin(copiedModel.getA()), std::end(copiedModel.getA()));
+    // TRANSITION, verify that we have moved over the reference.
+    BOOST_CHECK(&model.getGraph() != &copiedModel.getGraph());
+    BOOST_CHECK(&copiedModel.getTransitionFunction().graph == &copiedModel.getGraph());
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(model.getTransitionFunction().transitions), std::end(model.getTransitionFunction().transitions),
+                                  std::begin(copiedModel.getTransitionFunction().transitions), std::end(copiedModel.getTransitionFunction().transitions));
+    // REWARD
+    // FIXME C++20: add default operator<=> to everything so that this does compile.
+    // BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(model.getRewardFunction().bases), std::end(model.getRewardFunction().bases),
+    //                               std::begin(copiedModel.getRewardFunction().bases), std::end(copiedModel.getRewardFunction().bases));
+
+    // DISCOUNT
+    BOOST_CHECK_EQUAL(model.getDiscount(), copiedModel.getDiscount());
+}
+
 BOOST_AUTO_TEST_CASE( sampling ) {
     using namespace AIToolbox::Factored;
     using namespace AIToolbox::Factored::MDP;

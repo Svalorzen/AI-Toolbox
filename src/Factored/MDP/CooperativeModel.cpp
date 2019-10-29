@@ -80,6 +80,13 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
+    CooperativeModel::CooperativeModel(const CooperativeModel & other) :
+            discount_(other.discount_),
+            graph_(other.graph_),
+            transitions_({graph_, other.transitions_.transitions}), rewards_(other.rewards_),
+            rand_(other.rand_)
+    {}
+
     std::tuple<State, double> CooperativeModel::sampleSR(const State & s, const Action & a) const {
         const auto & S = graph_.getS();
 

@@ -27,6 +27,25 @@ namespace AIToolbox::Factored::MDP {
             CooperativeModel(DDNGraph graph, DDN::TransitionMatrix transitions, FactoredMatrix2D rewards, double discount = 1.0);
 
             /**
+             * @brief Copy constructor
+             *
+             * We must manually copy the DDN as it contains a reference to the
+             * graph; if this class gets default copied the reference will not
+             * point to the internal graph anymore, which will break
+             * everything.
+             *
+             * Note: we copy over the same random state as the next class; this
+             * is mostly to copy the behaviour of all other models without an
+             * explicit copy constructor. In addition, it makes somewhat easier
+             * to reproduce results while moving models around, without
+             * worrying whether there are RVO or copies being made.
+             *
+             * If you want a copy and want to change the random state, just use
+             * the other constructor.
+             */
+            CooperativeModel(const CooperativeModel &);
+
+            /**
              * @brief This function samples the MDP with the specified state action pair.
              *
              * This function samples the model for simulated experience.
