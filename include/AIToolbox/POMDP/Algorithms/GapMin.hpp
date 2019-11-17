@@ -252,6 +252,7 @@ namespace AIToolbox::POMDP {
              */
             std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
 
+            Matrix2D immediateRewards_;
             double tolerance_;
             double initialTolerance_;
             unsigned precisionDigits_;
@@ -260,6 +261,10 @@ namespace AIToolbox::POMDP {
     template <typename M, typename>
     std::tuple<double, double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
+
+        // Cache immediate rewards if we can't read the reward function directly.
+        if constexpr (!MDP::is_model_eigen_v<M>)
+            immediateRewards_ = computeImmediateRewards(pomdp);
 
         // Reset tolerance to set parameter;
         tolerance_ = initialTolerance_;
@@ -418,7 +423,7 @@ namespace AIToolbox::POMDP {
         Matrix2D R(S, model.getA());
         const auto & ir = [&]{
             if constexpr (MDP::is_model_eigen_v<M>) return model.getRewardFunction();
-            else return computeImmediateRewards(model);
+            else return immediateRewards_;
         }();
 
         R.topRows(model.getS()) = ir;
@@ -541,7 +546,7 @@ namespace AIToolbox::POMDP {
             if constexpr (MDP::is_model_eigen_v<M>)
                 return pomdp.getRewardFunction();
             else
-                return computeImmediateRewards(pomdp);
+                return immediateRewards_;
         }();
 
         for (size_t a = 0; a < pomdp.getA(); ++a) {
