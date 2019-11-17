@@ -33,10 +33,12 @@ namespace AIToolbox {
             const auto & [count, sum, square, sqsum] = d;
 
             const double mean = sum / count;
-            const double variance = square / count - mean * mean;
+            // The max is to avoid floating point negatives which create nan with sqrt
+            const double variance = std::max(0.0, square / count - mean * mean);
             const double std = std::sqrt(variance);
             cumMean += mean;
-            const double cumVariance = sqsum / count - cumMean * cumMean;
+            // The max is to avoid floating point negatives which create nan with sqrt
+            const double cumVariance = std::max(0.0, sqsum / count - cumMean * cumMean);
             const double cumStd = std::sqrt(cumVariance);
 
             retval.emplace_back(mean, cumMean, std, cumStd);
