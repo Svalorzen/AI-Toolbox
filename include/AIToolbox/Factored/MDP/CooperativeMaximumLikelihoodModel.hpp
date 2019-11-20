@@ -162,13 +162,13 @@ namespace AIToolbox::Factored::MDP {
             /**
              * @brief This function samples the MDP with the specified state action pair.
              *
-             * this function is equivalent to samplesr(const state &, const action &).
+             * This function is equivalent to sampleSR(const State &, const Action &).
              *
-             * the only difference is that it allows to output the new state
-             * into a pre-allocated state, avoiding the need for an allocation
+             * The only difference is that it allows to output the new State
+             * into a pre-allocated State, avoiding the need for an allocation
              * at every sample.
              *
-             * no checks for nullptr are done.
+             * NO CHECKS for nullptr are done.
              *
              * @param s The state that needs to be sampled.
              * @param a The action that needs to be sampled.
