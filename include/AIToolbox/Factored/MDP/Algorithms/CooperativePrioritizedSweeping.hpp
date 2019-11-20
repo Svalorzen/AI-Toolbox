@@ -216,13 +216,14 @@ namespace AIToolbox::Factored::MDP {
             const auto sid = toIndexPartial(q.tag, model_.getS(), s);
             const auto aid = toIndexPartial(q.actionTag, model_.getA(), a);
 
+            // Q(s, a), normalized per state features
+            const auto rValue = q.values(sid, aid) / q.tag.size();
+
             const auto s1id = toIndexPartial(q.tag, model_.getS(), s1);
             const auto a1id = toIndexPartial(q.actionTag, model_.getA(), a1);
 
             // Q(s', a'), normalized per state features (we multiply by gamma later)
             const auto fValue = q.values(s1id, a1id) / q.tag.size();
-            // Q(s, a), normalized per state features
-            const auto rValue = q.values(sid, aid) / q.tag.size();
 
             const auto diff = model_.getDiscount() * fValue - rValue;
 
@@ -304,7 +305,6 @@ namespace AIToolbox::Factored::MDP {
     const FactoredMatrix2D & CooperativePrioritizedSweeping<M>::getQFunction() const {
         return q_;
     }
-
 }
 
 #endif
