@@ -68,6 +68,8 @@ namespace AIToolbox::Factored::MDP {
             nodeStatus.parents.push_back(sa0);
             nodeStatus.parents.push_back({cell*2});
 
+            graph.pushNode(std::move(nodeStatus));
+
             transitions.emplace_back(graph.getSize(cell * 2), S[cell * 2]);
             {
                 auto & T = transitions.back();
@@ -82,6 +84,8 @@ namespace AIToolbox::Factored::MDP {
 
             nodeLoad.parents.push_back({cell * 2, (cell * 2) + 1});
             nodeLoad.parents.push_back({(cell * 2) + 1});
+
+            graph.pushNode(std::move(nodeLoad));
 
             transitions.emplace_back(graph.getSize(cell * 2 + 1), S[cell * 2 + 1]);
             {
@@ -170,6 +174,8 @@ namespace AIToolbox::Factored::MDP {
             nodeStatus.parents.push_back(sa0);
             nodeStatus.parents.push_back({cell * 2});
 
+            graph.pushNode(std::move(nodeStatus));
+
             transitions.emplace_back(graph.getSize(cell * 2), S[cell * 2]);
             {
                 auto & T = transitions.back();
@@ -184,6 +190,8 @@ namespace AIToolbox::Factored::MDP {
 
             nodeLoad.parents.push_back({cell * 2, (cell * 2) + 1});
             nodeLoad.parents.push_back({(cell * 2) + 1});
+
+            graph.pushNode(std::move(nodeLoad));
 
             transitions.emplace_back(graph.getSize(cell * 2 + 1), S[cell * 2 + 1]);
             {
