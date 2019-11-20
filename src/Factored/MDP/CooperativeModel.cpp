@@ -112,7 +112,6 @@ namespace AIToolbox::Factored::MDP {
     }
 
     std::tuple<State, Rewards> CooperativeModel::sampleSRs(const State & s, const Action & a) const {
-        const auto & tProbs = transitions_.transitions;
         const auto & S = graph_.getS();
 
         std::tuple<State, Rewards> retval;
@@ -120,6 +119,21 @@ namespace AIToolbox::Factored::MDP {
 
         s1.resize(S.size());
         rews.resize(rewards_.bases.size());
+
+        sampleSRs(s, a, &s1, &rews);
+
+        return retval;
+    }
+
+    void CooperativeModel::sampleSRs(const State & s, const Action & a, State * s1p, Rewards * rp) const {
+        assert(s1);
+        assert(rp);
+
+        auto & s1 = *s1p;
+        auto & rews = *rp;
+
+        const auto & tProbs = transitions_.transitions;
+        const auto & S = graph_.getS();
 
         for (size_t i = 0; i < S.size(); ++i) {
             const auto j = graph_.getId(i, s, a);
@@ -134,8 +148,6 @@ namespace AIToolbox::Factored::MDP {
 
             rews[i] = e.values(fid, aid);
         }
-
-        return retval;
     }
 
     double CooperativeModel::getTransitionProbability(const State & s, const Action & a, const State & s1) const {
