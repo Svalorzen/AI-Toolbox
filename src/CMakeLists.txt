@@ -24,6 +24,7 @@ if (MAKE_MDP)
         MDP/SparseModel.cpp
         MDP/IO.cpp
         MDP/Algorithms/QLearning.cpp
+        MDP/Algorithms/RLearning.cpp
         MDP/Algorithms/HystereticQLearning.cpp
         MDP/Algorithms/SARSA.cpp
         MDP/Algorithms/ExpectedSARSA.cpp
@@ -142,6 +143,7 @@ if (MAKE_PYTHON)
             Python/MDP/SparseModel.cpp
             Python/MDP/GenerativeModelPython.cpp
             Python/MDP/Algorithms/QLearning.cpp
+            Python/MDP/Algorithms/RLearning.cpp
             Python/MDP/Algorithms/HystereticQLearning.cpp
             Python/MDP/Algorithms/SARSA.cpp
             Python/MDP/Algorithms/ExpectedSARSA.cpp

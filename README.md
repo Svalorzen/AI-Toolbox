@@ -109,6 +109,7 @@ Algorithms:
 - [Prioritized Sweeping](http://incompleteideas.net/book/ebook/node98.html "Reinforcement Learning: An Introduction, Ch 9.4, Sutton & Barto")
 - [Q-Learning](http://incompleteideas.net/book/ebook/node65.html "Reinforcement Learning: An Introduction, Ch 6.5, Sutton & Barto")
 - [Q(λ)](https://arxiv.org/pdf/1602.04951.pdf "Q(λ) with Off-Policy Corrections, Harutyunyan et al.")
+- [R-Learning](https://antonjazz.com/x/grab/AntonSchwartzReinforcementLearningML93.pdf "A Reinforcement Learning Method for Maximizing Undiscounted Rewards, Schwartz")
 - [SARSA(λ)](http://incompleteideas.net/book/ebook/node77.html "Reinforcement Learning: An Introduction, Ch 7.5, Sutton & Barto")
 - [SARSA](http://incompleteideas.net/book/ebook/node64.html "Reinforcement Learning: An Introduction, Ch 6.4, Sutton & Barto")
 - [Retrace(λ)](https://arxiv.org/pdf/1606.02647.pdf "Safe and efficient off-policy reinforcement learning, Munos et al.")
