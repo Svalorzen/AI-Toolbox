@@ -8,7 +8,9 @@ namespace AIToolbox::MDP {
     GridWorld::State::State(int xx, int yy, size_t ss) :
         x(xx), y(yy), s(ss) {}
 
-    GridWorld::State::operator size_t() { return s; }
+    GridWorld::State::operator size_t() const { return s; }
+    unsigned GridWorld::State::getX() const { return x; }
+    unsigned GridWorld::State::getY() const { return y; }
 
     bool GridWorld::State::operator==(const State & other) const {
         return s == other.s;
@@ -27,7 +29,12 @@ namespace AIToolbox::MDP {
             case UP:    return operator()(s.x, s.y-1);
             case DOWN:  return operator()(s.x, s.y+1);
             case LEFT:  return operator()(s.x-1, s.y);
-            default:    return operator()(s.x+1, s.y);
+            case RIGHT: return operator()(s.x+1, s.y);
+            case UP_LEFT:    return operator()(s.x-1, s.y-1);
+            case UP_RIGHT:   return operator()(s.x+1, s.y-1);
+            case DOWN_LEFT:  return operator()(s.x-1, s.y+1);
+            case DOWN_RIGHT: 
+            default:         return operator()(s.x+1, s.y+1);
         }
     }
 

@@ -12,8 +12,9 @@ namespace AIToolbox::MDP {
         /**
          * @brief The possible actions in a GridWorld-like environment.
          */
-        enum Direction : size_t { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3 };
-        static constexpr std::array<Direction, 4> Directions{{UP, RIGHT, DOWN, LEFT}};
+        enum Direction : size_t { UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3, UP_RIGHT = 4, UP_LEFT = 5, DOWN_RIGHT = 6, DOWN_LEFT = 7 };
+        static constexpr std::array<Direction, 4> Directions4{{UP, RIGHT, DOWN, LEFT}};
+        static constexpr std::array<Direction, 8> Directions8{{UP, RIGHT, DOWN, LEFT, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT}};
     }
 
     /**
@@ -23,7 +24,10 @@ namespace AIToolbox::MDP {
         public:
             using Direction = GridWorldEnums::Direction;
             struct State {
-                operator size_t();
+                operator size_t() const;
+                unsigned getX() const;
+                unsigned getY() const;
+
                 bool operator==(const State & other) const;
 
                 private:

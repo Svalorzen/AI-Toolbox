@@ -55,7 +55,7 @@ namespace AIToolbox::Factored::MDP {
             auto cell = grid(a);
             PartialKeys sa0 = {cell * 2};
             // Add to tag all elements around it.
-            for (auto d : AIToolbox::MDP::GridWorldEnums::Directions) {
+            for (auto d : AIToolbox::MDP::GridWorldEnums::Directions4) {
                 const auto adj = grid.getAdjacent(d, cell);
                 if (adj == cell) continue;
                 sa0.push_back(grid.getAdjacent(d, cell) * 2);
@@ -160,7 +160,7 @@ namespace AIToolbox::Factored::MDP {
             auto cell = grid(a);
             PartialKeys sa0 = {cell * 2};
             // Add to tag all elements around it.
-            for (auto d : AIToolbox::MDP::GridWorldEnums::Directions)
+            for (auto d : AIToolbox::MDP::GridWorldEnums::Directions4)
                 sa0.push_back(grid.getAdjacent(d, cell) * 2);
 
             // Sort them so the tag is valid.
