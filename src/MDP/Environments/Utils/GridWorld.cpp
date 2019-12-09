@@ -33,7 +33,7 @@ namespace AIToolbox::MDP {
             case UP_LEFT:    return operator()(s.x-1, s.y-1);
             case UP_RIGHT:   return operator()(s.x+1, s.y-1);
             case DOWN_LEFT:  return operator()(s.x-1, s.y+1);
-            case DOWN_RIGHT: 
+            case DOWN_RIGHT:
             default:         return operator()(s.x+1, s.y+1);
         }
     }
@@ -79,7 +79,7 @@ namespace AIToolbox::MDP {
     int GridWorld::boundY(int y) const {
         if (isTorus_) {
             while (y < 0) y += height_;
-            return y % width_;
+            return y % height_;
         }
         if ( y < 0 ) return 0;
         if ( y >= (int)height_ ) return height_ - 1;
