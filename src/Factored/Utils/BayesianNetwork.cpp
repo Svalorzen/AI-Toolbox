@@ -73,19 +73,25 @@ namespace AIToolbox::Factored {
         newStartIds.back() = newStartId;
     }
 
-    size_t DDNGraph::getId(const size_t feature, const State & s, const Action & a) const {
-        const auto [actionId, parentId] = getIds(feature, s, a);
+    // ID CODE
+    //
+    // Note that while our API always tries to keep arguments as
+    // <state,action>, internally the action ID always goes first, as it
+    // specifies which parent set to use.
 
-        return getId(feature, actionId, parentId);
+    size_t DDNGraph::getId(const size_t feature, const State & s, const Action & a) const {
+        const auto [parentId, actionId] = getIds(feature, s, a);
+
+        return getId(feature, parentId, actionId);
     }
 
     size_t DDNGraph::getId(const size_t feature, const PartialState & s, const PartialAction & a) const {
-        const auto [actionId, parentId] = getIds(feature, s, a);
+        const auto [parentId, actionId] = getIds(feature, s, a);
 
-        return getId(feature, actionId, parentId);
+        return getId(feature, parentId, actionId);
     }
 
-    size_t DDNGraph::getId(const size_t feature, size_t actionId, size_t parentId) const {
+    size_t DDNGraph::getId(const size_t feature, size_t parentId, size_t actionId) const {
         return startIds_[feature][actionId] + parentId;
     }
 
@@ -94,7 +100,7 @@ namespace AIToolbox::Factored {
         const auto & parents = nodes_[feature].parents[actionId];
         const auto parentId = toIndexPartial(parents, S, s);
 
-        return {actionId, parentId};
+        return {parentId, actionId};
     }
 
     std::pair<size_t, size_t> DDNGraph::getIds(const size_t feature, const PartialState & s, const PartialAction & a) const {
@@ -102,13 +108,13 @@ namespace AIToolbox::Factored {
         const auto & parents = nodes_[feature].parents[actionId];
         const auto parentId = toIndexPartial(parents, S, s);
 
-        return {actionId, parentId};
+        return {parentId, actionId};
     }
 
     std::pair<size_t, size_t> DDNGraph::getIds(const size_t feature, const size_t j) {
         // Start from the end (the -2 is there because the last element is the overall bound).
-        std::pair<size_t, size_t> retval{startIds_[feature].size() - 2, 0};
-        auto & [actionId, parentId] = retval;
+        std::pair<size_t, size_t> retval{0, startIds_[feature].size() - 2};
+        auto & [parentId, actionId] = retval;
 
         // While we are above, go down. This cannot go lower than zero,
         // so we only have to do 1 check.

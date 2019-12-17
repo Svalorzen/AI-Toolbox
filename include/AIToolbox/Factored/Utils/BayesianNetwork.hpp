@@ -134,16 +134,16 @@ namespace AIToolbox::Factored {
             /**
              * @brief This function computes an id from the input action-parent ids, for the specified feature.
              *
-             * \sa getIds(const State &, const Action &, size_t);
+             * \sa getIds(size_t, const State &, const Action &);
              * \sa getSize(size_t);
              *
              * @param feature The feature to compute the id for.
-             * @param actionId The precomputed action id.
              * @param parentId The precomputed parent id.
+             * @param actionId The precomputed action id.
              *
              * @return A unique id in [0, getSize(feature)).
              */
-            size_t getId(size_t feature, size_t actionId, size_t parentId) const;
+            size_t getId(size_t feature, size_t parentId, size_t actionId) const;
 
             /**
              * @brief This function computes an action and parent ids for the input state, action and feature.
@@ -166,7 +166,7 @@ namespace AIToolbox::Factored {
              * @param s The state to compute the id for.
              * @param a The action to compute the id for.
              *
-             * @return A pair of ids, the first for the action, and the second for the features.
+             * @return A pair of <parent id, action id>.
              */
             std::pair<size_t, size_t> getIds(size_t feature, const State & s, const Action & a) const;
 
@@ -191,7 +191,7 @@ namespace AIToolbox::Factored {
              * @param s The state to compute the id for.
              * @param a The action to compute the id for.
              *
-             * @return A pair of ids, the first for the action, and the second for the features.
+             * @return A pair of <parent id, action id>.
              */
             std::pair<size_t, size_t> getIds(size_t feature, const PartialState & s, const PartialAction & a) const;
 
@@ -207,7 +207,7 @@ namespace AIToolbox::Factored {
              * @param feature The feature to compute the id for.
              * @param j The global id to decompose.
              *
-             * @return A pair of ids, the first for the action, and the second for the features.
+             * @return A pair of <parent id, action id>.
              */
             std::pair<size_t, size_t> getIds(size_t feature, size_t j);
 
