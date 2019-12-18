@@ -147,7 +147,7 @@ namespace AIToolbox::Impl {
         if (ids.size() == 1) {
             try {
                 return std::stoul(ids[0]);
-            } catch (std::invalid_argument) {}
+            } catch (...) {}
         }
 
         for (size_t i = 0; i < ids.size(); ++i)
