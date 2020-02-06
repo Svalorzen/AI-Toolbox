@@ -98,7 +98,7 @@ namespace AIToolbox {
             return std::make_tuple((point.transpose() * ubQ).maxCoeff(), std::move(retval));
         }
 
-        Vector cornerVals = ubQ.rowwise().maxCoeff();
+        const Vector cornerVals = ubQ.rowwise().maxCoeff();
 
         double unscaledValue;
         Vector result;
@@ -237,6 +237,83 @@ namespace AIToolbox {
             if (checkEqualSmall(retval[i], 0.0) || retval[i] < 0.0) retval[i] = 0.0;
 
         return std::make_tuple(ubValue, std::move(retval));
+    }
+
+    std::tuple<double, Vector> sawtoothInterpolation(const Point & point, const CompactHyperplanes & ubQ, const PointSurface & ubV) {
+        // Compute top surface on simplex corners.
+        const Vector cornerVals = ubQ.rowwise().maxCoeff();
+
+        // Cache zero elements since checkEqualSmall is somewhat expensive.
+        std::vector<char> zeroStates(point.size());
+        for (size_t s = 0; s < zeroStates.size(); ++s)
+            zeroStates[s] = checkEqualSmall(point[s], 0.0);
+
+        // For each point, we are going to find out whether there is a
+        // combination of corners which can give us an approximation of the
+        // input point's value. Obviously we are going to pick the lowest, as
+        // this function is computing an upper bound.
+        size_t minI = 0;
+        double minCF = 0.0, minC;
+        for (size_t i = 0; i < ubV.first.size(); ++i) {
+            // This finds the corner of the simplex we can "skip" in order to
+            // obtain the lowest surface possible at the input point.
+            // We need to skip the corners where this point is zero, as it
+            // can't give us any real information there.
+            double c = std::numeric_limits<double>::max();
+            for (size_t s = 0; s < zeroStates.size(); ++s) {
+                const bool isThisZero = checkEqualSmall(ubV.first[i][s], 0.0);
+                // If the input point is zero and this point is not, then it
+                // cannot help us at all.
+                if (zeroStates[s] && !isThisZero)
+                    goto next;
+                // If this is zero, then the ratio would be infinite - hardly
+                // helping.
+                if (isThisZero)
+                    continue;
+                c = std::min(c, point[s] / ubV.first[i][s]);
+            }
+            // Sanity check just in case
+            // If we are here we should have found something
+            // And that something should not be higher than 1.0
+            assert(c < 1.0 | checkEqualSmall(c, 1.0));
+            c = std::min(c, 1.0);
+            // We need this scope to avoid complaints of the goto.
+            {
+                // This represents the ratio times distance between this point
+                // and the surface between the simplex corners (i.e. how much
+                // we can reduce the input's point value from the naive simplex
+                // surface).
+                const auto cf = c * (ubV.second[i] - ubV.first[i].dot(cornerVals));
+                if (cf < minCF) {
+                    minC = c;
+                    minCF = cf;
+                    minI = i;
+                }
+            }
+next:;
+        }
+        // Naive height
+        const auto basicV = (point.transpose() * ubQ).maxCoeff();
+        // Sawtooth height (note that minCF is negative)
+        const auto v = point.dot(cornerVals) + minCF;
+
+        Vector retval(point.size() + ubV.first.size());
+        // Set to zero all coefficients for the beliefs only, since we are
+        // going to write in the corner ones anyway.
+        retval.tail(ubV.first.size()).setZero();
+
+        // If we didn't need the interpolation to begin with (maybe we didn't
+        // find any points that can help us)..
+        if (basicV < v) {
+            retval.head(point.size()).noalias() = point;
+
+            return std::make_tuple(basicV, std::move(retval));
+        }
+
+        retval.head(point.size()).noalias() = point - ubV.first[minI] * minC;
+        retval[minI] = minC;
+
+        return std::make_tuple(v, std::move(retval));
     }
 
     // -----------------------------------------------------

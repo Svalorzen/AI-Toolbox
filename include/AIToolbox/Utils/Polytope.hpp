@@ -25,7 +25,7 @@ namespace AIToolbox {
     using PointSurface = std::pair<std::vector<Point>, std::vector<double>>;
 
     /**
-     * @brief A compact set of (few) hyperplanes, one per row. This is generally used with PointSurface; otherwise we use a vector<Hyperplane>.
+     * @brief A compact set of (probably |A|) hyperplanes, one per column (probably |S| rows). This is generally used with PointSurface; otherwise we use a vector<Hyperplane>.
      */
     using CompactHyperplanes = Matrix2D;
 
@@ -373,22 +373,49 @@ namespace AIToolbox {
     double computeOptimisticValue(const Point & p, const std::vector<Point> & points, const std::vector<double> & values);
 
     /**
-     * @brief This function computes the best approximation possible of the upper bound of the input belief.
+     * @brief This function computes the exact value of the input Point w.r.t. the given surfaces.
      *
-     * The input QFunction is used as an easy upper bound.
+     * The input CompactHyperplanes are used as an easy upper bound.
      *
-     * Then, a linear programming is created that uses the input ubV. What
-     * happens is that the linear program uses each belief point (and its
-     * value) to construct a piecewise linear surface, where the value of the
-     * input belief is determined.
+     * Then, a linear programming is created that uses the input PointSurface.
+     * What happens is that the linear program uses each Point (and its value)
+     * to construct a piecewise linear surface, where the value of the input
+     * belief is determined.
      *
-     * @param belief The belief to compute the upper bound of.
-     * @param ubQ The current QFunction.
-     * @param ubV The current belief-value pairs.
+     * The higher of the two surfaces is then returned as the value of the
+     * input Point.
      *
-     * @return The value of the belief, and a vector containing the proportion in which each belief contributes to the upper bound.
+     * @param p The point to compute the value of.
+     * @param ubQ A set of Hyperplanes to use as a baseline surface.
+     * @param ubV A set of Points (not on the corners of the simplex) to use as main interpolation.
+     *
+     * @return The value of the Point, and a vector containing the proportion in which each Point in the PointSurface contributes to the upper bound.
      */
     std::tuple<double, Vector> LPInterpolation(const Point & p, const CompactHyperplanes & ubQ, const PointSurface & ubV);
+
+    /**
+     * @brief This function computes an approximate, but quick, upper bound on the surface value at the input point.
+     *
+     * The input CompactHyperplanes are used as an easy upper bound.
+     *
+     * We then start to consider every surface composed by one Point in the
+     * input PointSurface, and N-1 corners of the simplex (the highest corners
+     * of the surface, as identified by the CompactHyperplanes). Since each
+     * Point defines N such surfaces (one for each corner we "skip"), the
+     * enumeration can be done fairly quickly.
+     *
+     * The overall surface has a sawtooth shape, from which the name of this
+     * method. The approximation is not perfect, but some methods must use it
+     * as using the LPInterpolation method would be too computationally
+     * expensive.
+     *
+     * @param p The point to compute the value of.
+     * @param ubQ A set of Hyperplanes to use as a baseline surface.
+     * @param ubV A set of Points (not on the corners of the simplex) to use as main interpolation.
+     *
+     * @return The value of the Point, and a vector containing the proportion in which each Point in the PointSurface contributes to the upper bound.
+     */
+    std::tuple<double, Vector> sawtoothInterpolation(const Point & p, const CompactHyperplanes & ubQ, const PointSurface & ubV);
 
     /**
      * @brief This class implements an easy interface to do Witness discovery through linear programming.
