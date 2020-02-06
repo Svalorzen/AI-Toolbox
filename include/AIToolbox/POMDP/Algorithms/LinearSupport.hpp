@@ -171,9 +171,6 @@ namespace AIToolbox::POMDP {
             // place.
             SupportSet allSupports;
 
-            std::vector<std::pair<Belief, double>> vertices;
-            std::unordered_set<Belief, boost::hash<Belief>> triedVertices;
-
             // For each corner belief, find its value and alphavector. Add the
             // alphavectors in a separate list, remove duplicates. Note: In theory
             // we must be able to find all alphas for each corner, not just a
@@ -189,9 +186,12 @@ namespace AIToolbox::POMDP {
                 corner[s] = 0.0;
             }
 
+
             // Now we find for all the alphavectors we have found, the vertices of
             // the polytope that they created. These vertices will bootstrap the
             // algorithm.
+            UpperBoundValueFunction vertices;
+
             auto goodBegin = goodSupports.cbegin();
             for (size_t i = 0; i < goodSupports.size(); ++i, ++goodBegin) {
                 // For each alpha, we find its vertices against the others.
@@ -202,46 +202,52 @@ namespace AIToolbox::POMDP {
                 // Note that the range we pass here is made by a single vector.
                 auto newVertices = findVerticesNaive(goodBegin, goodBegin + 1, cbegin, cend, unwrap, unwrap);
 
-                vertices.insert(std::end(vertices),
-                        std::make_move_iterator(std::begin(newVertices)),
-                        std::make_move_iterator(std::end(newVertices))
+                vertices.first.insert(std::end(vertices.first),
+                        std::make_move_iterator(std::begin(newVertices.first)),
+                        std::make_move_iterator(std::end(newVertices.first))
+                );
+                vertices.second.insert(std::end(vertices.second),
+                        std::make_move_iterator(std::begin(newVertices.second)),
+                        std::make_move_iterator(std::end(newVertices.second))
                 );
             }
 
+            std::unordered_set<Belief, boost::hash<Belief>> triedVertices;
             do {
                 // For each corner, we find its true alphas and its best possible value.
                 // Then we compute the error between a corner's known true value and
                 // what we can do with the optimal alphas we already have.
                 // If the error is low enough, we don't need them. Otherwise we add
                 // them to the priority queue.
-                for (auto & vertex : vertices) {
-                    if (triedVertices.find(vertex.first) != std::end(triedVertices))
+                for (size_t i = 0; i < vertices.first.size(); ++i) {
+                    const auto & vertex = vertices.first[i];
+                    if (triedVertices.find(vertex) != std::end(triedVertices))
                         continue;
 
                     double trueValue;
-                    auto support = crossSumBestAtBelief(vertex.first, projections, &trueValue);
+                    auto support = crossSumBestAtBelief(vertex, projections, &trueValue);
 
-                    double currentValue = vertex.second;
+                    double currentValue = vertices.second[i];
                     // FIXME: As long as we use the naive way to find vertices,
                     // we can't really trust the values that come out as they
                     // may be lower than what we actually have. So we are
                     // forced to recompute their value.
                     const auto gsBegin = std::cbegin(goodSupports);
                     const auto gsEnd   = std::cend(goodSupports);
-                    findBestAtPoint(vertex.first, gsBegin, gsEnd, &currentValue, unwrap);
+                    findBestAtPoint(vertex, gsBegin, gsEnd, &currentValue, unwrap);
 
                     auto diff = trueValue - currentValue;
                     if (diff > tolerance_ && checkDifferentGeneral(diff, tolerance_)) {
                         auto it = allSupports.insert(std::move(support));
                         Vertex newVertex;
-                        newVertex.belief = vertex.first;
+                        newVertex.belief = vertex;
                         newVertex.currentValue = currentValue;
                         newVertex.support = it.first;
                         newVertex.error = diff;
                         agenda_.push(std::move(newVertex));
                     }
 
-                    triedVertices.insert(std::move(vertex.first));
+                    triedVertices.insert(std::move(vertex));
                 }
 
                 if (agenda_.size() == 0)
@@ -292,7 +298,6 @@ namespace AIToolbox::POMDP {
                 variation = weakBoundDistance(v[timestep-1], v[timestep]);
             }
         }
-
         return std::make_tuple(useTolerance ? variation : 0.0, v);
     }
 }

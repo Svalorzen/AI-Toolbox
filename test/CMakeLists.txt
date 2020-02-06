@@ -41,7 +41,6 @@ if (MAKE_MDP)
     AddTestGlobal(UtilsCore)
     AddTestGlobal(UtilsProbability)
     AddTestGlobal(UtilsPrune)
-    AddTestGlobal(UtilsPolytope)
 
     AddTest(Bandit QGreedyPolicy)
     AddTest(Bandit QSoftmaxPolicy)
@@ -50,6 +49,7 @@ if (MAKE_MDP)
     AddTest(Bandit ESRLPolicy)
 
     AddTest(MDP Types)
+    AddTest(MDP UtilsPolytope)
 
     AddTest(MDP Experience)
     AddTest(MDP Model)

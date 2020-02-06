@@ -9,8 +9,25 @@
 #include <AIToolbox/Utils/LP.hpp>
 
 namespace AIToolbox {
+    /**
+     * @brief Defines a plane in a simplex where each value is the height at that corner.
+     */
     using Hyperplane = Vector;
-    using Point = Vector;
+
+    /**
+     * @brief Defines a point inside a simplex. Coordinates sum to 1.
+     */
+    using Point = ProbabilityVector;
+
+    /**
+     * @brief A surface within a simplex defined by points and their height. Should not contain the corners.
+     */
+    using PointSurface = std::pair<std::vector<Point>, std::vector<double>>;
+
+    /**
+     * @brief A compact set of (few) hyperplanes, one per row. This is generally used with PointSurface; otherwise we use a vector<Hyperplane>.
+     */
+    using CompactHyperplanes = Matrix2D;
 
     /**
      * @brief This function returns an iterator pointing to the best Hyperplane for the specified point.
@@ -246,8 +263,8 @@ namespace AIToolbox {
      * @return A non-unique list of all the vertices found.
      */
     template <typename NewIt, typename OldIt, typename P1 = identity, typename P2 = identity>
-    std::vector<std::pair<Point, double>> findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {
-        std::vector<std::pair<Point, double>> vertices;
+    PointSurface findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {
+        PointSurface vertices;
 
         const size_t alphasSize = std::distance(alphasBegin, alphasEnd);
         if (alphasSize == 0) return vertices;
@@ -311,8 +328,10 @@ namespace AIToolbox {
                 b[counter-1] = 0.0;
 
                 // Add to found only if valid, otherwise skip.
-                if (((result.head(S).array() >= 0) && (result.head(S).array() <= 1.0)).all())
-                    vertices.emplace_back(result.head(S), result[S]);
+                if (((result.head(S).array() >= 0) && (result.head(S).array() <= 1.0)).all()) {
+                    vertices.first.emplace_back(result.head(S));
+                    vertices.second.emplace_back(result[S]);
+                }
 
                 // Advance, and take the id of the first index changed in the
                 // next combination.
@@ -341,66 +360,35 @@ namespace AIToolbox {
      * when deciding the next point to extract from the queue during the linear
      * support process.
      *
+     * Note that the input is the same as a PointSurface; the two components
+     * have been kept as separate arguments simply to allow more freedom to the
+     * user.
+     *
      * @param p The point where we want to compute the best possible value.
-     * @param pvBegin The start of the range of point-value pairs representing all surrounding vertices.
-     * @param pvEnd The end of that same range.
+     * @param points The points that make up the surface.
+     * @param values The respective values of the input points.
      *
      * @return The best possible value that the input point can have given the known vertices.
      */
-    template <typename It>
-    double computeOptimisticValue(const Point & p, It pvBegin, It pvEnd) {
-        const size_t vertexNumber = std::distance(pvBegin, pvEnd);
-        if (vertexNumber == 0) return 0.0;
-        const size_t S = p.size();
+    double computeOptimisticValue(const Point & p, const std::vector<Point> & points, const std::vector<double> & values);
 
-        LP lp(S);
-
-        /*
-         * With this LP we are looking for an optimistic hyperplane that can
-         * tightly fit all corners that we already have, and maximize the value
-         * at the input point.
-         *
-         * Our constraints are of the form
-         *
-         * vertex[0][0]) * h0 + vertex[0][1]) * h1 + ... <= vertex[0].currentValue
-         * vertex[1][0]) * h0 + vertex[1][1]) * h1 + ... <= vertex[1].currentValue
-         * ...
-         *
-         * Since we are looking for an optimistic hyperplane, all variables are
-         * unbounded since the hyperplane may need to go negative at some
-         * states.
-         *
-         * Finally, our constraint is a row to maximize:
-         *
-         * b * v0 + b * v1 + ...
-         *
-         * Which means we try to maximize the value of the input point with the
-         * newly found hyperplane.
-         */
-
-        // Set objective to maximize
-        lp.row = p;
-        lp.setObjective(true);
-
-        // Set unconstrained to all variables
-        for (size_t s = 0; s < S; ++s)
-            lp.setUnbounded(s);
-
-        // Set constraints for all input points and current values.
-        for (auto it = pvBegin; it != pvEnd; ++it) {
-            lp.row = it->first;
-            lp.pushRow(LP::Constraint::LessEqual, it->second);
-        }
-
-        double retval;
-        // Note that we don't care about the optimistic alphavector, so we
-        // discard it. We check that everything went fine though, in theory
-        // there shouldn't be any problems here.
-        auto solution = lp.solve(0, &retval);
-        assert(solution);
-
-        return retval;
-    }
+    /**
+     * @brief This function computes the best approximation possible of the upper bound of the input belief.
+     *
+     * The input QFunction is used as an easy upper bound.
+     *
+     * Then, a linear programming is created that uses the input ubV. What
+     * happens is that the linear program uses each belief point (and its
+     * value) to construct a piecewise linear surface, where the value of the
+     * input belief is determined.
+     *
+     * @param belief The belief to compute the upper bound of.
+     * @param ubQ The current QFunction.
+     * @param ubV The current belief-value pairs.
+     *
+     * @return The value of the belief, and a vector containing the proportion in which each belief contributes to the upper bound.
+     */
+    std::tuple<double, Vector> LPInterpolation(const Point & p, const CompactHyperplanes & ubQ, const PointSurface & ubV);
 
     /**
      * @brief This class implements an easy interface to do Witness discovery through linear programming.

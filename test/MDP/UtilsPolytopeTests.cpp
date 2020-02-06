@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE UtilsPolytope
+#define BOOST_TEST_MODULE MDP_UtilsPolytope
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
@@ -58,13 +58,19 @@ BOOST_AUTO_TEST_CASE( naive_vertex_enumeration ) {
     // enumerated.
     auto vertices = findVerticesNaive(std::begin(alphas), std::end(alphas), std::begin(alphas), std::end(alphas));
 
+    BOOST_CHECK_EQUAL(vertices.first.size(), vertices.second.size());
+
     // Now we check against the solution, both ways: all vertices in the
     // solution must be somewhere in the new list, and all vertices in the new
     // list must be in the solution.
-    for (const auto & v : vertices) {
+    for (size_t i = 0; i < vertices.first.size(); ++i) {
+        const auto & vertex = vertices.first[i];
+        const auto value = vertices.second[i];
+
         bool found = false;
+
         for (const auto & s : solutions) {
-            if (veccmpSmall(v.first, s.first) == 0 && checkEqualSmall(v.second, s.second)) {
+            if (veccmpSmall(vertex, s.first) == 0 && checkEqualSmall(value, s.second)) {
                 found = true;
                 break;
             }
@@ -74,8 +80,11 @@ BOOST_AUTO_TEST_CASE( naive_vertex_enumeration ) {
 
     for (const auto & s : solutions) {
         bool found = false;
-        for (const auto & v : vertices) {
-            if (veccmpSmall(v.first, s.first) == 0 && checkEqualSmall(v.second, s.second)) {
+        for (size_t i = 0; i < vertices.first.size(); ++i) {
+            const auto & vertex = vertices.first[i];
+            const auto value = vertices.second[i];
+
+            if (veccmpSmall(vertex, s.first) == 0 && checkEqualSmall(value, s.second)) {
                 found = true;
                 break;
             }
@@ -87,10 +96,16 @@ BOOST_AUTO_TEST_CASE( naive_vertex_enumeration ) {
 BOOST_AUTO_TEST_CASE( optimistic_value_discovery ) {
     using namespace AIToolbox;
 
-    std::vector<std::pair<Vector, double>> beliefs = {
-        {(Vector(3) << 1.0, 0.0, 0.0).finished(), 10.0},
-        {(Vector(3) << 0.0, 1.0, 0.0).finished(), 5.0},
-        {(Vector(3) << 0.0, 0.0, 1.0).finished(), -10.0},
+    std::vector<Point> points = {
+        (Vector(3) << 1.0, 0.0, 0.0).finished(),
+        (Vector(3) << 0.0, 1.0, 0.0).finished(),
+        (Vector(3) << 0.0, 0.0, 1.0).finished(),
+    };
+
+    std::vector<double> values = {
+        10.0,
+        5.0,
+        -10.0,
     };
 
     Vector b(3);
@@ -98,7 +113,7 @@ BOOST_AUTO_TEST_CASE( optimistic_value_discovery ) {
 
     constexpr double solution = (10.0 + 5.0 - 10.0) / 3.0;
 
-    const auto v = computeOptimisticValue(b, std::begin(beliefs), std::end(beliefs));
+    const auto v = computeOptimisticValue(b, points, values);
 
     BOOST_CHECK(checkEqualGeneral(v, solution));
 }
