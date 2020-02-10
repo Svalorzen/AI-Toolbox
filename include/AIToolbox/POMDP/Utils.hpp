@@ -595,6 +595,7 @@ namespace AIToolbox::POMDP {
      * summed (after multiplying each by the probability of it happening), and
      * the best action extracted.
      *
+     * @tparam useLP Whether we want to use LP interpolation, rather than sawtooth. Defaults to true.
      * @param pomdp The model to look the action for.
      * @param immediateRewards The immediate rewards of the model.
      * @param belief The belief to find the best action in.
@@ -603,7 +604,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The best action-value pair.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <bool useLP = true, typename M, std::enable_if_t<is_model_v<M>, int> = 0>
     std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const MDP::QFunction & immediateRewards, const Belief & belief, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV) {
         Vector qvals = belief.transpose() * immediateRewards;
 
@@ -619,7 +620,10 @@ namespace AIToolbox::POMDP {
                 // have to multiply the result by the same probability. Instead
                 // we don't normalize, and we don't multiply, so we save some
                 // work.
-                sum += std::get<0>(LPInterpolation(nextBelief, ubQ, ubV));
+                if constexpr (useLP)
+                    sum += std::get<0>(LPInterpolation(nextBelief, ubQ, ubV));
+                else
+                    sum += std::get<0>(sawtoothInterpolation(nextBelief, ubQ, ubV));
             }
             qvals[a] += pomdp.getDiscount() * sum;
         }
