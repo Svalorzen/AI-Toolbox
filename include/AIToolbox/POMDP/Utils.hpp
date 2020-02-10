@@ -534,6 +534,100 @@ namespace AIToolbox::POMDP {
         if (value) *value = bestValue;
         return entry;
     }
+
+    /**
+     * @brief This function obtains the best action with respect to the input VList.
+     *
+     * This function pretty much does what the Projecter class does. The
+     * difference is that while the Projecter expands one step in the future
+     * every single entry in the input VList, this only does it to the input
+     * Belief.
+     *
+     * This allows to both avoid a lot of work if we wouldn't need to reuse the
+     * Projecter results a lot, and simplifies the crossSum step.
+     *
+     * @param pomdp The model to use.
+     * @param immediateRewards The immediate rewards of the model.
+     * @param initialBelief The belief where the best action needs to be found.
+     * @param lbVList The alphavectors to use.
+     * @param alpha Optionally, the output alphavector for the best action.
+     *
+     * @return The best action in the input belief with respect to the input VList.
+     */
+    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    std::tuple<size_t, double> bestConservativeAction(const M & pomdp, MDP::QFunction immediateRewards, const Belief & initialBelief, const VList & lbVList, MDP::Values * alpha = nullptr) {
+        // Note that we update inline the alphavectors in immediateRewards
+        Vector bpAlpha(pomdp.getS());
+        for (size_t a = 0; a < pomdp.getA(); ++a) {
+            const Belief intermediateBelief = updateBeliefPartial(pomdp, initialBelief, a);
+
+            bpAlpha.setZero();
+
+            for (size_t o = 0; o < pomdp.getO(); ++o) {
+                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
+
+                const auto nextBeliefProbability = nextBelief.sum();
+                if (checkEqualSmall(nextBeliefProbability, 0.0)) continue;
+                // Now normalized
+                nextBelief /= nextBeliefProbability;
+
+                const auto it = findBestAtPoint(nextBelief, std::begin(lbVList), std::end(lbVList), nullptr, unwrap);
+
+                bpAlpha += pomdp.getObservationFunction(a).col(o).cwiseProduct(it->values);
+            }
+            immediateRewards.col(a) += pomdp.getDiscount() * pomdp.getTransitionFunction(a) * bpAlpha;
+        }
+
+        size_t id;
+        double v = (initialBelief.transpose() * immediateRewards).maxCoeff(&id);
+
+        // Copy alphavector for selected action if needed
+        if (alpha) *alpha = immediateRewards.col(id);
+
+        return std::make_tuple(id, v);
+    }
+
+    /**
+     * @brief This function obtains the best action with respect to the input QFunction and UbV.
+     *
+     * This function simply computes the upper bound for all beliefs that can
+     * be reached from the input belief. For each action, their values are
+     * summed (after multiplying each by the probability of it happening), and
+     * the best action extracted.
+     *
+     * @param pomdp The model to look the action for.
+     * @param immediateRewards The immediate rewards of the model.
+     * @param belief The belief to find the best action in.
+     * @param ubQ The current QFunction for this model.
+     * @param ubV The current list of belief/values for this model.
+     *
+     * @return The best action-value pair.
+     */
+    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const MDP::QFunction & immediateRewards, const Belief & belief, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV) {
+        Vector qvals = belief.transpose() * immediateRewards;
+
+        for (size_t a = 0; a < pomdp.getA(); ++a) {
+            const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, a);
+            double sum = 0.0;
+            for (size_t o = 0; o < pomdp.getO(); ++o) {
+                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
+
+                const auto prob = nextBelief.sum();
+                if (checkEqualSmall(prob, 0.0)) continue;
+                // Note that we do not normalize nextBelief since we'd also
+                // have to multiply the result by the same probability. Instead
+                // we don't normalize, and we don't multiply, so we save some
+                // work.
+                sum += std::get<0>(LPInterpolation(nextBelief, ubQ, ubV));
+            }
+            qvals[a] += pomdp.getDiscount() * sum;
+        }
+        size_t bestAction;
+        double bestValue = qvals.maxCoeff(&bestAction);
+
+        return std::make_tuple(bestAction, bestValue);
+    }
 }
 
 #endif

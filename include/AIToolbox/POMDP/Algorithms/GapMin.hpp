@@ -200,24 +200,6 @@ namespace AIToolbox::POMDP {
             std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV);
 
             /**
-             * @brief This function obtains the best action with respect to the input QFunction and UbV.
-             *
-             * This function simply computes the upper bound for all beliefs that can
-             * be reached from the input belief. For each action, their values are
-             * summed (after multiplying each by the probability of it happening), and
-             * the best action extracted.
-             *
-             * @param pomdp The model to look the action for.
-             * @param belief The belief to find the best action in.
-             * @param ubQ The current QFunction for this model.
-             * @param ubV The current list of belief/values for this model.
-             *
-             * @return The best action-value pair.
-             */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
-            std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV);
-
-            /**
              * @brief This function skims useless beliefs from the ubV.
              *
              * This function also removes the appropriate lines from the fibQ,
@@ -470,94 +452,6 @@ namespace AIToolbox::POMDP {
         );
     }
 
-    /**
-     * @brief This function obtains the best action with respect to the input VList.
-     *
-     * This function pretty much does what the Projecter class does. The
-     * difference is that while the Projecter expands one step in the future
-     * every single entry in the input VList, this only does it to the input
-     * Belief.
-     *
-     * This allows to both avoid a lot of work if we wouldn't need to reuse the
-     * Projecter results a lot, and simplifies the crossSum step.
-     *
-     * @param pomdp The model to use.
-     * @param initialBelief The belief where the best action needs to be found.
-     * @param lbVList The alphavectors to use.
-     * @param alpha Optionally, the output alphavector for the best action.
-     *
-     * @return The best action in the input belief with respect to the input VList.
-     */
-    template <typename M, typename = std::enable_if_t<is_model_v<M>>>
-    std::tuple<size_t, double> bestConservativeAction(const M & pomdp, const Belief & initialBelief, const VList & lbVList, MDP::Values * alpha = nullptr) {
-        MDP::QFunction ir = [&]{
-            if constexpr (MDP::is_model_eigen_v<M>)
-                return pomdp.getRewardFunction();
-            else
-                return computeImmediateRewards(pomdp);
-        }();
-
-        Vector bpAlpha(pomdp.getS());
-        for (size_t a = 0; a < pomdp.getA(); ++a) {
-            const Belief intermediateBelief = updateBeliefPartial(pomdp, initialBelief, a);
-
-            bpAlpha.setZero();
-
-            for (size_t o = 0; o < pomdp.getO(); ++o) {
-                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
-
-                const auto nextBeliefProbability = nextBelief.sum();
-                if (checkEqualSmall(nextBeliefProbability, 0.0)) continue;
-                // Now normalized
-                nextBelief /= nextBeliefProbability;
-
-                const auto it = findBestAtPoint(nextBelief, std::begin(lbVList), std::end(lbVList), nullptr, unwrap);
-
-                bpAlpha += pomdp.getObservationFunction(a).col(o).cwiseProduct(it->values);
-            }
-            ir.col(a) += pomdp.getDiscount() * pomdp.getTransitionFunction(a) * bpAlpha;
-        }
-
-        size_t id;
-        double v = (initialBelief.transpose() * ir).maxCoeff(&id);
-
-        // Copy alphavector for selected action if needed
-        if (alpha) *alpha = ir.col(id);
-
-        return std::make_tuple(id, v);
-    }
-
-    template <typename M, typename>
-    std::tuple<size_t, double> GapMin::bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV) {
-        Vector qvals = belief.transpose() * [&]{
-            if constexpr (MDP::is_model_eigen_v<M>)
-                return pomdp.getRewardFunction();
-            else
-                return immediateRewards_;
-        }();
-
-        for (size_t a = 0; a < pomdp.getA(); ++a) {
-            const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, a);
-            double sum = 0.0;
-            for (size_t o = 0; o < pomdp.getO(); ++o) {
-                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
-
-                const auto prob = nextBelief.sum();
-                if (checkEqualSmall(prob, 0.0)) continue;
-                // Note that we do not normalize nextBelief since we'd also
-                // have to multiply the result by the same probability. Instead
-                // we don't normalize, and we don't multiply, so we save some
-                // work.
-                sum += std::get<0>(LPInterpolation(nextBelief, ubQ, ubV));
-            }
-            qvals[a] += pomdp.getDiscount() * sum;
-        }
-        size_t bestAction;
-        double bestValue = qvals.maxCoeff(&bestAction);
-
-        return std::make_tuple(bestAction, bestValue);
-    }
-
     template <typename M, typename>
     std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> GapMin::selectReachableBeliefs(
             const M & pomdp, const Belief & initialBelief, const VList & lbVList,
@@ -608,12 +502,12 @@ namespace AIToolbox::POMDP {
             //
             // If the found actions improve on the bounds, then we'll add this
             // belief to the list.
-            //
-            // These functions could be combined to avoid repeating some work
-            // (the belief updates step), but it seems that doing so actually
-            // slows the code down - probably cache problems.
-            const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, belief, ubQ, ubV);
-            const auto [lbAction, lbActionValue] = bestConservativeAction(pomdp, belief, lbVList);
+            const auto & ir = [&]{
+                if constexpr (MDP::is_model_eigen_v<M>) return pomdp.getRewardFunction();
+                else return immediateRewards_;
+            }();
+            const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, ir, belief, ubQ, ubV);
+            const auto [lbAction, lbActionValue] = bestConservativeAction(pomdp, ir, belief, lbVList);
 
             (void)lbAction; // ignore lbAction
 
