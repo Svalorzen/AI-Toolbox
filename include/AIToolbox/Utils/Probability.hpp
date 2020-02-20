@@ -260,6 +260,31 @@ namespace AIToolbox {
     }
 
     /**
+     * @brief This function returns the entropy of the input ProbabilityVector.
+     *
+     * @param v The input ProbabilityVector.
+     *
+     * @return The entropy of the input.
+     */
+    inline double getEntropy(const ProbabilityVector & v) {
+        return (v.array() * v.array().log()).sum();
+    }
+
+    /**
+     * @brief This function returns the entropy of the input ProbabilityVector computed using log2.
+     *
+     * @param v The input ProbabilityVector.
+     *
+     * @return The entropy of the input in base 2.
+     */
+    inline double getEntropy2(const ProbabilityVector & v) {
+        double entropy = 0.0;
+        for (auto i = 0; i < v.size(); ++i)
+            entropy += v[i] * std::log2(v[i]);
+        return entropy;
+    }
+
+    /**
      * @brief This function projects the input vector to a valid probability space.
      *
      * This function finds the closest valid ProbabilityVector to the input
