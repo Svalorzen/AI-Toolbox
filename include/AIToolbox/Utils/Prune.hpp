@@ -10,17 +10,16 @@
 
 namespace AIToolbox {
     /**
-     * @brief This function finds and moves all Vectors in the range that are dominated by others.
+     * @brief This function finds and moves all Hyperplanes in the range that are dominated by others.
      *
-     * This function performs simple comparisons between all Vectors in the
+     * This function performs simple comparisons between all Hyperplanes in the
      * range, and is thus much more performant than a full-fledged prune, since
      * that would need to solve multiple linear programming problems. However,
-     * this function will not return the truly parsimonious set of
-     * Vectors, as its pruning powers are limited.
+     * this function will not return the truly parsimonious set of Hyperplanes,
+     * as its pruning powers are limited.
      *
      * Dominated elements will be moved at the end of the range for safe removal.
      *
-     * @param N The number of elements in each Vector.
      * @param begin The begin of the list that needs to be pruned.
      * @param end The end of the list that needs to be pruned.
      * @param p A projection function to call on the iterators (defaults to identity).
@@ -28,18 +27,12 @@ namespace AIToolbox {
      * @return The iterator that separates dominated elements with non-pruned.
      */
     template <typename Iterator, typename P = identity>
-    Iterator extractDominated(const size_t N, Iterator begin, Iterator end, P p = P{}) {
+    Iterator extractDominated(Iterator begin, Iterator end, P p = P{}) {
         if ( std::distance(begin, end) < 2 ) return end;
 
-        auto dominates = [N](auto lhs, auto rhs) {
-            for ( size_t i = 0; i < N; ++i )
-                if ( rhs[i] > lhs[i] ) return false;
-            return true;
-        };
-
-        auto optEnd = begin, target = end - 1;
+        auto optEnd = begin;
         while (optEnd < end) {
-            target = end - 1; // The one we are checking whether it is dominated.
+            auto target = end - 1; // The one we are checking whether it is dominated.
             // Check against proven non-dominated vectors
             for (auto iter = begin; iter < optEnd; ++iter) {
                 if (dominates(std::invoke(p, *iter), std::invoke(p, *target))) {
@@ -105,7 +98,7 @@ next:;
     template <typename It, typename P>
     It Pruner::operator()(It begin, It end, P p) {
         // Remove easy ValueFunctions to avoid doing more work later.
-        end = extractDominated(S, begin, end, p);
+        end = extractDominated(begin, end, p);
 
         const size_t size = std::distance(begin, end);
         if ( size < 2 ) return end;

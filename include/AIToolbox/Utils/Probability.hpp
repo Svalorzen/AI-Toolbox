@@ -306,7 +306,7 @@ namespace AIToolbox {
      * This is an O(1) way to sample from a fixed distribution. Construction
      * takes O(N).
      *
-     * The class takes two vectors of size N, and converts the input
+     * The class stores two vectors of size N, and converts the input
      * probability distribution into a set of N weighted coins, each of which
      * represents a choice between two particular numbers.
      *
@@ -316,7 +316,7 @@ namespace AIToolbox {
      *
      * This is the preferred method of sampling for distributions that
      * generally do not change (as if the distribution changes, the instance of
-     * VoseAlias must be rebuilt).
+     * VoseAliasSampler must be rebuilt).
      */
     class VoseAliasSampler {
         public:

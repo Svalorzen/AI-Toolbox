@@ -232,7 +232,7 @@ namespace AIToolbox::POMDP {
             start = false;
         }
 
-        result.erase(extractDominated(S, rbegin, rend, unwrap), std::end(result));
+        result.erase(extractDominated(rbegin, rend, unwrap), std::end(result));
 
         return result;
     }

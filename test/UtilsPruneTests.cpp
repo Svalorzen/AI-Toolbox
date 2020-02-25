@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE( dominationPrune ) {
         auto & d = data[i];
         auto & s = solutions[i];
 
-        auto test = extractDominated(2, std::begin(d), std::end(d));
+        auto test = extractDominated(std::begin(d), std::end(d));
         auto comparer = [](const auto & lhs, const auto & rhs) {
             return veccmp(lhs, rhs) < 0;
         };

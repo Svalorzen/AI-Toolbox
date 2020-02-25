@@ -242,7 +242,7 @@ namespace AIToolbox::POMDP {
         // Here we use the BlindStrategies in order to obtain a very simple
         // initial lower bound.
         VList lbVList = std::get<1>(bs(pomdp, true));
-        lbVList.erase(extractDominated(pomdp.getS(), std::begin(lbVList), std::end(lbVList), unwrap), std::end(lbVList));
+        lbVList.erase(extractDominated(std::begin(lbVList), std::end(lbVList), unwrap), std::end(lbVList));
 
         auto lbBeliefs = std::vector<Belief>{initialBelief};
 

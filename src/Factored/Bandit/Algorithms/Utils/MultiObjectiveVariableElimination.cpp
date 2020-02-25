@@ -172,6 +172,6 @@ namespace AIToolbox::Factored::Bandit {
         // P1 pruning
         const auto unwrap = +[](MOVE::Entry & e) -> Rewards & {return e.vals;};
 
-        results.erase(extractDominated(unwrap(results[0]).size(), std::begin(results), std::end(results), unwrap), std::end(results));
+        results.erase(extractDominated(std::begin(results), std::end(results), unwrap), std::end(results));
     }
 }

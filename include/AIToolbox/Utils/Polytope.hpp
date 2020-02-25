@@ -30,6 +30,18 @@ namespace AIToolbox {
     using CompactHyperplanes = Matrix2D;
 
     /**
+     * @brief This function quickly checks whether an Hyperplane dominates another.
+     *
+     * @param lhs The Hyperplane that should dominate.
+     * @param rhs The Hyperplane that should be dominated.
+     *
+     * @return Whether the left hand side dominates the right hand side.
+     */
+    inline bool dominates(const Hyperplane & lhs, const Hyperplane & rhs) {
+        return (lhs.array() >= rhs.array()).minCoeff();
+    };
+
+    /**
      * @brief This function returns an iterator pointing to the best Hyperplane for the specified point.
      *
      * Given a list of hyperplanes as a surface, this function returns the
