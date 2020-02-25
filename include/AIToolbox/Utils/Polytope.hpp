@@ -30,7 +30,7 @@ namespace AIToolbox {
     using CompactHyperplanes = Matrix2D;
 
     /**
-     * @brief This function quickly checks whether an Hyperplane dominates another.
+     * @brief This function checks whether an Hyperplane dominates another.
      *
      * @param lhs The Hyperplane that should dominate.
      * @param rhs The Hyperplane that should be dominated.

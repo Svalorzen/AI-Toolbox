@@ -63,6 +63,73 @@ next:;
     }
 
     /**
+     * @brief This function finds and moves all Hyperplanes in the range that are dominated by others.
+     *
+     * This function is similar to extractDominated, with the additional
+     * assumption that a certain set of Hyperplanes do not dominate each other.
+     * This function can be useful to extract dominated Hyperplanes after new
+     * ones have been added to an already pruned set. This function would then
+     * skip re-checking between the already pruned Hyperplanes.
+     *
+     * This function assumes that the new additions are not that many with
+     * respect to the already validated Hyperplanes. If that's not the case,
+     * it's possible that extractDominated might be faster.
+     *
+     * Dominated elements will be moved at the end of the range for safe removal.
+     *
+     * @param begin The begin of the list that needs to be pruned.
+     * @param newBegin The begin of the new Hyperplanes that need to be checked.
+     * @param end The end of the list that needs to be pruned.
+     * @param p A projection function to call on the iterators (defaults to identity).
+     *
+     * @return The iterator that separates dominated elements with non-pruned.
+     */
+    template <typename Iterator, typename P = identity>
+    Iterator extractDominatedIncremental(Iterator begin, Iterator newBegin, Iterator end, P p = P{}) {
+        while (newBegin < end) {
+            auto target = end - 1;
+            // For each pre-existing Hyperplane, we check whether we dominate or we are dominated.
+            // - If we are dominated, we are done, as we don't belong in the
+            //   good set.
+            // - If we dominate, then we have to check whether we dominate
+            //   anyone else, and remove all of them.
+            // - If by the end no check was true, then we get placed in the
+            //   good set.
+            bool isDominating = false;
+            for (auto iter = begin; iter < newBegin; ++iter) {
+                // First check that the new entry is not dominated
+                if (!isDominating && dominates(std::invoke(p, *iter), std::invoke(p, *target))) {
+                    --end;
+                    goto next;
+                }
+                // Now whether we dominate
+                if (dominates(std::invoke(p, *target), std::invoke(p, *iter))) {
+                    if (!isDominating) {
+                        isDominating = true;
+
+                        std::iter_swap(target, iter);
+                        target = iter;
+                        --end;
+                    } else {
+                        std::iter_swap(iter, --newBegin);
+                        std::iter_swap(newBegin, --end);
+                        // Backtrack iter to recheck swapped item. Note that iter
+                        // here can't ever be equal to begin, so it's safe to
+                        // do this.
+                        --iter;
+                    }
+                }
+            }
+            if (!isDominating) {
+                std::iter_swap(target, newBegin);
+                ++newBegin;
+            }
+next:;
+        }
+        return end;
+    }
+
+    /**
      * @brief This class offers pruning facilities for non-parsimonious ValueFunction sets.
      *
      * This class automatically handles a series of WitnessLPs in order to
