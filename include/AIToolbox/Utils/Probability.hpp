@@ -277,7 +277,7 @@ namespace AIToolbox {
      *
      * @return The entropy of the input in base 2.
      */
-    inline double getEntropy2(const ProbabilityVector & v) {
+    inline double getEntropyBase2(const ProbabilityVector & v) {
         double entropy = 0.0;
         for (auto i = 0; i < v.size(); ++i)
             entropy += v[i] * std::log2(v[i]);
