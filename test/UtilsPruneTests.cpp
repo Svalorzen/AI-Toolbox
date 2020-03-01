@@ -146,56 +146,122 @@ BOOST_AUTO_TEST_CASE( dominationIncrementalPrune ) {
     };
 
     std::vector<std::vector<Hyperplane>> solutions {
-        startSet, startSet, startSet,
+        startSet,
+        {
+            (Hyperplane(2) <<  10, -10).finished(),
+            (Hyperplane(2) << -10,  10).finished(),
+            (Hyperplane(2) <<   0,   0).finished(),
+            (Hyperplane(2) <<   9, -11).finished(), // dom new
+            (Hyperplane(2) << -11,   9).finished(), // dom new
+            (Hyperplane(2) <<  -1,  -1).finished(), // dom new
+        },
+        {
+            (Hyperplane(2) <<  10, -10).finished(),
+            (Hyperplane(2) << -10,  10).finished(),
+            (Hyperplane(2) <<   0,   0).finished(),
+            (Hyperplane(2) <<   0,  -1).finished(), // dom new
+        },
         {
             (Hyperplane(2) <<  10, -10).finished(),
             (Hyperplane(2) << -10,  10).finished(),
             (Hyperplane(2) <<   0,   0).finished(),
             (Hyperplane(2) <<  15, -15).finished(), // in
-            (Hyperplane(2) <<  1, -1).finished(),   // in
+            (Hyperplane(2) <<   1,  -1).finished(), // in
+            (Hyperplane(2) << -11,   8).finished(), // dom new
+            (Hyperplane(2) <<   5, -20).finished(), // dom new
         },
         {
             (Hyperplane(2) <<  10, -10).finished(),
             (Hyperplane(2) << -10,  10).finished(),
             (Hyperplane(2) <<   0,   0).finished(),
             (Hyperplane(2) <<  20, -14).finished(), // in
+            (Hyperplane(2) <<  15, -15).finished(), // dom new
+            (Hyperplane(2) <<  14, -16).finished(), // dom new
         },
         {
             (Hyperplane(2) <<  10, -10).finished(),
             (Hyperplane(2) << -10,  10).finished(),
             (Hyperplane(2) <<   0,   1).finished(), // repl
             (Hyperplane(2) <<  15, -15).finished(), // in
+            (Hyperplane(2) <<   0,   0).finished(), // dom old
+            (Hyperplane(2) << -11,   9).finished(), // dom new
         },
         {
-            (Hyperplane(2) <<  10,   0).finished(), // repl
             (Hyperplane(2) << -10,  10).finished(),
-            (Hyperplane(2) <<  -15, 15).finished(),  // in
+            (Hyperplane(2) <<  10,   0).finished(), // repl
+            (Hyperplane(2) << -15,  15).finished(), // in
+            (Hyperplane(2) <<  10, -10).finished(), // dom old
+            (Hyperplane(2) <<   0,   0).finished(), // dom old
+            (Hyperplane(2) << -11,   9).finished(), // dom new
         },
         {
-            (Hyperplane(2) <<  100, 100).finished(),
+            (Hyperplane(2) << 100, 100).finished(), // repl
+            (Hyperplane(2) <<  10, -10).finished(), // dom old
+            (Hyperplane(2) << -10,  10).finished(), // dom old
+            (Hyperplane(2) <<   0,   0).finished(), // dom old
+            (Hyperplane(2) <<   1,   1).finished(), // dom new
+            (Hyperplane(2) <<   2,   2).finished(), // dom new
+            (Hyperplane(2) <<   5,  15).finished(), // dom new
         },
         {
-            (Hyperplane(2) <<  100, 100).finished(),
+            (Hyperplane(2) << 100, 100).finished(), // repl
+            (Hyperplane(2) <<  10, -10).finished(), // dom old
+            (Hyperplane(2) << -10,  10).finished(), // dom old
+            (Hyperplane(2) <<   0,   0).finished(), // dom old
+            (Hyperplane(2) <<   1,   1).finished(), // dom new
+            (Hyperplane(2) <<   2,   2).finished(), // dom new
+            (Hyperplane(2) <<   5,  15).finished(), // dom new
         }
     };
 
+    // To verify inter ranges. The numbers indicate the ids where:
+    // - The old vectors which are still in the solutions end
+    // - The new vectors which are inserted in the solutions end
+    // - The old vectors which are removed from the solutions end
+    std::vector<std::vector<size_t>> solutionRanges {
+        {3, 3, 3},
+        {3, 3, 3},
+        {3, 3, 3},
+        {3, 5, 5},
+        {3, 4, 4},
+        {2, 4, 5},
+        {1, 3, 5},
+        {0, 1, 4},
+        {0, 1, 4}
+    };
+
+    const auto comparer = [](const auto & lhs, const auto & rhs) {
+        return veccmp(lhs, rhs) < 0;
+    };
+
     for (size_t i = 0; i < addSets.size(); ++i) {
-        auto start = startSet; // Copy since we are going to modify it
-        size_t startSize = start.size();
-        start.insert(std::end(start), std::begin(addSets[i]), std::end(addSets[i]));
+        auto testSet = startSet; // Copy since we are going to modify it
+        size_t testSize = testSet.size();
+        testSet.insert(std::end(testSet), std::begin(addSets[i]), std::end(addSets[i]));
+
+        auto [oldEnd, end, rmend] = extractDominatedIncremental(std::begin(testSet), std::begin(testSet) + testSize, std::end(testSet));
+
+        // Sort subranges so we can compare them correctly
+        std::sort(std::begin(testSet), oldEnd, comparer);
+        std::sort(oldEnd, end, comparer);
+        std::sort(end, rmend, comparer);
+        std::sort(rmend, std::end(testSet), comparer);
 
         auto & s = solutions[i];
+        const auto & ranges = solutionRanges[i];
 
-        auto test = extractDominatedIncremental(std::begin(start), std::begin(start) + startSize, std::end(start));
+        std::sort(std::begin(s),             std::begin(s) + ranges[0], comparer);
+        std::sort(std::begin(s) + ranges[0], std::begin(s) + ranges[1], comparer);
+        std::sort(std::begin(s) + ranges[1], std::begin(s) + ranges[2], comparer);
+        std::sort(std::begin(s) + ranges[2], std::end(s)              , comparer);
 
-        auto comparer = [](const auto & lhs, const auto & rhs) {
-            return veccmp(lhs, rhs) < 0;
-        };
-
-        std::sort(std::begin(s), std::end(s), comparer);
-        std::sort(std::begin(start), test, comparer);
         BOOST_TEST_INFO(i);
-        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(s), std::end(s),
-                                      std::begin(start), test);
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(testSet), std::end(testSet),
+                                      std::begin(s),       std::end(s));
+
+        BOOST_CHECK_EQUAL(std::distance(std::begin(testSet), oldEnd), ranges[0]);
+        BOOST_CHECK_EQUAL(std::distance(oldEnd, end),                 ranges[1] - ranges[0]);
+        BOOST_CHECK_EQUAL(std::distance(end, rmend),                  ranges[2] - ranges[1]);
+        BOOST_CHECK_EQUAL(std::distance(rmend, std::end(testSet)),    s.size() - ranges[2]);
     }
 }
