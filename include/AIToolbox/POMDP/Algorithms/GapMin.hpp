@@ -523,16 +523,10 @@ namespace AIToolbox::POMDP {
 
                 // We also want to check whether we have already added this belief somewhere else.
                 const auto check = [&b](const Belief & bb){ return checkEqualProbability(b, bb); };
-                {
-                    auto it = std::find_if(std::begin(newUbBeliefs), std::end(newUbBeliefs), check);
-                    if (it != std::end(newUbBeliefs))
-                        return false;
-                }
-                {
-                    auto it = std::find_if(std::begin(ubV.first), std::end(ubV.first), check);
-                    if (it != std::end(ubV.first))
-                        return false;
-                }
+                if (std::any_of(std::begin(newUbBeliefs), std::end(newUbBeliefs), check))
+                    return false;
+                if (std::any_of(std::begin(ubV.first), std::end(ubV.first), check))
+                    return false;
                 return true;
             };
 
@@ -561,16 +555,10 @@ namespace AIToolbox::POMDP {
             // code). We still check on the lower bound lists though.
             const auto validForLb = [&newLbBeliefs, &lbBeliefs](const Belief & b) {
                 const auto check = [&b](const Belief & bb){ return checkEqualProbability(b, bb); };
-                {
-                    auto it = std::find_if(std::begin(newLbBeliefs), std::end(newLbBeliefs), check);
-                    if (it != std::end(newLbBeliefs))
-                        return false;
-                }
-                {
-                    auto it = std::find_if(std::begin(lbBeliefs), std::end(lbBeliefs), check);
-                    if (it != std::end(lbBeliefs))
-                        return false;
-                }
+                if (std::any_of(std::begin(newLbBeliefs), std::end(newLbBeliefs), check))
+                    return false;
+                if (std::any_of(std::begin(lbBeliefs), std::end(lbBeliefs), check))
+                    return false;
                 return true;
             };
 
@@ -613,8 +601,7 @@ namespace AIToolbox::POMDP {
                 nextBelief /= nextBeliefProbability;
 
                 const auto check = [&nextBelief](const Belief & bb){ return checkEqualProbability(nextBelief, bb); };
-                auto it = std::find_if(std::begin(visitedBeliefs), std::end(visitedBeliefs), check);
-                if (it != std::end(visitedBeliefs)) continue;
+                if (std::any_of(std::begin(visitedBeliefs), std::end(visitedBeliefs), check)) continue;
 
                 const double ubValue = std::get<0>(LPInterpolation(nextBelief, ubQ, ubV));
                 double lbValue;
@@ -625,7 +612,7 @@ namespace AIToolbox::POMDP {
                     const auto nextBeliefGap = nextBeliefOverallProbability * (ubValue - lbValue);
 
                     const auto qcheck = [&nextBelief](const QueueElement & qe){ return checkEqualProbability(nextBelief, std::get<0>(qe)); };
-                    auto it = std::find_if(std::begin(queue), std::end(queue), qcheck);
+                    const auto it = std::find_if(std::begin(queue), std::end(queue), qcheck);
                     if (it == std::end(queue)) {
                         queue.emplace(
                                 std::move(nextBelief),
