@@ -101,6 +101,55 @@ namespace AIToolbox {
     }
 
     /**
+     * @brief This function returns, if it exists, an iterator to the highest Hyperplane that delta-dominates the input one.
+     *
+     * Delta-domination refers to a concept introduced in the SARSOP paper. It
+     * means that a Hyperplane dominates another in a neighborhood of a given
+     * Point p. This is in contrast to either simply being higher at that
+     * point, or dominating the other plane across the whole simplex space.
+     *
+     * The returned entry of this function depends on the ordering of the range,
+     * as more than one Hyperplane may delta-dominate the input, but they may
+     * not delta-dominate each other.
+     *
+     * Thus, we iterate the input range once, and we check iteratively if an
+     * entry delta-dominates the currently found best Hyperplane.
+     *
+     * Note that an entry is not guaranteed to exist; in that case we return
+     * the end of the input range.
+     *
+     * @param point The Point where to check for delta-domination.
+     * @param plane The Hyperplane that needs to be delta-dominated.
+     * @param delta The delta value to use to validate delta-domination, i.e. the size of the neighborhood to check.
+     * @param begin The start of the range to check.
+     * @param end The end of the range to check.
+     * @param p A projection function to call on the iterators (defaults to identity).
+     *
+     * @return An iterator to the highest dominating entry, or if none is found, the end of the range.
+     */
+    template <typename Iterator, typename P = identity>
+    Iterator findBestDeltaDominated(const Point & point, const Hyperplane & plane, double delta, Iterator begin, Iterator end, P p = P{}) {
+        auto retval = end;
+
+        const Hyperplane * maxPlane = &plane;
+        double maxVal = point.dot(*maxPlane);
+
+        for (auto it = begin; it < end; ++it) {
+            const Hyperplane * newPlane = &std::invoke(p, *it);
+            const double newVal = point.dot(*newPlane);
+            if (newVal > maxVal) {
+                const double deltaValue = (newVal - maxVal) / (*newPlane - *maxPlane).norm();
+                if (deltaValue > delta) {
+                    maxVal = newVal;
+                    maxPlane = newPlane;
+                    retval = it;
+                }
+            }
+        }
+        return retval;
+    }
+
+    /**
      * @brief This function finds and moves the Hyperplane with the highest value for the given point at the beginning of the specified range.
      *
      * This function uses an already existing bound containing previously
