@@ -126,7 +126,7 @@ namespace AIToolbox::Factored::MDP {
     }
 
     void CooperativeModel::sampleSRs(const State & s, const Action & a, State * s1p, Rewards * rp) const {
-        assert(s1);
+        assert(s1p);
         assert(rp);
 
         auto & s1 = *s1p;
