@@ -302,16 +302,16 @@ namespace AIToolbox::POMDP {
         // ###########################
 
         // This we use to estimate the UB buckets for each belief.
-        const auto initialUbV = ubV;
+        const auto initialUbQ = ubQ;
 
-        constexpr auto numBins = 2;
-        constexpr auto entropyBins = 5;
-        constexpr auto ubBins = 5;
-        constexpr auto binScaling = 2;
+        constexpr unsigned numBins = 2;
+        constexpr unsigned entropyBins = 5;
+        constexpr unsigned ubBins = 5;
+        constexpr unsigned binScaling = 2;
 
-        for (auto i = 0; i < numBins; ++i) {
-            const auto scaling = std::pow(binScaling, i);
-            predictors_.emplace_back(entropyBins * scaling, ubBins * scaling, initialUbV);
+        for (unsigned i = 0; i < numBins; ++i) {
+            const unsigned scaling = std::pow(binScaling, i);
+            predictors_.emplace_back(entropyBins * scaling, ubBins * scaling, initialUbQ);
         }
 
         // #######################
@@ -323,7 +323,7 @@ namespace AIToolbox::POMDP {
         TreeNode & root = treeStorage_[0];
         root.belief = initialBelief;
         root.count = 1;
-        updateNode(root, pomdp, lbVList, ubQ, ubV);
+        updateNode(root, pomdp, lbVList, ubQ, ubV, false);
 
         AI_LOGGER(AI_SEVERITY_INFO, "Initial bounds: " << root.LB << ", " << root.UB);
 
@@ -417,7 +417,7 @@ namespace AIToolbox::POMDP {
 
             const double targetGap = rootGap * std::pow(pomdp.getDiscount(), -depth);
             const double finalExcess = node.UB - node.LB - 0.5 * targetGap;
-            if (finalExcess <= 0)
+            if (finalExcess <= 0.0)
                 break;
 
             // Stopping condition; we stop sampling if either our approximation
@@ -430,9 +430,10 @@ namespace AIToolbox::POMDP {
             // sampled.
             sampledNodes_.push_back(currentNodeId);
 
-            // Precompute this node's children if it was a leaf.
+            // Precompute this node's children if it was a leaf. Note that we
+            // re-pick from treeStorage_ since 'node' is a const ref.
             if (node.children.size() == 0)
-                expandLeaf(currentNodeId, pomdp, lbVList, ubQ, ubV);
+                expandLeaf(treeStorage_[currentNodeId], pomdp, lbVList, ubQ, ubV);
 
             // Otherwise we keep sampling.
             const auto L1 = std::max(L, node.LB);
