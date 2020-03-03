@@ -54,6 +54,9 @@ namespace AIToolbox::POMDP {
              */
             double getTolerance() const;
 
+            void setDelta(double delta);
+            double getDelta() const;
+
             /**
              * @brief This function efficiently computes bounds for the optimal value of the input belief for the input POMDP.
              *
@@ -100,7 +103,7 @@ namespace AIToolbox::POMDP {
 
             template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             void expandLeaf(
-                TreeNode & node, const M & model,
+                size_t id, const M & model,
                 const VList & lbV,
                 const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV
             );
@@ -332,16 +335,19 @@ namespace AIToolbox::POMDP {
         // ##################
 
         while (true) {
+            AI_LOGGER(AI_SEVERITY_INFO, "Sampling...");
             // Deep sample a branch of the action/observation trees. The
             // sampled nodes (except the last one where we stop) are added to
             // sampledNodes_ in reverse order (root is going to be last).
             samplePoints(pomdp, lbVList, ubQ, ubV);
+            AI_LOGGER(AI_SEVERITY_INFO, "Sampled " << sampledNodes_.size() << " beliefs.");
 
             // If we have no nodes it means we stopped at the root, so we have
             // already shrinked the gap enough; we are done.
             if (sampledNodes_.size() == 0)
                 break;
 
+            AI_LOGGER(AI_SEVERITY_INFO, "Backing up...");
             // Backup the nodes we sampled, from (node-before) leaf to root.
             // This updates the lower and upper bounds by adding
             // alphavectors/points to them.
@@ -350,15 +356,18 @@ namespace AIToolbox::POMDP {
 
             // # Lower Bound Pruning #
 
+            AI_LOGGER(AI_SEVERITY_INFO, "Delta pruning... (" << lbVList.size() << " alphavectors)");
             // We aggressively prune the lbVList based on the beliefs we have
             // explored. This prunes both using direct dominance as well as
             // delta dominance, i.e. vectors count as dominated if they are
             // dominated within a given neighborhood of all their witness
             // beliefs.
             deltaPrune(lbVList);
+            AI_LOGGER(AI_SEVERITY_INFO, "Pruned (now " << lbVList.size() << " alphavectors)");
 
             // # Upper Bound Pruning #
 
+            AI_LOGGER(AI_SEVERITY_INFO, "UB pruning...");
             // Prune unused beliefs that do not contribute to the upper bound.
             // This means that their value is *higher* than what we can
             // approximate using the other beliefs.
@@ -380,7 +389,7 @@ namespace AIToolbox::POMDP {
 
                 // If its original value is lower than the interpolation, we
                 // still need it to improve our upper bound.
-                if (value < std::get<0>(sawtoothInterpolation(ubV.first[i], ubQ, ubV))) {
+                if (value < std::get<0>(sawtoothInterpolation(belief, ubQ, ubV))) {
                     // Thus, we put it back inside.
                     ubV.first.emplace_back(std::move(belief));
                     ubV.second.emplace_back(value);
@@ -413,32 +422,46 @@ namespace AIToolbox::POMDP {
         double U = L + rootGap;
 
         while (true) {
-            const TreeNode & node = treeStorage_[currentNodeId];
-
+            // Compute target gap for this depth.
             const double targetGap = rootGap * std::pow(pomdp.getDiscount(), -depth);
-            const double finalExcess = node.UB - node.LB - 0.5 * targetGap;
-            if (finalExcess <= 0.0)
-                break;
 
-            // Stopping condition; we stop sampling if either our approximation
-            // falls below the lower bound, or if our upper bound is too low.
-            const auto vHat = predictValue(currentNodeId, node);
-            if (vHat <= L && node.UB <= std::max(U, node.LB + targetGap))
-                break;
+            {
+                // Here we check whether we should stop. Note that the
+                // reference to node is intentionally kept scoped, as we may
+                // need to expand this node later, and doing so will invalidate
+                // its address.
+                const TreeNode & node = treeStorage_[currentNodeId];
+
+                const double finalExcess = node.UB - node.LB - 0.5 * targetGap;
+                if (finalExcess <= 0.0)
+                    break;
+
+                // Stopping condition; we stop sampling if either our approximation
+                // falls below the lower bound, or if our upper bound is too low.
+                const auto vHat = predictValue(currentNodeId, node);
+                if (vHat <= L && node.UB <= std::max(U, node.LB + targetGap))
+                    break;
+            }
 
             // We are indeed going down this node, so we add it to the nodes
             // sampled.
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Accepted node " << currentNodeId << " for sampling.");
             sampledNodes_.push_back(currentNodeId);
 
-            // Precompute this node's children if it was a leaf. Note that we
-            // re-pick from treeStorage_ since 'node' is a const ref.
-            if (node.children.size() == 0)
-                expandLeaf(treeStorage_[currentNodeId], pomdp, lbVList, ubQ, ubV);
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Node is leaf, expanding...");
+            // Precompute this node's children if it was a leaf.
+            if (treeStorage_[currentNodeId].children.size() == 0)
+                expandLeaf(currentNodeId, pomdp, lbVList, ubQ, ubV);
+
+            // Now we can take a reference as we won't need to allocate again.
+            const TreeNode & node = treeStorage_[currentNodeId];
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Sampling belief " << node.belief.transpose() << " with id " << currentNodeId);
 
             // Otherwise we keep sampling.
             const auto L1 = std::max(L, node.LB);
             const auto U1 = std::max(U, node.LB + targetGap);
 
+            AI_LOGGER(AI_SEVERITY_DEBUG, "a1, o1...");
             // FIXME: possible do randomization
             const auto a1 = node.actionUb;
             // FIXME: possible do randomization
@@ -456,6 +479,7 @@ namespace AIToolbox::POMDP {
                 }
             }
 
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Lnorm, Unorm...");
             double Lnorm = 0.0, Unorm = 0.0;
             for (size_t o = 0; o < pomdp.getO(); ++o) {
                 if (o == o1) continue;
@@ -466,6 +490,7 @@ namespace AIToolbox::POMDP {
                 Unorm += childNode.UB * node.children[a1][o].observationProbability;
             }
 
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Lt, Ut...");
             // Lt, Ut
             L = ((L1 - node.actionData(0, a1)) / pomdp.getDiscount() - Lnorm) / node.children[a1][o1].observationProbability;
             U = ((U1 - node.actionData(0, a1)) / pomdp.getDiscount() - Unorm) / node.children[a1][o1].observationProbability;
@@ -479,29 +504,35 @@ namespace AIToolbox::POMDP {
 
     template <typename M, typename>
     void SARSOP::expandLeaf(
-            TreeNode & node, const M & pomdp,
+            const size_t id, const M & pomdp,
             const VList & lbVList,
             const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV
         )
     {
-        assert(node.children.size() == 0);
+        TreeNode * nodep = &treeStorage_[id];
+
+        assert(node->children.size() == 0);
         // This assert is to say that we shouldn't really be going down a
         // provenly suboptimal path, so this should not really happen.  If it
         // happens, it might be something is broken or I misunderstood
         // something.
-        assert(node.count > 0);
+        assert(node->count > 0);
 
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Updating node...");
         // Allocate precompute bound values for future backups
-        updateNode(node, pomdp, lbVList, ubQ, ubV, true);
+        updateNode(*nodep, pomdp, lbVList, ubQ, ubV, true);
 
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Allocating children...");
         // Allocate children memory
-        node.children.resize(boost::extents[pomdp.getA()][pomdp.getO()]);
+        nodep->children.resize(boost::extents[pomdp.getA()][pomdp.getO()]);
 
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Starting loop..");
         for (size_t a = 0; a < pomdp.getA(); ++a) {
-            updateBeliefPartial(pomdp, node.belief, a, &intermediateBeliefTmp_);
+            updateBeliefPartial(pomdp, nodep->belief, a, &intermediateBeliefTmp_);
 
             for (size_t o = 0; o < pomdp.getO(); ++o) {
-                auto & child = node.children[a][o];
+                AI_LOGGER(AI_SEVERITY_DEBUG, "a = " << a << "; o = " << o);
+                auto & child = nodep->children[a][o];
 
                 updateBeliefPartialUnnormalized(pomdp, intermediateBeliefTmp_, a, o, &nextBeliefTmp_);
 
@@ -516,12 +547,16 @@ namespace AIToolbox::POMDP {
 
                 child.observationProbability = prob;
 
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Looking for it: " << nextBeliefTmp_.transpose());
+
                 const auto it = beliefToNode_.find(nextBeliefTmp_);
                 if (it != beliefToNode_.end()) {
+                    AI_LOGGER(AI_SEVERITY_DEBUG, "Found, setting id and continuing...");
                     // If the node already existed, we simply point to it, and
                     // increase its reference count.
                     child.id = it->second;
                     if (++treeStorage_[child.id].count == 1) {
+                        AI_LOGGER(AI_SEVERITY_DEBUG, "Reviving node " << child.id << "...");
                         // If it's count was 0 before, then it represented a
                         // previously pruned branch. Since it's now back in the
                         // tree, we need to "revive" all its children warning
@@ -537,15 +572,28 @@ namespace AIToolbox::POMDP {
                     continue;
                 }
 
-                treeStorage_.emplace_back();
-                child.id = treeStorage_.size() - 1;
+                // Finish storing info about child as its reference is about to
+                // go stale.
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Not found, Setting new id...");
+                child.id = treeStorage_.size();
+                AI_LOGGER(AI_SEVERITY_DEBUG, "ID = " << child.id);
                 beliefToNode_[nextBeliefTmp_] = child.id;
 
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Emplacing in storage... " << treeStorage_.size());
+                // Adding a node to treeStorage_ invalidates every single
+                // reference we are holding to anything in it, since it may
+                // reallocate. Keep it in mind.
+                treeStorage_.emplace_back();
+                // Re-assign to nodep to get the possibly new pointer.
+                nodep = &treeStorage_[id];
+
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Setting node properties...");
                 auto & childNode = treeStorage_.back();
 
                 childNode.belief = nextBeliefTmp_;
                 childNode.count = 1;
                 // Compute UB and LB for this child
+                AI_LOGGER(AI_SEVERITY_DEBUG, "Updating new leaf...");
                 updateNode(childNode, pomdp, lbVList, ubQ, ubV, false);
             }
         }

@@ -482,4 +482,6 @@ namespace AIToolbox::POMDP {
 
     void SARSOP::setTolerance(double tolerance) { tolerance_ = tolerance; }
     double SARSOP::getTolerance() const { return tolerance_; }
+    void SARSOP::setDelta(double delta) { initialDelta_ = delta; }
+    double SARSOP::getDelta() const { return initialDelta_; }
 }
