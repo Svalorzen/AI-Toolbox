@@ -52,6 +52,7 @@ if (MAKE_POMDP)
         POMDP/IO.cpp
         POMDP/Algorithms/AMDP.cpp
         POMDP/Algorithms/GapMin.cpp
+        POMDP/Algorithms/SARSOP.cpp
         POMDP/Algorithms/IncrementalPruning.cpp
         POMDP/Algorithms/LinearSupport.cpp
         POMDP/Algorithms/PBVI.cpp
