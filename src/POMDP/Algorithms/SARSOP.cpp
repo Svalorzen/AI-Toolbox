@@ -314,7 +314,7 @@ namespace AIToolbox::POMDP {
         });
 
         // And finally erase all them from the main list.
-        lbVList.erase(end);
+        lbVList.erase(end, std::end(lbVList));
 
         // Update the delta used to do pruning based on the contents of the new
         // lower bound.
