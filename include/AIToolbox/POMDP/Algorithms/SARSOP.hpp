@@ -420,8 +420,8 @@ namespace AIToolbox::POMDP {
         const double rootGap = treeStorage_[0].UB - treeStorage_[0].LB;
 
         int depth = 0;
-        double L = 1.0;
-        double U = L + rootGap;
+        double L = treeStorage_[0].LB;
+        double U = treeStorage_[0].UB;
 
         while (true) {
             // Compute target gap for this depth.
