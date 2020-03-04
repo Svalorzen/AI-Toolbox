@@ -679,7 +679,7 @@ namespace AIToolbox::POMDP {
             node.actionData(1, maxAction) = sum;
             backuppedActions_[maxAction] = true;
 
-            node.actionData.row(1).maxCoeff(&maxAction);
+            node.UB = node.actionData.row(1).maxCoeff(&maxAction);
         }
         node.actionUb = maxAction;
 
@@ -688,12 +688,12 @@ namespace AIToolbox::POMDP {
         // add it to ubV.
         for (size_t s = 0; s < pomdp.getS(); ++s) {
             if (checkEqualSmall(node.belief[s], 1.0)) {
-                ubQ(s, maxAction) = node.actionUb;
+                ubQ(s, maxAction) = node.UB;
                 return;
             }
         }
         ubV.first.push_back(node.belief);
-        ubV.second.push_back(node.actionUb);
+        ubV.second.push_back(node.UB);
     }
 }
 
