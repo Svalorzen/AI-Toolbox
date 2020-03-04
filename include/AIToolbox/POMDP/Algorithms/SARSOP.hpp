@@ -323,12 +323,14 @@ namespace AIToolbox::POMDP {
 
         treeStorage_.emplace_back();
 
-        TreeNode & root = treeStorage_[0];
-        root.belief = initialBelief;
-        root.count = 1;
-        updateNode(root, pomdp, lbVList, ubQ, ubV, false);
+        // Note that we can't make a reference alias to the root since
+        // treeStorage_ is going to reallocate multiple times during solving.
+        treeStorage_[0].belief = initialBelief;
+        treeStorage_[0].count = 1;
+        updateNode(treeStorage_[0], pomdp, lbVList, ubQ, ubV, false);
 
-        AI_LOGGER(AI_SEVERITY_INFO, "Initial bounds: " << root.LB << ", " << root.UB);
+        AI_LOGGER(AI_SEVERITY_INFO, "Initial bounds: " << treeStorage_[0].LB << ", " << treeStorage_[0].UB);
+        AI_LOGGER(AI_SEVERITY_INFO, "Root UBs: " << treeStorage_[0].actionData.row(1));
 
         // ##################
         // ### Begin work ###
@@ -396,7 +398,7 @@ namespace AIToolbox::POMDP {
                 }
             } while (i != 0 && ubV.first.size() > 1);
 
-            if (root.UB - root.LB <= tolerance_)
+            if (treeStorage_[0].UB - treeStorage_[0].LB <= tolerance_)
                 break;
         }
 
@@ -405,7 +407,7 @@ namespace AIToolbox::POMDP {
         for (auto & ventry : lbVList)
             ventry.observations.clear();
 
-        return std::make_tuple(root.LB, root.UB, lbVList, ubQ);
+        return std::make_tuple(treeStorage_[0].LB, treeStorage_[0].UB, lbVList, ubQ);
     }
 
     template <typename M, typename>
