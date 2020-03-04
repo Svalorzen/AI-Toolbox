@@ -9,26 +9,22 @@ namespace AIToolbox::POMDP {
         auto & v = ve.observations;
 
         // Check if max is already there
-        auto it = std::begin(v) + 1, maxEnd = std::begin(v) + v[0];
-
-        while (it != maxEnd && *it < id) ++it;
-        if (it != maxEnd && *it == id) return;
+        if (sequential_sorted_contains(std::begin(v) + 1, std::begin(v) + v[0], id))
+            return;
 
         // Witness insertion
-        while (it != std::end(v) && *it < id) ++it;
-        if (*it == id) return;
-
-        v.insert(it, id);
+        const auto it = sequential_sorted_find(std::begin(v) + v[0], std::end(v), id);
+        if (it == std::end(v) || *it != id)
+            v.insert(it, id);
     }
 
     void rmWit(size_t id, VEntry & ve) {
         if (id < (size_t)ve.values.size()) return;
         auto & v = ve.observations;
 
-        auto it = std::begin(v) + v[0], witEnd = std::end(v);
-
-        while (it != witEnd && *it < id) ++it;
-        if (it != witEnd && *it == id) v.erase(it);
+        const auto it = sequential_sorted_find(std::begin(v) + v[0], std::end(v), id);
+        if (it != std::end(v) && *it == id)
+            v.erase(it);
     }
 
     void addMax(size_t id, VEntry & ve) {
@@ -37,9 +33,9 @@ namespace AIToolbox::POMDP {
         auto & v = ve.observations;
 
         // Max insertion
-        auto it = std::begin(v) + 1, maxEnd = std::begin(v) + v[0];
+        const auto maxEnd = std::begin(v) + v[0];
 
-        while (it != maxEnd && *it < id) ++it;
+        const auto it = sequential_sorted_find(std::begin(v) + 1, maxEnd, id);
         if (it != maxEnd && *it == id)
             return;
 
@@ -50,23 +46,22 @@ namespace AIToolbox::POMDP {
     void rmMax(size_t id, VEntry & ve, bool skipWit = false) {
         auto & v = ve.observations;
         // Max removal
-        auto it = std::begin(v) + 1, maxEnd = std::begin(v) + v[0];
+        const auto maxEnd = std::begin(v) + v[0];
 
-        while (it != maxEnd && *it < id) ++it;
+        auto it = sequential_sorted_find(std::begin(v) + 1, maxEnd, id);
         if (it == maxEnd || *it != id)
             return;
 
         v.erase(it);
         --v[0];
+        // maxEnd invalid now!
 
         // Note that corners can't become witnesses.
         if (skipWit || id < (size_t)ve.values.size()) return;
 
         // Witness insertion
-        it = std::begin(v) + v[0]; auto witEnd = std::end(v);
-
-        while (it != witEnd && *it < id) ++it;
-        if (it == witEnd || *it != id)
+        it = sequential_sorted_find(std::begin(v) + v[0], std::end(v), id);
+        if (it == std::end(v) || *it != id)
             v.insert(it, id);
     }
 
