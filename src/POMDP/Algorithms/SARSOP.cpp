@@ -444,7 +444,6 @@ namespace AIToolbox::POMDP {
 
         // If we have not done this yet, compute the bucket for this node.
         if (!inBins) {
-            inBins = true;
             const double entropy = getEntropyBase2(node.belief);
             const double ub = (node.belief.transpose() * ubQ_).maxCoeff();
 
@@ -457,6 +456,7 @@ namespace AIToolbox::POMDP {
 
         auto & bin = bins_[ei][ubi];
         const unsigned afterUpdateCount = bin.count + (!inBins);
+        inBins = true;
 
         bin.avg = (bin.avg * bin.count + node.LB - lb) / afterUpdateCount;
         lb = node.LB;
