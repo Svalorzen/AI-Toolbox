@@ -340,7 +340,7 @@ namespace AIToolbox::POMDP {
             AI_LOGGER(AI_SEVERITY_INFO, "Sampling...");
             // Deep sample a branch of the action/observation trees. The
             // sampled nodes (except the last one where we stop) are added to
-            // sampledNodes_ in reverse order (root is going to be last).
+            // sampledNodes_.
             samplePoints(pomdp, lbVList, ubQ, ubV);
             AI_LOGGER(AI_SEVERITY_INFO, "Sampled " << sampledNodes_.size() << " beliefs.");
 
@@ -353,8 +353,8 @@ namespace AIToolbox::POMDP {
             // Backup the nodes we sampled, from (node-before) leaf to root.
             // This updates the lower and upper bounds by adding
             // alphavectors/points to them.
-            for (auto nodeId : sampledNodes_)
-                backupNode(nodeId, pomdp, lbVList, ubQ, ubV);
+            for (auto rIt = std::rbegin(sampledNodes_); rIt != std::rend(sampledNodes_); ++rIt)
+                backupNode(*rIt, pomdp, lbVList, ubQ, ubV);
 
             // # Lower Bound Pruning #
 
