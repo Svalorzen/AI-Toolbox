@@ -132,9 +132,12 @@ namespace AIToolbox::POMDP {
         auto oldRmBegin = end;
 
         // If no new entries have survived, then the original lbVList has not
-        // changed, and thus we have to do nothing else.
-        if (newBegin == end)
+        // changed, and thus we have to do nothing else. We just have to clean
+        // the removed entries.
+        if (newBegin == end) {
+            lbVList.erase(end, std::end(lbVList));
             return;
+        }
 
         // First, we need to figure out who is the max vector for the new
         // hyperplanes. We could just run over everybody, but we only check
