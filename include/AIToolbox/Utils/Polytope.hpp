@@ -38,7 +38,8 @@ namespace AIToolbox {
      * @return Whether the left hand side dominates the right hand side.
      */
     inline bool dominates(const Hyperplane & lhs, const Hyperplane & rhs) {
-        return (lhs.array() >= rhs.array()).minCoeff();
+        return (lhs.array() - rhs.array() >= -equalToleranceSmall).minCoeff() ||
+               (lhs.array() - rhs.array() >= -lhs.array().min(rhs.array()) * equalToleranceGeneral).minCoeff();
     };
 
     /**
