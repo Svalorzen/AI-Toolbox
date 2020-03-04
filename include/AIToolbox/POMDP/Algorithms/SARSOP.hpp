@@ -472,6 +472,8 @@ namespace AIToolbox::POMDP {
                 const double nextDepthGap = targetGap / pomdp.getDiscount();
                 double maxVal = std::numeric_limits<double>::lowest();
                 for (size_t o = 0; o < pomdp.getO(); ++o) {
+                    if (node.children[a1][o].observationProbability == 0.0) continue;
+
                     const auto & childNode = treeStorage_[node.children[a1][o].id];
                     const auto val = (childNode.UB - childNode.LB - nextDepthGap) * node.children[a1][o].observationProbability;
                     if (val > maxVal) {
