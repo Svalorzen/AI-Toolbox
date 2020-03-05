@@ -7,29 +7,21 @@
 #include <AIToolbox/POMDP/Types.hpp>
 
 #include <AIToolbox/POMDP/Environments/ChengD35.hpp>
-#include <iostream>
-
-void print(int severity, const char * message) {
-    std::cout << '[' << severity << "] " << message << std::endl;
-}
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox::POMDP;
 
-    AIToolbox::AILogger = print;
-
-    SARSOP sarsop(0.005);
-
-    auto model = makeChengD35();
+    SARSOP sarsop(34);
+    const auto model = makeChengD35();
 
     Belief initialBelief(model.getS());
     initialBelief.fill(1.0 / model.getS());
 
     const auto [lb, ub, vlist, qfun] = sarsop(model, initialBelief);
 
-    std::cout << lb << ' ' << ub << '\n';
-
-    BOOST_CHECK(9.0 < ub - lb && ub - lb < 11.0);
+    // This are the bounds from the gapmin paper.
+    BOOST_CHECK(8705 < ub && ub < 8707);
+    BOOST_CHECK(8672 < lb && lb < 8674);
     (void)vlist;
     (void)qfun;
 }
