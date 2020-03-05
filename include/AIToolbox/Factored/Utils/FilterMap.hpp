@@ -131,7 +131,7 @@ namespace AIToolbox::Factored {
              *
              * @return An iterable object over all values matching the input.
              */
-            template <typename = std::enable_if_t<std::is_same_v<TrieType, Trie>>>
+            template <typename TT = TrieType, typename = std::enable_if_t<std::is_same_v<TT, Trie>>>
             Iterable filter(const Factors & f, size_t offset) {
                 return Iterable(ids_.filter(f, offset), items_);
             }
@@ -148,7 +148,7 @@ namespace AIToolbox::Factored {
              *
              * @return An iterable object over all values matching the input.
              */
-            template <typename = std::enable_if_t<std::is_same_v<TrieType, Trie>>>
+            template <typename TT = TrieType, typename = std::enable_if_t<std::is_same_v<TT, Trie>>>
             ConstIterable filter(const Factors & f, size_t offset) const {
                 return ConstIterable(ids_.filter(f, offset), items_);
             }
