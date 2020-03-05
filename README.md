@@ -86,7 +86,7 @@ Policies:
 - [Q-Greedy Policy](https://arxiv.org/pdf/1707.02038.pdf "A Tutorial on Thompson Sampling, Russo et al.")
 - [Softmax Policy](http://incompleteideas.net/book/ebook/node17.html)
 - [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y "Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal")
-- [Thompson Sampling (Student-t distribution)](https://arxiv.org/pdf/1307.3400.pdf "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al." )
+- [Thompson Sampling (Student-t distribution)](https://arxiv.org/pdf/1307.3400.pdf "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al.")
 
 ### Single Agent MDP/Stochastic Games: ###
 
@@ -165,7 +165,7 @@ Policies:
 - Q-Greedy Policy
 - [Learning with Linear Rewards (LLR)](https://arxiv.org/pdf/1011.4748.pdf "Combinatorial Network Optimization with Unknown Variables: Multi-Armed Bandits with Linear Rewards, Gai et al.")
 - [Multi-Agent Upper Confidence Exploration (MAUCE)](http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.")
-- [Thompson-Sampling (Student-t distribution)](MATS "Thompson Sampling for Factored Multi-Agent Bandits, Verstraeten et al.")
+- [Thompson-Sampling (Student-t distribution)](https://arxiv.org/pdf/1911.10120.pdf "Multi-Agent Thompson Sampling for Bandit Applications with Sparse Neighbourhood Structures, Verstraeten et al.")
 
 #### MDP: ####
 
