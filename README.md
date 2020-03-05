@@ -182,7 +182,7 @@ Algorithms:
 - [Multi Agent Linear Programming](http://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al.")
 - [Joint Action Learners](https://www.aaai.org/Papers/AAAI/1998/AAAI98-106.pdf "The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems, Claus et al.")
 - [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf "Sparse Cooperative Q-learning, Kok et al.")
-- [Cooperative Prioritized Sweeping](CPS "Model-based Multi-Agent Reinforcement Learning with Cooperative Prioritized Sweeping, Bargiacchi et al.")
+- [Cooperative Prioritized Sweeping](https://arxiv.org/pdf/2001.07527.pdf "Model-based Multi-Agent Reinforcement Learning with Cooperative Prioritized Sweeping, Bargiacchi et al.")
 
 Policies:
 
