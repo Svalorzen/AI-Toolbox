@@ -275,7 +275,7 @@ namespace AIToolbox {
             // Sanity check just in case
             // If we are here we should have found something
             // And that something should not be higher than 1.0
-            assert(c < 1.0 | checkEqualSmall(c, 1.0));
+            assert((c < 1.0) | checkEqualSmall(c, 1.0));
             c = std::min(c, 1.0);
             // We need this scope to avoid complaints of the goto.
             {
