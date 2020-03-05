@@ -159,7 +159,7 @@ namespace AIToolbox::Factored::Bandit {
                 // didn't know we would be forced to use < to avoid removing the best)
                 std::iter_swap(begin, maxIt);
                 newFactorCrossSum.erase(
-                    std::remove_if(begin + 1, bound, [max, x_u = x_u, logtA12 = logtA12](const UCVE::Entry & e) { return computeValue(e, x_u, logtA12) <= max; }),
+                    std::remove_if(begin + 1, bound, [max = max, x_u = x_u, logtA12 = logtA12](const UCVE::Entry & e) { return computeValue(e, x_u, logtA12) <= max; }),
                     end
                 );
             }
