@@ -422,16 +422,15 @@ namespace AIToolbox::POMDP {
         // until we hit our stopping conditions. If we end up outside the tree,
         // we are going to add the new nodes to it as we go along.
         size_t currentNodeId = 0;
-        const double rootGap = treeStorage_[0].UB - treeStorage_[0].LB;
+        const double rootGap = (treeStorage_[0].UB - treeStorage_[0].LB) * 0.95;
 
         int depth = 0;
         double L = treeStorage_[0].LB;
-        double U = treeStorage_[0].UB;
+        double U = L + rootGap;
 
         while (true) {
             // Compute target gap for this depth.
             const double targetGap = rootGap * std::pow(pomdp.getDiscount(), -depth);
-
             {
                 // Here we check whether we should stop. Note that the
                 // reference to node is intentionally kept scoped, as we may
