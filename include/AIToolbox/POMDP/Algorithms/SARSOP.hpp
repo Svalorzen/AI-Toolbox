@@ -54,7 +54,25 @@ namespace AIToolbox::POMDP {
              */
             double getTolerance() const;
 
+            /**
+             * @brief This function sets the delta for pruning to use at the start of a solving process.
+             *
+             * Note that during the solving process the delta is modified
+             * dynamically based on heuristics.
+             *
+             * \sa deltaPrune()
+             *
+             * @param delta The new delta to use.
+             */
             void setDelta(double delta);
+
+            /**
+             * @brief This function returns the delta for pruning to use at the start of a solving process.
+             *
+             * \sa deltaPrune()
+             *
+             * @return The currently set delta.
+             */
             double getDelta() const;
 
             /**
@@ -70,12 +88,25 @@ namespace AIToolbox::POMDP {
 
         private:
             /**
-             * @brief
+             * @brief This struct represents a node in our Belief graph.
+             *
+             * From our initial Belief, given actions and observations, we are
+             * going to end up in other Beliefs. This expands ideally into a
+             * tree, but since we may visit certain Beliefs more than once,
+             * it's actually a graph (sorry for the name).
+             *
+             * This struct contains the data we need for every Belief we
+             * encounter: what the Belief is, whether it's suboptimal, it's
+             * upper and lower bounds, and to what Beliefs we end up to with
+             * certain action/observation pairs.
+             *
+             * This data is kept here to avoid having to recompute it all the
+             * time.
              */
             struct TreeNode {
                 Belief belief;
 
-                // Number of non-suboptimal branches that reach this belief.
+                // Number of non-suboptimal branches that reach this Belief.
                 unsigned count;
 
                 // Bounds info
@@ -94,6 +125,22 @@ namespace AIToolbox::POMDP {
                 boost::multi_array<Children, 2> children;
             };
 
+            /**
+             * @brief This function expands the Belief tree and finds nodes which should be backed up.
+             *
+             * This function selects the branches in the Belief tree which are
+             * most likely to reduce the bound gap at the root, and explores
+             * them. It then uses heuristics in order to decide when to stop.
+             *
+             * If needed, it expands new nodes and adds them to the internal
+             * tree. All nodes sampled (until the very last leaf where we have
+             * stopped) are added to the sampledNodes_ internal variable.
+             *
+             * @param pomdp The POMDP to solve.
+             * @param lbV The current lower bound.
+             * @param ubQ The QFunction containing the upper bound.
+             * @param ubV The belief-value pairs for the upper bound.
+             */
             template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             void samplePoints(
                 const M & pomdp,
@@ -101,6 +148,22 @@ namespace AIToolbox::POMDP {
                 const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV
             );
 
+            /**
+             * @brief This function precomputes values and children for a given leaf.
+             *
+             * As we descend the tree, we need to explore new nodes. Once we
+             * find that we need to descend into a leaf, we expand and add its
+             * children to the tree.
+             *
+             * In addition, we precompute the actionData variable of the nodes,
+             * as it will be useful during backup.
+             *
+             * @param id The id of the leaf to expand.
+             * @param model The POMDP to solve.
+             * @param lbV The current lower bound.
+             * @param ubQ The QFunction containing the upper bound.
+             * @param ubV The belief-value pairs for the upper bound.
+             */
             template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             void expandLeaf(
                 size_t id, const M & model,
@@ -108,6 +171,31 @@ namespace AIToolbox::POMDP {
                 const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV
             );
 
+            /**
+             * @brief This function computes the bounds for a node.
+             *
+             * This function computes the bounds for a node, without modifying
+             * the lower and upper bounds.
+             *
+             * In particular, updating the upper bound with this function is
+             * more expensive than during backup, as during backup we do a
+             * slight optimization to only compute it for the best action.
+             *
+             * This function has an additional "expand" parameter, to use when
+             * we want to update a node that is being expanded. If that's the
+             * case, we only update the lower bound, but we also initialize the
+             * actionData matrix, which will be used during backup.
+             *
+             * If a node is being expanded we do not update the lower bound, as
+             * we are trying to do the minimum work required.
+             *
+             * @param node The node to update.
+             * @param model The POMDP to solve.
+             * @param lbV The current lower bound.
+             * @param ubQ The QFunction containing the upper bound.
+             * @param ubV The belief-value pairs for the upper bound.
+             * @param expand Whether we are expanding this node or not.
+             */
             template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             void updateNode(
                 TreeNode & node, const M & model,
@@ -116,6 +204,22 @@ namespace AIToolbox::POMDP {
                 bool expand
             );
 
+            /**
+             * @brief This function performs a backup on the specified node of the tree.
+             *
+             * Note that only expanded (i.e. non-leaf) nodes can be backed up.
+             *
+             * The node will get it's lower and upper bound updated, and from
+             * them we will add a new alphavector to the lower bound, and a new
+             * belief-point pair to the upper bound (possibly updating ubQ in
+             * case the node is a corner of the simplex).
+             *
+             * @param id The id of a non-leaf node.
+             * @param model The POMDP to solve.
+             * @param lbV The current lower bound.
+             * @param ubQ The QFunction containing the upper bound.
+             * @param ubV The belief-value pairs for the upper bound.
+             */
             template <typename M, typename = std::enable_if_t<is_model_v<M>>>
             void backupNode(
                 size_t id, const M & model,
@@ -130,28 +234,67 @@ namespace AIToolbox::POMDP {
             void treePrune(TreeNode & root);
             void treeRevive(TreeNode & root);
 
+            /**
+             * @brief This class predicts the value of a TreeNode based on entropy and upper bound.
+             */
             class LBPredictor {
                 public:
+                    /**
+                     * @brief Basic constructor.
+                     *
+                     * @param entropyBins The number of bins to use for entropy.
+                     * @param UBBins The number of bins to use for the upper bound.
+                     * @param ubQ A reference to the initial upper bound surface (the one obtained through FastInformedBound).
+                     */
                     LBPredictor(size_t entropyBins, size_t UBBins, const MDP::QFunction & ubQ);
 
-                    //       bin avg, bin err
+                    /**
+                     * @brief This function predicts the value of the input node.
+                     *
+                     * If the node is new, we automatically initialize it and
+                     * add it to its correct bucket.
+                     *
+                     * We average the lower bound values of the nodes in the
+                     * same bucket, and that's our predicted value.
+                     *
+                     * An exception is made for nodes which are alone in their
+                     * bucket; in that case their upper bound is returned (with
+                     * error 0).
+                     *
+                     * @param id The unique id of the input node.
+                     * @param node The node to predict the value for.
+                     *
+                     * @return A pair containing the predicted value, and its MSE w.r.t. the other nodes in the same bucket.
+                     */
                     std::pair<double, double> predict(size_t id, const TreeNode & node);
 
                 private:
+                    /**
+                     * @brief This struct contains the data for each bin.
+                     */
                     struct Bin {
                         double avg;
                         double error;
                         unsigned count;
                     };
 
+                    /**
+                     * @brief This function updates the bin of the node with its data, and returns the bin.
+                     *
+                     * @param id The unique id of the input node.
+                     * @param node The node to predict the value for.
+                     *
+                     * @return A reference to the bin that contains the input node.
+                     */
                     const Bin & update(size_t id, const TreeNode & node);
 
                     const MDP::QFunction & ubQ_;
                     size_t entropyBins_, UBBins_;
                     double entropyStep_, UBMin_, UBStep_;
 
-                    //                 id             initialized, ei,     ubi,    lb,    err
+                    //                 id          is_initialized, ei,     ubi,    lb,    err
                     std::unordered_map<size_t, std::tuple<bool,    size_t, size_t, double, double>> nodes_;
+                    //              entropy x ub
                     boost::multi_array<Bin, 2> bins_;
             };
 
@@ -180,6 +323,9 @@ namespace AIToolbox::POMDP {
     template <typename M, typename>
     std::tuple<double, double, VList, MDP::QFunction> SARSOP::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
+
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Running SARSOP; POMDP S: " << pomdp.getS() << "; A: " << pomdp.getA() << "; O: " << pomdp.getO());
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Initial Belief: " << initialBelief.transpose());
 
         // ##############################
         // ### Resetting general data ###
@@ -309,7 +455,8 @@ namespace AIToolbox::POMDP {
         // ### Setup UB predictors ###
         // ###########################
 
-        // This we use to estimate the UB buckets for each belief.
+        // This we use to estimate the UB buckets for each belief. We use more
+        // than one since they do the same in the original code.
         const auto initialUbQ = ubQ;
 
         constexpr unsigned numBins = 2;
@@ -319,6 +466,7 @@ namespace AIToolbox::POMDP {
 
         for (unsigned i = 0; i < numBins; ++i) {
             const unsigned scaling = std::pow(binScaling, i);
+            // Each predictor has differently sized buckets.
             predictors_.emplace_back(entropyBins * scaling, ubBins * scaling, initialUbQ);
         }
 
@@ -335,49 +483,48 @@ namespace AIToolbox::POMDP {
         updateNode(treeStorage_[0], pomdp, lbVList, ubQ, ubV, false);
 
         AI_LOGGER(AI_SEVERITY_INFO, "Initial bounds: " << treeStorage_[0].LB << ", " << treeStorage_[0].UB);
-        AI_LOGGER(AI_SEVERITY_INFO, "Root UBs: " << treeStorage_[0].actionData.row(1));
 
         // ##################
         // ### Begin work ###
         // ##################
 
         while (true) {
-            AI_LOGGER(AI_SEVERITY_INFO, "Sampling...");
             // Deep sample a branch of the action/observation trees. The
             // sampled nodes (except the last one where we stop) are added to
             // sampledNodes_.
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Sampling points...");
             samplePoints(pomdp, lbVList, ubQ, ubV);
-            AI_LOGGER(AI_SEVERITY_INFO, "Sampled " << sampledNodes_.size() << " beliefs.");
 
             // If we have no nodes it means we stopped at the root, so we have
             // already shrinked the gap enough; we are done.
-            if (sampledNodes_.size() == 0)
+            if (sampledNodes_.size() == 0) {
+                AI_LOGGER(AI_SEVERITY_INFO, "No more points to sample found.");
                 break;
+            }
 
-            AI_LOGGER(AI_SEVERITY_INFO, "Backing up...");
             // Backup the nodes we sampled, from (node-before) leaf to root.
             // This updates the lower and upper bounds by adding
             // alphavectors/points to them.
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Backing up points...");
             for (auto rIt = std::rbegin(sampledNodes_); rIt != std::rend(sampledNodes_); ++rIt)
                 backupNode(*rIt, pomdp, lbVList, ubQ, ubV);
 
             // # Lower Bound Pruning #
 
-            AI_LOGGER(AI_SEVERITY_INFO, "Delta pruning... (" << lbVList.size() << " alphavectors)");
             // We aggressively prune the lbVList based on the beliefs we have
             // explored. This prunes both using direct dominance as well as
             // delta dominance, i.e. vectors count as dominated if they are
             // dominated within a given neighborhood of all their witness
             // beliefs.
+            AI_LOGGER(AI_SEVERITY_DEBUG, "Delta pruning...");
             deltaPrune(lbVList);
-            AI_LOGGER(AI_SEVERITY_INFO, "Pruned (now " << lbVList.size() << " alphavectors)");
 
             // # Upper Bound Pruning #
 
-            AI_LOGGER(AI_SEVERITY_INFO, "UB pruning...");
             // Prune unused beliefs that do not contribute to the upper bound.
             // This means that their value is *higher* than what we can
             // approximate using the other beliefs.
+            AI_LOGGER(AI_SEVERITY_DEBUG, "UB pruning...");
             size_t i = ubV.first.size();
             do {
                 --i;
@@ -402,6 +549,12 @@ namespace AIToolbox::POMDP {
                     ubV.second.emplace_back(value);
                 }
             } while (i != 0 && ubV.first.size() > 1);
+
+            AI_LOGGER(AI_SEVERITY_INFO,
+                "Root lower bound: " << treeStorage_[0].LB <<
+                "; upper bound: " << treeStorage_[0].UB <<
+                "; alpha vectors: " << lbVList.size() <<
+                "; belief points: " << ubV.first.size());
 
             if (treeStorage_[0].UB - treeStorage_[0].LB <= tolerance_)
                 break;
@@ -451,26 +604,22 @@ namespace AIToolbox::POMDP {
 
             // We are indeed going down this node, so we add it to the nodes
             // sampled.
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Accepted node " << currentNodeId << " for sampling.");
             sampledNodes_.push_back(currentNodeId);
 
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Node is leaf, expanding...");
             // Precompute this node's children if it was a leaf.
             if (treeStorage_[currentNodeId].children.size() == 0)
                 expandLeaf(currentNodeId, pomdp, lbVList, ubQ, ubV);
 
             // Now we can take a reference as we won't need to allocate again.
             const TreeNode & node = treeStorage_[currentNodeId];
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Sampling belief " << node.belief.transpose() << " with id " << currentNodeId);
 
             // Otherwise we keep sampling.
             const auto L1 = std::max(L, node.LB);
             const auto U1 = std::max(U, node.LB + targetGap);
 
-            AI_LOGGER(AI_SEVERITY_DEBUG, "a1, o1...");
-            // FIXME: possible do randomization
+            // TODO: possible do randomization for equally valued actions.
             const auto a1 = node.actionUb;
-            // FIXME: possible do randomization
+            // TODO: possible do randomization for equally valued obs.
             size_t o1 = 0;
             {
                 const double nextDepthGap = targetGap / pomdp.getDiscount();
@@ -487,7 +636,6 @@ namespace AIToolbox::POMDP {
                 }
             }
 
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Lnorm, Unorm...");
             double Lnorm = 0.0, Unorm = 0.0;
             for (size_t o = 0; o < pomdp.getO(); ++o) {
                 if (o == o1) continue;
@@ -498,7 +646,6 @@ namespace AIToolbox::POMDP {
                 Unorm += childNode.UB * node.children[a1][o].observationProbability;
             }
 
-            AI_LOGGER(AI_SEVERITY_DEBUG, "Lt, Ut...");
             // Lt, Ut
             L = ((L1 - node.actionData(0, a1)) / pomdp.getDiscount() - Lnorm) / node.children[a1][o1].observationProbability;
             U = ((U1 - node.actionData(0, a1)) / pomdp.getDiscount() - Unorm) / node.children[a1][o1].observationProbability;
@@ -517,6 +664,10 @@ namespace AIToolbox::POMDP {
             const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV
         )
     {
+        // Note that we create a pointer as this function will add nodes to
+        // treeStorage_, which will possibly re-allocate its storage. This
+        // means that references will lose validity. Here we use a pointer to
+        // re-assign it when needed.
         TreeNode * nodep = &treeStorage_[id];
 
         assert(nodep->children.size() == 0);
@@ -526,20 +677,16 @@ namespace AIToolbox::POMDP {
         // something.
         assert(nodep->count > 0);
 
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Updating node...");
         // Allocate precompute bound values for future backups
         updateNode(*nodep, pomdp, lbVList, ubQ, ubV, true);
 
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Allocating children...");
         // Allocate children memory
         nodep->children.resize(boost::extents[pomdp.getA()][pomdp.getO()]);
 
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Starting loop..");
         for (size_t a = 0; a < pomdp.getA(); ++a) {
             updateBeliefPartial(pomdp, nodep->belief, a, &intermediateBeliefTmp_);
 
             for (size_t o = 0; o < pomdp.getO(); ++o) {
-                AI_LOGGER(AI_SEVERITY_DEBUG, "a = " << a << "; o = " << o);
                 auto & child = nodep->children[a][o];
 
                 updateBeliefPartialUnnormalized(pomdp, intermediateBeliefTmp_, a, o, &nextBeliefTmp_);
@@ -555,16 +702,12 @@ namespace AIToolbox::POMDP {
 
                 child.observationProbability = prob;
 
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Looking for it: " << nextBeliefTmp_.transpose());
-
                 const auto it = beliefToNode_.find(nextBeliefTmp_);
                 if (it != beliefToNode_.end()) {
-                    AI_LOGGER(AI_SEVERITY_DEBUG, "Found, setting id and continuing...");
                     // If the node already existed, we simply point to it, and
                     // increase its reference count.
                     child.id = it->second;
                     if (++treeStorage_[child.id].count == 1) {
-                        AI_LOGGER(AI_SEVERITY_DEBUG, "Reviving node " << child.id << "...");
                         // If it's count was 0 before, then it represented a
                         // previously pruned branch. Since it's now back in the
                         // tree, we need to "revive" all its children warning
@@ -582,12 +725,9 @@ namespace AIToolbox::POMDP {
 
                 // Finish storing info about child as its reference is about to
                 // go stale.
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Not found, Setting new id...");
                 child.id = treeStorage_.size();
-                AI_LOGGER(AI_SEVERITY_DEBUG, "ID = " << child.id);
                 beliefToNode_[nextBeliefTmp_] = child.id;
 
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Emplacing in storage... " << treeStorage_.size());
                 // Adding a node to treeStorage_ invalidates every single
                 // reference we are holding to anything in it, since it may
                 // reallocate. Keep it in mind.
@@ -595,13 +735,11 @@ namespace AIToolbox::POMDP {
                 // Re-assign to nodep to get the possibly new pointer.
                 nodep = &treeStorage_[id];
 
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Setting node properties...");
                 auto & childNode = treeStorage_.back();
 
                 childNode.belief = nextBeliefTmp_;
                 childNode.count = 1;
                 // Compute UB and LB for this child
-                AI_LOGGER(AI_SEVERITY_DEBUG, "Updating new leaf...");
                 updateNode(childNode, pomdp, lbVList, ubQ, ubV, false);
             }
         }
