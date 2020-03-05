@@ -337,10 +337,6 @@ namespace AIToolbox::POMDP {
         // Cache immediate rewards if we can't read the reward function directly.
         if constexpr (!MDP::is_model_eigen_v<M>)
             immediateRewards_ = computeImmediateRewards(pomdp);
-        const auto & ir = [&]{
-            if constexpr (MDP::is_model_eigen_v<M>) return pomdp.getRewardFunction();
-            else return immediateRewards_;
-        }();
 
         // First allocation for root node & children
         treeStorage_.clear();
