@@ -519,12 +519,12 @@ namespace AIToolbox::POMDP {
     {
         TreeNode * nodep = &treeStorage_[id];
 
-        assert(node->children.size() == 0);
+        assert(nodep->children.size() == 0);
         // This assert is to say that we shouldn't really be going down a
         // provenly suboptimal path, so this should not really happen.  If it
         // happens, it might be something is broken or I misunderstood
         // something.
-        assert(node->count > 0);
+        assert(nodep->count > 0);
 
         AI_LOGGER(AI_SEVERITY_DEBUG, "Updating node...");
         // Allocate precompute bound values for future backups
