@@ -220,9 +220,14 @@ namespace AIToolbox::POMDP {
         // ### Computing initial bounds ###
         // ################################
 
-        // Helper methods
-        BlindStrategies bs(infiniteHorizon, tolerance_);
-        FastInformedBound fib(infiniteHorizon, tolerance_);
+        // Helper methods to compute initial LB/UB. Since SARSOP is not really
+        // the best method, it's unlikely that we will ask very stringent
+        // tolerances (unless we want to wait a while). However, since these
+        // two methods are pretty fast, there's not harm in asking them a
+        // tighter tolerance if they can reach it.. if they can't they'll
+        // simply stop on their own.
+        BlindStrategies bs(infiniteHorizon, std::min(0.00001, tolerance_));
+        FastInformedBound fib(infiniteHorizon, std::min(0.00001, tolerance_));
 
         // Here we use the BlindStrategies in order to obtain a very simple
         // initial lower bound.
