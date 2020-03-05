@@ -74,12 +74,12 @@ BOOST_AUTO_TEST_CASE( compatibility ) {
     AIToolbox::MDP::Experience exp(S,A);
 
     std::array<std::array<std::array<int, S>, A>, S> visits;
-    std::array<std::array<int, S>, A> rewards;
-    for ( size_t s = 0; s < S; ++s )
-        for ( size_t a = 0; a < A; ++a ) {
+    std::array<std::array<int, A>, S> rewards;
+    for ( size_t s = 0; s < S; ++s ) {
+        std::generate(rewards[s].begin(), rewards[s].end(), generator);
+        for ( size_t a = 0; a < A; ++a )
             std::generate(visits[s][a].begin(), visits[s][a].end(), generator);
-            std::generate(rewards[s].begin(), rewards[s].end(), generator);
-        }
+    }
 
     exp.setVisitsTable(visits);
     exp.setRewardMatrix(rewards);
