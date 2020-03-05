@@ -276,7 +276,7 @@ namespace AIToolbox::POMDP {
         const auto rbegin = std::begin(result);
         const auto rend   = std::end  (result);
 
-        result.erase(extractDominated(S, rbegin, rend, unwrap), rend);
+        result.erase(extractDominated(rbegin, rend, unwrap), rend);
 
         return result;
     }

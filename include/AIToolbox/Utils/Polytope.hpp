@@ -9,8 +9,38 @@
 #include <AIToolbox/Utils/LP.hpp>
 
 namespace AIToolbox {
+    /**
+     * @brief Defines a plane in a simplex where each value is the height at that corner.
+     */
     using Hyperplane = Vector;
-    using Point = Vector;
+
+    /**
+     * @brief Defines a point inside a simplex. Coordinates sum to 1.
+     */
+    using Point = ProbabilityVector;
+
+    /**
+     * @brief A surface within a simplex defined by points and their height. Should not contain the corners.
+     */
+    using PointSurface = std::pair<std::vector<Point>, std::vector<double>>;
+
+    /**
+     * @brief A compact set of (probably |A|) hyperplanes, one per column (probably |S| rows). This is generally used with PointSurface; otherwise we use a vector<Hyperplane>.
+     */
+    using CompactHyperplanes = Matrix2D;
+
+    /**
+     * @brief This function checks whether an Hyperplane dominates another.
+     *
+     * @param lhs The Hyperplane that should dominate.
+     * @param rhs The Hyperplane that should be dominated.
+     *
+     * @return Whether the left hand side dominates the right hand side.
+     */
+    inline bool dominates(const Hyperplane & lhs, const Hyperplane & rhs) {
+        return (lhs.array() - rhs.array() >= -equalToleranceSmall).minCoeff() ||
+               (lhs.array() - rhs.array() >= -lhs.array().min(rhs.array()) * equalToleranceGeneral).minCoeff();
+    };
 
     /**
      * @brief This function returns an iterator pointing to the best Hyperplane for the specified point.
@@ -69,6 +99,55 @@ namespace AIToolbox {
         }
         if ( value ) *value = bestValue;
         return bestMatch;
+    }
+
+    /**
+     * @brief This function returns, if it exists, an iterator to the highest Hyperplane that delta-dominates the input one.
+     *
+     * Delta-domination refers to a concept introduced in the SARSOP paper. It
+     * means that a Hyperplane dominates another in a neighborhood of a given
+     * Point p. This is in contrast to either simply being higher at that
+     * point, or dominating the other plane across the whole simplex space.
+     *
+     * The returned entry of this function depends on the ordering of the range,
+     * as more than one Hyperplane may delta-dominate the input, but they may
+     * not delta-dominate each other.
+     *
+     * Thus, we iterate the input range once, and we check iteratively if an
+     * entry delta-dominates the currently found best Hyperplane.
+     *
+     * Note that an entry is not guaranteed to exist; in that case we return
+     * the end of the input range.
+     *
+     * @param point The Point where to check for delta-domination.
+     * @param plane The Hyperplane that needs to be delta-dominated.
+     * @param delta The delta value to use to validate delta-domination, i.e. the size of the neighborhood to check.
+     * @param begin The start of the range to check.
+     * @param end The end of the range to check.
+     * @param p A projection function to call on the iterators (defaults to identity).
+     *
+     * @return An iterator to the highest dominating entry, or if none is found, the end of the range.
+     */
+    template <typename Iterator, typename P = identity>
+    Iterator findBestDeltaDominated(const Point & point, const Hyperplane & plane, double delta, Iterator begin, Iterator end, P p = P{}) {
+        auto retval = end;
+
+        const Hyperplane * maxPlane = &plane;
+        double maxVal = point.dot(*maxPlane);
+
+        for (auto it = begin; it < end; ++it) {
+            const Hyperplane * newPlane = &std::invoke(p, *it);
+            const double newVal = point.dot(*newPlane);
+            if (newVal > maxVal) {
+                const double deltaValue = (newVal - maxVal) / (*newPlane - *maxPlane).norm();
+                if (deltaValue > delta) {
+                    maxVal = newVal;
+                    maxPlane = newPlane;
+                    retval = it;
+                }
+            }
+        }
+        return retval;
     }
 
     /**
@@ -246,8 +325,8 @@ namespace AIToolbox {
      * @return A non-unique list of all the vertices found.
      */
     template <typename NewIt, typename OldIt, typename P1 = identity, typename P2 = identity>
-    std::vector<std::pair<Point, double>> findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {
-        std::vector<std::pair<Point, double>> vertices;
+    PointSurface findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {
+        PointSurface vertices;
 
         const size_t alphasSize = std::distance(alphasBegin, alphasEnd);
         if (alphasSize == 0) return vertices;
@@ -311,8 +390,10 @@ namespace AIToolbox {
                 b[counter-1] = 0.0;
 
                 // Add to found only if valid, otherwise skip.
-                if (((result.head(S).array() >= 0) && (result.head(S).array() <= 1.0)).all())
-                    vertices.emplace_back(result.head(S), result[S]);
+                if (((result.head(S).array() >= 0) && (result.head(S).array() <= 1.0)).all()) {
+                    vertices.first.emplace_back(result.head(S));
+                    vertices.second.emplace_back(result[S]);
+                }
 
                 // Advance, and take the id of the first index changed in the
                 // next combination.
@@ -341,66 +422,62 @@ namespace AIToolbox {
      * when deciding the next point to extract from the queue during the linear
      * support process.
      *
+     * Note that the input is the same as a PointSurface; the two components
+     * have been kept as separate arguments simply to allow more freedom to the
+     * user.
+     *
      * @param p The point where we want to compute the best possible value.
-     * @param pvBegin The start of the range of point-value pairs representing all surrounding vertices.
-     * @param pvEnd The end of that same range.
+     * @param points The points that make up the surface.
+     * @param values The respective values of the input points.
      *
      * @return The best possible value that the input point can have given the known vertices.
      */
-    template <typename It>
-    double computeOptimisticValue(const Point & p, It pvBegin, It pvEnd) {
-        const size_t vertexNumber = std::distance(pvBegin, pvEnd);
-        if (vertexNumber == 0) return 0.0;
-        const size_t S = p.size();
+    double computeOptimisticValue(const Point & p, const std::vector<Point> & points, const std::vector<double> & values);
 
-        LP lp(S);
+    /**
+     * @brief This function computes the exact value of the input Point w.r.t. the given surfaces.
+     *
+     * The input CompactHyperplanes are used as an easy upper bound.
+     *
+     * Then, a linear programming is created that uses the input PointSurface.
+     * What happens is that the linear program uses each Point (and its value)
+     * to construct a piecewise linear surface, where the value of the input
+     * belief is determined.
+     *
+     * The higher of the two surfaces is then returned as the value of the
+     * input Point.
+     *
+     * @param p The point to compute the value of.
+     * @param ubQ A set of Hyperplanes to use as a baseline surface.
+     * @param ubV A set of Points (not on the corners of the simplex) to use as main interpolation.
+     *
+     * @return The value of the Point, and a vector containing the proportion in which each Point in the PointSurface contributes to the upper bound.
+     */
+    std::tuple<double, Vector> LPInterpolation(const Point & p, const CompactHyperplanes & ubQ, const PointSurface & ubV);
 
-        /*
-         * With this LP we are looking for an optimistic hyperplane that can
-         * tightly fit all corners that we already have, and maximize the value
-         * at the input point.
-         *
-         * Our constraints are of the form
-         *
-         * vertex[0][0]) * h0 + vertex[0][1]) * h1 + ... <= vertex[0].currentValue
-         * vertex[1][0]) * h0 + vertex[1][1]) * h1 + ... <= vertex[1].currentValue
-         * ...
-         *
-         * Since we are looking for an optimistic hyperplane, all variables are
-         * unbounded since the hyperplane may need to go negative at some
-         * states.
-         *
-         * Finally, our constraint is a row to maximize:
-         *
-         * b * v0 + b * v1 + ...
-         *
-         * Which means we try to maximize the value of the input point with the
-         * newly found hyperplane.
-         */
-
-        // Set objective to maximize
-        lp.row = p;
-        lp.setObjective(true);
-
-        // Set unconstrained to all variables
-        for (size_t s = 0; s < S; ++s)
-            lp.setUnbounded(s);
-
-        // Set constraints for all input points and current values.
-        for (auto it = pvBegin; it != pvEnd; ++it) {
-            lp.row = it->first;
-            lp.pushRow(LP::Constraint::LessEqual, it->second);
-        }
-
-        double retval;
-        // Note that we don't care about the optimistic alphavector, so we
-        // discard it. We check that everything went fine though, in theory
-        // there shouldn't be any problems here.
-        auto solution = lp.solve(0, &retval);
-        assert(solution);
-
-        return retval;
-    }
+    /**
+     * @brief This function computes an approximate, but quick, upper bound on the surface value at the input point.
+     *
+     * The input CompactHyperplanes are used as an easy upper bound.
+     *
+     * We then start to consider every surface composed by one Point in the
+     * input PointSurface, and N-1 corners of the simplex (the highest corners
+     * of the surface, as identified by the CompactHyperplanes). Since each
+     * Point defines N such surfaces (one for each corner we "skip"), the
+     * enumeration can be done fairly quickly.
+     *
+     * The overall surface has a sawtooth shape, from which the name of this
+     * method. The approximation is not perfect, but some methods must use it
+     * as using the LPInterpolation method would be too computationally
+     * expensive.
+     *
+     * @param p The point to compute the value of.
+     * @param ubQ A set of Hyperplanes to use as a baseline surface.
+     * @param ubV A set of Points (not on the corners of the simplex) to use as main interpolation.
+     *
+     * @return The value of the Point, and a vector containing the proportion in which each Point in the PointSurface contributes to the upper bound.
+     */
+    std::tuple<double, Vector> sawtoothInterpolation(const Point & p, const CompactHyperplanes & ubQ, const PointSurface & ubV);
 
     /**
      * @brief This class implements an easy interface to do Witness discovery through linear programming.

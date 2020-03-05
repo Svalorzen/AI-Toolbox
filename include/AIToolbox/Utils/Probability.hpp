@@ -260,6 +260,31 @@ namespace AIToolbox {
     }
 
     /**
+     * @brief This function returns the entropy of the input ProbabilityVector.
+     *
+     * @param v The input ProbabilityVector.
+     *
+     * @return The entropy of the input.
+     */
+    inline double getEntropy(const ProbabilityVector & v) {
+        return (v.array() * v.array().log()).sum();
+    }
+
+    /**
+     * @brief This function returns the entropy of the input ProbabilityVector computed using log2.
+     *
+     * @param v The input ProbabilityVector.
+     *
+     * @return The entropy of the input in base 2.
+     */
+    inline double getEntropyBase2(const ProbabilityVector & v) {
+        double entropy = 0.0;
+        for (auto i = 0; i < v.size(); ++i)
+            entropy += v[i] * std::log2(v[i]);
+        return entropy;
+    }
+
+    /**
      * @brief This function projects the input vector to a valid probability space.
      *
      * This function finds the closest valid ProbabilityVector to the input
@@ -281,7 +306,7 @@ namespace AIToolbox {
      * This is an O(1) way to sample from a fixed distribution. Construction
      * takes O(N).
      *
-     * The class takes two vectors of size N, and converts the input
+     * The class stores two vectors of size N, and converts the input
      * probability distribution into a set of N weighted coins, each of which
      * represents a choice between two particular numbers.
      *
@@ -291,7 +316,7 @@ namespace AIToolbox {
      *
      * This is the preferred method of sampling for distributions that
      * generally do not change (as if the distribution changes, the instance of
-     * VoseAlias must be rebuilt).
+     * VoseAliasSampler must be rebuilt).
      */
     class VoseAliasSampler {
         public:

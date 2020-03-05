@@ -151,7 +151,7 @@ namespace AIToolbox::Factored::Bandit {
                 const auto begin = std::begin(newFactorCrossSum);
                 const auto end = std::end(newFactorCrossSum);
 
-                auto bound = extractDominated(2, begin, end, unwrap);
+                auto bound = extractDominated(begin, end, unwrap);
 
                 auto [maxIt, max] = max_element_unary(begin, bound, [x_l = x_l, logtA12 = logtA12](const auto & v) { return computeValue(v, x_l, logtA12); });
 

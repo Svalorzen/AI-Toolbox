@@ -7,6 +7,8 @@
 
 #include <AIToolbox/Impl/Logging.hpp>
 
+#include <AIToolbox/Utils/Polytope.hpp>
+
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Model.hpp>
@@ -133,7 +135,6 @@ namespace AIToolbox::POMDP {
             std::tuple<double, double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
 
         private:
-            using UbVType = std::pair<std::vector<Belief>, std::vector<double>>;
             using IntermediatePOMDP = Model<MDP::Model>;
 
             // Queue sorted by gap.         belief,    gap,   prob,    lb,    ub,    depth,       path
@@ -173,7 +174,7 @@ namespace AIToolbox::POMDP {
                 const Belief & belief,
                 const VList & lbV,
                 const std::vector<Belief> & lbBeliefs,
-                const MDP::QFunction & ubQ, const UbVType & ubV
+                const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV
             );
 
             /**
@@ -196,25 +197,7 @@ namespace AIToolbox::POMDP {
              * @return A pair with a reward-function only POMDP, and its associated SOSA matrix.
              */
             template <typename M, typename = std::enable_if_t<is_model_v<M>>>
-            std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV);
-
-            /**
-             * @brief This function obtains the best action with respect to the input QFunction and UbV.
-             *
-             * This function simply computes the upper bound for all beliefs that can
-             * be reached from the input belief. For each action, their values are
-             * summed (after multiplying each by the probability of it happening), and
-             * the best action extracted.
-             *
-             * @param pomdp The model to look the action for.
-             * @param belief The belief to find the best action in.
-             * @param ubQ The current QFunction for this model.
-             * @param ubV The current list of belief/values for this model.
-             *
-             * @return The best action-value pair.
-             */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
-            std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV);
+            std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV);
 
             /**
              * @brief This function skims useless beliefs from the ubV.
@@ -232,25 +215,7 @@ namespace AIToolbox::POMDP {
              * @param ubV The current belief-value pairs.
              * @param fibQ The alphavectors associated with the ubV.
              */
-            void cleanUp(const MDP::QFunction & ubQ, UbVType * ubV, Matrix2D * fibQ);
-
-            /**
-             * @brief This function computes the best approximation possible of the upper bound of the input belief.
-             *
-             * The input QFunction is used as an easy upper bound.
-             *
-             * Then, a linear programming is created that uses the input ubV. What
-             * happens is that the linear program uses each belief point (and its
-             * value) to construct a piecewise linear surface, where the value of the
-             * input belief is determined.
-             *
-             * @param belief The belief to compute the upper bound of.
-             * @param ubQ The current QFunction.
-             * @param ubV The current belief-value pairs.
-             *
-             * @return The value of the belief, and a vector containing the proportion in which each belief contributes to the upper bound.
-             */
-            std::tuple<double, Vector> UB(const Belief & belief, const MDP::QFunction & ubQ, const UbVType & ubV);
+            void cleanUp(const MDP::QFunction & ubQ, UpperBoundValueFunction * ubV, Matrix2D * fibQ);
 
             Matrix2D immediateRewards_;
             double tolerance_;
@@ -277,7 +242,7 @@ namespace AIToolbox::POMDP {
         // Here we use the BlindStrategies in order to obtain a very simple
         // initial lower bound.
         VList lbVList = std::get<1>(bs(pomdp, true));
-        lbVList.erase(extractDominated(pomdp.getS(), std::begin(lbVList), std::end(lbVList), unwrap), std::end(lbVList));
+        lbVList.erase(extractDominated(std::begin(lbVList), std::end(lbVList), unwrap), std::end(lbVList));
 
         auto lbBeliefs = std::vector<Belief>{initialBelief};
 
@@ -301,7 +266,7 @@ namespace AIToolbox::POMDP {
         // FastInformedBound), and a series of belief-value pairs, which we'll
         // use with the later-constructed new POMDP in order to improve our
         // bounds.
-        UbVType ubV = {
+        UpperBoundValueFunction ubV = {
             {initialBelief}, {fibQ.row(pomdp.getS()).maxCoeff()}
         };
 
@@ -396,7 +361,7 @@ namespace AIToolbox::POMDP {
                 // Finally, we remove some unused stuff, and we recompute the upperbound.
                 cleanUp(ubQ, &ubV, &fibQ);
 
-                ub = std::get<0>(UB(initialBelief, ubQ, ubV));
+                ub = std::get<0>(LPInterpolation(initialBelief, ubQ, ubV));
             }
 
             // Update the difference between upper and lower bound so we can
@@ -413,7 +378,7 @@ namespace AIToolbox::POMDP {
     }
 
     template <typename M, typename>
-    std::tuple<GapMin::IntermediatePOMDP, SparseMatrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UbVType & ubV) {
+    std::tuple<GapMin::IntermediatePOMDP, SparseMatrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV) {
         size_t S = model.getS() + ubV.first.size();
 
         // First we build the new reward function. For normal states, this is
@@ -447,7 +412,7 @@ namespace AIToolbox::POMDP {
                 // Note that we do not normalize helper since we'd also have to
                 // multiply `dist` by the same probability. Instead we don't
                 // normalize, and we don't multiply, so we save some work.
-                Vector dist = std::get<1>(UB(helper, ubQ, ubV));
+                Vector dist = std::get<1>(LPInterpolation(helper, ubQ, ubV));
                 for (size_t i = 0; i < S; ++i)
                     if (checkDifferentSmall(dist[i], 0.0))
                         m.insert(index, i) = dist[i];
@@ -487,94 +452,10 @@ namespace AIToolbox::POMDP {
         );
     }
 
-    /**
-     * @brief This function obtains the best action with respect to the input VList.
-     *
-     * This function pretty much does what the Projecter class does. The
-     * difference is that while the Projecter expands one step in the future
-     * every single entry in the input VList, this only does it to the input
-     * Belief.
-     *
-     * This allows to both avoid a lot of work if we wouldn't need to reuse the
-     * Projecter results a lot, and simplifies the crossSum step.
-     *
-     * @param pomdp The model to use.
-     * @param initialBelief The belief where the best action needs to be found.
-     * @param lbVList The alphavectors to use.
-     *
-     * @return The best action in the input belief with respect to the input VList.
-     */
-    template <typename M, typename = std::enable_if_t<is_model_v<M>>>
-    std::tuple<size_t, double> bestConservativeAction(const M & pomdp, const Belief & initialBelief, const VList & lbVList) {
-        MDP::QFunction ir = [&]{
-            if constexpr (MDP::is_model_eigen_v<M>)
-                return pomdp.getRewardFunction();
-            else
-                return computeImmediateRewards(pomdp);
-        }();
-
-        Vector bpAlpha(pomdp.getS());
-        for (size_t a = 0; a < pomdp.getA(); ++a) {
-            const Belief intermediateBelief = updateBeliefPartial(pomdp, initialBelief, a);
-
-            bpAlpha.setZero();
-
-            for (size_t o = 0; o < pomdp.getO(); ++o) {
-                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
-
-                const auto nextBeliefProbability = nextBelief.sum();
-                if (checkEqualSmall(nextBeliefProbability, 0.0)) continue;
-                // Now normalized
-                nextBelief /= nextBeliefProbability;
-
-                const auto it = findBestAtPoint(nextBelief, std::begin(lbVList), std::end(lbVList), nullptr, unwrap);
-
-                bpAlpha += pomdp.getObservationFunction(a).col(o).cwiseProduct(it->values);
-            }
-            ir.col(a) += pomdp.getDiscount() * pomdp.getTransitionFunction(a) * bpAlpha;
-        }
-
-        size_t id;
-        double v = (initialBelief.transpose() * ir).maxCoeff(&id);
-
-        return std::make_tuple(id, v);
-    }
-
-    template <typename M, typename>
-    std::tuple<size_t, double> GapMin::bestPromisingAction(const M & pomdp, const Belief & belief, const MDP::QFunction & ubQ, const GapMin::UbVType & ubV) {
-        Vector qvals = belief.transpose() * [&]{
-            if constexpr (MDP::is_model_eigen_v<M>)
-                return pomdp.getRewardFunction();
-            else
-                return immediateRewards_;
-        }();
-
-        for (size_t a = 0; a < pomdp.getA(); ++a) {
-            const Belief intermediateBelief = updateBeliefPartial(pomdp, belief, a);
-            double sum = 0.0;
-            for (size_t o = 0; o < pomdp.getO(); ++o) {
-                Belief nextBelief = updateBeliefPartialUnnormalized(pomdp, intermediateBelief, a, o);
-
-                const auto prob = nextBelief.sum();
-                if (checkEqualSmall(prob, 0.0)) continue;
-                // Note that we do not normalize nextBelief since we'd also
-                // have to multiply the result by the same probability. Instead
-                // we don't normalize, and we don't multiply, so we save some
-                // work.
-                sum += std::get<0>(UB(nextBelief, ubQ, ubV));
-            }
-            qvals[a] += pomdp.getDiscount() * sum;
-        }
-        size_t bestAction;
-        double bestValue = qvals.maxCoeff(&bestAction);
-
-        return std::make_tuple(bestAction, bestValue);
-    }
-
     template <typename M, typename>
     std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> GapMin::selectReachableBeliefs(
             const M & pomdp, const Belief & initialBelief, const VList & lbVList,
-            const std::vector<Belief> & lbBeliefs, const MDP::QFunction & ubQ, const UbVType & ubV
+            const std::vector<Belief> & lbBeliefs, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV
         )
     {
         std::vector<Belief> newLbBeliefs, newUbBeliefs, visitedBeliefs;
@@ -596,7 +477,7 @@ namespace AIToolbox::POMDP {
             const auto rbegin = std::begin(lbVList);
             const auto rend   = std::end  (lbVList);
             findBestAtPoint(initialBelief, rbegin, rend, &currentLowerBound, unwrap);
-            const double currentUpperBound = std::get<0>(UB(initialBelief, ubQ, ubV));
+            const double currentUpperBound = std::get<0>(LPInterpolation(initialBelief, ubQ, ubV));
             queue.emplace(QueueElement(initialBelief, 0.0, 1.0, currentLowerBound, currentUpperBound, 1, {}));
         }
 
@@ -621,12 +502,12 @@ namespace AIToolbox::POMDP {
             //
             // If the found actions improve on the bounds, then we'll add this
             // belief to the list.
-            //
-            // These functions could be combined to avoid repeating some work
-            // (the belief updates step), but it seems that doing so actually
-            // slows the code down - probably cache problems.
-            const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, belief, ubQ, ubV);
-            const auto [lbAction, lbActionValue] = bestConservativeAction(pomdp, belief, lbVList);
+            const auto & ir = [&]{
+                if constexpr (MDP::is_model_eigen_v<M>) return pomdp.getRewardFunction();
+                else return immediateRewards_;
+            }();
+            const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, ir, belief, ubQ, ubV);
+            const auto [lbAction, lbActionValue] = bestConservativeAction(pomdp, ir, belief, lbVList);
 
             (void)lbAction; // ignore lbAction
 
@@ -642,16 +523,10 @@ namespace AIToolbox::POMDP {
 
                 // We also want to check whether we have already added this belief somewhere else.
                 const auto check = [&b](const Belief & bb){ return checkEqualProbability(b, bb); };
-                {
-                    auto it = std::find_if(std::begin(newUbBeliefs), std::end(newUbBeliefs), check);
-                    if (it != std::end(newUbBeliefs))
-                        return false;
-                }
-                {
-                    auto it = std::find_if(std::begin(ubV.first), std::end(ubV.first), check);
-                    if (it != std::end(ubV.first))
-                        return false;
-                }
+                if (std::any_of(std::begin(newUbBeliefs), std::end(newUbBeliefs), check))
+                    return false;
+                if (std::any_of(std::begin(ubV.first), std::end(ubV.first), check))
+                    return false;
                 return true;
             };
 
@@ -664,7 +539,7 @@ namespace AIToolbox::POMDP {
                 for (const auto & p : path) {
                     if (validForUb(p)) {
                         newUbBeliefs.push_back(p);
-                        newUbValues.push_back(std::get<0>(UB(p, ubQ, ubV)));
+                        newUbValues.push_back(std::get<0>(LPInterpolation(p, ubQ, ubV)));
                     }
                 }
                 // Note we only count a single belief even if we added more via
@@ -680,16 +555,10 @@ namespace AIToolbox::POMDP {
             // code). We still check on the lower bound lists though.
             const auto validForLb = [&newLbBeliefs, &lbBeliefs](const Belief & b) {
                 const auto check = [&b](const Belief & bb){ return checkEqualProbability(b, bb); };
-                {
-                    auto it = std::find_if(std::begin(newLbBeliefs), std::end(newLbBeliefs), check);
-                    if (it != std::end(newLbBeliefs))
-                        return false;
-                }
-                {
-                    auto it = std::find_if(std::begin(lbBeliefs), std::end(lbBeliefs), check);
-                    if (it != std::end(lbBeliefs))
-                        return false;
-                }
+                if (std::any_of(std::begin(newLbBeliefs), std::end(newLbBeliefs), check))
+                    return false;
+                if (std::any_of(std::begin(lbBeliefs), std::end(lbBeliefs), check))
+                    return false;
                 return true;
             };
 
@@ -732,10 +601,9 @@ namespace AIToolbox::POMDP {
                 nextBelief /= nextBeliefProbability;
 
                 const auto check = [&nextBelief](const Belief & bb){ return checkEqualProbability(nextBelief, bb); };
-                auto it = std::find_if(std::begin(visitedBeliefs), std::end(visitedBeliefs), check);
-                if (it != std::end(visitedBeliefs)) continue;
+                if (std::any_of(std::begin(visitedBeliefs), std::end(visitedBeliefs), check)) continue;
 
-                const double ubValue = std::get<0>(UB(nextBelief, ubQ, ubV));
+                const double ubValue = std::get<0>(LPInterpolation(nextBelief, ubQ, ubV));
                 double lbValue;
                 findBestAtPoint(nextBelief, std::begin(lbVList), std::end(lbVList), &lbValue, unwrap);
 
@@ -744,7 +612,7 @@ namespace AIToolbox::POMDP {
                     const auto nextBeliefGap = nextBeliefOverallProbability * (ubValue - lbValue);
 
                     const auto qcheck = [&nextBelief](const QueueElement & qe){ return checkEqualProbability(nextBelief, std::get<0>(qe)); };
-                    auto it = std::find_if(std::begin(queue), std::end(queue), qcheck);
+                    const auto it = std::find_if(std::begin(queue), std::end(queue), qcheck);
                     if (it == std::end(queue)) {
                         queue.emplace(
                                 std::move(nextBelief),

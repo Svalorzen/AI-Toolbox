@@ -210,26 +210,41 @@ namespace AIToolbox {
     }
 
     /**
+     * @brief This function returns an iterator to the position where the input should be in a sorted range, via sequential scan.
+     *
+     * The idea behind this function is that for small sorted vectors it is
+     * faster to do a sequential scan rather than employing the heavy handed
+     * technique of binary search.
+     *
+     * @param begin The beginning of the sorted range to scan.
+     * @param end The end of the sorted range to scan.
+     * @param elem The element to be looked for in the range.
+     *
+     * @return An iterator to the position the input element should be in the sorted range.
+     */
+    template <typename It>
+    It sequential_sorted_find(It begin, It end, const typename std::iterator_traits<It>::value_type & elem) {
+        while (begin != end && *begin < elem) ++begin;
+        return begin;
+    }
+
+    /**
      * @brief This function returns whether a sorted range contains a given element, via sequential scan.
      *
      * The idea behind this function is that for small sorted vectors it is
      * faster to do a sequential scan rather than employing the heavy handed
      * technique of binary search.
      *
-     * @tparam V The type of the vector to be scanned.
-     * @param v The vector to be scanned.
-     * @param elem The element to be looked for in the vector.
+     * @param begin The beginning of the sorted range to scan.
+     * @param end The end of the sorted range to scan.
+     * @param elem The element to be looked for in the range.
      *
-     * @return True if the vector contains that element, false otherwise.
+     * @return True if the input is in the range, false otherwise.
      */
-    template <typename V>
-    bool sequential_sorted_contains(const V & v, decltype(v[0]) elem) {
-        // Maybe this could be done with iterators?
-        for (const auto & e : v) {
-            if (e < elem) continue;
-            if (e == elem) return true;
-            return false;
-        }
+    template <typename It>
+    bool sequential_sorted_contains(It begin, It end, const typename std::iterator_traits<It>::value_type & elem) {
+        const auto it = sequential_sorted_find(begin, end, elem);
+        if (it != end && *it == elem) return true;
         return false;
     }
 

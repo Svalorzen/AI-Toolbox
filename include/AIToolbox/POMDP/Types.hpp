@@ -9,7 +9,7 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This represents a belief, which is a probability distribution over states.
      */
-    using Belief            = ProbabilityVector;
+    using Belief = ProbabilityVector;
 
     /**
      * @name POMDP Value Types
@@ -56,6 +56,12 @@ namespace AIToolbox::POMDP {
      * not even for sampling for a policy, and it's simply an artifact that
      * takes little space to keep, and it's expected in all the code.
      *
+     * The UpperBoundValueFunction is a pair of two, equally sized, lists. The
+     * first list contains a set of Beliefs where an upper bound is known, and
+     * the second contains those upper bounds. It's possible to infer upper
+     * bounds outide of the listed Beliefs by interpolation (either sawtooth or
+     * LP). This list usually does not contain the corner Beliefs.
+     *
      * QFunctions may be defined later, however since POMDP ValueFunctions are already
      * pretty costly in terms of space, in general there's little sense in storing them.
      *
@@ -76,6 +82,8 @@ namespace AIToolbox::POMDP {
     };
     using VList         = std::vector<VEntry>;
     using ValueFunction = std::vector<VList>;
+
+    using UpperBoundValueFunction = std::pair<std::vector<Belief>, std::vector<double>>;
 
     /** @}  */
 }

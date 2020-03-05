@@ -12,11 +12,7 @@
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 /// Wrapper for Python of the same named function
-double computeOptimisticValueWrapper(const AIToolbox::Vector & p, const std::vector<std::pair<AIToolbox::Vector, double>> & pvPairs) {
-    return AIToolbox::computeOptimisticValue(p, std::begin(pvPairs), std::end(pvPairs));
-}
-/// Wrapper for Python of the same named function
-std::vector<std::pair<AIToolbox::Vector, double>> findVerticesNaiveWrapper(const std::vector<AIToolbox::Vector> & tests, const std::vector<AIToolbox::Vector> & planes) {
+AIToolbox::PointSurface findVerticesNaiveWrapper(const std::vector<AIToolbox::Vector> & tests, const std::vector<AIToolbox::Vector> & planes) {
     return AIToolbox::findVerticesNaive(std::begin(tests), std::end(tests), std::begin(planes), std::end(planes));
 }
 
@@ -38,6 +34,7 @@ void exportPOMDPUtils() {
         "@param o The observation registered"
     , (args("model"), "b", "a", "o")
     );
+
     def("updateBelief", static_cast<Belief (*)(const POMDPSparseModelBinded & model, const Belief &, const size_t, const size_t)>(updateBelief),
         "This function creates a new Belief by updating the input Belie\n"
         "with the input action and observation, following th\n"
@@ -51,13 +48,14 @@ void exportPOMDPUtils() {
     );
 
     // We'll move the function below in another file at some point.
-    using VVPair = std::pair<AIToolbox::Vector, double>;
-    PairFromPython<VVPair>();
-    PairToPython<VVPair>();
-    VectorFromPython<VVPair>();
-    class_<std::vector<VVPair>>{"VVVector"}
-        .def(vector_indexing_suite<std::vector<VVPair>, true>());
-    def("computeOptimisticValue", computeOptimisticValueWrapper,
+    // using VVPair = std::pair<AIToolbox::Vector, double>;
+    PairFromPython<AIToolbox::PointSurface>();
+    PairToPython<AIToolbox::PointSurface>();
+    // VectorFromPython<VVPair>();
+    // class_<std::vector<VVPair>>{"VVVector"}
+    //     .def(vector_indexing_suite<std::vector<VVPair>, true>());
+
+    def("computeOptimisticValue", AIToolbox::computeOptimisticValue,
          "This function computes the optimistic value of a point given known vertices and values.\n"
          "\n"
          "This function computes an LP to determine the best possible value of a\n"
@@ -70,12 +68,18 @@ void exportPOMDPUtils() {
          "when deciding the next point to extract from the queue during the linear\n"
          "support process.\n"
          "\n"
+         "Note that the input is the same as a PointSurface; the two components\n"
+         "have been kept as separate arguments simply to allow more freedom to the\n"
+         "user.\n"
+         "\n"
          "@param p The point where we want to compute the best possible value.\n"
-         "@param pvPairs A list of point-value pairs representing all surrounding vertices.\n"
+         "@param points The points that make up the surface.\n"
+         "@param values The respective values of the input points.\n"
          "\n"
          "@return The best possible value that the input point can have given the known vertices."
-         , (arg("p"), "pvPairs")
+         , (arg("p"), "points", "values")
     );
+
     def("findVerticesNaive", findVerticesNaiveWrapper,
          "This function implements a naive vertex enumeration algorithm.\n"
          "\n"

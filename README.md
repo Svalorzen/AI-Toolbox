@@ -140,8 +140,8 @@ Algorithms:
 - [Point Based Value Iteration (PBVI)](http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf "Point-based value iteration: An anytime algorithm for POMDPs, Pineau et al.")
 - [QMDP](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun")
 - [Real-Time Belief State Search (RTBSS)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf "Real-Time Decision Making for Large POMDPs, Paquet et al.")
-- [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf "Planning and acting in partially observable
-stochastic domains, Kaelbling et al.")
+- [SARSOP](http://www.roboticsproceedings.org/rss04/p9.pdf "SARSOP: Efficient Point-Based POMDP Planning by Approximating Optimally Reachable Belief Spaces, Kurniawati et al.")
+- [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf "Planning and acting in partially observable stochastic domains, Kaelbling et al.")
 - [rPOMCP](https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf "Dynamic Resource Allocation for Multi-Camera Systems, Phd Thesis, Bargiacchi")
 
 Policies:
