@@ -80,13 +80,13 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a61202a9ad0c63096c119aa41cdc89cf0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a61202a9ad0c63096c119aa41cdc89cf0">IdsStorage</a> = std::conditional_t&lt; <a class="el" href="classAIToolbox_1_1IndexMap.html#a9e917442408dc0a40a690bc2cd43485f">OwnsIds</a>, const IdsContainer, const std::remove_pointer_t&lt; IdsContainer &gt; &amp;&gt;</td></tr>
-<tr class="separator:a61202a9ad0c63096c119aa41cdc89cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48220d5365c454fd3a1013954c358d1c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a48220d5365c454fd3a1013954c358d1c">IdsStorage</a> = std::conditional_t&lt; <a class="el" href="classAIToolbox_1_1IndexMap.html#a9e917442408dc0a40a690bc2cd43485f">OwnsIds</a>, IdsContainer, const std::remove_pointer_t&lt; IdsContainer &gt; &amp;&gt;</td></tr>
+<tr class="separator:a48220d5365c454fd3a1013954c358d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3eb14ac64df0609457a28cbcec6d1c6f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a3eb14ac64df0609457a28cbcec6d1c6f">value_type</a> = typename Container::value_type</td></tr>
 <tr class="separator:a3eb14ac64df0609457a28cbcec6d1c6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ae8a89841fc8e231ebd108f6ca1dc81"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a7ae8a89841fc8e231ebd108f6ca1dc81">iterator</a> = <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt; decltype(std::declval&lt; <a class="el" href="classAIToolbox_1_1IndexMap.html#a61202a9ad0c63096c119aa41cdc89cf0">IdsStorage</a> &gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#aee76e65a4b02b8ffe531d1b3fd9d9f0d">begin</a>()), Container &gt;</td></tr>
+<tr class="memitem:a7ae8a89841fc8e231ebd108f6ca1dc81"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a7ae8a89841fc8e231ebd108f6ca1dc81">iterator</a> = <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt; decltype(std::declval&lt; <a class="el" href="classAIToolbox_1_1IndexMap.html#a48220d5365c454fd3a1013954c358d1c">IdsStorage</a> &gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#aee76e65a4b02b8ffe531d1b3fd9d9f0d">begin</a>()), Container &gt;</td></tr>
 <tr class="separator:a7ae8a89841fc8e231ebd108f6ca1dc81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ae26f137558eaeff4d1e369a9ebb7b4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a3ae26f137558eaeff4d1e369a9ebb7b4">const_iterator</a> = <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt; decltype(std::declval&lt; <a class="el" href="classAIToolbox_1_1IndexMap.html#a61202a9ad0c63096c119aa41cdc89cf0">IdsStorage</a> &gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#ab0b42a1d144a2d401d40435a3508596a">cbegin</a>()), const Container &gt;</td></tr>
+<tr class="memitem:a3ae26f137558eaeff4d1e369a9ebb7b4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a3ae26f137558eaeff4d1e369a9ebb7b4">const_iterator</a> = <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt; decltype(std::declval&lt; <a class="el" href="classAIToolbox_1_1IndexMap.html#a48220d5365c454fd3a1013954c358d1c">IdsStorage</a> &gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#ab0b42a1d144a2d401d40435a3508596a">cbegin</a>()), const Container &gt;</td></tr>
 <tr class="separator:a3ae26f137558eaeff4d1e369a9ebb7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -99,6 +99,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a45e07c58f39a87d1a9986a0ebde2d5ba"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#a45e07c58f39a87d1a9986a0ebde2d5ba">IndexMap</a> (IdsContainer ids, Container &amp;items)</td></tr>
 <tr class="memdesc:a45e07c58f39a87d1a9986a0ebde2d5ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor for non-owning iterable.  <a href="#a45e07c58f39a87d1a9986a0ebde2d5ba">More...</a><br /></td></tr>
 <tr class="separator:a45e07c58f39a87d1a9986a0ebde2d5ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abee7e50571562473ed811a0d3b56bfcc"><td class="memTemplParams" colspan="2">template&lt;bool Tmp = OwnsIds, std::enable_if_t&lt; Tmp, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:abee7e50571562473ed811a0d3b56bfcc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#abee7e50571562473ed811a0d3b56bfcc">sort</a> ()</td></tr>
+<tr class="memdesc:abee7e50571562473ed811a0d3b56bfcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sorts the indeces of the map so that the view is sorted.  <a href="#abee7e50571562473ed811a0d3b56bfcc">More...</a><br /></td></tr>
+<tr class="separator:abee7e50571562473ed811a0d3b56bfcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee76e65a4b02b8ffe531d1b3fd9d9f0d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexMap.html#aee76e65a4b02b8ffe531d1b3fd9d9f0d">begin</a> ()</td></tr>
 <tr class="memdesc:aee76e65a4b02b8ffe531d1b3fd9d9f0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to the beginning of this filtered range.  <a href="#aee76e65a4b02b8ffe531d1b3fd9d9f0d">More...</a><br /></td></tr>
 <tr class="separator:aee76e65a4b02b8ffe531d1b3fd9d9f0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,15 +156,15 @@ class AIToolbox::IndexMap&lt; IdsContainer, Container &gt;</h3>
 template&lt;typename IdsContainer, typename Container&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1IndexMap.html">AIToolbox::IndexMap</a>&lt; IdsContainer, Container &gt;::<a class="el" href="classAIToolbox_1_1IndexMap.html#a3ae26f137558eaeff4d1e369a9ebb7b4">const_iterator</a> =  <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt;decltype(std::declval&lt;<a class="el" href="classAIToolbox_1_1IndexMap.html#a61202a9ad0c63096c119aa41cdc89cf0">IdsStorage</a>&gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#ab0b42a1d144a2d401d40435a3508596a">cbegin</a>()), const Container&gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1IndexMap.html">AIToolbox::IndexMap</a>&lt; IdsContainer, Container &gt;::<a class="el" href="classAIToolbox_1_1IndexMap.html#a3ae26f137558eaeff4d1e369a9ebb7b4">const_iterator</a> =  <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt;decltype(std::declval&lt;<a class="el" href="classAIToolbox_1_1IndexMap.html#a48220d5365c454fd3a1013954c358d1c">IdsStorage</a>&gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#ab0b42a1d144a2d401d40435a3508596a">cbegin</a>()), const Container&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a61202a9ad0c63096c119aa41cdc89cf0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61202a9ad0c63096c119aa41cdc89cf0">&#9670;&nbsp;</a></span>IdsStorage</h2>
+<a id="a48220d5365c454fd3a1013954c358d1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48220d5365c454fd3a1013954c358d1c">&#9670;&nbsp;</a></span>IdsStorage</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -168,7 +172,7 @@ template&lt;typename IdsContainer, typename Container&gt; </div>
 template&lt;typename IdsContainer, typename Container&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1IndexMap.html">AIToolbox::IndexMap</a>&lt; IdsContainer, Container &gt;::<a class="el" href="classAIToolbox_1_1IndexMap.html#a61202a9ad0c63096c119aa41cdc89cf0">IdsStorage</a> =  std::conditional_t&lt;<a class="el" href="classAIToolbox_1_1IndexMap.html#a9e917442408dc0a40a690bc2cd43485f">OwnsIds</a>, const IdsContainer, const std::remove_pointer_t&lt;IdsContainer&gt; &amp; &gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1IndexMap.html">AIToolbox::IndexMap</a>&lt; IdsContainer, Container &gt;::<a class="el" href="classAIToolbox_1_1IndexMap.html#a48220d5365c454fd3a1013954c358d1c">IdsStorage</a> =  std::conditional_t&lt;<a class="el" href="classAIToolbox_1_1IndexMap.html#a9e917442408dc0a40a690bc2cd43485f">OwnsIds</a>, IdsContainer, const std::remove_pointer_t&lt;IdsContainer&gt; &amp; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -184,7 +188,7 @@ template&lt;typename IdsContainer, typename Container&gt; </div>
 template&lt;typename IdsContainer, typename Container&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1IndexMap.html">AIToolbox::IndexMap</a>&lt; IdsContainer, Container &gt;::<a class="el" href="classAIToolbox_1_1IndexMap.html#a7ae8a89841fc8e231ebd108f6ca1dc81">iterator</a> =  <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt;decltype(std::declval&lt;<a class="el" href="classAIToolbox_1_1IndexMap.html#a61202a9ad0c63096c119aa41cdc89cf0">IdsStorage</a>&gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#aee76e65a4b02b8ffe531d1b3fd9d9f0d">begin</a>()), Container&gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1IndexMap.html">AIToolbox::IndexMap</a>&lt; IdsContainer, Container &gt;::<a class="el" href="classAIToolbox_1_1IndexMap.html#a7ae8a89841fc8e231ebd108f6ca1dc81">iterator</a> =  <a class="el" href="classAIToolbox_1_1IndexMapIterator.html">IndexMapIterator</a>&lt;decltype(std::declval&lt;<a class="el" href="classAIToolbox_1_1IndexMap.html#a48220d5365c454fd3a1013954c358d1c">IdsStorage</a>&gt;().<a class="el" href="classAIToolbox_1_1IndexMap.html#aee76e65a4b02b8ffe531d1b3fd9d9f0d">begin</a>()), Container&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -517,6 +521,37 @@ template&lt;typename IdsContainer, typename Container&gt; </div>
 
 </div>
 </div>
+<a id="abee7e50571562473ed811a0d3b56bfcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abee7e50571562473ed811a0d3b56bfcc">&#9670;&nbsp;</a></span>sort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IdsContainer, typename Container&gt; </div>
+<div class="memtemplate">
+template&lt;bool Tmp = OwnsIds, std::enable_if_t&lt; Tmp, int &gt;  = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1IndexMap.html">AIToolbox::IndexMap</a>&lt; IdsContainer, Container &gt;::sort </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function sorts the indeces of the map so that the view is sorted. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="a9e917442408dc0a40a690bc2cd43485f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9e917442408dc0a40a690bc2cd43485f">&#9670;&nbsp;</a></span>OwnsIds</h2>
@@ -551,7 +586,7 @@ template&lt;typename IdsContainer, typename Container&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

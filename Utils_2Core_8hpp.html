@@ -87,10 +87,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:adf3316313e5c38bb940a665f55db9a04"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
-<tr class="memitem:adf3316313e5c38bb940a665f55db9a04"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#adf3316313e5c38bb940a665f55db9a04">AIToolbox::copyTable3D</a> (const T &amp;in, U &amp;out, const size_t d1, const size_t d2, const size_t d3)</td></tr>
-<tr class="memdesc:adf3316313e5c38bb940a665f55db9a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a 3d container into another 3d container.  <a href="namespaceAIToolbox.html#adf3316313e5c38bb940a665f55db9a04">More...</a><br /></td></tr>
-<tr class="separator:adf3316313e5c38bb940a665f55db9a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59fe3a76d13567f94fde660335fff93b"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a59fe3a76d13567f94fde660335fff93b">AIToolbox::ceil</a> (unsigned x, unsigned y)</td></tr>
+<tr class="memdesc:a59fe3a76d13567f94fde660335fff93b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a fast ceiling between two unsigned ints.  <a href="namespaceAIToolbox.html#a59fe3a76d13567f94fde660335fff93b">More...</a><br /></td></tr>
+<tr class="separator:a59fe3a76d13567f94fde660335fff93b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a164ff36d8475927a491a18c990a9e199"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a164ff36d8475927a491a18c990a9e199">AIToolbox::checkEqualSmall</a> (const double a, const double b)</td></tr>
 <tr class="memdesc:a164ff36d8475927a491a18c990a9e199"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks if two doubles near [0,1] are reasonably equal.  <a href="namespaceAIToolbox.html#a164ff36d8475927a491a18c990a9e199">More...</a><br /></td></tr>
 <tr class="separator:a164ff36d8475927a491a18c990a9e199"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,14 +130,30 @@ Functions</h2></td></tr>
 <tr class="memitem:a2ad90c42f9cf72812707724c6a669161"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a2ad90c42f9cf72812707724c6a669161">AIToolbox::veccmpGeneral</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
 <tr class="memdesc:a2ad90c42f9cf72812707724c6a669161"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a2ad90c42f9cf72812707724c6a669161">More...</a><br /></td></tr>
 <tr class="separator:a2ad90c42f9cf72812707724c6a669161"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
-<tr class="memitem:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#aa39713f004f1572ab84fb4ab4d9f44f3">AIToolbox::sequential_sorted_contains</a> (const V &amp;v, decltype(v[0]) elem)</td></tr>
-<tr class="memdesc:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a sorted range contains a given element, via sequential scan.  <a href="namespaceAIToolbox.html#aa39713f004f1572ab84fb4ab4d9f44f3">More...</a><br /></td></tr>
-<tr class="separator:aa39713f004f1572ab84fb4ab4d9f44f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add1a336767c8dd3b7999237a1149818a"><td class="memTemplParams" colspan="2">template&lt;typename It &gt; </td></tr>
+<tr class="memitem:add1a336767c8dd3b7999237a1149818a"><td class="memTemplItemLeft" align="right" valign="top">It&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#add1a336767c8dd3b7999237a1149818a">AIToolbox::sequential_sorted_find</a> (It begin, It end, const typename std::iterator_traits&lt; It &gt;::value_type &amp;elem)</td></tr>
+<tr class="memdesc:add1a336767c8dd3b7999237a1149818a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to the position where the input should be in a sorted range, via sequential scan.  <a href="namespaceAIToolbox.html#add1a336767c8dd3b7999237a1149818a">More...</a><br /></td></tr>
+<tr class="separator:add1a336767c8dd3b7999237a1149818a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae70933a8434d22f0d888527a5d72e5ad"><td class="memTemplParams" colspan="2">template&lt;typename It &gt; </td></tr>
+<tr class="memitem:ae70933a8434d22f0d888527a5d72e5ad"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ae70933a8434d22f0d888527a5d72e5ad">AIToolbox::sequential_sorted_contains</a> (It begin, It end, const typename std::iterator_traits&lt; It &gt;::value_type &amp;elem)</td></tr>
+<tr class="memdesc:ae70933a8434d22f0d888527a5d72e5ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a sorted range contains a given element, via sequential scan.  <a href="namespaceAIToolbox.html#ae70933a8434d22f0d888527a5d72e5ad">More...</a><br /></td></tr>
+<tr class="separator:ae70933a8434d22f0d888527a5d72e5ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb9131cfadf0600e435b545dbf0b5fc9"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
 <tr class="memitem:acb9131cfadf0600e435b545dbf0b5fc9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#acb9131cfadf0600e435b545dbf0b5fc9">AIToolbox::sequential_sorted_contains</a> (const V &amp;v, const V &amp;elems)</td></tr>
 <tr class="memdesc:acb9131cfadf0600e435b545dbf0b5fc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a sorted range contains another sorted range, via sequential scan.  <a href="namespaceAIToolbox.html#acb9131cfadf0600e435b545dbf0b5fc9">More...</a><br /></td></tr>
 <tr class="separator:acb9131cfadf0600e435b545dbf0b5fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68e4594e4010a8d2e5d731f94a33c2fb"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a68e4594e4010a8d2e5d731f94a33c2fb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a68e4594e4010a8d2e5d731f94a33c2fb">AIToolbox::set_union_inplace</a> (std::vector&lt; T &gt; &amp;lhs, const std::vector&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a68e4594e4010a8d2e5d731f94a33c2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function performs an inplace union of two sorted sets.  <a href="namespaceAIToolbox.html#a68e4594e4010a8d2e5d731f94a33c2fb">More...</a><br /></td></tr>
+<tr class="separator:a68e4594e4010a8d2e5d731f94a33c2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ae0c23572526182d5fd984223c580c4"><td class="memTemplParams" colspan="2">template&lt;typename It , typename F &gt; </td></tr>
+<tr class="memitem:a2ae0c23572526182d5fd984223c580c4"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a2ae0c23572526182d5fd984223c580c4">AIToolbox::max_element_unary</a> (It begin, const It end, F unary_converter)</td></tr>
+<tr class="memdesc:a2ae0c23572526182d5fd984223c580c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is equivalent to std::max_element, but takes a unary function.  <a href="namespaceAIToolbox.html#a2ae0c23572526182d5fd984223c580c4">More...</a><br /></td></tr>
+<tr class="separator:a2ae0c23572526182d5fd984223c580c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ef6c271697802b01b05562715052bf4"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a2ef6c271697802b01b05562715052bf4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a2ef6c271697802b01b05562715052bf4">AIToolbox::copyDumb3D</a> (const T &amp;in, U &amp;out, const size_t d1, const size_t d2, const size_t d3)</td></tr>
+<tr class="memdesc:a2ef6c271697802b01b05562715052bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a 3d container into another 3d container.  <a href="namespaceAIToolbox.html#a2ef6c271697802b01b05562715052bf4">More...</a><br /></td></tr>
+<tr class="separator:a2ef6c271697802b01b05562715052bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ef63df268981b7fd9907b00ebfa273e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceEigen.html#a6ef63df268981b7fd9907b00ebfa273e">Eigen::hash_value</a> (const <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">AIToolbox::Vector</a> &amp;v)</td></tr>
 <tr class="memdesc:a6ef63df268981b7fd9907b00ebfa273e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables hashing of Vectors with boost::hash.  <a href="namespaceEigen.html#a6ef63df268981b7fd9907b00ebfa273e">More...</a><br /></td></tr>
 <tr class="separator:a6ef63df268981b7fd9907b00ebfa273e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,7 +169,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

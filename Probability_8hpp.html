@@ -105,6 +105,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a31fb7fd3eb6b455f39a1bd388a5fd264">AIToolbox::sampleProbability</a> (const size_t d, const SparseMatrix2D::ConstRowXpr &amp;in, G &amp;generator)</td></tr>
 <tr class="memdesc:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples an index from a sparse probability vector.  <a href="namespaceAIToolbox.html#a31fb7fd3eb6b455f39a1bd388a5fd264">More...</a><br /></td></tr>
 <tr class="separator:a31fb7fd3eb6b455f39a1bd388a5fd264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a0814792b2a6cf30eaa196d4571bd9b"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
+<tr class="memitem:a2a0814792b2a6cf30eaa196d4571bd9b"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a2a0814792b2a6cf30eaa196d4571bd9b">AIToolbox::sampleBetaDistribution</a> (double a, double b, G &amp;generator)</td></tr>
+<tr class="memdesc:a2a0814792b2a6cf30eaa196d4571bd9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples from a Beta distribution.  <a href="namespaceAIToolbox.html#a2a0814792b2a6cf30eaa196d4571bd9b">More...</a><br /></td></tr>
+<tr class="separator:a2a0814792b2a6cf30eaa196d4571bd9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74fd0fb7396717f9f2751bf2f3121dc0"><td class="memTemplParams" colspan="2">template&lt;typename TIn , typename G &gt; </td></tr>
+<tr class="memitem:a74fd0fb7396717f9f2751bf2f3121dc0"><td class="memTemplItemLeft" align="right" valign="top">ProbabilityVector&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a74fd0fb7396717f9f2751bf2f3121dc0">AIToolbox::sampleDirichletDistribution</a> (const TIn &amp;params, G &amp;generator)</td></tr>
+<tr class="memdesc:a74fd0fb7396717f9f2751bf2f3121dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples from the input Dirichlet distribution.  <a href="namespaceAIToolbox.html#a74fd0fb7396717f9f2751bf2f3121dc0">More...</a><br /></td></tr>
+<tr class="separator:a74fd0fb7396717f9f2751bf2f3121dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fe13af882ae35ca664adbb08663e2ad"><td class="memTemplParams" colspan="2">template&lt;typename TIn , typename TOut , typename G &gt; </td></tr>
+<tr class="memitem:a9fe13af882ae35ca664adbb08663e2ad"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a9fe13af882ae35ca664adbb08663e2ad">AIToolbox::sampleDirichletDistribution</a> (const TIn &amp;params, G &amp;generator, TOut &amp;&amp;out)</td></tr>
+<tr class="memdesc:a9fe13af882ae35ca664adbb08663e2ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples from the input Dirichlet distribution inline.  <a href="namespaceAIToolbox.html#a9fe13af882ae35ca664adbb08663e2ad">More...</a><br /></td></tr>
+<tr class="separator:a9fe13af882ae35ca664adbb08663e2ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a476a8ac48b42df366183a01594f78dac"><td class="memTemplParams" colspan="2">template&lt;typename G &gt; </td></tr>
 <tr class="memitem:a476a8ac48b42df366183a01594f78dac"><td class="memTemplItemLeft" align="right" valign="top">ProbabilityVector&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a476a8ac48b42df366183a01594f78dac">AIToolbox::makeRandomProbability</a> (const size_t S, G &amp;generator)</td></tr>
 <tr class="memdesc:a476a8ac48b42df366183a01594f78dac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function generates a random probability vector.  <a href="namespaceAIToolbox.html#a476a8ac48b42df366183a01594f78dac">More...</a><br /></td></tr>
@@ -112,6 +124,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a0e60a055a590bbd22deb801d1a0121a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a0e60a055a590bbd22deb801d1a0121a6">AIToolbox::checkEqualProbability</a> (const ProbabilityVector &amp;lhs, const ProbabilityVector &amp;rhs)</td></tr>
 <tr class="memdesc:a0e60a055a590bbd22deb801d1a0121a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether two input ProbabilityVector are equal.  <a href="namespaceAIToolbox.html#a0e60a055a590bbd22deb801d1a0121a6">More...</a><br /></td></tr>
 <tr class="separator:a0e60a055a590bbd22deb801d1a0121a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0560565550b4432765a4b9126aa770e6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a0560565550b4432765a4b9126aa770e6">AIToolbox::getEntropy</a> (const ProbabilityVector &amp;v)</td></tr>
+<tr class="memdesc:a0560565550b4432765a4b9126aa770e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the entropy of the input ProbabilityVector.  <a href="namespaceAIToolbox.html#a0560565550b4432765a4b9126aa770e6">More...</a><br /></td></tr>
+<tr class="separator:a0560565550b4432765a4b9126aa770e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b76378b9a911994f2f3c237e94997bc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a4b76378b9a911994f2f3c237e94997bc">AIToolbox::getEntropyBase2</a> (const ProbabilityVector &amp;v)</td></tr>
+<tr class="memdesc:a4b76378b9a911994f2f3c237e94997bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the entropy of the input ProbabilityVector computed using log2.  <a href="namespaceAIToolbox.html#a4b76378b9a911994f2f3c237e94997bc">More...</a><br /></td></tr>
+<tr class="separator:a4b76378b9a911994f2f3c237e94997bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1d02a7b4abada909d8d0b620496d381"><td class="memItemLeft" align="right" valign="top">ProbabilityVector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad1d02a7b4abada909d8d0b620496d381">AIToolbox::projectToProbability</a> (const Vector &amp;v)</td></tr>
 <tr class="memdesc:ad1d02a7b4abada909d8d0b620496d381"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function projects the input vector to a valid probability space.  <a href="namespaceAIToolbox.html#ad1d02a7b4abada909d8d0b620496d381">More...</a><br /></td></tr>
 <tr class="separator:ad1d02a7b4abada909d8d0b620496d381"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,7 +137,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

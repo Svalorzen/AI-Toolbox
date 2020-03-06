@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['banditpolicyadaptor',['BanditPolicyAdaptor',['../classAIToolbox_1_1Factored_1_1MDP_1_1BanditPolicyAdaptor.html',1,'AIToolbox::Factored::MDP::BanditPolicyAdaptor&lt; BanditPolicy &gt;'],['../classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html',1,'AIToolbox::MDP::BanditPolicyAdaptor&lt; BanditPolicy &gt;']]],
   ['basisfunction',['BasisFunction',['../structAIToolbox_1_1Factored_1_1BasisFunction.html',1,'AIToolbox::Factored']]],
   ['basismatrix',['BasisMatrix',['../structAIToolbox_1_1Factored_1_1BasisMatrix.html',1,'AIToolbox::Factored']]],
   ['beliefgenerator',['BeliefGenerator',['../classAIToolbox_1_1POMDP_1_1BeliefGenerator.html',1,'AIToolbox::POMDP']]],

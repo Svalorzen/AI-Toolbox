@@ -89,9 +89,9 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the Alias sampling method. </p>
 <p>This is an O(1) way to sample from a fixed distribution. Construction takes O(N).</p>
-<p>The class takes two vectors of size N, and converts the input probability distribution into a set of N weighted coins, each of which represents a choice between two particular numbers.</p>
+<p>The class stores two vectors of size N, and converts the input probability distribution into a set of N weighted coins, each of which represents a choice between two particular numbers.</p>
 <p>When sampled, the class simply decides which coin to use, and it rolls it. This is much faster than the sampleProbability method, which is O(N), as it needs to iterate over the input probability vector.</p>
-<p>This is the preferred method of sampling for distributions that generally do not change (as if the distribution changes, the instance of VoseAlias must be rebuilt). </p>
+<p>This is the preferred method of sampling for distributions that generally do not change (as if the distribution changes, the instance of <a class="el" href="classAIToolbox_1_1VoseAliasSampler.html" title="This class represents the Alias sampling method. ">VoseAliasSampler</a> must be rebuilt). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aee389a9c072e50a5f09afe5e624726d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aee389a9c072e50a5f09afe5e624726d0">&#9670;&nbsp;</a></span>VoseAliasSampler()</h2>
@@ -163,7 +163,7 @@ template&lt;typename G &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

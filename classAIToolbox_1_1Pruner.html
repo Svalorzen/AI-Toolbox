@@ -81,10 +81,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a70b91c4be8a37dad3af3b23867c22129"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Pruner.html#a70b91c4be8a37dad3af3b23867c22129">Pruner</a> (const size_t s)</td></tr>
 <tr class="memdesc:a70b91c4be8a37dad3af3b23867c22129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a70b91c4be8a37dad3af3b23867c22129">More...</a><br /></td></tr>
 <tr class="separator:a70b91c4be8a37dad3af3b23867c22129"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b4bc587e92b6dba904eeeacd78e729d"><td class="memTemplParams" colspan="2">template&lt;typename It &gt; </td></tr>
-<tr class="memitem:a9b4bc587e92b6dba904eeeacd78e729d"><td class="memTemplItemLeft" align="right" valign="top">It&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Pruner.html#a9b4bc587e92b6dba904eeeacd78e729d">operator()</a> (It begin, It end)</td></tr>
-<tr class="memdesc:a9b4bc587e92b6dba904eeeacd78e729d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prunes all non useful hyperplanes from the provided list.  <a href="#a9b4bc587e92b6dba904eeeacd78e729d">More...</a><br /></td></tr>
-<tr class="separator:a9b4bc587e92b6dba904eeeacd78e729d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25624a5aaa062cd53ddced5328a45fab"><td class="memTemplParams" colspan="2">template&lt;typename It , typename P  = identity&gt; </td></tr>
+<tr class="memitem:a25624a5aaa062cd53ddced5328a45fab"><td class="memTemplItemLeft" align="right" valign="top">It&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Pruner.html#a25624a5aaa062cd53ddced5328a45fab">operator()</a> (It begin, It end, P p=P{})</td></tr>
+<tr class="memdesc:a25624a5aaa062cd53ddced5328a45fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prunes all non useful hyperplanes from the provided list.  <a href="#a25624a5aaa062cd53ddced5328a45fab">More...</a><br /></td></tr>
+<tr class="separator:a25624a5aaa062cd53ddced5328a45fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class offers pruning facilities for non-parsimonious ValueFunction sets. </p>
@@ -125,13 +125,13 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a9b4bc587e92b6dba904eeeacd78e729d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b4bc587e92b6dba904eeeacd78e729d">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a25624a5aaa062cd53ddced5328a45fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25624a5aaa062cd53ddced5328a45fab">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename It &gt; </div>
+template&lt;typename It , typename P &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">It AIToolbox::Pruner::operator() </td>
@@ -143,7 +143,13 @@ template&lt;typename It &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">It&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">P&#160;</td>
+          <td class="paramname"><em>p</em> = <code>P{}</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -169,7 +175,7 @@ template&lt;typename It &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

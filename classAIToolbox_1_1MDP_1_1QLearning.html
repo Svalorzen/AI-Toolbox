@@ -109,6 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aea485f6ff473398b5870fc6d5f9474aa"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#aea485f6ff473398b5870fc6d5f9474aa">getQFunction</a> () const</td></tr>
 <tr class="memdesc:aea485f6ff473398b5870fc6d5f9474aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal QFunction.  <a href="#aea485f6ff473398b5870fc6d5f9474aa">More...</a><br /></td></tr>
 <tr class="separator:aea485f6ff473398b5870fc6d5f9474aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5782db53be75e594f47728048e5ea3ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a5782db53be75e594f47728048e5ea3ac">setQFunction</a> (const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;qfun)</td></tr>
+<tr class="memdesc:a5782db53be75e594f47728048e5ea3ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function allows to directly set the internal QFunction.  <a href="#a5782db53be75e594f47728048e5ea3ac">More...</a><br /></td></tr>
+<tr class="separator:a5782db53be75e594f47728048e5ea3ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm. ">QLearning</a> algorithm. </p>
@@ -371,6 +374,34 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
+<a id="a5782db53be75e594f47728048e5ea3ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5782db53be75e594f47728048e5ea3ac">&#9670;&nbsp;</a></span>setQFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::QLearning::setQFunction </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp;&#160;</td>
+          <td class="paramname"><em>qfun</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function allows to directly set the internal QFunction. </p>
+<p>This can be useful in order to use a QFunction that has already been computed elsewhere. <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html" title="This class represents the SARSAL algorithm. ">SARSAL</a> will then continue building upon it.</p>
+<p>This is used for example in the <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html" title="This class represents the Dyna2 algorithm. ">Dyna2</a> algorithm.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">qfun</td><td>The new QFunction to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a57a3177a82d8fada9004f0f81f1f7970"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a57a3177a82d8fada9004f0f81f1f7970">&#9670;&nbsp;</a></span>stepUpdateQ()</h2>
 
@@ -429,7 +460,7 @@ template&lt;typename M , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

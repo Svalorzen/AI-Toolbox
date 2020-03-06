@@ -279,14 +279,14 @@ template&lt;typename M , typename SOSA , typename &gt; </div>
 </div><div class="memdoc">
 
 <p>This function computes the Fast Informed Bound for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>. </p>
-<p>Internally, this method uses a SOSA table to improve its speed, since otherwise it'd need to multiply the transition and observation tables over and over.</p>
-<p>Since we don't usually store SOSA tables, the other operator() computes it on the fly.</p>
-<p>In case you already have a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> with a pre-computed SOSA table and don't need to recompute it, you can call this method directly.</p>
+<p>Internally, this method uses a SOSA matrix to improve its speed, since otherwise it'd need to multiply the transition and observation matrices over and over.</p>
+<p>Since we don't usually store SOSA matrices, the other operator() computes it on the fly.</p>
+<p>In case you already have a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> with a pre-computed SOSA matrix and don't need to recompute it, you can call this method directly.</p>
 <p>You can use both sparse and dense Matrix4D for this method.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">m</td><td>The <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> to be solved. </td></tr>
-    <tr><td class="paramname">sosa</td><td>The SOSA table of the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>. </td></tr>
+    <tr><td class="paramname">sosa</td><td>The SOSA matrix of the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>. </td></tr>
     <tr><td class="paramname">oldQ</td><td>The QFunction to start iterating from.</td></tr>
   </table>
   </dd>
@@ -354,7 +354,7 @@ template&lt;typename M , typename SOSA , typename &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

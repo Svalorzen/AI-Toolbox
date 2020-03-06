@@ -6,10 +6,10 @@ var searchData=
   ['partialkeys',['PartialKeys',['../namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9',1,'AIToolbox::Factored']]],
   ['partialstate',['PartialState',['../namespaceAIToolbox_1_1Factored.html#a9b51c3929a9c66b0404954dfe3c85557',1,'AIToolbox::Factored']]],
   ['partialvalues',['PartialValues',['../namespaceAIToolbox_1_1Factored.html#a13191d54fa3ce86fe495a56779a8ad8b',1,'AIToolbox::Factored']]],
-  ['pmodel',['PModel',['../Models_8hpp.html#a1e2a4f5c03e2c2adddd9f965c8edb0fd',1,'Models.hpp']]],
-  ['point',['Point',['../namespaceAIToolbox.html#a9fc5e85a0aaffacedefb093e4cbef173',1,'AIToolbox']]],
+  ['point',['Point',['../namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552',1,'AIToolbox']]],
   ['pointer',['pointer',['../classAIToolbox_1_1IndexMapIterator.html#ac5f3c1fd7cffb958394d945987c15d83',1,'AIToolbox::IndexMapIterator::pointer()'],['../classAIToolbox_1_1IndexSkipMapIterator.html#a6dccab2b15979d8d704d8f735b0bfa5a',1,'AIToolbox::IndexSkipMapIterator::pointer()']]],
-  ['policytable',['PolicyTable',['../classAIToolbox_1_1MDP_1_1Policy.html#a0b00a0834a613787c43bad66ffae5d9c',1,'AIToolbox::MDP::Policy::PolicyTable()'],['../classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ab23e78fc2ed00ebadb18fd650b7dee89',1,'AIToolbox::MDP::PolicyWrapper::PolicyTable()']]],
+  ['pointsurface',['PointSurface',['../namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040',1,'AIToolbox']]],
+  ['policymatrix',['PolicyMatrix',['../classAIToolbox_1_1MDP_1_1Policy.html#a05d9d0d578575a77ab42b41d58944f78',1,'AIToolbox::MDP::Policy::PolicyMatrix()'],['../classAIToolbox_1_1MDP_1_1PolicyWrapper.html#a2e40555ff5ca3a112f47025efb2a5e00',1,'AIToolbox::MDP::PolicyWrapper::PolicyMatrix()']]],
   ['probabilityvector',['ProbabilityVector',['../namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0',1,'AIToolbox']]],
   ['projectionsrow',['ProjectionsRow',['../classAIToolbox_1_1POMDP_1_1Projecter.html#a56a25d788da6a6db2d9c2bb9fe65cba7',1,'AIToolbox::POMDP::Projecter']]],
   ['projectionstable',['ProjectionsTable',['../classAIToolbox_1_1POMDP_1_1Projecter.html#a933bbb7ed4c426975739b5b2c0b679b4',1,'AIToolbox::POMDP::Projecter']]]

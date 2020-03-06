@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: test/MDP/Utils/GridWorld.hpp File Reference</title>
+<title>AIToolbox: include/AIToolbox/MDP/Environments/Utils/GridWorld.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,76 +59,68 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li><li class="navelem"><a class="el" href="dir_4cc35b8d7c9f489d06d0897bbb0afeae.html">MDP</a></li><li class="navelem"><a class="el" href="dir_113292bd4b8f7ca742c4fce326ae2ecf.html">Utils</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_5d4dd356414a129804423ce26149d08e.html">MDP</a></li><li class="navelem"><a class="el" href="dir_7a4cfdfba02a00bb48cf5333c03414ae.html">Environments</a></li><li class="navelem"><a class="el" href="dir_9954296da48df4b69fc687713fd79c15.html">Utils</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">GridWorld.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
 </div>
 <p><a href="GridWorld_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGridWorldState.html">GridWorldState</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1GridWorld.html">AIToolbox::MDP::GridWorld</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a simple rectangular gridworld.  <a href="classAIToolbox_1_1MDP_1_1GridWorld.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGridWorld.html">GridWorld</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1GridWorld_1_1State.html">AIToolbox::MDP::GridWorld::State</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1MDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html">AIToolbox::MDP</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1MDP_1_1GridWorldEnums"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html">AIToolbox::MDP::GridWorldEnums</a></td></tr>
+<tr class="memdesc:namespaceAIToolbox_1_1MDP_1_1GridWorldEnums"><td class="mdescLeft">&#160;</td><td class="mdescRight">This namespace exists in order to allow referencing the Direction values directly. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a224b9163917ac32fc95a60d8c1eec3aa"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> { <br />
-&#160;&#160;<a class="el" href="ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaba595d8bca8bc5e67c37c0a9d89becfa">UP</a> = 0, 
-<a class="el" href="ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaec8379af7490bb9eaaf579cf17876f38">RIGHT</a> = 1, 
-<a class="el" href="ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da">DOWN</a> = 2, 
-<a class="el" href="ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaadb45120aafd37a973140edee24708065">LEFT</a> = 3, 
+<tr class="memitem:ac819771000de8a5294554c3fd6e52103"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103">AIToolbox::MDP::GridWorldEnums::Direction</a> : size_t { <br />
+&#160;&#160;<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103aa475cb272ee2c945091081a1da0db0ad">AIToolbox::MDP::GridWorldEnums::UP</a> = 0, 
+<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103a5308cc7f485f1749b02762d5638f1de2">AIToolbox::MDP::GridWorldEnums::RIGHT</a> = 1, 
+<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103a34d343e1e0c2f12bb0ab4ccf99f51452">AIToolbox::MDP::GridWorldEnums::DOWN</a> = 2, 
+<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103a744255c728603b95b2ed85394759b62d">AIToolbox::MDP::GridWorldEnums::LEFT</a> = 3, 
 <br />
-&#160;&#160;<a class="el" href="ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaf422fb81d42ecd479de08e64b6533d18">STAND</a> = 4, 
-<a class="el" href="GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaba595d8bca8bc5e67c37c0a9d89becfa">UP</a> = 0, 
-<a class="el" href="GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaaec8379af7490bb9eaaf579cf17876f38">RIGHT</a> = 1, 
-<a class="el" href="GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da">DOWN</a> = 2, 
+&#160;&#160;<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103a041fcfee3551e513ce0104a2857c2a25">AIToolbox::MDP::GridWorldEnums::UP_RIGHT</a> = 4, 
+<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103acb73fd85ffb26afec5435a17ffdba412">AIToolbox::MDP::GridWorldEnums::UP_LEFT</a> = 5, 
+<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103a9f055f4936b1b601de6079d72d3fab58">AIToolbox::MDP::GridWorldEnums::DOWN_RIGHT</a> = 6, 
+<a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103ace179e4ec4f9778f3d00701ebd401f16">AIToolbox::MDP::GridWorldEnums::DOWN_LEFT</a> = 7
 <br />
-&#160;&#160;<a class="el" href="GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aaadb45120aafd37a973140edee24708065">LEFT</a> = 3
-<br />
- }</td></tr>
-<tr class="separator:a224b9163917ac32fc95a60d8c1eec3aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+ }<tr class="memdesc:ac819771000de8a5294554c3fd6e52103"><td class="mdescLeft">&#160;</td><td class="mdescRight">The possible actions in a GridWorld-like environment.  <a href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:ac819771000de8a5294554c3fd6e52103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ab985012d144d0fa8d34d11de07087d9f"><td class="memItemLeft" align="right" valign="top">static constexpr std::array&lt; Direction, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ab985012d144d0fa8d34d11de07087d9f">AIToolbox::MDP::GridWorldEnums::Directions4</a> {{UP, RIGHT, DOWN, LEFT}}</td></tr>
+<tr class="separator:ab985012d144d0fa8d34d11de07087d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75507e0603290c77c26b74de5cca0abe"><td class="memItemLeft" align="right" valign="top">static constexpr std::array&lt; Direction, 8 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#a75507e0603290c77c26b74de5cca0abe">AIToolbox::MDP::GridWorldEnums::Directions8</a> {{UP, RIGHT, DOWN, LEFT, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT}}</td></tr>
+<tr class="separator:a75507e0603290c77c26b74de5cca0abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a224b9163917ac32fc95a60d8c1eec3aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a224b9163917ac32fc95a60d8c1eec3aa">&#9670;&nbsp;</a></span>Direction</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaaba595d8bca8bc5e67c37c0a9d89becfa"></a>UP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaaec8379af7490bb9eaaf579cf17876f38"></a>RIGHT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da"></a>DOWN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaadb45120aafd37a973140edee24708065"></a>LEFT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaaf422fb81d42ecd479de08e64b6533d18"></a>STAND&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaaba595d8bca8bc5e67c37c0a9d89becfa"></a>UP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaaec8379af7490bb9eaaf579cf17876f38"></a>RIGHT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaa9b0b4a95b99523966e0e34ffdadac9da"></a>DOWN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a224b9163917ac32fc95a60d8c1eec3aaadb45120aafd37a973140edee24708065"></a>LEFT&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

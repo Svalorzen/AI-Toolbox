@@ -64,7 +64,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination-members.html">List of all members</a>  </div>
@@ -78,33 +77,24 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="VariableElimination_8hpp_source.html">VariableElimination.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination_1_1Factor.html">Factor</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a7d4e8fa934b0c874fbc32d84181e46fe"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a7d4e8fa934b0c874fbc32d84181e46fe">Entry</a> = std::pair&lt; double, <a class="el" href="namespaceAIToolbox_1_1Factored.html#ad7ce350ef07874f488f036098768c3d7">PartialAction</a> &gt;</td></tr>
-<tr class="separator:a7d4e8fa934b0c874fbc32d84181e46fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a2779b0ffa1b6d63f7e25fd8b9c274b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a4a2779b0ffa1b6d63f7e25fd8b9c274b">Rule</a> = std::pair&lt; <a class="el" href="namespaceAIToolbox_1_1Factored.html#a13191d54fa3ce86fe495a56779a8ad8b">PartialValues</a>, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a7d4e8fa934b0c874fbc32d84181e46fe">Entry</a> &gt;</td></tr>
-<tr class="separator:a4a2779b0ffa1b6d63f7e25fd8b9c274b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae449296f9c4ac78ef45fdc680690d031"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#ae449296f9c4ac78ef45fdc680690d031">Rules</a> = std::vector&lt; <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a4a2779b0ffa1b6d63f7e25fd8b9c274b">Rule</a> &gt;</td></tr>
-<tr class="separator:ae449296f9c4ac78ef45fdc680690d031"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a595a1b4580834cc362b939697367932a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a595a1b4580834cc362b939697367932a">Result</a> = std::tuple&lt; <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a>, double &gt;</td></tr>
 <tr class="separator:a595a1b4580834cc362b939697367932a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b7cadcbd31cf1c6004ea1036b32e872"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a9b7cadcbd31cf1c6004ea1036b32e872">Graph</a> = <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; <a class="el" href="structAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination_1_1Factor.html">Factor</a> &gt;</td></tr>
-<tr class="separator:a9b7cadcbd31cf1c6004ea1036b32e872"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a838cad06bc4599743febc0afea513b53"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a838cad06bc4599743febc0afea513b53">Factor</a> = std::pair&lt; double, std::vector&lt; std::pair&lt; size_t, size_t &gt; &gt;&gt;</td></tr>
+<tr class="separator:a838cad06bc4599743febc0afea513b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45b0ce282926ae974a89e1055f269e08"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a45b0ce282926ae974a89e1055f269e08">GVE</a> = <a class="el" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html">GenericVariableElimination</a>&lt; <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a838cad06bc4599743febc0afea513b53">Factor</a> &gt;</td></tr>
+<tr class="separator:a45b0ce282926ae974a89e1055f269e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab82d601ca4186b00c6d78dfd7cbeb31c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#ab82d601ca4186b00c6d78dfd7cbeb31c">VariableElimination</a> (<a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> a)</td></tr>
-<tr class="memdesc:ab82d601ca4186b00c6d78dfd7cbeb31c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ab82d601ca4186b00c6d78dfd7cbeb31c">More...</a><br /></td></tr>
-<tr class="separator:ab82d601ca4186b00c6d78dfd7cbeb31c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cb6f849381c6eda09cb2c623b5a63d7"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
-<tr class="memitem:a6cb6f849381c6eda09cb2c623b5a63d7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a595a1b4580834cc362b939697367932a">Result</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a6cb6f849381c6eda09cb2c623b5a63d7">operator()</a> (const Iterable &amp;inputRules)</td></tr>
-<tr class="memdesc:a6cb6f849381c6eda09cb2c623b5a63d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds the best Action-value pair for the provided QFunctionRules.  <a href="#a6cb6f849381c6eda09cb2c623b5a63d7">More...</a><br /></td></tr>
-<tr class="separator:a6cb6f849381c6eda09cb2c623b5a63d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45b268bef4d5b020bf86c8a587c09da7"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
+<tr class="memitem:a45b268bef4d5b020bf86c8a587c09da7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a595a1b4580834cc362b939697367932a">Result</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a45b268bef4d5b020bf86c8a587c09da7">operator()</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;A, const Iterable &amp;inputRules)</td></tr>
+<tr class="memdesc:a45b268bef4d5b020bf86c8a587c09da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function finds the best Action-value pair for the provided QFunctionRules.  <a href="#a45b268bef4d5b020bf86c8a587c09da7">More...</a><br /></td></tr>
+<tr class="separator:a45b268bef4d5b020bf86c8a587c09da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9a697e5a2e81f2bda67a97ff15625f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a595a1b4580834cc362b939697367932a">Result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#ac9a697e5a2e81f2bda67a97ff15625f6">operator()</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;A, <a class="el" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html#aad82512b25de1577a13107906322947f">GVE::Graph</a> &amp;graph)</td></tr>
+<tr class="memdesc:ac9a697e5a2e81f2bda67a97ff15625f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function performs the actual agent elimination process.  <a href="#ac9a697e5a2e81f2bda67a97ff15625f6">More...</a><br /></td></tr>
+<tr class="separator:ac9a697e5a2e81f2bda67a97ff15625f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the Variable Elimination process. </p>
@@ -114,28 +104,28 @@ Public Member Functions</h2></td></tr>
 <p>This process is exponential in the maximum number of agents found attached to the same factor (which could be higher than in the original graph, as the elimination process can create bigger factors than the initial ones). However, given that each factor is usually linked to few agents, and that this process allows avoiding considering the full factored Action at any one time, it is usually much faster than a brute-force approach.</p>
 <p>WARNING: This process only considers rules that have been explicitly passed to it. This may create problems if some of your values have negative values in it, since the elimination process will not consider unmentioned actions as giving 0 reward, and choose them instead of the negative values. In order to avoid this problem either all 0 rules have to be explicitly mentioned for each agent subgroup containing negative rules, or the rules have to be converted to an equivalent graph with positive values. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a7d4e8fa934b0c874fbc32d84181e46fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d4e8fa934b0c874fbc32d84181e46fe">&#9670;&nbsp;</a></span>Entry</h2>
+<a id="a838cad06bc4599743febc0afea513b53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a838cad06bc4599743febc0afea513b53">&#9670;&nbsp;</a></span>Factor</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a7d4e8fa934b0c874fbc32d84181e46fe">AIToolbox::Factored::Bandit::VariableElimination::Entry</a> =  std::pair&lt;double, <a class="el" href="namespaceAIToolbox_1_1Factored.html#ad7ce350ef07874f488f036098768c3d7">PartialAction</a>&gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a838cad06bc4599743febc0afea513b53">AIToolbox::Factored::Bandit::VariableElimination::Factor</a> =  std::pair&lt;double, std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a9b7cadcbd31cf1c6004ea1036b32e872"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b7cadcbd31cf1c6004ea1036b32e872">&#9670;&nbsp;</a></span>Graph</h2>
+<a id="a45b0ce282926ae974a89e1055f269e08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45b0ce282926ae974a89e1055f269e08">&#9670;&nbsp;</a></span>GVE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a9b7cadcbd31cf1c6004ea1036b32e872">AIToolbox::Factored::Bandit::VariableElimination::Graph</a> =  <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt;<a class="el" href="structAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination_1_1Factor.html">Factor</a>&gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a45b0ce282926ae974a89e1055f269e08">AIToolbox::Factored::Bandit::VariableElimination::GVE</a> =  <a class="el" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html">GenericVariableElimination</a>&lt;<a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a838cad06bc4599743febc0afea513b53">Factor</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -156,65 +146,9 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4a2779b0ffa1b6d63f7e25fd8b9c274b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a2779b0ffa1b6d63f7e25fd8b9c274b">&#9670;&nbsp;</a></span>Rule</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a4a2779b0ffa1b6d63f7e25fd8b9c274b">AIToolbox::Factored::Bandit::VariableElimination::Rule</a> =  std::pair&lt;<a class="el" href="namespaceAIToolbox_1_1Factored.html#a13191d54fa3ce86fe495a56779a8ad8b">PartialValues</a>, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a7d4e8fa934b0c874fbc32d84181e46fe">Entry</a>&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae449296f9c4ac78ef45fdc680690d031"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae449296f9c4ac78ef45fdc680690d031">&#9670;&nbsp;</a></span>Rules</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#ae449296f9c4ac78ef45fdc680690d031">AIToolbox::Factored::Bandit::VariableElimination::Rules</a> =  std::vector&lt;<a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a4a2779b0ffa1b6d63f7e25fd8b9c274b">Rule</a>&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab82d601ca4186b00c6d78dfd7cbeb31c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab82d601ca4186b00c6d78dfd7cbeb31c">&#9670;&nbsp;</a></span>VariableElimination()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">AIToolbox::Factored::Bandit::VariableElimination::VariableElimination </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a>&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Basic constructor. </p>
-<p>This constructor initializes the internal graph with the number of needed agents.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>The action space. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6cb6f849381c6eda09cb2c623b5a63d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cb6f849381c6eda09cb2c623b5a63d7">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a45b268bef4d5b020bf86c8a587c09da7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45b268bef4d5b020bf86c8a587c09da7">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,9 +161,19 @@ template&lt;typename Iterable &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a595a1b4580834cc362b939697367932a">Result</a> AIToolbox::Factored::Bandit::VariableElimination::operator() </td>
           <td>(</td>
-          <td class="paramtype">const Iterable &amp;&#160;</td>
-          <td class="paramname"><em>inputRules</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const Iterable &amp;&#160;</td>
+          <td class="paramname"><em>inputRules</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -240,13 +184,57 @@ template&lt;typename Iterable &gt; </div>
 </div><div class="memdoc">
 
 <p>This function finds the best Action-value pair for the provided QFunctionRules. </p>
+<p>This function automatically sets up the Graph to perform GVE on from an iterable of QFunctionRules.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">A</td><td>The action space of the agents. </td></tr>
     <tr><td class="paramname">rules</td><td>An iterable object over QFunctionRules.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A tuple containing the best Action and its value over the input rules. </dd></dl>
+
+</div>
+</div>
+<a id="ac9a697e5a2e81f2bda67a97ff15625f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9a697e5a2e81f2bda67a97ff15625f6">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a595a1b4580834cc362b939697367932a">Result</a> AIToolbox::Factored::Bandit::VariableElimination::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html#aad82512b25de1577a13107906322947f">GVE::Graph</a> &amp;&#160;</td>
+          <td class="paramname"><em>graph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function performs the actual agent elimination process. </p>
+<p>For each agent, its adjacent factors, and the agents adjacent to those are found. Then all possible action combinations between those other agents are tried in order to find the best action response be for the agent to be eliminated.</p>
+<p>All the best responses found are added as Rules to a (possibly new) factor adjacent to the adjacent agents.</p>
+<p>The process is repeated until all agents are eliminated.</p>
+<p>What remains is then joined into a single Action, containing the best possible value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>The action space of the agents. </td></tr>
+    <tr><td class="paramname">graph</td><td>The graph to perform VE on.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The pair for best Action and its value given the internal graph. </dd></dl>
 
 </div>
 </div>
@@ -256,7 +244,7 @@ template&lt;typename Iterable &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

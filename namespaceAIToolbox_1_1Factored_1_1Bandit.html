@@ -64,7 +64,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">AIToolbox::Factored::Bandit Namespace Reference</div>  </div>
 </div><!--header-->
@@ -72,11 +73,16 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1LLR.html">LLR</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Learning with Linear Rewards algorithm.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1LLR.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1EpsilonPolicy.html">EpsilonPolicy</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCE.html">MAUCE</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Multi-Agent Upper Confidence Exploration algorithm.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCE.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html">Experience</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class computes averages and counts for a multi-agent cooperative <a class="el" href="namespaceAIToolbox_1_1Factored_1_1Bandit.html">Bandit</a> problem.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html">LLRPolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Learning with Linear Rewards algorithm.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html">MAUCEPolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Multi-Agent Upper Confidence Exploration algorithm.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html">MOQFunctionRule</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents a single action/values pair.  <a href="structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html#details">More...</a><br /></td></tr>
@@ -93,17 +99,49 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html">QGreedyPolicy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models a greedy policy through a QFunction.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html">RandomPolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a random policy.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html">SingleActionPolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a policy always picking the same action.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html">ThompsonSamplingPolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class models a Thompson sampling policy.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html">UCVE</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html" title="This class represents the UCVE process. ">UCVE</a> process.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html">VariableElimination</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents the Variable Elimination process.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:aaa8e39caf6ebca40f5fbc9853d90f646"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1Bandit.html#aaa8e39caf6ebca40f5fbc9853d90f646">QFunction</a> = <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredVector.html">FactoredVector</a></td></tr>
+<tr class="memdesc:aaa8e39caf6ebca40f5fbc9853d90f646"><td class="mdescLeft">&#160;</td><td class="mdescRight">This represents a factored QFunction.  <a href="#aaa8e39caf6ebca40f5fbc9853d90f646">More...</a><br /></td></tr>
+<tr class="separator:aaa8e39caf6ebca40f5fbc9853d90f646"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="aaa8e39caf6ebca40f5fbc9853d90f646"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa8e39caf6ebca40f5fbc9853d90f646">&#9670;&nbsp;</a></span>QFunction</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespaceAIToolbox_1_1Factored_1_1Bandit.html#aaa8e39caf6ebca40f5fbc9853d90f646">AIToolbox::Factored::Bandit::QFunction</a> = typedef <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredVector.html">FactoredVector</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This represents a factored QFunction. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -88,8 +88,8 @@ Inheritance diagram for AIToolbox::POMDP::SparseModel&lt; M &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a41c5cfe802011ad2d1f1f2a45a5e6d2a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a">ObservationTable</a> = <a class="el" href="namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77">SparseMatrix3D</a></td></tr>
-<tr class="separator:a41c5cfe802011ad2d1f1f2a45a5e6d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace30bafb7aa37ce98155addcb19697ec"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> = <a class="el" href="namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77">SparseMatrix3D</a></td></tr>
+<tr class="separator:ace30bafb7aa37ce98155addcb19697ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -105,10 +105,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a003a5b06c7cc0670a791876a30ac48b6"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a003a5b06c7cc0670a791876a30ac48b6">SparseModel</a> (const PM &amp;model)</td></tr>
 <tr class="memdesc:a003a5b06c7cc0670a791876a30ac48b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="#a003a5b06c7cc0670a791876a30ac48b6">More...</a><br /></td></tr>
 <tr class="separator:a003a5b06c7cc0670a791876a30ac48b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff1b0fd476ead67869fdceca7b46ec48"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:aff1b0fd476ead67869fdceca7b46ec48"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aff1b0fd476ead67869fdceca7b46ec48">SparseModel</a> (<a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>, size_t o, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a">ObservationTable</a> &amp;&amp;ot, Args &amp;&amp;... parameters)</td></tr>
-<tr class="memdesc:aff1b0fd476ead67869fdceca7b46ec48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unchecked constructor.  <a href="#aff1b0fd476ead67869fdceca7b46ec48">More...</a><br /></td></tr>
-<tr class="separator:aff1b0fd476ead67869fdceca7b46ec48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f004ec5308e566b19e859368ea2bd81"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a1f004ec5308e566b19e859368ea2bd81"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a1f004ec5308e566b19e859368ea2bd81">SparseModel</a> (<a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>, size_t o, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp;&amp;ot, Args &amp;&amp;... parameters)</td></tr>
+<tr class="memdesc:a1f004ec5308e566b19e859368ea2bd81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unchecked constructor.  <a href="#a1f004ec5308e566b19e859368ea2bd81">More...</a><br /></td></tr>
+<tr class="separator:a1f004ec5308e566b19e859368ea2bd81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca394d9a053cb0bd238009c077326fd0"><td class="memTemplParams" colspan="2">template&lt;typename ObFun &gt; </td></tr>
 <tr class="memitem:aca394d9a053cb0bd238009c077326fd0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aca394d9a053cb0bd238009c077326fd0">setObservationFunction</a> (const ObFun &amp;of)</td></tr>
 <tr class="memdesc:aca394d9a053cb0bd238009c077326fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process. ">SparseModel</a> observation function with the one provided.  <a href="#aca394d9a053cb0bd238009c077326fd0">More...</a><br /></td></tr>
@@ -131,9 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaba2400d7e6a6373b066411dbe1f66f4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aaba2400d7e6a6373b066411dbe1f66f4">getO</a> () const</td></tr>
 <tr class="memdesc:aaba2400d7e6a6373b066411dbe1f66f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of observations possible.  <a href="#aaba2400d7e6a6373b066411dbe1f66f4">More...</a><br /></td></tr>
 <tr class="separator:aaba2400d7e6a6373b066411dbe1f66f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50767619769a5018adb836a30de38cf4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a">ObservationTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a50767619769a5018adb836a30de38cf4">getObservationFunction</a> () const</td></tr>
-<tr class="memdesc:a50767619769a5018adb836a30de38cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the observation table for inspection.  <a href="#a50767619769a5018adb836a30de38cf4">More...</a><br /></td></tr>
-<tr class="separator:a50767619769a5018adb836a30de38cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec330db7530f8d849e102735d998c508"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aec330db7530f8d849e102735d998c508">getObservationFunction</a> () const</td></tr>
+<tr class="memdesc:aec330db7530f8d849e102735d998c508"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the observation matrix for inspection.  <a href="#aec330db7530f8d849e102735d998c508">More...</a><br /></td></tr>
+<tr class="separator:aec330db7530f8d849e102735d998c508"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -160,8 +160,8 @@ class AIToolbox::POMDP::SparseModel&lt; M &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a41c5cfe802011ad2d1f1f2a45a5e6d2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41c5cfe802011ad2d1f1f2a45a5e6d2a">&#9670;&nbsp;</a></span>ObservationTable</h2>
+<a id="ace30bafb7aa37ce98155addcb19697ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace30bafb7aa37ce98155addcb19697ec">&#9670;&nbsp;</a></span>ObservationMatrix</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -169,7 +169,7 @@ class AIToolbox::POMDP::SparseModel&lt; M &gt;</h3>
 template&lt;typename M&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a">ObservationTable</a> =  <a class="el" href="namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77">SparseMatrix3D</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> =  <a class="el" href="namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77">SparseMatrix3D</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -262,13 +262,11 @@ template&lt;typename ObFun, typename... Args, typename &gt; </div>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>This constructor takes an arbitrary three dimensional container and tries to copy its contents into the observations table.</p>
+<p>This constructor takes an arbitrary three dimensional container and tries to copy its contents into the observations matrix.</p>
 <p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones provided as arguments both directly (o) and indirectly (s,a), in the order s, a, o.</p>
 <p>This is important, as this constructor DOES NOT perform any size checks on the external containers.</p>
 <p>Internal values of the containers will be converted to double, so these conversions must be possible.</p>
-<p>In addition, the observation container must contain a valid transition function. </p><dl class="section see"><dt>See also</dt><dd>transitionCheck()</dd>
-<dd>
-<a class="el" href="namespaceAIToolbox.html#adf3316313e5c38bb940a665f55db9a04" title="Copies a 3d container into another 3d container. ">copyTable3D()</a></dd></dl>
+<p>In addition, the observation container must contain a valid transition function.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">ObFun</td><td>The external observations container type. </td></tr>
@@ -278,7 +276,7 @@ template&lt;typename ObFun, typename... Args, typename &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">o</td><td>The number of possible observations the agent could make. </td></tr>
-    <tr><td class="paramname">of</td><td>The observation probability table. </td></tr>
+    <tr><td class="paramname">of</td><td>The observation probability matrix. </td></tr>
     <tr><td class="paramname">parameters</td><td>All arguments needed to build the parent <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a>. </td></tr>
   </table>
   </dd>
@@ -324,8 +322,8 @@ template&lt;typename PM, typename &gt; </div>
 
 </div>
 </div>
-<a id="aff1b0fd476ead67869fdceca7b46ec48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff1b0fd476ead67869fdceca7b46ec48">&#9670;&nbsp;</a></span>SparseModel() <span class="overload">[4/4]</span></h2>
+<a id="a1f004ec5308e566b19e859368ea2bd81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f004ec5308e566b19e859368ea2bd81">&#9670;&nbsp;</a></span>SparseModel() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -349,7 +347,7 @@ template&lt;typename... Args&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a">ObservationTable</a> &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>ot</em>, </td>
         </tr>
         <tr>
@@ -372,7 +370,7 @@ template&lt;typename... Args&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">o</td><td>The number of possible observations the agent could make. </td></tr>
-    <tr><td class="paramname">ot</td><td>The observation probability table. </td></tr>
+    <tr><td class="paramname">ot</td><td>The observation probability matrix. </td></tr>
     <tr><td class="paramname">parameters</td><td>All arguments needed to build the parent <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process. ">Model</a>. </td></tr>
   </table>
   </dd>
@@ -432,8 +430,8 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
-<a id="a50767619769a5018adb836a30de38cf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50767619769a5018adb836a30de38cf4">&#9670;&nbsp;</a></span>getObservationFunction() <span class="overload">[2/2]</span></h2>
+<a id="aec330db7530f8d849e102735d998c508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec330db7530f8d849e102735d998c508">&#9670;&nbsp;</a></span>getObservationFunction() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -441,7 +439,7 @@ template&lt;typename M &gt; </div>
 template&lt;typename M &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a41c5cfe802011ad2d1f1f2a45a5e6d2a">ObservationTable</a> &amp; <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::getObservationFunction </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp; <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::getObservationFunction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -449,8 +447,8 @@ template&lt;typename M &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the observation table for inspection. </p>
-<dl class="section return"><dt>Returns</dt><dd>The rewards table. </dd></dl>
+<p>This function returns the observation matrix for inspection. </p>
+<dl class="section return"><dt>Returns</dt><dd>The observation matrix. </dd></dl>
 
 </div>
 </div>
@@ -738,7 +736,7 @@ template&lt;typename M&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

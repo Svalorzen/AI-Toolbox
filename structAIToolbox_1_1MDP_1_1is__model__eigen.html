@@ -78,9 +78,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a407fa8c3b7d7fd1875e0aab1ea8790d8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html#a407fa8c3b7d7fd1875e0aab1ea8790d8a6fd627b2bf4efceb0b614a8aa6d33211">value</a>
+<tr class="memitem:ad050fc640b956d4700a66de10a96d973"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html#ad050fc640b956d4700a66de10a96d973a6fd627b2bf4efceb0b614a8aa6d33211">value</a>
  }</td></tr>
-<tr class="separator:a407fa8c3b7d7fd1875e0aab1ea8790d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ad050fc640b956d4700a66de10a96d973"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename M&gt;<br />
@@ -90,11 +90,11 @@ struct AIToolbox::MDP::is_model_eigen&lt; M &gt;</h3>
 <p>This struct is used to check interfaces of classes in templates. In particular, this struct tests for the interface of an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model which uses <a class="el" href="namespaceEigen.html">Eigen</a> matrices internally. The interface must be implemented and be public in the parameter class. The interface is the following:</p>
 <ul>
 <li>T getTransitionFunction(size_t a) const : Returns the transition function for a given action as a matrix SxS', where T is some <a class="el" href="namespaceEigen.html">Eigen</a> matrix type.</li>
-<li>R getRewardFunction(size_t a) const : Returns the reward function for a given action as a matrix SxS', where R is some <a class="el" href="namespaceEigen.html">Eigen</a> matrix type.</li>
+<li>R getRewardFunction() const : Returns the reward function as a matrix SxA', where R is some <a class="el" href="namespaceEigen.html">Eigen</a> matrix type.</li>
 </ul>
 <p>In addition the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> needs to respect the interface for the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html" title="This struct represents the required interface for a full MDP. ">MDP::is_model</a></dd></dl>
-<p><a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html#a407fa8c3b7d7fd1875e0aab1ea8790d8a6fd627b2bf4efceb0b614a8aa6d33211">is_model_eigen&lt;M&gt;::value</a> will be equal to true is M implements the interface, and false otherwise.</p>
+<p><a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html#ad050fc640b956d4700a66de10a96d973a6fd627b2bf4efceb0b614a8aa6d33211">is_model_eigen&lt;M&gt;::value</a> will be equal to true is M implements the interface, and false otherwise.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The class to test for the interface. </td></tr>
@@ -102,8 +102,8 @@ struct AIToolbox::MDP::is_model_eigen&lt; M &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a407fa8c3b7d7fd1875e0aab1ea8790d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a407fa8c3b7d7fd1875e0aab1ea8790d8">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="ad050fc640b956d4700a66de10a96d973"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad050fc640b956d4700a66de10a96d973">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -116,7 +116,7 @@ template&lt;typename M &gt; </div>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a407fa8c3b7d7fd1875e0aab1ea8790d8a6fd627b2bf4efceb0b614a8aa6d33211"></a>value&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad050fc640b956d4700a66de10a96d973a6fd627b2bf4efceb0b614a8aa6d33211"></a>value&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -127,7 +127,7 @@ template&lt;typename M &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

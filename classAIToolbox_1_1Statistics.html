@@ -208,6 +208,7 @@ Public Member Functions</h2></td></tr>
 
 <p>This function records a new datapoint for the specified timestep. </p>
 <p>This function stores the input in a way that allows to obtain both mean and standard deviation from the data later.</p>
+<p>This function assumes that records are passed in order, for each run. If a new record has a timestep less than or equal to the previously passed timestep, it's going to assume that the new record refers to a new experiment run. This is important to compute the cumulative std statistic correctly, but does not otherwise affect the other ones.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>The value to register. </td></tr>
@@ -224,7 +225,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

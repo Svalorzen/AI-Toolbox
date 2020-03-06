@@ -104,6 +104,7 @@ Typedefs</h2></td></tr>
 <p>A VList is a slice of the final tree with respect to depth, as in all ValueFunctions for a certain timestep t. Note that a VList can have an arbitrary number of VEntries inside - with an upper bound. Each VList can have at most A * size(VList_{t-1})^O.</p>
 <p>A ValueFunction is the final tree keeping all VLists together. A ValueFunction has always at least one element.</p>
 <p>The first element of a ValueFunction is technically useless, as it is a VList with just one VEntry that tells to perform action zero. It's the default from which all Dynamic Programming algorithm start. The values of the default entry are usually zeros, although some algorithms initialize them differently. The first entry otherwise is never used, not even for sampling for a policy, and it's simply an artifact that takes little space to keep, and it's expected in all the code.</p>
+<p>The UpperBoundValueFunction is a pair of two, equally sized, lists. The first list contains a set of Beliefs where an upper bound is known, and the second contains those upper bounds. It's possible to infer upper bounds outide of the listed Beliefs by interpolation (either sawtooth or LP). This list usually does not contain the corner Beliefs.</p>
 <p>QFunctions may be defined later, however since POMDP ValueFunctions are already pretty costly in terms of space, in general there's little sense in storing them. </p>
 </div></td></tr>
 <tr class="memitem:a72aee7b57445d6b773012d9b54b85339"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a72aee7b57445d6b773012d9b54b85339">AIToolbox::POMDP::VObs</a> = std::vector&lt; size_t &gt;</td></tr>
@@ -112,11 +113,13 @@ Typedefs</h2></td></tr>
 <tr class="separator:a5655ffd334a1e53622314eae70eab464"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1cada9fef241e48a9d14d36cb61dabb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">AIToolbox::POMDP::ValueFunction</a> = std::vector&lt; VList &gt;</td></tr>
 <tr class="separator:ab1cada9fef241e48a9d14d36cb61dabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace6914f598eab0d79bf4e533295d6839"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ace6914f598eab0d79bf4e533295d6839">AIToolbox::POMDP::UpperBoundValueFunction</a> = std::pair&lt; std::vector&lt; Belief &gt;, std::vector&lt; double &gt; &gt;</td></tr>
+<tr class="separator:ace6914f598eab0d79bf4e533295d6839"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

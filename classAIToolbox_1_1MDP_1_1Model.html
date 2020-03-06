@@ -80,10 +80,10 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a2b3cec36a1830c1626e44ea0182cb1f5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">TransitionTable</a> = <a class="el" href="namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94">Matrix3D</a></td></tr>
-<tr class="separator:a2b3cec36a1830c1626e44ea0182cb1f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50114718cc28e92dd747b41a785aaa3a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">RewardTable</a> = <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a></td></tr>
-<tr class="separator:a50114718cc28e92dd747b41a785aaa3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4e24ef71fb66c64cfe179d905dea087"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> = <a class="el" href="namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94">Matrix3D</a></td></tr>
+<tr class="separator:ab4e24ef71fb66c64cfe179d905dea087"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73fa23cf730f6f848fef5679e97a4857"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a> = <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a></td></tr>
+<tr class="separator:a73fa23cf730f6f848fef5679e97a4857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -98,23 +98,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac0396025e243a1a231246e5d018fccff"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ac0396025e243a1a231246e5d018fccff">Model</a> (const M &amp;model)</td></tr>
 <tr class="memdesc:ac0396025e243a1a231246e5d018fccff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.  <a href="#ac0396025e243a1a231246e5d018fccff">More...</a><br /></td></tr>
 <tr class="separator:ac0396025e243a1a231246e5d018fccff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae59874cbc97d78d0f017ec0f32f685ee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ae59874cbc97d78d0f017ec0f32f685ee">Model</a> (<a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>, size_t s, size_t a, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">TransitionTable</a> &amp;&amp;t, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">RewardTable</a> &amp;&amp;r, double d)</td></tr>
-<tr class="memdesc:ae59874cbc97d78d0f017ec0f32f685ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unchecked constructor.  <a href="#ae59874cbc97d78d0f017ec0f32f685ee">More...</a><br /></td></tr>
-<tr class="separator:ae59874cbc97d78d0f017ec0f32f685ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad79aaa66abfc87d2f78e9defa950103f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ad79aaa66abfc87d2f78e9defa950103f">Model</a> (<a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>, size_t s, size_t a, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> &amp;&amp;t, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a> &amp;&amp;r, double d)</td></tr>
+<tr class="memdesc:ad79aaa66abfc87d2f78e9defa950103f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unchecked constructor.  <a href="#ad79aaa66abfc87d2f78e9defa950103f">More...</a><br /></td></tr>
+<tr class="separator:ad79aaa66abfc87d2f78e9defa950103f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a1ad9ead7ffd3eb98b631c9cefeabd354">setTransitionFunction</a> (const T &amp;t)</td></tr>
 <tr class="memdesc:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a> transition function with the one provided.  <a href="#a1ad9ead7ffd3eb98b631c9cefeabd354">More...</a><br /></td></tr>
 <tr class="separator:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6aae39a8254bfd2611af1dfb8c806c6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a6aae39a8254bfd2611af1dfb8c806c6e">setTransitionFunction</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">TransitionTable</a> &amp;t)</td></tr>
-<tr class="memdesc:a6aae39a8254bfd2611af1dfb8c806c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the transition function using a <a class="el" href="namespaceEigen.html">Eigen</a> dense matrices.  <a href="#a6aae39a8254bfd2611af1dfb8c806c6e">More...</a><br /></td></tr>
-<tr class="separator:a6aae39a8254bfd2611af1dfb8c806c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acef2bc9dcdea920f503413e846697d3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#acef2bc9dcdea920f503413e846697d3e">setTransitionFunction</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> &amp;t)</td></tr>
+<tr class="memdesc:acef2bc9dcdea920f503413e846697d3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the transition function using a <a class="el" href="namespaceEigen.html">Eigen</a> dense matrices.  <a href="#acef2bc9dcdea920f503413e846697d3e">More...</a><br /></td></tr>
+<tr class="separator:acef2bc9dcdea920f503413e846697d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a778bce7806b7fd265c8d89f74760def4"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
 <tr class="memitem:a778bce7806b7fd265c8d89f74760def4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a778bce7806b7fd265c8d89f74760def4">setRewardFunction</a> (const R &amp;r)</td></tr>
 <tr class="memdesc:a778bce7806b7fd265c8d89f74760def4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a> reward function with the one provided.  <a href="#a778bce7806b7fd265c8d89f74760def4">More...</a><br /></td></tr>
 <tr class="separator:a778bce7806b7fd265c8d89f74760def4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4239e138834728042f5b1432965135e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a4239e138834728042f5b1432965135e3">setRewardFunction</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">RewardTable</a> &amp;r)</td></tr>
-<tr class="memdesc:a4239e138834728042f5b1432965135e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the reward function with the one provided.  <a href="#a4239e138834728042f5b1432965135e3">More...</a><br /></td></tr>
-<tr class="separator:a4239e138834728042f5b1432965135e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad66d4239574f16338d8366038d95213f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ad66d4239574f16338d8366038d95213f">setRewardFunction</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a> &amp;r)</td></tr>
+<tr class="memdesc:ad66d4239574f16338d8366038d95213f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the reward function with the one provided.  <a href="#ad66d4239574f16338d8366038d95213f">More...</a><br /></td></tr>
+<tr class="separator:ad66d4239574f16338d8366038d95213f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a8c7eff99e36477f7fcdbdd9060c34ec9">setDiscount</a> (double d)</td></tr>
 <tr class="memdesc:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets a new discount factor for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a>.  <a href="#a8c7eff99e36477f7fcdbdd9060c34ec9">More...</a><br /></td></tr>
 <tr class="separator:a8c7eff99e36477f7fcdbdd9060c34ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,15 +136,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abb267691d79bb746426c4fac2a954654"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#abb267691d79bb746426c4fac2a954654">getExpectedReward</a> (size_t s, size_t a, size_t s1) const</td></tr>
 <tr class="memdesc:abb267691d79bb746426c4fac2a954654"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the stored expected reward for the specified transition.  <a href="#abb267691d79bb746426c4fac2a954654">More...</a><br /></td></tr>
 <tr class="separator:abb267691d79bb746426c4fac2a954654"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0a51333685ad61409e69dd4654a8547"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">TransitionTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab0a51333685ad61409e69dd4654a8547">getTransitionFunction</a> () const</td></tr>
-<tr class="memdesc:ab0a51333685ad61409e69dd4654a8547"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the transition table for inspection.  <a href="#ab0a51333685ad61409e69dd4654a8547">More...</a><br /></td></tr>
-<tr class="separator:ab0a51333685ad61409e69dd4654a8547"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6c7be4aea9cd59597e34a572c72af0f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aa6c7be4aea9cd59597e34a572c72af0f">getTransitionFunction</a> () const</td></tr>
+<tr class="memdesc:aa6c7be4aea9cd59597e34a572c72af0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the transition matrix for inspection.  <a href="#aa6c7be4aea9cd59597e34a572c72af0f">More...</a><br /></td></tr>
+<tr class="separator:aa6c7be4aea9cd59597e34a572c72af0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a008def0b5aaf2abf1184a39d43e428ee"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a008def0b5aaf2abf1184a39d43e428ee">getTransitionFunction</a> (size_t a) const</td></tr>
 <tr class="memdesc:a008def0b5aaf2abf1184a39d43e428ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the transition function for a given action.  <a href="#a008def0b5aaf2abf1184a39d43e428ee">More...</a><br /></td></tr>
 <tr class="separator:a008def0b5aaf2abf1184a39d43e428ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab142949e2b1aaee01302c43e02e61d60"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">RewardTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab142949e2b1aaee01302c43e02e61d60">getRewardFunction</a> () const</td></tr>
-<tr class="memdesc:ab142949e2b1aaee01302c43e02e61d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the rewards table for inspection.  <a href="#ab142949e2b1aaee01302c43e02e61d60">More...</a><br /></td></tr>
-<tr class="separator:ab142949e2b1aaee01302c43e02e61d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0629bdae1f8275b71b5752a2f4bc2f8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ac0629bdae1f8275b71b5752a2f4bc2f8">getRewardFunction</a> () const</td></tr>
+<tr class="memdesc:ac0629bdae1f8275b71b5752a2f4bc2f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the rewards matrix for inspection.  <a href="#ac0629bdae1f8275b71b5752a2f4bc2f8">More...</a><br /></td></tr>
+<tr class="separator:ac0629bdae1f8275b71b5752a2f4bc2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ca4b6fc92c8089ec4cea5910f0f6a1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a6ca4b6fc92c8089ec4cea5910f0f6a1b">isTerminal</a> (size_t s) const</td></tr>
 <tr class="memdesc:a6ca4b6fc92c8089ec4cea5910f0f6a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a given state is a terminal.  <a href="#a6ca4b6fc92c8089ec4cea5910f0f6a1b">More...</a><br /></td></tr>
 <tr class="separator:a6ca4b6fc92c8089ec4cea5910f0f6a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,28 +165,28 @@ Friends</h2></td></tr>
 <p>Given that we are usually interested about the optimal policy, there are a couple of properties that are associated with the optimal policies functions. First, the optimal policy can be derived from the optimal QFunction. The optimal policy simply selects, in a given state "s", the action that maximizes the value of the QFunction. In the same way, the optimal <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a> can be computed from the optimal QFunction by selecting the max with respect to the action.</p>
 <p>Since so much information can be extracted from the QFunction, lots of methods (mostly in Reinforcement Learning) try to learn it. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a50114718cc28e92dd747b41a785aaa3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50114718cc28e92dd747b41a785aaa3a">&#9670;&nbsp;</a></span>RewardTable</h2>
+<a id="a73fa23cf730f6f848fef5679e97a4857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73fa23cf730f6f848fef5679e97a4857">&#9670;&nbsp;</a></span>RewardMatrix</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">AIToolbox::MDP::Model::RewardTable</a> =  <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">AIToolbox::MDP::Model::RewardMatrix</a> =  <a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a2b3cec36a1830c1626e44ea0182cb1f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b3cec36a1830c1626e44ea0182cb1f5">&#9670;&nbsp;</a></span>TransitionTable</h2>
+<a id="ab4e24ef71fb66c64cfe179d905dea087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4e24ef71fb66c64cfe179d905dea087">&#9670;&nbsp;</a></span>TransitionMatrix</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">AIToolbox::MDP::Model::TransitionTable</a> =  <a class="el" href="namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94">Matrix3D</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">AIToolbox::MDP::Model::TransitionMatrix</a> =  <a class="el" href="namespaceAIToolbox.html#ae816d088c18d4f3e13c83ae29904ef94">Matrix3D</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -287,13 +287,11 @@ template&lt;typename T , typename R &gt; </div>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>This constructor takes two arbitrary three dimensional containers and tries to copy their contents into the transitions and rewards tables respectively.</p>
+<p>This constructor takes two arbitrary three dimensional containers and tries to copy their contents into the transitions and rewards matrices respectively.</p>
 <p>The containers need to support data access through operator[]. In addition, the dimensions of the containers must match the ones provided as arguments (for three dimensions: s,a,s).</p>
 <p>This is important, as this constructor DOES NOT perform any size checks on the external containers.</p>
 <p>Internal values of the containers will be converted to double, so these conversions must be possible.</p>
-<p>In addition, the transition container must contain a valid transition function. </p><dl class="section see"><dt>See also</dt><dd>transitionCheck()</dd>
-<dd>
-<a class="el" href="namespaceAIToolbox.html#adf3316313e5c38bb940a665f55db9a04" title="Copies a 3d container into another 3d container. ">copyTable3D()</a></dd></dl>
+<p>In addition, the transition container must contain a valid transition function.</p>
 <p>The discount parameter must be between 0 and 1 included, otherwise the constructor will throw an std::invalid_argument.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -350,8 +348,8 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="ae59874cbc97d78d0f017ec0f32f685ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae59874cbc97d78d0f017ec0f32f685ee">&#9670;&nbsp;</a></span>Model() <span class="overload">[4/4]</span></h2>
+<a id="ad79aaa66abfc87d2f78e9defa950103f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad79aaa66abfc87d2f78e9defa950103f">&#9670;&nbsp;</a></span>Model() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -377,13 +375,13 @@ template&lt;typename M , typename &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">TransitionTable</a> &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">RewardTable</a> &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>r</em>, </td>
         </tr>
         <tr>
@@ -502,14 +500,14 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="ab142949e2b1aaee01302c43e02e61d60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab142949e2b1aaee01302c43e02e61d60">&#9670;&nbsp;</a></span>getRewardFunction()</h2>
+<a id="ac0629bdae1f8275b71b5752a2f4bc2f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0629bdae1f8275b71b5752a2f4bc2f8">&#9670;&nbsp;</a></span>getRewardFunction()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">RewardTable</a>&amp; AIToolbox::MDP::Model::getRewardFunction </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a>&amp; AIToolbox::MDP::Model::getRewardFunction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -517,8 +515,8 @@ template&lt;typename M , typename &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the rewards table for inspection. </p>
-<dl class="section return"><dt>Returns</dt><dd>The rewards table. </dd></dl>
+<p>This function returns the rewards matrix for inspection. </p>
+<dl class="section return"><dt>Returns</dt><dd>The rewards matrix. </dd></dl>
 
 </div>
 </div>
@@ -542,14 +540,14 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="ab0a51333685ad61409e69dd4654a8547"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0a51333685ad61409e69dd4654a8547">&#9670;&nbsp;</a></span>getTransitionFunction() <span class="overload">[1/2]</span></h2>
+<a id="aa6c7be4aea9cd59597e34a572c72af0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6c7be4aea9cd59597e34a572c72af0f">&#9670;&nbsp;</a></span>getTransitionFunction() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">TransitionTable</a>&amp; AIToolbox::MDP::Model::getTransitionFunction </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a>&amp; AIToolbox::MDP::Model::getTransitionFunction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -557,8 +555,8 @@ template&lt;typename M , typename &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the transition table for inspection. </p>
-<dl class="section return"><dt>Returns</dt><dd>The rewards table. </dd></dl>
+<p>This function returns the transition matrix for inspection. </p>
+<dl class="section return"><dt>Returns</dt><dd>The rewards matrix. </dd></dl>
 
 </div>
 </div>
@@ -763,8 +761,8 @@ template&lt;typename R &gt; </div>
 
 </div>
 </div>
-<a id="a4239e138834728042f5b1432965135e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4239e138834728042f5b1432965135e3">&#9670;&nbsp;</a></span>setRewardFunction() <span class="overload">[2/2]</span></h2>
+<a id="ad66d4239574f16338d8366038d95213f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad66d4239574f16338d8366038d95213f">&#9670;&nbsp;</a></span>setRewardFunction() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -772,7 +770,7 @@ template&lt;typename R &gt; </div>
         <tr>
           <td class="memname">void AIToolbox::MDP::Model::setRewardFunction </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a50114718cc28e92dd747b41a785aaa3a">RewardTable</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a> &amp;&#160;</td>
           <td class="paramname"><em>r</em></td><td>)</td>
           <td></td>
         </tr>
@@ -810,7 +808,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This function replaces the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process. ">Model</a> transition function with the one provided. </p>
-<p>This function will throw a std::invalid_argument if the table provided does not contain valid probabilities.</p>
+<p>This function will throw a std::invalid_argument if the matrix provided does not contain valid probabilities.</p>
 <p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones provided as arguments (for three dimensions: S,A,S).</p>
 <p>This is important, as this function DOES NOT perform any size checks on the external container.</p>
 <p>Internal values of the container will be converted to double, so these conversions must be possible.</p>
@@ -829,8 +827,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a6aae39a8254bfd2611af1dfb8c806c6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6aae39a8254bfd2611af1dfb8c806c6e">&#9670;&nbsp;</a></span>setTransitionFunction() <span class="overload">[2/2]</span></h2>
+<a id="acef2bc9dcdea920f503413e846697d3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acef2bc9dcdea920f503413e846697d3e">&#9670;&nbsp;</a></span>setTransitionFunction() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -838,7 +836,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">void AIToolbox::MDP::Model::setTransitionFunction </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a2b3cec36a1830c1626e44ea0182cb1f5">TransitionTable</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> &amp;&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
           <td></td>
         </tr>
@@ -846,7 +844,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This function sets the transition function using a <a class="el" href="namespaceEigen.html">Eigen</a> dense matrices. </p>
-<p>This function will throw a std::invalid_argument if the table provided does not contain valid probabilities.</p>
+<p>This function will throw a std::invalid_argument if the matrix provided does not contain valid probabilities.</p>
 <p>The dimensions of the container must match the ones provided as arguments (for three dimensions: S, S, A). BE CAREFUL. The sparse matrices MUST be SxS, while the std::vector containing them MUST represent A.</p>
 <p>This function does DOES NOT perform any size checks on the input.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -912,7 +910,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

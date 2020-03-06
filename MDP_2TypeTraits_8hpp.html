@@ -93,6 +93,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__experience.html">AIToolbox::MDP::is_experience&lt; M &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for an experience recorder.  <a href="structAIToolbox_1_1MDP_1_1is__experience.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__experience__eigen.html">AIToolbox::MDP::is_experience_eigen&lt; E &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> interface that allows leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="structAIToolbox_1_1MDP_1_1is__experience__eigen.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -101,6 +104,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:aee33769855c8ca99ee2e02ad392e142f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MDP_2TypeTraits_8hpp.html#aee33769855c8ca99ee2e02ad392e142f">RETVAL_EXTRACTOR</a>(fun_name)</td></tr>
+<tr class="separator:aee33769855c8ca99ee2e02ad392e142f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee33769855c8ca99ee2e02ad392e142f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MDP_2TypeTraits_8hpp.html#aee33769855c8ca99ee2e02ad392e142f">RETVAL_EXTRACTOR</a>(fun_name)</td></tr>
 <tr class="separator:aee33769855c8ca99ee2e02ad392e142f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -121,10 +126,31 @@ Variables</h2></td></tr>
 <tr class="memitem:a4682bf37a8be34ba05441fc65d81177f"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
 <tr class="memitem:a4682bf37a8be34ba05441fc65d81177f"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a4682bf37a8be34ba05441fc65d81177f">AIToolbox::MDP::is_experience_v</a> = is_experience&lt;M&gt;::value</td></tr>
 <tr class="separator:a4682bf37a8be34ba05441fc65d81177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f5e9d89342123814461790e37cd4fb5"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:a7f5e9d89342123814461790e37cd4fb5"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7f5e9d89342123814461790e37cd4fb5">AIToolbox::MDP::is_experience_eigen_v</a> = is_experience_eigen&lt;M&gt;::value</td></tr>
+<tr class="separator:a7f5e9d89342123814461790e37cd4fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="aee33769855c8ca99ee2e02ad392e142f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee33769855c8ca99ee2e02ad392e142f">&#9670;&nbsp;</a></span>RETVAL_EXTRACTOR</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aee33769855c8ca99ee2e02ad392e142f">&#9670;&nbsp;</a></span>RETVAL_EXTRACTOR <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RETVAL_EXTRACTOR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">fun_name</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">\</div><div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(Z* z) -&gt;                                          \</div><div class="line">                                                                remove_cv_ref_t&lt;decltype(z-&gt;fun_name(std::declval&lt;Args&gt;()...))&gt;;    \</div><div class="line">                                                                                                                                    \</div><div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(...) -&gt; <span class="keywordtype">int</span></div></div><!-- fragment -->
+</div>
+</div>
+<a id="aee33769855c8ca99ee2e02ad392e142f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee33769855c8ca99ee2e02ad392e142f">&#9670;&nbsp;</a></span>RETVAL_EXTRACTOR <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +170,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

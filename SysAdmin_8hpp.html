@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: test/Factored/Utils/SysAdmin.hpp File Reference</title>
+<title>AIToolbox: include/AIToolbox/Factored/MDP/Environments/SysAdmin.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,11 +59,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li><li class="navelem"><a class="el" href="dir_d10faf1e592092e1060900507682754e.html">Factored</a></li><li class="navelem"><a class="el" href="dir_aa7d2af682e2a181ae29f82212283469.html">Utils</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_87564780f863c98e7ba2c4794a9b8ba0.html">Factored</a></li><li class="navelem"><a class="el" href="dir_12ced7710a3ddac1cdbeef3b35930e9c.html">MDP</a></li><li class="navelem"><a class="el" href="dir_6867d5785d27fa6ce6608fe9c28f7578.html">Environments</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -71,420 +72,54 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="CooperativeModel_8hpp_source.html">AIToolbox/Factored/MDP/CooperativeModel.hpp</a>&gt;</code><br />
-<code>#include &lt;algorithm&gt;</code><br />
 </div>
 <p><a href="SysAdmin_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1Factored_1_1MDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html">AIToolbox::Factored::MDP</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html">AIToolbox::Factored::MDP::SysAdminEnums</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a5cc6b28ebc1a6f32bdfe9031c4deb568"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a5cc6b28ebc1a6f32bdfe9031c4deb568">MachineStatus</a> { <a class="el" href="SysAdmin_8hpp.html#a5cc6b28ebc1a6f32bdfe9031c4deb568aa9e10f610083e262e7aa4004c9b68fe9">Good</a> = 0, 
-<a class="el" href="SysAdmin_8hpp.html#a5cc6b28ebc1a6f32bdfe9031c4deb568a2c88d6b09611bebcfd079df624ae3bfe">Fail</a>, 
-<a class="el" href="SysAdmin_8hpp.html#a5cc6b28ebc1a6f32bdfe9031c4deb568a2f872369e520d046b46b7cd0b49b1882">Dead</a>
+<tr class="memitem:a032fc970c400d48142fba4dc2f0a14ed"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#a032fc970c400d48142fba4dc2f0a14ed">AIToolbox::Factored::MDP::SysAdminEnums::MachineStatus</a> { <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#a032fc970c400d48142fba4dc2f0a14edaff2688eb1aa3b98fcf62f9af018cb287">AIToolbox::Factored::MDP::SysAdminEnums::Good</a> = 0, 
+<a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#a032fc970c400d48142fba4dc2f0a14eda3af657e7f1a31fe52a22d37618740606">AIToolbox::Factored::MDP::SysAdminEnums::Fail</a>, 
+<a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#a032fc970c400d48142fba4dc2f0a14eda842f0bed559fdfbdea423d9f6471242f">AIToolbox::Factored::MDP::SysAdminEnums::Dead</a>
  }</td></tr>
-<tr class="separator:a5cc6b28ebc1a6f32bdfe9031c4deb568"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc457643d1139425196e35cb1ece5c0e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#abc457643d1139425196e35cb1ece5c0e">MachineLoad</a> { <a class="el" href="SysAdmin_8hpp.html#abc457643d1139425196e35cb1ece5c0ead3fa9ae9431d6cb1772f9d9df48cab19">Idle</a> = 0, 
-<a class="el" href="SysAdmin_8hpp.html#abc457643d1139425196e35cb1ece5c0eac40ec5db2990469fc236f4c5dea23edb">Load</a>, 
-<a class="el" href="SysAdmin_8hpp.html#abc457643d1139425196e35cb1ece5c0eaa7929b884d7db9093d6ed453feedf2a2">Done</a>
+<tr class="separator:a032fc970c400d48142fba4dc2f0a14ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5ea203df96b8c833e6239d5d8a7ec9d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#ac5ea203df96b8c833e6239d5d8a7ec9d">AIToolbox::Factored::MDP::SysAdminEnums::MachineLoad</a> { <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#ac5ea203df96b8c833e6239d5d8a7ec9dab89719e835ef2cd8596b204751a7864d">AIToolbox::Factored::MDP::SysAdminEnums::Idle</a> = 0, 
+<a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#ac5ea203df96b8c833e6239d5d8a7ec9da36d7f81b1a0aa56dc9fb71c3951aa990">AIToolbox::Factored::MDP::SysAdminEnums::Load</a>, 
+<a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html#ac5ea203df96b8c833e6239d5d8a7ec9da43313a65343f63f9a441109ead3d81c4">AIToolbox::Factored::MDP::SysAdminEnums::Done</a>
  }</td></tr>
-<tr class="separator:abc457643d1139425196e35cb1ece5c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ac5ea203df96b8c833e6239d5d8a7ec9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a828742dae9bc74bfdd613ee463477244"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a828742dae9bc74bfdd613ee463477244">makeA0MatrixStatus</a> (unsigned neighbors, size_t id, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus)</td></tr>
-<tr class="separator:a828742dae9bc74bfdd613ee463477244"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a876ff61e50975bc585219486c8249f4b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a876ff61e50975bc585219486c8249f4b">makeA1MatrixStatus</a> ()</td></tr>
-<tr class="separator:a876ff61e50975bc585219486c8249f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d0cb5ac75f7babaf5532890a9fb3e2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a5d0cb5ac75f7babaf5532890a9fb3e2b">makeA0MatrixLoad</a> (double pLoad, double pDoneG, double pDoneF)</td></tr>
-<tr class="separator:a5d0cb5ac75f7babaf5532890a9fb3e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad375e9cc5f68f7d78061dcc6db7a694a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#ad375e9cc5f68f7d78061dcc6db7a694a">makeA1MatrixLoad</a> ()</td></tr>
-<tr class="separator:ad375e9cc5f68f7d78061dcc6db7a694a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a588f613f43d0d906e59ceb96a202eb17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html">afm::CooperativeModel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a588f613f43d0d906e59ceb96a202eb17">makeSysAdminBiRing</a> (unsigned agents, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus, double pLoad, double pDoneG, double pDoneF)</td></tr>
-<tr class="separator:a588f613f43d0d906e59ceb96a202eb17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48c06a50c0892bebdc7221a407ddbee1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html">afm::CooperativeModel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a48c06a50c0892bebdc7221a407ddbee1">makeSysAdminUniRing</a> (unsigned agents, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus, double pLoad, double pDoneG, double pDoneF)</td></tr>
-<tr class="separator:a48c06a50c0892bebdc7221a407ddbee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a5a39ddb9e2eea410f01d9c609df459"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a3a5a39ddb9e2eea410f01d9c609df459">ceil</a> (unsigned x, unsigned y)</td></tr>
-<tr class="separator:a3a5a39ddb9e2eea410f01d9c609df459"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadac055b0213a5839379e1e7e3b17052"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#aadac055b0213a5839379e1e7e3b17052">printMachineStatus</a> (unsigned s)</td></tr>
-<tr class="separator:aadac055b0213a5839379e1e7e3b17052"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd9796d68ddcf98acc9005bb1d02a095"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#afd9796d68ddcf98acc9005bb1d02a095">printMachineLoad</a> (unsigned l)</td></tr>
-<tr class="separator:afd9796d68ddcf98acc9005bb1d02a095"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ca1b8e11bb76af43d4d93bdef47eaac"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SysAdmin_8hpp.html#a8ca1b8e11bb76af43d4d93bdef47eaac">printSysAdminRing</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">aif::State</a> &amp;s)</td></tr>
-<tr class="separator:a8ca1b8e11bb76af43d4d93bdef47eaac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08b5b86d9f3e503c89e07e29be9c37e2"><td class="memItemLeft" align="right" valign="top">CooperativeModel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a08b5b86d9f3e503c89e07e29be9c37e2">AIToolbox::Factored::MDP::makeSysAdminUniRing</a> (unsigned agents, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus, double pLoad, double pDoneG, double pDoneF)</td></tr>
+<tr class="memdesc:a08b5b86d9f3e503c89e07e29be9c37e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a ring where each machine affects only the next adjacent one.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a08b5b86d9f3e503c89e07e29be9c37e2">More...</a><br /></td></tr>
+<tr class="separator:a08b5b86d9f3e503c89e07e29be9c37e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3a58bf46d94a99852773816b367f18f"><td class="memItemLeft" align="right" valign="top">CooperativeModel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#ae3a58bf46d94a99852773816b367f18f">AIToolbox::Factored::MDP::makeSysAdminBiRing</a> (unsigned agents, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus, double pLoad, double pDoneG, double pDoneF)</td></tr>
+<tr class="memdesc:ae3a58bf46d94a99852773816b367f18f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a ring where each machine affects the two adjacent ones.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#ae3a58bf46d94a99852773816b367f18f">More...</a><br /></td></tr>
+<tr class="separator:ae3a58bf46d94a99852773816b367f18f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28006ed15d5328a8993037b059cd1879"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a28006ed15d5328a8993037b059cd1879">AIToolbox::Factored::MDP::printSysAdminRing</a> (const State &amp;s)</td></tr>
+<tr class="memdesc:a28006ed15d5328a8993037b059cd1879"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a graphical representation of a SysAdmin ring problem.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a28006ed15d5328a8993037b059cd1879">More...</a><br /></td></tr>
+<tr class="separator:a28006ed15d5328a8993037b059cd1879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a480f83e2bcea5b7145a415b557dc2344"><td class="memItemLeft" align="right" valign="top">CooperativeModel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a480f83e2bcea5b7145a415b557dc2344">AIToolbox::Factored::MDP::makeSysAdminGrid</a> (unsigned width, unsigned height, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus, double pLoad, double pDoneG, double pDoneF)</td></tr>
+<tr class="memdesc:a480f83e2bcea5b7145a415b557dc2344"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a grid where each machine is connected with its 4 neighbors.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a480f83e2bcea5b7145a415b557dc2344">More...</a><br /></td></tr>
+<tr class="separator:a480f83e2bcea5b7145a415b557dc2344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a016a6a1edcda9bdaeb20ee9af3df6eb8"><td class="memItemLeft" align="right" valign="top">CooperativeModel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a016a6a1edcda9bdaeb20ee9af3df6eb8">AIToolbox::Factored::MDP::makeSysAdminTorus</a> (unsigned width, unsigned height, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus, double pLoad, double pDoneG, double pDoneF)</td></tr>
+<tr class="memdesc:a016a6a1edcda9bdaeb20ee9af3df6eb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a toroidal grid where each machine is connected with its 4 neighbors.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a016a6a1edcda9bdaeb20ee9af3df6eb8">More...</a><br /></td></tr>
+<tr class="separator:a016a6a1edcda9bdaeb20ee9af3df6eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24474eeed55cdde13df58a2c154e0886"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a24474eeed55cdde13df58a2c154e0886">AIToolbox::Factored::MDP::printSysAdminGrid</a> (const State &amp;s, unsigned width)</td></tr>
+<tr class="memdesc:a24474eeed55cdde13df58a2c154e0886"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a graphical representation of a SysAdmin grid problem.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a24474eeed55cdde13df58a2c154e0886">More...</a><br /></td></tr>
+<tr class="separator:a24474eeed55cdde13df58a2c154e0886"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="abc457643d1139425196e35cb1ece5c0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc457643d1139425196e35cb1ece5c0e">&#9670;&nbsp;</a></span>MachineLoad</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="SysAdmin_8hpp.html#abc457643d1139425196e35cb1ece5c0e">MachineLoad</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abc457643d1139425196e35cb1ece5c0ead3fa9ae9431d6cb1772f9d9df48cab19"></a>Idle&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="abc457643d1139425196e35cb1ece5c0eac40ec5db2990469fc236f4c5dea23edb"></a>Load&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="abc457643d1139425196e35cb1ece5c0eaa7929b884d7db9093d6ed453feedf2a2"></a>Done&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a id="a5cc6b28ebc1a6f32bdfe9031c4deb568"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cc6b28ebc1a6f32bdfe9031c4deb568">&#9670;&nbsp;</a></span>MachineStatus</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="SysAdmin_8hpp.html#a5cc6b28ebc1a6f32bdfe9031c4deb568">MachineStatus</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5cc6b28ebc1a6f32bdfe9031c4deb568aa9e10f610083e262e7aa4004c9b68fe9"></a>Good&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a5cc6b28ebc1a6f32bdfe9031c4deb568a2c88d6b09611bebcfd079df624ae3bfe"></a>Fail&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a5cc6b28ebc1a6f32bdfe9031c4deb568a2f872369e520d046b46b7cd0b49b1882"></a>Dead&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a3a5a39ddb9e2eea410f01d9c609df459"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a5a39ddb9e2eea410f01d9c609df459">&#9670;&nbsp;</a></span>ceil()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned ceil </td>
-          <td>(</td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>y</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5d0cb5ac75f7babaf5532890a9fb3e2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d0cb5ac75f7babaf5532890a9fb3e2b">&#9670;&nbsp;</a></span>makeA0MatrixLoad()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a> makeA0MatrixLoad </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pLoad</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDoneG</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDoneF</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a828742dae9bc74bfdd613ee463477244"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a828742dae9bc74bfdd613ee463477244">&#9670;&nbsp;</a></span>makeA0MatrixStatus()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a> makeA0MatrixStatus </td>
-          <td>(</td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>neighbors</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pFailBase</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pFailBonus</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDeadBase</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDeadBonus</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad375e9cc5f68f7d78061dcc6db7a694a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad375e9cc5f68f7d78061dcc6db7a694a">&#9670;&nbsp;</a></span>makeA1MatrixLoad()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a> makeA1MatrixLoad </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a876ff61e50975bc585219486c8249f4b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a876ff61e50975bc585219486c8249f4b">&#9670;&nbsp;</a></span>makeA1MatrixStatus()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">ai::Matrix2D</a> makeA1MatrixStatus </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a588f613f43d0d906e59ceb96a202eb17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a588f613f43d0d906e59ceb96a202eb17">&#9670;&nbsp;</a></span>makeSysAdminBiRing()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html">afm::CooperativeModel</a> makeSysAdminBiRing </td>
-          <td>(</td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>agents</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pFailBase</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pFailBonus</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDeadBase</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDeadBonus</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pLoad</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDoneG</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDoneF</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a48c06a50c0892bebdc7221a407ddbee1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48c06a50c0892bebdc7221a407ddbee1">&#9670;&nbsp;</a></span>makeSysAdminUniRing()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html">afm::CooperativeModel</a> makeSysAdminUniRing </td>
-          <td>(</td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>agents</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pFailBase</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pFailBonus</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDeadBase</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDeadBonus</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pLoad</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDoneG</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pDoneF</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afd9796d68ddcf98acc9005bb1d02a095"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd9796d68ddcf98acc9005bb1d02a095">&#9670;&nbsp;</a></span>printMachineLoad()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char printMachineLoad </td>
-          <td>(</td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>l</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aadac055b0213a5839379e1e7e3b17052"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadac055b0213a5839379e1e7e3b17052">&#9670;&nbsp;</a></span>printMachineStatus()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char printMachineStatus </td>
-          <td>(</td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8ca1b8e11bb76af43d4d93bdef47eaac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ca1b8e11bb76af43d4d93bdef47eaac">&#9670;&nbsp;</a></span>printSysAdminRing()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string printSysAdminRing </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">aif::State</a> &amp;&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -74,7 +74,7 @@ $(function() {
 <p>This class organizes data ids as if in a trie.  
  <a href="classAIToolbox_1_1Factored_1_1Trie.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="FactoredContainer_8hpp_source.html">FactoredContainer.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Trie_8hpp_source.html">Trie.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -87,9 +87,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6da36054101a3ef753df3e419b0f52ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a6da36054101a3ef753df3e419b0f52ab">reserve</a> (size_t <a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a0af7d14b6a557d9a3e094b86a7c04b51">size</a>)</td></tr>
 <tr class="memdesc:a6da36054101a3ef753df3e419b0f52ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reserves memory for at least size elements.  <a href="#a6da36054101a3ef753df3e419b0f52ab">More...</a><br /></td></tr>
 <tr class="separator:a6da36054101a3ef753df3e419b0f52ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae47c84604ca56604fdc448b4a8a5ec7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#ae47c84604ca56604fdc448b4a8a5ec7d">insert</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;pf)</td></tr>
-<tr class="memdesc:ae47c84604ca56604fdc448b4a8a5ec7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function inserts a new id using the input as a key.  <a href="#ae47c84604ca56604fdc448b4a8a5ec7d">More...</a><br /></td></tr>
-<tr class="separator:ae47c84604ca56604fdc448b4a8a5ec7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d2d78df15379b746f298933b33dd73"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#af4d2d78df15379b746f298933b33dd73">insert</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;pf)</td></tr>
+<tr class="memdesc:af4d2d78df15379b746f298933b33dd73"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function inserts a new id using the input as a key.  <a href="#af4d2d78df15379b746f298933b33dd73">More...</a><br /></td></tr>
+<tr class="separator:af4d2d78df15379b746f298933b33dd73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0af7d14b6a557d9a3e094b86a7c04b51"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a0af7d14b6a557d9a3e094b86a7c04b51">size</a> () const</td></tr>
 <tr class="memdesc:a0af7d14b6a557d9a3e094b86a7c04b51"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of insertions performed on the <a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html" title="This class organizes data ids as if in a trie. ">Trie</a>.  <a href="#a0af7d14b6a557d9a3e094b86a7c04b51">More...</a><br /></td></tr>
 <tr class="separator:a0af7d14b6a557d9a3e094b86a7c04b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,11 +99,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a24c8a2c7c048ac2f20f0c26b73dbf78c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a24c8a2c7c048ac2f20f0c26b73dbf78c">filter</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;pf) const</td></tr>
 <tr class="memdesc:a24c8a2c7c048ac2f20f0c26b73dbf78c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all ids where their key matches the input Factors.  <a href="#a24c8a2c7c048ac2f20f0c26b73dbf78c">More...</a><br /></td></tr>
 <tr class="separator:a24c8a2c7c048ac2f20f0c26b73dbf78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64ce726b06131e1e4a68218a991d6cdb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a64ce726b06131e1e4a68218a991d6cdb">refine</a> (const std::vector&lt; size_t &gt; &amp;ids, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;pf) const</td></tr>
+<tr class="memdesc:a64ce726b06131e1e4a68218a991d6cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function refines the input ids with the supplied filter.  <a href="#a64ce726b06131e1e4a68218a991d6cdb">More...</a><br /></td></tr>
+<tr class="separator:a64ce726b06131e1e4a68218a991d6cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72af5ad4d11ac5bd847d521b240a96a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a72af5ad4d11ac5bd847d521b240a96a1">erase</a> (size_t id)</td></tr>
+<tr class="memdesc:a72af5ad4d11ac5bd847d521b240a96a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function removes the input id from the trie.  <a href="#a72af5ad4d11ac5bd847d521b240a96a1">More...</a><br /></td></tr>
+<tr class="separator:a72af5ad4d11ac5bd847d521b240a96a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab59a284c12235a833933b8acbbe4d9f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#ab59a284c12235a833933b8acbbe4d9f4">erase</a> (size_t id, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;pf)</td></tr>
+<tr class="memdesc:ab59a284c12235a833933b8acbbe4d9f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function removes the input id from the trie.  <a href="#ab59a284c12235a833933b8acbbe4d9f4">More...</a><br /></td></tr>
+<tr class="separator:ab59a284c12235a833933b8acbbe4d9f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a617f4b0fe001daeffc9562587d3567e7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aee292093e17f0f5d58488a062f2deb35">Factors</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a617f4b0fe001daeffc9562587d3567e7">getFactors</a> () const</td></tr>
+<tr class="memdesc:a617f4b0fe001daeffc9562587d3567e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the underlying Factors.  <a href="#a617f4b0fe001daeffc9562587d3567e7">More...</a><br /></td></tr>
+<tr class="separator:a617f4b0fe001daeffc9562587d3567e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class organizes data ids as if in a trie. </p>
 <p>This class implements a trie, which is a kind of tree that can be used to sort strings, or in our case partial states. This class tries to be as efficient as possible, with tradeoffs for space and time.</p>
-<p>Currently this implementation only supports adding. Adding automatically inserts an id one greater than the last as value within the trie, using the specified partial state as key.</p>
+<p>Adding automatically inserts an id one greater than the last as value within the trie, using the specified partial state as key.</p>
 <p>This data structure can then be filtered by Factors, and it will match the Factors against all the PartialFactors that completely match it. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a82c9840188ff1f691cba374c0e5d4307"></a>
@@ -126,7 +138,7 @@ Public Member Functions</h2></td></tr>
 <p>This constructor simply copies the input state space and uses it as bound to construct its internal data structures.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>The factored state space. </td></tr>
+    <tr><td class="paramname">F</td><td>The factored space. </td></tr>
   </table>
   </dd>
 </dl>
@@ -134,6 +146,72 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a72af5ad4d11ac5bd847d521b240a96a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72af5ad4d11ac5bd847d521b240a96a1">&#9670;&nbsp;</a></span>erase() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::Factored::Trie::erase </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function removes the input id from the trie. </p>
+<p>Note that this function performs a lookup on all vectors whether the id is really present or not (maybe because you erased it before).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The id to remove. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab59a284c12235a833933b8acbbe4d9f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab59a284c12235a833933b8acbbe4d9f4">&#9670;&nbsp;</a></span>erase() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::Factored::Trie::erase </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;&#160;</td>
+          <td class="paramname"><em>pf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function removes the input id from the trie. </p>
+<p>This function is faster than <a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#a72af5ad4d11ac5bd847d521b240a96a1" title="This function removes the input id from the trie. ">erase(size_t)</a> as it already knows what to look for.</p>
+<p>Note that this function performs a lookup on all vectors whether the id is really present or not (maybe because you erased it before).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The id to remove. </td></tr>
+    <tr><td class="paramname">pf</td><td>The key with which the id was inserted. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a17e77b2f3959c9d322cc4cffc5dc92cd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a17e77b2f3959c9d322cc4cffc5dc92cd">&#9670;&nbsp;</a></span>filter() <span class="overload">[1/2]</span></h2>
 
@@ -196,7 +274,7 @@ Public Member Functions</h2></td></tr>
 <p>If an id is found matching in all factors, then such a key was inserted and is added to the returned list.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>The Factors used as filter in the trie.</td></tr>
+    <tr><td class="paramname">f</td><td>The PartialFactors used as filter in the trie.</td></tr>
   </table>
   </dd>
 </dl>
@@ -224,14 +302,34 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae47c84604ca56604fdc448b4a8a5ec7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae47c84604ca56604fdc448b4a8a5ec7d">&#9670;&nbsp;</a></span>insert()</h2>
+<a id="a617f4b0fe001daeffc9562587d3567e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a617f4b0fe001daeffc9562587d3567e7">&#9670;&nbsp;</a></span>getFactors()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::Factored::Trie::insert </td>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aee292093e17f0f5d58488a062f2deb35">Factors</a>&amp; AIToolbox::Factored::Trie::getFactors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns a reference to the underlying Factors. </p>
+<dl class="section return"><dt>Returns</dt><dd>The Factors domain of this <a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html" title="This class organizes data ids as if in a trie. ">Trie</a>. </dd></dl>
+
+</div>
+</div>
+<a id="af4d2d78df15379b746f298933b33dd73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4d2d78df15379b746f298933b33dd73">&#9670;&nbsp;</a></span>insert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t AIToolbox::Factored::Trie::insert </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;&#160;</td>
           <td class="paramname"><em>pf</em></td><td>)</td>
@@ -245,10 +343,49 @@ Public Member Functions</h2></td></tr>
 <p>This is because the underlying container is a vector, and elements are arranged in numerical order, with unspecified elements at the end. Inserting lower numbered elements before guarantees minimal re-copying within the vectors which allows for fast insertion.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ps</td><td>The partial state used as key for the insertion. </td></tr>
+    <tr><td class="paramname">pf</td><td>The PartialFactors used as key for the insertion.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The id of the newly inserted key. </dd></dl>
+
+</div>
+</div>
+<a id="a64ce726b06131e1e4a68218a991d6cdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64ce726b06131e1e4a68218a991d6cdb">&#9670;&nbsp;</a></span>refine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;size_t&gt; AIToolbox::Factored::Trie::refine </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>ids</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aec20a2f714af8fdb6791cb239c2119a8">PartialFactors</a> &amp;&#160;</td>
+          <td class="paramname"><em>pf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function refines the input ids with the supplied filter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ids</td><td>The ids to consider for filtering. </td></tr>
+    <tr><td class="paramname">pf</td><td>The PartialFactors used as a filter in the trie.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The ids in the input which match the filter. </dd></dl>
 
 </div>
 </div>
@@ -300,12 +437,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/AIToolbox/Factored/Utils/<a class="el" href="FactoredContainer_8hpp_source.html">FactoredContainer.hpp</a></li>
+<li>include/AIToolbox/Factored/Utils/<a class="el" href="Trie_8hpp_source.html">Trie.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['direction',['Direction',['../ToroidalWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa',1,'Direction():&#160;ToroidalWorld.hpp'],['../GridWorld_8hpp.html#a224b9163917ac32fc95a60d8c1eec3aa',1,'Direction():&#160;GridWorld.hpp']]]
+  ['constraint',['Constraint',['../classAIToolbox_1_1LP.html#a224f6cac074e3884329d6f32daa9e67f',1,'AIToolbox::LP']]]
 ];

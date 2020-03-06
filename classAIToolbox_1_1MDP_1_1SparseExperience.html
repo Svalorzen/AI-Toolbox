@@ -64,7 +64,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classAIToolbox_1_1MDP_1_1SparseExperience-members.html">List of all members</a>  </div>
@@ -78,54 +77,59 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="SparseExperience_8hpp_source.html">SparseExperience.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:afaf43c040f5e8d9d1596c3035694ea85"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#afaf43c040f5e8d9d1596c3035694ea85">VisitTable</a> = <a class="el" href="namespaceAIToolbox.html#a1c1d4d92e6349e16ab51cc2b3b328750">SparseMatrix3DLong</a></td></tr>
-<tr class="separator:afaf43c040f5e8d9d1596c3035694ea85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39a43a89e11ba9b4f95876701695f45e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a39a43a89e11ba9b4f95876701695f45e">VisitSumTable</a> = <a class="el" href="namespaceAIToolbox.html#a8dac40c8fbdb76d149b6cbee1868b0c9">SparseMatrix2DLong</a></td></tr>
-<tr class="separator:a39a43a89e11ba9b4f95876701695f45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32bce357b66c1d82fb161a49277d7fb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a32bce357b66c1d82fb161a49277d7fb0">RewardTable</a> = <a class="el" href="namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77">SparseMatrix3D</a></td></tr>
-<tr class="separator:a32bce357b66c1d82fb161a49277d7fb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ae7c30a4f5cfb5737b2614464a11d38"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a7ae7c30a4f5cfb5737b2614464a11d38">RewardSumTable</a> = <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a></td></tr>
-<tr class="separator:a7ae7c30a4f5cfb5737b2614464a11d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac2a73356a404bbb611c3abb27287444e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ac2a73356a404bbb611c3abb27287444e">SparseExperience</a> (size_t s, size_t a)</td></tr>
 <tr class="memdesc:ac2a73356a404bbb611c3abb27287444e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ac2a73356a404bbb611c3abb27287444e">More...</a><br /></td></tr>
 <tr class="separator:ac2a73356a404bbb611c3abb27287444e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0f5fe6942fc7377fab9157da5e658f6"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
-<tr class="memitem:ac0f5fe6942fc7377fab9157da5e658f6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ac0f5fe6942fc7377fab9157da5e658f6">setVisits</a> (const V &amp;v)</td></tr>
-<tr class="memdesc:ac0f5fe6942fc7377fab9157da5e658f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compatibility setter.  <a href="#ac0f5fe6942fc7377fab9157da5e658f6">More...</a><br /></td></tr>
-<tr class="separator:ac0f5fe6942fc7377fab9157da5e658f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2563ec42cb545b2592572e5e5e06997e"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:a2563ec42cb545b2592572e5e5e06997e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a2563ec42cb545b2592572e5e5e06997e">setRewards</a> (const R &amp;r)</td></tr>
-<tr class="memdesc:a2563ec42cb545b2592572e5e5e06997e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compatibility setter.  <a href="#a2563ec42cb545b2592572e5e5e06997e">More...</a><br /></td></tr>
-<tr class="separator:a2563ec42cb545b2592572e5e5e06997e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9283dd27cdce2a440598f691d124c5c"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:ac9283dd27cdce2a440598f691d124c5c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ac9283dd27cdce2a440598f691d124c5c">setVisitsTable</a> (const V &amp;v)</td></tr>
+<tr class="memdesc:ac9283dd27cdce2a440598f691d124c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compatibility setter.  <a href="#ac9283dd27cdce2a440598f691d124c5c">More...</a><br /></td></tr>
+<tr class="separator:ac9283dd27cdce2a440598f691d124c5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b8a90df63b077925b3db55507113726"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
+<tr class="memitem:a9b8a90df63b077925b3db55507113726"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a9b8a90df63b077925b3db55507113726">setRewardMatrix</a> (const R &amp;r)</td></tr>
+<tr class="memdesc:a9b8a90df63b077925b3db55507113726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compatibility setter.  <a href="#a9b8a90df63b077925b3db55507113726">More...</a><br /></td></tr>
+<tr class="separator:a9b8a90df63b077925b3db55507113726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd9eba8a2dfa5259cab38aee29789f16"><td class="memTemplParams" colspan="2">template&lt;typename MM &gt; </td></tr>
+<tr class="memitem:acd9eba8a2dfa5259cab38aee29789f16"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#acd9eba8a2dfa5259cab38aee29789f16">setM2Matrix</a> (const MM &amp;mm)</td></tr>
+<tr class="memdesc:acd9eba8a2dfa5259cab38aee29789f16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compatibility setter.  <a href="#acd9eba8a2dfa5259cab38aee29789f16">More...</a><br /></td></tr>
+<tr class="separator:acd9eba8a2dfa5259cab38aee29789f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05dbd21a64db8450e80ea81a77228597"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a05dbd21a64db8450e80ea81a77228597">record</a> (size_t s, size_t a, size_t s1, double rew)</td></tr>
 <tr class="memdesc:a05dbd21a64db8450e80ea81a77228597"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function adds a new event to the recordings.  <a href="#a05dbd21a64db8450e80ea81a77228597">More...</a><br /></td></tr>
 <tr class="separator:a05dbd21a64db8450e80ea81a77228597"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7a01467d5ac8c809416eb715ce4cca4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ab7a01467d5ac8c809416eb715ce4cca4">reset</a> ()</td></tr>
-<tr class="memdesc:ab7a01467d5ac8c809416eb715ce4cca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function resets all experienced rewards and transitions.  <a href="#ab7a01467d5ac8c809416eb715ce4cca4">More...</a><br /></td></tr>
+<tr class="memdesc:ab7a01467d5ac8c809416eb715ce4cca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function resets all experienced rewards, transitions and M2s.  <a href="#ab7a01467d5ac8c809416eb715ce4cca4">More...</a><br /></td></tr>
 <tr class="separator:ab7a01467d5ac8c809416eb715ce4cca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a182aed7e4b4624ea8686bef7de26facb"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a182aed7e4b4624ea8686bef7de26facb">getTimesteps</a> () const</td></tr>
+<tr class="memdesc:a182aed7e4b4624ea8686bef7de26facb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of times the record function has been called.  <a href="#a182aed7e4b4624ea8686bef7de26facb">More...</a><br /></td></tr>
+<tr class="separator:a182aed7e4b4624ea8686bef7de26facb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a675744229afb32167f7c0d1cc0cf9f85"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a675744229afb32167f7c0d1cc0cf9f85">getVisits</a> (size_t s, size_t a, size_t s1) const</td></tr>
-<tr class="memdesc:a675744229afb32167f7c0d1cc0cf9f85"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the current recorded visits for a transitions.  <a href="#a675744229afb32167f7c0d1cc0cf9f85">More...</a><br /></td></tr>
+<tr class="memdesc:a675744229afb32167f7c0d1cc0cf9f85"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the current recorded visits for a transition.  <a href="#a675744229afb32167f7c0d1cc0cf9f85">More...</a><br /></td></tr>
 <tr class="separator:a675744229afb32167f7c0d1cc0cf9f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a788c12ba004f29c0e9bb607e74ec172d"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a788c12ba004f29c0e9bb607e74ec172d">getVisitsSum</a> (size_t s, size_t a) const</td></tr>
-<tr class="memdesc:a788c12ba004f29c0e9bb607e74ec172d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of transitions recorded that start with the specified state and action.  <a href="#a788c12ba004f29c0e9bb607e74ec172d">More...</a><br /></td></tr>
+<tr class="memdesc:a788c12ba004f29c0e9bb607e74ec172d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the current recorded visits for a state-action pair.  <a href="#a788c12ba004f29c0e9bb607e74ec172d">More...</a><br /></td></tr>
 <tr class="separator:a788c12ba004f29c0e9bb607e74ec172d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23fea4320cc3cb30fdd6c332e5ce733a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a23fea4320cc3cb30fdd6c332e5ce733a">getReward</a> (size_t s, size_t a, size_t s1) const</td></tr>
-<tr class="memdesc:a23fea4320cc3cb30fdd6c332e5ce733a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the cumulative rewards obtained from a specific transition.  <a href="#a23fea4320cc3cb30fdd6c332e5ce733a">More...</a><br /></td></tr>
-<tr class="separator:a23fea4320cc3cb30fdd6c332e5ce733a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a931578ba4bb565c3e330dd78a77fb196"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a931578ba4bb565c3e330dd78a77fb196">getRewardSum</a> (size_t s, size_t a) const</td></tr>
-<tr class="memdesc:a931578ba4bb565c3e330dd78a77fb196"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the total reward obtained from transitions that start with the specified state and action.  <a href="#a931578ba4bb565c3e330dd78a77fb196">More...</a><br /></td></tr>
-<tr class="separator:a931578ba4bb565c3e330dd78a77fb196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54a2b2cf7281958082da9bff4d14e156"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#afaf43c040f5e8d9d1596c3035694ea85">VisitTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a54a2b2cf7281958082da9bff4d14e156">getVisitTable</a> () const</td></tr>
-<tr class="memdesc:a54a2b2cf7281958082da9bff4d14e156"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the visits table for inspection.  <a href="#a54a2b2cf7281958082da9bff4d14e156">More...</a><br /></td></tr>
-<tr class="separator:a54a2b2cf7281958082da9bff4d14e156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a858df65a050abb2467ca86de4e3a426b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a32bce357b66c1d82fb161a49277d7fb0">RewardTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a858df65a050abb2467ca86de4e3a426b">getRewardTable</a> () const</td></tr>
-<tr class="memdesc:a858df65a050abb2467ca86de4e3a426b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the rewards table for inspection.  <a href="#a858df65a050abb2467ca86de4e3a426b">More...</a><br /></td></tr>
-<tr class="separator:a858df65a050abb2467ca86de4e3a426b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc44f4cf63a1635bd52160f8cb4d3a62"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#abc44f4cf63a1635bd52160f8cb4d3a62">getReward</a> (size_t s, size_t a) const</td></tr>
+<tr class="memdesc:abc44f4cf63a1635bd52160f8cb4d3a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the average reward for a state-action pair.  <a href="#abc44f4cf63a1635bd52160f8cb4d3a62">More...</a><br /></td></tr>
+<tr class="separator:abc44f4cf63a1635bd52160f8cb4d3a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c64f06de64d7d782e4f0f1a6018cd18"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a1c64f06de64d7d782e4f0f1a6018cd18">getM2</a> (size_t s, size_t a) const</td></tr>
+<tr class="memdesc:a1c64f06de64d7d782e4f0f1a6018cd18"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the M2 statistic for a state-action pair.  <a href="#a1c64f06de64d7d782e4f0f1a6018cd18">More...</a><br /></td></tr>
+<tr class="separator:a1c64f06de64d7d782e4f0f1a6018cd18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cd8f4ff119ac3c84903bfbac440d882"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox.html#a4306fdf1fdec30a935c45405fee5af67">SparseTable3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a5cd8f4ff119ac3c84903bfbac440d882">getVisitsTable</a> () const</td></tr>
+<tr class="memdesc:a5cd8f4ff119ac3c84903bfbac440d882"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the visits table for inspection.  <a href="#a5cd8f4ff119ac3c84903bfbac440d882">More...</a><br /></td></tr>
+<tr class="separator:a5cd8f4ff119ac3c84903bfbac440d882"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a169ebf26b3f5c5b6d0f3cc28c735f7ee"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox.html#aa05a760a56af0c357a5403b89474f7bc">SparseTable2D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a169ebf26b3f5c5b6d0f3cc28c735f7ee">getVisitsTable</a> (size_t a) const</td></tr>
+<tr class="memdesc:a169ebf26b3f5c5b6d0f3cc28c735f7ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the visits table for inspection.  <a href="#a169ebf26b3f5c5b6d0f3cc28c735f7ee">More...</a><br /></td></tr>
+<tr class="separator:a169ebf26b3f5c5b6d0f3cc28c735f7ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab331f655ef15c0a38d2ff5eec231cf3d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox.html#aa05a760a56af0c357a5403b89474f7bc">SparseTable2D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ab331f655ef15c0a38d2ff5eec231cf3d">getVisitsSumTable</a> () const</td></tr>
+<tr class="memdesc:ab331f655ef15c0a38d2ff5eec231cf3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the visits sum table for inspection.  <a href="#ab331f655ef15c0a38d2ff5eec231cf3d">More...</a><br /></td></tr>
+<tr class="separator:ab331f655ef15c0a38d2ff5eec231cf3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9db4a6a344d0478da792771fffff2f1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ad9db4a6a344d0478da792771fffff2f1">getRewardMatrix</a> () const</td></tr>
+<tr class="memdesc:ad9db4a6a344d0478da792771fffff2f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the rewards matrix for inspection.  <a href="#ad9db4a6a344d0478da792771fffff2f1">More...</a><br /></td></tr>
+<tr class="separator:ad9db4a6a344d0478da792771fffff2f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a556b8c6f1f983351799b948e7bbac521"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a556b8c6f1f983351799b948e7bbac521">getM2Matrix</a> () const</td></tr>
+<tr class="memdesc:a556b8c6f1f983351799b948e7bbac521"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the rewards squared matrix for inspection.  <a href="#a556b8c6f1f983351799b948e7bbac521">More...</a><br /></td></tr>
+<tr class="separator:a556b8c6f1f983351799b948e7bbac521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebc0c44a05dfef8f3aa00bf40bc649e9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#aebc0c44a05dfef8f3aa00bf40bc649e9">getS</a> () const</td></tr>
 <tr class="memdesc:aebc0c44a05dfef8f3aa00bf40bc649e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of states of the world.  <a href="#aebc0c44a05dfef8f3aa00bf40bc649e9">More...</a><br /></td></tr>
 <tr class="separator:aebc0c44a05dfef8f3aa00bf40bc649e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,66 +145,10 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class keeps track of registered events and rewards. </p>
-<p>This class is a simple logger of events. It keeps track of both the number of times a particular transition has happened, and the total reward gained in any particular transition. However, it does not record each event separately (i.e. you can't extract the results of a particular transition in the past).</p>
+<p>This class is a simple aggregator of events. It keeps track of both the number of times a particular state-action pair has been visited, and the average reward gained in transitions from it (i.e. the maximum likelihood estimator of a QFunction from the data). It also computes the M2 statistic for it (avg sum of squares minus square avg).</p>
+<p>It does not record each event separately (i.e. you can't extract the results of a particular transition in the past).</p>
 <p>The difference between this class and the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">MDP::Experience</a> class is that this class stores recorded events in sparse matrices. This results in very high space savings when the state space of the environment being logged is very high but only a small subset of the states are really possible, at the cost of some efficiency (possibly offset by cache savings). </p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a7ae7c30a4f5cfb5737b2614464a11d38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ae7c30a4f5cfb5737b2614464a11d38">&#9670;&nbsp;</a></span>RewardSumTable</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a7ae7c30a4f5cfb5737b2614464a11d38">AIToolbox::MDP::SparseExperience::RewardSumTable</a> =  <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a32bce357b66c1d82fb161a49277d7fb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32bce357b66c1d82fb161a49277d7fb0">&#9670;&nbsp;</a></span>RewardTable</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a32bce357b66c1d82fb161a49277d7fb0">AIToolbox::MDP::SparseExperience::RewardTable</a> =  <a class="el" href="namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77">SparseMatrix3D</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a39a43a89e11ba9b4f95876701695f45e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39a43a89e11ba9b4f95876701695f45e">&#9670;&nbsp;</a></span>VisitSumTable</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a39a43a89e11ba9b4f95876701695f45e">AIToolbox::MDP::SparseExperience::VisitSumTable</a> =  <a class="el" href="namespaceAIToolbox.html#a8dac40c8fbdb76d149b6cbee1868b0c9">SparseMatrix2DLong</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afaf43c040f5e8d9d1596c3035694ea85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afaf43c040f5e8d9d1596c3035694ea85">&#9670;&nbsp;</a></span>VisitTable</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#afaf43c040f5e8d9d1596c3035694ea85">AIToolbox::MDP::SparseExperience::VisitTable</a> =  <a class="el" href="namespaceAIToolbox.html#a1c1d4d92e6349e16ab51cc2b3b328750">SparseMatrix3DLong</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac2a73356a404bbb611c3abb27287444e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac2a73356a404bbb611c3abb27287444e">&#9670;&nbsp;</a></span>SparseExperience()</h2>
 
@@ -230,8 +178,8 @@ Friends</h2></td></tr>
 <p>Basic constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>The number of states of the world. </td></tr>
-    <tr><td class="paramname">a</td><td>The number of actions available to the agent. </td></tr>
+    <tr><td class="paramname">S</td><td>The number of states of the world. </td></tr>
+    <tr><td class="paramname">A</td><td>The number of actions available to the agent. </td></tr>
   </table>
   </dd>
 </dl>
@@ -259,58 +207,14 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a23fea4320cc3cb30fdd6c332e5ce733a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23fea4320cc3cb30fdd6c332e5ce733a">&#9670;&nbsp;</a></span>getReward()</h2>
+<a id="a1c64f06de64d7d782e4f0f1a6018cd18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c64f06de64d7d782e4f0f1a6018cd18">&#9670;&nbsp;</a></span>getM2()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double AIToolbox::MDP::SparseExperience::getReward </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s1</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function returns the cumulative rewards obtained from a specific transition. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>Old state. </td></tr>
-    <tr><td class="paramname">a</td><td>Performed action. </td></tr>
-    <tr><td class="paramname">s1</td><td>New state. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a931578ba4bb565c3e330dd78a77fb196"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a931578ba4bb565c3e330dd78a77fb196">&#9670;&nbsp;</a></span>getRewardSum()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double AIToolbox::MDP::SparseExperience::getRewardSum </td>
+          <td class="memname">double AIToolbox::MDP::SparseExperience::getM2 </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>s</em>, </td>
@@ -329,26 +233,25 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the total reward obtained from transitions that start with the specified state and action. </p>
+<p>This function returns the M2 statistic for a state-action pair. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>The initial state. </td></tr>
-    <tr><td class="paramname">a</td><td>Performed action.</td></tr>
+    <tr><td class="paramname">s</td><td>Old state. </td></tr>
+    <tr><td class="paramname">a</td><td>Performed action. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The total number of transitions that start with the specified state-action pair. </dd></dl>
 
 </div>
 </div>
-<a id="a858df65a050abb2467ca86de4e3a426b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a858df65a050abb2467ca86de4e3a426b">&#9670;&nbsp;</a></span>getRewardTable()</h2>
+<a id="a556b8c6f1f983351799b948e7bbac521"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a556b8c6f1f983351799b948e7bbac521">&#9670;&nbsp;</a></span>getM2Matrix()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a32bce357b66c1d82fb161a49277d7fb0">RewardTable</a>&amp; AIToolbox::MDP::SparseExperience::getRewardTable </td>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a>&amp; AIToolbox::MDP::SparseExperience::getM2Matrix </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -356,8 +259,65 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the rewards table for inspection. </p>
-<dl class="section return"><dt>Returns</dt><dd>The rewards table. </dd></dl>
+<p>This function returns the rewards squared matrix for inspection. </p>
+<dl class="section return"><dt>Returns</dt><dd>The rewards squared matrix. </dd></dl>
+
+</div>
+</div>
+<a id="abc44f4cf63a1635bd52160f8cb4d3a62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc44f4cf63a1635bd52160f8cb4d3a62">&#9670;&nbsp;</a></span>getReward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AIToolbox::MDP::SparseExperience::getReward </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the average reward for a state-action pair. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Old state. </td></tr>
+    <tr><td class="paramname">a</td><td>Performed action. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad9db4a6a344d0478da792771fffff2f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9db4a6a344d0478da792771fffff2f1">&#9670;&nbsp;</a></span>getRewardMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a>&amp; AIToolbox::MDP::SparseExperience::getRewardMatrix </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the rewards matrix for inspection. </p>
+<dl class="section return"><dt>Returns</dt><dd>The rewards matrix. </dd></dl>
 
 </div>
 </div>
@@ -378,6 +338,26 @@ Friends</h2></td></tr>
 
 <p>This function returns the number of states of the world. </p>
 <dl class="section return"><dt>Returns</dt><dd>The total number of states. </dd></dl>
+
+</div>
+</div>
+<a id="a182aed7e4b4624ea8686bef7de26facb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a182aed7e4b4624ea8686bef7de26facb">&#9670;&nbsp;</a></span>getTimesteps()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long AIToolbox::MDP::SparseExperience::getTimesteps </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the number of times the record function has been called. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of recorded timesteps. </dd></dl>
 
 </div>
 </div>
@@ -413,7 +393,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the current recorded visits for a transitions. </p>
+<p>This function returns the current recorded visits for a transition. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Old state. </td></tr>
@@ -451,26 +431,46 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the number of transitions recorded that start with the specified state and action. </p>
+<p>This function returns the current recorded visits for a state-action pair. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>The initial state. </td></tr>
-    <tr><td class="paramname">a</td><td>Performed action.</td></tr>
+    <tr><td class="paramname">s</td><td>Old state. </td></tr>
+    <tr><td class="paramname">a</td><td>Performed action. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The total number of transitions that start with the specified state-action pair. </dd></dl>
 
 </div>
 </div>
-<a id="a54a2b2cf7281958082da9bff4d14e156"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54a2b2cf7281958082da9bff4d14e156">&#9670;&nbsp;</a></span>getVisitTable()</h2>
+<a id="ab331f655ef15c0a38d2ff5eec231cf3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab331f655ef15c0a38d2ff5eec231cf3d">&#9670;&nbsp;</a></span>getVisitsSumTable()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#afaf43c040f5e8d9d1596c3035694ea85">VisitTable</a>&amp; AIToolbox::MDP::SparseExperience::getVisitTable </td>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox.html#aa05a760a56af0c357a5403b89474f7bc">SparseTable2D</a>&amp; AIToolbox::MDP::SparseExperience::getVisitsSumTable </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the visits sum table for inspection. </p>
+<p>This table contains per state-action pair visit counts.</p>
+<dl class="section return"><dt>Returns</dt><dd>The visits sum table. </dd></dl>
+
+</div>
+</div>
+<a id="a5cd8f4ff119ac3c84903bfbac440d882"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cd8f4ff119ac3c84903bfbac440d882">&#9670;&nbsp;</a></span>getVisitsTable() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox.html#a4306fdf1fdec30a935c45405fee5af67">SparseTable3D</a>&amp; AIToolbox::MDP::SparseExperience::getVisitsTable </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -479,6 +479,33 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function returns the visits table for inspection. </p>
+<dl class="section return"><dt>Returns</dt><dd>The visits table. </dd></dl>
+
+</div>
+</div>
+<a id="a169ebf26b3f5c5b6d0f3cc28c735f7ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a169ebf26b3f5c5b6d0f3cc28c735f7ee">&#9670;&nbsp;</a></span>getVisitsTable() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox.html#aa05a760a56af0c357a5403b89474f7bc">SparseTable2D</a>&amp; AIToolbox::MDP::SparseExperience::getVisitsTable </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the visits table for inspection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The action requested.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>The visits table. </dd></dl>
 
 </div>
@@ -522,6 +549,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function adds a new event to the recordings. </p>
+<p>The new state is not really used, but is left in the API for clarity.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Old state. </td></tr>
@@ -549,12 +577,50 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function resets all experienced rewards and transitions. </p>
+<p>This function resets all experienced rewards, transitions and M2s. </p>
 
 </div>
 </div>
-<a id="a2563ec42cb545b2592572e5e5e06997e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2563ec42cb545b2592572e5e5e06997e">&#9670;&nbsp;</a></span>setRewards()</h2>
+<a id="acd9eba8a2dfa5259cab38aee29789f16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd9eba8a2dfa5259cab38aee29789f16">&#9670;&nbsp;</a></span>setM2Matrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MM &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::MDP::SparseExperience::setM2Matrix </td>
+          <td>(</td>
+          <td class="paramtype">const MM &amp;&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compatibility setter. </p>
+<p>This function takes an arbitrary two dimensional container and tries to copy its contents into the M2 matrix.</p>
+<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones specified during the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> construction (for two dimensions: S,A).</p>
+<p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
+<p>This function is provided so that it is easy to plug this library into existing code-bases.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">MM</td><td>The external M2 container type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>The external M2 container. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9b8a90df63b077925b3db55507113726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b8a90df63b077925b3db55507113726">&#9670;&nbsp;</a></span>setRewardMatrix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -562,7 +628,7 @@ Friends</h2></td></tr>
 template&lt;typename R &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::MDP::SparseExperience::setRewards </td>
+          <td class="memname">void AIToolbox::MDP::SparseExperience::setRewardMatrix </td>
           <td>(</td>
           <td class="paramtype">const R &amp;&#160;</td>
           <td class="paramname"><em>r</em></td><td>)</td>
@@ -572,10 +638,9 @@ template&lt;typename R &gt; </div>
 </div><div class="memdoc">
 
 <p>Compatibility setter. </p>
-<p>This function takes an arbitrary three dimensional container and tries to copy its contents into the rewards table.</p>
-<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones specified during the <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html" title="This class keeps track of registered events and rewards. ">SparseExperience</a> construction (for three dimensions: S,A,S).</p>
+<p>This function takes an arbitrary two dimensional container and tries to copy its contents into the rewards matrix.</p>
+<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones specified during the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> construction (for two dimensions: S,A).</p>
 <p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
-<p>Note that if you are using a sparse container due to the size of the state space, using this function (which needs a dense container as an input) may not be the optimal solution. If you have a sparse container as a start you may look into converting it into an <a class="el" href="namespaceEigen.html">Eigen</a> Sparse container and feeding that to this class.</p>
 <p>This function is provided so that it is easy to plug this library into existing code-bases.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -592,8 +657,8 @@ template&lt;typename R &gt; </div>
 
 </div>
 </div>
-<a id="ac0f5fe6942fc7377fab9157da5e658f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0f5fe6942fc7377fab9157da5e658f6">&#9670;&nbsp;</a></span>setVisits()</h2>
+<a id="ac9283dd27cdce2a440598f691d124c5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9283dd27cdce2a440598f691d124c5c">&#9670;&nbsp;</a></span>setVisitsTable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -601,7 +666,7 @@ template&lt;typename R &gt; </div>
 template&lt;typename V &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::MDP::SparseExperience::setVisits </td>
+          <td class="memname">void AIToolbox::MDP::SparseExperience::setVisitsTable </td>
           <td>(</td>
           <td class="paramtype">const V &amp;&#160;</td>
           <td class="paramname"><em>v</em></td><td>)</td>
@@ -611,10 +676,9 @@ template&lt;typename V &gt; </div>
 </div><div class="memdoc">
 
 <p>Compatibility setter. </p>
-<p>This function takes an arbitrary three dimensional containers and tries to copy its contents into the visits table.</p>
-<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones specified during the <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html" title="This class keeps track of registered events and rewards. ">SparseExperience</a> construction (for three dimensions: S,A,S).</p>
+<p>This function takes an arbitrary two dimensional container and tries to copy its contents into the visits table.</p>
+<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones specified during the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards. ">Experience</a> construction (for two dimensions: S,A).</p>
 <p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
-<p>Note that if you are using a sparse container due to the size of the state space, using this function (which needs a dense container as an input) may not be the optimal solution. If you have a sparse container as a start you may look into converting it into an <a class="el" href="namespaceEigen.html">Eigen</a> Sparse container and feeding that to this class.</p>
 <p>This function is provided so that it is easy to plug this library into existing code-bases.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -685,7 +749,7 @@ template&lt;typename V &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

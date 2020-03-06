@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: test/POMDP/Utils/TigerProblem.hpp File Reference</title>
+<title>AIToolbox: include/AIToolbox/POMDP/Environments/TigerProblem.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,11 +59,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li><li class="navelem"><a class="el" href="dir_5307aa812e498aa2ee7c219a6de0f21b.html">POMDP</a></li><li class="navelem"><a class="el" href="dir_00d55517edb3fd2b3e9016fdfe429863.html">Utils</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_febcff6f2b080b26c3f5e17f7f882db1.html">AIToolbox</a></li><li class="navelem"><a class="el" href="dir_2e09ff0f3537cdb1e092507830868601.html">POMDP</a></li><li class="navelem"><a class="el" href="dir_9473793b0f5986423bd3440f3c709952.html">Environments</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -76,111 +77,39 @@ $(function() {
 </div>
 <p><a href="TigerProblem_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1POMDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html">AIToolbox::POMDP</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html">AIToolbox::POMDP::TigerProblemEnums</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:abc5c98fcc1211af2b80116dd6e0a035d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="TigerProblem_8hpp.html#abc5c98fcc1211af2b80116dd6e0a035da106019d070af235b1225932124742ea0">A_LISTEN</a> = 0, 
-<a class="el" href="TigerProblem_8hpp.html#abc5c98fcc1211af2b80116dd6e0a035dadc9b7c1ae50f3ebac052bb14e6f5724f">A_LEFT</a> = 1, 
-<a class="el" href="TigerProblem_8hpp.html#abc5c98fcc1211af2b80116dd6e0a035da4b50bcc122a7fdaf412374c1fe2fff5f">A_RIGHT</a> = 2
+<tr class="memitem:ae71f86d6929a116664a6ca3951d967e1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html#ae71f86d6929a116664a6ca3951d967e1">AIToolbox::POMDP::TigerProblemEnums::Action</a> { <a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html#ae71f86d6929a116664a6ca3951d967e1ab29d515b21e22b0c07f9cb9aea052540">AIToolbox::POMDP::TigerProblemEnums::A_LISTEN</a> = 0, 
+<a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html#ae71f86d6929a116664a6ca3951d967e1a97d69cfb5f15b0e627f44b8e6743aca5">AIToolbox::POMDP::TigerProblemEnums::A_LEFT</a> = 1, 
+<a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html#ae71f86d6929a116664a6ca3951d967e1a956ef964948f675277bf8ca0c6b9ea3f">AIToolbox::POMDP::TigerProblemEnums::A_RIGHT</a> = 2
  }</td></tr>
-<tr class="separator:abc5c98fcc1211af2b80116dd6e0a035d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac36f475ca5b446f4fde4c9b90bec77c8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="TigerProblem_8hpp.html#ac36f475ca5b446f4fde4c9b90bec77c8ae7db346161ae7a41f4113fc585cb6901">TIG_LEFT</a> = 0, 
-<a class="el" href="TigerProblem_8hpp.html#ac36f475ca5b446f4fde4c9b90bec77c8a3b8e7fd024fa54f04e4de13d5bd7a93d">TIG_RIGHT</a> = 1
+<tr class="separator:ae71f86d6929a116664a6ca3951d967e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80079ec1e78f1ef37a99a62f707c1c8b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html#a80079ec1e78f1ef37a99a62f707c1c8b">AIToolbox::POMDP::TigerProblemEnums::State</a> { <a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html#a80079ec1e78f1ef37a99a62f707c1c8baad9d485f5bb5a893b7ac5cb705e6bcfb">AIToolbox::POMDP::TigerProblemEnums::TIG_LEFT</a> = 0, 
+<a class="el" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemEnums.html#a80079ec1e78f1ef37a99a62f707c1c8ba68536e50ec8bc047ef2f39d4bac606d8">AIToolbox::POMDP::TigerProblemEnums::TIG_RIGHT</a> = 1
  }</td></tr>
-<tr class="separator:ac36f475ca5b446f4fde4c9b90bec77c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a80079ec1e78f1ef37a99a62f707c1c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5e66411a54ab65baf071e3eb34410da6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">AIToolbox::POMDP::Model</a>&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">AIToolbox::MDP::Model</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TigerProblem_8hpp.html#a5e66411a54ab65baf071e3eb34410da6">makeTigerProblem</a> ()</td></tr>
-<tr class="separator:a5e66411a54ab65baf071e3eb34410da6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcd38fafda125d7a1e44a0d04c56e0e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">AIToolbox::POMDP::Model</a>&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">AIToolbox::MDP::Model</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#abcd38fafda125d7a1e44a0d04c56e0e0">AIToolbox::POMDP::makeTigerProblem</a> ()</td></tr>
+<tr class="separator:abcd38fafda125d7a1e44a0d04c56e0e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a2b12f8075986170460ec9ac752c1ada6"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TigerProblem_8hpp.html#a2b12f8075986170460ec9ac752c1ada6">listenError</a> = 0.15</td></tr>
-<tr class="separator:a2b12f8075986170460ec9ac752c1ada6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addf767ce827bfec2bcc9765d89495df2"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#addf767ce827bfec2bcc9765d89495df2">AIToolbox::POMDP::listenError</a> = 0.15</td></tr>
+<tr class="separator:addf767ce827bfec2bcc9765d89495df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="abc5c98fcc1211af2b80116dd6e0a035d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc5c98fcc1211af2b80116dd6e0a035d">&#9670;&nbsp;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abc5c98fcc1211af2b80116dd6e0a035da106019d070af235b1225932124742ea0"></a>A_LISTEN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="abc5c98fcc1211af2b80116dd6e0a035dadc9b7c1ae50f3ebac052bb14e6f5724f"></a>A_LEFT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="abc5c98fcc1211af2b80116dd6e0a035da4b50bcc122a7fdaf412374c1fe2fff5f"></a>A_RIGHT&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a id="ac36f475ca5b446f4fde4c9b90bec77c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac36f475ca5b446f4fde4c9b90bec77c8">&#9670;&nbsp;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac36f475ca5b446f4fde4c9b90bec77c8ae7db346161ae7a41f4113fc585cb6901"></a>TIG_LEFT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac36f475ca5b446f4fde4c9b90bec77c8a3b8e7fd024fa54f04e4de13d5bd7a93d"></a>TIG_RIGHT&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a5e66411a54ab65baf071e3eb34410da6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e66411a54ab65baf071e3eb34410da6">&#9670;&nbsp;</a></span>makeTigerProblem()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">AIToolbox::POMDP::Model</a>&lt;<a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">AIToolbox::MDP::Model</a>&gt; makeTigerProblem </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a2b12f8075986170460ec9ac752c1ada6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b12f8075986170460ec9ac752c1ada6">&#9670;&nbsp;</a></span>listenError</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr double listenError = 0.15</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: AIToolbox::Factored::FactorGraph&lt; Factor &gt; Class Template Reference</title>
+<title>AIToolbox: AIToolbox::Factored::FactorGraph&lt; FactorData &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classAIToolbox_1_1Factored_1_1FactorGraph-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AIToolbox::Factored::FactorGraph&lt; Factor &gt; Class Template Reference</div>  </div>
+<div class="title">AIToolbox::Factored::FactorGraph&lt; FactorData &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -82,233 +82,216 @@ $(function() {
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1FactorGraph_1_1VariableNode.html">VariableNode</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:adff72b44d6466d93ee6eb0654848c449"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#adff72b44d6466d93ee6eb0654848c449">VariableList</a> = std::vector&lt; <a class="el" href="structAIToolbox_1_1Factored_1_1FactorGraph_1_1VariableNode.html">VariableNode</a> &gt;</td></tr>
-<tr class="separator:adff72b44d6466d93ee6eb0654848c449"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff89b2dd3906103539a0be34803fbb2b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> = <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9">PartialKeys</a></td></tr>
-<tr class="separator:aff89b2dd3906103539a0be34803fbb2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a075175ecde61c6e219c0a8be8ffe7fc2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a075175ecde61c6e219c0a8be8ffe7fc2">FactorList</a> = std::list&lt; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a> &gt;</td></tr>
-<tr class="separator:a075175ecde61c6e219c0a8be8ffe7fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72eb6328e0331c9f999783458ceda644"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> = typename FactorList::iterator</td></tr>
-<tr class="separator:a72eb6328e0331c9f999783458ceda644"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba47c1a9caf1f11739543f74db6ab435"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a> = typename FactorList::const_iterator</td></tr>
-<tr class="separator:aba47c1a9caf1f11739543f74db6ab435"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af75559aeaf91c83de84020a826da3e78"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af75559aeaf91c83de84020a826da3e78">FactorItList</a> = std::vector&lt; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> &gt;</td></tr>
-<tr class="separator:af75559aeaf91c83de84020a826da3e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fa8e0ff485db12e5f8dd42c08e9383a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a2fa8e0ff485db12e5f8dd42c08e9383a">value_type</a> = Factor</td></tr>
-<tr class="separator:a2fa8e0ff485db12e5f8dd42c08e9383a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ee5f3d166ea7e35dcd1333f8b301125"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a9ee5f3d166ea7e35dcd1333f8b301125">iterator</a> = <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a></td></tr>
-<tr class="separator:a9ee5f3d166ea7e35dcd1333f8b301125"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4319f2cc1c60a2cc50eae483742afa44"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a4319f2cc1c60a2cc50eae483742afa44">const_iterator</a> = <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a></td></tr>
-<tr class="separator:a4319f2cc1c60a2cc50eae483742afa44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63ad07d06d704f26b813b21fc438ca7f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> = <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9">PartialKeys</a></td></tr>
+<tr class="separator:a63ad07d06d704f26b813b21fc438ca7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade215ae34e23dca0682c9f8fcc2ac063"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ade215ae34e23dca0682c9f8fcc2ac063">FactorList</a> = std::list&lt; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a> &gt;</td></tr>
+<tr class="separator:ade215ae34e23dca0682c9f8fcc2ac063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab233e4aff2b59ed9b7563dc5df5cbfa7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a> = typename FactorList::iterator</td></tr>
+<tr class="separator:ab233e4aff2b59ed9b7563dc5df5cbfa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc7281d28394f87343dda525aed0b43c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a> = typename FactorList::const_iterator</td></tr>
+<tr class="separator:afc7281d28394f87343dda525aed0b43c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af77815a68f838461dc0b204a2e1ab74c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af77815a68f838461dc0b204a2e1ab74c">FactorItList</a> = std::vector&lt; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a> &gt;</td></tr>
+<tr class="separator:af77815a68f838461dc0b204a2e1ab74c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f7ba0101ffe628f2b713040fed5036"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a59f7ba0101ffe628f2b713040fed5036">value_type</a> = FactorData</td></tr>
+<tr class="separator:a59f7ba0101ffe628f2b713040fed5036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82576ee0b626b81d8aabbaee1f43bdb5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a82576ee0b626b81d8aabbaee1f43bdb5">iterator</a> = <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a></td></tr>
+<tr class="separator:a82576ee0b626b81d8aabbaee1f43bdb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa63ea4a90f407cc3b82b0d9e2e18fd23"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aa63ea4a90f407cc3b82b0d9e2e18fd23">const_iterator</a> = <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a></td></tr>
+<tr class="separator:aa63ea4a90f407cc3b82b0d9e2e18fd23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af7ff10847e94f42943e43cef3a71a183"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af7ff10847e94f42943e43cef3a71a183">FactorGraph</a> (size_t variables)</td></tr>
-<tr class="memdesc:af7ff10847e94f42943e43cef3a71a183"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#af7ff10847e94f42943e43cef3a71a183">More...</a><br /></td></tr>
-<tr class="separator:af7ff10847e94f42943e43cef3a71a183"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a463d13eaf8fcb718245987d1838fc668"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af75559aeaf91c83de84020a826da3e78">FactorItList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a463d13eaf8fcb718245987d1838fc668">getNeighbors</a> (size_t variable) const</td></tr>
-<tr class="memdesc:a463d13eaf8fcb718245987d1838fc668"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all factors adjacent to the given variable.  <a href="#a463d13eaf8fcb718245987d1838fc668">More...</a><br /></td></tr>
-<tr class="separator:a463d13eaf8fcb718245987d1838fc668"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8352cfc695eb794b953e4b98a6d8268a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a8352cfc695eb794b953e4b98a6d8268a">getNeighbors</a> (<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> factor) const</td></tr>
-<tr class="memdesc:a8352cfc695eb794b953e4b98a6d8268a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to the given factor.  <a href="#a8352cfc695eb794b953e4b98a6d8268a">More...</a><br /></td></tr>
-<tr class="separator:a8352cfc695eb794b953e4b98a6d8268a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26fc279078f90445b885f84c1fdf6f81"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a26fc279078f90445b885f84c1fdf6f81">getNeighbors</a> (<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a> factor) const</td></tr>
-<tr class="memdesc:a26fc279078f90445b885f84c1fdf6f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to the given factor.  <a href="#a26fc279078f90445b885f84c1fdf6f81">More...</a><br /></td></tr>
-<tr class="separator:a26fc279078f90445b885f84c1fdf6f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac64bbbfaba151fc7d516cf16dc3a2573"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ac64bbbfaba151fc7d516cf16dc3a2573">getNeighbors</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af75559aeaf91c83de84020a826da3e78">FactorItList</a> &amp;factors) const</td></tr>
-<tr class="memdesc:ac64bbbfaba151fc7d516cf16dc3a2573"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to any of the given factors.  <a href="#ac64bbbfaba151fc7d516cf16dc3a2573">More...</a><br /></td></tr>
-<tr class="separator:ac64bbbfaba151fc7d516cf16dc3a2573"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ba0f15c845d8a12b2757d2221cc0ba5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a7ba0f15c845d8a12b2757d2221cc0ba5">getFactor</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> &amp;variables)</td></tr>
-<tr class="memdesc:a7ba0f15c845d8a12b2757d2221cc0ba5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to a factor adjacent to the given variables.  <a href="#a7ba0f15c845d8a12b2757d2221cc0ba5">More...</a><br /></td></tr>
-<tr class="separator:a7ba0f15c845d8a12b2757d2221cc0ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1238bea26e3bfdfaa791bf3db1962d12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a1238bea26e3bfdfaa791bf3db1962d12">erase</a> (<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> it)</td></tr>
-<tr class="memdesc:a1238bea26e3bfdfaa791bf3db1962d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function removes a factor from the graph.  <a href="#a1238bea26e3bfdfaa791bf3db1962d12">More...</a><br /></td></tr>
-<tr class="separator:a1238bea26e3bfdfaa791bf3db1962d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a877aa5b2f37a809ff9d32ecd482ea8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a8a877aa5b2f37a809ff9d32ecd482ea8">erase</a> (size_t variable)</td></tr>
-<tr class="memdesc:a8a877aa5b2f37a809ff9d32ecd482ea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially removes an variable from the graph.  <a href="#a8a877aa5b2f37a809ff9d32ecd482ea8">More...</a><br /></td></tr>
-<tr class="separator:a8a877aa5b2f37a809ff9d32ecd482ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6388a8ab21d7363f88bea7038ce7bc4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ad6388a8ab21d7363f88bea7038ce7bc4">variableSize</a> () const</td></tr>
-<tr class="memdesc:ad6388a8ab21d7363f88bea7038ce7bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of variables still in the graph.  <a href="#ad6388a8ab21d7363f88bea7038ce7bc4">More...</a><br /></td></tr>
-<tr class="separator:ad6388a8ab21d7363f88bea7038ce7bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ba041983356de1bb6cc133b6748aba8"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a0ba041983356de1bb6cc133b6748aba8">factorSize</a> () const</td></tr>
-<tr class="memdesc:a0ba041983356de1bb6cc133b6748aba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of factors still in the graph.  <a href="#a0ba041983356de1bb6cc133b6748aba8">More...</a><br /></td></tr>
-<tr class="separator:a0ba041983356de1bb6cc133b6748aba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69ca3f6c7138c885d3b35e7de06e1607"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a69ca3f6c7138c885d3b35e7de06e1607">begin</a> ()</td></tr>
-<tr class="memdesc:a69ca3f6c7138c885d3b35e7de06e1607"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable iterator to the beginning of the internal factor list.  <a href="#a69ca3f6c7138c885d3b35e7de06e1607">More...</a><br /></td></tr>
-<tr class="separator:a69ca3f6c7138c885d3b35e7de06e1607"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3d56d4ef1c559351c468173193d228f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ac3d56d4ef1c559351c468173193d228f">begin</a> () const</td></tr>
-<tr class="memdesc:ac3d56d4ef1c559351c468173193d228f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const iterator to the beginning of the internal factor list.  <a href="#ac3d56d4ef1c559351c468173193d228f">More...</a><br /></td></tr>
-<tr class="separator:ac3d56d4ef1c559351c468173193d228f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affce6bbbde2af25f222a97682a90c743"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#affce6bbbde2af25f222a97682a90c743">cbegin</a> () const</td></tr>
-<tr class="memdesc:affce6bbbde2af25f222a97682a90c743"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const iterator to the beginning of the internal factor list.  <a href="#affce6bbbde2af25f222a97682a90c743">More...</a><br /></td></tr>
-<tr class="separator:affce6bbbde2af25f222a97682a90c743"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0a9572648d18bb2af28c4fe196e1f99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab0a9572648d18bb2af28c4fe196e1f99">end</a> ()</td></tr>
-<tr class="memdesc:ab0a9572648d18bb2af28c4fe196e1f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable interactor to the end of the internal factor list.  <a href="#ab0a9572648d18bb2af28c4fe196e1f99">More...</a><br /></td></tr>
-<tr class="separator:ab0a9572648d18bb2af28c4fe196e1f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19c29992d2801bae7a6c3f0ae36ea1f1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a19c29992d2801bae7a6c3f0ae36ea1f1">end</a> () const</td></tr>
-<tr class="memdesc:a19c29992d2801bae7a6c3f0ae36ea1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const interactor to the end of the internal factor list.  <a href="#a19c29992d2801bae7a6c3f0ae36ea1f1">More...</a><br /></td></tr>
-<tr class="separator:a19c29992d2801bae7a6c3f0ae36ea1f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab3fa212814576166e4a1f30d378ee7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aab3fa212814576166e4a1f30d378ee7b">cend</a> () const</td></tr>
-<tr class="memdesc:aab3fa212814576166e4a1f30d378ee7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const interactor to the end of the internal factor list.  <a href="#aab3fa212814576166e4a1f30d378ee7b">More...</a><br /></td></tr>
-<tr class="separator:aab3fa212814576166e4a1f30d378ee7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab55c948767316f935a64546846f00466"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab55c948767316f935a64546846f00466">FactorGraph</a> (size_t variables)</td></tr>
+<tr class="memdesc:ab55c948767316f935a64546846f00466"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#ab55c948767316f935a64546846f00466">More...</a><br /></td></tr>
+<tr class="separator:ab55c948767316f935a64546846f00466"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37c433e95a56649af07bed9ac6b45ad7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af77815a68f838461dc0b204a2e1ab74c">FactorItList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a37c433e95a56649af07bed9ac6b45ad7">getFactors</a> (size_t variable) const</td></tr>
+<tr class="memdesc:a37c433e95a56649af07bed9ac6b45ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all factors adjacent to the given variable.  <a href="#a37c433e95a56649af07bed9ac6b45ad7">More...</a><br /></td></tr>
+<tr class="separator:a37c433e95a56649af07bed9ac6b45ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be998c0a150520025003fd4587bb501"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a3be998c0a150520025003fd4587bb501">getVariables</a> (size_t variable) const</td></tr>
+<tr class="memdesc:a3be998c0a150520025003fd4587bb501"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to a factor adjacent to the input variable.  <a href="#a3be998c0a150520025003fd4587bb501">More...</a><br /></td></tr>
+<tr class="separator:a3be998c0a150520025003fd4587bb501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da6d96c93b7f9e879b7e8bf7ca30389"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a3da6d96c93b7f9e879b7e8bf7ca30389">getVariables</a> (<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a> factor) const</td></tr>
+<tr class="memdesc:a3da6d96c93b7f9e879b7e8bf7ca30389"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to the given factor.  <a href="#a3da6d96c93b7f9e879b7e8bf7ca30389">More...</a><br /></td></tr>
+<tr class="separator:a3da6d96c93b7f9e879b7e8bf7ca30389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e2a0cf068006175faf9fe3b6b1f5239"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a0e2a0cf068006175faf9fe3b6b1f5239">getVariables</a> (<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a> factor) const</td></tr>
+<tr class="memdesc:a0e2a0cf068006175faf9fe3b6b1f5239"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to the given factor.  <a href="#a0e2a0cf068006175faf9fe3b6b1f5239">More...</a><br /></td></tr>
+<tr class="separator:a0e2a0cf068006175faf9fe3b6b1f5239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afac5a5d57be5f2c60d0e4fabfe992d93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afac5a5d57be5f2c60d0e4fabfe992d93">getVariables</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af77815a68f838461dc0b204a2e1ab74c">FactorItList</a> &amp;factors) const</td></tr>
+<tr class="memdesc:afac5a5d57be5f2c60d0e4fabfe992d93"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all variables adjacent to any of the given factors.  <a href="#afac5a5d57be5f2c60d0e4fabfe992d93">More...</a><br /></td></tr>
+<tr class="separator:afac5a5d57be5f2c60d0e4fabfe992d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515c6ec3d4f06308d5d6ea0efa5fa596"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a515c6ec3d4f06308d5d6ea0efa5fa596">getFactor</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp;variables)</td></tr>
+<tr class="memdesc:a515c6ec3d4f06308d5d6ea0efa5fa596"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to a factor adjacent to the given variables.  <a href="#a515c6ec3d4f06308d5d6ea0efa5fa596">More...</a><br /></td></tr>
+<tr class="separator:a515c6ec3d4f06308d5d6ea0efa5fa596"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2517080971117e49212da026213e8893"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a2517080971117e49212da026213e8893">erase</a> (size_t variable)</td></tr>
+<tr class="memdesc:a2517080971117e49212da026213e8893"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially removes an variable from the graph.  <a href="#a2517080971117e49212da026213e8893">More...</a><br /></td></tr>
+<tr class="separator:a2517080971117e49212da026213e8893"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92cc67d61fcc287a855a1cbfdd075c70"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a92cc67d61fcc287a855a1cbfdd075c70">variableSize</a> () const</td></tr>
+<tr class="memdesc:a92cc67d61fcc287a855a1cbfdd075c70"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of variables still in the graph.  <a href="#a92cc67d61fcc287a855a1cbfdd075c70">More...</a><br /></td></tr>
+<tr class="separator:a92cc67d61fcc287a855a1cbfdd075c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6a818972f54cf05fde4fb87c44843ee"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ac6a818972f54cf05fde4fb87c44843ee">factorSize</a> () const</td></tr>
+<tr class="memdesc:ac6a818972f54cf05fde4fb87c44843ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of factors still in the graph.  <a href="#ac6a818972f54cf05fde4fb87c44843ee">More...</a><br /></td></tr>
+<tr class="separator:ac6a818972f54cf05fde4fb87c44843ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2097dd364fa3e500118356781f115422"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a2097dd364fa3e500118356781f115422">begin</a> ()</td></tr>
+<tr class="memdesc:a2097dd364fa3e500118356781f115422"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable iterator to the beginning of the internal factor list.  <a href="#a2097dd364fa3e500118356781f115422">More...</a><br /></td></tr>
+<tr class="separator:a2097dd364fa3e500118356781f115422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca8e1f532bc32268fa88fb140c1dc03f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aca8e1f532bc32268fa88fb140c1dc03f">begin</a> () const</td></tr>
+<tr class="memdesc:aca8e1f532bc32268fa88fb140c1dc03f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const iterator to the beginning of the internal factor list.  <a href="#aca8e1f532bc32268fa88fb140c1dc03f">More...</a><br /></td></tr>
+<tr class="separator:aca8e1f532bc32268fa88fb140c1dc03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9c4e7cacce4a322a6c61373a929618"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a2a9c4e7cacce4a322a6c61373a929618">cbegin</a> () const</td></tr>
+<tr class="memdesc:a2a9c4e7cacce4a322a6c61373a929618"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const iterator to the beginning of the internal factor list.  <a href="#a2a9c4e7cacce4a322a6c61373a929618">More...</a><br /></td></tr>
+<tr class="separator:a2a9c4e7cacce4a322a6c61373a929618"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13bc9db9145f2f6add82bc37dec61848"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a13bc9db9145f2f6add82bc37dec61848">end</a> ()</td></tr>
+<tr class="memdesc:a13bc9db9145f2f6add82bc37dec61848"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides an editable interactor to the end of the internal factor list.  <a href="#a13bc9db9145f2f6add82bc37dec61848">More...</a><br /></td></tr>
+<tr class="separator:a13bc9db9145f2f6add82bc37dec61848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80a0314bb4db8f3abc180637e02e80e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a80a0314bb4db8f3abc180637e02e80e1">end</a> () const</td></tr>
+<tr class="memdesc:a80a0314bb4db8f3abc180637e02e80e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const interactor to the end of the internal factor list.  <a href="#a80a0314bb4db8f3abc180637e02e80e1">More...</a><br /></td></tr>
+<tr class="separator:a80a0314bb4db8f3abc180637e02e80e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36fc848581aa199bb733d271a6d4ded9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a36fc848581aa199bb733d271a6d4ded9">cend</a> () const</td></tr>
+<tr class="memdesc:a36fc848581aa199bb733d271a6d4ded9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a const interactor to the end of the internal factor list.  <a href="#a36fc848581aa199bb733d271a6d4ded9">More...</a><br /></td></tr>
+<tr class="separator:a36fc848581aa199bb733d271a6d4ded9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03d5e624634e2b4c4c3e67a4eedd04c1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a03d5e624634e2b4c4c3e67a4eedd04c1">bestVariableToRemove</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aee292093e17f0f5d58488a062f2deb35">Factors</a> &amp;F) const</td></tr>
+<tr class="memdesc:a03d5e624634e2b4c4c3e67a4eedd04c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the variable which is the cheapest to remove with <a class="el" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html" title="This class represents the Variable Elimination algorithm. ">GenericVariableElimination</a>.  <a href="#a03d5e624634e2b4c4c3e67a4eedd04c1">More...</a><br /></td></tr>
+<tr class="separator:a03d5e624634e2b4c4c3e67a4eedd04c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename Factor&gt;<br />
-class AIToolbox::Factored::FactorGraph&lt; Factor &gt;</h3>
+<div class="textblock"><h3>template&lt;typename FactorData&gt;<br />
+class AIToolbox::Factored::FactorGraph&lt; FactorData &gt;</h3>
 
 <p>This class offers a minimal interface to manager a factor graph. </p>
 <p>This class allows to store arbitrary data into each factor, and to maintain adjacency lists between the factors and a given number of variables. The interface is intentionally very simple and tries to do very little, in order to allow clients to optimize their use of the graph as much as possible.</p>
-<p>This class maintains a single factor for any unique combination of variables. When multiple factors are needed, a single Factor containing a vector of data should suffice.</p>
+<p>This class maintains a single <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a> for any unique combination of variables. When multiple factors are needed, a single <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a> containing a vector of data should suffice.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Factor</td><td>The Factor class that is stored for each factor. </td></tr>
+    <tr><td class="paramname">FactorData</td><td>The class that is stored for each <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a>. </td></tr>
   </table>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="aba47c1a9caf1f11739543f74db6ab435"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba47c1a9caf1f11739543f74db6ab435">&#9670;&nbsp;</a></span>CFactorIt</h2>
+<a id="afc7281d28394f87343dda525aed0b43c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc7281d28394f87343dda525aed0b43c">&#9670;&nbsp;</a></span>CFactorIt</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a> =  typename FactorList::const_iterator</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a> =  typename FactorList::const_iterator</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4319f2cc1c60a2cc50eae483742afa44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4319f2cc1c60a2cc50eae483742afa44">&#9670;&nbsp;</a></span>const_iterator</h2>
+<a id="aa63ea4a90f407cc3b82b0d9e2e18fd23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa63ea4a90f407cc3b82b0d9e2e18fd23">&#9670;&nbsp;</a></span>const_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a4319f2cc1c60a2cc50eae483742afa44">const_iterator</a> =  <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aa63ea4a90f407cc3b82b0d9e2e18fd23">const_iterator</a> =  <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a72eb6328e0331c9f999783458ceda644"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72eb6328e0331c9f999783458ceda644">&#9670;&nbsp;</a></span>FactorIt</h2>
+<a id="ab233e4aff2b59ed9b7563dc5df5cbfa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab233e4aff2b59ed9b7563dc5df5cbfa7">&#9670;&nbsp;</a></span>FactorIt</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> =  typename FactorList::iterator</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a> =  typename FactorList::iterator</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="af75559aeaf91c83de84020a826da3e78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af75559aeaf91c83de84020a826da3e78">&#9670;&nbsp;</a></span>FactorItList</h2>
+<a id="af77815a68f838461dc0b204a2e1ab74c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af77815a68f838461dc0b204a2e1ab74c">&#9670;&nbsp;</a></span>FactorItList</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af75559aeaf91c83de84020a826da3e78">FactorItList</a> =  std::vector&lt;<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a>&gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af77815a68f838461dc0b204a2e1ab74c">FactorItList</a> =  std::vector&lt;<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a075175ecde61c6e219c0a8be8ffe7fc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a075175ecde61c6e219c0a8be8ffe7fc2">&#9670;&nbsp;</a></span>FactorList</h2>
+<a id="ade215ae34e23dca0682c9f8fcc2ac063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade215ae34e23dca0682c9f8fcc2ac063">&#9670;&nbsp;</a></span>FactorList</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a075175ecde61c6e219c0a8be8ffe7fc2">FactorList</a> =  std::list&lt;<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a>&gt;</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ade215ae34e23dca0682c9f8fcc2ac063">FactorList</a> =  std::list&lt;<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a9ee5f3d166ea7e35dcd1333f8b301125"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ee5f3d166ea7e35dcd1333f8b301125">&#9670;&nbsp;</a></span>iterator</h2>
+<a id="a82576ee0b626b81d8aabbaee1f43bdb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82576ee0b626b81d8aabbaee1f43bdb5">&#9670;&nbsp;</a></span>iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a9ee5f3d166ea7e35dcd1333f8b301125">iterator</a> =  <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a82576ee0b626b81d8aabbaee1f43bdb5">iterator</a> =  <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a2fa8e0ff485db12e5f8dd42c08e9383a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fa8e0ff485db12e5f8dd42c08e9383a">&#9670;&nbsp;</a></span>value_type</h2>
+<a id="a59f7ba0101ffe628f2b713040fed5036"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59f7ba0101ffe628f2b713040fed5036">&#9670;&nbsp;</a></span>value_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a2fa8e0ff485db12e5f8dd42c08e9383a">value_type</a> =  Factor</td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a59f7ba0101ffe628f2b713040fed5036">value_type</a> =  FactorData</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="adff72b44d6466d93ee6eb0654848c449"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adff72b44d6466d93ee6eb0654848c449">&#9670;&nbsp;</a></span>VariableList</h2>
+<a id="a63ad07d06d704f26b813b21fc438ca7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63ad07d06d704f26b813b21fc438ca7f">&#9670;&nbsp;</a></span>Variables</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor&gt; </div>
+template&lt;typename FactorData&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#adff72b44d6466d93ee6eb0654848c449">VariableList</a> =  std::vector&lt;<a class="el" href="structAIToolbox_1_1Factored_1_1FactorGraph_1_1VariableNode.html">VariableNode</a>&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aff89b2dd3906103539a0be34803fbb2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff89b2dd3906103539a0be34803fbb2b">&#9670;&nbsp;</a></span>Variables</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> =  <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9">PartialKeys</a></td>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FactorData &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> =  <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9">PartialKeys</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -316,16 +299,16 @@ template&lt;typename Factor&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af7ff10847e94f42943e43cef3a71a183"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7ff10847e94f42943e43cef3a71a183">&#9670;&nbsp;</a></span>FactorGraph()</h2>
+<a id="ab55c948767316f935a64546846f00466"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab55c948767316f935a64546846f00466">&#9670;&nbsp;</a></span>FactorGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a> </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>variables</em></td><td>)</td>
@@ -346,16 +329,16 @@ template&lt;typename Factor &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a69ca3f6c7138c885d3b35e7de06e1607"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69ca3f6c7138c885d3b35e7de06e1607">&#9670;&nbsp;</a></span>begin() <span class="overload">[1/2]</span></h2>
+<a id="a2097dd364fa3e500118356781f115422"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2097dd364fa3e500118356781f115422">&#9670;&nbsp;</a></span>begin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::begin </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -369,16 +352,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="ac3d56d4ef1c559351c468173193d228f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3d56d4ef1c559351c468173193d228f">&#9670;&nbsp;</a></span>begin() <span class="overload">[2/2]</span></h2>
+<a id="aca8e1f532bc32268fa88fb140c1dc03f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca8e1f532bc32268fa88fb140c1dc03f">&#9670;&nbsp;</a></span>begin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::begin </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -391,16 +374,46 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="affce6bbbde2af25f222a97682a90c743"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affce6bbbde2af25f222a97682a90c743">&#9670;&nbsp;</a></span>cbegin()</h2>
+<a id="a03d5e624634e2b4c4c3e67a4eedd04c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03d5e624634e2b4c4c3e67a4eedd04c1">&#9670;&nbsp;</a></span>bestVariableToRemove()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::cbegin </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::bestVariableToRemove </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aee292093e17f0f5d58488a062f2deb35">Factors</a> &amp;&#160;</td>
+          <td class="paramname"><em>F</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the variable which is the cheapest to remove with <a class="el" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html" title="This class represents the Variable Elimination algorithm. ">GenericVariableElimination</a>. </p>
+<p>The choice is made heuristically, as computing the true best is an NP-Complete problem.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">F</td><td>The value space for each variable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The best variable to eliminate. </dd></dl>
+
+</div>
+</div>
+<a id="a2a9c4e7cacce4a322a6c61373a929618"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9c4e7cacce4a322a6c61373a929618">&#9670;&nbsp;</a></span>cbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FD &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::cbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -413,16 +426,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="aab3fa212814576166e4a1f30d378ee7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab3fa212814576166e4a1f30d378ee7b">&#9670;&nbsp;</a></span>cend()</h2>
+<a id="a36fc848581aa199bb733d271a6d4ded9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36fc848581aa199bb733d271a6d4ded9">&#9670;&nbsp;</a></span>cend()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::cend </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::cend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -436,16 +449,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="ab0a9572648d18bb2af28c4fe196e1f99"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0a9572648d18bb2af28c4fe196e1f99">&#9670;&nbsp;</a></span>end() <span class="overload">[1/2]</span></h2>
+<a id="a13bc9db9145f2f6add82bc37dec61848"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13bc9db9145f2f6add82bc37dec61848">&#9670;&nbsp;</a></span>end() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::end </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -459,16 +472,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a19c29992d2801bae7a6c3f0ae36ea1f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19c29992d2801bae7a6c3f0ae36ea1f1">&#9670;&nbsp;</a></span>end() <span class="overload">[2/2]</span></h2>
+<a id="a80a0314bb4db8f3abc180637e02e80e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80a0314bb4db8f3abc180637e02e80e1">&#9670;&nbsp;</a></span>end() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::end </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -482,45 +495,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a1238bea26e3bfdfaa791bf3db1962d12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1238bea26e3bfdfaa791bf3db1962d12">&#9670;&nbsp;</a></span>erase() <span class="overload">[1/2]</span></h2>
+<a id="a2517080971117e49212da026213e8893"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2517080971117e49212da026213e8893">&#9670;&nbsp;</a></span>erase()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::erase </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a>&#160;</td>
-          <td class="paramname"><em>it</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function removes a factor from the graph. </p>
-<p>This function is very fast as the factors are kept in a list, so removal is O(1).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">it</td><td>An iterator to the factor to be removed. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a8a877aa5b2f37a809ff9d32ecd482ea8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a877aa5b2f37a809ff9d32ecd482ea8">&#9670;&nbsp;</a></span>erase() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Factor &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::erase </td>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::erase </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>variable</em></td><td>)</td>
@@ -530,9 +514,8 @@ template&lt;typename Factor &gt; </div>
 </div><div class="memdoc">
 
 <p>This function partially removes an variable from the graph. </p>
-<p>This function does not actually do much, so it is very important that it is used correctly. No factors are modified, so before calling this function all factors pointing to this variable should be removed.</p>
-<p>This function simply clears the adjacency list for the specified variable, and decreases the number of variables by one, so that <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ad6388a8ab21d7363f88bea7038ce7bc4" title="This function returns the number of variables still in the graph. ">variableSize()</a> reports one less variable.</p>
-<p>Calling this function multiple times will continue to decrease the counter! This will have no side effect aside that the <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ad6388a8ab21d7363f88bea7038ce7bc4" title="This function returns the number of variables still in the graph. ">variableSize()</a> function will become meaningless.</p>
+<p>This function removes the selected variable, and ALL factors associated with it.</p>
+<p>Removing the same variable more than once does not do anything.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">variable</td><td>The variable to be removed. </td></tr>
@@ -542,16 +525,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a0ba041983356de1bb6cc133b6748aba8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ba041983356de1bb6cc133b6748aba8">&#9670;&nbsp;</a></span>factorSize()</h2>
+<a id="ac6a818972f54cf05fde4fb87c44843ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6a818972f54cf05fde4fb87c44843ee">&#9670;&nbsp;</a></span>factorSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::factorSize </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::factorSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -564,18 +547,18 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a7ba0f15c845d8a12b2757d2221cc0ba5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ba0f15c845d8a12b2757d2221cc0ba5">&#9670;&nbsp;</a></span>getFactor()</h2>
+<a id="a515c6ec3d4f06308d5d6ea0efa5fa596"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a515c6ec3d4f06308d5d6ea0efa5fa596">&#9670;&nbsp;</a></span>getFactor()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::getFactor </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::getFactor </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp;&#160;</td>
           <td class="paramname"><em>variables</em></td><td>)</td>
           <td></td>
         </tr>
@@ -596,16 +579,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a463d13eaf8fcb718245987d1838fc668"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a463d13eaf8fcb718245987d1838fc668">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[1/4]</span></h2>
+<a id="a37c433e95a56649af07bed9ac6b45ad7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37c433e95a56649af07bed9ac6b45ad7">&#9670;&nbsp;</a></span>getFactors()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af75559aeaf91c83de84020a826da3e78">FactorItList</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af77815a68f838461dc0b204a2e1ab74c">FactorItList</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::getFactors </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>variable</em></td><td>)</td>
@@ -625,18 +608,47 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a8352cfc695eb794b953e4b98a6d8268a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8352cfc695eb794b953e4b98a6d8268a">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[2/4]</span></h2>
+<a id="a3be998c0a150520025003fd4587bb501"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be998c0a150520025003fd4587bb501">&#9670;&nbsp;</a></span>getVariables() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::getVariables </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a72eb6328e0331c9f999783458ceda644">FactorIt</a>&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>variable</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns all variables adjacent to a factor adjacent to the input variable. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">variable</td><td>The variable to look for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>All <em>other</em> variables connected in some way to the input one. </dd></dl>
+
+</div>
+</div>
+<a id="a3da6d96c93b7f9e879b7e8bf7ca30389"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3da6d96c93b7f9e879b7e8bf7ca30389">&#9670;&nbsp;</a></span>getVariables() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FD &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::getVariables </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#ab233e4aff2b59ed9b7563dc5df5cbfa7">FactorIt</a>&#160;</td>
           <td class="paramname"><em>factor</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -654,18 +666,18 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="a26fc279078f90445b885f84c1fdf6f81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26fc279078f90445b885f84c1fdf6f81">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[3/4]</span></h2>
+<a id="a0e2a0cf068006175faf9fe3b6b1f5239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e2a0cf068006175faf9fe3b6b1f5239">&#9670;&nbsp;</a></span>getVariables() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::getVariables </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aba47c1a9caf1f11739543f74db6ab435">CFactorIt</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afc7281d28394f87343dda525aed0b43c">CFactorIt</a>&#160;</td>
           <td class="paramname"><em>factor</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -683,18 +695,18 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="ac64bbbfaba151fc7d516cf16dc3a2573"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac64bbbfaba151fc7d516cf16dc3a2573">&#9670;&nbsp;</a></span>getNeighbors() <span class="overload">[4/4]</span></h2>
+<a id="afac5a5d57be5f2c60d0e4fabfe992d93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afac5a5d57be5f2c60d0e4fabfe992d93">&#9670;&nbsp;</a></span>getVariables() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#aff89b2dd3906103539a0be34803fbb2b">Variables</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::getNeighbors </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; FD &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f">Variables</a> <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::getVariables </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af75559aeaf91c83de84020a826da3e78">FactorItList</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af77815a68f838461dc0b204a2e1ab74c">FactorItList</a> &amp;&#160;</td>
           <td class="paramname"><em>factors</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -713,16 +725,16 @@ template&lt;typename Factor &gt; </div>
 
 </div>
 </div>
-<a id="ad6388a8ab21d7363f88bea7038ce7bc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6388a8ab21d7363f88bea7038ce7bc4">&#9670;&nbsp;</a></span>variableSize()</h2>
+<a id="a92cc67d61fcc287a855a1cbfdd075c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92cc67d61fcc287a855a1cbfdd075c70">&#9670;&nbsp;</a></span>variableSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Factor &gt; </div>
+template&lt;typename FD &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; Factor &gt;::variableSize </td>
+          <td class="memname">size_t <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::variableSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -731,8 +743,7 @@ template&lt;typename Factor &gt; </div>
 </div><div class="memdoc">
 
 <p>This function returns the number of variables still in the graph. </p>
-<p>This function basically returns the number of variables this graph has been initialized with, minus the number of times the <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a8a877aa5b2f37a809ff9d32ecd482ea8" title="This function partially removes an variable from the graph. ">erase(size_t)</a> function has been called (even for the same variable!).</p>
-<p>This means that if the <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a8a877aa5b2f37a809ff9d32ecd482ea8" title="This function partially removes an variable from the graph. ">erase(size_t)</a> function is used generously, multiple times per variable, this function's return value is meaningless.</p>
+<p>This function returns the number of active variables in the graph (that have not been explicitly eliminated via <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a2517080971117e49212da026213e8893" title="This function partially removes an variable from the graph. ">erase(size_t)</a>).</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of variables still in the graph. </dd></dl>
 
 </div>
@@ -743,7 +754,7 @@ template&lt;typename Factor &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

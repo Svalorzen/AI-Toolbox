@@ -78,7 +78,6 @@ $(function() {
 <code>#include &lt;<a class="el" href="Polytope_8hpp_source.html">AIToolbox/Utils/Polytope.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2Types_8hpp_source.html">AIToolbox/POMDP/Types.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2TypeTraits_8hpp_source.html">AIToolbox/POMDP/TypeTraits.hpp</a>&gt;</code><br />
-<code>#include &lt;boost/iterator/transform_iterator.hpp&gt;</code><br />
 <code>#include &lt;boost/functional/hash.hpp&gt;</code><br />
 </div>
 <p><a href="include_2AIToolbox_2POMDP_2Utils_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -99,7 +98,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a5254fac18b477fde30cff6ccbb131a63"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables hashing of VEntries with boost::hash.  <a href="namespaceAIToolbox_1_1POMDP.html#a5254fac18b477fde30cff6ccbb131a63">More...</a><br /></td></tr>
 <tr class="separator:a5254fac18b477fde30cff6ccbb131a63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8532961013ec06fe6d47960b71ae822"><td class="memItemLeft" align="right" valign="top">const MDP::Values &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ac8532961013ec06fe6d47960b71ae822">AIToolbox::POMDP::unwrap</a> (const VEntry &amp;ve)</td></tr>
-<tr class="memdesc:ac8532961013ec06fe6d47960b71ae822"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is used with transform iterators to obtain the Values of a <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#ac8532961013ec06fe6d47960b71ae822">More...</a><br /></td></tr>
+<tr class="memdesc:ac8532961013ec06fe6d47960b71ae822"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is used as iterator projection to obtain the Values of a <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#ac8532961013ec06fe6d47960b71ae822">More...</a><br /></td></tr>
 <tr class="separator:ac8532961013ec06fe6d47960b71ae822"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f341f4ae91af26c67abd8e650522fdf"><td class="memItemLeft" align="right" valign="top">ValueFunction&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3f341f4ae91af26c67abd8e650522fdf">AIToolbox::POMDP::makeValueFunction</a> (size_t S)</td></tr>
 <tr class="memdesc:a3f341f4ae91af26c67abd8e650522fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a default ValueFunction.  <a href="namespaceAIToolbox_1_1POMDP.html#a3f341f4ae91af26c67abd8e650522fdf">More...</a><br /></td></tr>
@@ -109,7 +108,7 @@ Functions</h2></td></tr>
 <tr class="separator:a05e4fb4a18324709e70b42d66cf2054b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18f4d95909ab7eeee98d04317c5e88ac"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a18f4d95909ab7eeee98d04317c5e88ac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a18f4d95909ab7eeee98d04317c5e88ac">AIToolbox::POMDP::makeSOSA</a> (const M &amp;m)</td></tr>
-<tr class="memdesc:a18f4d95909ab7eeee98d04317c5e88ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates the SOSA table for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a18f4d95909ab7eeee98d04317c5e88ac">More...</a><br /></td></tr>
+<tr class="memdesc:a18f4d95909ab7eeee98d04317c5e88ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates the SOSA matrix for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a18f4d95909ab7eeee98d04317c5e88ac">More...</a><br /></td></tr>
 <tr class="separator:a18f4d95909ab7eeee98d04317c5e88ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
 <tr class="memitem:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2">AIToolbox::POMDP::updateBeliefUnnormalized</a> (const M &amp;model, const Belief &amp;b, const size_t a, const size_t o, Belief *bRet)</td></tr>
@@ -163,11 +162,19 @@ Functions</h2></td></tr>
 <tr class="memitem:a7b1bf71cbc9a2c566437f1cda780c123"><td class="memTemplItemLeft" align="right" valign="top">VEntry&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a7b1bf71cbc9a2c566437f1cda780c123">AIToolbox::POMDP::crossSumBestAtBelief</a> (const Belief &amp;b, const Projections &amp;projs, double *value=nullptr)</td></tr>
 <tr class="memdesc:a7b1bf71cbc9a2c566437f1cda780c123"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief across all actions.  <a href="namespaceAIToolbox_1_1POMDP.html#a7b1bf71cbc9a2c566437f1cda780c123">More...</a><br /></td></tr>
 <tr class="separator:a7b1bf71cbc9a2c566437f1cda780c123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a7aa24800d72c0eef0139c3f989d36f"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:a2a7aa24800d72c0eef0139c3f989d36f"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a2a7aa24800d72c0eef0139c3f989d36f">AIToolbox::POMDP::bestConservativeAction</a> (const M &amp;pomdp, MDP::QFunction immediateRewards, const Belief &amp;initialBelief, const VList &amp;lbVList, MDP::Values *alpha=nullptr)</td></tr>
+<tr class="memdesc:a2a7aa24800d72c0eef0139c3f989d36f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function obtains the best action with respect to the input VList.  <a href="namespaceAIToolbox_1_1POMDP.html#a2a7aa24800d72c0eef0139c3f989d36f">More...</a><br /></td></tr>
+<tr class="separator:a2a7aa24800d72c0eef0139c3f989d36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd6029ce127e9ec0495c02433b5c690e"><td class="memTemplParams" colspan="2">template&lt;bool useLP = true, typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
+<tr class="memitem:abd6029ce127e9ec0495c02433b5c690e"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#abd6029ce127e9ec0495c02433b5c690e">AIToolbox::POMDP::bestPromisingAction</a> (const M &amp;pomdp, const MDP::QFunction &amp;immediateRewards, const Belief &amp;belief, const MDP::QFunction &amp;ubQ, const UpperBoundValueFunction &amp;ubV, Vector *vals=nullptr)</td></tr>
+<tr class="memdesc:abd6029ce127e9ec0495c02433b5c690e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function obtains the best action with respect to the input QFunction and UbV.  <a href="namespaceAIToolbox_1_1POMDP.html#abd6029ce127e9ec0495c02433b5c690e">More...</a><br /></td></tr>
+<tr class="separator:abd6029ce127e9ec0495c02433b5c690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 1 2019 11:06:11 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 12:58:21 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
