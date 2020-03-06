@@ -1,5 +1,5 @@
 /**
- * @page Logging How to use AIToolbox logging facilities.
+ * @page logging How Logging Works
  *
  * Since AIToolbox is a library, it leaves the choice of how to log to you. You
  * can use any framework, library or C++ iostream facilities you want.
