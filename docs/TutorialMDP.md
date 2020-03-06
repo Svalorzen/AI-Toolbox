@@ -1,9 +1,12 @@
-AIToolbox Tutorial
-==================
+MDP Beginner Tutorial {#tutorialmdp}
+====================================
 
-This document is meant to give you information about this library and the
+This tutorial is meant to give you information about this library and the
 theoretical foundations behind it. It is not meant to be a full-on class about
 it, but I hope it will be enough to get you started.
+
+This tutorial's code can be found in the `examples/MDP/tiger_antelope.cpp` file,
+including comments and additional nodes.
 
 Markov Decision Process
 -----------------------
@@ -104,6 +107,7 @@ Let's think about how to encode this world into an MDP. We will go through each
 component of the MDP and try to fill it out.
 
 #### S ####
+
 There seem to be no time dependent components, so that makes it easier for us to
 create the states. In this case a naive approach would be to use the current
 coordinates of both the tiger and the antelope as our state. Each pair of
@@ -135,6 +139,7 @@ coordinates, since we will need this later.
 ~~~
 
 #### A ####
+
 The tiger can move, and possibly stand still. Thus, it has 5 actions.
 
 ~~~{.cpp}
@@ -149,6 +154,7 @@ The tiger can move, and possibly stand still. Thus, it has 5 actions.
 ~~~
 
 #### T ####
+
 Transition functions are generally the most time consuming part of defining an
 MDP, and where most can go wrong. Most exact MDP solving methods rely on the
 full transition function to find out the best policy for the problem. However,
@@ -313,6 +319,13 @@ And finally, our wrapper:
 
 Voilà! All is needed now is simply some AIToolbox magic!
 
+#### The Actual Planning Code ####
+
+We use the `AIToolbox::MDP::ValueIteration` algorithm in order to solve the MDP
+and obtain the solution (also called value function). From it, it's possible to
+create a policy which will dictate how the tiger will move in the environment to
+catch the antelope.
+
 ~~~{.cpp}
     int main() {
         GridWorld world;
@@ -366,7 +379,8 @@ probabilities of the MDP model we use. In our implementation, this needs to be
 recomputed almost constantly. A better way would be to save them up into a
 single transition matrix once, and simply return the values of the table when
 asked. AIToolbox offers a pretty standard implementation for an MDP structured
-in this way: AIToolbox::MDP::Model.
+in this way: AIToolbox::MDP::Model. This is done in the full example code, so go
+check it out!
 
 In addition, our state space was way bigger than what was actually needed. This
 is because the problem is question has a very high symmetry. For once, it does
