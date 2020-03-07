@@ -112,16 +112,16 @@ Introduction </h1>
 <h2><a class="anchor" id="org"></a>
 Code Organization </h2>
 <p>Organizing AI algorithms into a consistent interface is not always an easy task, as the field is extremely diverse, and every algorithm tends to have specific and unique quirks.</p>
-<p>We significantly use the folder structure of the project to group files that are logically near, and to group algorithms depending on their features. This can't possibly result in a categorization that can please everyone, but we try as much as possible.</p>
-<p>The structure tends to be self-evident when looking at the first few levels of folders/files inside <code>include/AIToolbox</code>:</p>
+<p>We significantly use the folder structure of the project to group files that are logically close, and to group algorithms depending on their features. This hierarchy is somewhat arbitrary, but still better than nothing.</p>
+<p>For example, here is (part of) the structure made by the first few levels of folders/files inside <code>include/AIToolbox</code>:</p>
 <div class="fragment"><div class="line">- Types.hpp</div><div class="line">- Utils</div><div class="line">- Bandit</div><div class="line">    - Policies</div><div class="line">    - Types.hpp</div><div class="line">- MDP</div><div class="line">    - Algorithms</div><div class="line">    - Policies</div><div class="line">    - Types.hpp</div><div class="line">    - Utils.hpp</div><div class="line">- POMDP</div><div class="line">    - Algorithms</div><div class="line">    - Policies</div><div class="line">    - Types.hpp</div><div class="line">    - Utils.hpp</div></div><!-- fragment --><h2><a class="anchor" id="types"></a>
 Types </h2>
 <p><code>Types.hpp</code> files describe the types used in the library, with nested files describing types that are mostly used in a specific context. <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> tries to rely standard types (for example <code>std::vector</code>) as much as possible, only resorting to types of external libraries when absolutely necessary.</p>
 <h2><a class="anchor" id="utils"></a>
 Utilities </h2>
-<p><code>Utils</code> files and folders contain pure free functions and data-structures that are independent of anything else in the library. These files contain the most common functionality, which is shared between algorithms and methods, and is implemented as pure free functions, which are organized per file depending on their topic.</p>
-<p>For example, in the <code>include/AIToolbox/Utils</code> folders one may find utilities for combinatorics (<code><a class="el" href="Combinatorics_8hpp.html">Combinatorics.hpp</a></code>), probabilities (<code><a class="el" href="Probability_8hpp.html">Probability.hpp</a></code>), polytopes (<code><a class="el" href="Polytope_8hpp.html">Polytope.hpp</a></code>), linear programming (<code><a class="el" href="LP_8hpp.html">LP.hpp</a></code>), pruning (<code><a class="el" href="Prune_8hpp.html">Prune.hpp</a></code>), etc. More domain-specific utilities can be found in subfolders of more specific topics.</p>
-<p>Such free functions try to accept standard types where possible, while otherwise they accept <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> specific types. Using these functions does not have any additional code requirements, so they should be easy to use.</p>
+<p><code>Utils</code> files and folders contain pure free functions and data-structures that are (mostly) independent of anything else in the library, aside from types. These files contain the most common functionality, which is shared between algorithms and methods, and are grouped together depending on their topic.</p>
+<p>For example, in the <code>include/AIToolbox/Utils</code> folder one may find utilities for combinatorics (<code><a class="el" href="Combinatorics_8hpp.html">Combinatorics.hpp</a></code>), probabilities (<code><a class="el" href="Probability_8hpp.html">Probability.hpp</a></code>), polytopes (<code><a class="el" href="Polytope_8hpp.html">Polytope.hpp</a></code>), linear programming (<code><a class="el" href="LP_8hpp.html">LP.hpp</a></code>), pruning (<code><a class="el" href="Prune_8hpp.html">Prune.hpp</a></code>), etc. More domain-specific utilities can be found in subfolders throughout the library.</p>
+<p>Free functions try to accept standard types where possible, while otherwise they accept <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> specific types. Using these functions does not have any additional code requirements, so they should be easy to use.</p>
 <h2><a class="anchor" id="algopol"></a>
 What are Algorithms and Policies? </h2>
 <p>One of the major distinctions in <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> is between policies and algorithms, which are stored in separate folders. In simple terms, we consider policies all classes that can directly provide sampling utilities and probability distributions over actions. Whether they do it by maximizing over a QFunction or because they are implementing an actor-only method does not matter. We consider algorithms all other methods.</p>
@@ -129,7 +129,7 @@ What are Algorithms and Policies? </h2>
 <p>On the other hand, in general, algorithms don't have a unified API (although we do try to keep consistency between similar methods where possible), as they tend to behave very uniquely.</p>
 <h2><a class="anchor" id="inherit"></a>
 Mostly Templates </h2>
-<p>Aside from policies, we mostly do not introduce inheritance relationships between classes. Each class is kept as simple and monolithic as possible, preferring "owns-a" relationships rather than "is-a". Code is sometimes duplicated between two classes if they are related (when it can't be made into a free function), rather than forcing awkward child-parent relationships for the sake of saving few lines of code. Generalization is achieved using templates.</p>
+<p>Aside from policies, we mostly do not introduce inheritance relationships between classes. Each class is kept as simple and monolithic as possible, preferring "owns-a" relationships rather than "is-a". Code is sometimes duplicated between two classes if they are not related (when it can't be made into a free function), rather than forcing awkward child-parent relationships for the sake of saving few lines of code. Generalization is achieved using templates.</p>
 <p>This is true for models, algorithms, data structures etc.</p>
 <p>Template interfaces are described and checked using template code (which will hopefully be converted into simpler Concepts as C++20 is released). They mostly describe the methods that models should have, as the library needs to be able to feed arbitrary models to algorithms. </p><hr/>
 <h1><a class="anchor" id="int"></a>
@@ -139,6 +139,7 @@ Interfaces </h1>
 <h2><a class="anchor" id="expint"></a>
 Experience Interfaces  </h2>
 <p>If you are doing RL and want to store experience data in your own class, you can implement the following methods in your class to use <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> RL models with it (for example <a class="el" href="classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html" title="This class models Experience as a Markov Decision Process using Maximum Likelihood. ">AIToolbox::MDP::MaximumLikelihoodModel</a>).</p>
+<p>You do not need to inherit from any class to implement these interfaces.</p>
 <h3><a class="anchor" id="exp"></a>
 Standard Experience</h3>
 <p>The basic Experience interface requires you to report the number of seen transitions, and statistics on the obtained rewards for all state-action pairs.</p>
@@ -151,11 +152,11 @@ Model Interfaces </h2>
 <p>Implementing a new model does not require you to inherit from any class in the library. However, algorithms expect a certain set of methods and parameters to be accessible.</p>
 <h3><a class="anchor" id="genmod"></a>
 Generative MDP Models</h3>
-<p>The most basic basic MDP model interface is one for a generative model, i.e. a model which we only use to sample new transitions, but where we don't have access to the underlying transition and reward functions. A simulator would be an excellent candidate for a generative model.</p>
+<p>The most basic basic MDP model interface the generative model, i.e. a model which we only use to sample new transitions, but where we don't have access to the underlying transition and reward functions. A simulator would be an excellent candidate for a generative model.</p>
 <p>Here are the methods which you need to implement for your class to be compatible with algorithms that expect a generative model:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> getS() <span class="keyword">const</span>;                                            <span class="comment">// Returns the size of the state space</span></div><div class="line"><span class="keywordtype">size_t</span> getA() <span class="keyword">const</span>;                                            <span class="comment">// Returns the size of the action space</span></div><div class="line"><span class="keywordtype">double</span> getDiscount() <span class="keyword">const</span>;                                     <span class="comment">// Returns the discount factor of the MDP</span></div><div class="line">std::tuple&lt;size_t, double&gt; sampleSR(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;   <span class="comment">// From a state-action pair, return a new state-reward pair.</span></div><div class="line"><span class="keywordtype">bool</span> isTerminal(<span class="keywordtype">size_t</span> s) <span class="keyword">const</span>;                                <span class="comment">// Return whether a given state is terminal</span></div></div><!-- fragment --><h3><a class="anchor" id="mod"></a>
 Standard MDP Models</h3>
-<p>Planning algorithms may require more than this basic interface, as they may need access to the underlying transition and reward functions of your model. In that case, you will need to implement the following <em>additional</em> functions:</p>
+<p>Planning algorithms usually require a more strict interface than a generative model, as they may need access to the underlying transition and reward functions of your model. In that case, you will need to implement the following <em>additional</em> functions:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">double</span> getTransitionProbability(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a,<span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>; <span class="comment">// Returns the probability of transitioning from s and a to s1.</span></div><div class="line"><span class="keywordtype">double</span> getExpectedReward(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a,<span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>;        <span class="comment">// Returns the expected reward of the input transition.</span></div></div><!-- fragment --><h3><a class="anchor" id="eigmod"></a>
 Eigen MDP Models</h3>
 <p>An additional set of functions can be implemented in order to unlock optimizations within the code that leverage the <a class="el" href="namespaceEigen.html">Eigen</a> library. This can significantly speed up certain algorithms, and may be required for others.</p>
@@ -174,7 +175,7 @@ Policy Interfaces </h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Mar 7 2020 21:12:28 for AIToolbox by
+    <li class="footer">Generated on Sat Mar 7 2020 21:49:58 for AIToolbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
