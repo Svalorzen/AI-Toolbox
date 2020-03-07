@@ -169,8 +169,8 @@ the environment, and use that to obtain a policy.
 First, we're going to need `AIToolbox::MDP::Experience`, which is a class that
 record the data we observe from the environment. It records the number of
 state-action to new state transitions, and for each state-action pair, the
-average reward obtained, its standard deviation and M2 value (an aggregate of
-the squared distance from the mean).
+average reward obtained and its M2 value (an aggregate of the squared distance
+from the mean).
 
 ~~~{.cpp}
     Experience exp(problem.getS(), problem.getA());
