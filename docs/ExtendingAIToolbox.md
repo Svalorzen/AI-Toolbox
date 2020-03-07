@@ -15,11 +15,10 @@ as the field is extremely diverse, and every algorithm tends to have specific
 and unique quirks.
 
 We significantly use the folder structure of the project to group files that
-are logically near, and to group algorithms depending on their features. This
-can't possibly result in a categorization that can please everyone, but we try
-as much as possible.
+are logically close, and to group algorithms depending on their features. This
+hierarchy is somewhat arbitrary, but still better than nothing.
 
-The structure tends to be self-evident when looking at the first few levels of
+For example, here is (part of) the structure made by the first few levels of
 folders/files inside `include/AIToolbox`:
 
 ~~~
@@ -52,18 +51,17 @@ Utilities {#utils}
 ---------
 
 `Utils` files and folders contain pure free functions and data-structures that
-are independent of anything else in the library. These files contain the most
-common functionality, which is shared between algorithms and methods, and is
-implemented as pure free functions, which are organized per file depending on
-their topic.
+are (mostly) independent of anything else in the library, aside from types.
+These files contain the most common functionality, which is shared between
+algorithms and methods, and are grouped together depending on their topic.
 
-For example, in the `include/AIToolbox/Utils` folders one may find utilities for
+For example, in the `include/AIToolbox/Utils` folder one may find utilities for
 combinatorics (`Combinatorics.hpp`), probabilities (`Probability.hpp`),
 polytopes (`Polytope.hpp`), linear programming (`LP.hpp`), pruning
 (`Prune.hpp`), etc. More domain-specific utilities can be found in subfolders
-of more specific topics.
+throughout the library.
 
-Such free functions try to accept standard types where possible, while otherwise
+Free functions try to accept standard types where possible, while otherwise
 they accept AIToolbox specific types. Using these functions does not have any
 additional code requirements, so they should be easy to use.
 
@@ -96,9 +94,10 @@ Mostly Templates {#inherit}
 Aside from policies, we mostly do not introduce inheritance relationships
 between classes. Each class is kept as simple and monolithic as possible,
 preferring "owns-a" relationships rather than "is-a". Code is sometimes
-duplicated between two classes if they are related (when it can't be made into a
-free function), rather than forcing awkward child-parent relationships for the
-sake of saving few lines of code. Generalization is achieved using templates.
+duplicated between two classes if they are not related (when it can't be made
+into a free function), rather than forcing awkward child-parent relationships
+for the sake of saving few lines of code. Generalization is achieved using
+templates.
 
 This is true for models, algorithms, data structures etc.
 
@@ -125,6 +124,8 @@ Experience Interfaces  {#expint}
 If you are doing RL and want to store experience data in your own class, you can
 implement the following methods in your class to use AIToolbox RL models with it
 (for example AIToolbox::MDP::MaximumLikelihoodModel).
+
+You do not need to inherit from any class to implement these interfaces.
 
 ### Standard Experience ### {#exp}
 
@@ -163,10 +164,10 @@ be accessible.
 
 ### Generative MDP Models ### {#genmod}
 
-The most basic basic MDP model interface is one for a generative model, i.e. a
-model which we only use to sample new transitions, but where we don't have
-access to the underlying transition and reward functions. A simulator would be
-an excellent candidate for a generative model.
+The most basic basic MDP model interface the generative model, i.e. a model
+which we only use to sample new transitions, but where we don't have access to
+the underlying transition and reward functions. A simulator would be an
+excellent candidate for a generative model.
 
 Here are the methods which you need to implement for your class to be compatible
 with algorithms that expect a generative model:
@@ -181,9 +182,10 @@ with algorithms that expect a generative model:
 
 ### Standard MDP Models ### {#mod}
 
-Planning algorithms may require more than this basic interface, as they may need
-access to the underlying transition and reward functions of your model. In that
-case, you will need to implement the following *additional* functions:
+Planning algorithms usually require a more strict interface than a generative
+model, as they may need access to the underlying transition and reward functions
+of your model. In that case, you will need to implement the following
+*additional* functions:
 
 ~~~{.cpp}
     double getTransitionProbability(size_t s,size_t a,size_t s1) const; // Returns the probability of transitioning from s and a to s1.

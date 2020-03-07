@@ -194,7 +194,7 @@ any information to the agent during a reset.
 
 #### Discount ####
 
-We finally use a discount of 0.95 as it's usually done with this problem. It's
+We finally use a discount of 0.95 as it's usually done with this problem. Its
 meaning has not changed from the MDP case.
 
 ### The POMDP Model ###
@@ -205,7 +205,7 @@ into a new `AIToolbox::POMDP::Model` to start solving.
 
 The default POMDP model is an extension of a given MDP (since as we said, the
 POMDP is a generalization of MDPs; the basic environment is still there, it's
-just that the agent cannot see it directly). In our case, we simply inherit from
+just that the agent cannot see it directly). In our case, we inherit from
 `AIToolbox::MDP::Model` to keep things simple.
 
 ~~~{.cpp}
@@ -269,15 +269,14 @@ how to use it.
         // We and update our total reward.
         totalReward += r;
 
-        // We explicitly update the belief to show the user what the agent is
-        // thinking. This is also necessary in some cases (depending on
-        // convergence of the solution, see below), otherwise its only for
-        // rendering purpouses. It is a pretty expensive operation so if
-        // performance is required it should be avoided.
+        // We explicitly update the agent belief. This is necessary in some
+        // cases depending on convergence of the solution, see below.
+        // It is a pretty expensive operation so if performance is required it
+        // should be avoided.
         b = AIToolbox::POMDP::updateBelief(model, b, a, o);
 
-        // Now that we have rendered, we can use the observation to find out
-        // what action we should do next.
+        // Now we can use the observation to find out what action we should
+        // do next.
         //
         // Depending on whether the solution converged or not, we have to use
         // the policy differently. Suppose that we planned for an horizon of 5,
@@ -303,8 +302,8 @@ how to use it.
 ~~~
 
 The full code of this example can be found in the `examples/POMDP/tiger_door.cpp`
-file, and can be build from there using `make` (given that you have already
-built the library in folder `build/`).
+file, and is built automatically by adding `-DMAKE_EXAMPLES=1` when running
+CMake.
 
 ### Conclusions ###
 

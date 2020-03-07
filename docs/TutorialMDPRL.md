@@ -2,7 +2,7 @@ MDP RL Beginner Tutorial {#tutorialmdprl}
 =========================================
 
 This tutorial is meant to teach you how to learn a policy in an MDP even when
-the dynamics are not known a priory.
+the dynamics are not known a priori.
 
 This tutorial's code can be found in the `examples/MDP/cliff.cpp` file,
 including comments and additional nodes.
@@ -18,8 +18,8 @@ In particular, the policy we want to learn is the one that maximizes the reward
 the agent obtains from the environment. An additional constraint that we want to
 impose is that we learn in in a way to maximize the reward we obtain during the
 learning process. In this way, the exploration done by the agent is indirectly
-directed at figuring out promising actions to perform, rather than simply trying
-to understand the problem fully, which would require much more time.
+encouraged to figure out promising actions to perform quickly, rather than
+trying to understand the problem fully, which would require much more time.
 
 There are many possible approaches to RL, and in this tutorial we focus on two:
 model-free learning, where the agent directly learns a value function to direct
@@ -269,8 +269,8 @@ As you can see, we didn't need many more lines of code in order to run this
 model-based method.
 
 The full code of this example can be found in the `examples/MDP/cliff.cpp`
-file, and can be build from there using `make` (given that you have already
-built the library in folder `build/`).
+file, and is built automatically by adding `-DMAKE_EXAMPLES=1` when running
+CMake.
 
 ### Conclusions ###
 

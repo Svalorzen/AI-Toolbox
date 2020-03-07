@@ -368,8 +368,8 @@ catch the antelope.
 ~~~
 
 The full code of this example can be found in the `examples/MDP/tiger_antelope.cpp`
-file, and can be build from there using `make` (given that you have already
-built the library in folder `build/`).
+file, and is built automatically by adding `-DMAKE_EXAMPLES=1` when running
+CMake.
 
 ### Conclusions ###
 
