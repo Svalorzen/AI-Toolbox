@@ -1,3 +1,17 @@
+/* This file contains the code that is presented in the TutorialPOMDP.md file
+ * in the docs folder. The tutorial can also be viewed in the main page of the
+ * doxygen documentation.
+ *
+ * This code implements a problem where the agent, standing in front of two
+ * doors, must figure out which of the two is hiding a treasure. The problem is
+ * that behind the other door there is a tiger! The agent must thus wait and
+ * listen for noise, and try to figure out with enough certainty which door is
+ * safe to open.
+ *
+ * For more examples be sure to check out the "tests" folder! The code there
+ * is very simple and it contains most usages of this library ever, and it will
+ * probably give you an even better introduction than this code does.
+ */
 #include <iostream>
 #include <vector>
 #include <string>

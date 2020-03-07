@@ -1,13 +1,15 @@
-AI-Toolbox [![Build Status](https://travis-ci.org/Svalorzen/AI-Toolbox.svg?branch=master)](https://travis-ci.org/Svalorzen/AI-Toolbox)
+AI-Toolbox
 ==========
+
+[![Build Status](https://travis-ci.org/Svalorzen/AI-Toolbox.svg?branch=master)](https://travis-ci.org/Svalorzen/AI-Toolbox)
 
 This C++ toolbox is aimed at representing and solving common AI problems,
 implementing an easy-to-use interface which should be hopefully extensible
 to many problems, while keeping code readable.
 
 Current development includes MDPs, POMDPs and related algorithms. This toolbox
-has been developed taking inspiration from the Matlab `MDPToolbox`, which you
-can find [here](http://www7.inra.fr/mia/T/MDPtoolbox/), and from the
+was originally developed taking inspiration from the Matlab `MDPToolbox`, which
+you can find [here](https://miat.inrae.fr/MDPtoolbox/), and from the
 `pomdp-solve` software written by A. R. Cassandra, which you can find
 [here](http://www.pomdp.org/code/index.shtml).
 
@@ -67,7 +69,7 @@ this library.
 The user interface of the library is pretty much the same with Python than what
 you would get by using simply C++. See the `examples` folder to see just how
 much Python and C++ code resemble each other. Since Python does not allow
-templates, the classes are binded with as many as possible instantiations.
+templates, the classes are binded with as many instantiations as possible.
 
 Additionally, the library allows the usage of native Python generative models
 (where you don't need to specify the transition and reward functions, you only
@@ -264,9 +266,9 @@ The tests also offer a brief introduction for the framework, waiting for a
 more complete descriptive write-up. Only the tests for the parts of the library
 that you compiled are going to be built.
 
-To compile the library's documentation you need the
-[Doxygen](http://www.stack.nl/~dimitri/doxygen/) tool. To use it it is
-sufficient to execute the following command from the project's root folder:
+To compile the library's documentation you need
+[Doxygen](http://www.doxygen.nl/). To use it it is sufficient to execute the
+following command from the project's root folder:
 
 ```bash
 doxygen
