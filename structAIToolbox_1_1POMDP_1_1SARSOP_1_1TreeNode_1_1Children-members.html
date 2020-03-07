@@ -9,6 +9,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -43,6 +50,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -57,11 +79,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></li><li class="navelem"><a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a></li><li class="navelem"><a class="el" href="classAIToolbox_1_1POMDP_1_1SARSOP.html">SARSOP</a></li><li class="navelem"><b>TreeNode</b></li><li class="navelem"><a class="el" href="structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html">Children</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">AIToolbox::POMDP::SARSOP::TreeNode::Children Member List</div>  </div>
@@ -73,11 +90,14 @@ $(function() {
   <tr class="even"><td class="entry"><a class="el" href="structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html#ab90f6021712e52fb98106d8ff80a7e76">id</a></td><td class="entry"><a class="el" href="structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html">AIToolbox::POMDP::SARSOP::TreeNode::Children</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html#acbbb5eb29e949d93736aa7c2fbf39d3c">observationProbability</a></td><td class="entry"><a class="el" href="structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html">AIToolbox::POMDP::SARSOP::TreeNode::Children</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 6 2020 12:58:22 for AIToolbox by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Sat Mar 7 2020 21:12:29 for AIToolbox by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

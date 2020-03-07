@@ -33,7 +33,7 @@ var searchData=
   ['factored',['Factored',['../namespaceAIToolbox_1_1Factored.html',1,'AIToolbox']]],
   ['gridworldenums',['GridWorldEnums',['../namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html',1,'AIToolbox::MDP']]],
   ['impl',['Impl',['../namespaceAIToolbox_1_1Impl.html',1,'AIToolbox']]],
-  ['aitoolbox_20tutorial',['AIToolbox Tutorial',['../index.html',1,'']]],
+  ['ai_2dtoolbox',['AI-Toolbox',['../index.html',1,'']]],
   ['mdp',['MDP',['../namespaceAIToolbox_1_1Factored_1_1MDP.html',1,'AIToolbox::Factored::MDP'],['../namespaceAIToolbox_1_1MDP.html',1,'AIToolbox::MDP']]],
   ['pomdp',['POMDP',['../namespaceAIToolbox_1_1Impl_1_1POMDP.html',1,'AIToolbox::Impl::POMDP'],['../namespaceAIToolbox_1_1POMDP.html',1,'AIToolbox::POMDP']]],
   ['sysadminenums',['SysAdminEnums',['../namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html',1,'AIToolbox::Factored::MDP']]],

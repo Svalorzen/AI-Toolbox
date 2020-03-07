@@ -28,11 +28,13 @@ var searchData=
   ['expectedsarsa_2ehpp',['ExpectedSARSA.hpp',['../ExpectedSARSA_8hpp.html',1,'']]],
   ['experience',['Experience',['../classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html',1,'AIToolbox::Factored::Bandit::Experience'],['../classAIToolbox_1_1Bandit_1_1Experience.html',1,'AIToolbox::Bandit::Experience'],['../classAIToolbox_1_1MDP_1_1Experience.html',1,'AIToolbox::MDP::Experience'],['../classAIToolbox_1_1Bandit_1_1Experience.html#a81d46f5c3eb16c3ff4e256c934483e24',1,'AIToolbox::Bandit::Experience::Experience()'],['../classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a1bfeb0ceca0feb233c56ea2169673c33',1,'AIToolbox::Factored::Bandit::Experience::Experience()'],['../classAIToolbox_1_1MDP_1_1Experience.html#a6b48f4555e1f31f13fc48f08f39ab91f',1,'AIToolbox::MDP::Experience::Experience()']]],
   ['experience_2ehpp',['Experience.hpp',['../Bandit_2Experience_8hpp.html',1,'(Global Namespace)'],['../Factored_2Bandit_2Experience_8hpp.html',1,'(Global Namespace)'],['../MDP_2Experience_8hpp.html',1,'(Global Namespace)']]],
+  ['extendingaitoolbox_2emd',['ExtendingAIToolbox.md',['../ExtendingAIToolbox_8md.html',1,'']]],
   ['extractbestatpoint',['extractBestAtPoint',['../namespaceAIToolbox.html#a0cda3496f7e84c8247fc3c7fac1c93f2',1,'AIToolbox']]],
   ['extractbestatsimplexcorners',['extractBestAtSimplexCorners',['../namespaceAIToolbox.html#ac8ff7b74b51c088cda28e9371e4c2988',1,'AIToolbox']]],
   ['extractbestusefulpoints',['extractBestUsefulPoints',['../namespaceAIToolbox.html#ac4875f77e08a1ef6b4828279ac74aa23',1,'AIToolbox']]],
   ['extractdominated',['extractDominated',['../namespaceAIToolbox.html#ad460c77a4bf9eb827a0bf62ed09266df',1,'AIToolbox']]],
   ['extractdominatedincremental',['extractDominatedIncremental',['../namespaceAIToolbox.html#a63d2a6f73c7f817403ec9ffb6d2a2ab2',1,'AIToolbox']]],
   ['extractpythontuple',['ExtractPythonTuple',['../structTupleFromPython_1_1ExtractPythonTuple.html',1,'TupleFromPython']]],
-  ['extractpythontuple_3c_200_2c_20dummyforspecialization_20_3e',['ExtractPythonTuple&lt; 0, dummyForSpecialization &gt;',['../structTupleFromPython_1_1ExtractPythonTuple_3_010_00_01dummyForSpecialization_01_4.html',1,'TupleFromPython']]]
+  ['extractpythontuple_3c_200_2c_20dummyforspecialization_20_3e',['ExtractPythonTuple&lt; 0, dummyForSpecialization &gt;',['../structTupleFromPython_1_1ExtractPythonTuple_3_010_00_01dummyForSpecialization_01_4.html',1,'TupleFromPython']]],
+  ['extendingaitoolbox',['ExtendingAIToolbox',['../md_docs_ExtendingAIToolbox.html',1,'']]]
 ];

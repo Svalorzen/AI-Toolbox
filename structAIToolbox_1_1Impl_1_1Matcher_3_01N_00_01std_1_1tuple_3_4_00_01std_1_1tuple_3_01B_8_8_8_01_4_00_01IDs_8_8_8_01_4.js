@@ -1,0 +1,5 @@
+var structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_4_00_01std_1_1tuple_3_01B_8_8_8_01_4_00_01IDs_8_8_8_01_4 =
+[
+    [ "type", "structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_4_00_01std_1_1tuple_3_01B_8_8_8_01_4_00_01IDs_8_8_8_01_4.html#a876a8d1578970f1aa8fa91e8bc94456a", null ],
+    [ "match", "structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_4_00_01std_1_1tuple_3_01B_8_8_8_01_4_00_01IDs_8_8_8_01_4.html#a5f1c5eff4525e6118fb5a314b05965de", null ]
+];

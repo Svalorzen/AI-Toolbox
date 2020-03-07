@@ -4,6 +4,7 @@ var searchData=
   ['chengd35_2ehpp',['ChengD35.hpp',['../ChengD35_8hpp.html',1,'']]],
   ['cliffproblem_2ehpp',['CliffProblem.hpp',['../CliffProblem_8hpp.html',1,'']]],
   ['combinatorics_2ehpp',['Combinatorics.hpp',['../Combinatorics_8hpp.html',1,'']]],
+  ['contributing_2emd',['CONTRIBUTING.md',['../CONTRIBUTING_8md.html',1,'']]],
   ['cooperativeexperience_2ehpp',['CooperativeExperience.hpp',['../CooperativeExperience_8hpp.html',1,'']]],
   ['cooperativemaximumlikelihoodmodel_2ehpp',['CooperativeMaximumLikelihoodModel.hpp',['../CooperativeMaximumLikelihoodModel_8hpp.html',1,'']]],
   ['cooperativemodel_2ehpp',['CooperativeModel.hpp',['../CooperativeModel_8hpp.html',1,'']]],

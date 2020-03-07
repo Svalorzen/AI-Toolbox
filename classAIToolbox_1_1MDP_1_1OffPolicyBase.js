@@ -1,0 +1,27 @@
+var classAIToolbox_1_1MDP_1_1OffPolicyBase =
+[
+    [ "Trace", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a512a4a6b8f5bf33e2b04871f86ec7774", null ],
+    [ "Traces", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a23eab58ed3351207e1accbb9cc53f02c", null ],
+    [ "OffPolicyBase", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a3f7d9fe8573dd4def3737a7f77aba9b0", null ],
+    [ "clearTraces", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a41f53f796f40345d469e5afeb9208672", null ],
+    [ "getA", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a69294aa5bff1ec8ec149b4df24a2eff4", null ],
+    [ "getDiscount", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a9cfe8e59fd0d23cb735e138cd7bec62b", null ],
+    [ "getLearningRate", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#ac22f1e7aa253e33f2c951204bf124ca5", null ],
+    [ "getQFunction", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a5e0ddaba5cac28db19922805950911c3", null ],
+    [ "getS", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a75e8ba8ff912600f437bcc4e751d6050", null ],
+    [ "getTolerance", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#adff52a996dcae768ef59333950957c35", null ],
+    [ "getTraces", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#ab9a548b96b639aa0b7b15c4d9683f061", null ],
+    [ "setDiscount", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#acb2ad97d5a64d4512e7634e7178e064d", null ],
+    [ "setLearningRate", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a0331b8063711b309cee207c610292444", null ],
+    [ "setQFunction", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#aea2128b5f2e3b4bba78da6b1cd8c0ef1", null ],
+    [ "setTolerance", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a4a910895873527291a691a5de8f69121", null ],
+    [ "setTraces", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#abb210fc6ec0b5943630aa2538b6ed2b1", null ],
+    [ "updateTraces", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#aff356f3c8df681837b306cd3755af163", null ],
+    [ "A", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a2fcedced954a83fba13cf7acea6b235d", null ],
+    [ "alpha_", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a26758dbc33eed8c8b606aed1b787a8cc", null ],
+    [ "discount_", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a61ce909e3b8e3a8ccce065fab7244e7d", null ],
+    [ "q_", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a31e80bb8664c85676146ae018649dd58", null ],
+    [ "S", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#aeeafbca8a67d5fe381cf0f2f84aaffbc", null ],
+    [ "tolerance_", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#ad85a7f62af643036a0e7deedcde85a58", null ],
+    [ "traces_", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#ad18a1cf6f4b32f76c586e3d0fc5f6b98", null ]
+];

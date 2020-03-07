@@ -5,5 +5,6 @@ var searchData=
   ['epsilonpolicyinterface_2ehpp',['EpsilonPolicyInterface.hpp',['../EpsilonPolicyInterface_8hpp.html',1,'']]],
   ['esrlpolicy_2ehpp',['ESRLPolicy.hpp',['../ESRLPolicy_8hpp.html',1,'']]],
   ['expectedsarsa_2ehpp',['ExpectedSARSA.hpp',['../ExpectedSARSA_8hpp.html',1,'']]],
-  ['experience_2ehpp',['Experience.hpp',['../Bandit_2Experience_8hpp.html',1,'(Global Namespace)'],['../Factored_2Bandit_2Experience_8hpp.html',1,'(Global Namespace)'],['../MDP_2Experience_8hpp.html',1,'(Global Namespace)']]]
+  ['experience_2ehpp',['Experience.hpp',['../Bandit_2Experience_8hpp.html',1,'(Global Namespace)'],['../Factored_2Bandit_2Experience_8hpp.html',1,'(Global Namespace)'],['../MDP_2Experience_8hpp.html',1,'(Global Namespace)']]],
+  ['extendingaitoolbox_2emd',['ExtendingAIToolbox.md',['../ExtendingAIToolbox_8md.html',1,'']]]
 ];

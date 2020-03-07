@@ -47,5 +47,7 @@ var searchData=
   ['model_2ehpp',['Model.hpp',['../MDP_2Model_8hpp.html',1,'(Global Namespace)'],['../POMDP_2Model_8hpp.html',1,'(Global Namespace)']]],
   ['moqfunctionrule',['MOQFunctionRule',['../structAIToolbox_1_1Factored_1_1MDP_1_1MOQFunctionRule.html',1,'AIToolbox::Factored::MDP::MOQFunctionRule'],['../structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html',1,'AIToolbox::Factored::Bandit::MOQFunctionRule'],['../structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html#aa14027043943551b4daec765f9eac3c3',1,'AIToolbox::Factored::Bandit::MOQFunctionRule::MOQFunctionRule()'],['../structAIToolbox_1_1Factored_1_1MDP_1_1MOQFunctionRule.html#af4fb23201db82b959f172964c750a3e6',1,'AIToolbox::Factored::MDP::MOQFunctionRule::MOQFunctionRule()']]],
   ['multiobjectivevariableelimination',['MultiObjectiveVariableElimination',['../classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html',1,'AIToolbox::Factored::Bandit']]],
-  ['multiobjectivevariableelimination_2ehpp',['MultiObjectiveVariableElimination.hpp',['../MultiObjectiveVariableElimination_8hpp.html',1,'']]]
+  ['multiobjectivevariableelimination_2ehpp',['MultiObjectiveVariableElimination.hpp',['../MultiObjectiveVariableElimination_8hpp.html',1,'']]],
+  ['mdp_20beginner_20tutorial',['MDP Beginner Tutorial',['../tutorialmdp.html',1,'tutorials']]],
+  ['mdp_20rl_20beginner_20tutorial',['MDP RL Beginner Tutorial',['../tutorialmdprl.html',1,'tutorials']]]
 ];

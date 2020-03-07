@@ -6,5 +6,5 @@ var searchData=
   ['hyperplane',['Hyperplane',['../namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca',1,'AIToolbox']]],
   ['hystereticqlearning',['HystereticQLearning',['../classAIToolbox_1_1MDP_1_1HystereticQLearning.html',1,'AIToolbox::MDP::HystereticQLearning'],['../classAIToolbox_1_1MDP_1_1HystereticQLearning.html#a3fe689ebd4ab765d33d42dd3cee8cf0d',1,'AIToolbox::MDP::HystereticQLearning::HystereticQLearning(size_t S, size_t A, double discount=1.0, double alpha=0.1, double beta=0.01)'],['../classAIToolbox_1_1MDP_1_1HystereticQLearning.html#ad9b7f264164013a55b2f620ab545a190',1,'AIToolbox::MDP::HystereticQLearning::HystereticQLearning(const M &amp;model, double alpha=0.1, double beta=0.01)']]],
   ['hystereticqlearning_2ehpp',['HystereticQLearning.hpp',['../HystereticQLearning_8hpp.html',1,'']]],
-  ['how_20to_20use_20aitoolbox_20logging_20facilities_2e',['How to use AIToolbox logging facilities.',['../Logging.html',1,'']]]
+  ['how_20logging_20works',['How Logging Works',['../logging.html',1,'']]]
 ];

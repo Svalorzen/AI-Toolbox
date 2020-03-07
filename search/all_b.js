@@ -2,6 +2,7 @@ var searchData=
 [
   ['left',['LEFT',['../namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103a744255c728603b95b2ed85394759b62d',1,'AIToolbox::MDP::GridWorldEnums']]],
   ['lessequal',['LessEqual',['../classAIToolbox_1_1LP.html#a224f6cac074e3884329d6f32daa9e67fad3e6fdac55bb7b0edd7834c968ba1f38',1,'AIToolbox::LP']]],
+  ['license_2emd',['License.md',['../License_8md.html',1,'']]],
   ['linearprogramming',['LinearProgramming',['../classAIToolbox_1_1Factored_1_1MDP_1_1LinearProgramming.html',1,'AIToolbox::Factored::MDP::LinearProgramming'],['../classAIToolbox_1_1MDP_1_1LinearProgramming.html',1,'AIToolbox::MDP::LinearProgramming']]],
   ['linearprogramming_2ehpp',['LinearProgramming.hpp',['../Factored_2MDP_2Algorithms_2LinearProgramming_8hpp.html',1,'(Global Namespace)'],['../MDP_2Algorithms_2LinearProgramming_8hpp.html',1,'(Global Namespace)']]],
   ['linearsupport',['LinearSupport',['../classAIToolbox_1_1POMDP_1_1LinearSupport.html',1,'AIToolbox::POMDP::LinearSupport'],['../classAIToolbox_1_1POMDP_1_1LinearSupport.html#a3427fac37f8ae6397b1ed59440e2b632',1,'AIToolbox::POMDP::LinearSupport::LinearSupport()']]],
@@ -16,5 +17,6 @@ var searchData=
   ['lp_2ehpp',['LP.hpp',['../LP_8hpp.html',1,'']]],
   ['lpinterpolation',['LPInterpolation',['../namespaceAIToolbox.html#ab6541804d91ba3c11903fd8d29f34bcc',1,'AIToolbox']]],
   ['lrppolicy',['LRPPolicy',['../classAIToolbox_1_1Bandit_1_1LRPPolicy.html',1,'AIToolbox::Bandit::LRPPolicy'],['../classAIToolbox_1_1Bandit_1_1LRPPolicy.html#a4fd539763cf57bf699844109436c1499',1,'AIToolbox::Bandit::LRPPolicy::LRPPolicy()']]],
-  ['lrppolicy_2ehpp',['LRPPolicy.hpp',['../LRPPolicy_8hpp.html',1,'']]]
+  ['lrppolicy_2ehpp',['LRPPolicy.hpp',['../LRPPolicy_8hpp.html',1,'']]],
+  ['license',['License',['../md_License.html',1,'']]]
 ];
