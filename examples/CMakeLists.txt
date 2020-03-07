@@ -5,6 +5,10 @@ if (MAKE_MDP)
     target_link_libraries(tiger_antelope AIToolboxMDP)
     set_target_properties(tiger_antelope PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
+    add_executable(cliff MDP/cliff.cpp)
+    target_link_libraries(cliff AIToolboxMDP)
+    set_target_properties(cliff PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
+
     if (MAKE_PYTHON)
         add_custom_command(
             OUTPUT  "${CMAKE_CURRENT_BINARY_DIR}/tiger_antelope.py"
