@@ -99,8 +99,7 @@ nextLoop:
                 }
             }
         }
-
-        return std::move(qfun);
+        return qfun;
     }
 }
 
