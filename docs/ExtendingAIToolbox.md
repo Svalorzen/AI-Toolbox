@@ -139,7 +139,7 @@ transitions, and statistics on the obtained rewards for all state-action pairs.
     double getM2(size_t s,size_t a) const;                      // Returns the M2 statistic for the specified state-action pair
 ~~~
 
-### Eigen Experience Interface ### {#expint}
+### Eigen Experience Interface ### {#eigexp}
 
 It's possible to return Eigen matrices containing the experience data in order
 to speed up the calculations done to update transition and reward functions in
@@ -162,7 +162,7 @@ Implementing a new model does not require you to inherit from any class in the
 library. However, algorithms expect a certain set of methods and parameters to
 be accessible.
 
-### Generative MDP Models ### {#genmod}
+### Generative MDP Model ### {#genmod}
 
 The most basic basic MDP model interface the generative model, i.e. a model
 which we only use to sample new transitions, but where we don't have access to
@@ -180,7 +180,7 @@ with algorithms that expect a generative model:
     bool isTerminal(size_t s) const;                                // Return whether a given state is terminal
 ~~~
 
-### Standard MDP Models ### {#mod}
+### Standard MDP Model ### {#mod}
 
 Planning algorithms usually require a more strict interface than a generative
 model, as they may need access to the underlying transition and reward functions
@@ -192,7 +192,7 @@ of your model. In that case, you will need to implement the following
     double getExpectedReward(size_t s,size_t a,size_t s1) const;        // Returns the expected reward of the input transition.
 ~~~
 
-### Eigen MDP Models ### {#eigmod}
+### Eigen MDP Model ### {#eigmod}
 
 An additional set of functions can be implemented in order to unlock
 optimizations within the code that leverage the Eigen library. This can
@@ -233,4 +233,4 @@ else.
 
 If your policy takes a QFunction to produce its policy you may want to inherit
 from AIToolbox::MDP::QPolicyInterface, which already initializes the QFunction
-for you. This is although it is not required, it's just for convenience.
+for you. This is however not required, it's just for convenience.

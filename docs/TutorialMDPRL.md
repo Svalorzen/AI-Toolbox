@@ -167,7 +167,7 @@ We're now going to try a different approach, where we try to learn a model of
 the environment, and use that to obtain a policy.
 
 First, we're going to need `AIToolbox::MDP::Experience`, which is a class that
-record the data we observe from the environment. It records the number of
+records the data we observe from the environment. It records the number of
 state-action to new state transitions, and for each state-action pair, the
 average reward obtained and its M2 value (an aggregate of the squared distance
 from the mean).
@@ -215,7 +215,7 @@ again, so that we can make the agent act and explore in the world to gather
 data.
 
 Let's now setup the learning loop. Note that for PrioritizedSweeping we need
-much fewer episodes, as we are extracting more information out of each sample,
+many fewer episodes, as we are extracting more information out of each sample,
 and we are performing multiple updates to the QFunction per timestep, which
 greatly speeds up learning.
 

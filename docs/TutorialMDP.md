@@ -13,8 +13,7 @@ Markov Decision Process
 
 A Markov Decision Process, or MDP in short, is a way to model a decision making
 process. Here we will focus on single agent decision making processes, since
-they are the most simple ones, and also the ones that this library is currently
-focusing.
+they are the most simple ones.
 
 Let's start with some definitions:
 
@@ -36,10 +35,10 @@ Let's start with some definitions:
   deterministic. From a particular state, the environment can transition to any
   other state following a certain probability distribution (which CAN be
   deterministic).
-- The goal of the decision making process is influence the way the environment
-  transitions between states. In some sense, we have preferences between states,
-  and we would like the environment to be in some state rather than another. We
-  will encode that preference using **rewards**.
+- Our goal within the decision making process is to influence the way the
+  environment transitions between states. In some sense, we prefer some states
+  more than others, and thus we would like the environment to be in some state
+  rather than another. We will encode that preference using **rewards**.
 - The **agent** is the entity that is taking the decisions. It is not necessarily
   corporeal, nor does it actually have to be inside the environment; most times
   it can be useful to visualize it in such terms though (a unit moving through an
@@ -57,12 +56,16 @@ Let's start with some definitions:
   timesteps, and thus should think only for those, or infinite. In this last
   case the agent will keep interacting with the environment forever, and should
   thus plan accordingly.
-- The last thing we need to define is the **discount**. This is a number between
-  0 and 1, which determines how much rewards obtained in future timesteps affect
-  the agent's decisions. A discount of 0 will make the agent greedy, as it will
-  take actions that maximize the reward obtained in the next timestep, and
-  nothing else. A discount of 1 will make the agent lazy, as it will delay
-  reward-obtaining actions possibly indefinitely.
+- The last thing we need to define is the **discount**. The agent tries to
+  maximize the sum of all rewards obtained over time. The discount is a number
+  between 0 and 1, which determines how much rewards obtained in future
+  timesteps affect the agent's decisions, in a geometric progression, so that we
+  try to maximize \f$\sum_{t=0}^{T} \gamma^t r_t\f$. A discount of 0 will make
+  the agent greedy as all terms but for the first one become zero. The agent
+  will then take actions that maximize the reward obtained in the next timestep,
+  and nothing else. A discount of 1 will make the agent lazy, as a reward
+  obtained new will be "worth" the same as a reward obtained in the future, so
+  it will delay reward-obtaining actions possibly indefinitely.
 
 Armed with our new vocabulary, we can now define an MDP more formally. An MDP is
 a tuple <*S*, *A*, *T*, *R*, *d*>, where:
@@ -72,15 +75,14 @@ a tuple <*S*, *A*, *T*, *R*, *d*>, where:
 - *A* is a set of actions. This is a list of all the actions that an agent can
   take. Normally, in an MDP setting, we assume that the agent can select any
   actions all the time; as in, there are no states where some action is blocked.
-- *T* is a **transition function**. This describes the way that the environment is
-  allowed to evolve, and is, in essence, the description of your problem. It
-  specifies for any triple <*s*, *a*, *s'*> the probability that the environment will
-  transition from *s* to *s'*, if the agent selects action *a*.
-- R is a **reward function**. Similarly, it contains the rewards that the agent
-  will obtain, depending on how the environment transitions. These, differently
-  from the transition function, are deterministic rewards. The reward function
-  specifies for any triple <*s*, *a*, *s'*> the reward that the agent will
-  obtain.
+- *T* is a **transition function**. This describes the way that the environment
+  is allowed to evolve; in other words, the dynamics of the environment. It
+  specifies for any triple <*s*, *a*, *s'*> the probability that the environment
+  will transition from *s* to *s'*, if the agent selects action *a*.
+- *R* is a **reward function**. Its shape is the same as *T*, and it contains
+  the arbitrary rewards (positive or negative) that the agent will obtain
+  depending on how the environment transitions. The reward function specifies
+  for any triple <*s*, *a*, *s'*> the reward that the agent will obtain.
 - d is the discount factor, which we discussed above.
 
 ### MDP Example ###
@@ -111,7 +113,7 @@ component of the MDP and try to fill it out.
 There seem to be no time dependent components, so that makes it easier for us to
 create the states. In this case a naive approach would be to use the current
 coordinates of both the tiger and the antelope as our state. Each pair of
-coordinate is unique and encodes completely all the information the tiger needs to act.
+coordinate is unique and encodes all the information the tiger needs to act.
 
 We might as well add some code in order to determine the distance between two
 coordinates, since we will need this later.
@@ -156,12 +158,12 @@ The tiger can move, and possibly stand still. Thus, it has 5 actions.
 #### T ####
 
 Transition functions are generally the most time consuming part of defining an
-MDP, and where most can go wrong. Most exact MDP solving methods rely on the
-full transition function to find out the best policy for the problem. However,
-you do not need to manually create a table containing all of them, as long as
-you can compute them on the fly. This however can become *very* expensive
-computationally; how much of the transition function you want to cache is your
-decision to make.
+MDP, and where it's easier to make mistakes. The transition function is needed
+since, in general, exact MDP solving methods rely on it to find out the best
+policy for the problem. You do not necessarily need to manually create a table
+containing all of them, as long as you can compute them on the fly. This however
+can become *very* expensive computationally depending on the method you use; how
+much of the transition function you want to cache is your decision to make.
 
 In this function we specify the probability of ending up in a certain
 tiger-antelope state, given that the tiger has taken a certain action from a
@@ -196,7 +198,7 @@ certain initial state.
         int diffX = wrapDiff( c1[TIGER_X], c1[ANTEL_X] );
         int diffY = wrapDiff( c1[TIGER_Y], c1[ANTEL_Y] );
 
-        // If thew were not adjacent, then the probability for any move of the
+        // If they were not adjacent, then the probability for any move of the
         // antelope is simply 1/5: it behaves randomly.
         if ( std::abs( diffX ) + std::abs( diffY ) > 1 ) return 1.0 / 5.0;
 
@@ -204,7 +206,7 @@ certain initial state.
         // the antelope cannot move where the tiger was before.
         if ( c1[TIGER_X] == c2[ANTEL_X] && c1[TIGER_Y] == c2[ANTEL_Y] ) return 0.0;
 
-        // As a last check, we check whether they were both in the same cell before.
+        // The last test is to check whether they were both in the same cell before.
         // In that case the game would have ended, and nothing would happen anymore.
         // We model this as a self-absorbing state, or a state that always transitions
         // to itself.
@@ -221,12 +223,12 @@ certain initial state.
 
 #### R ####
 
-Here we define the reward function. Fortunately for us, this can be done easily:
+Here we define the reward function. Fortunately for us, this can be easily done:
 we will reward the tiger when it catches the antelope with a reward of 10, and
 otherwise it will get no reward. In this particular example the amount of reward
 the tiger obtains does not really matter, as long as it is positive, but 10
-looks nice. When multiple reward situation are present, relative rewards start
-to get an important role in the final policy of the agent!
+looks nice. When the agent has multiple ways to obtain reward, their relative
+magnitude starts to get an important role in the final policy of the agent!
 
 ~~~cpp
     double getReward( const CoordType & c ) {
@@ -252,17 +254,13 @@ increases as the number of timesteps it must look in the future increases.
 
 ### The MDP Model ###
 
-The code we have wrote up until now is nearly all you need to compute the optimal
-policy. There's just one thing more. AIToolbox works on model classes; it
-expects them to have certain methods, and to work in certain ways. What you thus
-need to do is to wrap the functionality we just wrote into a single class.
-
-At the same time, one more thing needs to be addressed. Every problem has in
-general a different type of state. This is problematic, because there's no
-simple way, for example, to iterate over custom states. Since states are unique,
-this library abstracts over this problem, and requires that states be integers.
-In order to allow for the conversions of our states into integers, we can write
-some code which will convert them.
+One more thing needs to be addressed. Every problem has in general a different
+type of state. In this case, it is a set of coordinates, but depending on your
+specific setting, it might be significantly different. This is problematic,
+because there's no simple way, for example, to iterate over custom states. Since
+states are unique, this library abstracts over this problem, and requires states
+to be integers. Thus, we write some code to automatically convert our states
+into integers:
 
 ~~~{.cpp}
     size_t encodeState(const CoordType & coords) {
@@ -284,7 +282,9 @@ some code which will convert them.
     }
 ~~~
 
-And finally, our wrapper:
+Finally, we are going to wrap all the functions we have written into a single
+class with an interface that AIToolbox can recognize.
+Here is our final wrapper:
 
 ~~~{.cpp}
     class GridWorld {
@@ -317,7 +317,7 @@ And finally, our wrapper:
     };
 ~~~
 
-Voilà! All is needed now is simply some AIToolbox magic!
+Voilà! All that is needed now is simply some AIToolbox magic!
 
 #### The Actual Planning Code ####
 
@@ -337,9 +337,9 @@ catch the antelope.
 
         std::cout << "Starting solver!\n";
         // This is where the magic happens. This could take around 10-20 minutes,
-        // depending on your machine (most of the time is spent on this tutorial's
-        // code, however, since it is a pretty inefficient implementation).
-        // But you can play with it and make it better!
+        // depending on your machine (most of the time is spent recomputing
+        // transition probabilities, however, since we don't cache them here.
+        // But you can play with the code and make it better!).
         auto solution = solver(world);
 
         std::cout << "Problem solved? " << std::get<0>(solution) << "\n";
@@ -357,7 +357,7 @@ catch the antelope.
         std::cout << "\nSaving policy to file for later usage...\n";
         {
             // You can load up this policy again using ifstreams.
-            // You will not need to solve the model again ever, and you
+            // You will not need to solve the model ever again, and you
             // can embed the policy into any application you want!
             std::ofstream output("policy.txt");
             output << policy;
@@ -374,24 +374,24 @@ CMake.
 ### Conclusions ###
 
 The code we saw was a very inefficient implementation, for a number of reasons.
-First, the particular method we used needs to look up repeatedly the transition
-probabilities of the MDP model we use. In our implementation, this needs to be
+First, the particular method we used needs to repeatedly look up the transition
+probabilities of the MDP model. In our implementation, these need to be
 recomputed almost constantly. A better way would be to save them up into a
 single transition matrix once, and simply return the values of the table when
-asked. AIToolbox offers a pretty standard implementation for an MDP structured
-in this way: AIToolbox::MDP::Model. This is done in the full example code, so go
-check it out!
+asked. AIToolbox already does this for you in the AIToolbox::MDP::Model class.
+This is done in the full example code, so go check it out!
 
 In addition, our state space was way bigger than what was actually needed. This
-is because the problem is question has a very high symmetry. For once, it does
-not actually matter where the antelope is, since we could simply translate both
-the antelope and the tiger until the antelope is at coordinates 5,5. This we can
-do because the world is toroidal.
+is because the problem in question has a very high symmetry. For example, it
+does not actually matter where the antelope is, since we could simply translate
+both the antelope and the tiger until the antelope is at coordinates 5,5. We can
+do this because the world is toroidal. This change allows us to remove the
+coordinates of the antelope from the state, greatly reducing the size of *S*.
 
 Another thing is that the world is symmetrical, both vertically, horizontally and
 diagonally. Thus we could rewrite the transition function and the model so that
-only an eighth of the states are needed. Combined with the translational
-symmetry, this would reduce enormously the time needed to solve it.
+only an eighth of the states were needed. Combined with the translational
+symmetry, this would enormously reduce the time needed to solve the MDP.
 
-However, I hope it gave you enough on an introduction on the concepts that you
-can start to play around with the library by yourself.
+I hope this tutorial helped you understand the main concepts around MDPs, so
+that you can start to play around with the library by yourself.
