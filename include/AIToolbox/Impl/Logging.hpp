@@ -24,6 +24,21 @@
  *
  *     void(int severity, const char * message);
  *
+ * So for example, in your code you could define:
+ *
+ *     void myLoggerFunction(int severity, const char * message) {
+ *         std::cout << '[' << severity << "] " << message << '\n';
+ *     }
+ *
+ * And then, at the beginning of your main function:
+ *
+ *     AIToolbox::AILogger = myLoggerFunction;
+ *
+ * And this would start logging automatically with no filtering. Remember to
+ * include the logging header!
+ *
+ *     #include <AIToolbox/Impl/Logging.hpp>
+ *
  * ## Priorities and Log Information ##
  *
  * AIToolbox defines 4 different severity levels:
