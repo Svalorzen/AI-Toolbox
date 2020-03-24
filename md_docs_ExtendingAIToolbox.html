@@ -92,12 +92,13 @@ $(document).ready(function(){initNavTree('md_docs_ExtendingAIToolbox.html','');}
 <li class="level2"><a href="#inherit">Mostly Templates </a></li>
 </ul>
 </li>
-<li class="level1"><a href="#int">Interfaces </a><ul><ul><li class="level3"><a href="#expint">Experience Interfaces  </a></li>
-<li class="level3"><a href="#exp">Standard Experience</a></li>
+<li class="level1"><a href="#int">Interfaces </a><ul><li class="level2"><a href="#expint">Experience Interfaces  </a><ul><li class="level3"><a href="#exp">Standard Experience</a></li>
+<li class="level3"><a href="#eigexp">Eigen Experience Interface</a></li>
 </ul>
-<li class="level2"><a href="#modint">Model Interfaces </a><ul><li class="level3"><a href="#genmod">Generative MDP Models</a></li>
-<li class="level3"><a href="#mod">Standard MDP Models</a></li>
-<li class="level3"><a href="#eigmod">Eigen MDP Models</a></li>
+</li>
+<li class="level2"><a href="#modint">Model Interfaces </a><ul><li class="level3"><a href="#genmod">Generative MDP Model</a></li>
+<li class="level3"><a href="#mod">Standard MDP Model</a></li>
+<li class="level3"><a href="#eigmod">Eigen MDP Model</a></li>
 </ul>
 </li>
 <li class="level2"><a href="#algoint">Algorithm Interfaces </a></li>
@@ -143,22 +144,22 @@ Experience Interfaces  </h2>
 <h3><a class="anchor" id="exp"></a>
 Standard Experience</h3>
 <p>The basic Experience interface requires you to report the number of seen transitions, and statistics on the obtained rewards for all state-action pairs.</p>
-<div class="fragment"><div class="line"><span class="keywordtype">long</span> <span class="keywordtype">unsigned</span> getVisits(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a,<span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>; <span class="comment">// Returns the number of seen transitions for the input</span></div><div class="line"><span class="keywordtype">long</span> <span class="keywordtype">unsigned</span> getVisitsSum(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;        <span class="comment">// Returns the sum of transition seen from the input state-action pair</span></div><div class="line"><span class="keywordtype">double</span> getReward(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;                  <span class="comment">// Returns the average reward seen for the specified state-action pair</span></div><div class="line"><span class="keywordtype">double</span> getM2(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;                      <span class="comment">// Returns the M2 statistic for the specified state-action pair</span></div></div><!-- fragment --><h3><a class="anchor" id="expint"></a>
-Experience Interfaces  </h3>
+<div class="fragment"><div class="line"><span class="keywordtype">long</span> <span class="keywordtype">unsigned</span> getVisits(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a,<span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>; <span class="comment">// Returns the number of seen transitions for the input</span></div><div class="line"><span class="keywordtype">long</span> <span class="keywordtype">unsigned</span> getVisitsSum(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;        <span class="comment">// Returns the sum of transition seen from the input state-action pair</span></div><div class="line"><span class="keywordtype">double</span> getReward(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;                  <span class="comment">// Returns the average reward seen for the specified state-action pair</span></div><div class="line"><span class="keywordtype">double</span> getM2(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;                      <span class="comment">// Returns the M2 statistic for the specified state-action pair</span></div></div><!-- fragment --><h3><a class="anchor" id="eigexp"></a>
+Eigen Experience Interface</h3>
 <p>It's possible to return <a class="el" href="namespaceEigen.html">Eigen</a> matrices containing the experience data in order to speed up the calculations done to update transition and reward functions in RL models.</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> M &amp; getVisitsTable(<span class="keywordtype">size_t</span>) <span class="keyword">const</span>; <span class="comment">// Returns an SxS Eigen matrix containing the seen transitions using that action</span></div><div class="line"><span class="keyword">const</span> M &amp; getRewardMatrix() <span class="keyword">const</span>;      <span class="comment">// Returns an SxA Eigen matrix containing all average rewards</span></div><div class="line"><span class="keyword">const</span> M &amp; getM2Matrix() <span class="keyword">const</span>;          <span class="comment">// Returns an SxA Eigen matrix containing all M2 values</span></div></div><!-- fragment --><h2><a class="anchor" id="modint"></a>
 Model Interfaces </h2>
 <p>In <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> models are glorified data structures. The most complicated thing they can do is provide an API for sampling, and are otherwise simple wrappers around transition and reward functions.</p>
 <p>Implementing a new model does not require you to inherit from any class in the library. However, algorithms expect a certain set of methods and parameters to be accessible.</p>
 <h3><a class="anchor" id="genmod"></a>
-Generative MDP Models</h3>
+Generative MDP Model</h3>
 <p>The most basic basic MDP model interface the generative model, i.e. a model which we only use to sample new transitions, but where we don't have access to the underlying transition and reward functions. A simulator would be an excellent candidate for a generative model.</p>
 <p>Here are the methods which you need to implement for your class to be compatible with algorithms that expect a generative model:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> getS() <span class="keyword">const</span>;                                            <span class="comment">// Returns the size of the state space</span></div><div class="line"><span class="keywordtype">size_t</span> getA() <span class="keyword">const</span>;                                            <span class="comment">// Returns the size of the action space</span></div><div class="line"><span class="keywordtype">double</span> getDiscount() <span class="keyword">const</span>;                                     <span class="comment">// Returns the discount factor of the MDP</span></div><div class="line">std::tuple&lt;size_t, double&gt; sampleSR(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>;   <span class="comment">// From a state-action pair, return a new state-reward pair.</span></div><div class="line"><span class="keywordtype">bool</span> isTerminal(<span class="keywordtype">size_t</span> s) <span class="keyword">const</span>;                                <span class="comment">// Return whether a given state is terminal</span></div></div><!-- fragment --><h3><a class="anchor" id="mod"></a>
-Standard MDP Models</h3>
+Standard MDP Model</h3>
 <p>Planning algorithms usually require a more strict interface than a generative model, as they may need access to the underlying transition and reward functions of your model. In that case, you will need to implement the following <em>additional</em> functions:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">double</span> getTransitionProbability(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a,<span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>; <span class="comment">// Returns the probability of transitioning from s and a to s1.</span></div><div class="line"><span class="keywordtype">double</span> getExpectedReward(<span class="keywordtype">size_t</span> s,<span class="keywordtype">size_t</span> a,<span class="keywordtype">size_t</span> s1) <span class="keyword">const</span>;        <span class="comment">// Returns the expected reward of the input transition.</span></div></div><!-- fragment --><h3><a class="anchor" id="eigmod"></a>
-Eigen MDP Models</h3>
+Eigen MDP Model</h3>
 <p>An additional set of functions can be implemented in order to unlock optimizations within the code that leverage the <a class="el" href="namespaceEigen.html">Eigen</a> library. This can significantly speed up certain algorithms, and may be required for others.</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> M &amp; getTransitionFunction(<span class="keywordtype">size_t</span> a) <span class="keyword">const</span>; <span class="comment">// Returns an SxS Eigen matrix containing the transition probabilities for action a;</span></div><div class="line"><span class="keyword">const</span> M &amp; getRewardFunction() <span class="keyword">const</span>;             <span class="comment">// Returns an SxA Eigen matrix containing expected rewards for all state-action pairs.</span></div></div><!-- fragment --><h2><a class="anchor" id="algoint"></a>
 Algorithm Interfaces </h2>
@@ -169,13 +170,13 @@ Policy Interfaces </h2>
 <p>However, if you need to feed your policy to some algorithm/other policy in the library, you will have to inherit from one of the interface policy classes, and implement their virtual methods.</p>
 <p>The root of the policy hierarchy is the <a class="el" href="classAIToolbox_1_1PolicyInterface.html" title="This class represents the base interface for policies. ">AIToolbox::PolicyInterface</a> class. This is a template class, which contains a generic interface that can use arbitrary types for state and actions (which can be useful for multi-agent environments).</p>
 <p>If you are working with MDPs, you can directly inherit its specialized, more friendly interface: <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyInterface.html" title="Simple typedef for most of MDP&#39;s policy needs. ">AIToolbox::MDP::PolicyInterface</a>. Once you implement its virtual functions, you are ready to use the class and don't have to do anything else.</p>
-<p>If your policy takes a QFunction to produce its policy you may want to inherit from <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html" title="This class is an interface to specify a policy through a QFunction. ">AIToolbox::MDP::QPolicyInterface</a>, which already initializes the QFunction for you. This is although it is not required, it's just for convenience. </p>
+<p>If your policy takes a QFunction to produce its policy you may want to inherit from <a class="el" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html" title="This class is an interface to specify a policy through a QFunction. ">AIToolbox::MDP::QPolicyInterface</a>, which already initializes the QFunction for you. This is however not required, it's just for convenience. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Mar 24 2020 18:25:06 for AIToolbox by
+    <li class="footer">Generated on Tue Mar 24 2020 21:16:05 for AIToolbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

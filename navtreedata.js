@@ -12,12 +12,14 @@ var NAVTREE =
         [ "Mostly Templates ", "md_docs_ExtendingAIToolbox.html#inherit", null ]
       ] ],
       [ "Interfaces ", "md_docs_ExtendingAIToolbox.html#int", [
-        [ "Model Interfaces ", "md_docs_ExtendingAIToolbox.html#modint", [
-          [ "Experience Interfaces  ", "md_docs_ExtendingAIToolbox.html#expint", null ],
+        [ "Experience Interfaces  ", "md_docs_ExtendingAIToolbox.html#expint", [
           [ "Standard Experience", "md_docs_ExtendingAIToolbox.html#exp", null ],
-          [ "Generative MDP Models", "md_docs_ExtendingAIToolbox.html#genmod", null ],
-          [ "Standard MDP Models", "md_docs_ExtendingAIToolbox.html#mod", null ],
-          [ "Eigen MDP Models", "md_docs_ExtendingAIToolbox.html#eigmod", null ]
+          [ "Eigen Experience Interface", "md_docs_ExtendingAIToolbox.html#eigexp", null ]
+        ] ],
+        [ "Model Interfaces ", "md_docs_ExtendingAIToolbox.html#modint", [
+          [ "Generative MDP Model", "md_docs_ExtendingAIToolbox.html#genmod", null ],
+          [ "Standard MDP Model", "md_docs_ExtendingAIToolbox.html#mod", null ],
+          [ "Eigen MDP Model", "md_docs_ExtendingAIToolbox.html#eigmod", null ]
         ] ],
         [ "Algorithm Interfaces ", "md_docs_ExtendingAIToolbox.html#algoint", null ],
         [ "Policy Interfaces ", "md_docs_ExtendingAIToolbox.html#polint", null ]
@@ -71,7 +73,7 @@ var NAVTREEINDEX =
 "classAIToolbox_1_1MDP_1_1OffPolicyBase.html#a23eab58ed3351207e1accbb9cc53f02c",
 "classAIToolbox_1_1MDP_1_1ThompsonModel.html#a08f4f46ff5fe8a4ac7c62168abd289ba",
 "classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a1913adfec1296fefc9b5a02596a00bfc",
-"namespacemembers_f.html"
+"namespacemembers_eval.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
