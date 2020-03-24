@@ -91,6 +91,11 @@ $(document).ready(function(){initNavTree('logging.html','');});
 <p>This has been done in order to obtain the best possible performance when logging is disabled.</p>
 <h2>Setting the Logging Function</h2>
 <p>In order to log you need to overwrite the <a class="el" href="namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187" title="This pointer defines the function used to log. ">AIToolbox::AILogger</a> function pointer. This is a pointer to a function with signature: </p><pre class="fragment">void(int severity, const char * message);
+</pre><p>So for example, in your code you could define: </p><pre class="fragment">void myLoggerFunction(int severity, const char * message) {
+    std::cout &lt;&lt; '[' &lt;&lt; severity &lt;&lt; "] " &lt;&lt; message &lt;&lt; '\n';
+}
+</pre><p>And then, at the beginning of your main function: </p><pre class="fragment">AIToolbox::AILogger = myLoggerFunction;
+</pre><p>And this would start logging automatically with no filtering. Remember to include the logging header! </p><pre class="fragment">#include &lt;AIToolbox/Impl/Logging.hpp&gt;
 </pre><h2>Priorities and Log Information</h2>
 <p><a class="el" href="namespaceAIToolbox.html">AIToolbox</a> defines 4 different severity levels:</p>
 <ul>
@@ -107,7 +112,7 @@ $(document).ready(function(){initNavTree('logging.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Mar 7 2020 21:49:58 for AIToolbox by
+    <li class="footer">Generated on Tue Mar 24 2020 18:25:06 for AIToolbox by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
