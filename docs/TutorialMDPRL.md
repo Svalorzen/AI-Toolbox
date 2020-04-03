@@ -16,23 +16,25 @@ with an environment, without having previous information about its dynamics.
 
 In particular, the policy we want to learn is the one that maximizes the reward
 the agent obtains from the environment. An additional constraint that we want to
-impose is that we learn in in a way to maximize the reward we obtain during the
-learning process. In this way, the exploration done by the agent is indirectly
-encouraged to figure out promising actions to perform quickly, rather than
+impose is that we learn while trying to maximize the reward we obtain during the
+learning process. Thus, the exploration done by the agent is indirectly
+encouraged to quickly figure out promising actions to perform, rather than
 trying to understand the problem fully, which would require much more time.
 
-There are many possible approaches to RL, and in this tutorial we focus on two:
-model-free learning, where the agent directly learns a value function to direct
-its actions, and model-based learning, where the agent tries to learn a model of
-the environment and use it to plan its next steps.
+While there are many possible approaches to RL, in this tutorial we focus on two:
 
-In the first case, we don't try to learn what the environment does, and we only
-focus on what the agent is doing. Some methods use the data to directly modify
-the policy; in this tutorial instead we use the data to update a value-function,
-which is then used to inform the agent's policy.
+- A model-free learning algorithm, Q-Learning, where the agent directly learns a
+  value function to direct its actions.
+- A model-based learning algorithm, Prioritized Sweeping, where the agent tries
+  to learn a model of the environment and use it to plan its next steps.
 
-Otherwise, in the model-based case, we will need some infrastructure to store
-the perceived transitions and rewards, as we want to build a model of the
+In the first case, we don't try to learn the dynamics of the environment, and we
+only focus on what the agent is doing. Some methods use the data to directly
+modify the policy; in this tutorial instead we use the data to update a
+value-function, which is then used to inform the agent's policy.
+
+In the model-based case, on the other hand, we will need some infrastructure to
+store the perceived transitions and rewards, as we want to build a model of the
 environment. From this model we could plan to obtain a policy, but as our model
 is updated every timestep (with the new data we gain), planning every timestep
 gets very expensive. There are methods that can take advantage of the fact that

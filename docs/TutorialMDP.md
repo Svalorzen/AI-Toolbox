@@ -108,7 +108,7 @@ problem is going to be the following:
 Let's think about how to encode this world into an MDP. We will go through each
 component of the MDP and try to fill it out.
 
-#### S ####
+#### State Space (S) ####
 
 There seem to be no time dependent components, so that makes it easier for us to
 create the states. In this case a naive approach would be to use the current
@@ -140,7 +140,7 @@ coordinates, since we will need this later.
     }
 ~~~
 
-#### A ####
+#### Action Space (A) ####
 
 The tiger can move, and possibly stand still. Thus, it has 5 actions.
 
@@ -155,7 +155,7 @@ The tiger can move, and possibly stand still. Thus, it has 5 actions.
     };
 ~~~
 
-#### T ####
+#### Transition Function (T) ####
 
 Transition functions are generally the most time consuming part of defining an
 MDP, and where it's easier to make mistakes. The transition function is needed
@@ -221,7 +221,7 @@ certain initial state.
     }
 ~~~
 
-#### R ####
+#### Reward Function (R) ####
 
 Here we define the reward function. Fortunately for us, this can be easily done:
 we will reward the tiger when it catches the antelope with a reward of 10, and

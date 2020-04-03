@@ -70,7 +70,7 @@ problem is going to be the following:
 Let's think about how to encode this world into an POMDP. We will go through each
 component of the POMDP and try to fill it out.
 
-#### S ####
+#### State Space (S) ####
 
 There are only two possibilities: either the door on the left holds the treasure
 (and the tiger is behind the right), or vice-versa. This will be simple!
@@ -83,7 +83,7 @@ There are only two possibilities: either the door on the left holds the treasure
     };
 ~~~
 
-#### A ####
+#### Action Space (A) ####
 
 Only three actions: open the door on the left, open the door on the right, or
 wait and listen for the breathing tiger.
@@ -97,7 +97,7 @@ wait and listen for the breathing tiger.
     };
 ~~~
 
-#### O ####
+#### Observation Space (O) ####
 
 Finally, the observations: there are also only two. When we listen, we get an
 observation on whether we heard the tiger behind the left door or the right one.
@@ -111,7 +111,7 @@ an MDP).
     // Using same enum as states
 ~~~
 
-#### T ####
+#### Transition Function (T) ####
 
 The transition function in this problem is also quite simple. If we are
 listening, nothing changes in the world. When we instead open a door, we
@@ -137,7 +137,7 @@ relatively simple.
     }
 ~~~
 
-#### R ####
+#### Reward Function (R) ####
 
 The reward function is similar. We want to give a small penalty for listening,
 so that the agent won't try that forever. We'll give a decent reward for
@@ -162,7 +162,7 @@ obtaining a treasure, and a great penalty for opening the door to the tiger.
     }
 ~~~
 
-#### W ####
+#### Observation Function (W) ####
 
 Finally, the observation function. We want to give the agent an 85% chance of
 hearing the tiger correctly. So most of the time the observation will mirror the

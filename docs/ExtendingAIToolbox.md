@@ -69,8 +69,8 @@ What are Algorithms and Policies? {#algopol}
 ---------------------------------
 
 One of the major distinctions in AIToolbox is between policies and algorithms,
-which are stored in separate folders. In simple terms, we consider policies all
-classes that can directly provide sampling utilities and probability
+which are stored in separate folders. In simple terms, we denote as policies all
+the classes that can directly provide sampling utilities and probability
 distributions over actions. Whether they do it by maximizing over a QFunction or
 because they are implementing an actor-only method does not matter. We consider
 algorithms all other methods.
