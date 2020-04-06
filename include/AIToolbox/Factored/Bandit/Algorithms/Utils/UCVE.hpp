@@ -33,6 +33,7 @@ namespace AIToolbox::Factored::Bandit {
             struct Entry {
                 V v;
                 PartialAction tag;
+                EIGEN_MAKE_ALIGNED_OPERATOR_NEW
             };
             using Factor = std::vector<Entry>;
 
