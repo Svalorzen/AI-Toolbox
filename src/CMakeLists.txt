@@ -165,7 +165,7 @@ if (MAKE_PYTHON)
             Python/MDP/Policies/WoLFPolicy.cpp
             Python/MDP/Policies/PGAAPPPolicy.cpp
         )
-        set(PYTHON_LINKS AIToolboxMDP)
+        set(PYTHON_LINKS AIToolboxMDP ${LPSOLVE_LIBRARIES})
         set(PYTHON_DEFINES -DAITOOLBOX_EXPORT_BANDIT -DAITOOLBOX_EXPORT_MDP)
     endif()
 
@@ -192,7 +192,7 @@ if (MAKE_PYTHON)
             Python/POMDP/Policies/PolicyInterface.cpp
             Python/POMDP/Policies/Policy.cpp
         )
-        set(PYTHON_LINKS AIToolboxPOMDP ${PYTHON_LINKS} ${LPSOLVE_LIBRARIES})
+        set(PYTHON_LINKS AIToolboxPOMDP ${PYTHON_LINKS})
         set(PYTHON_DEFINES ${PYTHON_DEFINES} -DAITOOLBOX_EXPORT_POMDP)
     endif()
 
@@ -206,7 +206,7 @@ if (MAKE_PYTHON)
 
     add_library(AIToolbox SHARED ${PYTHON_FILES})
     target_compile_definitions(AIToolbox PUBLIC ${PYTHON_DEFINES})
-    target_link_libraries(AIToolbox ${${BOOST_PYTHON_LIBRARY_NAME}} ${PYTHON_LIBRARY} ${PYTHON_LINKS})
+    target_link_libraries(AIToolbox ${${BOOST_PYTHON_LIBRARY_NAME}} ${Python_LIBRARIES} ${PYTHON_LINKS})
     set_target_properties(AIToolbox PROPERTIES PREFIX "")
     set_target_properties(AIToolbox PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 endif()

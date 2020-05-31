@@ -12,16 +12,18 @@ addons:
       - clang-6.0
       - llvm-6.0-dev
 env:
-  - CMAKE_BUILD_TYPE=Release
+  - CMAKE_BUILD_TYPE=Release PYTHON_VERSION=2
+  - CMAKE_BUILD_TYPE=Release PYTHON_VERSION=3
 install:
-  - sudo apt-get install -qq libboost-all-dev liblpsolve55-dev lp-solve
-  - sudo apt-get install -qq --force-yes libeigen3-dev
+  - sudo add-apt-repository ppa:ostogvin/tjo-develop -y
+  - sudo apt update
+  - sudo apt install -qq libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev
   # Force usage of installed clang, and not default
   - if [ "$CC" = "clang" ]; then export CXX="/usr/bin/clang++-6.0" CC="/usr/bin/clang-6.0"; fi
 script:
   - mkdir build
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
+  - cmake .. -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DPYTHON_VERSION=$PYTHON_VERSION
   - make -j2 VERBOSE=1
   - ctest -V -j2
 branches:

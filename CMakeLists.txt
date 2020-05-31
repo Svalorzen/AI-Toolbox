@@ -118,7 +118,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 ##       Dependencies       ##
 ##############################
 
-set(BOOST_VERSION_REQUIRED 1.59)
+set(BOOST_VERSION_REQUIRED 1.67)
 set(EIGEN_VERSION_REQUIRED 3.2.92)
 
 # Optional to force Boost to use static libraries. Can be useful on Windows.
@@ -136,27 +136,34 @@ find_package(LpSolve REQUIRED)
 include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
 
 if (MAKE_PYTHON)
-    # Try to find out which version of Python we should be targeting depending
-    # on which interpreter is found. If the version has been selected
-    # explicitly we search for it directly.
-    find_package(PythonInterp ${PYTHON_VERSION} REQUIRED)
-    set(PYTHON_VERSION ${PYTHON_VERSION_MAJOR})
+    set(Python_USE_STATIC_LIBS 0)
 
-    # WARNING: The COMPONENTS parts of Boost here may need to be changed
-    # depending on your system. For example, you may need to rename `python3` to
-    # `python37`, depending on how your libraries are made.
-    # This setup works for Ubuntu, but feel free to change it in Windows.
-    if (${PYTHON_VERSION} EQUAL 3)
-        find_package(PythonLibs 3 REQUIRED)
-        find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python3 REQUIRED)
-        set(BOOST_PYTHON_LIBRARY_NAME "Boost_PYTHON3_LIBRARY")
-    else()
-        find_package(PythonLibs 2.7 EXACT REQUIRED)
-        find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python REQUIRED)
-        set(BOOST_PYTHON_LIBRARY_NAME "Boost_PYTHON_LIBRARY")
+    # Set a default to PYTHON_VERSION to void breaking the next if. In any
+    # case, if Python is not explicitly set to 2, we'll pick what is there
+    # anyway (so this doesn't actually force Python 3).
+    if (NOT PYTHON_VERSION)
+        set(PYTHON_VERSION 3)
     endif()
 
-    include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
+    if (${PYTHON_VERSION} EQUAL 2)
+        find_package(Python2 COMPONENTS Interpreter Development REQUIRED)
+        # Rename libs so we can keep the rest of the script independent of version
+        set(Python_LIBRARIES ${Python2_LIBRARIES})
+        set(Python_VERSION_MAJOR ${Python2_VERSION_MAJOR})
+        set(Python_VERSION_MINOR ${Python2_VERSION_MINOR})
+        set(Python_INCLUDE_DIRS ${Python2_INCLUDE_DIRS})
+    else()
+        # This tries to find out which version of Python we should be targeting depending
+        # on which interpreter is found, but prefers Python 3 so if we selected that we should be alright.
+        find_package(Python COMPONENTS Interpreter Development REQUIRED)
+        set(PYTHON_VERSION ${Python_VERSION_MAJOR})
+    endif()
+
+    find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python${Python_VERSION_MAJOR}${Python_VERSION_MINOR} REQUIRED)
+    # Set independent name for lib
+    set(BOOST_PYTHON_LIBRARY_NAME "Boost_PYTHON${Python_VERSION_MAJOR}${Python_VERSION_MINOR}_LIBRARIES")
+
+    include_directories(SYSTEM ${Python_INCLUDE_DIRS})
 endif()
 
 if (MAKE_TESTS)
@@ -171,7 +178,7 @@ endif()
 set(MAP_MAKE_MDP        "# Building MDP")
 set(MAP_MAKE_FMDP       "# Building Factored MDP")
 set(MAP_MAKE_POMDP      "# Building POMDP")
-set(MAP_MAKE_PYTHON     "# Building Python ${PYTHON_VERSION} bindings")
+set(MAP_MAKE_PYTHON     "# Building Python ${Python_VERSION_MAJOR}.${Python_VERSION_MINOR} bindings")
 set(MAP_MAKE_TESTS      "# Building Tests")
 set(MAP_MAKE_EXAMPLES   "# Building Examples")
 
