@@ -146,6 +146,7 @@ if (MAKE_PYTHON)
             Python/MDP/GenerativeModelPython.cpp
             Python/MDP/Algorithms/QLearning.cpp
             Python/MDP/Algorithms/RLearning.cpp
+            Python/MDP/Algorithms/DoubleQLearning.cpp
             Python/MDP/Algorithms/HystereticQLearning.cpp
             Python/MDP/Algorithms/SARSA.cpp
             Python/MDP/Algorithms/ExpectedSARSA.cpp
