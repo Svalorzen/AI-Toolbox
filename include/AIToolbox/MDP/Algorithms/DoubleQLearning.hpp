@@ -54,7 +54,7 @@ namespace AIToolbox::MDP {
              * @param S The size of the state space.
              * @param A The size of the action space.
              * @param discount The discount to use when learning.
-             * @param alpha The learning rate of the QLearning method.
+             * @param alpha The learning rate of the DoubleQLearning method.
              */
             DoubleQLearning(size_t S, size_t A, double discount = 1.0, double alpha = 0.1);
 
@@ -69,8 +69,8 @@ namespace AIToolbox::MDP {
              * discount needs to change you'll need to update it here manually
              * too.
              *
-             * @param model The MDP model that QLearning will use as a base.
-             * @param alpha The learning rate of the QLearning method.
+             * @param model The MDP model that DoubleQLearning will use as a base.
+             * @param alpha The learning rate of the DoubleQLearning method.
              */
             template <typename M, typename = std::enable_if_t<is_generative_model_v<M>>>
             DoubleQLearning(const M& model, double alpha = 0.1);
@@ -90,7 +90,7 @@ namespace AIToolbox::MDP {
              *
              * Otherwise it can be kept somewhat high if the environment
              * dynamics change progressively, and the algorithm will adapt
-             * accordingly. The final behavior of QLearning is very
+             * accordingly. The final behavior of DoubleQLearning is very
              * dependent on this parameter.
              *
              * The learning rate parameter must be > 0.0 and <= 1.0,
@@ -110,10 +110,12 @@ namespace AIToolbox::MDP {
             /**
              * @brief This function sets the new discount parameter.
              *
-             * The discount parameter controls the amount that future rewards are considered
-             * by QLearning. If 1, then any reward is the same, if obtained now or in a million
-             * timesteps. Thus the algorithm will optimize overall reward accretion. When less
-             * than 1, rewards obtained in the presents are valued more than future rewards.
+             * The discount parameter controls the amount that future rewards
+             * are considered by DoubleQLearning. If 1, then any reward is the
+             * same, if obtained now or in a million timesteps. Thus the
+             * algorithm will optimize overall reward accretion. When less than
+             * 1, rewards obtained in the presents are valued more than future
+             * rewards.
              *
              * @param d The new discount factor.
              */
@@ -141,14 +143,14 @@ namespace AIToolbox::MDP {
             void stepUpdateQ(size_t s, size_t a, size_t s1, double rew);
 
             /**
-             * @brief This function returns the number of states on which QLearning is working.
+             * @brief This function returns the number of states on which DoubleQLearning is working.
              *
              * @return The number of states.
              */
             size_t getS() const;
 
             /**
-             * @brief This function returns the number of actions on which QLearning is working.
+             * @brief This function returns the number of actions on which DoubleQLearning is working.
              *
              * @return The number of actions.
              */
@@ -165,7 +167,7 @@ namespace AIToolbox::MDP {
              * The returned reference can be used to build Policies, for example
              * MDP::QGreedyPolicy.
              *
-             * @return The internal QFunction.
+             * @return The internal "sum" QFunction.
              */
             const QFunction & getQFunction() const;
 
@@ -176,7 +178,7 @@ namespace AIToolbox::MDP {
              * example MDP::QGreedyPolicy, but you should probably use
              * getQFunction() for that.
              *
-             * @return The internal QFunction.
+             * @return The internal first QFunction.
              */
             const QFunction & getQFunctionA() const;
 
