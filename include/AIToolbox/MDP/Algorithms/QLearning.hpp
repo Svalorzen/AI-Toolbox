@@ -166,8 +166,8 @@ namespace AIToolbox::MDP {
              * @brief This function allows to directly set the internal QFunction.
              *
              * This can be useful in order to use a QFunction that has already
-             * been computed elsewhere. SARSAL will then continue building upon
-             * it.
+             * been computed elsewhere. QLearning will then continue building
+             * upon it.
              *
              * This is used for example in the Dyna2 algorithm.
              *

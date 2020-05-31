@@ -16,6 +16,7 @@ void exportMDPGenerativeModelPython();
 
 void exportMDPQLearning();
 void exportMDPRLearning();
+void exportMDPDoubleQLearning();
 void exportMDPHystereticQLearning();
 void exportMDPSARSA();
 void exportMDPSARSAL();
@@ -59,6 +60,7 @@ void exportMDP() {
 
     exportMDPQLearning();
     exportMDPRLearning();
+    exportMDPDoubleQLearning();
     exportMDPHystereticQLearning();
     exportMDPSARSA();
     exportMDPSARSAL();
