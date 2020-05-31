@@ -25,6 +25,7 @@ if (MAKE_MDP)
         MDP/IO.cpp
         MDP/Algorithms/QLearning.cpp
         MDP/Algorithms/RLearning.cpp
+        MDP/Algorithms/DoubleQLearning.cpp
         MDP/Algorithms/HystereticQLearning.cpp
         MDP/Algorithms/SARSA.cpp
         MDP/Algorithms/ExpectedSARSA.cpp
