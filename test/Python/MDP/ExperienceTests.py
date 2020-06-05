@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from builtins import range
 
 sys.path.append(os.getcwd())
 from AIToolbox import MDP
@@ -62,22 +63,22 @@ class MDPPythonExperienceTests(unittest.TestCase):
 
         visits = []
         rewards = []
-        for s in xrange(0, S):
+        for s in range(0, S):
             visits.append([])
             rewards.append([])
-            for a in xrange(0, A):
+            for a in range(0, A):
                 rewards[s].append(generator())
                 visits[s].append([])
-                for s1 in xrange(0, S):
+                for s1 in range(0, S):
                     visits[s][a].append(generator())
 
         exp.setVisitsTable(visits);
         exp.setRewardMatrix(rewards);
 
-        for s in xrange(0, S):
-            for a in xrange(0, A):
+        for s in range(0, S):
+            for a in range(0, A):
                 visitsSum = 0
-                for s1 in xrange(0, S):
+                for s1 in range(0, S):
                     self.assertEqual( exp.getVisits(s,a,s1), visits[s][a][s1] );
                     visitsSum += visits[s][a][s1];
 

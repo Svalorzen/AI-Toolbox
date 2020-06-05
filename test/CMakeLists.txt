@@ -31,10 +31,10 @@ endfunction (AddTest)
 function (AddTestPython type name)
     # Disable Python tests if no Python interpreter was found or we are using
     # Python 3 since the tests are written in Python 2
-    if (Python2_Interpreter_FOUND)
+    #if (Python2_Interpreter_FOUND)
         set(exename ${type}_Python_${name})
-        add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${Python2_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/${type}/${name}Tests.py)
-    endif()
+        add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Python/${type}/${name}Tests.py)
+    #endif()
 endfunction (AddTestPython)
 
 if (MAKE_MDP)

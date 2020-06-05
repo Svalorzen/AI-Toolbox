@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from builtins import range
 
 sys.path.append(os.getcwd())
 from AIToolbox import MDP
@@ -62,7 +63,7 @@ class MDPPythonValueIterationTests(unittest.TestCase):
 
         p = MDP.QGreedyPolicy(qfun)
 
-        for a in xrange(0, 4):
+        for a in range(0, 4):
             self.assertEqual(p.getActionProbability(0, a), 0.25)
             self.assertEqual(p.getActionProbability(6, a), 0.25)
             self.assertEqual(p.getActionProbability(9, a), 0.25)
@@ -95,7 +96,7 @@ class MDPPythonValueIterationTests(unittest.TestCase):
         values = vfun.values
         actions = vfun.actions
 
-        for s in xrange(0, 16):
+        for s in range(0, 16):
             self.assertEqual( qfun[s, actions[s]], values[s] )
 
 if __name__ == '__main__':

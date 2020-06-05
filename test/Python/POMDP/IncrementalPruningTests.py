@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from builtins import range
 
 sys.path.append(os.getcwd())
 
@@ -72,25 +73,11 @@ class POMDPPythonIncrementalPruningTests(unittest.TestCase):
 
         self.assertEqual(len(vlist), len(truth))
 
-        # Make sure we can actually compare them
-        def sorter(lhs, rhs):
-            if [lhs[0][0], lhs[0][1]] < [rhs[0][0], rhs[0][1]]:
-                return -1
-            if [lhs[0][0], lhs[0][1]] > [rhs[0][0], rhs[0][1]]:
-                return 1
-            if lhs[1] < rhs[1]:
-                return -1
-            if lhs[1] > rhs[1]:
-                return 1
-            if lhs[2] < rhs[2]:
-                return -1
-            return 1
-
-        truth = sorted(truth, sorter)
+        truth = sorted(truth)
         vlist = sorted(vlist)
 
         # We check each entry by itself to avoid checking observations
-        for i in xrange(0, len(vlist)):
+        for i in range(0, len(vlist)):
             self.assertEqual(vlist[i].action, truth[i][1])
 
             values      = vlist[i].values

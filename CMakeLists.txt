@@ -152,6 +152,7 @@ if (MAKE_PYTHON)
         set(Python_VERSION_MAJOR ${Python2_VERSION_MAJOR})
         set(Python_VERSION_MINOR ${Python2_VERSION_MINOR})
         set(Python_INCLUDE_DIRS ${Python2_INCLUDE_DIRS})
+        set(Python_EXECUTABLE ${Python2_EXECUTABLE})
     else()
         # This tries to find out which version of Python we should be targeting depending
         # on which interpreter is found, but prefers Python 3 so if we selected that we should be alright.
