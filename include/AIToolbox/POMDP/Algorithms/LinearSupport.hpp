@@ -127,6 +127,8 @@ namespace AIToolbox::POMDP {
             double tolerance_;
 
             using SupportSet = std::unordered_set<VEntry, boost::hash<VEntry>>;
+            using BeliefSet = std::unordered_set<Belief, boost::hash<Belief>>;
+
             struct Vertex;
 
             struct VertexComparator {
@@ -171,6 +173,10 @@ namespace AIToolbox::POMDP {
             // place.
             SupportSet allSupports;
 
+            // Similarly, we keep a set of all the vertices we have already
+            // seen to avoid duplicates.
+            BeliefSet triedVertices;
+
             // For each corner belief, find its value and alphavector. Add the
             // alphavectors in a separate list, remove duplicates. Note: In theory
             // we must be able to find all alphas for each corner, not just a
@@ -186,36 +192,14 @@ namespace AIToolbox::POMDP {
                 corner[s] = 0.0;
             }
 
+            // Now we find the vertices of the polytope created by the
+            // alphavectors we have found. These vertices will bootstrap the
+            // algorithm. This is simply a list of <belief, value> pairs.
+            PointSurface vertices = findVerticesNaive(goodSupports, unwrap);
 
-            // Now we find for all the alphavectors we have found, the vertices of
-            // the polytope that they created. These vertices will bootstrap the
-            // algorithm.
-            UpperBoundValueFunction vertices;
-
-            auto goodBegin = goodSupports.cbegin();
-            for (size_t i = 0; i < goodSupports.size(); ++i, ++goodBegin) {
-                // For each alpha, we find its vertices against the others.
-                IndexSkipMap map({i}, goodSupports);
-                const auto cbegin = map.cbegin();
-                const auto cend   = map.cend();
-
-                // Note that the range we pass here is made by a single vector.
-                auto newVertices = findVerticesNaive(goodBegin, goodBegin + 1, cbegin, cend, unwrap, unwrap);
-
-                vertices.first.insert(std::end(vertices.first),
-                        std::make_move_iterator(std::begin(newVertices.first)),
-                        std::make_move_iterator(std::end(newVertices.first))
-                );
-                vertices.second.insert(std::end(vertices.second),
-                        std::make_move_iterator(std::begin(newVertices.second)),
-                        std::make_move_iterator(std::end(newVertices.second))
-                );
-            }
-
-            std::unordered_set<Belief, boost::hash<Belief>> triedVertices;
             do {
-                // For each corner, we find its true alphas and its best possible value.
-                // Then we compute the error between a corner's known true value and
+                // For each vertex, we find its true alphas and its best possible value.
+                // Then we compute the error between a vertex's known true value and
                 // what we can do with the optimal alphas we already have.
                 // If the error is low enough, we don't need them. Otherwise we add
                 // them to the priority queue.
