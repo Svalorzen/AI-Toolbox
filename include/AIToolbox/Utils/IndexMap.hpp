@@ -383,8 +383,8 @@ namespace AIToolbox {
 
             using value_type     = typename Container::value_type;
 
-            using iterator       = IndexSkipMapIterator<IdsStorage, Container>;
-            using const_iterator = IndexSkipMapIterator<IdsStorage, const Container>;
+            using iterator       = IndexSkipMapIterator<std::remove_reference_t<IdsStorage>, Container>;
+            using const_iterator = IndexSkipMapIterator<std::remove_reference_t<IdsStorage>, const Container>;
 
             /**
              * @brief Basic constructor for owning iterable.
