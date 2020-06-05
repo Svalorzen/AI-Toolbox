@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE( naive_vertex_enumeration ) {
     // We look for all vertices from all possible angles.  We are going to get
     // duplicates for now, but that's not a problem as long as all vertices are
     // enumerated.
-    auto vertices = findVerticesNaive(std::begin(alphas), std::end(alphas), std::begin(alphas), std::end(alphas));
+    auto vertices = findVerticesNaive(alphas);
 
     BOOST_CHECK_EQUAL(vertices.first.size(), vertices.second.size());
 

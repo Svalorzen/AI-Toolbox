@@ -5,6 +5,7 @@
 #include <AIToolbox/Utils/TypeTraits.hpp>
 #include <AIToolbox/Utils/Combinatorics.hpp>
 #include <Eigen/Dense>
+#include <array>
 
 #include <AIToolbox/Utils/LP.hpp>
 
@@ -309,9 +310,15 @@ namespace AIToolbox {
      * The advantage is that we do not need any linear programming, and simple
      * matrix decomposition techniques suffice.
      *
+     * We do NOT return simplex corners.
+     *
+     * Warning: this function will return wrong vertices if the first set contains
+     * the same vectors in the second set!
+     *
      * Warning: the values of each vertex depends on the planes it has been
      * found of, and thus may *not* be the true value if considering all planes
-     * at the same time!
+     * at the same time! In other words, the same vertex may be found multiple
+     * times with different values!
      *
      * This function works on ranges of Vectors.
      *
@@ -361,7 +368,7 @@ namespace AIToolbox {
             while (enumerator.isValid()) {
                 // Reset boundaries to care about all dimensions
                 boundary.head(S).fill(1.0);
-                size_t counter = 1;
+                size_t counter = last + 1;
                 // Note that we start from last to avoid re-copying vectors
                 // that are already in the matrix in their correct place.
                 for (auto i = last; i < enumerator->size(); ++i) {
@@ -390,7 +397,8 @@ namespace AIToolbox {
                 b[counter-1] = 0.0;
 
                 // Add to found only if valid, otherwise skip.
-                if (((result.head(S).array() >= 0) && (result.head(S).array() <= 1.0)).all()) {
+                const double max = result.head(S).maxCoeff();
+                if ((result.head(S).array() >= 0).all() && (max < 1.0) && checkDifferentSmall(max, 1.0)) {
                     vertices.first.emplace_back(result.head(S));
                     vertices.second.emplace_back(result[S]);
                 }
@@ -403,10 +411,51 @@ namespace AIToolbox {
                 // boundaries, but we don't care about those cases (since we
                 // assume we already have the corners of the simplex computed).
                 // Thus, terminate.
-                if ((*enumerator)[last] >= alphasSize) break;
+                if ((*enumerator)[0] >= alphasSize) break;
             }
         }
         return vertices;
+    }
+
+    /**
+     * @brief This function returns all vertices for a given range of planes.
+     *
+     * This function is used as a convenience to avoid duplicate plane problems.
+     * It will still possibly return duplicate vertices though.
+     *
+     * @param range The range of planes to examine.
+     * @param p A projection function to call on the iterators of the range (defaults to identity).
+     *
+     * @return A non-unique list of all the vertices found.
+     */
+    template <typename Range, typename P = identity>
+    PointSurface findVerticesNaive(const Range & range, P p = P{}) {
+        PointSurface retval;
+
+        std::array<size_t, 1> indexToSkip;
+
+        auto goodBegin = range.cbegin();
+        for (size_t i = 0; i < range.size(); ++i, ++goodBegin) {
+            // For each alpha, we find its vertices against the others.
+            indexToSkip[0] = i;
+            IndexSkipMap map(&indexToSkip, range);
+
+            const auto cbegin = map.cbegin();
+            const auto cend   = map.cend();
+
+            // Note that the range we pass here is made by a single vector.
+            auto newVertices = findVerticesNaive(goodBegin, goodBegin + 1, cbegin, cend, p, p);
+
+            retval.first.insert(std::end(retval.first),
+                std::make_move_iterator(std::begin(newVertices.first)),
+                std::make_move_iterator(std::end(newVertices.first))
+            );
+            retval.second.insert(std::end(retval.second),
+                std::make_move_iterator(std::begin(newVertices.second)),
+                std::make_move_iterator(std::end(newVertices.second))
+            );
+        }
+        return retval;
     }
 
     /**
