@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE( rock_paper_scissors_random ) {
     MDP::EpsilonPolicy p(policy);
     MDP::EpsilonPolicy p2(policy2);
 
-    for ( unsigned i = 0; i < 150000; ++i ) {
+    for ( unsigned i = 0; i < 250000; ++i ) {
         size_t a = p.sampleAction(0);
         size_t b = p2.sampleAction(0);
 
