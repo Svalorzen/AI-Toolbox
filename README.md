@@ -13,44 +13,40 @@ you can find [here](https://miat.inrae.fr/MDPtoolbox/), and from the
 `pomdp-solve` software written by A. R. Cassandra, which you can find
 [here](http://www.pomdp.org/code/index.shtml).
 
-Brief
-=====
+If you use this toolbox for research, please consider citing our JMLR article:
 
-This toolbox is aimed at Decision Theoretic Control algorithms. The general idea
-is to create algorithms that are able to interact with an environment in order
-to obtain some reward using actions, and to find the best policy of actions to
-use to do so.
+```
+@article{JMLR:v21:18-402,
+  author  = {Eugenio Bargiacchi and Diederik M. Roijers and Ann Nowé},
+  title   = {AI-Toolbox: A C++ library for Reinforcement Learning and Planning (with Python Bindings)},
+  journal = {Journal of Machine Learning Research},
+  year    = {2020},
+  volume  = {21},
+  number  = {102},
+  pages   = {1-12},
+  url     = {http://jmlr.org/papers/v21/18-402.html}
+}
+```
 
-The field divides itself into planning and reinforcement learning: planning
-focuses into solving problems that we know how to model: think chess, or 2048.
-Reinforcement learning focuses on exploring an unknown environment and learning
-the best policy for it. An excellent introduction to the basics can be found
-freely online in [this
-book](http://incompleteideas.net/book/ebook/the-book.html).
+Description
+===========
 
-There are many variants of these problems, with single agent worlds, multi
-agent, multi objective, competitive, cooperative, partially observable and so
-on. This framework is a work in progress that tries to implement many DTC
-algorithms in one place, much like OpenCV is for Computer Vision algorithms.
+This toolbox provides implementations of several reinforcement learning (RL) 
+and planning algorithms. An excellent introduction to the basics can be found
+freely online in [this book](http://incompleteideas.net/book/ebook/the-book.html).
+
+The implemented algorithms can be applied in several settings: single agent
+environments, multi agent, multi objective, competitive, cooperative, partially 
+observable and so on. We strive to maintain a consistent interface throughout all
+domains for ease of use. The toolbox is actively developed and used in research.
+
+Implementations are kept as simple as possible and with relatively few options
+compared to other libraries; we believe that this makes the code easier to read
+and modify to best suit your needs.
 
 Please note that the API may change over time (although most things at this
-point are stable) since at every algorithm I add I may decide to alter the API a
-bit, to offer a more consistent interface throughout the library.
-
-Goals
-=====
-
-Decision Theoretic Control is a field which is in rapid development. There are
-incredibly many methods to solve problems, each with a huge number of variants.
-This framework only tries to implement the most influential methods, and in
-their vanilla form (or the form that is most widely used in the research
-community to my knowledge), trying to keep the code as simple as possible.
-
-If you need any of the variants, the code is structured so that it is easy to
-read it and modify it to your requirements, versus providing an endless list of
-parameters and include all the variants. Some toolboxes do this, but my opinion
-is that this makes the code very hard to digest, which makes it also hard to
-find out what parameters to set to get the algorithm variant you want.
+point are stable) since as the toolbox grows I may decide to alter it to improve
+overall consistency.
 
 Features
 ========
