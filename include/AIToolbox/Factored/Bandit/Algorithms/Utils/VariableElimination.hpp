@@ -6,7 +6,7 @@
 
 namespace AIToolbox::Factored::Bandit {
     /**
-     * @brief This class represents the Variable Elimination process.
+     * @brief This class represents the Variable Elimination algorithm.
      *
      * This class performs variable elimination on a factor graph. It first
      * builds the graph starting from a list of QFunctionRules. These rules

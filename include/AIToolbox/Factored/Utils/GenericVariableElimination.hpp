@@ -78,12 +78,12 @@ namespace AIToolbox::Factored {
             /**
              * @brief This operator performs the Variable Elimination operation on the inputs.
              *
-             * @param F The space of all factors to eliminate.
+             * @param V The space of all variables to eliminate.
              * @param graph The already populated graph to perform VE onto.
              * @param global The global callback structure.
              */
             template <typename Global>
-            void operator()(const Factors & F, Graph & graph, Global & global);
+            void operator()(const Factors & V, Graph & graph, Global & global);
 
         private:
             /**
@@ -97,14 +97,14 @@ namespace AIToolbox::Factored {
             /**
              * @brief This function removes the input factor from the graph.
              *
-             * @param F The space of all factors to eliminate.
+             * @param V The space of all variables to eliminate.
              * @param graph The already populated graph to perform VE onto.
-             * @param f The factor to eliminate.
+             * @param v The variable to eliminate.
              * @param finalFactors The storage of all the eliminated factors with no remaining neighbors.
              * @param global The global callback structure.
              */
             template <typename Global>
-            void removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global);
+            void removeFactor(const Factors & V, Graph & graph, const size_t v, FinalFactors & finalFactors, Global & global);
     };
 
     template <typename Factor>
@@ -171,7 +171,7 @@ namespace AIToolbox::Factored {
 
     template <typename Factor>
     template <typename Global>
-    void GenericVariableElimination<Factor>::operator()(const Factors & F, Graph & graph, Global & global) {
+    void GenericVariableElimination<Factor>::operator()(const Factors & V, Graph & graph, Global & global) {
         static_assert(global_interface<Global>::crossSum, "You must provide a crossSum method!");
         static_assert(global_interface<Global>::makeResult, "You must provide a makeResult method!");
         static_assert(std::is_same_v<Factor, decltype(global.newFactor)>, "You must provide a public 'Factor newFactor;' member!");
@@ -181,23 +181,23 @@ namespace AIToolbox::Factored {
         // We remove variables one at a time from the graph, storing the last
         // remaining nodes in the finalFactors variable.
         while (graph.variableSize())
-            removeFactor(F, graph, graph.bestVariableToRemove(F), finalFactors, global);
+            removeFactor(V, graph, graph.bestVariableToRemove(V), finalFactors, global);
 
         global.makeResult(std::move(finalFactors));
     }
 
     template <typename Factor>
     template <typename Global>
-    void GenericVariableElimination<Factor>::removeFactor(const Factors & F, Graph & graph, const size_t f, FinalFactors & finalFactors, Global & global) {
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Removing factor " << f);
+    void GenericVariableElimination<Factor>::removeFactor(const Factors & V, Graph & graph, const size_t v, FinalFactors & finalFactors, Global & global) {
+        AI_LOGGER(AI_SEVERITY_DEBUG, "Removing variable " << v);
 
         // We iterate over all possible joint values of the neighbors of 'f';
         // these are all variables which share at least one factor with it.
-        const auto & factors = graph.getFactors(f);
-        const auto & vNeighbors = graph.getVariables(f);
+        const auto & factors = graph.getFactors(v);
+        const auto & vNeighbors = graph.getVariables(v);
 
         if constexpr(global_interface<Global>::beginRemoval)
-            Impl::callFunction(global, &Global::beginRemoval, graph, factors, vNeighbors, f);
+            Impl::callFunction(global, &Global::beginRemoval, graph, factors, vNeighbors, v);
 
         // We'll now create new rules that represent the elimination of the
         // input variable for this round.
@@ -206,7 +206,7 @@ namespace AIToolbox::Factored {
         Rules * oldRulesP;
         size_t oldRulesCurrId = 0;
 
-        PartialFactorsEnumerator jointValues(F, vNeighbors, f, true);
+        PartialFactorsEnumerator jointValues(V, vNeighbors, v, true);
         const auto id = jointValues.getFactorToSkipId();
 
         if (!isFinalFactor) {
@@ -217,7 +217,7 @@ namespace AIToolbox::Factored {
         AI_LOGGER(
             AI_SEVERITY_INFO,
             "Width of this factor: " << vNeighbors.size() + 1 << ". "
-            "Joint values to iterate: " << jointValues.size() * F[f]
+            "Joint values to iterate: " << jointValues.size() * V[v]
         );
 
         size_t jvID = 0;
@@ -227,21 +227,21 @@ namespace AIToolbox::Factored {
             if constexpr(global_interface<Global>::initNewFactor)
                 global.initNewFactor();
 
-            // Since we are eliminating 'f', we iterate over its possible
+            // Since we are eliminating 'v', we iterate over its possible
             // values and we reduce over them; this could be a cross-sum
             // operation, a max, or anything else.
-            for (size_t fValue = 0; fValue < F[f]; ++fValue) {
+            for (size_t vValue = 0; vValue < V[v]; ++vValue) {
                 if constexpr(global_interface<Global>::beginCrossSum)
-                    Impl::callFunction(global, &Global::beginCrossSum, fValue);
+                    Impl::callFunction(global, &Global::beginCrossSum, vValue);
 
-                jointValue.second[id] = fValue;
+                jointValue.second[id] = vValue;
                 for (const auto factor : factors) {
                     if constexpr(global_interface<Global>::beginFactorCrossSum)
                         global.beginFactorCrossSum();
 
                     // We reduce over each Factor that is applicable to this
                     // particular joint value set.
-                    const size_t jvPartialIndex = toIndexPartial(factor->getVariables(), F, jointValue);
+                    const size_t jvPartialIndex = toIndexPartial(factor->getVariables(), V, jointValue);
                     if constexpr(global_interface<Global>::mergeFactors) {
                         const auto & data = factor->getData();
                         const auto ruleIt = std::lower_bound(
@@ -310,9 +310,8 @@ namespace AIToolbox::Factored {
             jointValues.advance();
         }
 
-        // And finally as usual in variable elimination remove the variable
-        // from the graph and insert the newly created variable in.
-        graph.erase(f);
+        // And finally we remove the variable from the graph.
+        graph.erase(v);
     }
 }
 
