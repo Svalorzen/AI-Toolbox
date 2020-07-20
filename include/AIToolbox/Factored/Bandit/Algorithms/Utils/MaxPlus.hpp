@@ -5,16 +5,20 @@
 #include <AIToolbox/Factored/Utils/GenericVariableElimination.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
+#include <iostream>
+
 namespace AIToolbox::Factored::Bandit {
     /**
-     * @brief This class represents the Max-Plus optimization algorithm.
+     * @brief This class represents the Max-Plus optimization algorithm for loopy FactorGraphs.
+     *
+     * Cleanup (FIXME), docs writing. Note values are approx.
      *
      */
     class MaxPlus {
         public:
             using Result = std::tuple<Action, double>;
 
-            // Value of rule, tags of processed actions
+            // Values of factor (in theory N dimensional matrix)
             using Factor = Vector;
             using Graph = FactorGraph<Factor>;
 
@@ -34,20 +38,15 @@ namespace AIToolbox::Factored::Bandit {
                 Graph graph(A.size());
 
                 for (const auto & rule : inputRules) {
-                    auto & factorNode = graph.getFactor(rule.action.first)->getData();
+                    auto & factorData = graph.getFactor(rule.action.first)->getData();
                     const auto id = toIndexPartial(A, rule.action);
 
-                    const auto it = std::lower_bound(
-                        std::begin(factorNode),
-                        std::end(factorNode),
-                        id,
-                        [](const auto & rule, size_t rhs) {return rule.first < rhs;}
-                    );
+                    if (factorData.size() == 0) {
+                        factorData.resize(factorSpacePartial(rule.action.first, A));
+                        factorData.setZero();
+                    }
 
-                    if (it != std::end(factorNode) && it->first == id)
-                        it->second.first += rule.value;
-                    else
-                        factorNode.emplace(it, id, Factor{rule.value, {}});
+                    factorData[id] = rule.value;
                 }
 
                 return (*this)(A, graph);
@@ -81,6 +80,16 @@ namespace AIToolbox::Factored::Bandit {
                 std::get<1>(retval) = std::numeric_limits<double>::lowest();
                 std::get<0>(tmp).resize(A.size());
 
+                std::cout << "Beginning MaxPlus...\n";
+                std::cout << "Factors:\n";
+                for (auto & f : graph) {
+                    std::cout << '[';
+                    for (auto a : f.getVariables())
+                        std::cout << a << ' ';
+                    std::cout << "] with data: " << f.getData().transpose() << '\n';
+                }
+                std::cout << '\n';
+
                 // Initialize the message cache.
                 // inMessages are the previous timestep's messages sent
                 // to agents, which need to be read by the factors.
@@ -104,13 +113,21 @@ namespace AIToolbox::Factored::Bandit {
                     outMessages[a].setZero();
                 }
 
-                for (size_t iters = 0; iters < 10; ++iters) { // FIXME: parameter
+                for (size_t iters = 0; iters < 10; ++iters) { // FIXME: parameter ##################################################################3
                     std::swap(inMessages, outMessages);
                     for (auto & m : outMessages)
                         m.setZero();
 
+                    std::cout << "### New iteration ###\n" << std::endl;
+
                     for (auto f = graph.begin(); f != graph.end(); ++f) {
                         const auto & aNeighbors = graph.getVariables(f);
+
+                        std::cout << "Processing factor with neighbors: [";
+                        for (auto a : aNeighbors) std::cout << a << ' ';
+                        std::cout << ']' << std::endl;
+
+                        std::cout << "Inmessages: ";
 
                         // Merge all in-messages together with the actual factor.
                         Vector message = f->getData(); // FIXME, reserve memory
@@ -118,9 +135,12 @@ namespace AIToolbox::Factored::Bandit {
                         for (auto a : aNeighbors) {
                             const auto & fNeighbors = graph.getFactors(a);
                             const auto fId = std::distance(std::begin(fNeighbors), std::find(std::begin(fNeighbors), std::end(fNeighbors), f));
+                            std::cout << a << '(' << fId << ") ";
+
+                            const auto bottomRowId = inMessages[a].rows() - 1;
 
                             // Remove from sum the message coming from this factor
-                            inMessages[a].bottomRows(1) -= inMessages[a].row(fId);
+                            inMessages[a].row(bottomRowId) -= inMessages[a].row(fId);
 
                             // Add each element of the message in the correct place for the
                             // cross-sum across all agents. This code is basically equivalent to
@@ -130,18 +150,24 @@ namespace AIToolbox::Factored::Bandit {
                             while (i < message.size())
                                 for (size_t j = 0; j < A[a]; ++j)
                                     for (size_t l = 0; l < len; ++l)
-                                        message[i++] += inMessages[a].bottomRows(1)[j];
+                                        message[i++] += inMessages[a].row(bottomRowId)[j];
 
                             // Restore sum message for later
-                            inMessages[a].bottomRows(1) += inMessages[a].row(fId);
+                            inMessages[a].row(bottomRowId) += inMessages[a].row(fId);
 
                             len *= A[a];
                         }
 
+                        std::cout << "\nProcessed message: " << message.transpose() << '\n';
+
                         // Send out-messages to each connected agent, maximizing the others.
                         for (auto a : aNeighbors) {
+                            // Figure out the ID of this factor w.r.t. the current agent.
                             const auto & fNeighbors = graph.getFactors(a);
                             const auto fId = std::distance(std::begin(fNeighbors), std::find(std::begin(fNeighbors), std::end(fNeighbors), f));
+
+                            // Compute the out message for each action of this agent.
+                            double norm = 0.0;
                             for (size_t av = 0; av < A[a]; ++av) {
                                 // Here we list all joint-action ids where the
                                 // action of agent 'a' is equal to 'av'. We
@@ -154,7 +180,13 @@ namespace AIToolbox::Factored::Bandit {
                                     e.advance();
                                 }
                                 outMessages[a](fId, av) = outMessage;
+                                norm += outMessage;
                             }
+
+                            std::cout << "Processed outmessage (" << a << "):\n" << outMessages[a].row(fId) << '\n';
+                            // Normalization of the message to handle loopy graphs
+                            outMessages[a].row(fId).array() -= norm / A[a];
+                            std::cout << "Normalized outmessage (" << a << "):\n" << outMessages[a].row(fId) << '\n';
                         }
                     }
 
@@ -166,21 +198,28 @@ namespace AIToolbox::Factored::Bandit {
                     cValue = 0.0;
                     for (size_t a = 0; a < A.size(); ++a) {
                         auto & m = outMessages[a];
-                        // Normalization constant to handle loopy graphs.
-                        m.array() -= m.sum() / (m.rows() + m.cols() - 1);
+                        // Also last row ID
+                        const auto rowsMinusOne = m.rows() - 1;
 
                         // Compute "generic" message, we subtract each row one
                         // at a time when it is needed. Note that we need to
                         // avoid summing the last row since we have
                         // "incorrectly" subtracted the normalization from it.
-                        m.bottomRows(1) = m.topRows(m.rows()-1).rowwise().sum();
+                        m.row(rowsMinusOne) = m.topRows(rowsMinusOne).colwise().sum();
 
-                        cValue += m.bottomRows(1).maxCoeff(&cAction[a]);
+                        // Normalization constant to handle loopy graphs.
+                        // m.array() -= m.sum() / (m.rows() - 1);
+
+                        std::cout << "outmessage(" << a << ") after normalization&sum:\n"
+                                  << m << '\n';
+
+                        cValue += m.row(rowsMinusOne).maxCoeff(&cAction[a]);
                     }
 
                     // We only change the selected action if it improves on
                     // the previous best value.
                     if (cValue > rValue) {
+                        std::cout << "IMPROVEMENT: " << rValue << " --> " << cValue << '\n';
                         rValue = cValue;
                         rAction = cAction;
                     }

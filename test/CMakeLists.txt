@@ -110,6 +110,7 @@ if (MAKE_FMDP)
     AddTest(Factored MultiObjectiveVariableElimination)
     AddTest(Factored UCVE)
     AddTest(Factored VariableElimination)
+    AddTest(Factored MaxPlus)
 
     AddTest(Factored LLRPolicy)
     AddTest(Factored MAUCEPolicy)
