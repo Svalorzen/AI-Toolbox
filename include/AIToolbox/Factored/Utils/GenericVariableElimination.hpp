@@ -189,7 +189,7 @@ namespace AIToolbox::Factored {
     template <typename Factor>
     template <typename Global>
     void GenericVariableElimination<Factor>::removeFactor(const Factors & V, Graph & graph, const size_t v, FinalFactors & finalFactors, Global & global) {
-        AI_LOGGER(AI_SEVERITY_DEBUG, "Removing variable " << v);
+        AI_LOGGER(AI_SEVERITY_INFO, "Removing variable " << v);
 
         // We iterate over all possible joint values of the neighbors of 'f';
         // these are all variables which share at least one factor with it.
@@ -215,7 +215,7 @@ namespace AIToolbox::Factored {
         }
 
         AI_LOGGER(
-            AI_SEVERITY_INFO,
+            AI_SEVERITY_DEBUG,
             "Width of this factor: " << vNeighbors.size() + 1 << ". "
             "Joint values to iterate: " << jointValues.size() * V[v]
         );
