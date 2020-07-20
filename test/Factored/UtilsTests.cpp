@@ -368,3 +368,142 @@ BOOST_AUTO_TEST_CASE( partial_factor_enumerator_api_compatibility ) {
         BOOST_CHECK_EQUAL(cCmp, counter);
     }
 }
+
+BOOST_AUTO_TEST_CASE( partial_index_enumerator ) {
+    aif::Factors f{1,2,3,4};
+
+    std::vector<std::pair<size_t, size_t>> params{
+        {0, 0},
+        {1, 1},
+        {2, 2},
+        {3, 1}
+    };
+    std::vector<std::vector<size_t>> solutions {
+        {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23},
+        {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23},
+        {4, 5, 10, 11, 16, 17, 22, 23},
+        {6, 7, 8, 9, 10, 11}
+    };
+
+    aif::PartialFactorsEnumerator x(f);
+    for (size_t i = 0; i < solutions.size(); ++i) {
+        aif::PartialIndexEnumerator e(f, params[i].first, params[i].second);
+        x.reset();
+
+        std::vector<size_t> output;
+        size_t currIndex = 0;
+        while (e.isValid()) {
+            output.push_back(*e);
+
+            while (currIndex < *e) {
+                x.advance();
+                ++currIndex;
+            }
+            BOOST_CHECK(x.isValid());
+            BOOST_CHECK_EQUAL(x->second[params[i].first], params[i].second);
+
+            e.advance();
+        }
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(
+            std::begin(output), std::end(output),
+            std::begin(solutions[i]), std::end(solutions[i])
+        );
+    }
+}
+
+BOOST_AUTO_TEST_CASE( partial_index_enumerator_partial_not_missing ) {
+    aif::Factors f{1,2,3,4,3,2};
+
+    std::vector<std::pair<size_t, size_t>> params{
+        {1, 0},
+        {2, 2},
+        {5, 0},
+        {5, 1},
+    };
+    aif::PartialKeys keys{1, 2, 5};
+
+    std::vector<std::vector<size_t>> solutions {
+        {0, 2, 4, 6, 8, 10},
+        {4, 5, 10, 11},
+        {0, 1, 2, 3, 4, 5},
+        {6, 7, 8, 9, 10, 11}
+    };
+
+    aif::PartialFactorsEnumerator x(f, keys);
+    for (size_t i = 0; i < solutions.size(); ++i) {
+        aif::PartialIndexEnumerator e(f, keys, params[i].first, params[i].second, false);
+
+        // Select correct item in PartialFactorsEnumerator to do checks
+        size_t indexInKey = 0;
+        while (keys[indexInKey] != params[i].first) ++indexInKey;
+
+        x.reset();
+
+        std::vector<size_t> output;
+        size_t currIndex = 0;
+        while (e.isValid()) {
+            output.push_back(*e);
+
+            while (currIndex < *e) {
+                x.advance();
+                ++currIndex;
+            }
+            BOOST_CHECK(x.isValid());
+            BOOST_CHECK_EQUAL(x->second[indexInKey], params[i].second);
+
+            e.advance();
+        }
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(
+            std::begin(output), std::end(output),
+            std::begin(solutions[i]), std::end(solutions[i])
+        );
+    }
+}
+
+BOOST_AUTO_TEST_CASE( partial_index_enumerator_partial_missing ) {
+    aif::Factors f{1,2,3,4,3,2};
+
+    std::vector<std::pair<size_t, size_t>> params{
+        {1, 1},
+        {4, 2},
+    };
+    aif::PartialKeys keys{2,5};
+
+    std::vector<std::vector<size_t>> solutions {
+        {1, 3, 5, 7, 9, 11},
+        {6, 7, 8, 15, 16, 17}
+    };
+
+    for (size_t i = 0; i < solutions.size(); ++i) {
+        aif::PartialIndexEnumerator e(f, keys, params[i].first, params[i].second, true);
+        aif::PartialFactorsEnumerator x(f, aif::merge(keys, {params[i].first}));
+
+        // Select correct item in PartialFactorsEnumerator to do checks
+        size_t indexInKey = 0;
+        while (keys[indexInKey] < params[i].first) ++indexInKey;
+
+        x.reset();
+
+        std::vector<size_t> output;
+        size_t currIndex = 0;
+        while (e.isValid()) {
+            output.push_back(*e);
+
+            while (currIndex < *e) {
+                x.advance();
+                ++currIndex;
+            }
+            BOOST_CHECK(x.isValid());
+            BOOST_CHECK_EQUAL(x->second[indexInKey], params[i].second);
+
+            e.advance();
+        }
+
+        BOOST_CHECK_EQUAL_COLLECTIONS(
+            std::begin(output), std::end(output),
+            std::begin(solutions[i]), std::end(solutions[i])
+        );
+    }
+}

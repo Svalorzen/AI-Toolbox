@@ -397,4 +397,54 @@ namespace AIToolbox::Factored {
 
     PartialFactors& PartialFactorsEnumerator::operator*() { return factors_; }
     PartialFactors* PartialFactorsEnumerator::operator->() { return &factors_; }
+
+    // PartialIndexEnumerator below
+
+    PartialIndexEnumerator::PartialIndexEnumerator(const Factors & F, size_t fixedFactor, size_t val) : len_(1) {
+        for (size_t i = 0; i < fixedFactor; ++i)
+            len_ *= F[i];
+        skip_ = len_ * F[fixedFactor];
+        offset_ = len_ * val;
+
+        max_ = factorSpace(F);
+
+        len_ -= 1;
+        reset();
+    }
+
+    PartialIndexEnumerator::PartialIndexEnumerator(const Factors & F, const PartialKeys & factors, size_t fixedFactor, size_t val, bool missing) : len_(1) {
+        for (size_t i = 0; i < factors.size() && factors[i] < fixedFactor; ++i)
+            len_ *= F[factors[i]];
+
+        skip_ = len_ * F[fixedFactor];
+        offset_ = len_ * val;
+
+        max_ = factorSpacePartial(factors, F);
+        if (missing)
+            max_ *= F[fixedFactor];
+
+        len_ -= 1;
+        reset();
+    }
+
+    size_t PartialIndexEnumerator::operator*() const {
+        return curr_ + currLen_;
+    }
+
+    void PartialIndexEnumerator::advance() {
+        if (currLen_ < len_) ++currLen_;
+        else {
+            curr_ += skip_;
+            currLen_ = 0;
+        }
+    }
+
+    bool PartialIndexEnumerator::isValid() {
+        return (curr_ + currLen_) < max_;
+    }
+
+    void PartialIndexEnumerator::reset() {
+        curr_ = offset_;
+        currLen_ = 0;
+    }
 }

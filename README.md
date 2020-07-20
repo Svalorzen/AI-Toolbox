@@ -31,12 +31,12 @@ If you use this toolbox for research, please consider citing our JMLR article:
 Description
 ===========
 
-This toolbox provides implementations of several reinforcement learning (RL) 
+This toolbox provides implementations of several reinforcement learning (RL)
 and planning algorithms. An excellent introduction to the basics can be found
 freely online in [this book](http://incompleteideas.net/book/ebook/the-book.html).
 
 The implemented algorithms can be applied in several settings: single agent
-environments, multi agent, multi objective, competitive, cooperative, partially 
+environments, multi agent, multi objective, competitive, cooperative, partially
 observable and so on. We strive to maintain a consistent interface throughout all
 domains for ease of use. The toolbox is actively developed and used in research.
 
@@ -155,6 +155,7 @@ Not in Python yet.
 
 Algorithms:
 
+- [Max-Plus](http://www.jmlr.org/papers/volume7/kok06a/kok06a.pdf "Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al.")
 - [Multi-Objective Variable Elimination (MOVE)](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf "Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al.")
 - [Upper Confidence Variable Elimination (UCVE)](http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.")
 - [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al.")
