@@ -48,6 +48,17 @@ Please note that the API may change over time (although most things at this
 point are stable) since as the toolbox grows I may decide to alter it to improve
 overall consistency.
 
+Documentation
+=============
+
+The latest documentation is available [here](http://svalorzen.github.io/AI-Toolbox/).
+Keep in mind that it may not always be 100% up to date with the latest
+commits, while the one you compile yourself will of course be.
+
+For Python docs you can find them by typing `help(AIToolbox)` from the
+interpreter. It should show the exported API for each class, along with any
+differences in input/output.
+
 Features
 ========
 
@@ -296,14 +307,3 @@ you can run in the Python CLI
     help(AIToolbox.POMDP)
 
 to see the documentation for each specific class.
-
-Documentation
-=============
-
-The latest documentation is available [here](http://svalorzen.github.io/AI-Toolbox/).
-Keep in mind that it may not always be 100% up to date with the latest
-commits, while the one you compile yourself will of course be.
-
-For Python docs you can find them by typing `help(AIToolbox)` from the
-interpreter. It should show the exported API for each class, along with any
-differences in input/output.
