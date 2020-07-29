@@ -216,24 +216,23 @@ namespace AIToolbox::Factored::MDP {
             const auto sid = toIndexPartial(q.tag, model_.getS(), s);
             const auto aid = toIndexPartial(q.actionTag, model_.getA(), a);
 
-            // Q(s, a), normalized per state features
-            const auto rValue = q.values(sid, aid) / q.tag.size();
-
             const auto s1id = toIndexPartial(q.tag, model_.getS(), s1);
             const auto a1id = toIndexPartial(q.actionTag, model_.getA(), a1);
 
-            // Q(s', a'), normalized per state features (we multiply by gamma later)
-            const auto fValue = q.values(s1id, a1id) / q.tag.size();
-
-            const auto diff = model_.getDiscount() * fValue - rValue;
+            // gamma * Q(s', a') - Q(s, a)
+            // We normalize it per state features, since we distribute the diff to all
+            // elements of rewardStorage_.
+            const auto diff = (model_.getDiscount() * q.values(s1id, a1id) - q.values(sid, aid)) / q.tag.size();
 
             // Apply the values to each state feature that applies to this Q factor.
+            // R(s,a) + ...
             for (const auto s : q.tag)
                 rewardStorage_[s] += diff;
         }
 
         // Normalize all values based on Q-factors
         rewardStorage_.array() /= rewardWeights_.array();
+        rewardStorage_.array() *= alpha_;
 
         // We update each Q factor separately.
         for (size_t i = 0; i < q_.bases.size(); ++i) {
@@ -247,9 +246,6 @@ namespace AIToolbox::Factored::MDP {
             double td = 0.0;
             for (const auto s : q.tag)
                 td += rewardStorage_[s];
-
-            // Multiply everything by the learning rate
-            td *= alpha_;
 
             q.values(sid, aid) += td;
 
