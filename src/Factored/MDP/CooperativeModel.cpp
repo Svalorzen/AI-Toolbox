@@ -23,60 +23,61 @@ namespace AIToolbox::Factored::MDP {
         if (graph_.getNodes().size() != S.size())
             throw std::invalid_argument("Input DDN has an incorrect number of nodes in its DDNGraph!");
 
-        if (transitions_.transitions.size() != S.size()) {
-            throw std::invalid_argument("Input DDN has an incorrect number of transition nodes!");
-        }
+        if (transitions_.transitions.size() != S.size())
+            throw std::invalid_argument("Input transition function has an incorrect number of transition nodes!");
 
         for (size_t i = 0; i < S.size(); ++i) {
             if (static_cast<size_t>(transitions_.transitions[i].rows()) != graph_.getSize(i)) {
-                throw std::invalid_argument("Input DDN contains matrices with incorrect number of rows!");
+                throw std::invalid_argument("Input transition matrix " + std::to_string(i) + " contains an incorrect number of rows!");
             }
             if (static_cast<size_t>(transitions_.transitions[i].cols()) != graph_.getS()[i]) {
-                throw std::invalid_argument("Input DDN contains matrices with incorrect number of columns!");
+                throw std::invalid_argument("Input transition matrix " + std::to_string(i) + " contains an incorrect number of columns!");
             }
 
             // Check each row is a probability.
             for (size_t j = 0; j < graph_.getSize(i); ++j)
                 if (!isProbability(S[i], transitions_.transitions[i].row(j)))
-                    throw std::invalid_argument("Input DDN contains invalid probabilities!");
+                    throw std::invalid_argument("Input transition matrix " + std::to_string(i) + " contains invalid probabilities at row " + std::to_string(j) + '!');
         }
 
-        for (const auto & r : rewards_.bases) {
+        for (size_t i = 0; i < rewards_.bases.size(); ++i) {
+            const auto & r = rewards_.bases[i];
+
             auto [error, id] = checkTag(A, r.actionTag);
             switch (error) {
                 case TagErrors::NoElements:
-                    throw std::invalid_argument("Input reward function contains action tags with no elements!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains an action tag with no elements!");
                 case TagErrors::TooManyElements:
-                    throw std::invalid_argument("Input reward function contains action tags with too many elements!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains an action tag with too many elements!");
                 case TagErrors::IdTooHigh:
-                    throw std::invalid_argument("Input reward function references action IDs too high for the action space!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains an action tag with action IDs too high for the action space!");
                 case TagErrors::NotSorted:
-                    throw std::invalid_argument("Input reward function contains action tags that are not sorted!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains an action tag that is not sorted!");
                 case TagErrors::Duplicates:
-                    throw std::invalid_argument("Input reward function contains duplicate action tags entries!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains an action tag with duplicates!");
                 default:;
             }
             std::tie(error, id) = checkTag(S, r.tag);
             switch (error) {
                 case TagErrors::NoElements:
-                    throw std::invalid_argument("Input reward function contains subnode tags with no elements!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains a state tag with no elements!");
                 case TagErrors::TooManyElements:
-                    throw std::invalid_argument("Input reward function contains subnode tags with too many elements!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains a state tag with too many elements!");
                 case TagErrors::IdTooHigh:
-                    throw std::invalid_argument("Input reward function references state IDs too high for the state space!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains a state tag with state IDs too high for the state space!");
                 case TagErrors::NotSorted:
-                    throw std::invalid_argument("Input reward function contains state tags that are not sorted!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains a state tag that is not sorted!");
                 case TagErrors::Duplicates:
-                    throw std::invalid_argument("Input reward function contains duplicate state tags entries!");
+                    throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains a state tag with duplicates!");
                 default:;
             }
 
             // Check size of matrix is correct
             if (r.values.cols() != static_cast<long>(factorSpacePartial(r.actionTag, A)))
-                throw std::invalid_argument("Input reward function contains bases with incorrect number of columns!");
+                throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains an incorrect number of columns!");
 
             if (r.values.rows() != static_cast<long>(factorSpacePartial(r.tag, S)))
-                throw std::invalid_argument("Input reward function contains bases with incorrect number of rows!");
+                throw std::invalid_argument("Input reward function base " + std::to_string(i) + " contains an incorrect number of rows!");
         }
     }
 
@@ -165,4 +166,3 @@ namespace AIToolbox::Factored::MDP {
     const FactoredMatrix2D & CooperativeModel::getRewardFunction() const { return rewards_; }
     const DDNGraph & CooperativeModel::getGraph() const { return graph_; }
 }
-
