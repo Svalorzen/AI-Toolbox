@@ -134,14 +134,14 @@ namespace AIToolbox::Factored::MDP {
             q_.bases.emplace_back();
             auto & q = q_.bases.back();
 
-            for (auto d : domain) {
+            for (const auto d : domain) {
                 // Compute state-action domain for this Q factor.
                 q.actionTag = merge(q.actionTag, nodes[d].agents);
                 for (const auto & n : nodes[d].parents)
                     q.tag = merge(q.tag, n);
             }
             // We weight rewards based on the state features of each Q factor
-            for (auto d : q.tag)
+            for (const auto d : q.tag)
                 rewardWeights_[d] += 1.0;
 
             // Initialize this factor's matrix.
