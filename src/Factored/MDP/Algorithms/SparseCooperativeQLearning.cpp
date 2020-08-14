@@ -30,14 +30,17 @@ namespace AIToolbox::Factored::MDP {
         auto beforeRules = rules_.filter(join(s, a));
         const auto afterRules = rules_.filter(join(s1, a1));
 
-        std::vector<double> perAgentRews(A.size());
+        Vector perAgentRews(A.size());
+        perAgentRews.setZero();
+
         // First, count how many before rules contain each agent.
         for (const auto & br : beforeRules)
             for (auto a : br.action.first)
                 ++perAgentRews[a];
+
         // Then, weight the per-agent reward between the rules.
-        for (size_t a = 0; a < A.size(); ++a)
-            perAgentRews[a] = rew[a] / perAgentRews[a];
+        perAgentRews.array() = rew.array() / perAgentRews.array();
+
         // Now, for each after rule, add its weighted discounted value.
         for (const auto & ar : afterRules) {
             const double val = discount_ * ar.value / ar.action.first.size();
@@ -51,11 +54,13 @@ namespace AIToolbox::Factored::MDP {
                 perAgentRews[a] += val;
         }
         // Update each rule weighted by the learning rate.
+        perAgentRews.array() *= alpha_;
+
         for (auto & br : beforeRules) {
             double update = 0;
             for (auto a : br.action.first)
                 update += perAgentRews[a];
-            br.value += alpha_ * update;
+            br.value += update;
         }
 
         return a1;
