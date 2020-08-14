@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 
 set(GlobalFileDependencies
     ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp
+    ${PROJECT_SOURCE_DIR}/src/Tools/Statistics.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Combinatorics.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Probability.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/LP/LpSolveWrapper.cpp
@@ -37,6 +38,7 @@ if (MAKE_MDP)
     AddTestGlobal(UtilsCore)
     AddTestGlobal(UtilsProbability)
     AddTestGlobal(UtilsPrune)
+    AddTestGlobal(Tools)
 
     AddTest(Bandit QGreedyPolicy)
     AddTest(Bandit QSoftmaxPolicy)
