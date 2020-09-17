@@ -17,7 +17,7 @@ If you use this toolbox for research, please consider citing our JMLR article:
 
 ```
 @article{JMLR:v21:18-402,
-  author  = {Eugenio Bargiacchi and Diederik M. Roijers and Ann Nowé},
+  author  = {Eugenio Bargiacchi and Diederik M. Roijers and Ann Now\'{e}},
   title   = {AI-Toolbox: A C++ library for Reinforcement Learning and Planning (with Python Bindings)},
   journal = {Journal of Machine Learning Research},
   year    = {2020},
