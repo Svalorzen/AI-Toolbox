@@ -13,28 +13,35 @@ namespace AIToolbox::Impl {
         // in the preamble are parsed before the others.
         initMap_["values"] = [](const std::string &){};
         initMap_["states"] = [this](const std::string & line){
-            S = extractIDs(line, stateMap_);
+            S_ = extractIDs(line, stateMap_);
         };
         initMap_["actions"] = [this](const std::string & line){
-            A = extractIDs(line, actionMap_);
+            A_ = extractIDs(line, actionMap_);
         };
         initMap_["observations"] = [this](const std::string & line){
-            O = extractIDs(line, observationMap_);
+            O_ = extractIDs(line, observationMap_);
         };
         initMap_["discount"] = [this](const std::string & line){
-            discount = std::stod(tokenize(line, ":").at(1));
+            discount_ = std::stod(tokenize(line, ":").at(1));
         };
     }
 
     CassandraParser::MDPVals CassandraParser::parseMDP(std::istream & input) {
+        MDPVals retval;
+        auto & [S, A, T, R, discount] = retval;
+
         // Parse preamble.
         parseModelInfo(input);
+        S = S_;
+        A = A_;
+        discount = discount_;
 
         if (!S || !A)
             throw std::runtime_error("MDP definition is incomplete");
 
         // Init matrices to store data.
-        initMatrices();
+        T.resize(boost::extents[S][A][S]);
+        R.resize(boost::extents[S][A][S]);
 
         for (i_ = 0; i_ < lines_.size(); ++i_) {
             const auto & line = lines_[i_];
@@ -45,23 +52,32 @@ namespace AIToolbox::Impl {
             }
 
             if (boost::starts_with(line, "R")) {
-                processReward();
+                processReward(R);
                 continue;
             }
         }
 
-        return MDPVals(S, A, T, R, discount);
+        return retval;
     }
 
     CassandraParser::POMDPVals CassandraParser::parsePOMDP(std::istream & input) {
+        POMDPVals retval;
+        auto & [S, A, O, T, R, W, discount] = retval;
+
         // Parse preamble.
         parseModelInfo(input);
+        S = S_;
+        A = A_;
+        O = O_;
+        discount = discount_;
 
         if (!S || !A || !O)
             throw std::runtime_error("POMDP definition is incomplete");
 
         // Init matrices to store data.
-        initMatrices();
+        T.resize(boost::extents[S][A][S]);
+        R.resize(boost::extents[S][A][S]);
+        W.resize(boost::extents[S][A][O]);
 
         for (i_ = 0; i_< lines_.size(); ++i_) {
             const auto & line = lines_[i_];
@@ -77,12 +93,12 @@ namespace AIToolbox::Impl {
             }
 
             if (boost::starts_with(line, "R")) {
-                processReward();
+                processReward(R);
                 continue;
             }
         }
 
-        return POMDPVals(S, A, O, T, R, W, discount);
+        return retval;
     }
 
     // ############################
@@ -96,8 +112,8 @@ namespace AIToolbox::Impl {
         // Clear all variables that may have been setup. We don't have to clear
         // the matrices since we do that later during initialization.
         lines_.clear();
-        S = 0, A = 0, O = 0;
-        discount = 1.0;
+        S_ = 0, A_ = 0, O_ = 0;
+        discount_ = 1.0;
 
         for(std::string line; std::getline(input, line); ) {
             boost::trim(line);
@@ -114,26 +130,6 @@ namespace AIToolbox::Impl {
 
             if (!parsed)
                 lines_.push_back(std::move(line));
-        }
-    }
-
-    void CassandraParser::initMatrix(DumbMatrix3D & M, const size_t D1, const size_t D2, const size_t D3) {
-        M.resize(D1);
-        for (size_t i = 0; i < D1; ++i) {
-            M[i].resize(D2);
-            for (size_t j = 0; j < D2; ++j) {
-                M[i][j].resize(D3);
-                std::fill(std::begin(M[i][j]), std::end(M[i][j]), 0);
-            }
-        }
-    }
-
-    void CassandraParser::initMatrices() {
-        if (S && A) {
-            initMatrix(T, S, A, S);
-            initMatrix(R, S, A, S);
-            if (O)
-                initMatrix(W, S, A, O);
         }
     }
 
@@ -188,18 +184,18 @@ namespace AIToolbox::Impl {
         return retval;
     }
 
-    CassandraParser::DumbMatrix1D CassandraParser::parseVector(Tokens::const_iterator begin, Tokens::const_iterator end, const size_t N) {
+    std::vector<double> CassandraParser::parseVector(Tokens::const_iterator begin, Tokens::const_iterator end, const size_t N) {
         if (std::distance(begin, end) != (int)N)
             throw std::runtime_error("Wrong number of elements when parsing vector.");
 
-        DumbMatrix1D retval;
+        std::vector<double> retval;
         for (; begin < end; ++begin)
             retval.push_back(std::stod(*begin));
 
         return retval;
     }
 
-    CassandraParser::DumbMatrix1D CassandraParser::parseVector(const std::string & str, size_t N) {
+    std::vector<double> CassandraParser::parseVector(const std::string & str, size_t N) {
         const auto tokens = tokenize(str, " ");
         return parseVector(std::begin(tokens), std::end(tokens), N);
     }
@@ -207,8 +203,9 @@ namespace AIToolbox::Impl {
     void CassandraParser::processMatrix(DumbMatrix3D & M, const IDMap & d1map, const IDMap & d3map) {
         const std::string & str = lines_[i_];
 
-        const size_t D1 = M.size();
-        const size_t D3 = M[0][0].size();
+        const size_t D1 = M.shape()[0];
+        const size_t D2 = M.shape()[1];
+        const size_t D3 = M.shape()[2];
 
         switch (std::count(std::begin(str), std::end(str), ':')) {
             case 3: {
@@ -216,7 +213,7 @@ namespace AIToolbox::Impl {
                 const auto tokens = tokenize(str, ": ");
 
                 // Action is first both in transition and observation
-                const auto av  = parseIndeces(tokens.at(1), actionMap_, A);
+                const auto av  = parseIndeces(tokens.at(1), actionMap_, D2);
                 const auto d1v = parseIndeces(tokens.at(2), d1map, D1);
                 const auto d3v = parseIndeces(tokens.at(3), d3map, D3);
                 const auto val = std::stod(tokens.at(4));
@@ -232,10 +229,10 @@ namespace AIToolbox::Impl {
                 // Here we need to read a vector
                 const auto tokens = tokenize(str, ": ");
 
-                const auto av  = parseIndeces(tokens.at(1), actionMap_, A);
+                const auto av  = parseIndeces(tokens.at(1), actionMap_, D2);
                 const auto d1v = parseIndeces(tokens.at(2), d1map, D1);
 
-                DumbMatrix1D v;
+                std::vector<double> v;
                 if (tokens.size() == 3 + D3) {
                     // Parse at the end
                     v = parseVector(std::begin(tokens) + 3, std::end(tokens), D3);
@@ -247,20 +244,22 @@ namespace AIToolbox::Impl {
                 }
                 for (const auto d1 : d1v)
                     for (const auto a : av)
-                        M[d1][a] = v;
+                        for (size_t i = 0; i < v.size(); ++i)
+                            M[d1][a][i] = v[i];
                 break;
             }
             case 1: {
                 // M: <action>
                 // Here we need to read a whole 2D table
                 const auto tokens = tokenize(str, ": ");
-                const auto av  = parseIndeces(tokens.at(1), actionMap_, A);
+                const auto av  = parseIndeces(tokens.at(1), actionMap_, D2);
 
                 for (size_t d1 = 0; d1 < D1; ++d1) {
                     const auto v = parseVector(lines_.at(++i_), D3);
 
                     for (const auto a : av)
-                        M[d1][a] = v;
+                        for (size_t i = 0; i < v.size(); ++i)
+                            M[d1][a][i] = v[i];
                 }
                 break;
             }
@@ -268,8 +267,11 @@ namespace AIToolbox::Impl {
         }
     }
 
-    void CassandraParser::processReward() {
+    void CassandraParser::processReward(DumbMatrix3D & R) {
         const std::string & str = lines_[i_];
+
+        const size_t S = R.shape()[0];
+        const size_t A = R.shape()[1];
 
         switch (std::count(std::begin(str), std::end(str), ':')) {
             case 4: {

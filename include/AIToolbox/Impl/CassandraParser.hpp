@@ -1,27 +1,21 @@
 #ifndef AI_TOOLBOX_IMPL_CASSANDRA_PARSER_HEADER_FILE
 #define AI_TOOLBOX_IMPL_CASSANDRA_PARSER_HEADER_FILE
 
+#include <AIToolbox/Types.hpp>
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <functional>
 
 namespace AIToolbox::Impl {
+    /**
+     * @brief This class can parse files containing MDPs and POMDPs in the Cassandra file format.
+     */
     class CassandraParser {
-        private:
-            using DumbMatrix1D = std::vector<double>;
-            using DumbMatrix2D = std::vector<DumbMatrix1D>;
-            using DumbMatrix3D = std::vector<DumbMatrix2D>;
-
-            using IDMap = std::unordered_map<std::string, size_t>;
-            using ActionMap = std::unordered_map<std::string, std::function<void(const std::string &)>>;
-
-            using MDPVals = std::tuple<size_t, size_t, const DumbMatrix3D &, const DumbMatrix3D &, double>;
-            using POMDPVals = std::tuple<size_t, size_t, size_t, const DumbMatrix3D &, const DumbMatrix3D &, const DumbMatrix3D &, double>;
-
-            using Tokens = std::vector<std::string>;
-
         public:
+            using MDPVals = std::tuple<size_t, size_t, DumbMatrix3D, DumbMatrix3D, double>;
+            using POMDPVals = std::tuple<size_t, size_t, size_t, DumbMatrix3D, DumbMatrix3D, DumbMatrix3D, double>;
+
             /**
              * @brief Basic constructor.
              */
@@ -44,7 +38,7 @@ namespace AIToolbox::Impl {
              *
              * @param input The input stream to parse.
              *
-             * @return A tuple containing the information of the parsed MDP.
+             * @return A tuple containing S, A, T, R, and discount of the parsed MDP.
              */
             MDPVals parseMDP(std::istream & input);
 
@@ -65,11 +59,15 @@ namespace AIToolbox::Impl {
              *
              * @param input The input stream to parse.
              *
-             * @return A tuple containing the information of the parsed POMDP.
+             * @return A tuple containing S, A, O, T, R, W, and discount of the parsed POMDP.
              */
             POMDPVals parsePOMDP(std::istream & input);
 
         private:
+            using IDMap = std::unordered_map<std::string, size_t>;
+            using ActionMap = std::unordered_map<std::string, std::function<void(const std::string &)>>;
+            using Tokens = std::vector<std::string>;
+
             /**
              * @brief This function parses the preamble from the input.
              *
@@ -78,16 +76,6 @@ namespace AIToolbox::Impl {
              * @param input The input stream to parse.
              */
             void parseModelInfo(std::istream & input);
-
-            /**
-             * @brief This function zeroes an input dumb matrix to the given dimensions.
-             */
-            void initMatrix(DumbMatrix3D & M, size_t D1, size_t D2, size_t D3);
-
-            /**
-             * @brief This function zeroes the local function matrices from read data.
-             */
-            void initMatrices();
 
             /**
              * @brief This function extracts ids from numbers or string tokens.
@@ -134,7 +122,7 @@ namespace AIToolbox::Impl {
              *
              * @return A vector with the parsed numbers.
              */
-            DumbMatrix1D parseVector(Tokens::const_iterator begin, Tokens::const_iterator end, size_t N);
+            std::vector<double> parseVector(Tokens::const_iterator begin, Tokens::const_iterator end, size_t N);
 
             /**
              * @brief This function parses a vector of length N from the input string.
@@ -147,7 +135,7 @@ namespace AIToolbox::Impl {
              *
              * @return The parsed vector.
              */
-            DumbMatrix1D parseVector(const std::string & str, size_t N);
+            std::vector<double> parseVector(const std::string & str, size_t N);
 
             /**
              * @brief This function parses an entry for a specific matrix.
@@ -169,19 +157,20 @@ namespace AIToolbox::Impl {
              *
              * We only support entries that do not specify observations, and
              * thus, per syntax, must specify values one by one.
+             *
+             * @param R The reward matrix to be read in.
              */
-            void processReward();
+            void processReward(DumbMatrix3D & R);
 
             // Storage for lines which are not empty and not used in the preamble.
             std::vector<std::string> lines_;
             size_t i_;
 
             // Storage for input preamble.
-            size_t S, A, O;
-            double discount;
-
-            // Storage for input matrices.
-            DumbMatrix3D T, R, W;
+            // We need these so that we can store lambdas in the initMap_ with
+            // the same signature.
+            size_t S_, A_, O_;
+            double discount_;
 
             // These are actions to perform for the preamble.
             ActionMap initMap_;
