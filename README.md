@@ -69,7 +69,7 @@ MDP or POMDP model. You can find some examples
 [here](http://pomdp.org/examples/). While it is absolutely not necessary to use
 this format, and you can define models via code, we do parse a reasonable subset
 of Cassandra's POMDP format, which allows to reuse already defined problems with
-this library.
+this library. [Here's the docs on that](http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Impl_1_1CassandraParser.html).
 
 ### Python 2 and 3 Bindings! ###
 
@@ -87,92 +87,124 @@ That said, if you need to customize a specific implementation to make it perform
 better on your specific use-cases, or if you want to try something completely
 new, you will have to use C++.
 
+### Utilities ###
+
+The library has an extensive set of utilities which would be too long to
+enumerate here. In particular, we have utilities for [combinatorics][1],
+[polytopes][2], [linear programming][3], [sampling and distributions][4],
+[automated statistics][5], [belief updating][6], [many][7] [data][8] [structures][9],
+[logging][10], [seeding][11] and much more.
+
+[1]: http://svalorzen.github.io/AI-Toolbox/Combinatorics_8hpp.html
+[2]: http://svalorzen.github.io/AI-Toolbox/Polytope_8hpp.html
+[3]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1LP.html
+[4]: http://svalorzen.github.io/AI-Toolbox/Probability_8hpp.html
+[5]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Statistics.html
+[6]: http://svalorzen.github.io/AI-Toolbox/include_2AIToolbox_2POMDP_2Utils_8hpp.html
+[7]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Trie.html
+[8]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1FactorGraph.html
+[9]: http://svalorzen.github.io/AI-Toolbox/FactoredMatrix_8hpp.html
+[10]: http://svalorzen.github.io/AI-Toolbox/logging.html
+[11]: http://svalorzen.github.io/AI-Toolbox/Seeder_8hpp.html
+
 ### Bandit/Normal Games: ###
 
-| Policies                                             |                                                 |                     |
-| ---------------------------------------------------- | ----------------------------------------------- | ------------------- |
-| [Exploring Selfish Reinforcement Learning (ESRL)][1] | [Q-Greedy Policy][2]                            | [Softmax Policy][3] |
-| [Linear Reward Penalty][4]                           | [Thompson Sampling (Student-t distribution)][5] |                     |
+|                                                       | **Policies**                                     |                      |
+| :---------------------------------------------------: | :----------------------------------------------: | :------------------: |
+| [Exploring Selfish Reinforcement Learning (ESRL)][12] | [Q-Greedy Policy][13]                            | [Softmax Policy][14] |
+| [Linear Reward Penalty][15]                           | [Thompson Sampling (Student-t distribution)][16] | [Random Policy][17]  |
 
-[1]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf "Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al."
-[2]: https://arxiv.org/pdf/1707.02038.pdf "A Tutorial on Thompson Sampling, Russo et al."
-[3]: http://incompleteideas.net/book/ebook/node17.html
-[4]: https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y "Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal"
-[5]: https://arxiv.org/pdf/1307.3400.pdf "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al."
+[12]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ESRLPolicy.html "Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al."
+[13]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html "A Tutorial on Thompson Sampling, Russo et al."
+[14]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html "Reinforcement Learning: An Introduction, Ch 2.3, Sutton & Barto"
+[15]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1LRPPolicy.html "Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal"
+[16]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al."
+[17]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1RandomPolicy.html
 
 ### Single Agent MDP/Stochastic Games: ###
 
-Models:
+|                                       | **Models**                                                 |                                                 |
+| :-----------------------------------: | :--------------------------------------------------------: | :---------------------------------------------: |
+| [Basic Model][18]                     | [Sparse Model][19]                                         | [Maximum Likelihood Model][20]                  |
+| [Sparse Maximum Likelihood Model][21] | [Thompson Model (Dirichlet + Student-t distributions)][22] |                                                 |
+|                                       | **Algorithms**                                             |                                                 |
+| [Dyna-Q][23]                          | [Dyna2][24]                                                | [Expected SARSA][25]                            |
+| [Hysteretic Q-Learning][26]           | [Importance Sampling][27]                                  | [Linear Programming][28]                        |
+| [Monte Carlo Tree Search (MCTS)][29]  | [Policy Evaluation][30]                                    | [Policy Iteration][31]                          |
+| [Prioritized Sweeping][32]            | [Q-Learning][33]                                           | [Double Q-Learning][34]                         |
+| [Q(λ)][35]                            | [R-Learning][36]                                           | [SARSA(λ)][37]                                  |
+| [SARSA][38]                           | [Retrace(λ)][39]                                           | [Tree Backup(λ)][40]                            |
+| [Value Iteration][41]                 |                                                            |                                                 |
+|                                       | **Policies**                                               |                                                 |
+| [Basic Policy][42]                    | [Epsilon-Greedy Policy][43]                                | [Softmax Policy][44]                            |
+| [Q-Greedy Policy][45]                 | [PGA-APP][46]                                              | [Win or Learn Fast Policy Iteration (WoLF)][47] |
 
-- Maximum Likelihood Model
-- Thompson Model (Dirichlet + Student-t distributions)
+[18]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1Model.html
+[19]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1SparseModel.html
+[20]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html
+[21]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html
+[22]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1ThompsonModel.html
 
-| Algorithms                           |                           |                          |
-| ------------------------------------ | ------------------------- | ------------------------ |
-| [Dyna-Q][6]                          | [Dyna2][7]                | [Expected SARSA][8]      |
-| [Hysteretic Q-Learning][9]           | [Importance Sampling][10] | [Linear Programming][11] |
-| [Monte Carlo Tree Search (MCTS)][12] | [Policy Evaluation][13]   | [Policy Iteration][14]   |
-| [Prioritized Sweeping][15]           | [Q-Learning][16]          | [Double Q-Learning][17]  |
-| [Q(λ)][18]                           | [R-Learning][19]          | [SARSA(λ)][20]           |
-| [SARSA][21]                          | [Retrace(λ)][22]          | [Tree Backup(λ)][23]     |
-| [Value Iteration][24]                |                           |                          |
+[23]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1DynaQ.html, "Reinforcement Learning: An Introduction, Ch 9.2, Sutton & Barto"
+[24]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1Dyna2.html "Sample-Based Learning and Search with Permanent and Transient Memories, Silver et al."
+[25]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1ExpectedSARSA.html "A Theoretical and Empirical Analysis of Expected Sarsa, van Seijen et al."
+[26]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1HystereticQLearning.html "Hysteretic Q-Learning : an algorithm for decentralized reinforcement learning in cooperative multi-agent teams, Matignon et al."
+[27]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1ImportanceSampling.html "Eligibility Traces for Off-Policy Policy Evaluation, Precup"
+[28]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1LinearProgramming.html
+[29]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1MCTS.html "Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search, Coulom"
+[30]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1PolicyEvaluation.html "Reinforcement Learning: An Introduction, Ch 4.1, Sutton & Barto"
+[31]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1PolicyIteration.html "Reinforcement Learning: An Introduction, Ch 4.3, Sutton & Barto"
+[32]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html "Reinforcement Learning: An Introduction, Ch 9.4, Sutton & Barto"
+[33]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1QLearning.html "Reinforcement Learning: An Introduction, Ch 6.5, Sutton & Barto"
+[34]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1DoubleQLearning.html "Double Q-learning, van Hasselt"
+[35]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1QL.html "Q(λ) with Off-Policy Corrections, Harutyunyan et al."
+[36]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1RLearning.html "A Reinforcement Learning Method for Maximizing Undiscounted Rewards, Schwartz"
+[37]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1SARSAL.html "Reinforcement Learning: An Introduction, Ch 7.5, Sutton & Barto"
+[38]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1SARSA.html "Reinforcement Learning: An Introduction, Ch 6.4, Sutton & Barto"
+[39]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1RetraceL.html "Safe and efficient off-policy reinforcement learning, Munos et al."
+[40]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1TreeBackupL.html "Eligibility Traces for Off-Policy Policy Evaluation, Precup"
+[41]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1ValueIteration.html "Reinforcement Learning: An Introduction, Ch 4.4, Sutton & Barto"
 
-[6 ]: http://incompleteideas.net/book/ebook/node96.html, "Reinforcement Learning: An Introduction, Ch 9.2, Sutton & Barto"
-[7 ]: http://www0.cs.ucl.ac.uk/staff/D.Silver/web/Applications_files/dyna2.pdf "Sample-Based Learning and Search with Permanent and Transient Memories, Silver et al."
-[8 ]: http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf "A Theoretical and Empirical Analysis of Expected Sarsa, van Seijen et al."
-[9 ]: https://hal.archives-ouvertes.fr/hal-00187279/document "Hysteretic Q-Learning : an algorithm for decentralized reinforcement learning in cooperative multi-agent teams, Matignon et al."
-[10]: https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs "Eligibility Traces for Off-Policy Policy Evaluation, Precup"
-[11]: https://courses.cs.washington.edu/courses/cse521/16sp/521-lecture-15.pdf
-[12]: https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf "Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search, Coulom"
-[13]: http://incompleteideas.net/book/ebook/node41.html "Reinforcement Learning: An Introduction, Ch 4.1, Sutton & Barto"
-[14]: http://incompleteideas.net/book/ebook/node43.html "Reinforcement Learning: An Introduction, Ch 4.3, Sutton & Barto"
-[15]: http://incompleteideas.net/book/ebook/node98.html "Reinforcement Learning: An Introduction, Ch 9.4, Sutton & Barto"
-[16]: http://incompleteideas.net/book/ebook/node65.html "Reinforcement Learning: An Introduction, Ch 6.5, Sutton & Barto"
-[17]: http://papers.nips.cc/paper/3964-double-q-learning.pdf "Double Q-learning, van Hasselt"
-[18]: https://arxiv.org/pdf/1602.04951.pdf "Q(λ) with Off-Policy Corrections, Harutyunyan et al."
-[19]: https://antonjazz.com/x/grab/AntonSchwartzReinforcementLearningML93.pdf "A Reinforcement Learning Method for Maximizing Undiscounted Rewards, Schwartz"
-[20]: http://incompleteideas.net/book/ebook/node77.html "Reinforcement Learning: An Introduction, Ch 7.5, Sutton & Barto"
-[21]: http://incompleteideas.net/book/ebook/node64.html "Reinforcement Learning: An Introduction, Ch 6.4, Sutton & Barto"
-[22]: https://arxiv.org/pdf/1606.02647.pdf "Safe and efficient off-policy reinforcement learning, Munos et al."
-[23]: https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs "Eligibility Traces for Off-Policy Policy Evaluation, Precup"
-[24]: http://incompleteideas.net/book/ebook/node44.html "Reinforcement Learning: An Introduction, Ch 4.4, Sutton & Barto"
-
-| Policies        |                       |                                                 |
-| --------------- | --------------------- | ----------------------------------------------- |
-| Normal Policy   | Epsilon-Greedy Policy | Softmax Policy                                  |
-| Q-Greedy Policy | [PGA-APP][25]         | [Win or Learn Fast Policy Iteration (WoLF)][26] |
-
-[25]: https://pdfs.semanticscholar.org/5936/78c350e955f9fe4e0b1ac7f51a74b026709a.pdf "Multi-Agent Learning with Policy Prediction, Zhang et al."
-[26]: http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf "Rational and Convergent Learning in Stochastic Games, Bowling et al."
+[42]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1Policy.html
+[43]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1EpsilonPolicy.html
+[44]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html
+[45]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1QGreedyPolicy.html
+[46]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html "Multi-Agent Learning with Policy Prediction, Zhang et al."
+[47]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1WoLFPolicy.html "Rational and Convergent Learning in Stochastic Games, Bowling et al."
 
 ### Single Agent POMDP: ###
 
-| Algorithms                 |                                             |                                          |
-| -------------------------- | ------------------------------------------- | ---------------------------------------- |
-| [Augmented MDP (AMDP)][27] | [Blind Strategies][28]                      | [Fast Informed Bound][29]                |
-| [GapMin][30]               | [Incremental Pruning][31]                   | [Linear Support][32]                     |
-| [PERSEUS][33]              | [POMCP with UCB1][34]                       | [Point Based Value Iteration (PBVI)][35] |
-| [QMDP][36]                 | [Real-Time Belief State Search (RTBSS)][37] | [SARSOP][38]                             |
-| [Witness][39]              | [rPOMCP][40]                                |                                          |
+|                            | **Models**                                  |                                          |
+| :------------------------: | :-----------------------------------------: | :--------------------------------------: |
+| [Basic Model][48]          | [Sparse Model][49]                          |                                          |
+|                            | **Algorithms**                              |                                          |
+| [Augmented MDP (AMDP)][50] | [Blind Strategies][51]                      | [Fast Informed Bound][52]                |
+| [GapMin][53]               | [Incremental Pruning][54]                   | [Linear Support][55]                     |
+| [PERSEUS][56]              | [POMCP with UCB1][57]                       | [Point Based Value Iteration (PBVI)][58] |
+| [QMDP][59]                 | [Real-Time Belief State Search (RTBSS)][60] | [SARSOP][61]                             |
+| [Witness][62]              | [rPOMCP][63]                                |                                          |
+|                            | **Policies**                                |                                          |
+| [Basic Policy][64]         |                                             |                                          |
 
-[27]: http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun"
-[28]: http://www.aaai.org/Papers/AAAI/1997/AAAI97-114.pdf "Incremental methods for computing bounds in partially observable Markov decision processes, Hauskrecht"
-[29]: https://people.cs.pitt.edu/~milos/research/JAIR-2000.pdf "Value-Function Approximations for Partially Observable Markov Decision Processes, Hauskrecht"
-[30]: https://cs.uwaterloo.ca/~ppoupart/publications/gapMin/gap-camera-ready.pdf "Closing the Gap: Improved Bounds on Optimal POMDP Solutions, Poupart et al."
-[31]: http://arxiv.org/pdf/1302.1525.pdf "Incremental Pruning: A Simple, Fast, Exact Method for Partially Observable Markov Decision Processes, Cassandra et al."
-[32]: https://open.library.ubc.ca/media/stream/pdf/831/1.0098252/1 "Algorithms for Partially Observable Markov Decision Processes, Phd Thesis, Cheng"
-[33]: http://arxiv.org/pdf/1109.2145.pdf "Perseus: Randomized Point-based Value Iteration for POMDPs, Spaan et al."
-[34]: http://www0.cs.ucl.ac.uk/staff/d.silver/web/Applications_files/pomcp.pdf "Monte-Carlo Planning in Large POMDPs, Silver et al."
-[35]: http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf "Point-based value iteration: An anytime algorithm for POMDPs, Pineau et al."
-[36]: http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun"
-[37]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf "Real-Time Decision Making for Large POMDPs, Paquet et al."
-[38]: http://www.roboticsproceedings.org/rss04/p9.pdf "SARSOP: Efficient Point-Based POMDP Planning by Approximating Optimally Reachable Belief Spaces, Kurniawati et al."
-[39]: http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf "Planning and acting in partially observable stochastic domains, Kaelbling et al."
-[40]: https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf "Dynamic Resource Allocation for Multi-Camera Systems, Phd Thesis, Bargiacchi"
+[48]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1Model.html
+[49]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1SparseModel.html
 
-Policies:
+[50]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1AMDP.html "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun"
+[51]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1BlindStrategies.html "Incremental methods for computing bounds in partially observable Markov decision processes, Hauskrecht"
+[52]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1FastInformedBound.html "Value-Function Approximations for Partially Observable Markov Decision Processes, Hauskrecht"
+[53]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1GapMin.html "Closing the Gap: Improved Bounds on Optimal POMDP Solutions, Poupart et al."
+[54]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1IncrementalPruning.html "Incremental Pruning: A Simple, Fast, Exact Method for Partially Observable Markov Decision Processes, Cassandra et al."
+[55]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1LinearSupport.html "Algorithms for Partially Observable Markov Decision Processes, Phd Thesis, Cheng"
+[56]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1PERSEUS.html "Perseus: Randomized Point-based Value Iteration for POMDPs, Spaan et al."
+[57]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1POMCP.html "Monte-Carlo Planning in Large POMDPs, Silver et al."
+[58]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1PBVI.html "Point-based value iteration: An anytime algorithm for POMDPs, Pineau et al."
+[59]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1QMDP.html "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun"
+[60]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1RTBSS.html "Real-Time Decision Making for Large POMDPs, Paquet et al."
+[61]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1SARSOP.html "SARSOP: Efficient Point-Based POMDP Planning by Approximating Optimally Reachable Belief Spaces, Kurniawati et al."
+[62]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1Witness.html "Planning and acting in partially observable stochastic domains, Kaelbling et al."
+[63]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1rPOMCP.html "Dynamic Resource Allocation for Multi-Camera Systems, Phd Thesis, Bargiacchi"
 
-- Normal Policy
+[64]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1Policy.html
 
 ### Factored/Joint Multi-Agent: ###
 
@@ -180,48 +212,52 @@ Policies:
 
 Not in Python yet.
 
-| Algorithms                 |                                                   |                                                    |
-| -------------------------- | ------------------------------------------------- | -------------------------------------------------- |
-| [Max-Plus][39]             | [Multi-Objective Variable Elimination (MOVE)][40] | [Upper Confidence Variable Elimination (UCVE)][41] |
-| [Variable Elimination][42] |                                                   |                                                    |
+|                                                        | **Algorithms**                                               |                                                    |
+| :----------------------------------------------------: | :----------------------------------------------------------: | :------------------------------------------------: |
+| [Max-Plus][65]                                         | [Multi-Objective Variable Elimination (MOVE)][66]            | [Upper Confidence Variable Elimination (UCVE)][67] |
+| [Variable Elimination][68]                             |                                                              |                                                    |
+|                                                        | **Policies**                                                 |                                                    |
+| [Q-Greedy Policy][69]                                  | [Random Policy][70]                                          | [Learning with Linear Rewards (LLR)][71]           |
+| [Multi-Agent Upper Confidence Exploration (MAUCE)][72] | [Multi-Agent Thompson-Sampling (Student-t distribution)][73] | [Single-Action Policy][74]                         |
 
-[39]: http://www.jmlr.org/papers/volume7/kok06a/kok06a.pdf "Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al."
-[40]: https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf "Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al."
-[41]: http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
-[42]: https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al."
+[65]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html "Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al."
+[66]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html "Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al."
+[67]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
+[68]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html "Multiagent Planning with Factored MDPs, Guestrin et al."
 
-| Policies                                         |                                          |                                                        |
-| ------------------------------------------------ | ---------------------------------------- | ------------------------------------------------------ |
-| Q-Greedy Policy                                  | [Learning with Linear Rewards (LLR)][43] | [Multi-Agent Upper Confidence Exploration (MAUCE)][44] |
-| [Thompson-Sampling (Student-t distribution)][45] |                                          |                                                        |
-
-[43]: https://arxiv.org/pdf/1011.4748.pdf "Combinatorial Network Optimization with Unknown Variables: Multi-Armed Bandits with Linear Rewards, Gai et al."
-[44]: http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
-[45]: https://arxiv.org/pdf/1911.10120.pdf "Multi-Agent Thompson Sampling for Bandit Applications with Sparse Neighbourhood Structures, Verstraeten et al."
+[69]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html
+[70]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html
+[71]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html "Combinatorial Network Optimization with Unknown Variables: Multi-Armed Bandits with Linear Rewards, Gai et al."
+[72]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
+[73]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html "Multi-Agent Thompson Sampling for Bandit Applications with Sparse Neighbourhood Structures, Verstraeten et al."
+[74]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html
 
 #### MDP: ####
 
 Not in Python yet.
 
-Models:
+|                                     | **Models**                                 |                                                                        |
+| :---------------------------:       | :----------------------------------------: | :--------------------------------------------------------------------: |
+| [Cooperative Basic Model][75]       | [Cooperative Maximum Likelihood Model][76] | [Cooperative Thompson Model (Dirichlet + Student-t distributions)][77] |
+|                                     | **Algorithms**                             |                                                                        |
+| [FactoredLP][78]                    | [Multi Agent Linear Programming][79]       | [Joint Action Learners][80]                                            |
+| [Sparse Cooperative Q-Learning][81] | [Cooperative Prioritized Sweeping][82]     |                                                                        |
+|                                     | **Policies**                               |                                                                        |
+| [All Bandit Policies][82]           | [Epsilon-Greedy Policy][83]                | [Q-Greedy Policy][84]                                                  |
 
-- Cooperative Maximum Likelihood Model
-- Cooperative Thompson Model (Dirichlet + Student-t distributions)
+[75]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html
+[76]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html
+[77]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html
 
-| Algorithms                          |                                        |                             |
-| ----------------------------------- | -------------------------------------- | --------------------------- |
-| [FactoredLP][46]                    | [Multi Agent Linear Programming][47]   | [Joint Action Learners][48] |
-| [Sparse Cooperative Q-Learning][49] | [Cooperative Prioritized Sweeping][50] |                             |
+[78]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1FactoredLP.html "Max-norm Projections for Factored MDPs, Guestrin et al."
+[79]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1LinearProgramming.html "Multiagent Planning with Factored MDPs, Guestrin et al."
+[80]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html "The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems, Claus et al."
+[81]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html "Sparse Cooperative Q-learning, Kok et al."
+[82]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html "Model-based Multi-Agent Reinforcement Learning with Cooperative Prioritized Sweeping, Bargiacchi et al."
 
-[46]: https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf "Max-norm Projections for Factored MDPs, Guestrin et al."
-[47]: http://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al."
-[48]: https://www.aaai.org/Papers/AAAI/1998/AAAI98-106.pdf "The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems, Claus et al."
-[49]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf "Sparse Cooperative Q-learning, Kok et al."
-[50]: https://arxiv.org/pdf/2001.07527.pdf "Model-based Multi-Agent Reinforcement Learning with Cooperative Prioritized Sweeping, Bargiacchi et al."
-
-| Policies             |                       |                 |
-| -------------------- | --------------------- | --------------- |
-|  SingleAction Policy | Epsilon-Greedy Policy | Q-Greedy Policy |
+[82]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1BanditPolicyAdaptor.html
+[83]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html
+[84]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html
 
 Build Instructions
 ==================
