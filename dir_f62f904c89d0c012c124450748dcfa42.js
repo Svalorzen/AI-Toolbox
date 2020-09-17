@@ -1,5 +1,8 @@
 var dir_f62f904c89d0c012c124450748dcfa42 =
 [
+    [ "MaxPlus.hpp", "MaxPlus_8hpp.html", [
+      [ "MaxPlus", "classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus" ]
+    ] ],
     [ "MultiObjectiveVariableElimination.hpp", "MultiObjectiveVariableElimination_8hpp.html", [
       [ "MultiObjectiveVariableElimination", "classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination" ],
       [ "Entry", "structAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination_1_1Entry.html", "structAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination_1_1Entry" ]

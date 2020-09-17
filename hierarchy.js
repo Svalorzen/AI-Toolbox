@@ -26,6 +26,7 @@ var hierarchy =
     [ "AIToolbox::Factored::MDP::CooperativeThompsonModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html", null ],
     [ "AIToolbox::copy_const< CopiedType, ConstReference >", "structAIToolbox_1_1copy__const.html", null ],
     [ "AIToolbox::Factored::CPSQueue", "classAIToolbox_1_1Factored_1_1CPSQueue.html", null ],
+    [ "AIToolbox::MDP::DoubleQLearning", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html", null ],
     [ "AIToolbox::MDP::Dyna2< M >", "classAIToolbox_1_1MDP_1_1Dyna2.html", null ],
     [ "AIToolbox::Factored::DynamicDecisionNetwork", "structAIToolbox_1_1Factored_1_1DynamicDecisionNetwork.html", null ],
     [ "AIToolbox::Factored::DynamicDecisionNetworkGraph", "classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html", null ],
@@ -35,8 +36,8 @@ var hierarchy =
     [ "AIToolbox::Factored::Bandit::UCVE::Entry", "structAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_1_1Entry.html", null ],
     [ "AIToolbox::Factored::Bandit::MultiObjectiveVariableElimination::Entry", "structAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination_1_1Entry.html", null ],
     [ "AIToolbox::MDP::ExpectedSARSA", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html", null ],
-    [ "AIToolbox::Factored::Bandit::Experience", "classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html", null ],
     [ "AIToolbox::Bandit::Experience", "classAIToolbox_1_1Bandit_1_1Experience.html", null ],
+    [ "AIToolbox::Factored::Bandit::Experience", "classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html", null ],
     [ "AIToolbox::MDP::Experience", "classAIToolbox_1_1MDP_1_1Experience.html", null ],
     [ "TupleFromPython< T >::ExtractPythonTuple< Id, bool >", "structTupleFromPython_1_1ExtractPythonTuple.html", null ],
     [ "TupleFromPython< T >::ExtractPythonTuple< 0, dummyForSpecialization >", "structTupleFromPython_1_1ExtractPythonTuple_3_010_00_01dummyForSpecialization_01_4.html", null ],
@@ -92,8 +93,6 @@ var hierarchy =
     [ "AIToolbox::POMDP::LinearSupport", "classAIToolbox_1_1POMDP_1_1LinearSupport.html", null ],
     [ "AIToolbox::LP", "classAIToolbox_1_1LP.html", null ],
     [ "M", null, [
-      [ "AIToolbox::POMDP::Model< M >", "classAIToolbox_1_1POMDP_1_1Model.html", null ],
-      [ "AIToolbox::POMDP::SparseModel< M >", "classAIToolbox_1_1POMDP_1_1SparseModel.html", null ],
       [ "OldPOMDPModel< M >", "classOldPOMDPModel_3_01M_01_4.html", null ]
     ] ],
     [ "AIToolbox::Impl::Matcher< N, T, U, IDs >", "structAIToolbox_1_1Impl_1_1Matcher.html", null ],
@@ -101,7 +100,9 @@ var hierarchy =
     [ "AIToolbox::Impl::Matcher< N, std::tuple< FA, A... >, std::tuple< FB, B... >, IDs... >", "structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_01FA_00_01A_8_8_8_01_4_00_01std_1_1dae9d21bfe0614a8d67ba5444832ecb4.html", null ],
     [ "AIToolbox::Impl::Matcher< N, std::tuple<>, std::tuple< B... >, IDs... >", "structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_4_00_01std_1_1tuple_3_01B_8_8_8_01_4_00_01IDs_8_8_8_01_4.html", null ],
     [ "AIToolbox::MDP::MaximumLikelihoodModel< E >", "classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html", null ],
+    [ "AIToolbox::Factored::Bandit::MaxPlus", "classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html", null ],
     [ "AIToolbox::MDP::MCTS< M >", "classAIToolbox_1_1MDP_1_1MCTS.html", null ],
+    [ "AIToolbox::POMDP::Model< M >", "classAIToolbox_1_1POMDP_1_1Model.html", null ],
     [ "AIToolbox::MDP::Model", "classAIToolbox_1_1MDP_1_1Model.html", null ],
     [ "AIToolbox::Factored::MDP::MOQFunctionRule", "structAIToolbox_1_1Factored_1_1MDP_1_1MOQFunctionRule.html", null ],
     [ "AIToolbox::Factored::Bandit::MOQFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html", null ],
@@ -137,10 +138,10 @@ var hierarchy =
       ] ]
     ] ],
     [ "OldMDPModel", "classOldMDPModel.html", null ],
-    [ "AIToolbox::Factored::MDP::OLS", "classAIToolbox_1_1Factored_1_1MDP_1_1OLS.html", null ],
     [ "PairFromPython< T >", "structPairFromPython.html", null ],
     [ "PairToPython< T >", "structPairToPython.html", null ],
     [ "AIToolbox::Factored::PartialFactorsEnumerator", "classAIToolbox_1_1Factored_1_1PartialFactorsEnumerator.html", null ],
+    [ "AIToolbox::Factored::PartialIndexEnumerator", "classAIToolbox_1_1Factored_1_1PartialIndexEnumerator.html", null ],
     [ "AIToolbox::POMDP::PBVI", "classAIToolbox_1_1POMDP_1_1PBVI.html", null ],
     [ "AIToolbox::POMDP::PERSEUS", "classAIToolbox_1_1POMDP_1_1PERSEUS.html", null ],
     [ "AIToolbox::MDP::PolicyEvaluation< M >", "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html", null ],
@@ -175,9 +176,6 @@ var hierarchy =
         [ "AIToolbox::Factored::MDP::EpsilonPolicy", "classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html", null ]
       ] ]
     ] ],
-    [ "AIToolbox::PolicyInterface< State, State, size_t >", "classAIToolbox_1_1PolicyInterface.html", [
-      [ "AIToolbox::Factored::MDP::DecisionListPolicy", "classAIToolbox_1_1Factored_1_1MDP_1_1DecisionListPolicy.html", null ]
-    ] ],
     [ "AIToolbox::PolicyInterface< void, void, Action >", "classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html", [
       [ "AIToolbox::EpsilonPolicyInterface< void, void, Action >", "classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html", [
         [ "AIToolbox::Factored::Bandit::EpsilonPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1EpsilonPolicy.html", null ]
@@ -211,8 +209,8 @@ var hierarchy =
     [ "AIToolbox::MDP::PrioritizedSweeping< M >", "classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html", null ],
     [ "AIToolbox::POMDP::Projecter< M >", "classAIToolbox_1_1POMDP_1_1Projecter.html", null ],
     [ "AIToolbox::Pruner", "classAIToolbox_1_1Pruner.html", null ],
-    [ "AIToolbox::Factored::Bandit::QFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1QFunctionRule.html", null ],
     [ "AIToolbox::Factored::MDP::QFunctionRule", "structAIToolbox_1_1Factored_1_1MDP_1_1QFunctionRule.html", null ],
+    [ "AIToolbox::Factored::Bandit::QFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1QFunctionRule.html", null ],
     [ "AIToolbox::Bandit::QGreedyPolicyWrapper< V, Gen >", "classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper.html", null ],
     [ "AIToolbox::MDP::QLearning", "classAIToolbox_1_1MDP_1_1QLearning.html", null ],
     [ "AIToolbox::POMDP::QMDP", "classAIToolbox_1_1POMDP_1_1QMDP.html", null ],
@@ -229,6 +227,7 @@ var hierarchy =
     [ "AIToolbox::Factored::MDP::SparseCooperativeQLearning", "classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html", null ],
     [ "AIToolbox::MDP::SparseExperience", "classAIToolbox_1_1MDP_1_1SparseExperience.html", null ],
     [ "AIToolbox::MDP::SparseMaximumLikelihoodModel< E >", "classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html", null ],
+    [ "AIToolbox::POMDP::SparseModel< M >", "classAIToolbox_1_1POMDP_1_1SparseModel.html", null ],
     [ "AIToolbox::MDP::SparseModel", "classAIToolbox_1_1MDP_1_1SparseModel.html", null ],
     [ "AIToolbox::MDP::GridWorld::State", "structAIToolbox_1_1MDP_1_1GridWorld_1_1State.html", null ],
     [ "AIToolbox::MDP::MCTS< M >::StateNode", "structAIToolbox_1_1MDP_1_1MCTS_1_1StateNode.html", null ],

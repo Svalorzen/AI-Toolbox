@@ -1,6 +1,9 @@
 var dir_a94e81586743f067f15ccd77d52c614b =
 [
     [ "Utils", "dir_1325704cd3e9ac75b94734e6e3a9373e.html", "dir_1325704cd3e9ac75b94734e6e3a9373e" ],
+    [ "DoubleQLearning.hpp", "DoubleQLearning_8hpp.html", [
+      [ "DoubleQLearning", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html", "classAIToolbox_1_1MDP_1_1DoubleQLearning" ]
+    ] ],
     [ "Dyna2.hpp", "Dyna2_8hpp.html", [
       [ "Dyna2", "classAIToolbox_1_1MDP_1_1Dyna2.html", "classAIToolbox_1_1MDP_1_1Dyna2" ]
     ] ],

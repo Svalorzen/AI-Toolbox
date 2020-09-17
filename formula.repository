@@ -1,3 +1,3 @@
-\form#0:$\sum_{t=0}^{T} \gamma^t r_t$
-\form#1:\[ P(a) = \frac{e^{(Q(a)/t)})}{\sum_b{e^{(Q(b)/t)}}} \]
-\form#2:\[ P(a) = \frac{e^{(Q(s,a)/t)})}{\sum_b{e^{(Q(s,b)/t)}}} \]
+\_form#0:$\sum_{t=0}^{T} \gamma^t r_t$
+\_form#1:\[ P(a) = \frac{e^{(Q(a)/t)})}{\sum_b{e^{(Q(b)/t)}}} \]
+\_form#2:\[ P(a) = \frac{e^{(Q(s,a)/t)})}{\sum_b{e^{(Q(s,b)/t)}}} \]

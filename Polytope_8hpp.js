@@ -13,6 +13,7 @@ var Polytope_8hpp =
     [ "findBestAtPoint", "Polytope_8hpp.html#a1b4429b1f3771a012553ce96c2760f8a", null ],
     [ "findBestAtSimplexCorner", "Polytope_8hpp.html#afc68b38e82940ad0963445f1a44ce64a", null ],
     [ "findBestDeltaDominated", "Polytope_8hpp.html#a9c125f5564ca7a035861f4bad13f59b1", null ],
+    [ "findVerticesNaive", "Polytope_8hpp.html#a92a200c6c709aad831698f2bf145d7c1", null ],
     [ "findVerticesNaive", "Polytope_8hpp.html#af8ab0db4b1347fdd3a0b383a185b9f98", null ],
     [ "LPInterpolation", "Polytope_8hpp.html#ab6541804d91ba3c11903fd8d29f34bcc", null ],
     [ "sawtoothInterpolation", "Polytope_8hpp.html#a3aec9476bc80e36874b755a4cf111dce", null ]

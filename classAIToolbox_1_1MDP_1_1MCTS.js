@@ -10,8 +10,8 @@ var classAIToolbox_1_1MDP_1_1MCTS =
     [ "getGraph", "classAIToolbox_1_1MDP_1_1MCTS.html#a6a31266248144d40f83ad6486e383d9d", null ],
     [ "getIterations", "classAIToolbox_1_1MDP_1_1MCTS.html#a8a912d09b9f6864fcf57885641cc17b8", null ],
     [ "getModel", "classAIToolbox_1_1MDP_1_1MCTS.html#a38483f6a327533c9502fcf25c56d3d96", null ],
-    [ "sampleAction", "classAIToolbox_1_1MDP_1_1MCTS.html#a37e218ad372268e5d8e3e4965a5279b5", null ],
     [ "sampleAction", "classAIToolbox_1_1MDP_1_1MCTS.html#a03371b9a57e6a03a726cb07e8c38de57", null ],
+    [ "sampleAction", "classAIToolbox_1_1MDP_1_1MCTS.html#a37e218ad372268e5d8e3e4965a5279b5", null ],
     [ "setExploration", "classAIToolbox_1_1MDP_1_1MCTS.html#a5cb9e22381c8ba914633445eedd19e05", null ],
     [ "setIterations", "classAIToolbox_1_1MDP_1_1MCTS.html#a32147c368e584c1f3dd6996716db1715", null ]
 ];

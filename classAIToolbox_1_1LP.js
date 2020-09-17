@@ -12,8 +12,8 @@ var classAIToolbox_1_1LP =
     [ "popRow", "classAIToolbox_1_1LP.html#ac3746d26c3700ebcd2ca8af75a2ff683", null ],
     [ "pushRow", "classAIToolbox_1_1LP.html#aa387ee6f450fe024c2e97881c885ea61", null ],
     [ "resize", "classAIToolbox_1_1LP.html#abcd28bf038d3f31870e5029c7f496870", null ],
-    [ "setObjective", "classAIToolbox_1_1LP.html#a7830df7fe01164c8514f6fe6715834ca", null ],
     [ "setObjective", "classAIToolbox_1_1LP.html#a65a73c41e1cac5251aceaaaade5eb140", null ],
+    [ "setObjective", "classAIToolbox_1_1LP.html#a7830df7fe01164c8514f6fe6715834ca", null ],
     [ "setUnbounded", "classAIToolbox_1_1LP.html#a4fae8376386f7e7eb9e8ec135aa1eab1", null ],
     [ "solve", "classAIToolbox_1_1LP.html#a9d7939f41885d1a89da337c7a901df14", null ],
     [ "row", "classAIToolbox_1_1LP.html#a6558f375d14fc1863e40acd654567c8e", null ]

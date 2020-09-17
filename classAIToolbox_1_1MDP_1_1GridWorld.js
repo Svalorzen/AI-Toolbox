@@ -9,6 +9,6 @@ var classAIToolbox_1_1MDP_1_1GridWorld =
     [ "getHeight", "classAIToolbox_1_1MDP_1_1GridWorld.html#ac6347c8344846e997f690b83edecaee1", null ],
     [ "getS", "classAIToolbox_1_1MDP_1_1GridWorld.html#af3e9d5d7cf45716339724f98f94cdeed", null ],
     [ "getWidth", "classAIToolbox_1_1MDP_1_1GridWorld.html#a71d432bf7d5694225ceb446a795b99d5", null ],
-    [ "operator()", "classAIToolbox_1_1MDP_1_1GridWorld.html#a4cf0d0cc18a640f1287ce49c3fd06f8d", null ],
-    [ "operator()", "classAIToolbox_1_1MDP_1_1GridWorld.html#aec992e20343f05ee7a3086151d2527c3", null ]
+    [ "operator()", "classAIToolbox_1_1MDP_1_1GridWorld.html#aec992e20343f05ee7a3086151d2527c3", null ],
+    [ "operator()", "classAIToolbox_1_1MDP_1_1GridWorld.html#a4cf0d0cc18a640f1287ce49c3fd06f8d", null ]
 ];

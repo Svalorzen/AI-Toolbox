@@ -20,6 +20,6 @@ var classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel =
     [ "sampleSRs", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a7eb5b317e074d207ac6039271ab3ed54", null ],
     [ "setDiscount", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a9d5623ac90033ab389baa015ff4972b8", null ],
     [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a1b43b17144685c301dd04f5cc3484fcb", null ],
-    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a1912e430023d4c0c45170d8a362ffbd0", null ],
-    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#aa94d65abe760f6390db4ad3b56e20dd7", null ]
+    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#aa94d65abe760f6390db4ad3b56e20dd7", null ],
+    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a1912e430023d4c0c45170d8a362ffbd0", null ]
 ];

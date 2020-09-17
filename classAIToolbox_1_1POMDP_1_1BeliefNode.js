@@ -2,9 +2,9 @@ var classAIToolbox_1_1POMDP_1_1BeliefNode =
 [
     [ "BeliefNode", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#aa038b5488585a2f0ee260e00bdc8b678", null ],
     [ "getKnowledgeMeasure", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a125d2bce89ba02a67d522eb68d921b61", null ],
+    [ "updateBeliefAndKnowledge", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#acf10ea23398d447f90a90dccf349ea15", null ],
+    [ "updateBeliefAndKnowledge", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#adc293d3d72168aeb27496cbc0e0dedc3", null ],
     [ "updateBeliefAndKnowledge", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#ab05969db16d2f81f685be7d4eba33cee", null ],
-    [ "updateBeliefAndKnowledge", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a4bcb0850f9830a4118b0ea53d56210f2", null ],
-    [ "updateBeliefAndKnowledge", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a5a329061bf238e78ed2295e99b6ca5bc", null ],
     [ "actionsV", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a21fdfaed9c910fadee03508c0d1a20ac", null ],
     [ "bestAction", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#ab82999c8ebfeed494dc867fde8aa80b9", null ],
     [ "children", "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a651c4226144428394390b71aef15f50f", null ],

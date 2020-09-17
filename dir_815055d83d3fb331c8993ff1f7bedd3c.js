@@ -10,9 +10,6 @@ var dir_815055d83d3fb331c8993ff1f7bedd3c =
     [ "LinearProgramming.hpp", "Factored_2MDP_2Algorithms_2LinearProgramming_8hpp.html", [
       [ "LinearProgramming", "classAIToolbox_1_1Factored_1_1MDP_1_1LinearProgramming.html", "classAIToolbox_1_1Factored_1_1MDP_1_1LinearProgramming" ]
     ] ],
-    [ "OLS.hpp", "OLS_8hpp.html", [
-      [ "OLS", "classAIToolbox_1_1Factored_1_1MDP_1_1OLS.html", "classAIToolbox_1_1Factored_1_1MDP_1_1OLS" ]
-    ] ],
     [ "SparseCooperativeQLearning.hpp", "SparseCooperativeQLearning_8hpp.html", [
       [ "SparseCooperativeQLearning", "classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html", "classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning" ]
     ] ]

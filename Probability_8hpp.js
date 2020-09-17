@@ -11,6 +11,6 @@ var Probability_8hpp =
     [ "sampleBetaDistribution", "Probability_8hpp.html#a2a0814792b2a6cf30eaa196d4571bd9b", null ],
     [ "sampleDirichletDistribution", "Probability_8hpp.html#a74fd0fb7396717f9f2751bf2f3121dc0", null ],
     [ "sampleDirichletDistribution", "Probability_8hpp.html#a9fe13af882ae35ca664adbb08663e2ad", null ],
-    [ "sampleProbability", "Probability_8hpp.html#ad73352f6ce65aa95f76b7399cf0d2cb0", null ],
-    [ "sampleProbability", "Probability_8hpp.html#a31fb7fd3eb6b455f39a1bd388a5fd264", null ]
+    [ "sampleProbability", "Probability_8hpp.html#a31fb7fd3eb6b455f39a1bd388a5fd264", null ],
+    [ "sampleProbability", "Probability_8hpp.html#ad73352f6ce65aa95f76b7399cf0d2cb0", null ]
 ];

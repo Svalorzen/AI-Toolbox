@@ -14,5 +14,6 @@ var namespaceAIToolbox_1_1Factored =
     [ "FilterMap", "classAIToolbox_1_1Factored_1_1FilterMap.html", "classAIToolbox_1_1Factored_1_1FilterMap" ],
     [ "GenericVariableElimination", "classAIToolbox_1_1Factored_1_1GenericVariableElimination.html", "classAIToolbox_1_1Factored_1_1GenericVariableElimination" ],
     [ "PartialFactorsEnumerator", "classAIToolbox_1_1Factored_1_1PartialFactorsEnumerator.html", "classAIToolbox_1_1Factored_1_1PartialFactorsEnumerator" ],
+    [ "PartialIndexEnumerator", "classAIToolbox_1_1Factored_1_1PartialIndexEnumerator.html", "classAIToolbox_1_1Factored_1_1PartialIndexEnumerator" ],
     [ "Trie", "classAIToolbox_1_1Factored_1_1Trie.html", "classAIToolbox_1_1Factored_1_1Trie" ]
 ];

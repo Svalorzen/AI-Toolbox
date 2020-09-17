@@ -20,6 +20,6 @@ var classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel =
     [ "sampleSRs", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#af8e0473a7b2bb23c631027b3dc8d4b78", null ],
     [ "setDiscount", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#aad74d3c92a0b513b6690232176bacfdb", null ],
     [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#ae40bd14174897a23f17c2081529512a8", null ],
-    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a5bc790743b6d18d11c60e9cbfdd6a501", null ],
-    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a1893bdb7c85e4ba25c61a6c60f69e5d3", null ]
+    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a1893bdb7c85e4ba25c61a6c60f69e5d3", null ],
+    [ "sync", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a5bc790743b6d18d11c60e9cbfdd6a501", null ]
 ];

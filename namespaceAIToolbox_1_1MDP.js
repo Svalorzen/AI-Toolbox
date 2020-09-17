@@ -1,6 +1,7 @@
 var namespaceAIToolbox_1_1MDP =
 [
     [ "BanditPolicyAdaptor", "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html", "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor" ],
+    [ "DoubleQLearning", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html", "classAIToolbox_1_1MDP_1_1DoubleQLearning" ],
     [ "Dyna2", "classAIToolbox_1_1MDP_1_1Dyna2.html", "classAIToolbox_1_1MDP_1_1Dyna2" ],
     [ "DynaQ", "classAIToolbox_1_1MDP_1_1DynaQ.html", "classAIToolbox_1_1MDP_1_1DynaQ" ],
     [ "EpsilonPolicy", "classAIToolbox_1_1MDP_1_1EpsilonPolicy.html", "classAIToolbox_1_1MDP_1_1EpsilonPolicy" ],
