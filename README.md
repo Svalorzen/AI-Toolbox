@@ -89,13 +89,16 @@ new, you will have to use C++.
 
 ### Bandit/Normal Games: ###
 
-Policies:
+| Policies                                             |                                                 |                     |
+| ---------------------------------------------------- | ----------------------------------------------- | ------------------- |
+| [Exploring Selfish Reinforcement Learning (ESRL)][1] | [Q-Greedy Policy][2]                            | [Softmax Policy][3] |
+| [Linear Reward Penalty][4]                           | [Thompson Sampling (Student-t distribution)][5] |                     |
 
-- [Exploring Selfish Reinforcement Learning (ESRL)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf "Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al.")
-- [Q-Greedy Policy](https://arxiv.org/pdf/1707.02038.pdf "A Tutorial on Thompson Sampling, Russo et al.")
-- [Softmax Policy](http://incompleteideas.net/book/ebook/node17.html)
-- [Linear Reward Penalty](https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y "Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal")
-- [Thompson Sampling (Student-t distribution)](https://arxiv.org/pdf/1307.3400.pdf "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al.")
+[1]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7547&rep=rep1&type=pdf "Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al."
+[2]: https://arxiv.org/pdf/1707.02038.pdf "A Tutorial on Thompson Sampling, Russo et al."
+[3]: http://incompleteideas.net/book/ebook/node17.html
+[4]: https://vtechworks.lib.vt.edu/bitstream/handle/10919/30595/ch3.pdf?sequence=3&isAllowed=y "Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal"
+[5]: https://arxiv.org/pdf/1307.3400.pdf "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al."
 
 ### Single Agent MDP/Stochastic Games: ###
 
@@ -104,55 +107,68 @@ Models:
 - Maximum Likelihood Model
 - Thompson Model (Dirichlet + Student-t distributions)
 
-Algorithms:
+| Algorithms                           |                           |                          |
+| ------------------------------------ | ------------------------- | ------------------------ |
+| [Dyna-Q][6]                          | [Dyna2][7]                | [Expected SARSA][8]      |
+| [Hysteretic Q-Learning][9]           | [Importance Sampling][10] | [Linear Programming][11] |
+| [Monte Carlo Tree Search (MCTS)][12] | [Policy Evaluation][13]   | [Policy Iteration][14]   |
+| [Prioritized Sweeping][15]           | [Q-Learning][16]          | [Double Q-Learning][17]  |
+| [Q(λ)][18]                           | [R-Learning][19]          | [SARSA(λ)][20]           |
+| [SARSA][21]                          | [Retrace(λ)][22]          | [Tree Backup(λ)][23]     |
+| [Value Iteration][24]                |                           |                          |
 
-- [Dyna-Q](http://incompleteideas.net/book/ebook/node96.html, "Reinforcement Learning: An Introduction, Ch 9.2, Sutton & Barto")
-- [Dyna2](http://www0.cs.ucl.ac.uk/staff/D.Silver/web/Applications_files/dyna2.pdf "Sample-Based Learning and Search with Permanent and Transient Memories, Silver et al.")
-- [Expected SARSA](http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf "A Theoretical and Empirical Analysis of Expected Sarsa, van Seijen et al.")
-- [Hysteretic Q-Learning](https://hal.archives-ouvertes.fr/hal-00187279/document "Hysteretic Q-Learning : an algorithm for decentralized reinforcement learning in cooperative multi-agent teams, Matignon et al.")
-- [Importance Sampling](https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs "Eligibility Traces for Off-Policy Policy Evaluation, Precup")
-- [Linear Programming](https://courses.cs.washington.edu/courses/cse521/16sp/521-lecture-15.pdf)
-- [Monte Carlo Tree Search (MCTS)](https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf "Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search, Coulom")
-- [Policy Evaluation](http://incompleteideas.net/book/ebook/node41.html "Reinforcement Learning: An Introduction, Ch 4.1, Sutton & Barto")
-- [Policy Iteration](http://incompleteideas.net/book/ebook/node43.html "Reinforcement Learning: An Introduction, Ch 4.3, Sutton & Barto")
-- [Prioritized Sweeping](http://incompleteideas.net/book/ebook/node98.html "Reinforcement Learning: An Introduction, Ch 9.4, Sutton & Barto")
-- [Q-Learning](http://incompleteideas.net/book/ebook/node65.html "Reinforcement Learning: An Introduction, Ch 6.5, Sutton & Barto")
-- [Double Q-Learning](http://papers.nips.cc/paper/3964-double-q-learning.pdf "Double Q-learning, van Hasselt")
-- [Q(λ)](https://arxiv.org/pdf/1602.04951.pdf "Q(λ) with Off-Policy Corrections, Harutyunyan et al.")
-- [R-Learning](https://antonjazz.com/x/grab/AntonSchwartzReinforcementLearningML93.pdf "A Reinforcement Learning Method for Maximizing Undiscounted Rewards, Schwartz")
-- [SARSA(λ)](http://incompleteideas.net/book/ebook/node77.html "Reinforcement Learning: An Introduction, Ch 7.5, Sutton & Barto")
-- [SARSA](http://incompleteideas.net/book/ebook/node64.html "Reinforcement Learning: An Introduction, Ch 6.4, Sutton & Barto")
-- [Retrace(λ)](https://arxiv.org/pdf/1606.02647.pdf "Safe and efficient off-policy reinforcement learning, Munos et al.")
-- [Tree Backup(λ)](https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs "Eligibility Traces for Off-Policy Policy Evaluation, Precup")
-- [Value Iteration](http://incompleteideas.net/book/ebook/node44.html "Reinforcement Learning: An Introduction, Ch 4.4, Sutton & Barto")
+[6 ]: http://incompleteideas.net/book/ebook/node96.html, "Reinforcement Learning: An Introduction, Ch 9.2, Sutton & Barto"
+[7 ]: http://www0.cs.ucl.ac.uk/staff/D.Silver/web/Applications_files/dyna2.pdf "Sample-Based Learning and Search with Permanent and Transient Memories, Silver et al."
+[8 ]: http://www.cs.ox.ac.uk/people/shimon.whiteson/pubs/vanseijenadprl09.pdf "A Theoretical and Empirical Analysis of Expected Sarsa, van Seijen et al."
+[9 ]: https://hal.archives-ouvertes.fr/hal-00187279/document "Hysteretic Q-Learning : an algorithm for decentralized reinforcement learning in cooperative multi-agent teams, Matignon et al."
+[10]: https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs "Eligibility Traces for Off-Policy Policy Evaluation, Precup"
+[11]: https://courses.cs.washington.edu/courses/cse521/16sp/521-lecture-15.pdf
+[12]: https://hal.inria.fr/file/index/docid/116992/filename/CG2006.pdf "Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search, Coulom"
+[13]: http://incompleteideas.net/book/ebook/node41.html "Reinforcement Learning: An Introduction, Ch 4.1, Sutton & Barto"
+[14]: http://incompleteideas.net/book/ebook/node43.html "Reinforcement Learning: An Introduction, Ch 4.3, Sutton & Barto"
+[15]: http://incompleteideas.net/book/ebook/node98.html "Reinforcement Learning: An Introduction, Ch 9.4, Sutton & Barto"
+[16]: http://incompleteideas.net/book/ebook/node65.html "Reinforcement Learning: An Introduction, Ch 6.5, Sutton & Barto"
+[17]: http://papers.nips.cc/paper/3964-double-q-learning.pdf "Double Q-learning, van Hasselt"
+[18]: https://arxiv.org/pdf/1602.04951.pdf "Q(λ) with Off-Policy Corrections, Harutyunyan et al."
+[19]: https://antonjazz.com/x/grab/AntonSchwartzReinforcementLearningML93.pdf "A Reinforcement Learning Method for Maximizing Undiscounted Rewards, Schwartz"
+[20]: http://incompleteideas.net/book/ebook/node77.html "Reinforcement Learning: An Introduction, Ch 7.5, Sutton & Barto"
+[21]: http://incompleteideas.net/book/ebook/node64.html "Reinforcement Learning: An Introduction, Ch 6.4, Sutton & Barto"
+[22]: https://arxiv.org/pdf/1606.02647.pdf "Safe and efficient off-policy reinforcement learning, Munos et al."
+[23]: https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&context=cs_faculty_pubs "Eligibility Traces for Off-Policy Policy Evaluation, Precup"
+[24]: http://incompleteideas.net/book/ebook/node44.html "Reinforcement Learning: An Introduction, Ch 4.4, Sutton & Barto"
 
-Policies:
+| Policies        |                       |                                                 |
+| --------------- | --------------------- | ----------------------------------------------- |
+| Normal Policy   | Epsilon-Greedy Policy | Softmax Policy                                  |
+| Q-Greedy Policy | [PGA-APP][25]         | [Win or Learn Fast Policy Iteration (WoLF)][26] |
 
-- Normal Policy
-- Epsilon-Greedy Policy
-- Softmax Policy
-- Q-Greedy Policy
-- [PGA-APP](https://pdfs.semanticscholar.org/5936/78c350e955f9fe4e0b1ac7f51a74b026709a.pdf "Multi-Agent Learning with Policy Prediction, Zhang et al.")
-- [Win or Learn Fast Policy Iteration (WoLF)](http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf "Rational and Convergent Learning in Stochastic Games, Bowling et al.")
+[25]: https://pdfs.semanticscholar.org/5936/78c350e955f9fe4e0b1ac7f51a74b026709a.pdf "Multi-Agent Learning with Policy Prediction, Zhang et al."
+[26]: http://www.cs.cmu.edu/~mmv/papers/01ijcai-mike.pdf "Rational and Convergent Learning in Stochastic Games, Bowling et al."
 
 ### Single Agent POMDP: ###
 
-Algorithms:
+| Algorithms                 |                                             |                                          |
+| -------------------------- | ------------------------------------------- | ---------------------------------------- |
+| [Augmented MDP (AMDP)][27] | [Blind Strategies][28]                      | [Fast Informed Bound][29]                |
+| [GapMin][30]               | [Incremental Pruning][31]                   | [Linear Support][32]                     |
+| [PERSEUS][33]              | [POMCP with UCB1][34]                       | [Point Based Value Iteration (PBVI)][35] |
+| [QMDP][36]                 | [Real-Time Belief State Search (RTBSS)][37] | [SARSOP][38]                             |
+| [Witness][39]              | [rPOMCP][40]                                |                                          |
 
-- [Augmented MDP (AMDP)](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun")
-- [Blind Strategies](http://www.aaai.org/Papers/AAAI/1997/AAAI97-114.pdf "Incremental methods for computing bounds in partially observable Markov decision processes, Hauskrecht")
-- [Fast Informed Bound](https://people.cs.pitt.edu/~milos/research/JAIR-2000.pdf "Value-Function Approximations for Partially Observable Markov Decision Processes, Hauskrecht")
-- [GapMin](https://cs.uwaterloo.ca/~ppoupart/publications/gapMin/gap-camera-ready.pdf "Closing the Gap: Improved Bounds on Optimal POMDP Solutions, Poupart et al.")
-- [Incremental Pruning](http://arxiv.org/pdf/1302.1525.pdf "Incremental Pruning: A Simple, Fast, Exact Method for Partially Observable Markov Decision Processes, Cassandra et al.")
-- [Linear Support](https://open.library.ubc.ca/media/stream/pdf/831/1.0098252/1 "Algorithms for Partially Observable Markov Decision Processes, Phd Thesis, Cheng")
-- [PERSEUS](http://arxiv.org/pdf/1109.2145.pdf "Perseus: Randomized Point-based Value Iteration for POMDPs, Spaan et al.")
-- [POMCP with UCB1](http://www0.cs.ucl.ac.uk/staff/d.silver/web/Applications_files/pomcp.pdf "Monte-Carlo Planning in Large POMDPs, Silver et al.")
-- [Point Based Value Iteration (PBVI)](http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf "Point-based value iteration: An anytime algorithm for POMDPs, Pineau et al.")
-- [QMDP](http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun")
-- [Real-Time Belief State Search (RTBSS)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf "Real-Time Decision Making for Large POMDPs, Paquet et al.")
-- [SARSOP](http://www.roboticsproceedings.org/rss04/p9.pdf "SARSOP: Efficient Point-Based POMDP Planning by Approximating Optimally Reachable Belief Spaces, Kurniawati et al.")
-- [Witness](http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf "Planning and acting in partially observable stochastic domains, Kaelbling et al.")
-- [rPOMCP](https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf "Dynamic Resource Allocation for Multi-Camera Systems, Phd Thesis, Bargiacchi")
+[27]: http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun"
+[28]: http://www.aaai.org/Papers/AAAI/1997/AAAI97-114.pdf "Incremental methods for computing bounds in partially observable Markov decision processes, Hauskrecht"
+[29]: https://people.cs.pitt.edu/~milos/research/JAIR-2000.pdf "Value-Function Approximations for Partially Observable Markov Decision Processes, Hauskrecht"
+[30]: https://cs.uwaterloo.ca/~ppoupart/publications/gapMin/gap-camera-ready.pdf "Closing the Gap: Improved Bounds on Optimal POMDP Solutions, Poupart et al."
+[31]: http://arxiv.org/pdf/1302.1525.pdf "Incremental Pruning: A Simple, Fast, Exact Method for Partially Observable Markov Decision Processes, Cassandra et al."
+[32]: https://open.library.ubc.ca/media/stream/pdf/831/1.0098252/1 "Algorithms for Partially Observable Markov Decision Processes, Phd Thesis, Cheng"
+[33]: http://arxiv.org/pdf/1109.2145.pdf "Perseus: Randomized Point-based Value Iteration for POMDPs, Spaan et al."
+[34]: http://www0.cs.ucl.ac.uk/staff/d.silver/web/Applications_files/pomcp.pdf "Monte-Carlo Planning in Large POMDPs, Silver et al."
+[35]: http://www.cs.cmu.edu/~ggordon/jpineau-ggordon-thrun.ijcai03.pdf "Point-based value iteration: An anytime algorithm for POMDPs, Pineau et al."
+[36]: http://dai.fmph.uniba.sk/~petrovic/probrob/ch16.pdf "Probabilistic robotics, Ch 16: Approximate POMDP Techniques, Thrun"
+[37]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.2256&rep=rep1&type=pdf "Real-Time Decision Making for Large POMDPs, Paquet et al."
+[38]: http://www.roboticsproceedings.org/rss04/p9.pdf "SARSOP: Efficient Point-Based POMDP Planning by Approximating Optimally Reachable Belief Spaces, Kurniawati et al."
+[39]: http://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf "Planning and acting in partially observable stochastic domains, Kaelbling et al."
+[40]: https://esc.fnwi.uva.nl/thesis/centraal/files/f581932172.pdf "Dynamic Resource Allocation for Multi-Camera Systems, Phd Thesis, Bargiacchi"
 
 Policies:
 
@@ -164,19 +180,24 @@ Policies:
 
 Not in Python yet.
 
-Algorithms:
+| Algorithms                 |                                                   |                                                    |
+| -------------------------- | ------------------------------------------------- | -------------------------------------------------- |
+| [Max-Plus][39]             | [Multi-Objective Variable Elimination (MOVE)][40] | [Upper Confidence Variable Elimination (UCVE)][41] |
+| [Variable Elimination][42] |                                                   |                                                    |
 
-- [Max-Plus](http://www.jmlr.org/papers/volume7/kok06a/kok06a.pdf "Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al.")
-- [Multi-Objective Variable Elimination (MOVE)](https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf "Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al.")
-- [Upper Confidence Variable Elimination (UCVE)](http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.")
-- [Variable Elimination](https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al.")
+[39]: http://www.jmlr.org/papers/volume7/kok06a/kok06a.pdf "Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al."
+[40]: https://staff.fnwi.uva.nl/s.a.whiteson/pubs/roijersaamas13.pdf "Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al."
+[41]: http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
+[42]: https://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al."
 
-Policies:
+| Policies                                         |                                          |                                                        |
+| ------------------------------------------------ | ---------------------------------------- | ------------------------------------------------------ |
+| Q-Greedy Policy                                  | [Learning with Linear Rewards (LLR)][43] | [Multi-Agent Upper Confidence Exploration (MAUCE)][44] |
+| [Thompson-Sampling (Student-t distribution)][45] |                                          |                                                        |
 
-- Q-Greedy Policy
-- [Learning with Linear Rewards (LLR)](https://arxiv.org/pdf/1011.4748.pdf "Combinatorial Network Optimization with Unknown Variables: Multi-Armed Bandits with Linear Rewards, Gai et al.")
-- [Multi-Agent Upper Confidence Exploration (MAUCE)](http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.")
-- [Thompson-Sampling (Student-t distribution)](https://arxiv.org/pdf/1911.10120.pdf "Multi-Agent Thompson Sampling for Bandit Applications with Sparse Neighbourhood Structures, Verstraeten et al.")
+[43]: https://arxiv.org/pdf/1011.4748.pdf "Combinatorial Network Optimization with Unknown Variables: Multi-Armed Bandits with Linear Rewards, Gai et al."
+[44]: http://proceedings.mlr.press/v80/bargiacchi18a/bargiacchi18a.pdf "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
+[45]: https://arxiv.org/pdf/1911.10120.pdf "Multi-Agent Thompson Sampling for Bandit Applications with Sparse Neighbourhood Structures, Verstraeten et al."
 
 #### MDP: ####
 
@@ -187,19 +208,20 @@ Models:
 - Cooperative Maximum Likelihood Model
 - Cooperative Thompson Model (Dirichlet + Student-t distributions)
 
-Algorithms:
+| Algorithms                          |                                        |                             |
+| ----------------------------------- | -------------------------------------- | --------------------------- |
+| [FactoredLP][46]                    | [Multi Agent Linear Programming][47]   | [Joint Action Learners][48] |
+| [Sparse Cooperative Q-Learning][49] | [Cooperative Prioritized Sweeping][50] |                             |
 
-- [FactoredLP](https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf "Max-norm Projections for Factored MDPs, Guestrin et al.")
-- [Multi Agent Linear Programming](http://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al.")
-- [Joint Action Learners](https://www.aaai.org/Papers/AAAI/1998/AAAI98-106.pdf "The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems, Claus et al.")
-- [Sparse Cooperative QLearning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf "Sparse Cooperative Q-learning, Kok et al.")
-- [Cooperative Prioritized Sweeping](https://arxiv.org/pdf/2001.07527.pdf "Model-based Multi-Agent Reinforcement Learning with Cooperative Prioritized Sweeping, Bargiacchi et al.")
+[46]: https://ai.stanford.edu/~koller/Papers/Guestrin+al:IJCAI01.pdf "Max-norm Projections for Factored MDPs, Guestrin et al."
+[47]: http://papers.nips.cc/paper/1941-multiagent-planning-with-factored-mdps.pdf "Multiagent Planning with Factored MDPs, Guestrin et al."
+[48]: https://www.aaai.org/Papers/AAAI/1998/AAAI98-106.pdf "The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems, Claus et al."
+[49]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.99.8394&rep=rep1&type=pdf "Sparse Cooperative Q-learning, Kok et al."
+[50]: https://arxiv.org/pdf/2001.07527.pdf "Model-based Multi-Agent Reinforcement Learning with Cooperative Prioritized Sweeping, Bargiacchi et al."
 
-Policies:
-
-- SingleAction Policy
-- Epsilon-Greedy Policy
-- Q-Greedy Policy
+| Policies             |                       |                 |
+| -------------------- | --------------------- | --------------- |
+|  SingleAction Policy | Epsilon-Greedy Policy | Q-Greedy Policy |
 
 Build Instructions
 ==================
