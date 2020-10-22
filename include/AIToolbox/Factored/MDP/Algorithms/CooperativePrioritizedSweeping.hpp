@@ -66,6 +66,15 @@ namespace AIToolbox::Factored::MDP {
              */
             const FactoredMatrix2D & getQFunction() const;
 
+            /**
+             * @brief This function sets the QFunction to a set value.
+             *
+             * This function is useful to perform optimistic initialization.
+             *
+             * @param val The value to set all entries in the QFunction.
+             */
+            void setQFunction(double val);
+
         private:
             /**
              * @brief This function performs the actual QFunction updates for both stepUpdateQ and batchUpdateQ.
@@ -85,16 +94,13 @@ namespace AIToolbox::Factored::MDP {
             void addToQueue(const State & s1);
 
             const M & model_;
-
             double alpha_, theta_;
 
             std::vector<std::vector<size_t>> qDomains_;
-            Vector rewardWeights_, deltaStorage_;
+            Vector rewardWeights_, deltaStorage_, rewardStorage_;
 
             FactoredMatrix2D q_;
-
             QGreedyPolicy gp_;
-
             CPSQueue queue_;
 
             mutable RandomEngine rand_;
@@ -107,6 +113,7 @@ namespace AIToolbox::Factored::MDP {
             qDomains_(std::move(basisDomains)),
             rewardWeights_(model_.getS().size()),
             deltaStorage_(model_.getS().size()),
+            rewardStorage_(model_.getS().size()),
             gp_(model_.getS(), model_.getA(), q_),
             queue_(model_.getGraph()),
             rand_(Impl::Seeder::getSeed())
@@ -118,37 +125,37 @@ namespace AIToolbox::Factored::MDP {
         // anyway it's not a problem.
         rewardWeights_.setZero();
         deltaStorage_.setZero();
+        // We don't need to zero rewardStorage_
 
         const auto & nodes = model_.getGraph().getNodes();
 
         q_.bases.reserve(qDomains_.size());
         for (const auto & domain : qDomains_) {
             q_.bases.emplace_back();
-            auto & fm = q_.bases.back();
+            auto & q = q_.bases.back();
 
-            for (auto d : domain) {
-                // Note that there's one more Q factor that depends
-                // this state factor.
+            for (const auto d : domain) {
+                // Compute state-action domain for this Q factor.
+                q.actionTag = merge(q.actionTag, nodes[d].agents);
+                for (const auto & n : nodes[d].parents)
+                    q.tag = merge(q.tag, n);
+            }
+            // We weight rewards based on the state features of each Q factor
+            for (const auto d : q.tag)
                 rewardWeights_[d] += 1.0;
 
-                // Compute state-action domain for this Q factor.
-                fm.actionTag = merge(fm.actionTag, nodes[d].agents);
-                for (const auto & n : nodes[d].parents)
-                    fm.tag = merge(fm.tag, n);
-            }
-
             // Initialize this factor's matrix.
-            const size_t sizeA = factorSpacePartial(fm.actionTag, model_.getA());
-            const size_t sizeS = factorSpacePartial(fm.tag, model_.getS());
+            const size_t sizeA = factorSpacePartial(q.actionTag, model_.getA());
+            const size_t sizeS = factorSpacePartial(q.tag, model_.getS());
 
-            fm.values.resize(sizeS, sizeA);
-            fm.values.setZero();
+            q.values.resize(sizeS, sizeA);
+            q.values.setZero();
         }
     }
 
     template <typename M>
     void CooperativePrioritizedSweeping<M>::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
-        updateQ(s, a, s1, r.array() / rewardWeights_.array());
+        updateQ(s, a, s1, r);
         addToQueue(s);
     }
 
@@ -181,7 +188,6 @@ namespace AIToolbox::Factored::MDP {
 
             // Finally, sample a new s1/rews from the model.
             model_.sampleSRs(s, a, &s1, &rews);
-            rews.array() /= rewardWeights_.array();
 
             // And use them to update Q.
             updateQ(s, a, s1, rews);
@@ -192,14 +198,41 @@ namespace AIToolbox::Factored::MDP {
     }
 
     template <typename M>
-    const FactoredMatrix2D & CooperativePrioritizedSweeping<M>::getQFunction() const {
-        return q_;
-    }
-
-    template <typename M>
     void CooperativePrioritizedSweeping<M>::updateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
         // Compute optimal action to do Q-Learning update.
         const auto a1 = gp_.sampleAction(s1);
+
+        // The standard Q-update is in the form:
+        //
+        // Q(s,a) += alpha * ( R(s,a) + gamma * Q(s', a') - Q(s,a) )
+        //
+        // Since our Q-function is factored, we want to split the rewards per
+        // state feature (similar to SparseCooperativeQLearning).
+
+        // Start with R
+        rewardStorage_ = r.array();
+        // Now go over the factored Q-function for the rest
+        for (const auto & q : q_.bases) {
+            const auto sid = toIndexPartial(q.tag, model_.getS(), s);
+            const auto aid = toIndexPartial(q.actionTag, model_.getA(), a);
+
+            const auto s1id = toIndexPartial(q.tag, model_.getS(), s1);
+            const auto a1id = toIndexPartial(q.actionTag, model_.getA(), a1);
+
+            // gamma * Q(s', a') - Q(s, a)
+            // We normalize it per state features, since we distribute the diff to all
+            // elements of rewardStorage_.
+            const auto diff = (model_.getDiscount() * q.values(s1id, a1id) - q.values(sid, aid)) / q.tag.size();
+
+            // Apply the values to each state feature that applies to this Q factor.
+            // R(s,a) + ...
+            for (const auto s : q.tag)
+                rewardStorage_[s] += diff;
+        }
+
+        // Normalize all values based on Q-factors
+        rewardStorage_.array() /= rewardWeights_.array();
+        rewardStorage_.array() *= alpha_;
 
         // We update each Q factor separately.
         for (size_t i = 0; i < q_.bases.size(); ++i) {
@@ -208,26 +241,20 @@ namespace AIToolbox::Factored::MDP {
             const auto sid = toIndexPartial(q.tag, model_.getS(), s);
             const auto aid = toIndexPartial(q.actionTag, model_.getA(), a);
 
-            const auto s1id = toIndexPartial(q.tag, model_.getS(), s1);
-            const auto a1id = toIndexPartial(q.actionTag, model_.getA(), a1);
-
             // Compute numerical reward from the components children of this Q
             // factor.
-            double rr = 0.0;
-            for (auto s : qDomains_[i])
-                rr += r[s]; // already divided by weights
+            double td = 0.0;
+            for (const auto s : q.tag)
+                td += rewardStorage_[s];
 
-            const auto originalQ = q.values(sid, aid);
-
-            // Q-Learning update
-            q.values(sid, aid) += alpha_ * ( rr + model_.getDiscount() * q.values(s1id, a1id) - q.values(sid, aid) );
+            q.values(sid, aid) += td;
 
             // Split the delta to each element referenced by this Q factor.
             // Note that we add to the storage, which is only cleared once we
             // call addToQueue; this means that multiple calls to this
             // functions cumulate their deltas.
-            const auto delta = std::fabs(originalQ - q.values(sid, aid)) / q.tag.size();
-            for (auto s : q.tag)
+            const auto delta = std::fabs(td) / q.tag.size();
+            for (const auto s : q.tag)
                 deltaStorage_[s] += delta;
         }
     }
@@ -262,6 +289,17 @@ namespace AIToolbox::Factored::MDP {
             // Reset this delta.
             deltaStorage_[i] = 0.0;
         }
+    }
+
+    template <typename M>
+    void CooperativePrioritizedSweeping<M>::setQFunction(const double val) {
+        for (auto & q : q_.bases)
+            q.values.fill(val);
+    }
+
+    template <typename M>
+    const FactoredMatrix2D & CooperativePrioritizedSweeping<M>::getQFunction() const {
+        return q_;
     }
 }
 
