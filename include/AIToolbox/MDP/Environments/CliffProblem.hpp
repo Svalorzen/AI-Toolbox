@@ -5,48 +5,56 @@
 #include <AIToolbox/MDP/Environments/Utils/GridWorld.hpp>
 
 namespace AIToolbox::MDP {
-    // The gist of this problem is a small grid where the agent is suppose to walk
-    // from a state to another state. The only problem is that between the two
-    // points stands a cliff, and walking down the cliff results in a huge negative
-    // reward, and in the agent being reset at the start of the walk. Reaching the
-    // end results in a positive reward, while every step results in a small
-    // negative reward.
-    //
-    // Movement here is fully deterministic.
-    //
-    //  +--------+--------+--------+--------+--------+
-    //  |        |        |        |        |        |
-    //  |    0   |    1   |  ....  |   X-2  |   X-1  |
-    //  |        |        |        |        |        |
-    //  +--------+--------+--------+--------+--------+
-    //  |        |        |        |        |        |
-    //  |    X   |   X+1  |  ....  |  2X-2  |  2X-1  |
-    //  |        |        |        |        |        |
-    //  +--------+--------+--------+--------+--------+
-    //  |        |        |        |        |        |
-    //  |   2X   |  2X+1  |  ....  |  3X-2  |  3X-1  |
-    //  |        |        |        |        |        |
-    //  +--------+--------+--------+--------+--------+
-    //  |        |        |        |        |        |
-    //  |  ....  |  ....  |  ....  |  ....  |  ....  |
-    //  |        |        |        |        |        |
-    //  +--------+--------+--------+--------+--------+
-    //  |        |        |        |        |        |
-    //  | (Y-1)X |(Y-1)X+1|  ....  |  YX-2  |  YX-1  |
-    //  |        |        |        |        |        |
-    //  +--------+--------+--------+--------+--------+
-    //  | (START)|        |        |        | (GOAL) |
-    //  |   YX   |  ~~~~  |  ....  |  ~~~~  |  YX+1  |
-    //  |        |        |        |        |        |
-    //  +--------+--------+--------+--------+--------+
-    //               \                 /
-    //                --------- -------
-    //                         V
-    //                     The Cliff
-    //
-    // To do this we use a grid above the cliff, and we attach two
-    // states under it.
 
+    /**
+     * @brief This function sets up the cliff problem in a SparseModel.
+     *
+     * The gist of this problem is a small grid where the agent is suppose to walk
+     * from a state to another state. The only problem is that between the two
+     * points stands a cliff, and walking down the cliff results in a huge negative
+     * reward, and in the agent being reset at the start of the walk. Reaching the
+     * end results in a positive reward, while every step results in a small
+     * negative reward.
+     *
+     * Movement here is fully deterministic.
+     *
+     *  +--------+--------+--------+--------+--------+
+     *  |        |        |        |        |        |
+     *  |    0   |    1   |  ....  |   X-2  |   X-1  |
+     *  |        |        |        |        |        |
+     *  +--------+--------+--------+--------+--------+
+     *  |        |        |        |        |        |
+     *  |    X   |   X+1  |  ....  |  2X-2  |  2X-1  |
+     *  |        |        |        |        |        |
+     *  +--------+--------+--------+--------+--------+
+     *  |        |        |        |        |        |
+     *  |   2X   |  2X+1  |  ....  |  3X-2  |  3X-1  |
+     *  |        |        |        |        |        |
+     *  +--------+--------+--------+--------+--------+
+     *  |        |        |        |        |        |
+     *  |  ....  |  ....  |  ....  |  ....  |  ....  |
+     *  |        |        |        |        |        |
+     *  +--------+--------+--------+--------+--------+
+     *  |        |        |        |        |        |
+     *  | (Y-1)X |(Y-1)X+1|  ....  |  YX-2  |  YX-1  |
+     *  |        |        |        |        |        |
+     *  +--------+--------+--------+--------+--------+
+     *  | (START)|        |        |        | (GOAL) |
+     *  |   YX   |  ~~~~  |  ....  |  ~~~~  |  YX+1  |
+     *  |        |        |        |        |        |
+     *  +--------+--------+--------+--------+--------+
+     *               \                 /
+     *                --------- -------
+     *                         V
+     *                     The Cliff
+     *
+     * To do this we use a grid above the cliff, and we attach two
+     * states under it.
+     *
+     * @param grid The grid to use for the problem.
+     *
+     * @return The SparseModel representing the problem.
+     */
     inline AIToolbox::MDP::SparseModel makeCliffProblem(const GridWorld & grid) {
         using namespace GridWorldEnums;
 

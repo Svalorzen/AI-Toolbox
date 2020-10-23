@@ -5,36 +5,6 @@
 #include <AIToolbox/POMDP/Model.hpp>
 
 namespace AIToolbox::POMDP {
-    // The following problem is the AAAI-94 Tiger problem, with
-    // a 0.95 discount factor. The problem can be stated as follows:
-    //
-    // The agent stands in front of two doors. He can open either of
-    // them. Behind one door, there is an agent-eater tiger, and
-    // in the other a small treasure. The agent does not know to what
-    // each door leads to, but instead of just opening the door, he
-    // can listen. When he listens, it will hear the tiger from either
-    // the left or right door. Its hearing is imperfect though, and
-    // 15% of the time it will hear the tiger behind the wrong door.
-    //
-    // Once the agent opens a door, it will either get a great penalty
-    // due to being eaten by the tiger, or get the reward. After that
-    // the game will automatically reset to an unknown state: the agent
-    // needs to start guessing again where the new tiger and treasure
-    // are.
-    //
-    // The states here are the positions of the tiger and treasure:
-    // since there are two doors, there are two states.
-    //
-    // There are three actions, corresponding to the listen action and
-    // open door actions.
-    //
-    // There are two possible observations, which are always random but
-    // for the listen action: in that case, we will obtain the correct
-    // information about the true state 85% of the time.
-    //
-    // The solutions of this problem have been computed using Tony
-    // Cassandra's pomdp-solve program (www.pomdp.org).
-
     namespace TigerProblemEnums {
         enum Action {
             A_LISTEN = 0,
@@ -48,13 +18,48 @@ namespace AIToolbox::POMDP {
         };
     }
 
-    constexpr double listenError = 0.15;
-
+    /**
+     * @brief This function sets up the tiger problem in a Model.
+     *
+     * This function builds the AAAI-94 Tiger problem, with
+     * a 0.95 discount factor. The problem can be stated as follows:
+     *
+     * The agent stands in front of two doors. He can open either of
+     * them. Behind one door, there is an agent-eater tiger, and
+     * in the other a small treasure. The agent does not know to what
+     * each door leads to, but instead of just opening the door, he
+     * can listen. When he listens, it will hear the tiger from either
+     * the left or right door. Its hearing is imperfect though, and
+     * 15% of the time it will hear the tiger behind the wrong door.
+     *
+     * Once the agent opens a door, it will either get a great penalty
+     * due to being eaten by the tiger, or get the reward. After that
+     * the game will automatically reset to an unknown state: the agent
+     * needs to start guessing again where the new tiger and treasure
+     * are.
+     *
+     * The states here are the positions of the tiger and treasure:
+     * since there are two doors, there are two states.
+     *
+     * There are three actions, corresponding to the listen action and
+     * open door actions.
+     *
+     * There are two possible observations, which are always random but
+     * for the listen action: in that case, we will obtain the correct
+     * information about the true state 85% of the time.
+     *
+     * The solutions of this problem have been computed using Tony
+     * Cassandra's pomdp-solve program (www.pomdp.org).
+     *
+     * @return The Model representing the problem.
+     */
     inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> makeTigerProblem() {
         using namespace TigerProblemEnums;
 
+        constexpr double listenError = 0.15;
+
         // Actions are: 0-listen, 1-open-left, 2-open-right
-        size_t S = 2, A = 3, O = 2;
+        constexpr size_t S = 2, A = 3, O = 2;
 
         AIToolbox::POMDP::Model<AIToolbox::MDP::Model> model(O, S, A);
 
