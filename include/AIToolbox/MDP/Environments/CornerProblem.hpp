@@ -51,8 +51,8 @@ namespace AIToolbox::MDP {
         AIToolbox::DumbMatrix3D transitions(boost::extents[S][A][S]);
         AIToolbox::DumbMatrix3D rewards(boost::extents[S][A][S]);
 
-        for ( int x = 0; x < 4; ++x ) {
-            for ( int y = 0; y < 4; ++y ) {
+        for ( size_t x = 0; x < grid.getWidth(); ++x ) {
+            for ( size_t y = 0; y < grid.getHeight(); ++y ) {
                 auto s = grid(x,y);
                 if ( s == 0 || s == S-1 ) {
                     // Self absorbing states

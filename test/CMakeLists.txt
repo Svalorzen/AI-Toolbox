@@ -46,6 +46,8 @@ if (MAKE_MDP)
     AddTest(Bandit LRPPolicy)
     AddTest(Bandit ESRLPolicy)
 
+    AddTest(MDP Environments)
+
     AddTest(MDP Types)
     AddTest(MDP UtilsPolytope)
 
