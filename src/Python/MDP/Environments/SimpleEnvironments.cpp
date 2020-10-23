@@ -1,0 +1,110 @@
+#include <AIToolbox/MDP/Environments/CornerProblem.hpp>
+#include <AIToolbox/MDP/Environments/CliffProblem.hpp>
+
+#include <boost/python.hpp>
+#include <boost/python/overloads.hpp>
+
+BOOST_PYTHON_FUNCTION_OVERLOADS(cornerOverload, AIToolbox::MDP::makeCornerProblem, 1, 2);
+
+void exportMDPSimpleEnvironments() {
+    using namespace boost::python;
+
+    def("makeCornerProblem", AIToolbox::MDP::makeCornerProblem, cornerOverload(
+         "This function sets up the corner problem in a Model.\n"
+         "\n"
+         "The gist of this problem is a small grid where\n"
+         "the upper-left corner and the bottom-right corner\n"
+         "are self-absorbing states. The agent can move in a\n"
+         "top-left-down-right way, where each transition that\n"
+         "is not self absorbing results in a reward penalty of -1.\n"
+         "In addition the movements are not guaranteed: the\n"
+         "agent succeeds only 80% of the time.\n"
+         "\n"
+         "Thus the agent needs to be able to find the shortest\n"
+         "path to one of the self-absorbing states from every other\n"
+         "state.\n"
+         "\n"
+         "The grid cells are numbered as following:\n"
+         "\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " | (GOAL) |        |        |        |        |\n"
+         " |    0   |    1   |  ....  |   X-2  |   X-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " |    X   |   X+1  |  ....  |  2X-2  |  2X-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " |   2X   |  2X+1  |  ....  |  3X-2  |  3X-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " |  ....  |  ....  |  ....  |  ....  |  ....  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        | (GOAL) |\n"
+         " | (Y-1)X |(Y-1)X+1|  ....  |  YX-2  |  YX-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         "\n"
+         "@param grid The grid to use for the problem.\n"
+         "@param stepUncertainty The probability that a movement action succeeds.\n"
+         "\n"
+         "@return The Model representing the problem."
+
+         , (arg("grid"), "stepUncertainty"))
+    );
+
+    def("makeCliffProblem", AIToolbox::MDP::makeCliffProblem,
+         "This function sets up the cliff problem in a SparseModel.\n"
+         "\n"
+         "The gist of this problem is a small grid where the agent is suppose to walk\n"
+         "from a state to another state. The only problem is that between the two\n"
+         "points stands a cliff, and walking down the cliff results in a huge negative\n"
+         "reward, and in the agent being reset at the start of the walk. Reaching the\n"
+         "end results in a positive reward, while every step results in a small\n"
+         "negative reward.\n"
+         "\n"
+         "Movement here is fully deterministic.\n"
+         "\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " |    0   |    1   |  ....  |   X-2  |   X-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " |    X   |   X+1  |  ....  |  2X-2  |  2X-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " |   2X   |  2X+1  |  ....  |  3X-2  |  3X-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " |  ....  |  ....  |  ....  |  ....  |  ....  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " |        |        |        |        |        |\n"
+         " | (Y-1)X |(Y-1)X+1|  ....  |  YX-2  |  YX-1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         " | (START)|        |        |        | (GOAL) |\n"
+         " |   YX   |  ~~~~  |  ....  |  ~~~~  |  YX+1  |\n"
+         " |        |        |        |        |        |\n"
+         " +--------+--------+--------+--------+--------+\n"
+         "              \\                 /\n"
+         "               --------- -------\n"
+         "                        V\n"
+         "                    The Cliff\n"
+         "\n"
+         "To do this we use a grid above the cliff, and we attach two\n"
+         "states under it.\n"
+         "\n"
+         "@param grid The grid to use for the problem.\n"
+         "\n"
+         "@return The SparseModel representing the problem."
+
+         , (arg("grid"))
+    );
+}

@@ -165,6 +165,8 @@ if (MAKE_PYTHON)
             Python/MDP/Policies/EpsilonPolicy.cpp
             Python/MDP/Policies/WoLFPolicy.cpp
             Python/MDP/Policies/PGAAPPPolicy.cpp
+            Python/MDP/Environments/Utils/GridWorld.cpp
+            Python/MDP/Environments/SimpleEnvironments.cpp
         )
         set(PYTHON_LINKS AIToolboxMDP ${LPSOLVE_LIBRARIES})
         set(PYTHON_DEFINES -DAITOOLBOX_EXPORT_BANDIT -DAITOOLBOX_EXPORT_MDP)

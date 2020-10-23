@@ -35,6 +35,9 @@ void exportMDPEpsilonPolicy();
 void exportMDPWoLFPolicy();
 void exportMDPPolicy();
 
+void exportMDPGridWorld();
+void exportMDPSimpleEnvironments();
+
 void exportMDP() {
 #ifdef AITOOLBOX_EXPORT_MDP
     namespace bp = boost::python;
@@ -78,5 +81,8 @@ void exportMDP() {
     exportMDPEpsilonPolicy();
     exportMDPWoLFPolicy();
     exportMDPPolicy();
+
+    exportMDPGridWorld();
+    exportMDPSimpleEnvironments();
 #endif
 }
