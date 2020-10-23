@@ -88,5 +88,6 @@ namespace AIToolbox::MDP {
 
     unsigned GridWorld::getWidth() const { return width_; }
     unsigned GridWorld::getHeight() const { return height_; }
+    bool GridWorld::isTorus() const { return isTorus_; }
     size_t GridWorld::getS() const { return width_ * height_; }
 }

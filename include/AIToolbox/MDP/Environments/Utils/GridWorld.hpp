@@ -104,6 +104,11 @@ namespace AIToolbox::MDP {
             unsigned getHeight() const;
 
             /**
+             * @brief This function returns whether the GridWorld represents a torus.
+             */
+            bool isTorus() const;
+
+            /**
              * @brief This function returns the number of cells in the grid.
              */
             size_t getS() const;
