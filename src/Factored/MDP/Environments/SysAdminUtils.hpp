@@ -21,7 +21,7 @@ namespace AIToolbox::Factored::MDP {
      * @return The transition matrix of size ((neighbors+1)^3, 3).
      */
     inline Matrix2D makeA0MatrixStatus(unsigned neighbors, size_t id, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus) {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
 
         const unsigned neighborsCombinations = std::pow(3, neighbors + 1);
         Matrix2D retval(neighborsCombinations, 3);
@@ -64,7 +64,7 @@ namespace AIToolbox::Factored::MDP {
      * @return The transition matrix of size (3, 3).
      */
     inline Matrix2D makeA1MatrixStatus() {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
 
         Matrix2D retval(3, 3);
 
@@ -89,7 +89,7 @@ namespace AIToolbox::Factored::MDP {
      * @return The transition matrix of size (3*3, 3).
      */
     inline Matrix2D makeA0MatrixLoad(double pLoad, double pDoneG, double pDoneF) {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
         // States are Status + Idle, and we iterate over lower ids first, so the
         // matrix must be initialized by changing Status first.
         Matrix2D retval(3 * 3, 3);
@@ -120,7 +120,7 @@ namespace AIToolbox::Factored::MDP {
      * @return The transition matrix of size (3, 3).
      */
     inline Matrix2D makeA1MatrixLoad() {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
 
         Matrix2D retval(3, 3);
 
@@ -147,7 +147,7 @@ namespace AIToolbox::Factored::MDP {
      * @return The reward matrix of size (3*3, 2).
      */
     inline Matrix2D makeRewardMatrix(const Matrix2D & la0Matrix) {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
         // All reward matrices for all agents are the same, so we build it here
         // once.
         //
@@ -179,7 +179,7 @@ namespace AIToolbox::Factored::MDP {
      * @brief This function returns a printable character of a machine's status.
      */
     inline char printMachineStatus(unsigned s) {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
         switch (s) {
             case Good: return 'g';
             case Fail: return 'f';
@@ -191,7 +191,7 @@ namespace AIToolbox::Factored::MDP {
      * @brief This function returns a printable character of a machine's load.
      */
     inline char printMachineLoad(unsigned l) {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
         switch (l) {
             case Idle: return 'i';
             case Load: return 'l';

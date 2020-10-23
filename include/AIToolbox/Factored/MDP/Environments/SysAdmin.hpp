@@ -4,7 +4,7 @@
 #include <AIToolbox/Factored/MDP/CooperativeModel.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    namespace SysAdminEnums {
+    namespace SysAdminUtils {
         enum MachineStatus {
             Good = 0,
             Fail,

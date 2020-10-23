@@ -13,7 +13,7 @@ namespace AIToolbox::Factored::MDP {
         // Load transition params.
         double pLoad, double pDoneG, double pDoneF)
     {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
 
         // Make grid world to help with directions.
         AIToolbox::MDP::GridWorld grid(width, height);
@@ -55,7 +55,7 @@ namespace AIToolbox::Factored::MDP {
             auto cell = grid(a);
             PartialKeys sa0 = {cell * 2};
             // Add to tag all elements around it.
-            for (auto d : AIToolbox::MDP::GridWorldEnums::Directions4) {
+            for (auto d : AIToolbox::MDP::GridWorldUtils::Directions4) {
                 const auto adj = grid.getAdjacent(d, cell);
                 if (adj == cell) continue;
                 sa0.push_back(grid.getAdjacent(d, cell) * 2);
@@ -119,7 +119,7 @@ namespace AIToolbox::Factored::MDP {
         // Load transition params.
         double pLoad, double pDoneG, double pDoneF)
     {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
         // Parameters for this network type:
         // Since we are using a torus, each agent has 4 neighbors.
         constexpr unsigned neighbors = 4;
@@ -164,7 +164,7 @@ namespace AIToolbox::Factored::MDP {
             auto cell = grid(a);
             PartialKeys sa0 = {cell * 2};
             // Add to tag all elements around it.
-            for (auto d : AIToolbox::MDP::GridWorldEnums::Directions4)
+            for (auto d : AIToolbox::MDP::GridWorldUtils::Directions4)
                 sa0.push_back(grid.getAdjacent(d, cell) * 2);
 
             // Sort them so the tag is valid.

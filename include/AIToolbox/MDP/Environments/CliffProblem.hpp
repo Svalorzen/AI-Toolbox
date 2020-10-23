@@ -56,7 +56,7 @@ namespace AIToolbox::MDP {
      * @return The SparseModel representing the problem.
      */
     inline AIToolbox::MDP::SparseModel makeCliffProblem(const GridWorld & grid) {
-        using namespace GridWorldEnums;
+        using namespace GridWorldUtils;
 
         size_t S = grid.getWidth() * grid.getHeight() + 2;
         size_t A = 4;

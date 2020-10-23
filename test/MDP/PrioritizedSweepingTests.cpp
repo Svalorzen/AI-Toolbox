@@ -16,7 +16,7 @@
 
 BOOST_AUTO_TEST_CASE( cliff ) {
     using namespace AIToolbox::MDP;
-    using namespace GridWorldEnums;
+    using namespace GridWorldUtils;
 
     GridWorld grid(12, 3);
 

@@ -10,7 +10,7 @@
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
-    using namespace GridWorldEnums;
+    using namespace GridWorldUtils;
 
     GridWorld grid(4,4);
 

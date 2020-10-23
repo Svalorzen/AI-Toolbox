@@ -24,7 +24,7 @@ namespace AIToolbox::MDP {
     }
 
     GridWorld::State GridWorld::getAdjacent(Direction d, State s) const {
-        using namespace GridWorldEnums;
+        using namespace GridWorldUtils;
         switch ( d ) {
             case UP:    return operator()(s.x, s.y-1);
             case DOWN:  return operator()(s.x, s.y+1);
@@ -39,7 +39,7 @@ namespace AIToolbox::MDP {
     }
 
     GridWorld::State GridWorld::getAdjacent(size_t d, State s) const {
-        return getAdjacent((GridWorldEnums::Direction)d, s);
+        return getAdjacent((GridWorldUtils::Direction)d, s);
     }
 
     unsigned GridWorld::distance(const State & s1, const State & s2) const {

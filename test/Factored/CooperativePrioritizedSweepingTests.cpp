@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
         (void)x;
 
         for (size_t l = 1; l < model.getS().size(); l += 2)
-            r[l] = (s1[l] == fm::SysAdminEnums::Done);
+            r[l] = (s1[l] == fm::SysAdminUtils::Done);
 
         const auto & ids = exp.record(s, a, s1, r);
         model.sync(ids);

@@ -42,7 +42,7 @@ namespace AIToolbox::Factored::MDP {
                 auto otherId = s1[0] == antelopePosition_ ? 1 : 0;
 
                 bool support = false;
-                for (auto d : AIToolbox::MDP::GridWorldEnums::Directions4)
+                for (auto d : AIToolbox::MDP::GridWorldUtils::Directions4)
                     if (s1[otherId] == grid_.getAdjacent(d, grid_(antelopePosition_)))
                         support = true;
 
@@ -66,7 +66,7 @@ namespace AIToolbox::Factored::MDP {
         std::bernoulli_distribution d(0.2);
         if (!d(rand_)) {
             std::vector<size_t> goodDirections;
-            for (auto d : AIToolbox::MDP::GridWorldEnums::Directions4) {
+            for (auto d : AIToolbox::MDP::GridWorldUtils::Directions4) {
                 auto adjacent = grid_.getAdjacent(d, grid_(antelopePosition_));
                 if (adjacent != s1[0] && adjacent != s1[1])
                     goodDirections.push_back(d);
@@ -90,7 +90,7 @@ namespace AIToolbox::Factored::MDP {
         // both agents move at the same time, as the sampleSRs code will make
         // sure that the unsupported tiger is teleported somewhere else.
         auto otherId = s[0] == antelopePosition_ ? 1 : 0;
-        for (auto d : AIToolbox::MDP::GridWorldEnums::Directions4)
+        for (auto d : AIToolbox::MDP::GridWorldUtils::Directions4)
             if (s[otherId] == grid_.getAdjacent(d, grid_(antelopePosition_)))
                 return true;
 

@@ -5,7 +5,7 @@
 #include <AIToolbox/POMDP/Model.hpp>
 
 namespace AIToolbox::POMDP {
-    namespace TigerProblemEnums {
+    namespace TigerProblemUtils {
         enum Action {
             A_LISTEN = 0,
             A_LEFT   = 1,
@@ -16,6 +16,8 @@ namespace AIToolbox::POMDP {
             TIG_LEFT    = 0,
             TIG_RIGHT   = 1,
         };
+
+        constexpr double listenError = 0.15;
     }
 
     /**
@@ -54,9 +56,7 @@ namespace AIToolbox::POMDP {
      * @return The Model representing the problem.
      */
     inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> makeTigerProblem() {
-        using namespace TigerProblemEnums;
-
-        constexpr double listenError = 0.15;
+        using namespace TigerProblemUtils;
 
         // Actions are: 0-listen, 1-open-left, 2-open-right
         constexpr size_t S = 2, A = 3, O = 2;

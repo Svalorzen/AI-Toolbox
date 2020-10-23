@@ -12,7 +12,7 @@ namespace AIToolbox::Factored::MDP {
         // Load transition params.
         double pLoad, double pDoneG, double pDoneF)
     {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
         // Parameters for this network type:
         // In this ring we have 1 neighbor.
         constexpr unsigned neighbors = 1;
@@ -115,7 +115,7 @@ namespace AIToolbox::Factored::MDP {
         // Load transition params.
         double pLoad, double pDoneG, double pDoneF)
     {
-        using namespace SysAdminEnums;
+        using namespace SysAdminUtils;
         // Parameters for this network type:
         // In a ring we have 2 neighbors.
         constexpr unsigned neighbors = 2;

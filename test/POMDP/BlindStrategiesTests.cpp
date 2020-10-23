@@ -14,7 +14,7 @@
 BOOST_AUTO_TEST_CASE( horizon1 ) {
     using namespace AIToolbox;
     using namespace AIToolbox::POMDP;
-    using namespace TigerProblemEnums;
+    using namespace TigerProblemUtils;
 
     auto model = makeTigerProblem();
     model.setDiscount(0.95);
@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE( horizon1 ) {
 BOOST_AUTO_TEST_CASE( infiniteHorizonSpeededUp ) {
     using namespace AIToolbox;
     using namespace AIToolbox::POMDP;
-    using namespace TigerProblemEnums;
+    using namespace TigerProblemUtils;
 
     constexpr double discount = 0.95;
     auto model = makeTigerProblem();

@@ -15,7 +15,7 @@
 
 BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     using namespace AIToolbox::MDP;
-    using namespace GridWorldEnums;
+    using namespace GridWorldUtils;
 
     GridWorld grid(4, 4);
 
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
 
 BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
     using namespace AIToolbox::MDP;
-    using namespace GridWorldEnums;
+    using namespace GridWorldUtils;
 
     GridWorld grid(4, 4);
 
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE( escapeToCornersSparse ) {
 
 BOOST_AUTO_TEST_CASE( escapeToCornersNonEigen ) {
     using namespace AIToolbox::MDP;
-    using namespace GridWorldEnums;
+    using namespace GridWorldUtils;
 
     GridWorld grid(4, 4);
 

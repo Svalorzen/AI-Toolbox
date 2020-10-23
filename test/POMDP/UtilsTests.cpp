@@ -13,7 +13,7 @@
 BOOST_AUTO_TEST_CASE( sosa ) {
     using namespace AIToolbox;
     using namespace AIToolbox::POMDP;
-    using namespace TigerProblemEnums;
+    using namespace TigerProblemUtils;
 
     auto problem = makeTigerProblem();
     OldPOMDPModel<MDP::Model> oldProblem = problem;

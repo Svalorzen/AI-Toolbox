@@ -8,7 +8,7 @@ namespace AIToolbox::MDP {
     /**
      * @brief This namespace exists in order to allow referencing the Direction values directly.
      */
-    namespace GridWorldEnums {
+    namespace GridWorldUtils {
         /**
          * @brief The possible actions in a GridWorld-like environment.
          */
@@ -22,7 +22,7 @@ namespace AIToolbox::MDP {
      */
     class GridWorld {
         public:
-            using Direction = GridWorldEnums::Direction;
+            using Direction = GridWorldUtils::Direction;
             struct State {
                 operator size_t() const;
                 unsigned getX() const;
