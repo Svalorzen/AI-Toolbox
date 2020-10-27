@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 import time
 from AIToolbox import MDP, POMDP
 
@@ -13,15 +14,15 @@ back = list("\33[2K\r")
 def goup(x):
     while x > 8:
         up[2] = '9'
-        print "".join(up)
+        print("".join(up))
         x -= 8
 
     up[2] = str(x + 1)
-    print "".join(up)
+    print("".join(up))
 
 def godown(x):
     while x:
-        print ""
+        print("")
         x -= 1
 
 prize = [
@@ -99,10 +100,10 @@ man = [
 # Random spaces to make the rendering look nice. Yeah this is ugly, but it's
 # just for the rendering.
 hspacer = "     "
-manhspacer = ' ' * (len(hspacer) / 2 + len(prize[0]) - len(man[0]) / 2)
-numspacer  = ' ' * ((len(prize[0]) - 8) / 2)
+manhspacer = ' ' * (len(hspacer) // 2 + len(prize[0]) - len(man[0]) // 2)
+numspacer  = ' ' * ((len(prize[0]) - 8) // 2)
 
-clockSpacer = numspacer + ' ' * ((len(hspacer) - 1) / 2)
+clockSpacer = numspacer + ' ' * ((len(hspacer) - 1) // 2)
 strclock = r"/|\-"
 
 # MODEL
@@ -122,18 +123,18 @@ def makeTigerProblem():
 
     model = POMDP.Model(O, S, A)
 
-    transitions = [[[0 for x in xrange(S)] for y in xrange(A)] for k in xrange(S)]
-    rewards = [[[0 for x in xrange(S)] for y in xrange(A)] for k in xrange(S)]
-    observations = [[[0 for x in xrange(O)] for y in xrange(A)] for k in xrange(S)]
+    transitions = [[[0 for x in range(S)] for y in range(A)] for k in range(S)]
+    rewards = [[[0 for x in range(S)] for y in range(A)] for k in range(S)]
+    observations = [[[0 for x in range(O)] for y in range(A)] for k in range(S)]
 
     # Transitions
     # If we listen, nothing changes.
-    for s in xrange(S):
+    for s in range(S):
         transitions[s][A_LISTEN][s] = 1.0
 
     # If we pick a door, tiger and treasure shuffle.
-    for s in xrange(S):
-        for s1 in xrange(S):
+    for s in range(S):
+        for s1 in range(S):
             transitions[s][A_LEFT ][s1] = 1.0 / S
             transitions[s][A_RIGHT][s1] = 1.0 / S
 
@@ -146,19 +147,19 @@ def makeTigerProblem():
     observations[TIG_RIGHT][A_LISTEN][TIG_LEFT ] = 0.15
 
     # Otherwise we get no information on the environment.
-    for s in xrange(S):
-        for o in xrange(O):
+    for s in range(S):
+        for o in range(O):
             observations[s][A_LEFT ][o] = 1.0 / O
             observations[s][A_RIGHT][o] = 1.0 / O
 
     # Rewards
     # Listening has a small penalty
-    for s in xrange(S):
-        for s1 in xrange(S):
+    for s in range(S):
+        for s1 in range(S):
             rewards[s][A_LISTEN][s1] = -1.0
 
     # Treasure has a decent reward, and tiger a bad penalty.
-    for s1 in xrange(S):
+    for s1 in range(S):
         rewards[TIG_RIGHT][A_LEFT][s1] = 10.0
         rewards[TIG_LEFT ][A_LEFT][s1] = -100.0
 
@@ -207,7 +208,7 @@ if __name__ == "__main__":
 
     # We loop for each step we have yet to do.
     totalReward = 0.0
-    for t in xrange(horizon - 1, -1, -1):
+    for t in range(horizon - 1, -1, -1):
         # We advance the world one step (the agent only sees the observation
         # and reward).
         s1, o, r = model.sampleSOR(s, a)
@@ -217,17 +218,17 @@ if __name__ == "__main__":
         # Rendering of the environment, depends on state, action and observation.
         left  = prize if s else tiger
         right = tiger if s else prize
-        for i in xrange(len(prize)):
+        for i in range(len(prize)):
             print("%s%s%s" % (left[i], hspacer, right[i]))
 
         dleft  = (openDoor if a == A_LEFT  else closedDoor)
         dright = (openDoor if a == A_RIGHT else closedDoor)
-        for i in xrange(len(prize)):
+        for i in range(len(prize)):
             print("%s%s%s" % (dleft[i], hspacer, dright[i]))
 
         sleft  = (sound if a == A_LISTEN and o == TIG_LEFT  else nosound)
         sright = (sound if a == A_LISTEN and o == TIG_RIGHT else nosound)
-        for i in xrange(len(prize)):
+        for i in range(len(prize)):
             print("%s%s%s" % (sleft[i], hspacer, sright[i]))
 
         print("%s%s%s%s%s%s" % (numspacer, ("%.6f" % b[0]), clockSpacer,
