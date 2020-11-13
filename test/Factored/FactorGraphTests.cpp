@@ -8,12 +8,111 @@
 namespace aif = AIToolbox::Factored;
 
 struct EmptyFactor {};
+struct IntFactor { int v; };
 
 BOOST_AUTO_TEST_CASE( basic_construction ) {
     aif::FactorGraph<EmptyFactor> graph(15);
 
     BOOST_CHECK_EQUAL(graph.variableSize(), 15);
     BOOST_CHECK_EQUAL(graph.factorSize(), 0);
+}
+
+BOOST_AUTO_TEST_CASE( copy_construction ) {
+    std::vector<aif::PartialKeys> rules {
+        {0, 1}, // (1)
+        {0, 2}, // (2)
+        {0},    // (3)
+        {2},    // (4)
+    };
+
+    const size_t agentsNum = 3;
+    aif::FactorGraph<IntFactor> graph(agentsNum);
+    int counter = 0;
+    for (const auto & rule : rules) {
+        auto & f = graph.getFactor(rule)->getData();
+        f.v = ++counter;
+    }
+
+    auto graphCopy = graph;
+
+    // Check everything is the same
+    BOOST_CHECK_EQUAL(graph.factorSize(), graphCopy.factorSize());
+    BOOST_CHECK_EQUAL(graph.variableSize(), graphCopy.variableSize());
+
+    // Save info about original graph for later
+    const auto factorSize = graph.factorSize();
+    const auto variableSize = graph.variableSize();
+
+    std::vector<decltype(graph)::FactorNode> fCopied;
+    std::vector<std::pair<
+        decltype(graph)::Variables,
+        decltype(graph)::FactorItList
+    >> vCopied;
+
+    // Check factors contents
+    {
+        auto it = graph.begin();
+        auto itc = graphCopy.begin();
+        for (size_t i = 0; i < graph.factorSize(); ++i) {
+            // Check factors correspond to same variables
+            BOOST_CHECK(it->getVariables() == itc->getVariables());
+            // Check data is the same.
+            BOOST_CHECK_EQUAL(it->getData().v, itc->getData().v);
+
+            fCopied.push_back(*it);
+
+            ++it; ++itc;
+        }
+    }
+
+    // Check variable contents
+    for (size_t i = 0; i < graph.variableSize(); ++i) {
+        BOOST_CHECK(graph.getVariables(i) == graphCopy.getVariables(i));
+
+        // The factors sizes should be equal, but the contents must NOT be
+        // equal, as they are iterators; thus pointers. Each graph should
+        // point to itself only.
+        auto factors = graph.getFactors(i);
+        auto factorsCopy = graphCopy.getFactors(i);
+
+        BOOST_CHECK_EQUAL(factors.size(), factorsCopy.size());
+
+        // This is not foolproof as they *could* be shuffled in theory, but
+        // hopefully the copy-constructor is not written in such a way that
+        // shuffling is possible.
+        for (size_t j = 0; j < factors.size(); ++j)
+            BOOST_CHECK(factors[j] != factorsCopy[j]);
+
+        vCopied.emplace_back(graph.getVariables(i), factors);
+    }
+
+    // Remove everything from copy graph.
+    graphCopy.erase(0);
+    graphCopy.erase(1);
+    graphCopy.erase(2);
+
+    // Check that original graph is still there (same checks as before, but
+    // with the saved variables).
+    BOOST_CHECK_EQUAL(factorSize, graph.factorSize());
+    BOOST_CHECK_EQUAL(variableSize, graph.variableSize());
+    {
+        auto it = fCopied.begin();
+        auto itc = graph.begin();
+        for (size_t i = 0; i < factorSize; ++i) {
+            // Check factors correspond to same variables
+            BOOST_CHECK(it->getVariables() == itc->getVariables());
+            // Check data is the same.
+            BOOST_CHECK_EQUAL(it->getData().v, itc->getData().v);
+
+            ++it; ++itc;
+        }
+    }
+
+    // Check variable contents
+    for (size_t i = 0; i < variableSize; ++i) {
+        BOOST_CHECK(vCopied[i].first == graph.getVariables(i));
+        BOOST_CHECK(vCopied[i].second == graph.getFactors(i));
+    }
 }
 
 BOOST_AUTO_TEST_CASE( adding_rules ) {

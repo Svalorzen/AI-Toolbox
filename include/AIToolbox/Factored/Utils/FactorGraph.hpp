@@ -22,6 +22,9 @@ namespace AIToolbox::Factored {
      * variables. When multiple factors are needed, a single FactorNode
      * containing a vector of data should suffice.
      *
+     * This class can allocate list nodes from an internal static pool; so it
+     * is probably not thread-safe.
+     *
      * @tparam FactorData The class that is stored for each FactorNode.
      */
     template <typename FactorData>
@@ -60,6 +63,28 @@ namespace AIToolbox::Factored {
              * @param variables The number of variables with which to start the graph.
              */
             FactorGraph(size_t variables);
+
+            /**
+             * @brief Copy constructor.
+             *
+             * This constructor simply copies the graph, but also makes sure that the internal
+             * stored iterators point to the correct containers.
+             *
+             * We do not check the internal FactorData, so make sure it doesn't
+             * have pointers or iterators inside!
+             *
+             * @param other The graph to copy.
+             */
+            FactorGraph(const FactorGraph & other);
+
+            /**
+             * @brief Deleted assignment operator.
+             *
+             * Since we already provide a copy constructor, this is redundant.
+             * The assignment operator provided by default would be broken,
+             * so we remove it.
+             */
+            FactorGraph & operator=(const FactorGraph &) = delete;
 
             /**
              * @brief This function returns all factors adjacent to the given variable.
@@ -235,7 +260,7 @@ namespace AIToolbox::Factored {
 
             struct VariableNode {
                 FactorItList factors;
-                std::vector<size_t> vNeighbors;
+                Variables vNeighbors;
                 bool active = true;
             };
 
@@ -248,6 +273,28 @@ namespace AIToolbox::Factored {
 
     template <typename FD>
     FactorGraph<FD>::FactorGraph(size_t variables) : variableAdjacencies_(variables), activeVariables_(variables) {}
+
+    template <typename FD>
+    FactorGraph<FD>::FactorGraph(const FactorGraph & other) :
+        factorAdjacencies_(other.factorAdjacencies_),
+        variableAdjacencies_(other.variableAdjacencies_),
+        activeVariables_(other.activeVariables_)
+    {
+        // So here it's pretty simple; we just need to rebuild the 'factors'
+        // variable in each VariableNode, as it contains iterators that need to
+        // point to the newly copied lists, rather than the ones in 'other'.
+
+        // First we cleanup the old iterators.
+        for (auto & a : variableAdjacencies_)
+            a.factors.clear();
+
+        // Then we rebuild them.
+        for (auto it = factorAdjacencies_.begin(); it != factorAdjacencies_.end(); ++it) {
+            for (auto a : it->getVariables()) {
+                variableAdjacencies_[a].factors.push_back(it);
+            }
+        }
+    }
 
     template <typename FD>
     const typename FactorGraph<FD>::FactorItList & FactorGraph<FD>::getFactors(const size_t variable) const {
