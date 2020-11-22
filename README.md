@@ -1,7 +1,10 @@
 AI-Toolbox
 ==========
 
+[![Library overview video](https://user-images.githubusercontent.com/1609228/99919181-3404dc00-2d1c-11eb-8593-0bf6af44cef8.png)](https://www.youtube.com/watch?v=qjSo41DVSXg)
+
 [![Build Status](https://travis-ci.org/Svalorzen/AI-Toolbox.svg?branch=master)](https://travis-ci.org/Svalorzen/AI-Toolbox)
+
 
 This C++ toolbox is aimed at representing and solving common AI problems,
 implementing an easy-to-use interface which should be hopefully extensible
