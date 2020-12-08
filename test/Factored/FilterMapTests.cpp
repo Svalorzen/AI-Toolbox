@@ -646,7 +646,7 @@ BOOST_AUTO_TEST_CASE( reconstruction_FT ) {
 
     for (size_t i = 0; i < startKeys.size(); ++i) {
         FasterTrie trie(F);
-        for (const auto key : keys)
+        for (const auto & key : keys)
             trie.insert(key);
 
         std::vector<unsigned> counts(solutions[i].size());
@@ -718,7 +718,7 @@ BOOST_AUTO_TEST_CASE( reconstruction_removal_FT ) {
     };
 
     FasterTrie trie(F);
-    for (const auto key : keys)
+    for (const auto & key : keys)
         trie.insert(key);
 
     for (size_t i = 0; i < reconstructions.size(); ++i) {
