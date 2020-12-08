@@ -58,7 +58,7 @@ flags = [
 'c++',
 '-DAI_LOGGING_ENABLED',
 '-Iinclude/',
-'-I/usr/include/eigen3/',
+'-isystem/usr/include/eigen3/',
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
