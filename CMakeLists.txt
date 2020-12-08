@@ -5,7 +5,7 @@ project (AIToolbox LANGUAGES CXX)
 # We define a series of variables for the user. They can be combined in order
 # to build exactly what is needed:
 #
-# MAKE_ALL:      Builds all there is to build in the project
+# MAKE_ALL:      Builds all there is to build in the project, but Python.
 # MAKE_LIB:      Builds the core C++ library
 # MAKE_MDP:      Builds the core C++ MDP library
 # MAKE_FMDP:     Builds the core C++ Factored MDP and MDP library
@@ -87,7 +87,6 @@ if (MAKE_ALL)
     set(MAKE_MDP        1)
     set(MAKE_FMDP       1)
     set(MAKE_POMDP      1)
-    set(MAKE_PYTHON     1)
     set(MAKE_TESTS      1)
     set(MAKE_EXAMPLES   1)
 elseif (MAKE_LIB)
@@ -136,6 +135,11 @@ find_package(LpSolve REQUIRED)
 include_directories(SYSTEM ${LPSOLVE_INCLUDE_DIR})
 
 if (MAKE_PYTHON)
+    # If we build Python's shared library, then all libraries we link into it
+    # have to be compiled with -fPIC
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+    set(MAKE_PYTHON     1)
     set(Python_USE_STATIC_LIBS 0)
 
     # Set a default to PYTHON_VERSION to void breaking the next if. In any

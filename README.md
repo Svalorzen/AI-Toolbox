@@ -296,7 +296,7 @@ if building everything is not desirable. The following flags are available:
 
 ```bash
 CMAKE_BUILD_TYPE # Defines the build type
-MAKE_ALL         # Builds all there is to build in the project
+MAKE_ALL         # Builds all there is to build in the project, but Python.
 MAKE_LIB         # Builds the whole core C++ libraries (MDP, POMDP, etc..)
 MAKE_MDP         # Builds only the core C++ MDP library
 MAKE_FMDP        # Builds only the core C++ Factored/Multi-Agent and MDP libraries
@@ -317,6 +317,10 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DMAKE_MDP=1 -DMAKE_PYTHON=1 -DPYTHON_VERSION=3 .
 
 The default flags when nothing is specified are `MAKE_ALL` and
 `CMAKE_BUILD_TYPE=Release`.
+
+Note that by default `MAKE_ALL` does not build the Python bindings, as they have
+a minor performance hit on the C++ static libraries. You can easily enable them
+by using the flag `MAKE_PYTHON`.
 
 The static library files will be available directly in the build directory.
 Three separate libraries are built: `AIToolboxMDP`, `AIToolboxPOMDP` and
