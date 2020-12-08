@@ -1,0 +1,50 @@
+name: CMake
+
+on:
+  push:
+    branches:
+      - main
+      - test
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Do not stop all jobs if a single job fails.
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04]
+        build_type: ["Release"]
+        cxx: ["g++", "clang++"]
+        python_version: [2, 3]
+
+    steps:
+    - name: Checkout repository.
+      uses: actions/checkout@v2
+
+    - name: Install dependencies.
+      run: |
+        sudo add-apt-repository ppa:ostogvin/tjo-develop -y
+        sudo apt update
+        sudo apt install -qq libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev python-future
+
+    - name: Select correct compiler
+      if: matrix.cxx == 'clang++'
+      run: |
+        export CXX="/usr/bin/clang++" CC="/usr/bin/clang"
+
+    - name: Create build folder
+      run: |
+        mkdir ${{ runner.workspace }}/AI-Toolbox/build
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/AI-Toolbox/build
+      run: |
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPYTHON_VERSION=${{ matrix.python_version }}
+        make -j2 VERBOSE=1
+
+    - name: Run tests
+      working-directory: ${{ runner.workspace }}/AI-Toolbox/build
+      run: |
+        ctest -V -j2
