@@ -279,8 +279,12 @@ namespace AIToolbox {
             Container & items_;
     };
 
-    template<class T, class Container>
+    template <class T, class Container>
     IndexMap(std::initializer_list<T> i, Container c) -> IndexMap<std::vector<T>, Container>;
+
+    // This is to stop clang++ complaints
+    template <typename IdsContainer, typename Container>
+    IndexMap(IdsContainer, Container &) -> IndexMap<IdsContainer, Container>;
 
     /**
      * @brief This class is a simple iterator to iterate over a container without the specified ids.
@@ -472,6 +476,10 @@ namespace AIToolbox {
 
     template<class T, class Container>
     IndexSkipMap(std::initializer_list<T> i, Container c) -> IndexSkipMap<std::vector<T>, Container>;
+
+    // This is to stop clang++ complaints
+    template <typename IdsContainer, typename Container>
+    IndexSkipMap(IdsContainer, Container &) -> IndexSkipMap<IdsContainer, Container>;
 }
 
 #endif
