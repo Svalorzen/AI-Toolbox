@@ -7,6 +7,7 @@ if (MAKE_MDP)
         Utils/Combinatorics.cpp
         Utils/Probability.cpp
         Utils/Polytope.cpp
+        Utils/StorageEigen.cpp
         Utils/LP/LpSolveWrapper.cpp
         Tools/Statistics.cpp
         Bandit/Experience.cpp
