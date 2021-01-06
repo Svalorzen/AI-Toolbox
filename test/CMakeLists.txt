@@ -120,6 +120,7 @@ if (MAKE_FMDP)
     AddTest(Factored MAUCEPolicy)
 
     AddTest(Factored SparseCooperativeQLearning)
+    AddTest(Factored CooperativeQLearning)
     AddTest(Factored LinearProgramming)
     AddTest(Factored JointActionLearner)
     AddTest(Factored CooperativePrioritizedSweeping)
