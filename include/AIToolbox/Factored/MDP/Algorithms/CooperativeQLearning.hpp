@@ -136,6 +136,15 @@ namespace AIToolbox::Factored::MDP {
              */
             const FactoredMatrix2D & getQFunction() const;
 
+            /**
+             * @brief This function sets the QFunction to a set value.
+             *
+             * This function is useful to perform optimistic initialization.
+             *
+             * @param val The value to set all entries in the QFunction.
+             */
+            void setQFunction(double val);
+
         private:
             const DDNGraph & graph_;
             double discount_, alpha_;

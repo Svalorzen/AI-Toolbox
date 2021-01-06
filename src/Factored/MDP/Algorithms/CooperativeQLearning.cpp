@@ -94,6 +94,11 @@ namespace AIToolbox::Factored::MDP {
         discount_ = d;
     }
 
+    void CooperativeQLearning::setQFunction(const double val) {
+        for (auto & q : q_.bases)
+            q.values.fill(val);
+    }
+
     const DDNGraph &  CooperativeQLearning::getGraph() const { return graph_; }
     const State &  CooperativeQLearning::getS() const { return graph_.getS(); }
     const Action & CooperativeQLearning::getA() const { return graph_.getA(); }
