@@ -100,6 +100,7 @@ if (MAKE_FMDP)
         Factored/MDP/Algorithms/Utils/FactoredLP.cpp
         Factored/MDP/Algorithms/Utils/CPSQueue.cpp
         Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp
+        Factored/MDP/Algorithms/CooperativeQLearning.cpp
         Factored/MDP/Algorithms/JointActionLearner.cpp
         Factored/MDP/Algorithms/LinearProgramming.cpp
         Factored/MDP/Environments/SysAdminRing.cpp
