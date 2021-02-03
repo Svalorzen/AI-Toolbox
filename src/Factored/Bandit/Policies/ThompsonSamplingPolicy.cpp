@@ -1,19 +1,13 @@
 #include <AIToolbox/Factored/Bandit/Policies/ThompsonSamplingPolicy.hpp>
 
-#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 #include <random>
 
 namespace AIToolbox::Factored::Bandit {
-    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const Experience & exp) :
-            Base(exp.getA()), exp_(exp) {}
-
-    Action ThompsonSamplingPolicy::sampleAction() const {
+    void ThompsonSamplingPolicy::setupGraph(const Experience & exp, VariableElimination::GVE::Graph & graph, RandomEngine & rnd) {
         using VE = Bandit::VariableElimination;
-        VE::GVE::Graph graph(A.size());
-
-        const auto & allCounts = exp_.getVisitsTable();
-        const auto & q = exp_.getRewardMatrix();
-        const auto & M2s = exp_.getM2Matrix();
+        const auto & allCounts = exp.getVisitsTable();
+        const auto & q = exp.getRewardMatrix();
+        const auto & M2s = exp.getM2Matrix();
 
         for (size_t i = 0; i < q.bases.size(); ++i) {
             const auto & basis = q.bases[i];
@@ -41,7 +35,7 @@ namespace AIToolbox::Factored::Bandit {
                     // and
                     //     t = student_t sample with n-1 degrees of freedom
                     std::student_t_distribution<double> dist(counts[y] - 1);
-                    val = basis.values[y] - dist(rand_) * std::sqrt(m2[y]/(counts[y] * (counts[y] - 1)));
+                    val = basis.values[y] - dist(rnd) * std::sqrt(m2[y]/(counts[y] * (counts[y] - 1)));
                 }
 
                 if (isFilled)
@@ -50,6 +44,17 @@ namespace AIToolbox::Factored::Bandit {
                     factorNode.emplace_back(y, VE::Factor{val, {}});
             }
         }
+    }
+
+    ThompsonSamplingPolicy::ThompsonSamplingPolicy(const Experience & exp) :
+            Base(exp.getA()), exp_(exp) {}
+
+    Action ThompsonSamplingPolicy::sampleAction() const {
+        using VE = Bandit::VariableElimination;
+        VE::GVE::Graph graph(A.size());
+
+        setupGraph(exp_, graph, rand_);
+
         VE ve;
         return std::get<0>(ve(A, graph));
     }

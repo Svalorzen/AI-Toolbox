@@ -6,6 +6,7 @@
 #include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Bandit/Experience.hpp>
 #include <AIToolbox/Factored/Bandit/Policies/PolicyInterface.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     /**
@@ -66,6 +67,24 @@ namespace AIToolbox::Factored::Bandit {
              * @return This function returns an approximation of the probability of choosing the input action.
              */
             virtual double getActionProbability(const Action & a) const override;
+
+            /**
+             * @brief This function constructs a graph by sampling the provided experience.
+             *
+             * This function is the core of ThompsonSamplingPolicy, and is
+             * provided so that other methods can leverage Thompson sampling in
+             * a simpler way.
+             *
+             * Given a newly built, empty graph, we sample the experience using
+             * Student t-distribution, so that the values sampled for each
+             * local joint action have the correct likelihood of being the true
+             * ones, following the Bayesian posteriors.
+             *
+             * @param exp The experience data we need to use.
+             * @param graph The output, constructed graph.
+             * @param rnd The random engine needed to sample.
+             */
+            static void setupGraph(const Experience & exp, VariableElimination::GVE::Graph & graph, RandomEngine & rnd);
 
         private:
             const Experience & exp_;
