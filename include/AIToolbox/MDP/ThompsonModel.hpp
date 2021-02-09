@@ -290,7 +290,7 @@ namespace AIToolbox::MDP {
             rewards_(s, a) = MLEReward;
         } else {
             std::student_t_distribution<double> dist(visits - 1);
-            rewards_(s, a) = MLEReward - dist(rand_) * std::sqrt(M2 / (visits * (visits - 1)));
+            rewards_(s, a) = MLEReward + dist(rand_) * std::sqrt(M2 / (visits * (visits - 1)));
         }
     }
 

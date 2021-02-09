@@ -75,7 +75,7 @@ namespace AIToolbox::Factored::MDP {
             rewards_[i][j] = rmatrix[i][j];
         } else {
             std::student_t_distribution<double> dist(totalVisits - 1);
-            rewards_[i][j] = rmatrix[i][j] - dist(rand_) * std::sqrt(m2matrix[i][j] / (totalVisits * (totalVisits - 1)));
+            rewards_[i][j] = rmatrix[i][j] + dist(rand_) * std::sqrt(m2matrix[i][j] / (totalVisits * (totalVisits - 1)));
         }
     }
 

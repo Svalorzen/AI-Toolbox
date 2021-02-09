@@ -29,13 +29,13 @@ namespace AIToolbox::Factored::Bandit {
                     // multiple actions at once (the max would just cap to inf).
                     val = std::numeric_limits<double>::max() / q.bases.size();
                 } else {
-                    //     mu = est_mu - t * s / sqrt(n)
+                    //     mu = est_mu + t * s / sqrt(n)
                     // where
                     //     s^2 = 1 / (n-1) * sum_i (x_i - est_mu)^2
                     // and
                     //     t = student_t sample with n-1 degrees of freedom
                     std::student_t_distribution<double> dist(counts[y] - 1);
-                    val = basis.values[y] - dist(rnd) * std::sqrt(m2[y]/(counts[y] * (counts[y] - 1)));
+                    val = basis.values[y] + dist(rnd) * std::sqrt(m2[y]/(counts[y] * (counts[y] - 1)));
                 }
 
                 if (isFilled)

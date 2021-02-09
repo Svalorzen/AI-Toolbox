@@ -30,7 +30,7 @@ namespace AIToolbox::Bandit {
             // and
             //     t = student_t sample with n-1 degrees of freedom
             std::student_t_distribution<double> dist(counts[a] - 1);
-            const double val = q[a] - dist(rand_) * std::sqrt(m2[a] / (counts[a] * (counts[a] - 1)));
+            const double val = q[a] + dist(rand_) * std::sqrt(m2[a] / (counts[a] * (counts[a] - 1)));
 
             if (val > bestValue) {
                 bestAction = a;
