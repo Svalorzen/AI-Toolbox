@@ -31,6 +31,7 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
 
     MP mp;
     const auto [bestAction, val] = mp(a, rules);
+    (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -53,6 +54,7 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
 
     MP mp;
     const auto [bestAction, val] = mp(a, rules);
+    (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -72,6 +74,7 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
 
     MP mp;
     const auto [bestAction, val] = mp(a, rules);
+    (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -97,6 +100,7 @@ BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
 
     MP mp;
     const auto [bestAction, val] = mp(a, rules);
+    (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -122,6 +126,7 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
 
     MP mp;
     const auto [bestAction, val] = mp(a, rules);
+    (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),

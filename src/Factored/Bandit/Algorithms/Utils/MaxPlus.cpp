@@ -31,7 +31,7 @@ namespace AIToolbox::Factored::Bandit {
             outMessages[a].resize(rows + 1, A[a]);
 
             // We don't need to zero inMessages, we do it at the start
-            // of the while after the swap.
+            // of the each message passing iteration, just after the swap.
             outMessages[a].setZero();
         }
 
