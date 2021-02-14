@@ -276,10 +276,20 @@ namespace AIToolbox::Factored {
 
     template <typename FD>
     FactorGraph<FD>::FactorGraph(const FactorGraph & other) :
-        factorAdjacencies_(other.factorAdjacencies_),
         variableAdjacencies_(other.variableAdjacencies_),
         activeVariables_(other.activeVariables_)
     {
+        // Try to take as much memory from the pool as possible.
+        auto oIt = std::begin(other.factorAdjacencies_);
+        while (factorAdjacencies_.size() < other.factorAdjacencies_.size()) {
+            if (factorAdjacenciesPool_.size() > 0) {
+                factorAdjacencies_.splice(std::end(factorAdjacencies_), factorAdjacenciesPool_, std::begin(factorAdjacenciesPool_));
+                factorAdjacencies_.back() = *oIt++;
+            } else {
+                factorAdjacencies_.emplace_back(*oIt++);
+            }
+        }
+
         // So here it's pretty simple; we just need to rebuild the 'factors'
         // variable in each VariableNode, as it contains iterators that need to
         // point to the newly copied lists, rather than the ones in 'other'.
