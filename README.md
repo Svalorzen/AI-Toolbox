@@ -1,10 +1,9 @@
 AI-Toolbox
 ==========
 
-[![Library overview video](https://user-images.githubusercontent.com/1609228/99919181-3404dc00-2d1c-11eb-8593-0bf6af44cef8.png)](https://www.youtube.com/watch?v=qjSo41DVSXg)
-
 [![Build Status](https://github.com/Svalorzen/AI-Toolbox/workflows/CMake/badge.svg?branch=master)](https://github.com/Svalorzen/AI-Toolbox/actions?query=workflow%3A"CMake")
 
+[![Library overview video](https://user-images.githubusercontent.com/1609228/99919181-3404dc00-2d1c-11eb-8593-0bf6af44cef8.png)](https://www.youtube.com/watch?v=qjSo41DVSXg)
 
 This C++ toolbox is aimed at representing and solving common AI problems,
 implementing an easy-to-use interface which should be hopefully extensible
@@ -15,6 +14,9 @@ was originally developed taking inspiration from the Matlab `MDPToolbox`, which
 you can find [here](https://miat.inrae.fr/MDPtoolbox/), and from the
 `pomdp-solve` software written by A. R. Cassandra, which you can find
 [here](http://www.pomdp.org/code/index.shtml).
+
+An excellent introduction to the basics of reinforcement learning can be found
+freely online in [this book](http://incompleteideas.net/book/ebook/the-book.html).
 
 If you use this toolbox for research, please consider citing our JMLR article:
 
@@ -31,25 +33,46 @@ If you use this toolbox for research, please consider citing our JMLR article:
 }
 ```
 
-Description
-===========
+Example
+=======
 
-This toolbox provides implementations of several reinforcement learning (RL)
-and planning algorithms. An excellent introduction to the basics can be found
-freely online in [this book](http://incompleteideas.net/book/ebook/the-book.html).
+```cpp
+// The model can be any custom class that respects a 10-method interface.
+auto model = makeTigerProblem();
+unsigned horizon = 10; // The horizon of the solution.
 
-The implemented algorithms can be applied in several settings: single agent
-environments, multi agent, multi objective, competitive, cooperative, partially
-observable and so on. We strive to maintain a consistent interface throughout all
-domains for ease of use. The toolbox is actively developed and used in research.
+// The 0.0 is the convergence parameter. It gives a way to stop the
+// computation if the policy has converged before the horizon.
+AIToolbox::POMDP::IncrementalPruning solver(horizon, 0.0);
 
-Implementations are kept as simple as possible and with relatively few options
-compared to other libraries; we believe that this makes the code easier to read
-and modify to best suit your needs.
+// Solve the model and obtain the optimal value function.
+auto [bound, valueFunction] = solver(model);
 
-Please note that the API may change over time (although most things at this
-point are stable) since as the toolbox grows I may decide to alter it to improve
-overall consistency.
+// We create a policy from the solution to compute the agent's actions.
+// The parameters are the size of the model (SxAxO), and the value function.
+AIToolbox::POMDP::Policy policy(2, 3, 2, valueFunction);
+
+// We begin a simulation with a uniform belief. We sample from the belief
+// in order to get a "real" state for the world, since this code has to
+// both emulate the environment and control the agent.
+AIToolbox::POMDP::Belief b(2); b << 0.5, 0.5;
+auto s = AIToolbox::sampleProbability(b.size(), b, rand);
+
+// We sample the first action. The id is to follow the policy tree later.
+auto [a, id] = policy.sampleAction(b, horizon);
+
+double totalReward = 0.0;// As an example, we store the overall reward.
+for (int t = horizon - 1; t >= 0; --t) {
+    // We advance the world one step.
+    auto [s1, o, r] = model.sampleSOR(s, a);
+    totalReward += r;
+
+    // We select our next action from the observation we got.
+    std::tie(a, id) = policy.sampleAction(id, o, t);
+
+    s = s1; // Finally we update the world for the next timestep.
+}
+```
 
 Documentation
 =============
