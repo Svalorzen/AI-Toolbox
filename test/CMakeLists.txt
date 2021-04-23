@@ -40,6 +40,7 @@ if (MAKE_MDP)
     AddTestGlobal(UtilsPrune)
     AddTestGlobal(Tools)
 
+    AddTest(Bandit Model)
     AddTest(Bandit QGreedyPolicy)
     AddTest(Bandit QSoftmaxPolicy)
     AddTest(Bandit ThompsonSamplingPolicy)
