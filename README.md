@@ -135,15 +135,18 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 
 ### Bandit/Normal Games: ###
 
-|                                                         | **Policies**                                       |                        |
+|                                                         | **Models**                                         |                        |
 | :-----------------------------------------------------: | :------------------------------------------------: | :--------------------: |
+| [Basic Model][bmod]                                     |                                                    |                        |
+|                                                         | **Policies**                                       |                        |
 | [Exploring Selfish Reinforcement Learning (ESRL)][esrl] | [Q-Greedy Policy][bqgr]                            | [Softmax Policy][bsof] |
-| [Linear Reward Penalty][lrp]                            | [Thompson Sampling (Student-t distribution)][btho] | [Random Policy][brnd]  |
+| [Linear Reward Penalty][lrpe]                           | [Thompson Sampling (Student-t distribution)][btho] | [Random Policy][brnd]  |
 
+[bmod]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1Model.html "Reinforcement Learning: An Introduction, Ch 2.1, Sutton & Barto"
 [esrl]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ESRLPolicy.html "Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al."
 [bqgr]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html "A Tutorial on Thompson Sampling, Russo et al."
 [bsof]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html "Reinforcement Learning: An Introduction, Ch 2.3, Sutton & Barto"
-[lrp]:  http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1LRPPolicy.html "Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal"
+[lrpe]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1LRPPolicy.html "Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal"
 [btho]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al."
 [brnd]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1RandomPolicy.html
 
