@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['direction_1788',['Direction',['../namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html#ac819771000de8a5294554c3fd6e52103',1,'AIToolbox::MDP::GridWorldEnums']]]
+  ['direction_1846',['Direction',['../namespaceAIToolbox_1_1MDP_1_1GridWorldUtils.html#af78dc31f183b982eefd814b9d5a09a5c',1,'AIToolbox::MDP::GridWorldUtils']]]
 ];

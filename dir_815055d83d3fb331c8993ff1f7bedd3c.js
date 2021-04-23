@@ -4,6 +4,9 @@ var dir_815055d83d3fb331c8993ff1f7bedd3c =
     [ "CooperativePrioritizedSweeping.hpp", "CooperativePrioritizedSweeping_8hpp.html", [
       [ "CooperativePrioritizedSweeping", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping" ]
     ] ],
+    [ "CooperativeQLearning.hpp", "CooperativeQLearning_8hpp.html", [
+      [ "CooperativeQLearning", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning" ]
+    ] ],
     [ "JointActionLearner.hpp", "JointActionLearner_8hpp.html", [
       [ "JointActionLearner", "classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html", "classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner" ]
     ] ],

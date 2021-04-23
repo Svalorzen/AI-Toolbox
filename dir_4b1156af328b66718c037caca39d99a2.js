@@ -5,5 +5,11 @@ var dir_4b1156af328b66718c037caca39d99a2 =
     [ "Experience.hpp", "Factored_2Bandit_2Experience_8hpp.html", [
       [ "Experience", "classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1Experience" ]
     ] ],
+    [ "FlattenedModel.hpp", "FlattenedModel_8hpp.html", [
+      [ "FlattenedModel", "classAIToolbox_1_1Factored_1_1Bandit_1_1FlattenedModel.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1FlattenedModel" ]
+    ] ],
+    [ "Model.hpp", "Factored_2Bandit_2Model_8hpp.html", [
+      [ "Model", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model" ]
+    ] ],
     [ "Types.hpp", "Factored_2Bandit_2Types_8hpp.html", "Factored_2Bandit_2Types_8hpp" ]
 ];

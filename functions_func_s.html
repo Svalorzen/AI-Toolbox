@@ -129,6 +129,11 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>sampleProbability()
 : <a class="el" href="classAIToolbox_1_1VoseAliasSampler.html#a8f6c668fb35a996d7355948f74b1c6ab">AIToolbox::VoseAliasSampler</a>
 </li>
+<li>sampleR()
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1Model.html#a5d3f2c5e33fea44756bee897411b7afd">AIToolbox::Bandit::Model&lt; Dist &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1FlattenedModel.html#ad3e7710e2af99cfc398ae0e7bedef4a3">AIToolbox::Factored::Bandit::FlattenedModel&lt; Dist &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html#ad775ebf3027fa39929bcc8c1f11d2687">AIToolbox::Factored::Bandit::Model&lt; Dist &gt;</a>
+</li>
 <li>sampleRandomAction()
 : <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#ac3aa26dc79f8ef942d869d36c83f5b2a">AIToolbox::Bandit::EpsilonPolicy</a>
 , <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a65ef35649739d6557a8dde3abd5eab94">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
@@ -169,6 +174,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>SARSOP()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1SARSOP.html#af05379ce00994b35bd66b468f323a5f4">AIToolbox::POMDP::SARSOP</a>
 </li>
+<li>setAlpha()
+: <a class="el" href="classAIToolbox_1_1Adam.html#a12e6872c9647e571318d183413af6938">AIToolbox::Adam</a>
+</li>
 <li>setAlphaLearningRate()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1RLearning.html#aaceb3a94aa4956cc67ebfa7f5b984562">AIToolbox::MDP::RLearning</a>
 </li>
@@ -182,6 +190,12 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html#adb6e89a9dc149b65b27c8fc888ccb410">AIToolbox::POMDP::PERSEUS</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP.html#a592f6f948d288a0144fc425dacbf093c">AIToolbox::POMDP::POMCP&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1rPOMCP.html#a637da873f6eb8411ef1b0575ec2cf2a5">AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;</a>
+</li>
+<li>setBeta1()
+: <a class="el" href="classAIToolbox_1_1Adam.html#a9080a8dc9afe8f90b8869faea1c5127b">AIToolbox::Adam</a>
+</li>
+<li>setBeta2()
+: <a class="el" href="classAIToolbox_1_1Adam.html#a8d97a159f8d6d0000c76b0fc9a698432">AIToolbox::Adam</a>
 </li>
 <li>setBParam()
 : <a class="el" href="classAIToolbox_1_1Bandit_1_1LRPPolicy.html#aff40264ecfe5dfe9100a88a84188c3c9">AIToolbox::Bandit::LRPPolicy</a>
@@ -198,6 +212,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>setDiscount()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#aad74d3c92a0b513b6690232176bacfdb">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#a19b2c4c09a33de789837d2336479dc7c">AIToolbox::Factored::MDP::CooperativeModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html#aed958a045abdd71653ce2879db8251ce">AIToolbox::Factored::MDP::CooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a9d5623ac90033ab389baa015ff4972b8">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#a174c05a91ddffe8b59321e370d3bb80d">AIToolbox::Factored::MDP::JointActionLearner</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html#aa18b73b95bd3cafa292164c7c2fda515">AIToolbox::Factored::MDP::SparseCooperativeQLearning</a>
@@ -219,7 +234,8 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a301b404288408375fcc211cf7c6d67ec">AIToolbox::POMDP::AMDP</a>
 </li>
 <li>setEpsilon()
-: <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ae3beb62b97a4bf8ca14a2a8fd49ade7c">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Adam.html#aa404205295349d00361bbfb0d2d6b33c">AIToolbox::Adam</a>
+, <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#ae3beb62b97a4bf8ca14a2a8fd49ade7c">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
 , <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a940397e31b390c6f810587332590d95c">AIToolbox::EpsilonPolicyInterface&lt; void, void, Action &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyControl.html#ad02313a5a651936f6e6d2a00bdf611ae">AIToolbox::MDP::OffPolicyControl&lt; Derived &gt;</a>
 </li>
@@ -265,7 +281,8 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classAIToolbox_1_1MDP_1_1TreeBackupLEvaluation.html#a32f6d1241becff4a8959d933e3fdbdfa">AIToolbox::MDP::TreeBackupLEvaluation</a>
 </li>
 <li>setLearningRate()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#a84d6c947d29985a7a32ac4b4dad7bfc5">AIToolbox::Factored::MDP::JointActionLearner</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html#ae9f340f016cead71e5bb7beb2152a6e8">AIToolbox::Factored::MDP::CooperativeQLearning</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#a84d6c947d29985a7a32ac4b4dad7bfc5">AIToolbox::Factored::MDP::JointActionLearner</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html#a5681c9cdad13251c77e44db1e39ae88d">AIToolbox::Factored::MDP::SparseCooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html#ae75d18afd3decfc6c9b2e1769ed3e137">AIToolbox::MDP::DoubleQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#a5e955f1ffae5c4d99f5205a822d491b9">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
@@ -309,7 +326,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#a6b00dd853e1b9aa8071bd58e023e3666">AIToolbox::MDP::PGAAPPPolicy</a>
 </li>
 <li>setQFunction()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html#afde00828e95434a131c245b18c531b1d">AIToolbox::MDP::DoubleQLearning</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a1394115da3268335553cec1f876c8a42">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html#a334806c32493d5ecab495676cce1bda6">AIToolbox::Factored::MDP::CooperativeQLearning</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html#afde00828e95434a131c245b18c531b1d">AIToolbox::MDP::DoubleQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyBase.html#aea2128b5f2e3b4bba78da6b1cd8c0ef1">AIToolbox::MDP::OffPolicyBase</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html#aaf24683a67e39e0dba4a72df7753fa29">AIToolbox::MDP::PrioritizedSweeping&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html#a5782db53be75e594f47728048e5ea3ac">AIToolbox::MDP::QLearning</a>
@@ -321,7 +340,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 </li>
 <li>setRewardFunction()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a778bce7806b7fd265c8d89f74760def4">AIToolbox::MDP::Model</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a0bfcfb8ef5067ea7c7469336da58dee0">AIToolbox::MDP::SparseModel</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a68d2c87fcbf2262e40e1e007fd7444f5">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classOldMDPModel.html#a8e8565ce6da2f01cb457d97bef6a9dff">OldMDPModel</a>
 </li>
 <li>setRewardMatrix()
@@ -376,6 +395,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>setUnbounded()
 : <a class="el" href="classAIToolbox_1_1LP.html#a4fae8376386f7e7eb9e8ec135aa1eab1">AIToolbox::LP</a>
 </li>
+<li>setupGraph()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac7139609f79e1b4557cadf8271abd0a2">AIToolbox::Factored::Bandit::ThompsonSamplingPolicy</a>
+</li>
 <li>setValueFunction()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html#a4de0a8cd4ed20ab88a0b4e8b4ce5191a">AIToolbox::MDP::ValueIteration</a>
 </li>
@@ -417,7 +439,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html#a972d4ac9d4aad85428c3569799142548">AIToolbox::MDP::SparseMaximumLikelihoodModel&lt; E &gt;</a>
 </li>
 <li>SparseModel()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a9614108fede1b78504f952dd973eaeba">AIToolbox::MDP::SparseModel</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a9e5b14d7e2e63a4358754958a7b82100">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ae2b90125070285503e42e358f0d9c982">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
 </li>
 <li>StateNode()
@@ -425,6 +447,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 </li>
 <li>Statistics()
 : <a class="el" href="classAIToolbox_1_1Statistics.html#a4b73ef54583c2c127efe72f5998a12b3">AIToolbox::Statistics</a>
+</li>
+<li>step()
+: <a class="el" href="classAIToolbox_1_1Adam.html#a93cb20d2228506a45e01deee3ee588d8">AIToolbox::Adam</a>
 </li>
 <li>stepUpdateP()
 : <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#a5894aff42073cd26e5fcc2c98d4f6657">AIToolbox::Bandit::ESRLPolicy</a>
@@ -434,6 +459,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 </li>
 <li>stepUpdateQ()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#aff8e39cdde956c5d0adefeb836bf2bf4">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html#a94f957c44960afabefa4da1b3c986082">AIToolbox::Factored::MDP::CooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html#a94863cfdf00d4aa838bdb0e01aa8fd5c">AIToolbox::Factored::MDP::JointActionLearner</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html#a4827357a25b48492fe38c44ee7df8846">AIToolbox::Factored::MDP::SparseCooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html#a336753c87599d6ae934636535f01e795">AIToolbox::MDP::DoubleQLearning</a>
@@ -449,6 +475,12 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SARSA.html#aac6f9320129cd3542b08c632ae101960">AIToolbox::MDP::SARSA</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a6e7d147b86033ebe670a58f9d5e9d247">AIToolbox::MDP::SARSAL</a>
 </li>
+<li>StorageMatrix2D()
+: <a class="el" href="classAIToolbox_1_1StorageMatrix2D.html#ae74bb1fb5fa03285a9fe30498e3550a7">AIToolbox::StorageMatrix2D</a>
+</li>
+<li>StorageVector()
+: <a class="el" href="classAIToolbox_1_1StorageVector.html#af3e6a386860053e0c1e508b8e3727bef">AIToolbox::StorageVector</a>
+</li>
 <li>SubsetEnumerator()
 : <a class="el" href="classAIToolbox_1_1SubsetEnumerator.html#a775182c21c051ff33864699431c94353">AIToolbox::SubsetEnumerator&lt; Index &gt;</a>
 </li>
@@ -456,11 +488,11 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1SubsetEnumerator.html#ae3294a5ac13756f3a911695a62e0439c">AIToolbox::SubsetEnumerator&lt; Index &gt;</a>
 </li>
 <li>sync()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a1893bdb7c85e4ba25c61a6c60f69e5d3">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
-, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a1b43b17144685c301dd04f5cc3484fcb">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html#abf8797885995fad6ffc177c44799c926">AIToolbox::MDP::MaximumLikelihoodModel&lt; E &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html#a5ff3217a2f658f0b64112d5836efbad5">AIToolbox::MDP::SparseMaximumLikelihoodModel&lt; E &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1ThompsonModel.html#a989b89a81512e838dc623a1fb67b166f">AIToolbox::MDP::ThompsonModel&lt; E &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a5bc790743b6d18d11c60e9cbfdd6a501">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#aa94d65abe760f6390db4ad3b56e20dd7">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html#a0e5770f0bdff1bb0140c2a079b63b61c">AIToolbox::MDP::MaximumLikelihoodModel&lt; E &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html#afd33ddca7e3f8816718f28eb4d103237">AIToolbox::MDP::SparseMaximumLikelihoodModel&lt; E &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1ThompsonModel.html#a5851af183c64ef4315812137a23dae35">AIToolbox::MDP::ThompsonModel&lt; E &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

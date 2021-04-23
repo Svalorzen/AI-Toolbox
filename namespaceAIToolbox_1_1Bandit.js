@@ -4,6 +4,7 @@ var namespaceAIToolbox_1_1Bandit =
     [ "ESRLPolicy", "classAIToolbox_1_1Bandit_1_1ESRLPolicy.html", "classAIToolbox_1_1Bandit_1_1ESRLPolicy" ],
     [ "Experience", "classAIToolbox_1_1Bandit_1_1Experience.html", "classAIToolbox_1_1Bandit_1_1Experience" ],
     [ "LRPPolicy", "classAIToolbox_1_1Bandit_1_1LRPPolicy.html", "classAIToolbox_1_1Bandit_1_1LRPPolicy" ],
+    [ "Model", "classAIToolbox_1_1Bandit_1_1Model.html", "classAIToolbox_1_1Bandit_1_1Model" ],
     [ "PolicyInterface", "classAIToolbox_1_1Bandit_1_1PolicyInterface.html", "classAIToolbox_1_1Bandit_1_1PolicyInterface" ],
     [ "QGreedyPolicy", "classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html", "classAIToolbox_1_1Bandit_1_1QGreedyPolicy" ],
     [ "QGreedyPolicyWrapper", "classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper.html", "classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper" ],

@@ -1,14 +1,14 @@
 var SysAdmin_8hpp =
 [
-    [ "MachineLoad", "SysAdmin_8hpp.html#ac5ea203df96b8c833e6239d5d8a7ec9d", [
-      [ "Idle", "SysAdmin_8hpp.html#ac5ea203df96b8c833e6239d5d8a7ec9dab89719e835ef2cd8596b204751a7864d", null ],
-      [ "Load", "SysAdmin_8hpp.html#ac5ea203df96b8c833e6239d5d8a7ec9da36d7f81b1a0aa56dc9fb71c3951aa990", null ],
-      [ "Done", "SysAdmin_8hpp.html#ac5ea203df96b8c833e6239d5d8a7ec9da43313a65343f63f9a441109ead3d81c4", null ]
+    [ "MachineLoad", "SysAdmin_8hpp.html#a4f365c0a6249fd910e6664d9d2e17146", [
+      [ "Idle", "SysAdmin_8hpp.html#a4f365c0a6249fd910e6664d9d2e17146ab08fe658b51ce914b1f2b6c86804e595", null ],
+      [ "Load", "SysAdmin_8hpp.html#a4f365c0a6249fd910e6664d9d2e17146ac55e3554e6c65b7d7cccd6b9a5424e56", null ],
+      [ "Done", "SysAdmin_8hpp.html#a4f365c0a6249fd910e6664d9d2e17146a0e9a60243f8282037cef591f49d4e49b", null ]
     ] ],
-    [ "MachineStatus", "SysAdmin_8hpp.html#a032fc970c400d48142fba4dc2f0a14ed", [
-      [ "Good", "SysAdmin_8hpp.html#a032fc970c400d48142fba4dc2f0a14edaff2688eb1aa3b98fcf62f9af018cb287", null ],
-      [ "Fail", "SysAdmin_8hpp.html#a032fc970c400d48142fba4dc2f0a14eda3af657e7f1a31fe52a22d37618740606", null ],
-      [ "Dead", "SysAdmin_8hpp.html#a032fc970c400d48142fba4dc2f0a14eda842f0bed559fdfbdea423d9f6471242f", null ]
+    [ "MachineStatus", "SysAdmin_8hpp.html#a5829cec956bc3c248f8c70dcb545e993", [
+      [ "Good", "SysAdmin_8hpp.html#a5829cec956bc3c248f8c70dcb545e993aa9a785706dcb0ec1a85d358bcc0f2669", null ],
+      [ "Fail", "SysAdmin_8hpp.html#a5829cec956bc3c248f8c70dcb545e993acd4c5772b0ed07ec978e704357a91ea4", null ],
+      [ "Dead", "SysAdmin_8hpp.html#a5829cec956bc3c248f8c70dcb545e993a7618fd69ebdd962ace682657a3fc15d0", null ]
     ] ],
     [ "makeSysAdminBiRing", "SysAdmin_8hpp.html#ae3a58bf46d94a99852773816b367f18f", null ],
     [ "makeSysAdminGrid", "SysAdmin_8hpp.html#a480f83e2bcea5b7145a415b557dc2344", null ],

@@ -10,6 +10,7 @@ var classAIToolbox_1_1Factored_1_1FactorGraph =
     [ "value_type", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a59f7ba0101ffe628f2b713040fed5036", null ],
     [ "Variables", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a63ad07d06d704f26b813b21fc438ca7f", null ],
     [ "FactorGraph", "classAIToolbox_1_1Factored_1_1FactorGraph.html#ab55c948767316f935a64546846f00466", null ],
+    [ "FactorGraph", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a8c087aff336a15b698c4214129434d76", null ],
     [ "begin", "classAIToolbox_1_1Factored_1_1FactorGraph.html#aa3811bc4ef1b77cadb303dc04fab8cbb", null ],
     [ "begin", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a4d765c64181e1b65e9a93a962de8bb57", null ],
     [ "bestVariableToRemove", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a03d5e624634e2b4c4c3e67a4eedd04c1", null ],
@@ -25,5 +26,6 @@ var classAIToolbox_1_1Factored_1_1FactorGraph =
     [ "getVariables", "classAIToolbox_1_1Factored_1_1FactorGraph.html#afac5a5d57be5f2c60d0e4fabfe992d93", null ],
     [ "getVariables", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a3da6d96c93b7f9e879b7e8bf7ca30389", null ],
     [ "getVariables", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a3be998c0a150520025003fd4587bb501", null ],
+    [ "operator=", "classAIToolbox_1_1Factored_1_1FactorGraph.html#afb9c6f8a76d3ba93667048c5d0d50627", null ],
     [ "variableSize", "classAIToolbox_1_1Factored_1_1FactorGraph.html#a92cc67d61fcc287a855a1cbfdd075c70", null ]
 ];

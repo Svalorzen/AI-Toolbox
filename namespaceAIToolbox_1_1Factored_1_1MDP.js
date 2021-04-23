@@ -5,6 +5,7 @@ var namespaceAIToolbox_1_1Factored_1_1MDP =
     [ "CooperativeMaximumLikelihoodModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel" ],
     [ "CooperativeModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel" ],
     [ "CooperativePrioritizedSweeping", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping" ],
+    [ "CooperativeQLearning", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning" ],
     [ "CooperativeThompsonModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel" ],
     [ "EpsilonPolicy", "classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html", "classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy" ],
     [ "FactoredLP", "classAIToolbox_1_1Factored_1_1MDP_1_1FactoredLP.html", "classAIToolbox_1_1Factored_1_1MDP_1_1FactoredLP" ],

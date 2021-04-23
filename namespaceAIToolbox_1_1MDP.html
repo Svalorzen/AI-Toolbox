@@ -95,8 +95,8 @@ $(document).ready(function(){initNavTree('namespaceAIToolbox_1_1MDP.html',''); i
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:namespaceAIToolbox_1_1MDP_1_1GridWorldEnums"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldEnums.html">GridWorldEnums</a></td></tr>
-<tr class="memdesc:namespaceAIToolbox_1_1MDP_1_1GridWorldEnums"><td class="mdescLeft">&#160;</td><td class="mdescRight">This namespace exists in order to allow referencing the Direction values directly. <br /></td></tr>
+<tr class="memitem:namespaceAIToolbox_1_1MDP_1_1GridWorldUtils"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP_1_1GridWorldUtils.html">GridWorldUtils</a></td></tr>
+<tr class="memdesc:namespaceAIToolbox_1_1MDP_1_1GridWorldUtils"><td class="mdescLeft">&#160;</td><td class="mdescRight">This namespace exists in order to allow referencing the Direction values directly. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -265,8 +265,10 @@ Typedefs</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a3d48bc7cca5e75779ffc157e9be6721c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html">AIToolbox::MDP::SparseModel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a3d48bc7cca5e75779ffc157e9be6721c">makeCliffProblem</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1GridWorld.html">GridWorld</a> &amp;grid)</td></tr>
+<tr class="memdesc:a3d48bc7cca5e75779ffc157e9be6721c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets up the cliff problem in a <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html" title="This class represents a Markov Decision Process.">SparseModel</a>.  <a href="namespaceAIToolbox_1_1MDP.html#a3d48bc7cca5e75779ffc157e9be6721c">More...</a><br /></td></tr>
 <tr class="separator:a3d48bc7cca5e75779ffc157e9be6721c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6295c05470b88738e91e4e29b1fbffeb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">AIToolbox::MDP::Model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a6295c05470b88738e91e4e29b1fbffeb">makeCornerProblem</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1GridWorld.html">GridWorld</a> &amp;grid, double stepUncertainty=0.8)</td></tr>
+<tr class="memdesc:a6295c05470b88738e91e4e29b1fbffeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets up the corner problem in a <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1MDP.html#a6295c05470b88738e91e4e29b1fbffeb">More...</a><br /></td></tr>
 <tr class="separator:a6295c05470b88738e91e4e29b1fbffeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">parseCassandra</a> (std::istream &amp;input)</td></tr>
 <tr class="memdesc:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> from a Cassandra formatted stream.  <a href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">More...</a><br /></td></tr>
@@ -567,6 +569,21 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 </table>
 </div><div class="memdoc">
 
+<p>This function sets up the cliff problem in a <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html" title="This class represents a Markov Decision Process.">SparseModel</a>. </p>
+<p>The gist of this problem is a small grid where the agent is suppose to walk from a state to another state. The only problem is that between the two points stands a cliff, and walking down the cliff results in a huge negative reward, and in the agent being reset at the start of the walk. Reaching the end results in a positive reward, while every step results in a small negative reward.</p>
+<p>Movement here is fully deterministic.</p>
+<p>+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | 0 | 1 | .... | X-2 | X-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | X | X+1 | .... | 2X-2 | 2X-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | 2X | 2X+1 | .... | 3X-2 | 3X-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | .... | .... | .... | .... | .... | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | (Y-1)X |(Y-1)X+1| .... | YX-2 | YX-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | (START)| | | | (GOAL) | | YX | ~~~~ | .... | ~~~~ | YX+1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ \ /</p>
+<hr  />
+<p> V The Cliff</p>
+<p>To do this we use a grid above the cliff, and we attach two states under it.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grid</td><td>The grid to use for the problem.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html" title="This class represents a Markov Decision Process.">SparseModel</a> representing the problem. </dd></dl>
+
 </div>
 </div>
 <a id="a6295c05470b88738e91e4e29b1fbffeb"></a>
@@ -602,6 +619,20 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>This function sets up the corner problem in a <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">Model</a>. </p>
+<p>The gist of this problem is a small grid where the upper-left corner and the bottom-right corner are self-absorbing states. The agent can move in a top-left-down-right way, where each transition that is not self absorbing results in a reward penalty of -1. In addition the movements are not guaranteed: the agent succeeds only 80% of the time.</p>
+<p>Thus the agent needs to be able to find the shortest path to one of the self-absorbing states from every other state.</p>
+<p>The grid cells are numbered as following:</p>
+<p>+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | (GOAL) | | | | | | 0 | 1 | .... | X-2 | X-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | X | X+1 | .... | 2X-2 | 2X-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | 2X | 2X+1 | .... | 3X-2 | 3X-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | | | .... | .... | .... | .... | .... | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+ | | | | | (GOAL) | | (Y-1)X |(Y-1)X+1| .... | YX-2 | YX-1 | | | | | | | +-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+-----&mdash;+</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grid</td><td>The grid to use for the problem. </td></tr>
+    <tr><td class="paramname">stepUncertainty</td><td>The probability that a movement action succeeds.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">Model</a> representing the problem. </dd></dl>
 
 </div>
 </div>

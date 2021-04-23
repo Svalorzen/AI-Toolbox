@@ -86,9 +86,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">AI-Toolbox </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a href="https://travis-ci.org/Svalorzen/AI-Toolbox"><object type="image/svg+xml" data="https://travis-ci.org/Svalorzen/AI-Toolbox.svg?branch=master" style="pointer-events: none;">Build Status</object></a></p>
+<div class="textblock"><p><a href="https://github.com/Svalorzen/AI-Toolbox/actions?query=workflow%3A" title="CMake"><object type="image/svg+xml" data="https://github.com/Svalorzen/AI-Toolbox/workflows/CMake/badge.svg?branch=master" style="pointer-events: none;">Build Status</object></a></p>
+<p><a href="https://www.youtube.com/watch?v=qjSo41DVSXg"><img src="https://user-images.githubusercontent.com/1609228/99919181-3404dc00-2d1c-11eb-8593-0bf6af44cef8.png" alt="Library overview video" class="inline"/></a></p>
 <p>This C++ toolbox is aimed at representing and solving common AI problems, implementing an easy-to-use interface which should be hopefully extensible to many problems, while keeping code readable.</p>
 <p>Current development includes MDPs, POMDPs and related algorithms. This toolbox was originally developed taking inspiration from the Matlab <code>MDPToolbox</code>, which you can find <a href="https://miat.inrae.fr/MDPtoolbox/">here</a>, and from the <code>pomdp-solve</code> software written by A. R. Cassandra, which you can find <a href="http://www.pomdp.org/code/index.shtml">here</a>.</p>
+<p>An excellent introduction to the basics of reinforcement learning can be found freely online in <a href="http://incompleteideas.net/book/ebook/the-book.html">this book</a>.</p>
 <p>If you use this toolbox for research, please consider citing our JMLR article:</p>
 <div class="fragment"><div class="line">@article{JMLR:v21:18-402,</div>
 <div class="line">  author  = {Eugenio Bargiacchi and Diederik M. Roijers and Ann Now\&#39;{e}},</div>
@@ -100,12 +102,43 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line">  pages   = {1-12},</div>
 <div class="line">  url     = {http://jmlr.org/papers/v21/18-402.html}</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1>Description </h1>
-<p>This toolbox provides implementations of several reinforcement learning (RL) and planning algorithms. An excellent introduction to the basics can be found freely online in <a href="http://incompleteideas.net/book/ebook/the-book.html">this book</a>.</p>
-<p>The implemented algorithms can be applied in several settings: single agent environments, multi agent, multi objective, competitive, cooperative, partially observable and so on. We strive to maintain a consistent interface throughout all domains for ease of use. The toolbox is actively developed and used in research.</p>
-<p>Implementations are kept as simple as possible and with relatively few options compared to other libraries; we believe that this makes the code easier to read and modify to best suit your needs.</p>
-<p>Please note that the API may change over time (although most things at this point are stable) since as the toolbox grows I may decide to alter it to improve overall consistency.</p>
-<h1>Documentation </h1>
+</div><!-- fragment --><h1>Example </h1>
+<div class="fragment"><div class="line"><span class="comment">// The model can be any custom class that respects a 10-method interface.</span></div>
+<div class="line"><span class="keyword">auto</span> model = <a class="code" href="namespaceAIToolbox_1_1POMDP.html#abcd38fafda125d7a1e44a0d04c56e0e0">makeTigerProblem</a>();</div>
+<div class="line"><span class="keywordtype">unsigned</span> horizon = 10; <span class="comment">// The horizon of the solution.</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// The 0.0 is the convergence parameter. It gives a way to stop the</span></div>
+<div class="line"><span class="comment">// computation if the policy has converged before the horizon.</span></div>
+<div class="line"><a class="code" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html">AIToolbox::POMDP::IncrementalPruning</a> solver(horizon, 0.0);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Solve the model and obtain the optimal value function.</span></div>
+<div class="line"><span class="keyword">auto</span> [bound, valueFunction] = solver(model);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// We create a policy from the solution to compute the agent&#39;s actions.</span></div>
+<div class="line"><span class="comment">// The parameters are the size of the model (SxAxO), and the value function.</span></div>
+<div class="line"><a class="code" href="classAIToolbox_1_1POMDP_1_1Policy.html">AIToolbox::POMDP::Policy</a> policy(2, 3, 2, valueFunction);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// We begin a simulation with a uniform belief. We sample from the belief</span></div>
+<div class="line"><span class="comment">// in order to get a &quot;real&quot; state for the world, since this code has to</span></div>
+<div class="line"><span class="comment">// both emulate the environment and control the agent.</span></div>
+<div class="line"><a class="code" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">AIToolbox::POMDP::Belief</a> b(2); b &lt;&lt; 0.5, 0.5;</div>
+<div class="line"><span class="keyword">auto</span> s = <a class="code" href="namespaceAIToolbox.html#ad73352f6ce65aa95f76b7399cf0d2cb0">AIToolbox::sampleProbability</a>(b.size(), b, rand);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// We sample the first action. The id is to follow the policy tree later.</span></div>
+<div class="line"><span class="keyword">auto</span> [a, id] = policy.sampleAction(b, horizon);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">double</span> totalReward = 0.0;<span class="comment">// As an example, we store the overall reward.</span></div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> t = horizon - 1; t &gt;= 0; --t) {</div>
+<div class="line">    <span class="comment">// We advance the world one step.</span></div>
+<div class="line">    <span class="keyword">auto</span> [s1, o, r] = model.sampleSOR(s, a);</div>
+<div class="line">    totalReward += r;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// We select our next action from the observation we got.</span></div>
+<div class="line">    std::tie(a, <span class="keywordtype">id</span>) = policy.sampleAction(<span class="keywordtype">id</span>, o, t);</div>
+<div class="line"> </div>
+<div class="line">    s = s1; <span class="comment">// Finally we update the world for the next timestep.</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><h1>Documentation </h1>
 <p>The latest documentation is available <a href="http://svalorzen.github.io/AI-Toolbox/">here</a>. Keep in mind that it may not always be 100% up to date with the latest commits, while the one you compile yourself will of course be.</p>
 <p>For Python docs you can find them by typing <code>help(AIToolbox)</code> from the interpreter. It should show the exported API for each class, along with any differences in input/output.</p>
 <h1>Features </h1>
@@ -120,7 +153,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <h3>Bandit/Normal Games:</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadCenter"></th><th class="markdownTableHeadCenter"><b>Policies</b> </th><th class="markdownTableHeadCenter"></th></tr>
+<th class="markdownTableHeadCenter"></th><th class="markdownTableHeadCenter"><b>Models</b> </th><th class="markdownTableHeadCenter"></th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1Model.html" title="Reinforcement Learning: An Introduction, Ch 2.1, Sutton &amp; Barto">Basic Model</a> </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"><b>Policies</b> </td><td class="markdownTableBodyCenter"></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al.">Exploring Selfish Reinforcement Learning (ESRL)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html" title="A Tutorial on Thompson Sampling, Russo et al.">Q-Greedy Policy</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html" title="Reinforcement Learning: An Introduction, Ch 2.3, Sutton &amp; Barto">Softmax Policy</a>  </td></tr>
 <tr class="markdownTableRowEven">
@@ -185,7 +222,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p>Not in Python yet.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadCenter"></th><th class="markdownTableHeadCenter"><b>Algorithms</b> </th><th class="markdownTableHeadCenter"></th></tr>
+<th class="markdownTableHeadCenter"></th><th class="markdownTableHeadCenter"><b>Models</b> </th><th class="markdownTableHeadCenter"></th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html" title="Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.">Basic Model</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1FlattenedModel.html" title="Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.">Flattened Model</a> </td><td class="markdownTableBodyCenter"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"><b>Algorithms</b> </td><td class="markdownTableBodyCenter"></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html" title="Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al.">Max-Plus</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html" title="Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al.">Multi-Objective Variable Elimination (MOVE)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html" title="Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.">Upper Confidence Variable Elimination (UCVE)</a>  </td></tr>
 <tr class="markdownTableRowEven">
@@ -209,7 +250,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1FactoredLP.html" title="Max-norm Projections for Factored MDPs, Guestrin et al.">FactoredLP</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1LinearProgramming.html" title="Multiagent Planning with Factored MDPs, Guestrin et al.">Multi Agent Linear Programming</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1JointActionLearner.html" title="The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems, Claus et al.">Joint Action Learners</a>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html" title="Sparse Cooperative Q-learning, Kok et al.">Sparse Cooperative Q-Learning</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1BanditPolicyAdaptor.html">Cooperative Prioritized Sweeping</a> </td><td class="markdownTableBodyCenter"></td></tr>
+<td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html" title="Sparse Cooperative Q-learning, Kok et al.">Sparse Cooperative Q-Learning</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html" title="Model-based Multi-Agent Reinforcement Learning with Cooperative Prioritized Sweeping, Bargiacchi et al.">Cooperative Prioritized Sweeping</a> </td><td class="markdownTableBodyCenter"></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"><b>Policies</b> </td><td class="markdownTableBodyCenter"></td></tr>
 <tr class="markdownTableRowEven">
@@ -233,7 +274,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line">make</div>
 </div><!-- fragment --><p><code>cmake</code> can be called with a series of flags in order to customize the output, if building everything is not desirable. The following flags are available:</p>
 <div class="fragment"><div class="line">CMAKE_BUILD_TYPE # Defines the build type</div>
-<div class="line">MAKE_ALL         # Builds all there is to build in the project</div>
+<div class="line">MAKE_ALL         # Builds all there is to build in the project, but Python.</div>
 <div class="line">MAKE_LIB         # Builds the whole core C++ libraries (MDP, POMDP, etc..)</div>
 <div class="line">MAKE_MDP         # Builds only the core C++ MDP library</div>
 <div class="line">MAKE_FMDP        # Builds only the core C++ Factored/Multi-Agent and MDP libraries</div>
@@ -247,6 +288,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="fragment"><div class="line"># Will build MDP and MDP Python 3 bindings</div>
 <div class="line">cmake -DCMAKE_BUILD_TYPE=Debug -DMAKE_MDP=1 -DMAKE_PYTHON=1 -DPYTHON_VERSION=3 ..</div>
 </div><!-- fragment --><p>The default flags when nothing is specified are <code>MAKE_ALL</code> and <code>CMAKE_BUILD_TYPE=Release</code>.</p>
+<p>Note that by default <code>MAKE_ALL</code> does not build the Python bindings, as they have a minor performance hit on the C++ static libraries. You can easily enable them by using the flag <code>MAKE_PYTHON</code>.</p>
 <p>The static library files will be available directly in the build directory. Three separate libraries are built: <code>AIToolboxMDP</code>, <code>AIToolboxPOMDP</code> and <code>AIToolboxFMDP</code>. In case you want to link against either the POMDP library or the Factored MDP library, you will also need to link against the MDP one, since both of them use MDP functionality.</p>
 <p>A number of small tests are included which you can find in the <code>test/</code> folder. You can execute them after building the project using the following command directly from the <code>build</code> directory, just after you finish <code>make</code>:</p>
 <div class="fragment"><div class="line">ctest</div>
@@ -263,6 +305,11 @@ help(AIToolbox.POMDP)
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespaceAIToolbox_1_1POMDP_html_abcd38fafda125d7a1e44a0d04c56e0e0"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#abcd38fafda125d7a1e44a0d04c56e0e0">AIToolbox::POMDP::makeTigerProblem</a></div><div class="ttdeci">AIToolbox::POMDP::Model&lt; AIToolbox::MDP::Model &gt; makeTigerProblem()</div><div class="ttdoc">This function sets up the tiger problem in a Model.</div><div class="ttdef"><b>Definition:</b> TigerProblem.hpp:58</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_ad73352f6ce65aa95f76b7399cf0d2cb0"><div class="ttname"><a href="namespaceAIToolbox.html#ad73352f6ce65aa95f76b7399cf0d2cb0">AIToolbox::sampleProbability</a></div><div class="ttdeci">size_t sampleProbability(const size_t d, const T &amp;in, G &amp;generator)</div><div class="ttdoc">This function samples an index from a probability vector.</div><div class="ttdef"><b>Definition:</b> Probability.hpp:75</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1POMDP_1_1Policy_html"><div class="ttname"><a href="classAIToolbox_1_1POMDP_1_1Policy.html">AIToolbox::POMDP::Policy</a></div><div class="ttdoc">This class represents a POMDP Policy.</div><div class="ttdef"><b>Definition:</b> Policy.hpp:26</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1POMDP_1_1IncrementalPruning_html"><div class="ttname"><a href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html">AIToolbox::POMDP::IncrementalPruning</a></div><div class="ttdoc">This class implements the Incremental Pruning algorithm.</div><div class="ttdef"><b>Definition:</b> IncrementalPruning.hpp:44</div></div>
+<div class="ttc" id="anamespaceAIToolbox_1_1POMDP_html_a4522c5e35483fb30b2c43c271781e8bc"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">AIToolbox::POMDP::Belief</a></div><div class="ttdeci">ProbabilityVector Belief</div><div class="ttdoc">This represents a belief, which is a probability distribution over states.</div><div class="ttdef"><b>Definition:</b> Types.hpp:12</div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

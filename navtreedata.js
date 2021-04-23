@@ -88,15 +88,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AMDP_8hpp.html",
-"Logging_8hpp_source.html",
-"Types_8hpp.html#aa09bff0da64cdd264561fe009fa85812",
-"classAIToolbox_1_1Factored_1_1FactorGraph.html#a4d765c64181e1b65e9a93a962de8bb57",
-"classAIToolbox_1_1IndexMap.html#a7ae8a89841fc8e231ebd108f6ca1dc81",
-"classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857",
-"classAIToolbox_1_1MDP_1_1SparseModel.html#a61f3e31854d1dac809fec689a8b7f8f4",
-"classAIToolbox_1_1POMDP_1_1rPOMCP.html#a7e9dcd98e7e5b3f674c92f1eb6843eef",
-"namespaceAIToolbox_1_1Factored_1_1MDP_1_1SysAdminEnums.html",
-"structVector3DFromPython.html#a3523635b64080d0128b214ce64bf3144"
+"LRPPolicy_8hpp_source.html",
+"TreeBackupL_8hpp.html",
+"classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#ad54dbb55e9961a3e1dc8effbbe659350",
+"classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html#aded978ac5aad9f1bb06e9c97a8a22555",
+"classAIToolbox_1_1MDP_1_1GridWorld.html#af3e9d5d7cf45716339724f98f94cdeed",
+"classAIToolbox_1_1MDP_1_1SARSAL.html#a6e7d147b86033ebe670a58f9d5e9d247",
+"classAIToolbox_1_1POMDP_1_1Policy.html#a6e96d69bd8a81a356858022ebd248bfa",
+"functions_rela.html",
+"structAIToolbox_1_1MDP_1_1is__model__eigen.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

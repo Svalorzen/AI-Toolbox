@@ -5,6 +5,7 @@ var namespaceAIToolbox =
     [ "Impl", "namespaceAIToolbox_1_1Impl.html", "namespaceAIToolbox_1_1Impl" ],
     [ "MDP", "namespaceAIToolbox_1_1MDP.html", "namespaceAIToolbox_1_1MDP" ],
     [ "POMDP", "namespaceAIToolbox_1_1POMDP.html", "namespaceAIToolbox_1_1POMDP" ],
+    [ "Adam", "classAIToolbox_1_1Adam.html", "classAIToolbox_1_1Adam" ],
     [ "copy_const", "structAIToolbox_1_1copy__const.html", "structAIToolbox_1_1copy__const" ],
     [ "EpsilonPolicyInterface", "classAIToolbox_1_1EpsilonPolicyInterface.html", "classAIToolbox_1_1EpsilonPolicyInterface" ],
     [ "EpsilonPolicyInterface< void, void, Action >", "classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html", "classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4" ],
@@ -20,6 +21,8 @@ var namespaceAIToolbox =
     [ "Pruner", "classAIToolbox_1_1Pruner.html", "classAIToolbox_1_1Pruner" ],
     [ "remove_cv_ref", "structAIToolbox_1_1remove__cv__ref.html", "structAIToolbox_1_1remove__cv__ref" ],
     [ "Statistics", "classAIToolbox_1_1Statistics.html", "classAIToolbox_1_1Statistics" ],
+    [ "StorageMatrix2D", "classAIToolbox_1_1StorageMatrix2D.html", "classAIToolbox_1_1StorageMatrix2D" ],
+    [ "StorageVector", "classAIToolbox_1_1StorageVector.html", "classAIToolbox_1_1StorageVector" ],
     [ "SubsetEnumerator", "classAIToolbox_1_1SubsetEnumerator.html", "classAIToolbox_1_1SubsetEnumerator" ],
     [ "VoseAliasSampler", "classAIToolbox_1_1VoseAliasSampler.html", "classAIToolbox_1_1VoseAliasSampler" ],
     [ "WitnessLP", "classAIToolbox_1_1WitnessLP.html", "classAIToolbox_1_1WitnessLP" ]
