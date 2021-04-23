@@ -111,6 +111,7 @@ if (MAKE_FMDP)
     AddTest(Factored FactorGraph)
 
     AddTest(Factored/Bandit Model)
+    AddTest(Factored/Bandit FlattenedModel)
     AddTest(Factored/Bandit VariableElimination)
     AddTest(Factored/Bandit MultiObjectiveVariableElimination)
     AddTest(Factored/Bandit UCVE)
