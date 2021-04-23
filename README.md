@@ -241,13 +241,18 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 
 Not in Python yet.
 
-|                                                          | **Algorithms**                                                 |                                                      |
+|                                                          | **Models**                                                     |                                                      |
 | :------------------------------------------------------: | :------------------------------------------------------------: | :--------------------------------------------------: |
+| [Basic Model][fbmo]                                      | [Flattened Model][fbfm]                                        |                                                      |
+|                                                          | **Algorithms**                                                 |                                                      |
 | [Max-Plus][mplu]                                         | [Multi-Objective Variable Elimination (MOVE)][move]            | [Upper Confidence Variable Elimination (UCVE)][ucve] |
 | [Variable Elimination][vael]                             |                                                                |                                                      |
 |                                                          | **Policies**                                                   |                                                      |
 | [Q-Greedy Policy][fbqg]                                  | [Random Policy][fbra]                                          | [Learning with Linear Rewards (LLR)][llre]           |
 | [Multi-Agent Upper Confidence Exploration (MAUCE)][mauc] | [Multi-Agent Thompson-Sampling (Student-t distribution)][mats] | [Single-Action Policy][fbsa]                         |
+
+[fbmo]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
+[fbfm]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1FlattenedModel.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
 
 [mplu]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html "Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al."
 [move]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html "Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al."
