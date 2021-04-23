@@ -4,6 +4,7 @@ if (MAKE_MDP)
     add_library(AIToolboxMDP
         Impl/Seeder.cpp
         Impl/CassandraParser.cpp
+        Utils/Adam.cpp
         Utils/Combinatorics.cpp
         Utils/Probability.cpp
         Utils/Polytope.cpp

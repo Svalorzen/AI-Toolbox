@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
 set(GlobalFileDependencies
     ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp
     ${PROJECT_SOURCE_DIR}/src/Tools/Statistics.cpp
+    ${PROJECT_SOURCE_DIR}/src/Utils/Adam.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Combinatorics.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Probability.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/LP/LpSolveWrapper.cpp
@@ -39,6 +40,7 @@ function (AddTestPython type name)
 endfunction (AddTestPython)
 
 if (MAKE_MDP)
+    AddTestGlobal(UtilsAdam)
     AddTestGlobal(UtilsCore)
     AddTestGlobal(UtilsProbability)
     AddTestGlobal(UtilsPrune)
