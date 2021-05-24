@@ -154,10 +154,10 @@ namespace AIToolbox::POMDP {
      * @brief This function reads a policy from a file.
      *
      * This function reads files that have been outputted through
-     * operator<<(). If not enough values can be extracted from
-     * the stream, the function stops and the input policy is
-     * not modified. In addition, it checks whether the probability
-     * values are within 0 and 1.
+     * operator<<(std::ostream&, const Policy&). If not enough values can be
+     * extracted from the stream, the function stops and the input policy is
+     * not modified. In addition, it checks whether the probability values are
+     * within 0 and 1.
      *
      * @param is The stream were the policy is being read from.
      * @param p The policy that is being assigned.
@@ -170,7 +170,7 @@ namespace AIToolbox::POMDP {
      * @brief This function prints the whole policy to a stream.
      *
      * This function basically outputs the internal ValueFunction
-     * in a recoverable format.
+     * wrapped by the Policy in a recoverable format.
      *
      * @param os The stream where the policy is printed.
      * @param p The policy that is begin printed.
