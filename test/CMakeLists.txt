@@ -143,6 +143,8 @@ if (MAKE_POMDP)
     AddTest(POMDP Model)
     AddTest(POMDP SparseModel)
 
+    AddTest(POMDP Policy)
+
     AddTest(POMDP AMDP)
     AddTest(POMDP BlindStrategies)
     AddTest(POMDP FastInformedBound)
