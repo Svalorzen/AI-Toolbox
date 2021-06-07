@@ -48,8 +48,6 @@ namespace AIToolbox::MDP {
         static_assert(is_generative_model_v<M>, "This class only works for generative MDP models!");
 
         public:
-            using SampleBelief = std::vector<size_t>;
-
             struct StateNode;
             using StateNodes = std::unordered_map<size_t, StateNode>;
 
