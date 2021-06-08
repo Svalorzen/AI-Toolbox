@@ -5,6 +5,7 @@
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/MDP/Algorithms/Utils/Rollout.hpp>
 
 #include <unordered_map>
 
@@ -164,7 +165,6 @@ namespace AIToolbox::MDP {
             // Private Methods
             size_t runSimulation(size_t s, unsigned horizon);
             double simulate(StateNode & sn, size_t s, unsigned horizon);
-            double rollout(size_t s, unsigned horizon);
 
             template <typename Iterator>
             Iterator findBestA(Iterator begin, Iterator end);
@@ -244,7 +244,7 @@ namespace AIToolbox::MDP {
             if ( it == end ) {
                 // Touch node to create it
                 aNode.children[s1];
-                futureRew = rollout(s1, depth + 1);
+                futureRew = rollout(model_, s1, maxDepth_ - depth + 1, rand_);
             }
             else {
                 // Since most memory is allocated on the leaves,
@@ -264,23 +264,6 @@ namespace AIToolbox::MDP {
         aNode.V += ( rew - aNode.V ) / static_cast<double>(aNode.N);
 
         return rew;
-    }
-
-    template <typename M>
-    double MCTS<M>::rollout(size_t s, unsigned depth) {
-        double rew = 0.0, totalRew = 0.0, gamma = 1.0;
-
-        std::uniform_int_distribution<size_t> generator(0, A-1);
-        for ( ; depth < maxDepth_; ++depth ) {
-            std::tie( s, rew ) = model_.sampleSR( s, generator(rand_) );
-            totalRew += gamma * rew;
-
-            if (model_.isTerminal(s))
-                return totalRew;
-
-            gamma *= model_.getDiscount();
-        }
-        return totalRew;
     }
 
     template <typename M>

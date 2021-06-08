@@ -8,6 +8,7 @@
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
+#include <AIToolbox/MDP/Algorithms/Utils/Rollout.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -248,33 +249,6 @@ namespace AIToolbox::POMDP {
             double simulate(BeliefNode & b, size_t s, unsigned horizon);
 
             /**
-             * @brief This function implements the rollout policy for POMCP.
-             *
-             * This function extracts some cumulative reward from a
-             * particular state, given that we have reached a particular
-             * horizon. The idea behind this function is to approximate the
-             * true value of the state; since this function is called when
-             * we are at the leaves of our tree, the only way for us to
-             * extract more information is to simply simulate the rest of
-             * the episode directly.
-             *
-             * However, in order to speed up the process and store only
-             * useful data, we avoid inserting every single state that we
-             * see here into the tree, preferring to add a single state at
-             * a time. This avoids wasting lots of computation and memory
-             * on states far from our root that we will probably never see
-             * again, while at the same time still getting an estimate for
-             * the rest of the simulation.
-             *
-             * @param s The state from which to start the rollout.
-             * @param horizon The horizon already reached while simulating inside the tree.
-             *
-             * @return An estimate return computed from simulating until max depth.
-             */
-            double rollout(size_t s, unsigned horizon);
-
-
-            /**
              * @brief This function finds the best action based on value.
              *
              * @tparam Iterator An iterator to an ActionNode.
@@ -395,7 +369,7 @@ namespace AIToolbox::POMDP {
                                        std::forward_as_tuple(o),
                                        std::forward_as_tuple(s1));
                 // This stops automatically if we go out of depth
-                futureRew = rollout(s1, depth + 1);
+                futureRew = rollout(model_, s1, maxDepth_ - depth + 1, rand_);
             }
             else {
                 ot->second.belief.push_back(s1);
@@ -419,23 +393,6 @@ namespace AIToolbox::POMDP {
         aNode.V += ( rew - aNode.V ) / static_cast<double>(aNode.N);
 
         return rew;
-    }
-
-    template <typename M>
-    double POMCP<M>::rollout(size_t s, unsigned depth) {
-        double rew = 0.0, totalRew = 0.0, gamma = 1.0;
-
-        std::uniform_int_distribution<size_t> generator(0, A-1);
-        for ( ; depth < maxDepth_; ++depth ) {
-            std::tie( s, rew ) = model_.sampleSR( s, generator(rand_) );
-            totalRew += gamma * rew;
-
-            if (model_.isTerminal(s))
-                return totalRew;
-
-            gamma *= model_.getDiscount();
-        }
-        return totalRew;
     }
 
     template <typename M>
