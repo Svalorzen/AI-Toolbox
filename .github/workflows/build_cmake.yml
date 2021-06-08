@@ -25,9 +25,11 @@ jobs:
 
     - name: Install dependencies.
       run: |
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo add-apt-repository ppa:ostogvin/tjo-develop -y
+        sudo add-apt-repository ppa:rsjtaylor/cmake-backports
         sudo apt update
-        sudo apt install -qq libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev python-future
+        sudo apt install -qq g++-10 cmake libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev python-future
 
     - name: Create build folder
       run: |
@@ -36,7 +38,7 @@ jobs:
     - name: Run CMake
       working-directory: ${{ runner.workspace }}/AI-Toolbox/build
       run: |
-        if [ "${{ matrix.cxx }}" = "g++" ];     then export CXX="/usr/bin/g++"     CC="/usr/bin/gcc"; fi
+        if [ "${{ matrix.cxx }}" = "g++" ];     then export CXX="/usr/bin/g++-10"     CC="/usr/bin/gcc-10"; fi
         if [ "${{ matrix.cxx }}" = "clang++" ]; then export CXX="/usr/bin/clang++" CC="/usr/bin/clang"; fi
         cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPYTHON_VERSION=${{ matrix.python_version }}
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <random>
+#include <concepts>
 
 #include <boost/multi_array.hpp>
 
