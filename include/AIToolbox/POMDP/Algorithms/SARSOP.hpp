@@ -335,7 +335,7 @@ namespace AIToolbox::POMDP {
         delta_ = initialDelta_;
 
         // Cache immediate rewards if we can't read the reward function directly.
-        if constexpr (!MDP::is_model_eigen_v<M>)
+        if constexpr (!MDP::IsModelEigen<M>)
             immediateRewards_ = computeImmediateRewards(pomdp);
 
         // First allocation for root node & children
@@ -750,7 +750,7 @@ namespace AIToolbox::POMDP {
         )
     {
         const auto & ir = [&]{
-            if constexpr (MDP::is_model_eigen_v<M>) return pomdp.getRewardFunction();
+            if constexpr (MDP::IsModelEigen<M>) return pomdp.getRewardFunction();
             else return immediateRewards_;
         }();
         // We update the UB using the sawtooth approximation since it's work we
@@ -779,7 +779,7 @@ namespace AIToolbox::POMDP {
     template <typename M, typename>
     void SARSOP::backupNode(size_t id, const M & pomdp, VList & lbVList, MDP::QFunction & ubQ, UpperBoundValueFunction & ubV) {
         const auto & ir = [&]{
-            if constexpr (MDP::is_model_eigen_v<M>) return pomdp.getRewardFunction();
+            if constexpr (MDP::IsModelEigen<M>) return pomdp.getRewardFunction();
             else return immediateRewards_;
         }();
 

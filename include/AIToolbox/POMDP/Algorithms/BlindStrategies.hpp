@@ -112,7 +112,7 @@ namespace AIToolbox::POMDP {
     template <typename M, typename>
     std::tuple<double, VList> BlindStrategies::operator()(const M & m, const bool fasterConvergence) {
         const MDP::QFunction ir = [&]{
-            if constexpr(MDP::is_model_eigen_v<M>) return m.getRewardFunction().transpose();
+            if constexpr(MDP::IsModelEigen<M>) return m.getRewardFunction().transpose();
             else return MDP::computeImmediateRewards(m).transpose();
         }();
         // This function produces a very simple lower bound for the POMDP. The

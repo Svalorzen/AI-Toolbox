@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Utils/TypeTraits.hpp>
+#include <AIToolbox/TypeTraits.hpp>
 
 namespace AIToolbox::MDP {
     /**

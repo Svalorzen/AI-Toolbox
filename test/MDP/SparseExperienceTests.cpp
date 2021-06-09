@@ -12,7 +12,7 @@
 #include <cstdio>
 
 BOOST_AUTO_TEST_CASE( eigen_experience ) {
-    BOOST_CHECK(AIToolbox::MDP::is_experience_eigen_v<AIToolbox::MDP::SparseExperience>);
+    BOOST_CHECK(AIToolbox::MDP::IsExperienceEigen<AIToolbox::MDP::SparseExperience>);
 }
 
 BOOST_AUTO_TEST_CASE( construction ) {

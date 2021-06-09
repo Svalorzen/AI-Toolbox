@@ -7,16 +7,11 @@
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/TypeTraits.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
-
-#ifndef DOXYGEN_SKIP
-        // This is done to avoid bringing around the enable_if everywhere.
-        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model_v<M>>>
-        class OldPOMDPModel;
-#endif
 
 /**
  * @brief This class represents a Partially Observable Markov Decision Process.
@@ -64,8 +59,8 @@
  *
  * @tparam M The particular MDP type that we want to extend.
  */
-template <typename M>
-class OldPOMDPModel<M> : public M {
+template <AIToolbox::MDP::IsModel M>
+class OldPOMDPModel : public M {
     public:
         using ObservationMatrix = AIToolbox::DumbMatrix3D;
 
@@ -111,7 +106,7 @@ class OldPOMDPModel<M> : public M {
          * @param parameters All arguments needed to build the parent Model.
          */
         // Check that ObFun is a triple-matrix, otherwise we'll call the other constructor!
-        template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible_v<double,decltype(std::declval<ObFun>()[0][0][0])>>>
+        template <AIToolbox::IsNaive3DMatrix ObFun, typename... Args>
         OldPOMDPModel(size_t o, ObFun && of, Args&&... parameters);
 
         /**
@@ -149,7 +144,7 @@ class OldPOMDPModel<M> : public M {
          * @tparam ObFun The external observations container type.
          * @param of The external observations container.
          */
-        template <typename ObFun>
+        template <AIToolbox::IsNaive3DMatrix ObFun>
         void setObservationFunction(const ObFun & of);
 
         /**
@@ -224,7 +219,7 @@ class OldPOMDPModel<M> : public M {
         mutable AIToolbox::RandomEngine rand_;
 };
 
-template <typename M>
+template <AIToolbox::MDP::IsModel M>
 template <typename... Args>
 OldPOMDPModel<M>::OldPOMDPModel(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
                                               rand_(AIToolbox::Impl::Seeder::getSeed())
@@ -234,15 +229,15 @@ OldPOMDPModel<M>::OldPOMDPModel(size_t o, Args&&... params) : M(std::forward<Arg
             observations_[s][a][0] = 1.0;
 }
 
-template <typename M>
-template <typename ObFun, typename... Args, typename>
+template <AIToolbox::MDP::IsModel M>
+template <AIToolbox::IsNaive3DMatrix ObFun, typename... Args>
 OldPOMDPModel<M>::OldPOMDPModel(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
                                                                 rand_(AIToolbox::Impl::Seeder::getSeed())
 {
     setObservationFunction(of);
 }
 
-template <typename M>
+template <AIToolbox::MDP::IsModel M>
 template <typename PM, typename>
 OldPOMDPModel<M>::OldPOMDPModel(const PM& model) : M(model), O(model.getO()), observations_(boost::extents[this->getS()][this->getA()][O]),
                                    rand_(AIToolbox::Impl::Seeder::getSeed())
@@ -256,8 +251,8 @@ OldPOMDPModel<M>::OldPOMDPModel(const PM& model) : M(model), O(model.getO()), ob
         }
 }
 
-template <typename M>
-template <typename ObFun>
+template <AIToolbox::MDP::IsModel M>
+template <AIToolbox::IsNaive3DMatrix ObFun>
 void OldPOMDPModel<M>::setObservationFunction(const ObFun & of) {
     for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
         for ( size_t a = 0; a < this->getA(); ++a )
@@ -266,22 +261,22 @@ void OldPOMDPModel<M>::setObservationFunction(const ObFun & of) {
     copyDumb3D(of, observations_, this->getS(), this->getA(), O);
 }
 
-template <typename M>
+template <AIToolbox::MDP::IsModel M>
 double OldPOMDPModel<M>::getObservationProbability(size_t s1, size_t a, size_t o) const {
     return observations_[s1][a][o];
 }
 
-template <typename M>
+template <AIToolbox::MDP::IsModel M>
 size_t OldPOMDPModel<M>::getO() const {
     return O;
 }
 
-template <typename M>
+template <AIToolbox::MDP::IsModel M>
 const typename OldPOMDPModel<M>::ObservationMatrix & OldPOMDPModel<M>::getObservationFunction() const {
     return observations_;
 }
 
-template <typename M>
+template <AIToolbox::MDP::IsModel M>
 std::tuple<size_t,size_t, double> OldPOMDPModel<M>::sampleSOR(size_t s, size_t a) const {
     size_t s1, o;
     double r;
@@ -292,7 +287,7 @@ std::tuple<size_t,size_t, double> OldPOMDPModel<M>::sampleSOR(size_t s, size_t a
     return std::make_tuple(s1, o, r);
 }
 
-template <typename M>
+template <AIToolbox::MDP::IsModel M>
 std::tuple<size_t, double> OldPOMDPModel<M>::sampleOR(size_t s, size_t a, size_t s1) const {
     size_t o = AIToolbox::sampleProbability(O, observations_[s1][a], rand_);
     double r = this->getExpectedReward(s, a, s1);

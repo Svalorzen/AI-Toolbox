@@ -130,7 +130,7 @@ namespace AIToolbox::POMDP {
     template <typename M>
     void Projecter<M>::computeImmediateRewards() {
         immediateRewards_ = [&]{
-            if constexpr(MDP::is_model_eigen_v<M>)
+            if constexpr(MDP::IsModelEigen<M>)
                 return model_.getRewardFunction().transpose();
             else
                 return MDP::computeImmediateRewards(model_).transpose();

@@ -228,7 +228,7 @@ namespace AIToolbox::POMDP {
         constexpr unsigned infiniteHorizon = 1000000;
 
         // Cache immediate rewards if we can't read the reward function directly.
-        if constexpr (!MDP::is_model_eigen_v<M>)
+        if constexpr (!MDP::IsModelEigen<M>)
             immediateRewards_ = computeImmediateRewards(pomdp);
 
         // Reset tolerance to set parameter;
@@ -387,7 +387,7 @@ namespace AIToolbox::POMDP {
         // reward function.
         Matrix2D R(S, model.getA());
         const auto & ir = [&]{
-            if constexpr (MDP::is_model_eigen_v<M>) return model.getRewardFunction();
+            if constexpr (MDP::IsModelEigen<M>) return model.getRewardFunction();
             else return immediateRewards_;
         }();
 
@@ -503,7 +503,7 @@ namespace AIToolbox::POMDP {
             // If the found actions improve on the bounds, then we'll add this
             // belief to the list.
             const auto & ir = [&]{
-                if constexpr (MDP::is_model_eigen_v<M>) return pomdp.getRewardFunction();
+                if constexpr (MDP::IsModelEigen<M>) return pomdp.getRewardFunction();
                 else return immediateRewards_;
             }();
             const auto [ubAction, ubActionValue] = bestPromisingAction(pomdp, ir, belief, ubQ, ubV);

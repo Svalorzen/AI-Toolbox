@@ -75,7 +75,7 @@ namespace AIToolbox::MDP {
              * @param alpha The learning rate for the QFunction.
              * @param rho The learning rate for the average reward.
              */
-            template <typename M, typename = std::enable_if_t<is_generative_model_v<M>>>
+            template <IsGenerativeModel M>
             RLearning(const M& model, double alpha = 0.1, double rho = 0.1);
 
             /**
@@ -196,7 +196,7 @@ namespace AIToolbox::MDP {
             QFunction q_;
     };
 
-    template <typename M, typename>
+    template <IsGenerativeModel M>
     RLearning::RLearning(const M& model, const double alpha, const double rho) :
             RLearning(model.getS(), model.getA(), alpha, rho) {}
 }

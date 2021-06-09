@@ -4,8 +4,8 @@
 #include <algorithm>
 
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/TypeTraits.hpp>
 #include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Utils/TypeTraits.hpp>
 #include <AIToolbox/Utils/Polytope.hpp>
 
 namespace AIToolbox {

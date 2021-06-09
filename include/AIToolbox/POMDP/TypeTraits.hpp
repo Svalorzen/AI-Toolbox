@@ -40,7 +40,7 @@ namespace AIToolbox::POMDP {
             { return false; }
 
         public:
-            enum { value = test<M>(0) && MDP::is_generative_model_v<M> };
+            enum { value = test<M>(0) && MDP::IsGenerativeModel<M> };
     };
     template <typename M>
     inline constexpr bool is_generative_model_v = is_generative_model<M>::value;
@@ -82,7 +82,7 @@ namespace AIToolbox::POMDP {
             { return false; }
 
         public:
-            enum { value = test<T>(0) && is_generative_model_v<T> && MDP::is_model_v<T> };
+            enum { value = test<T>(0) && is_generative_model_v<T> && MDP::IsModel<T> };
     };
     template <typename M>
     inline constexpr bool is_model_v = is_model<M>::value;
@@ -141,7 +141,7 @@ namespace AIToolbox::POMDP {
             #undef RETVAL_EXTRACTOR
 
         public:
-            enum { value = is_model_v<M> && MDP::is_model_eigen_v<M> && test<M>(0) &&
+            enum { value = is_model_v<M> && MDP::IsModelEigen<M> && test<M>(0) &&
                            std::is_base_of_v<Eigen::EigenBase<O>, O> };
     };
     template <typename M>

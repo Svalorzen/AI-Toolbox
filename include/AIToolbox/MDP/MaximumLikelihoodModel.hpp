@@ -53,10 +53,8 @@ namespace AIToolbox::MDP {
      * Whether any of these techniques work or not can definitely depend on
      * the model you are trying to approximate. Trying out things is good!
      */
-    template <typename E>
+    template <IsExperience E>
     class MaximumLikelihoodModel {
-        static_assert(is_experience_v<E>, "This class only works for MDP experiences!");
-
         public:
             using TransitionMatrix   = Matrix3D;
             using RewardMatrix       = Matrix2D;
@@ -261,7 +259,7 @@ namespace AIToolbox::MDP {
             mutable RandomEngine rand_;
     };
 
-    template <typename E>
+    template <IsExperience E>
     MaximumLikelihoodModel<E>::MaximumLikelihoodModel(const E& exp, const double discount, const bool toSync) :
             S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, Matrix2D(S, S)),
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
@@ -286,20 +284,20 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename E>
+    template <IsExperience E>
     void MaximumLikelihoodModel<E>::setDiscount(const double d) {
         if ( d <= 0.0 || d > 1.0 ) throw std::invalid_argument("Discount parameter must be in (0,1]");
         discount_ = d;
     }
 
-    template <typename E>
+    template <IsExperience E>
     void MaximumLikelihoodModel<E>::sync() {
         for ( size_t a = 0; a < A; ++a )
         for ( size_t s = 0; s < S; ++s )
             sync(s,a);
     }
 
-    template <typename E>
+    template <IsExperience E>
     void MaximumLikelihoodModel<E>::sync(const size_t s, const size_t a) {
         // Nothing to do
         const auto visitSum = experience_.getVisitsSum(s, a);
@@ -311,7 +309,7 @@ namespace AIToolbox::MDP {
         // Create reciprocal for fast division
         const double visitSumReciprocal = 1.0 / visitSum;
 
-        if constexpr (is_experience_eigen_v<E>) {
+        if constexpr (IsExperienceEigen<E>) {
             transitions_[a].row(s) = experience_.getVisitsTable(a).row(s).template cast<double>() * visitSumReciprocal;
         } else {
             // Normalize
@@ -322,7 +320,7 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename E>
+    template <IsExperience E>
     void MaximumLikelihoodModel<E>::sync(const size_t s, const size_t a, const size_t s1) {
         const auto visitSum = experience_.getVisitsSum(s, a);
         // The second condition is related to numerical errors. Once in a
@@ -349,24 +347,24 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename E>
+    template <IsExperience E>
     std::tuple<size_t, double> MaximumLikelihoodModel<E>::sampleSR(const size_t s, const size_t a) const {
         const size_t s1 = sampleProbability(S, transitions_[a].row(s), rand_);
 
         return std::make_tuple(s1, rewards_(s, a));
     }
 
-    template <typename E>
+    template <IsExperience E>
     double MaximumLikelihoodModel<E>::getTransitionProbability(const size_t s, const size_t a, const size_t s1) const {
         return transitions_[a](s, s1);
     }
 
-    template <typename E>
+    template <IsExperience E>
     double MaximumLikelihoodModel<E>::getExpectedReward(const size_t s, const size_t a, const size_t) const {
         return rewards_(s, a);
     }
 
-    template <typename E>
+    template <IsExperience E>
     bool MaximumLikelihoodModel<E>::isTerminal(const size_t s) const {
         for ( size_t a = 0; a < A; ++a )
             if ( !checkEqualSmall(1.0, transitions_[a](s, s)) )
@@ -374,21 +372,21 @@ namespace AIToolbox::MDP {
         return true;
     }
 
-    template <typename E>
+    template <IsExperience E>
     size_t MaximumLikelihoodModel<E>::getS() const { return S; }
-    template <typename E>
+    template <IsExperience E>
     size_t MaximumLikelihoodModel<E>::getA() const { return A; }
-    template <typename E>
+    template <IsExperience E>
     double MaximumLikelihoodModel<E>::getDiscount() const { return discount_; }
-    template <typename E>
+    template <IsExperience E>
     const E & MaximumLikelihoodModel<E>::getExperience() const { return experience_; }
 
-    template <typename E>
+    template <IsExperience E>
     const typename MaximumLikelihoodModel<E>::TransitionMatrix & MaximumLikelihoodModel<E>::getTransitionFunction() const { return transitions_; }
-    template <typename E>
+    template <IsExperience E>
     const typename MaximumLikelihoodModel<E>::RewardMatrix &     MaximumLikelihoodModel<E>::getRewardFunction()     const { return rewards_; }
 
-    template <typename E>
+    template <IsExperience E>
     const Matrix2D & MaximumLikelihoodModel<E>::getTransitionFunction(const size_t a) const { return transitions_[a]; }
 }
 

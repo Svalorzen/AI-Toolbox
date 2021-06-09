@@ -1,11 +1,13 @@
 #ifndef AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE
 #define AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE
 
-#include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Utils/TypeTraits.hpp>
-#include <AIToolbox/Utils/Combinatorics.hpp>
-#include <Eigen/Dense>
 #include <array>
+
+#include <Eigen/Dense>
+
+#include <AIToolbox/TypeTraits.hpp>
+#include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Combinatorics.hpp>
 
 #include <AIToolbox/Utils/LP.hpp>
 

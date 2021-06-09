@@ -2,7 +2,8 @@
 #define AI_TOOLBOX_IMPL_FUNCTION_MATCHIN_HEADER_FILE
 
 #include <tuple>
-#include <AIToolbox/Utils/TypeTraits.hpp>
+
+#include <AIToolbox/TypeTraits.hpp>
 
 namespace AIToolbox::Impl {
     /**
