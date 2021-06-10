@@ -83,7 +83,7 @@ namespace AIToolbox::POMDP {
              *
              * @return The lower and upper gap bounds, the lower bound VList, and the upper bound QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
 
         private:
@@ -141,7 +141,7 @@ namespace AIToolbox::POMDP {
              * @param ubQ The QFunction containing the upper bound.
              * @param ubV The belief-value pairs for the upper bound.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             void samplePoints(
                 const M & pomdp,
                 const VList & lbV,
@@ -164,7 +164,7 @@ namespace AIToolbox::POMDP {
              * @param ubQ The QFunction containing the upper bound.
              * @param ubV The belief-value pairs for the upper bound.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             void expandLeaf(
                 size_t id, const M & model,
                 const VList & lbV,
@@ -196,7 +196,7 @@ namespace AIToolbox::POMDP {
              * @param ubV The belief-value pairs for the upper bound.
              * @param expand Whether we are expanding this node or not.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             void updateNode(
                 TreeNode & node, const M & model,
                 const VList & lbV,
@@ -220,7 +220,7 @@ namespace AIToolbox::POMDP {
              * @param ubQ The QFunction containing the upper bound.
              * @param ubV The belief-value pairs for the upper bound.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             void backupNode(
                 size_t id, const M & model,
                 VList & lbV,
@@ -320,7 +320,7 @@ namespace AIToolbox::POMDP {
             Belief intermediateBeliefTmp_, nextBeliefTmp_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, double, VList, MDP::QFunction> SARSOP::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
 
@@ -564,7 +564,7 @@ namespace AIToolbox::POMDP {
         return std::make_tuple(treeStorage_[0].LB, treeStorage_[0].UB, lbVList, ubQ);
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     void SARSOP::samplePoints(const M & pomdp, const VList & lbVList, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV) {
         sampledNodes_.clear();
         // Always begin sampling from the root. We are going to go down a path
@@ -653,7 +653,7 @@ namespace AIToolbox::POMDP {
         }
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     void SARSOP::expandLeaf(
             const size_t id, const M & pomdp,
             const VList & lbVList,
@@ -741,7 +741,7 @@ namespace AIToolbox::POMDP {
         }
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     void SARSOP::updateNode(
             TreeNode & node, const M & pomdp,
             const VList & lbVList,
@@ -776,7 +776,7 @@ namespace AIToolbox::POMDP {
         }
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     void SARSOP::backupNode(size_t id, const M & pomdp, VList & lbVList, MDP::QFunction & ubQ, UpperBoundValueFunction & ubV) {
         const auto & ir = [&]{
             if constexpr (MDP::IsModelEigen<M>) return pomdp.getRewardFunction();

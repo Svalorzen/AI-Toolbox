@@ -11,7 +11,7 @@
 #include <fstream>
 
 BOOST_AUTO_TEST_CASE( eigen_model ) {
-    BOOST_CHECK(AIToolbox::MDP::IsModelEigen<AIToolbox::MDP::Model>);
+    static_assert(AIToolbox::MDP::IsModelEigen<AIToolbox::MDP::Model>);
 }
 
 BOOST_AUTO_TEST_CASE( construction ) {

@@ -124,7 +124,8 @@ class OldPOMDPModel : public M {
          * @tparam PM The type of the other model.
          * @param model The model that needs to be copied.
          */
-        template <typename PM, typename = std::enable_if_t<AIToolbox::POMDP::is_model_v<PM> && std::is_constructible_v<M,PM>>>
+        template <typename PM>
+        requires AIToolbox::POMDP::IsModel<PM> && std::constructible_from<M, PM>
         OldPOMDPModel(const PM& model);
 
         /**
@@ -238,7 +239,8 @@ OldPOMDPModel<M>::OldPOMDPModel(size_t o, ObFun && of, Args&&... params) : M(std
 }
 
 template <AIToolbox::MDP::IsModel M>
-template <typename PM, typename>
+template <typename PM>
+requires AIToolbox::POMDP::IsModel<PM> && std::constructible_from<M, PM>
 OldPOMDPModel<M>::OldPOMDPModel(const PM& model) : M(model), O(model.getO()), observations_(boost::extents[this->getS()][this->getA()][O]),
                                    rand_(AIToolbox::Impl::Seeder::getSeed())
 {

@@ -105,7 +105,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         QFunction and the computed QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, MDP::QFunction> operator()(const M & m, const MDP::QFunction & oldQ = {});
 
             /**
@@ -131,7 +131,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         QFunction and the computed QFunction.
              */
-            template <typename M, typename SOSA, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M, typename SOSA>
             std::tuple<double, MDP::QFunction> operator()(const M & m, const SOSA & sosa, MDP::QFunction oldQ = {});
 
             /**
@@ -175,15 +175,15 @@ namespace AIToolbox::POMDP {
             double tolerance_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, MDP::QFunction> FastInformedBound::operator()(const M & m, const MDP::QFunction & oldQ) {
         return operator()(m, makeSOSA(m), oldQ);
     }
 
-    template <typename M, typename SOSA, typename>
+    template <IsModel M, typename SOSA>
     std::tuple<double, MDP::QFunction> FastInformedBound::operator()(const M & m, const SOSA & sosa, MDP::QFunction oldQ) {
         const auto & ir = [&]{
-            if constexpr (is_model_eigen_v<M>) return m.getRewardFunction();
+            if constexpr (IsModelEigen<M>) return m.getRewardFunction();
             else return computeImmediateRewards(m);
         }();
         auto newQ = MDP::QFunction(m.getS(), m.getA());

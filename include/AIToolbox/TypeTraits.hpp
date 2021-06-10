@@ -99,7 +99,15 @@ namespace AIToolbox {
     concept HasActionSpace = HasFixedActionSpace<M> || HasVariableActionSpace<M>;
 
     /**
-     * @brief This concept checks that getS() returns size_t
+     * @brief This concept checks that getO() exists.
+     */
+    template <typename M>
+    concept HasObservationSpace = requires(const M m) {
+        { m.getO() } -> different_from<void>;
+    };
+
+    /**
+     * @brief This concept checks that getS() returns size_t.
      */
     template <typename M>
     concept HasIntegralStateSpace = requires(const M m) {
@@ -107,13 +115,21 @@ namespace AIToolbox {
     };
 
     /**
-     * @brief This concept checks that getA returns size_t
+     * @brief This concept checks that getA returns size_t.
      */
     template <typename M>
     concept HasIntegralActionSpace = requires(const M m) {
         requires
           (HasFixedActionSpace<M>    && requires {{ m.getA() }         -> std::same_as<size_t>; }) ||
           (HasVariableActionSpace<M> && requires {{ m.getA(m.getS()) } -> std::same_as<size_t>; });
+    };
+
+    /**
+     * @brief This concept checks that getO() returns size_t.
+     */
+    template <typename M>
+    concept HasIntegralObservationSpace = requires(const M m) {
+        { m.getO() } -> std::same_as<size_t>;
     };
 
     /**

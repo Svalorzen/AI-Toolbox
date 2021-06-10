@@ -58,10 +58,8 @@ namespace AIToolbox::POMDP {
      * beliefs in order to keep them "fresh" (possibly using domain
      * knowledge).
      */
-    template <typename M>
+    template <IsGenerativeModel M>
     class POMCP {
-        static_assert(is_generative_model_v<M>, "This class only works for generative POMDP models!");
-
         public:
             using SampleBelief = std::vector<size_t>;
 
@@ -287,12 +285,12 @@ namespace AIToolbox::POMDP {
             SampleBelief makeSampledBelief(const Belief & b);
     };
 
-    template <typename M>
+    template <IsGenerativeModel M>
     POMCP<M>::POMCP(const M& m, const size_t beliefSize, const unsigned iter, const double exp) :
             model_(m), S(model_.getS()), A(model_.getA()), beliefSize_(beliefSize),
             iterations_(iter), exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::sampleAction(const Belief& b, const unsigned horizon) {
         // Reset graph
         graph_ = BeliefNode(A);
@@ -302,7 +300,7 @@ namespace AIToolbox::POMDP {
         return runSimulation(horizon);
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::sampleAction(const size_t a, const size_t o, const unsigned horizon) {
         const auto & obs = graph_.children[a].children;
 
@@ -334,7 +332,7 @@ namespace AIToolbox::POMDP {
         return runSimulation(horizon);
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::runSimulation(const unsigned horizon) {
         if ( !horizon ) return 0;
 
@@ -348,7 +346,7 @@ namespace AIToolbox::POMDP {
         return std::distance(begin, findBestA(begin, std::end(graph_.children)));
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     double POMCP<M>::simulate(BeliefNode & b, const size_t s, const unsigned depth) {
         b.N++;
 
@@ -395,13 +393,13 @@ namespace AIToolbox::POMDP {
         return rew;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     template <typename Iterator>
     Iterator POMCP<M>::findBestA(Iterator begin, Iterator end) {
         return std::max_element(begin, end, [](const ActionNode & lhs, const ActionNode & rhs){ return lhs.V < rhs.V; });
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     template <typename Iterator>
     Iterator POMCP<M>::findBestBonusA(Iterator begin, Iterator end, const unsigned count) {
         // Count here can be as low as 1.
@@ -427,7 +425,7 @@ namespace AIToolbox::POMDP {
         return bestIterator;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     typename POMCP<M>::SampleBelief POMCP<M>::makeSampledBelief(const Belief & b) {
         SampleBelief belief;
         belief.reserve(beliefSize_);
@@ -438,42 +436,42 @@ namespace AIToolbox::POMDP {
         return belief;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void POMCP<M>::setBeliefSize(const size_t beliefSize) {
         beliefSize_ = beliefSize;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void POMCP<M>::setIterations(const unsigned iter) {
         iterations_ = iter;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void POMCP<M>::setExploration(const double exp) {
         exploration_ = exp;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     const M& POMCP<M>::getModel() const {
         return model_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     const typename POMCP<M>::BeliefNode& POMCP<M>::getGraph() const {
         return graph_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::getBeliefSize() const {
         return beliefSize_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     unsigned POMCP<M>::getIterations() const {
         return iterations_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     double POMCP<M>::getExploration() const {
         return exploration_;
     }

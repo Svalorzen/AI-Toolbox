@@ -14,10 +14,8 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This class generates reachable beliefs from a given Model.
      */
-    template <typename M>
+    template <IsGenerativeModel M>
     class BeliefGenerator {
-        static_assert(is_generative_model_v<M>, "This class only works for generative POMDP models!");
-
         public:
             using BeliefList = std::vector<Belief>;
 
@@ -91,13 +89,13 @@ namespace AIToolbox::POMDP {
             mutable Belief helper_;
     };
 
-    template <typename M>
+    template <IsGenerativeModel M>
     BeliefGenerator<M>::BeliefGenerator(const M& model) :
             model_(model), S(model_.getS()), A(model_.getA()),
             rand_(Impl::Seeder::getSeed()),
             blp_(nullptr), sop_(nullptr), up_(nullptr), dp_(nullptr), helper_(S) {}
 
-    template <typename M>
+    template <IsGenerativeModel M>
     typename BeliefGenerator<M>::BeliefList BeliefGenerator<M>::operator()(const size_t beliefNumber) const {
         // We add all simplex corners and the middle belief.
         BeliefList beliefs; beliefs.reserve(std::max(beliefNumber, S));
@@ -115,7 +113,7 @@ namespace AIToolbox::POMDP {
         return beliefs;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void BeliefGenerator<M>::operator()(const size_t maxBeliefs, BeliefList * bl) const {
         if ( !bl ) return;
 
@@ -186,7 +184,7 @@ namespace AIToolbox::POMDP {
         beliefs.resize(maxBeliefs);
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void BeliefGenerator<M>::expandBeliefList(const size_t max, const size_t randomBeliefsToAdd, const size_t firstProductiveBelief) const {
         auto & bl = *blp_;
         auto & seenObservations = *sop_;

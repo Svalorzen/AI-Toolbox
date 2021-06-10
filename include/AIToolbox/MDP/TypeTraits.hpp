@@ -17,6 +17,11 @@ namespace AIToolbox::MDP {
      * - double getDiscount() const : Returns the discount factor of the Model.
      * - std::tuple<size_t, double> sampleSR(size_t s, size_t a) const : Returns a sampled state-reward pair from (s,a)
      * - bool isTerminal(size_t s) const : Reports whether the input state is a terminal state.
+     *
+     * The concept re-uses the "base" concept and simply requires a fixed
+     * action space, and integral state and action spaces.
+     *
+     * \sa AIToolbox::IsGenerativeModel
      */
     template <typename M>
     concept IsGenerativeModel = AIToolbox::IsGenerativeModel<M> &&

@@ -14,7 +14,7 @@
 #include <fstream>
 
 BOOST_AUTO_TEST_CASE( eigen_model ) {
-    BOOST_CHECK(AIToolbox::POMDP::is_model_eigen_v<AIToolbox::POMDP::Model<AIToolbox::MDP::Model>>);
+    static_assert(AIToolbox::POMDP::IsModelEigen<AIToolbox::POMDP::Model<AIToolbox::MDP::Model>>);
 }
 
 BOOST_AUTO_TEST_CASE( construction ) {

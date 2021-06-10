@@ -64,7 +64,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation over all
              *         actions and the VList containing the found bounds.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, VList> operator()(const M & m, bool fasterConvergence);
 
             /**
@@ -109,7 +109,7 @@ namespace AIToolbox::POMDP {
     };
 
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, VList> BlindStrategies::operator()(const M & m, const bool fasterConvergence) {
         const MDP::QFunction ir = [&]{
             if constexpr(MDP::IsModelEigen<M>) return m.getRewardFunction().transpose();
@@ -140,7 +140,7 @@ namespace AIToolbox::POMDP {
             double variation = tolerance_ * 2; // Make it bigger
             while ( timestep < horizon_ && ( !useTolerance || variation > tolerance_ ) ) {
                 ++timestep;
-                if constexpr(is_model_eigen_v<M>) {
+                if constexpr(MDP::IsModelEigen<M>) {
                     newAlpha = ir.row(a) + (m.getDiscount() * m.getTransitionFunction(a) * oldAlpha).transpose();
                 } else {
                     newAlpha = ir.row(a);

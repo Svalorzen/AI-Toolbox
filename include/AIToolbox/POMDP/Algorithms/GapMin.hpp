@@ -131,7 +131,7 @@ namespace AIToolbox::POMDP {
              *
              * @return The lower and upper gap bounds, the lower bound VList, and the upper bound QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, double, VList, MDP::QFunction> operator()(const M & model, const Belief & initialBelief);
 
         private:
@@ -168,7 +168,7 @@ namespace AIToolbox::POMDP {
              *
              * @return Two lists of beliefs, for lower and upper bound respectively, and a list of values for the upper bound beliefs.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> selectReachableBeliefs(
                 const M & model,
                 const Belief & belief,
@@ -196,7 +196,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A pair with a reward-function only POMDP, and its associated SOSA matrix.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<IntermediatePOMDP, SparseMatrix4D> makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV);
 
             /**
@@ -223,7 +223,7 @@ namespace AIToolbox::POMDP {
             unsigned precisionDigits_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, double, VList, MDP::QFunction> GapMin::operator()(const M & pomdp, const Belief & initialBelief) {
         constexpr unsigned infiniteHorizon = 1000000;
 
@@ -377,7 +377,7 @@ namespace AIToolbox::POMDP {
         return std::make_tuple(lb, ub, lbVList, ubQ);
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<GapMin::IntermediatePOMDP, SparseMatrix4D> GapMin::makeNewPomdp(const M& model, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV) {
         size_t S = model.getS() + ubV.first.size();
 
@@ -452,7 +452,7 @@ namespace AIToolbox::POMDP {
         );
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<std::vector<Belief>, std::vector<Belief>, std::vector<double>> GapMin::selectReachableBeliefs(
             const M & pomdp, const Belief & initialBelief, const VList & lbVList,
             const std::vector<Belief> & lbBeliefs, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV

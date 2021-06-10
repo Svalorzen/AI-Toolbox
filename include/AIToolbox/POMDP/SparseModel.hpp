@@ -138,7 +138,8 @@ namespace AIToolbox::POMDP {
              * @tparam PM The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename PM, typename = std::enable_if_t<is_model_v<PM> && std::is_constructible_v<M,PM>>>
+            template <typename PM>
+            requires IsModel<PM> && std::constructible_from<M, PM>
             SparseModel(const PM& model);
 
             /**
@@ -303,7 +304,8 @@ namespace AIToolbox::POMDP {
     {}
 
     template <MDP::IsModel M>
-    template <typename PM, typename>
+    template <typename PM>
+    requires IsModel<PM> && std::constructible_from<M, PM>
     SparseModel<M>::SparseModel(const PM& model) :
             M(model), O(model.getO()), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
             rand_(Impl::Seeder::getSeed())

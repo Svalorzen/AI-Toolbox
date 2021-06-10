@@ -10,37 +10,31 @@
 #include <AIToolbox/POMDP/Model.hpp>
 
 BOOST_AUTO_TEST_CASE( positives ) {
-    using namespace AIToolbox;
+    namespace MDP = AIToolbox::MDP;
     using namespace AIToolbox::POMDP;
 
-    BOOST_CHECK(is_generative_model_v<Model<MDP::Model>>);
-    BOOST_CHECK(is_model_v<Model<MDP::Model>>);
-    BOOST_CHECK(is_model_eigen_v<Model<MDP::Model>>);
-    BOOST_CHECK(!is_model_not_eigen_v<Model<MDP::Model>>);
+    static_assert(IsGenerativeModel<Model<MDP::Model>>);
+    static_assert(IsModel<Model<MDP::Model>>);
+    static_assert(IsModelEigen<Model<MDP::Model>>);
 
-    BOOST_CHECK(is_generative_model_v<OldPOMDPModel<MDP::Model>>);
-    BOOST_CHECK(is_model_v<OldPOMDPModel<MDP::Model>>);
-    BOOST_CHECK(!is_model_eigen_v<OldPOMDPModel<MDP::Model>>);
-    BOOST_CHECK(is_model_not_eigen_v<OldPOMDPModel<MDP::Model>>);
+    static_assert(IsGenerativeModel<OldPOMDPModel<MDP::Model>>);
+    static_assert(IsModel<OldPOMDPModel<MDP::Model>>);
+    static_assert(!IsModelEigen<OldPOMDPModel<MDP::Model>>);
 }
 
 BOOST_AUTO_TEST_CASE( negatives ) {
-    using namespace AIToolbox;
+    namespace MDP = AIToolbox::MDP;
     using namespace AIToolbox::POMDP;
 
-    BOOST_CHECK(!is_generative_model_v<MDP::Model>);
-    BOOST_CHECK(!is_generative_model_v<int>);
-    BOOST_CHECK(!is_generative_model_v<void*>);
+    static_assert(!IsGenerativeModel<MDP::Model>);
+    static_assert(!IsGenerativeModel<int>);
+    static_assert(!IsGenerativeModel<void*>);
 
-    BOOST_CHECK(!is_model_v<MDP::Model>);
-    BOOST_CHECK(!is_model_v<int>);
-    BOOST_CHECK(!is_model_v<void*>);
+    static_assert(!IsModel<MDP::Model>);
+    static_assert(!IsModel<int>);
+    static_assert(!IsModel<void*>);
 
-    BOOST_CHECK(!is_model_eigen_v<MDP::Model>);
-    BOOST_CHECK(!is_model_eigen_v<int>);
-    BOOST_CHECK(!is_model_eigen_v<void*>);
-
-    BOOST_CHECK(!is_model_not_eigen_v<MDP::Model>);
-    BOOST_CHECK(!is_model_not_eigen_v<int>);
-    BOOST_CHECK(!is_model_not_eigen_v<void*>);
+    static_assert(!IsModelEigen<MDP::Model>);
+    static_assert(!IsModelEigen<int>);
+    static_assert(!IsModelEigen<void*>);
 }
