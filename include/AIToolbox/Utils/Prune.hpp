@@ -26,7 +26,7 @@ namespace AIToolbox {
      *
      * @return The iterator that separates dominated elements with non-pruned.
      */
-    template <typename Iterator, typename P = identity>
+    template <typename Iterator, typename P = std::identity>
     Iterator extractDominated(Iterator begin, Iterator end, P p = P{}) {
         if ( std::distance(begin, end) < 2 ) return end;
 
@@ -92,7 +92,7 @@ next:;
      *
      * @return Three iterators demarking the various filtered ranges: old, new, dominated old.
      */
-    template <typename Iterator, typename P = identity>
+    template <typename Iterator, typename P = std::identity>
     std::tuple<Iterator, Iterator, Iterator> extractDominatedIncremental(Iterator begin, Iterator newBegin, Iterator end, P p = P{}) {
         // Make sure new entries don't dominate each other. This simplifies the
         // checks and swaps we need to do later.
@@ -191,7 +191,7 @@ next:;
              *
              * @param w The list that needs to be pruned.
              */
-            template <typename It, typename P = identity>
+            template <typename It, typename P = std::identity>
             It operator()(It begin, It end, P p = P{});
 
         private:

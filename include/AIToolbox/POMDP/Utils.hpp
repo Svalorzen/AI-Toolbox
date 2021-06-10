@@ -110,7 +110,7 @@ namespace AIToolbox::POMDP {
     template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
     auto makeSOSA(const M & m) {
         if constexpr(is_model_eigen_v<M>) {
-            boost::multi_array<remove_cv_ref_t<decltype(m.getTransitionFunction(0))>, 2> retval( boost::extents[m.getA()][m.getO()] );
+            boost::multi_array<std::remove_cvref_t<decltype(m.getTransitionFunction(0))>, 2> retval( boost::extents[m.getA()][m.getO()] );
             for (size_t a = 0; a < m.getA(); ++a)
                 for (size_t o = 0; o < m.getO(); ++o)
                     retval[a][o] = m.getTransitionFunction(a) * Vector(m.getObservationFunction(a).col(o)).asDiagonal();

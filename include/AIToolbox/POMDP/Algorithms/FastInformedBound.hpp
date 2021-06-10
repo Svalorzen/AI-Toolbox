@@ -192,7 +192,7 @@ namespace AIToolbox::POMDP {
             oldQ.resize(m.getS(), m.getA());
 
             double max;
-            using Tmp = remove_cv_ref_t<decltype(ir)>;
+            using Tmp = std::remove_cvref_t<decltype(ir)>;
             if constexpr(std::is_base_of_v<Eigen::SparseMatrixBase<Tmp>, Tmp>)
                 max = Eigen::Map<const Vector>(ir.valuePtr(), ir.size()).maxCoeff();
             else

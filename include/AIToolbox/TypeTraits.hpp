@@ -21,27 +21,6 @@ namespace AIToolbox {
     using copy_const_t = typename copy_const<CopiedType, ConstReference>::type;
 
     /**
-     * @brief This struct is used to both remove references and all cv qualifiers.
-     */
-    template <typename T>
-    struct remove_cv_ref { using type = std::remove_cv_t<std::remove_reference_t<T>>; };
-    template <typename T>
-    using remove_cv_ref_t = typename remove_cv_ref<T>::type;
-
-    /**
-     * @brief Equivalent of C++20 std::identity.
-     *
-     * We use this as a standard projection.
-     */
-    struct identity {
-        template< class T>
-        constexpr T&& operator()( T&& t ) const noexcept {
-            return std::forward<T>(t);
-        }
-        using is_transparent = void;
-    };
-
-    /**
      * @brief This concept simplifies checking for non-void.
      */
     template <typename A, typename B>

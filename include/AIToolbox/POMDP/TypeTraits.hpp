@@ -118,7 +118,7 @@ namespace AIToolbox::POMDP {
             #define RETVAL_EXTRACTOR(fun_name)                                                                                      \
                                                                                                                                     \
             template <typename Z, typename ...Args> static auto fun_name##RetType(Z* z) ->                                          \
-                                                                remove_cv_ref_t<decltype(z->fun_name(std::declval<Args>()...))>;    \
+                                                                std::remove_cvref_t<decltype(z->fun_name(std::declval<Args>()...))>;    \
                                                                                                                                     \
             template <typename Z, typename ...Args> static auto fun_name##RetType(...) -> int
 

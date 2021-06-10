@@ -29,7 +29,7 @@ namespace AIToolbox::MDP {
      */
     template <typename M, typename Gen>
     requires IsGenerativeModel<M> && HasIntegralActionSpace<M>
-    double rollout(const M & m, remove_cv_ref_t<decltype(std::declval<M>().getS())> s, const unsigned maxDepth, Gen & rnd) {
+    double rollout(const M & m, std::remove_cvref_t<decltype(std::declval<M>().getS())> s, const unsigned maxDepth, Gen & rnd) {
         double rew = 0.0, totalRew = 0.0, gamma = 1.0;
 
         // Here we have two separate branches depending on whether the model

@@ -47,7 +47,7 @@ namespace AIToolbox::MDP {
     template <typename M, template <typename> class StateHash = std::hash>
     requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     class MCTS {
-        using State = remove_cv_ref_t<decltype(std::declval<M>().getS())>;
+        using State = std::remove_cvref_t<decltype(std::declval<M>().getS())>;
         static constexpr bool hashState = !std::is_same_v<size_t, State>;
         static constexpr bool isVariableAction = false;
 
