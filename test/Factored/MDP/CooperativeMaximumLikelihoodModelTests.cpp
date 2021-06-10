@@ -23,8 +23,8 @@ BOOST_AUTO_TEST_CASE( construction ) {
     const auto & r = rl.getRewardFunction();
 
     BOOST_CHECK_EQUAL(rl.getDiscount(), 0.9);
-    BOOST_CHECK_EQUAL(ai::veccmp(model.getS(), rl.getS()), 0);
-    BOOST_CHECK_EQUAL(ai::veccmp(model.getA(), rl.getA()), 0);
+    BOOST_CHECK(ai::veccmp(model.getS(), rl.getS()) == 0);
+    BOOST_CHECK(ai::veccmp(model.getA(), rl.getA()) == 0);
 
     BOOST_CHECK_EQUAL(tt.size(), t.size());
     // Note that the learned reward function has a different format from the

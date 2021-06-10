@@ -13,23 +13,24 @@
 BOOST_AUTO_TEST_CASE( vector_comparisons ) {
     using namespace AIToolbox;
 
-    using Test = std::tuple<std::vector<double>, std::vector<double>, int>;
+    using ord = std::strong_ordering;
+    using Test = std::tuple<std::vector<double>, std::vector<double>, ord>;
 
     std::vector<Test> data {
-        Test({1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}, 0),
-        Test({0.0, 2.0, 3.0}, {1.0, 2.0, 3.0}, -1),
-        Test({1.0, 1.0, 3.0}, {1.0, 2.0, 3.0}, -1),
-        Test({1.0, 2.0, 2.0}, {1.0, 2.0, 3.0}, -1),
-        Test({1.0, 2.0, 3.0}, {0.0, 2.0, 3.0}, 1),
-        Test({1.0, 2.0, 3.0}, {1.0, 1.0, 3.0}, 1),
-        Test({1.0, 2.0, 3.0}, {1.0, 2.0, 2.0}, 1),
+        Test({1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}, ord::equivalent),
+        Test({0.0, 2.0, 3.0}, {1.0, 2.0, 3.0}, ord::less),
+        Test({1.0, 1.0, 3.0}, {1.0, 2.0, 3.0}, ord::less),
+        Test({1.0, 2.0, 2.0}, {1.0, 2.0, 3.0}, ord::less),
+        Test({1.0, 2.0, 3.0}, {0.0, 2.0, 3.0}, ord::greater),
+        Test({1.0, 2.0, 3.0}, {1.0, 1.0, 3.0}, ord::greater),
+        Test({1.0, 2.0, 3.0}, {1.0, 2.0, 2.0}, ord::greater),
     };
 
     for (const auto & test : data) {
         Vector lhs = Vector::Map(std::get<0>(test).data(), 3);
         Vector rhs = Vector::Map(std::get<1>(test).data(), 3);
 
-        BOOST_CHECK_EQUAL(AIToolbox::veccmp(lhs, rhs), std::get<2>(test));
+        BOOST_CHECK(AIToolbox::veccmp(lhs, rhs) == std::get<2>(test));
     }
 }
 

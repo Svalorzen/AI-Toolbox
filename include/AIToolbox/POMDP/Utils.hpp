@@ -25,9 +25,7 @@ namespace AIToolbox::POMDP {
      *
      * @return True if lhs is less than rhs lexicographically, false otherwise.
      */
-    bool operator<(const VEntry & lhs, const VEntry & rhs);
-    // This implementation is temporary until we can substitute both with the
-    // spaceship operator (<=>) in C++20.
+    std::strong_ordering operator<=>(const VEntry & lhs, const VEntry & rhs);
     bool operator==(const VEntry & lhs, const VEntry & rhs);
 
     /**

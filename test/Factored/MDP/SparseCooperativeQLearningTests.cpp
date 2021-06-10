@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     const auto a1 = solver.stepUpdateQ({0}, {1, 1, 1}, {1}, rew);
 
     // Verify action
-    BOOST_CHECK_EQUAL(AIToolbox::veccmp(a1, aif::Action{1, 0, 0}), 0);
+    BOOST_CHECK(AIToolbox::veccmp(a1, aif::Action{1, 0, 0}) == 0);
 
     // Verify rules updates (from the paper)
     BOOST_CHECK_EQUAL(container[0].value,  v1 + alpha * (R1 + gamma * (v3 / 2.0) - v1));
