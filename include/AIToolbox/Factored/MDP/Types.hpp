@@ -37,9 +37,6 @@ namespace AIToolbox::Factored::MDP {
     struct ValueFunctionRule {
         PartialState state;
         double value;
-
-        ValueFunctionRule(PartialState s, double v) :
-                state(std::move(s)), value(v) {}
     };
 
     /**
@@ -53,9 +50,6 @@ namespace AIToolbox::Factored::MDP {
         PartialState state;
         PartialAction action;
         double value;
-
-        QFunctionRule(PartialState s, PartialAction a, double v) :
-                state(std::move(s)), action(std::move(a)), value(v) {}
     };
 
     /**
@@ -69,9 +63,6 @@ namespace AIToolbox::Factored::MDP {
         PartialState state;
         PartialAction action;
         Rewards values;
-
-        MOQFunctionRule(PartialState s, PartialAction a, Rewards vs) :
-                state(std::move(s)), action(std::move(a)), values(std::move(vs)) {}
     };
 }
 

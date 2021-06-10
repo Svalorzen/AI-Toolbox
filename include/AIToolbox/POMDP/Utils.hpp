@@ -29,6 +29,29 @@ namespace AIToolbox::POMDP {
     bool operator==(const VEntry & lhs, const VEntry & rhs);
 
     /**
+     * @brief This function creates and zeroes a VEntry.
+     *
+     * We use this instead of making a constructor to keep VEntry as an
+     * aggregate, which makes some stuff easier.
+     *
+     * @param S The size of the state space.
+     * @param a The action associated with this VEntry.
+     * @param O The size of the observation space.
+     *
+     * @return The newly created VEntry.
+     */
+    inline VEntry makeVEntry(size_t S, size_t a, size_t O) {
+        VEntry entry;
+
+        entry.values.resize(S);
+        entry.values.setZero();
+        entry.action = a;
+        entry.observations.resize(O);
+
+        return entry;
+    }
+
+    /**
      * @brief This function enables hashing of VEntries with boost::hash.
      */
     inline size_t hash_value(const VEntry & v) {
@@ -474,16 +497,18 @@ namespace AIToolbox::POMDP {
      * @tparam ActionRow The type of the list of VLists.
      * @param b The belief to compute the VEntry for.
      * @param row The list of VLists, one per observation.
-     * @param a The action this Ventry stands for.
+     * @param outp A pointer to a pre-allocated VEntry where to set the output.
      * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
-     *
-     * @return The best VEntry for the input belief.
      */
     template <typename ActionRow>
-    VEntry crossSumBestAtBelief(const Belief & b, const ActionRow & row, const size_t a, double * value = nullptr) {
+    void crossSumBestAtBelief(const Belief & b, const ActionRow & row, VEntry * outp, double * value = nullptr) {
+        if (!outp) return;
+
         const size_t O = row.size();
-        VEntry entry(b.size(), a, O);
         double v = 0.0, tmp;
+
+        auto & out = *outp;
+        out.values.setZero();
 
         // We compute the crossSum between each best vector for the belief.
         for ( size_t o = 0; o < O; ++o ) {
@@ -493,12 +518,36 @@ namespace AIToolbox::POMDP {
 
             auto bestMatch = findBestAtPoint(b, begin, end, &tmp, unwrap).base();
 
-            entry.values += bestMatch->values;
+            out.values += bestMatch->values;
             v += tmp;
 
-            entry.observations[o] = bestMatch->observations[0];
+            out.observations[o] = bestMatch->observations[0];
         }
         if (value) *value = v;
+    }
+
+    /**
+     * @brief This function allocates and computes the best VEntry for the input belief from the input VLists.
+     *
+     * This function allocates the VEntry to return, rather than expecting one
+     * already allocated.
+     *
+     * \sa crossSumBestAtBelief(const Belief &, const ActionRow &, VEntry *, double *);
+     *
+     * @tparam ActionRow The type of the list of VLists.
+     * @param b The belief to compute the VEntry for.
+     * @param row The list of VLists, one per observation.
+     * @param a The action this Ventry stands for.
+     * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
+     *
+     * @return The best VEntry for the input belief.
+     */
+    template <typename ActionRow>
+    VEntry crossSumBestAtBelief(const Belief & b, const ActionRow & row, const size_t a, double * value = nullptr) {
+        auto entry = makeVEntry(b.size(), a, row.size());
+
+        crossSumBestAtBelief(b, row, &entry, value);
+
         return entry;
     }
 
@@ -519,14 +568,18 @@ namespace AIToolbox::POMDP {
     template <typename Projections>
     VEntry crossSumBestAtBelief(const Belief & b, const Projections & projs, double * value = nullptr) {
         const size_t A = projs.size();
-        VEntry entry;
 
-        double bestValue = std::numeric_limits<double>::lowest(), tmp;
-        for ( size_t a = 0; a < A; ++a ) {
-            auto result = crossSumBestAtBelief(b, projs[a], a, &tmp);
+        double bestValue, tmp;
+        VEntry entry = crossSumBestAtBelief(b, projs[0], (size_t)0, &bestValue);
+        VEntry helper = entry;
+
+        for ( size_t a = 1; a < A; ++a ) {
+            helper.action = a;
+            crossSumBestAtBelief(b, projs[a], &helper, &tmp);
+
             if (tmp > bestValue) {
                 bestValue = tmp;
-                std::swap(entry, result);
+                std::swap(entry, helper);
             }
         }
         if (value) *value = bestValue;
