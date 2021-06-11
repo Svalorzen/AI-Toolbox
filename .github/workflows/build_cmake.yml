@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-18.04]
         build_type: ["Release"]
-        cxx: ["g++", "clang++"]
+        cxx: ["g++"] #, "clang++"]
         python_version: [2, 3]
 
     steps:
