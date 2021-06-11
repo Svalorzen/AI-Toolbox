@@ -177,11 +177,13 @@ namespace AIToolbox::MDP {
     };
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     MCTS<M, StateHash>::MCTS(const M& m, const unsigned iter, const double exp) :
             model_(m), iterations_(iter),
             exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     size_t MCTS<M, StateHash>::sampleAction(const State & s, const unsigned horizon) {
         // Reset graph
         graph_ = StateNode();
@@ -192,6 +194,7 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     size_t MCTS<M, StateHash>::sampleAction(const size_t a, const State & s1, const unsigned horizon) {
         auto & states = graph_.children[a].children;
 
@@ -215,6 +218,7 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     size_t MCTS<M, StateHash>::runSimulation(const State & s, const unsigned horizon) {
         if ( !horizon ) return 0;
 
@@ -228,6 +232,7 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     double MCTS<M, StateHash>::simulate(StateNode & sn, const State & s, const unsigned depth) {
         // Head update
         sn.N++;
@@ -284,12 +289,14 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     template <typename Iterator>
     Iterator MCTS<M, StateHash>::findBestA(Iterator begin, Iterator end) {
         return std::max_element(begin, end, [](const ActionNode & lhs, const ActionNode & rhs){ return lhs.V < rhs.V; });
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     template <typename Iterator>
     Iterator MCTS<M, StateHash>::findBestBonusA(Iterator begin, Iterator end, const unsigned count) {
         // Count here can be as low as 1.
@@ -316,6 +323,7 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     void MCTS<M, StateHash>::allocateActionNodes(ActionNodes & an, const State & s) {
         if constexpr (!isVariableAction)
             an.resize(model_.getA());
@@ -324,31 +332,37 @@ namespace AIToolbox::MDP {
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     void MCTS<M, StateHash>::setIterations(const unsigned iter) {
         iterations_ = iter;
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     void MCTS<M, StateHash>::setExploration(const double exp) {
         exploration_ = exp;
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     const M& MCTS<M, StateHash>::getModel() const {
         return model_;
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     const typename MCTS<M, StateHash>::StateNode& MCTS<M, StateHash>::getGraph() const {
         return graph_;
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     unsigned MCTS<M, StateHash>::getIterations() const {
         return iterations_;
     }
 
     template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     double MCTS<M, StateHash>::getExploration() const {
         return exploration_;
     }
