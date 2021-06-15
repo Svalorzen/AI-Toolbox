@@ -34,7 +34,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The resulting output stream.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     std::ostream& operator<<(std::ostream &os, const M & model) {
         // First print the MDP part
         MDP::operator<<(os, model);
@@ -68,7 +68,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The input stream.
      */
-    template <typename M, typename>
+    template <MDP::IsModel M>
     std::istream& operator>>(std::istream &is, Model<M> & m) {
         const size_t S = m.getS();
         const size_t A = m.getA();
@@ -113,7 +113,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The input stream.
      */
-    template <typename M, typename>
+    template <MDP::IsModel M>
     std::istream& operator>>(std::istream &is, SparseModel<M> & m) {
         const size_t S = m.getS();
         const size_t A = m.getA();

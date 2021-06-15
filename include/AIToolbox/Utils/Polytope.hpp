@@ -1,11 +1,13 @@
 #ifndef AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE
 #define AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE
 
-#include <AIToolbox/Utils/Core.hpp>
-#include <AIToolbox/Utils/TypeTraits.hpp>
-#include <AIToolbox/Utils/Combinatorics.hpp>
-#include <Eigen/Dense>
 #include <array>
+
+#include <Eigen/Dense>
+
+#include <AIToolbox/TypeTraits.hpp>
+#include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/Utils/Combinatorics.hpp>
 
 #include <AIToolbox/Utils/LP.hpp>
 
@@ -57,7 +59,7 @@ namespace AIToolbox {
      *
      * @return An iterator pointing to the best choice in range.
      */
-    template <typename Iterator, typename P = identity>
+    template <typename Iterator, typename P = std::identity>
     Iterator findBestAtPoint(const Point & point, Iterator begin, Iterator end, double * value = nullptr, P p = P{}) {
         auto bestMatch = begin;
         double bestValue = point.dot(std::invoke(p, *bestMatch));
@@ -86,7 +88,7 @@ namespace AIToolbox {
      *
      * @return An iterator pointing to the best choice in range.
      */
-    template <typename Iterator, typename P = identity>
+    template <typename Iterator, typename P = std::identity>
     Iterator findBestAtSimplexCorner(const size_t corner, Iterator begin, Iterator end, double * value = nullptr, P p = P{}) {
         auto bestMatch = begin;
         double bestValue = std::invoke(p, *bestMatch)[corner];
@@ -129,7 +131,7 @@ namespace AIToolbox {
      *
      * @return An iterator to the highest dominating entry, or if none is found, the end of the range.
      */
-    template <typename Iterator, typename P = identity>
+    template <typename Iterator, typename P = std::identity>
     Iterator findBestDeltaDominated(const Point & point, const Hyperplane & plane, double delta, Iterator begin, Iterator end, P p = P{}) {
         auto retval = end;
 
@@ -168,7 +170,7 @@ namespace AIToolbox {
      *
      * @return The new bound iterator.
      */
-    template <typename Iterator, typename P = identity>
+    template <typename Iterator, typename P = std::identity>
     Iterator extractBestAtPoint(const Point & point, Iterator begin, Iterator bound, Iterator end, P p = P{}) {
         auto bestMatch = findBestAtPoint(point, begin, end, nullptr, p);
 
@@ -200,7 +202,7 @@ namespace AIToolbox {
      *
      * @return The new bound iterator.
      */
-    template <typename Iterator, typename P = identity>
+    template <typename Iterator, typename P = std::identity>
     Iterator extractBestAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end, P p = P{}) {
         if ( end == bound ) return bound;
 
@@ -239,7 +241,7 @@ namespace AIToolbox {
      *
      * @return An iterator pointing to the first non-useful Point.
      */
-    template <typename PIterator, typename VIterator, typename P = identity>
+    template <typename PIterator, typename VIterator, typename P = std::identity>
     PIterator extractBestUsefulPoints(PIterator pbegin, PIterator pend, VIterator begin, VIterator end, P p = P{}) {
         const auto pointsN  = std::distance(pbegin, pend);
         const auto entriesN = std::distance(begin, end);
@@ -331,7 +333,7 @@ namespace AIToolbox {
      *
      * @return A non-unique list of all the vertices found.
      */
-    template <typename NewIt, typename OldIt, typename P1 = identity, typename P2 = identity>
+    template <typename NewIt, typename OldIt, typename P1 = std::identity, typename P2 = std::identity>
     PointSurface findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {
         PointSurface vertices;
 
@@ -428,7 +430,7 @@ namespace AIToolbox {
      *
      * @return A non-unique list of all the vertices found.
      */
-    template <typename Range, typename P = identity>
+    template <typename Range, typename P = std::identity>
     PointSurface findVerticesNaive(const Range & range, P p = P{}) {
         PointSurface retval;
 

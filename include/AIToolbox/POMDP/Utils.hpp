@@ -25,10 +25,31 @@ namespace AIToolbox::POMDP {
      *
      * @return True if lhs is less than rhs lexicographically, false otherwise.
      */
-    bool operator<(const VEntry & lhs, const VEntry & rhs);
-    // This implementation is temporary until we can substitute both with the
-    // spaceship operator (<=>) in C++20.
+    std::strong_ordering operator<=>(const VEntry & lhs, const VEntry & rhs);
     bool operator==(const VEntry & lhs, const VEntry & rhs);
+
+    /**
+     * @brief This function creates and zeroes a VEntry.
+     *
+     * We use this instead of making a constructor to keep VEntry as an
+     * aggregate, which makes some stuff easier.
+     *
+     * @param S The size of the state space.
+     * @param a The action associated with this VEntry.
+     * @param O The size of the observation space.
+     *
+     * @return The newly created VEntry.
+     */
+    inline VEntry makeVEntry(size_t S, size_t a, size_t O) {
+        VEntry entry;
+
+        entry.values.resize(S);
+        entry.values.setZero();
+        entry.action = a;
+        entry.observations.resize(O);
+
+        return entry;
+    }
 
     /**
      * @brief This function enables hashing of VEntries with boost::hash.
@@ -107,10 +128,10 @@ namespace AIToolbox::POMDP {
      *
      * @return The SOSA matrix for the input pomdp.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     auto makeSOSA(const M & m) {
-        if constexpr(is_model_eigen_v<M>) {
-            boost::multi_array<remove_cv_ref_t<decltype(m.getTransitionFunction(0))>, 2> retval( boost::extents[m.getA()][m.getO()] );
+        if constexpr(IsModelEigen<M>) {
+            boost::multi_array<std::remove_cvref_t<decltype(m.getTransitionFunction(0))>, 2> retval( boost::extents[m.getA()][m.getO()] );
             for (size_t a = 0; a < m.getA(); ++a)
                 for (size_t o = 0; o < m.getO(); ++o)
                     retval[a][o] = m.getTransitionFunction(a) * Vector(m.getObservationFunction(a).col(o)).asDiagonal();
@@ -146,13 +167,13 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     void updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
         auto & br = *bRet;
 
-        if constexpr(is_model_eigen_v<M>) {
+        if constexpr(IsModelEigen<M>) {
             br = model.getObservationFunction(a).col(o).cwiseProduct((b.transpose() * model.getTransitionFunction(a)).transpose());
         } else {
             const size_t S = model.getS();
@@ -182,7 +203,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     Belief updateBeliefUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
         Belief br(model.getS());
         updateBeliefUnnormalized(model, b, a, o, &br);
@@ -210,7 +231,7 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     void updateBelief(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
@@ -240,7 +261,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     Belief updateBelief(const M & model, const Belief & b, const size_t a, const size_t o) {
         Belief br(model.getS());
         updateBelief(model, b, a, o, &br);
@@ -264,13 +285,13 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param bRet The output belief.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     void updateBeliefPartial(const M & model, const Belief & b, const size_t a, Belief * bRet) {
         if (!bRet) return;
 
         auto & br = *bRet;
 
-        if constexpr(is_model_eigen_v<M>) {
+        if constexpr(IsModelEigen<M>) {
             br = (b.transpose() * model.getTransitionFunction(a)).transpose();
         } else {
             const size_t S = model.getS();
@@ -298,7 +319,7 @@ namespace AIToolbox::POMDP {
      * @param b The old belief.
      * @param a The action taken during the transition.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     Belief updateBeliefPartial(const M & model, const Belief & b, const size_t a) {
         Belief bRet(model.getS());
         updateBeliefPartial(model, b, a, &bRet);
@@ -325,13 +346,13 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     void updateBeliefPartialUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
         auto & br = *bRet;
 
-        if constexpr(is_model_eigen_v<M>) {
+        if constexpr(IsModelEigen<M>) {
             br = model.getObservationFunction(a).col(o).cwiseProduct(b);
         } else {
             const size_t S = model.getS();
@@ -359,7 +380,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     Belief updateBeliefPartialUnnormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
         Belief bRet(model.getS());
         updateBeliefPartialUnnormalized(model, b, a, o, &bRet);
@@ -393,7 +414,7 @@ namespace AIToolbox::POMDP {
      * @param o The observation registered.
      * @param bRet The output belief.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     void updateBeliefPartialNormalized(const M & model, const Belief & b, const size_t a, const size_t o, Belief * bRet) {
         if (!bRet) return;
 
@@ -430,7 +451,7 @@ namespace AIToolbox::POMDP {
      * @param a The action taken during the transition.
      * @param o The observation registered.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     Belief updateBeliefPartialNormalized(const M & model, const Belief & b, const size_t a, const size_t o) {
         auto newB = updateBeliefPartialUnnormalized(model, b, a, o);
         newB /= newB.sum();
@@ -446,9 +467,9 @@ namespace AIToolbox::POMDP {
      *
      * @return The immediate reward.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     double beliefExpectedReward(const M& model, const Belief & b, const size_t a) {
-        if constexpr (is_model_eigen_v<M>) {
+        if constexpr (IsModelEigen<M>) {
             return model.getRewardFunction().col(a).dot(b);
         } else {
             double rew = 0.0; const size_t S = model.getS();
@@ -476,16 +497,18 @@ namespace AIToolbox::POMDP {
      * @tparam ActionRow The type of the list of VLists.
      * @param b The belief to compute the VEntry for.
      * @param row The list of VLists, one per observation.
-     * @param a The action this Ventry stands for.
+     * @param outp A pointer to a pre-allocated VEntry where to set the output.
      * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
-     *
-     * @return The best VEntry for the input belief.
      */
     template <typename ActionRow>
-    VEntry crossSumBestAtBelief(const Belief & b, const ActionRow & row, const size_t a, double * value = nullptr) {
+    void crossSumBestAtBelief(const Belief & b, const ActionRow & row, VEntry * outp, double * value = nullptr) {
+        if (!outp) return;
+
         const size_t O = row.size();
-        VEntry entry(b.size(), a, O);
         double v = 0.0, tmp;
+
+        auto & out = *outp;
+        out.values.setZero();
 
         // We compute the crossSum between each best vector for the belief.
         for ( size_t o = 0; o < O; ++o ) {
@@ -495,12 +518,36 @@ namespace AIToolbox::POMDP {
 
             auto bestMatch = findBestAtPoint(b, begin, end, &tmp, unwrap).base();
 
-            entry.values += bestMatch->values;
+            out.values += bestMatch->values;
             v += tmp;
 
-            entry.observations[o] = bestMatch->observations[0];
+            out.observations[o] = bestMatch->observations[0];
         }
         if (value) *value = v;
+    }
+
+    /**
+     * @brief This function allocates and computes the best VEntry for the input belief from the input VLists.
+     *
+     * This function allocates the VEntry to return, rather than expecting one
+     * already allocated.
+     *
+     * \sa crossSumBestAtBelief(const Belief &, const ActionRow &, VEntry *, double *);
+     *
+     * @tparam ActionRow The type of the list of VLists.
+     * @param b The belief to compute the VEntry for.
+     * @param row The list of VLists, one per observation.
+     * @param a The action this Ventry stands for.
+     * @param value A pointer to double, which gets set to the value of the given belief with the generated VEntry.
+     *
+     * @return The best VEntry for the input belief.
+     */
+    template <typename ActionRow>
+    VEntry crossSumBestAtBelief(const Belief & b, const ActionRow & row, const size_t a, double * value = nullptr) {
+        auto entry = makeVEntry(b.size(), a, row.size());
+
+        crossSumBestAtBelief(b, row, &entry, value);
+
         return entry;
     }
 
@@ -521,14 +568,18 @@ namespace AIToolbox::POMDP {
     template <typename Projections>
     VEntry crossSumBestAtBelief(const Belief & b, const Projections & projs, double * value = nullptr) {
         const size_t A = projs.size();
-        VEntry entry;
 
-        double bestValue = std::numeric_limits<double>::lowest(), tmp;
-        for ( size_t a = 0; a < A; ++a ) {
-            auto result = crossSumBestAtBelief(b, projs[a], a, &tmp);
+        double bestValue, tmp;
+        VEntry entry = crossSumBestAtBelief(b, projs[0], (size_t)0, &bestValue);
+        VEntry helper = entry;
+
+        for ( size_t a = 1; a < A; ++a ) {
+            helper.action = a;
+            crossSumBestAtBelief(b, projs[a], &helper, &tmp);
+
             if (tmp > bestValue) {
                 bestValue = tmp;
-                std::swap(entry, result);
+                std::swap(entry, helper);
             }
         }
         if (value) *value = bestValue;
@@ -554,7 +605,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The best action in the input belief with respect to the input VList.
      */
-    template <typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <IsModel M>
     std::tuple<size_t, double> bestConservativeAction(const M & pomdp, MDP::QFunction immediateRewards, const Belief & initialBelief, const VList & lbVList, MDP::Values * alpha = nullptr) {
         // Note that we update inline the alphavectors in immediateRewards
         Vector bpAlpha(pomdp.getS());
@@ -609,7 +660,7 @@ namespace AIToolbox::POMDP {
      *
      * @return The best action-value pair.
      */
-    template <bool useLP = true, typename M, std::enable_if_t<is_model_v<M>, int> = 0>
+    template <bool useLP = true, IsModel M>
     std::tuple<size_t, double> bestPromisingAction(const M & pomdp, const MDP::QFunction & immediateRewards, const Belief & belief, const MDP::QFunction & ubQ, const UpperBoundValueFunction & ubV, Vector * vals = nullptr) {
         Vector storage;
         Vector & qvals = vals ? *vals : storage;

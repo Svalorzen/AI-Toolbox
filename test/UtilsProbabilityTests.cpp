@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE( probProjection ) {
     };
 
     for (size_t i = 0; i < data.size(); ++i) {
-        BOOST_CHECK_EQUAL(AIToolbox::veccmp(projectToProbability(data[i]), solutions[i]), 0);
+        BOOST_CHECK(AIToolbox::veccmp(projectToProbability(data[i]), solutions[i]) == 0);
     }
 }
 

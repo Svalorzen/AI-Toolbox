@@ -87,7 +87,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A tuple containing a dense MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<MDP::Model, Discretizer> discretizeDense(const M& model);
 
             /**
@@ -98,7 +98,7 @@ namespace AIToolbox::POMDP {
              *
              * @return A tuple containing a sparse MDP model which approximates the POMDP argument, and a function that converts a POMDP belief into a state of the MDP model.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<MDP::SparseModel, Discretizer> discretizeSparse(const M& model);
 
         private:
@@ -107,7 +107,7 @@ namespace AIToolbox::POMDP {
             size_t beliefSize_, buckets_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<MDP::Model, AMDP::Discretizer> AMDP::discretizeDense(const M& model) {
         const size_t S = model.getS(), A = model.getA(), O = model.getO();
         const size_t S1 = S * buckets_;
@@ -154,7 +154,7 @@ namespace AIToolbox::POMDP {
         return std::make_tuple(MDP::Model(NO_CHECK, S1, A, std::move(T), std::move(R), model.getDiscount()), std::move(discretizer));
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<MDP::SparseModel, AMDP::Discretizer> AMDP::discretizeSparse(const M& model) {
         const size_t S = model.getS(), A = model.getA(), O = model.getO();
         const size_t S1 = S * buckets_;

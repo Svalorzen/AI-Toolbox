@@ -120,7 +120,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, ValueFunction> operator()(const M & model, double minReward);
 
         private:
@@ -155,7 +155,7 @@ namespace AIToolbox::POMDP {
             mutable RandomEngine rand_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, ValueFunction> PERSEUS::operator()(const M & model, const double minReward) {
         if ( model.getDiscount() == 1 ) throw std::invalid_argument("The model cannot have a discount of 1 in PERSEUS!");
         // Initialize "global" variables

@@ -5,11 +5,17 @@
 
 #include <AIToolbox/POMDP/IO.hpp>
 #include <AIToolbox/MDP/Model.hpp>
+#include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/SparseModel.hpp>
 
 #include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
 
 #include <fstream>
+
+BOOST_AUTO_TEST_CASE( eigen_model ) {
+    static_assert(AIToolbox::POMDP::IsModelEigen<AIToolbox::POMDP::SparseModel<AIToolbox::MDP::Model>>);
+    static_assert(AIToolbox::POMDP::IsModelEigen<AIToolbox::POMDP::SparseModel<AIToolbox::MDP::SparseModel>>);
+}
 
 BOOST_AUTO_TEST_CASE( construction ) {
     using namespace AIToolbox;

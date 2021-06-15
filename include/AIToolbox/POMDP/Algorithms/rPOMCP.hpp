@@ -51,10 +51,8 @@ namespace AIToolbox::POMDP {
      * This is done as soon as enough particles are gathered in the belief to
      * avoid wildly changing updates back in the tree.
      */
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     class rPOMCP {
-        static_assert(is_generative_model_v<M>, "This class only works for generative POMDP models!");
-
         public:
             // Shorthands to avoid specifying UseEntropy everywhere.
             using BNode = BeliefNode<UseEntropy>;
@@ -201,13 +199,13 @@ namespace AIToolbox::POMDP {
             Iterator findBestBonusA(Iterator begin, Iterator end, unsigned count);
     };
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     rPOMCP<M, UseEntropy>::rPOMCP(const M& m, const size_t beliefSize, const unsigned iter, const double exp, const unsigned k) : model_(m), S(model_.getS()), A(model_.getA()),
         beliefSize_(beliefSize), iterations_(iter),
         exploration_(exp), k_(k),
         rand_(AIToolbox::Impl::Seeder::getSeed()), graph_(A, rand_) {}
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     size_t rPOMCP<M, UseEntropy>::sampleAction(const Belief& b, const unsigned horizon) {
         // Reset graph
         graph_ = HNode(A, beliefSize_, b, rand_);
@@ -215,7 +213,7 @@ namespace AIToolbox::POMDP {
         return runSimulation(horizon);
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     size_t rPOMCP<M, UseEntropy>::sampleAction(const size_t a, const size_t o, const unsigned horizon) {
         auto & obs = graph_.children[a].children;
 
@@ -240,7 +238,7 @@ namespace AIToolbox::POMDP {
         return runSimulation(horizon);
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     size_t rPOMCP<M, UseEntropy>::runSimulation(const unsigned horizon) {
         if ( !horizon ) return 0;
 
@@ -258,7 +256,7 @@ namespace AIToolbox::POMDP {
         return bestA;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     double rPOMCP<M, UseEntropy>::simulate(BNode & b, size_t s, unsigned depth) {
         b.N++;
 
@@ -336,7 +334,7 @@ namespace AIToolbox::POMDP {
         return (b.N - 1)*(b.V - oldV) + b.V;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     void rPOMCP<M, UseEntropy>::maxBeliefNodeUpdate(BNode * bp, const ANode & aNode, const size_t a) {
         auto & b = *bp;
 
@@ -353,13 +351,13 @@ namespace AIToolbox::POMDP {
         }
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     template <typename Iterator>
     Iterator rPOMCP<M, UseEntropy>::findBestA(const Iterator begin, const Iterator end) {
         return std::max_element(begin, end, [](const ANode & lhs, const ANode & rhs){ return lhs.V < rhs.V; });
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     template <typename Iterator>
     Iterator rPOMCP<M, UseEntropy>::findBestBonusA(Iterator begin, const Iterator end, const unsigned count) {
         // Count here can be as low as 1.
@@ -385,42 +383,42 @@ namespace AIToolbox::POMDP {
         return bestIterator;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     void rPOMCP<M, UseEntropy>::setBeliefSize(const size_t beliefSize) {
         beliefSize_ = beliefSize;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     void rPOMCP<M, UseEntropy>::setIterations(const unsigned iter) {
         iterations_ = iter;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     void rPOMCP<M, UseEntropy>::setExploration(const double exp) {
         exploration_ = exp;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     const M& rPOMCP<M, UseEntropy>::getModel() const {
         return model_;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     const HeadBeliefNode<UseEntropy>& rPOMCP<M, UseEntropy>::getGraph() const {
         return graph_;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     size_t rPOMCP<M, UseEntropy>::getBeliefSize() const {
         return beliefSize_;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     unsigned rPOMCP<M, UseEntropy>::getIterations() const {
         return iterations_;
     }
 
-    template <typename M, bool UseEntropy>
+    template <IsGenerativeModel M, bool UseEntropy>
     double rPOMCP<M, UseEntropy>::getExploration() const {
         return exploration_;
     }

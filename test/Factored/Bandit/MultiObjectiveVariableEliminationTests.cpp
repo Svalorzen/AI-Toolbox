@@ -110,39 +110,39 @@ BOOST_AUTO_TEST_CASE( radu_marinescu_graph ) {
 
     // g rules for single actions
     for (size_t a = 0; a < A.size(); ++a) {
-        rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{a}, {0}}, (aif::Rewards(2) << 0.0, 0.0).finished()});
-        rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{a}, {1}}, (aif::Rewards(2) << 0.0, -(a + 1.0)).finished()});
+        rules.emplace_back(aif::PartialAction{{a}, {0}}, (aif::Rewards(2) << 0.0, 0.0).finished());
+        rules.emplace_back(aif::PartialAction{{a}, {1}}, (aif::Rewards(2) << 0.0, -(a + 1.0)).finished());
     }
 
     // f1 rules
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {0, 0, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {0, 0, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {0, 1, 0}}, (aif::Rewards(2) << -3.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {0, 1, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {1, 0, 0}}, (aif::Rewards(2) << -2.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {1, 0, 1}}, (aif::Rewards(2) << -3.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {1, 1, 0}}, (aif::Rewards(2) << -0.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 2}, {1, 1, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished()});
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {0, 0, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {0, 0, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {0, 1, 0}}, (aif::Rewards(2) << -3.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {0, 1, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {1, 0, 0}}, (aif::Rewards(2) << -2.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {1, 0, 1}}, (aif::Rewards(2) << -3.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {1, 1, 0}}, (aif::Rewards(2) << -0.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 2}, {1, 1, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished());
 
     // f2 rules
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {0, 0, 0}}, (aif::Rewards(2) << -1.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {0, 0, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {0, 1, 0}}, (aif::Rewards(2) << -0.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {0, 1, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {1, 0, 0}}, (aif::Rewards(2) << -6.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {1, 0, 1}}, (aif::Rewards(2) << -5.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {1, 1, 0}}, (aif::Rewards(2) << -6.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{0, 1, 3}, {1, 1, 1}}, (aif::Rewards(2) << -5.0, 0.0).finished()});
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {0, 0, 0}}, (aif::Rewards(2) << -1.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {0, 0, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {0, 1, 0}}, (aif::Rewards(2) << -0.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {0, 1, 1}}, (aif::Rewards(2) << -2.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {1, 0, 0}}, (aif::Rewards(2) << -6.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {1, 0, 1}}, (aif::Rewards(2) << -5.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {1, 1, 0}}, (aif::Rewards(2) << -6.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{0, 1, 3}, {1, 1, 1}}, (aif::Rewards(2) << -5.0, 0.0).finished());
 
     // f3 rules
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {0, 0, 0}}, (aif::Rewards(2) << -1.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {0, 0, 1}}, (aif::Rewards(2) << -3.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {0, 1, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {0, 1, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 0, 0}}, (aif::Rewards(2) << -1.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 0, 1}}, (aif::Rewards(2) << -3.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 1, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished()});
-    rules.emplace_back(fb::MOQFunctionRule{aif::PartialAction{{1, 3, 4}, {1, 1, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished()});
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {0, 0, 0}}, (aif::Rewards(2) << -1.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {0, 0, 1}}, (aif::Rewards(2) << -3.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {0, 1, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {0, 1, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {1, 0, 0}}, (aif::Rewards(2) << -1.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {1, 0, 1}}, (aif::Rewards(2) << -3.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {1, 1, 0}}, (aif::Rewards(2) << -5.0, 0.0).finished());
+    rules.emplace_back(aif::PartialAction{{1, 3, 4}, {1, 1, 1}}, (aif::Rewards(2) << -4.0, 0.0).finished());
 
     MOVE::Results solutions{MOVE::Entry{(aif::Rewards(2) << -7.0,  0.0).finished(), aif::PartialAction{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}},
                             MOVE::Entry{(aif::Rewards(2) << -3.0, -5.0).finished(), aif::PartialAction{{0, 1, 2, 3, 4}, {0, 1, 1, 0, 0}}},

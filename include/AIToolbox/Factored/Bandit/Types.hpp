@@ -19,9 +19,6 @@ namespace AIToolbox::Factored::Bandit {
     struct QFunctionRule {
         PartialAction action;
         double value;
-
-        QFunctionRule(PartialAction a, double v) :
-                action(std::move(a)), value(v) {}
     };
 
     /**
@@ -34,9 +31,6 @@ namespace AIToolbox::Factored::Bandit {
     struct MOQFunctionRule {
         PartialAction action;
         Rewards values;
-
-        MOQFunctionRule(PartialAction a, Rewards vs) :
-                action(std::move(a)), values(std::move(vs)) {}
     };
 
     /**

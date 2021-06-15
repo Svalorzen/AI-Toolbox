@@ -5,6 +5,7 @@
 #include <random>
 
 #include <AIToolbox/Types.hpp>
+#include <AIToolbox/TypeTraits.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/Utils/Core.hpp>
@@ -127,7 +128,7 @@ class OldMDPModel {
          * @param r The external rewards container.
          * @param d The discount factor for the MDP.
          */
-        template <typename T, typename R>
+        template <AIToolbox::IsNaive3DMatrix T, AIToolbox::IsNaive3DMatrix R>
         OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d = 1.0);
 
         /**
@@ -142,7 +143,7 @@ class OldMDPModel {
          * @tparam M The type of the other model.
          * @param model The model that needs to be copied.
          */
-        template <typename M, typename = std::enable_if_t<AIToolbox::MDP::is_model_v<M>>>
+        template <AIToolbox::MDP::IsModel M>
         OldMDPModel(const M& model);
 
         /**
@@ -166,7 +167,7 @@ class OldMDPModel {
          * @tparam T The external transition container type.
          * @param t The external transitions container.
          */
-        template <typename T>
+        template <AIToolbox::IsNaive3DMatrix T>
         void setTransitionFunction(const T & t);
 
         /**
@@ -186,7 +187,7 @@ class OldMDPModel {
          * @tparam R The external rewards container type.
          * @param r The external rewards container.
          */
-        template <typename R>
+        template <AIToolbox::IsNaive3DMatrix R>
         void setRewardFunction(const R & r);
 
         /**
@@ -294,7 +295,7 @@ class OldMDPModel {
         friend std::istream& operator>>(std::istream &is, OldMDPModel &);
 };
 
-template <typename T, typename R>
+template <AIToolbox::IsNaive3DMatrix T, AIToolbox::IsNaive3DMatrix R>
 OldMDPModel::OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
     rand_(AIToolbox::Impl::Seeder::getSeed())
 {
@@ -303,7 +304,7 @@ OldMDPModel::OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d)
     setRewardFunction(r);
 }
 
-template <typename M, typename>
+template <AIToolbox::MDP::IsModel M>
 OldMDPModel::OldMDPModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
     rand_(AIToolbox::Impl::Seeder::getSeed())
 {
@@ -318,7 +319,7 @@ OldMDPModel::OldMDPModel(const M& model) : S(model.getS()), A(model.getA()), dis
         }
 }
 
-template <typename T>
+template <AIToolbox::IsNaive3DMatrix T>
 void OldMDPModel::setTransitionFunction(const T & t) {
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a )
@@ -328,7 +329,7 @@ void OldMDPModel::setTransitionFunction(const T & t) {
     copyDumb3D(t, transitions_, S, A, S);
 }
 
-template <typename R>
+template <AIToolbox::IsNaive3DMatrix R>
 void OldMDPModel::setRewardFunction( const R & r ) {
     copyDumb3D(r, rewards_, S, A, S);
 }

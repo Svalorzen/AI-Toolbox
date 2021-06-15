@@ -113,7 +113,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, ValueFunction> operator()(const M & model);
 
         private:
@@ -143,7 +143,7 @@ namespace AIToolbox::POMDP {
             double tolerance_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, ValueFunction> IncrementalPruning::operator()(const M & model) {
         // Initialize "global" variables
         S = model.getS();
