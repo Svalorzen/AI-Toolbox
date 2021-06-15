@@ -157,8 +157,11 @@ namespace AIToolbox {
     template <typename M>
     concept IsGenerativeModel = HasStateSpace<M> && HasActionSpace<M> && requires(const M m) {
         { m.getDiscount() }                -> std::convertible_to<double>;
-        { m.sampleSR(m.getS(), m.getA()) } -> std::convertible_to<std::tuple<std::remove_cvref_t<decltype(m.getS())>, double>>;
         { m.isTerminal(m.getS()) }         -> std::convertible_to<bool>;
+
+        requires
+          (HasFixedActionSpace<M>    && requires {{ m.sampleSR(m.getS(), m.getA()) }         -> std::convertible_to<std::tuple<std::remove_cvref_t<decltype(m.getS())>, double>>; }) ||
+          (HasVariableActionSpace<M> && requires {{ m.sampleSR(m.getS(), m.getA(m.getS())) } -> std::convertible_to<std::tuple<std::remove_cvref_t<decltype(m.getS())>, double>>; });
     };
 }
 
