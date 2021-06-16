@@ -49,7 +49,6 @@ namespace AIToolbox::MDP {
     class MCTS {
         using State = std::remove_cvref_t<decltype(std::declval<M>().getS())>;
         static constexpr bool hashState = !std::is_same_v<size_t, State>;
-        static constexpr bool isVariableAction = false;
 
         public:
             struct StateNode;
@@ -325,7 +324,7 @@ namespace AIToolbox::MDP {
     template <typename M, template <typename> class StateHash>
     requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     void MCTS<M, StateHash>::allocateActionNodes(ActionNodes & an, const State & s) {
-        if constexpr (!isVariableAction)
+        if constexpr (HasFixedActionSpace<M>)
             an.resize(model_.getA());
         else
             an.resize(model_.getA(s));
