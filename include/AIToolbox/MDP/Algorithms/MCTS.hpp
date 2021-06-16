@@ -197,7 +197,11 @@ namespace AIToolbox::MDP {
     size_t MCTS<M, StateHash>::sampleAction(const size_t a, const State & s1, const unsigned horizon) {
         auto & states = graph_.children[a].children;
 
-        auto it = states.find(s1);
+        size_t s1Key;
+        if constexpr (hashState) s1Key = StateHash<State>()(s1);
+        else                     s1Key = s1;
+
+        auto it = states.find(s1Key);
         if ( it == states.end() )
             return sampleAction(s1, horizon);
 
