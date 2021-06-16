@@ -70,7 +70,7 @@ namespace AIToolbox::POMDP {
              *         ValueFunction, the computed ValueFunction and the
              *         equivalent MDP::QFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, ValueFunction, MDP::QFunction> operator()(const M & m);
 
             /**
@@ -130,7 +130,7 @@ namespace AIToolbox::POMDP {
             MDP::ValueIteration solver_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, ValueFunction, MDP::QFunction> QMDP::operator()(const M & m) {
         auto solution = solver_(m);
 

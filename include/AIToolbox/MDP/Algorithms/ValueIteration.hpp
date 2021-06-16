@@ -60,7 +60,7 @@ namespace AIToolbox::MDP {
              *         ValueFunction, the ValueFunction and the QFunction for
              *         the Model.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, ValueFunction, QFunction> operator()(const M & m);
 
             /**
@@ -128,7 +128,7 @@ namespace AIToolbox::MDP {
             ValueFunction v1_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, ValueFunction, QFunction> ValueIteration::operator()(const M & model) {
         // Extract necessary knowledge from model so we don't have to pass it around
         const size_t S = model.getS();
@@ -149,7 +149,7 @@ namespace AIToolbox::MDP {
         }
 
         const auto & ir = [&]{
-            if constexpr (is_model_eigen_v<M>) return model.getRewardFunction();
+            if constexpr (IsModelEigen<M>) return model.getRewardFunction();
             else return computeImmediateRewards(model);
         }();
 

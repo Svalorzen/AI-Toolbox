@@ -13,6 +13,10 @@
 
 #include <fstream>
 
+BOOST_AUTO_TEST_CASE( eigen_model ) {
+    static_assert(AIToolbox::POMDP::IsModelEigen<AIToolbox::POMDP::Model<AIToolbox::MDP::Model>>);
+}
+
 BOOST_AUTO_TEST_CASE( construction ) {
     using namespace AIToolbox;
     const size_t S = 5, A = 6, O = 2;

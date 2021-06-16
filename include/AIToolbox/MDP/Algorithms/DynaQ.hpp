@@ -30,10 +30,8 @@ namespace AIToolbox::MDP {
      * The algorithm selects randomly which state action pairs to try again
      * from.
      */
-    template <typename M>
+    template <IsGenerativeModel M>
     class DynaQ {
-        static_assert(is_generative_model_v<M>, "This class only works for generative MDP models!");
-
         public:
             /**
              * @brief Basic constructor.
@@ -138,7 +136,7 @@ namespace AIToolbox::MDP {
             mutable RandomEngine rand_;
     };
 
-    template <typename M>
+    template <IsGenerativeModel M>
     DynaQ<M>::DynaQ(const M & m, const double alpha, const unsigned n) :
             N(n), model_(m), qLearning_(model_, alpha), rand_(Impl::Seeder::getSeed())
     {
@@ -146,7 +144,7 @@ namespace AIToolbox::MDP {
         visitedStatesActionsSampler_.reserve(model_.getS()*model_.getA());
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void DynaQ<M>::stepUpdateQ(const size_t s, const size_t a, const size_t s1, const double rew) {
         qLearning_.stepUpdateQ(s, a, s1, rew);
         // O(1) insertion...
@@ -155,7 +153,7 @@ namespace AIToolbox::MDP {
             visitedStatesActionsSampler_.push_back(*std::get<0>(result));
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void DynaQ<M>::batchUpdateQ() {
         if ( ! visitedStatesActionsSampler_.size() ) return;
         std::uniform_int_distribution<size_t> sampleDistribution_(0, visitedStatesActionsSampler_.size()-1);
@@ -169,26 +167,26 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     unsigned DynaQ<M>::getN() const {
         return N;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     const QFunction & DynaQ<M>::getQFunction() const {
         return qLearning_.getQFunction();
     }
-    template <typename M>
+    template <IsGenerativeModel M>
     const M & DynaQ<M>::getModel() const {
         return model_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void DynaQ<M>::setLearningRate(const double a) {
         qLearning_.setLearningRate(a);
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     double DynaQ<M>::getLearningRate() const {
         return qLearning_.getLearningRate();
     }

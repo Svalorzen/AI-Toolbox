@@ -2,7 +2,8 @@
 #define AI_TOOLBOX_IMPL_FUNCTION_MATCHIN_HEADER_FILE
 
 #include <tuple>
-#include <AIToolbox/Utils/TypeTraits.hpp>
+
+#include <AIToolbox/TypeTraits.hpp>
 
 namespace AIToolbox::Impl {
     /**
@@ -94,7 +95,7 @@ namespace AIToolbox::Impl {
     struct Matcher<N, std::tuple<FA, A...>, std::tuple<FB, B...>, IDs...> {
         using M = std::conditional_t<
                     std::is_constructible_v<FA, FB> &&
-                    std::is_same_v<remove_cv_ref_t<FA>, remove_cv_ref_t<FB>>,
+                    std::is_same_v<std::remove_cvref_t<FA>, std::remove_cvref_t<FB>>,
                     Matcher<N+1, std::tuple<A...>, std::tuple<B...>, IDs..., N>,
                     Matcher<N+1, std::tuple<FA, A...>, std::tuple<B...>, IDs...>
                 >;

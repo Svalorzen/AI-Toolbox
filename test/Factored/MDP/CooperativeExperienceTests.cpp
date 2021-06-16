@@ -27,8 +27,8 @@ BOOST_AUTO_TEST_CASE( construction ) {
     const auto & S = model.getS();
     const auto & A = model.getA();
 
-    BOOST_CHECK_EQUAL(ai::veccmp(S, exp.getS()), 0);
-    BOOST_CHECK_EQUAL(ai::veccmp(A, exp.getA()), 0);
+    BOOST_CHECK(ai::veccmp(S, exp.getS()) == 0);
+    BOOST_CHECK(ai::veccmp(A, exp.getA()) == 0);
 
     BOOST_CHECK_EQUAL(r.size(), S.size());
     BOOST_CHECK_EQUAL(r.size(), tt.size());

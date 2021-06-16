@@ -8,6 +8,7 @@
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
+#include <AIToolbox/MDP/Algorithms/Utils/Rollout.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -57,10 +58,8 @@ namespace AIToolbox::POMDP {
      * beliefs in order to keep them "fresh" (possibly using domain
      * knowledge).
      */
-    template <typename M>
+    template <IsGenerativeModel M>
     class POMCP {
-        static_assert(is_generative_model_v<M>, "This class only works for generative POMDP models!");
-
         public:
             using SampleBelief = std::vector<size_t>;
 
@@ -248,33 +247,6 @@ namespace AIToolbox::POMDP {
             double simulate(BeliefNode & b, size_t s, unsigned horizon);
 
             /**
-             * @brief This function implements the rollout policy for POMCP.
-             *
-             * This function extracts some cumulative reward from a
-             * particular state, given that we have reached a particular
-             * horizon. The idea behind this function is to approximate the
-             * true value of the state; since this function is called when
-             * we are at the leaves of our tree, the only way for us to
-             * extract more information is to simply simulate the rest of
-             * the episode directly.
-             *
-             * However, in order to speed up the process and store only
-             * useful data, we avoid inserting every single state that we
-             * see here into the tree, preferring to add a single state at
-             * a time. This avoids wasting lots of computation and memory
-             * on states far from our root that we will probably never see
-             * again, while at the same time still getting an estimate for
-             * the rest of the simulation.
-             *
-             * @param s The state from which to start the rollout.
-             * @param horizon The horizon already reached while simulating inside the tree.
-             *
-             * @return An estimate return computed from simulating until max depth.
-             */
-            double rollout(size_t s, unsigned horizon);
-
-
-            /**
              * @brief This function finds the best action based on value.
              *
              * @tparam Iterator An iterator to an ActionNode.
@@ -313,12 +285,12 @@ namespace AIToolbox::POMDP {
             SampleBelief makeSampledBelief(const Belief & b);
     };
 
-    template <typename M>
+    template <IsGenerativeModel M>
     POMCP<M>::POMCP(const M& m, const size_t beliefSize, const unsigned iter, const double exp) :
             model_(m), S(model_.getS()), A(model_.getA()), beliefSize_(beliefSize),
             iterations_(iter), exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::sampleAction(const Belief& b, const unsigned horizon) {
         // Reset graph
         graph_ = BeliefNode(A);
@@ -328,7 +300,7 @@ namespace AIToolbox::POMDP {
         return runSimulation(horizon);
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::sampleAction(const size_t a, const size_t o, const unsigned horizon) {
         const auto & obs = graph_.children[a].children;
 
@@ -360,7 +332,7 @@ namespace AIToolbox::POMDP {
         return runSimulation(horizon);
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::runSimulation(const unsigned horizon) {
         if ( !horizon ) return 0;
 
@@ -374,7 +346,7 @@ namespace AIToolbox::POMDP {
         return std::distance(begin, findBestA(begin, std::end(graph_.children)));
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     double POMCP<M>::simulate(BeliefNode & b, const size_t s, const unsigned depth) {
         b.N++;
 
@@ -395,7 +367,7 @@ namespace AIToolbox::POMDP {
                                        std::forward_as_tuple(o),
                                        std::forward_as_tuple(s1));
                 // This stops automatically if we go out of depth
-                futureRew = rollout(s1, depth + 1);
+                futureRew = rollout(model_, s1, maxDepth_ - depth + 1, rand_);
             }
             else {
                 ot->second.belief.push_back(s1);
@@ -421,30 +393,13 @@ namespace AIToolbox::POMDP {
         return rew;
     }
 
-    template <typename M>
-    double POMCP<M>::rollout(size_t s, unsigned depth) {
-        double rew = 0.0, totalRew = 0.0, gamma = 1.0;
-
-        std::uniform_int_distribution<size_t> generator(0, A-1);
-        for ( ; depth < maxDepth_; ++depth ) {
-            std::tie( s, rew ) = model_.sampleSR( s, generator(rand_) );
-            totalRew += gamma * rew;
-
-            if (model_.isTerminal(s))
-                return totalRew;
-
-            gamma *= model_.getDiscount();
-        }
-        return totalRew;
-    }
-
-    template <typename M>
+    template <IsGenerativeModel M>
     template <typename Iterator>
     Iterator POMCP<M>::findBestA(Iterator begin, Iterator end) {
         return std::max_element(begin, end, [](const ActionNode & lhs, const ActionNode & rhs){ return lhs.V < rhs.V; });
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     template <typename Iterator>
     Iterator POMCP<M>::findBestBonusA(Iterator begin, Iterator end, const unsigned count) {
         // Count here can be as low as 1.
@@ -470,7 +425,7 @@ namespace AIToolbox::POMDP {
         return bestIterator;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     typename POMCP<M>::SampleBelief POMCP<M>::makeSampledBelief(const Belief & b) {
         SampleBelief belief;
         belief.reserve(beliefSize_);
@@ -481,42 +436,42 @@ namespace AIToolbox::POMDP {
         return belief;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void POMCP<M>::setBeliefSize(const size_t beliefSize) {
         beliefSize_ = beliefSize;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void POMCP<M>::setIterations(const unsigned iter) {
         iterations_ = iter;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     void POMCP<M>::setExploration(const double exp) {
         exploration_ = exp;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     const M& POMCP<M>::getModel() const {
         return model_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     const typename POMCP<M>::BeliefNode& POMCP<M>::getGraph() const {
         return graph_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     size_t POMCP<M>::getBeliefSize() const {
         return beliefSize_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     unsigned POMCP<M>::getIterations() const {
         return iterations_;
     }
 
-    template <typename M>
+    template <IsGenerativeModel M>
     double POMCP<M>::getExploration() const {
         return exploration_;
     }

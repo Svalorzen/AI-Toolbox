@@ -86,7 +86,7 @@ namespace AIToolbox::MDP {
              * @param model The MDP model that ExpectedSARSA will use as a base.
              * @param alpha The learning rate of the ExpectedSARSA method.
              */
-            template <typename M, typename = std::enable_if_t<is_generative_model_v<M>>>
+            template <IsGenerativeModel M>
             ExpectedSARSA(QFunction & qfun, const PolicyInterface & policy, const M& model, double alpha = 0.1);
 
             /**
@@ -201,7 +201,7 @@ namespace AIToolbox::MDP {
             QFunction & q_;
     };
 
-    template <typename M, typename>
+    template <IsGenerativeModel M>
     ExpectedSARSA::ExpectedSARSA(QFunction & qfun, const PolicyInterface & policy, const M& model, const double alpha) :
             ExpectedSARSA(qfun, policy, model.getDiscount(), alpha) {}
 }

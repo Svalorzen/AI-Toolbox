@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9) # CMP0069 NEW
+cmake_minimum_required (VERSION 3.12) # CMP0069 NEW
 
 set(GlobalFileDependencies
     ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp

@@ -12,11 +12,11 @@
 #include <AIToolbox/POMDP/TypeTraits.hpp>
 
 namespace AIToolbox::POMDP {
-    template <typename M>
+    template <MDP::IsModel M>
     class SparseModel;
 
     // Declaration to warn the compiler that this is a template function
-    template <typename M, typename = std::enable_if_t<MDP::is_model_v<M>>>
+    template <MDP::IsModel M>
     std::istream& operator>>(std::istream &is, SparseModel<M> & m);
 
     /**
@@ -74,10 +74,8 @@ namespace AIToolbox::POMDP {
      *
      * @tparam M The particular MDP type that we want to extend.
      */
-    template <typename M>
+    template <MDP::IsModel M>
     class SparseModel : public M {
-        static_assert(MDP::is_model_v<M>, "This class only works for MDP models!");
-
         public:
             using ObservationMatrix = SparseMatrix3D;
 
@@ -122,7 +120,7 @@ namespace AIToolbox::POMDP {
              * @param parameters All arguments needed to build the parent Model.
              */
             // Check that ObFun is a triple-matrix, otherwise we'll call the other constructor!
-            template <typename ObFun, typename... Args, typename = std::enable_if_t<std::is_constructible_v<double,decltype(std::declval<ObFun>()[0][0][0])>>>
+            template <IsNaive3DMatrix ObFun, typename... Args>
             SparseModel(size_t o, ObFun && of, Args&&... parameters);
 
             /**
@@ -134,13 +132,14 @@ namespace AIToolbox::POMDP {
              * course such a solution can be done only when the number of states,
              * actions and observations is not too big.
              *
-             * Of course this constructor is available only if the underlying Model
-             * allows to be constructed too.
+             * Of course this constructor is available only if the underlying
+             * MDP Model can to be constructed from the input as well.
              *
              * @tparam PM The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename PM, typename = std::enable_if_t<is_model_v<PM> && std::is_constructible_v<M,PM>>>
+            template <typename PM>
+            requires IsModel<PM> && std::constructible_from<M, PM>
             SparseModel(const PM& model);
 
             /**
@@ -178,7 +177,7 @@ namespace AIToolbox::POMDP {
              * @tparam ObFun The external observations container type.
              * @param of The external observations container.
              */
-            template <typename ObFun>
+            template <IsNaive3DMatrix ObFun>
             void setObservationFunction(const ObFun & of);
 
             /**
@@ -275,7 +274,7 @@ namespace AIToolbox::POMDP {
             friend std::istream& operator>> <M>(std::istream &is, SparseModel<M> &);
     };
 
-    template <typename M>
+    template <MDP::IsModel M>
     template <typename... Args>
     SparseModel<M>::SparseModel(const size_t o, Args&&... params) :
             M(std::forward<Args>(params)...), O(o), observations_(this->getA(),
@@ -288,8 +287,8 @@ namespace AIToolbox::POMDP {
         }
     }
 
-    template <typename M>
-    template <typename ObFun, typename... Args, typename>
+    template <MDP::IsModel M>
+    template <IsNaive3DMatrix ObFun, typename... Args>
     SparseModel<M>::SparseModel(const size_t o, ObFun && of, Args&&... params) :
             M(std::forward<Args>(params)...), O(o),
             observations_(this->getA(), SparseMatrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
@@ -297,15 +296,16 @@ namespace AIToolbox::POMDP {
         setObservationFunction(of);
     }
 
-    template <typename M>
+    template <MDP::IsModel M>
     template <typename... Args>
     SparseModel<M>::SparseModel(NoCheck, size_t o, ObservationMatrix && ot, Args&&... params) :
             M(std::forward<Args>(params)...), O(o),
             observations_(std::move(ot))
     {}
 
-    template <typename M>
-    template <typename PM, typename>
+    template <MDP::IsModel M>
+    template <typename PM>
+    requires IsModel<PM> && std::constructible_from<M, PM>
     SparseModel<M>::SparseModel(const PM& model) :
             M(model), O(model.getO()), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
             rand_(Impl::Seeder::getSeed())
@@ -326,8 +326,8 @@ namespace AIToolbox::POMDP {
         }
     }
 
-    template <typename M>
-    template <typename ObFun>
+    template <MDP::IsModel M>
+    template <IsNaive3DMatrix ObFun>
     void SparseModel<M>::setObservationFunction(const ObFun & of) {
         for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
             for ( size_t a = 0; a < this->getA(); ++a )
@@ -345,34 +345,34 @@ namespace AIToolbox::POMDP {
             observations_[a].makeCompressed();
     }
 
-    template <typename M>
+    template <MDP::IsModel M>
     double SparseModel<M>::getObservationProbability(const size_t s1, const size_t a, const size_t o) const {
         return observations_[a].coeff(s1, o);
     }
 
-    template <typename M>
+    template <MDP::IsModel M>
     const SparseMatrix2D & SparseModel<M>::getObservationFunction(const size_t a) const {
         return observations_[a];
     }
 
-    template <typename M>
+    template <MDP::IsModel M>
     size_t SparseModel<M>::getO() const {
         return O;
     }
 
-    template <typename M>
+    template <MDP::IsModel M>
     const typename SparseModel<M>::ObservationMatrix & SparseModel<M>::getObservationFunction() const {
         return observations_;
     }
 
-    template <typename M>
+    template <MDP::IsModel M>
     std::tuple<size_t,size_t, double> SparseModel<M>::sampleSOR(const size_t s, const size_t a) const {
         const auto [s1, r] = this->sampleSR(s, a);
         const auto o = sampleProbability(O, observations_[a].row(s1), rand_);
         return std::make_tuple(s1, o, r);
     }
 
-    template <typename M>
+    template <MDP::IsModel M>
     std::tuple<size_t, double> SparseModel<M>::sampleOR(const size_t s, const size_t a, const size_t s1) const {
         const size_t o = sampleProbability(O, observations_[a].row(s1), rand_);
         const double r = this->getExpectedReward(s, a, s1);

@@ -5,6 +5,7 @@
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/MDP/Algorithms/Utils/Rollout.hpp>
 
 #include <unordered_map>
 
@@ -43,13 +44,13 @@ namespace AIToolbox::MDP {
      * Then it simply makes that root branch the new root, and starts
      * again.
      */
-    template <typename M>
+    template <typename M, template <typename> class StateHash = std::hash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     class MCTS {
-        static_assert(is_generative_model_v<M>, "This class only works for generative MDP models!");
+        using State = std::remove_cvref_t<decltype(std::declval<M>().getS())>;
+        static constexpr bool hashState = !std::is_same_v<size_t, State>;
 
         public:
-            using SampleBelief = std::vector<size_t>;
-
             struct StateNode;
             using StateNodes = std::unordered_map<size_t, StateNode>;
 
@@ -83,7 +84,7 @@ namespace AIToolbox::MDP {
              *
              * @return The best action.
              */
-            size_t sampleAction(size_t s, unsigned horizon);
+            size_t sampleAction(const State & s, unsigned horizon);
 
             /**
              * @brief This function uses the internal graph to plan.
@@ -103,7 +104,7 @@ namespace AIToolbox::MDP {
              *
              * @return The best action.
              */
-            size_t sampleAction(size_t a, size_t s1, unsigned horizon);
+            size_t sampleAction(size_t a, const State & s1, unsigned horizon);
 
             /**
              * @brief This function sets the number of performed rollouts in MCTS.
@@ -155,7 +156,6 @@ namespace AIToolbox::MDP {
 
         private:
             const M& model_;
-            size_t S, A;
             unsigned iterations_, maxDepth_;
             double exploration_;
 
@@ -164,9 +164,9 @@ namespace AIToolbox::MDP {
             mutable RandomEngine rand_;
 
             // Private Methods
-            size_t runSimulation(size_t s, unsigned horizon);
-            double simulate(StateNode & sn, size_t s, unsigned horizon);
-            double rollout(size_t s, unsigned horizon);
+            size_t runSimulation(const State & s, unsigned horizon);
+            double simulate(StateNode & sn, const State & s, unsigned horizon);
+            void allocateActionNodes(ActionNodes & an, const State & s);
 
             template <typename Iterator>
             Iterator findBestA(Iterator begin, Iterator end);
@@ -175,25 +175,33 @@ namespace AIToolbox::MDP {
             Iterator findBestBonusA(Iterator begin, Iterator end, unsigned count);
     };
 
-    template <typename M>
-    MCTS<M>::MCTS(const M& m, const unsigned iter, const double exp) :
-            model_(m), S(model_.getS()), A(model_.getA()), iterations_(iter),
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    MCTS<M, StateHash>::MCTS(const M& m, const unsigned iter, const double exp) :
+            model_(m), iterations_(iter),
             exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
 
-    template <typename M>
-    size_t MCTS<M>::sampleAction(const size_t s, const unsigned horizon) {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    size_t MCTS<M, StateHash>::sampleAction(const State & s, const unsigned horizon) {
         // Reset graph
         graph_ = StateNode();
-        graph_.children.resize(A);
+
+        allocateActionNodes(graph_.children, s);
 
         return runSimulation(s, horizon);
     }
 
-    template <typename M>
-    size_t MCTS<M>::sampleAction(const size_t a, const size_t s1, const unsigned horizon) {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    size_t MCTS<M, StateHash>::sampleAction(const size_t a, const State & s1, const unsigned horizon) {
         auto & states = graph_.children[a].children;
 
-        auto it = states.find(s1);
+        size_t s1Key;
+        if constexpr (hashState) s1Key = StateHash<State>()(s1);
+        else                     s1Key = s1;
+
+        auto it = states.find(s1Key);
         if ( it == states.end() )
             return sampleAction(s1, horizon);
 
@@ -207,13 +215,14 @@ namespace AIToolbox::MDP {
         // We resize here in case we didn't have time to sample the new
         // head node. In this case, the new head may not have children.
         // This would break the UCT call.
-        graph_.children.resize(A);
+        allocateActionNodes(graph_.children, s1);
 
         return runSimulation(s1, horizon);
     }
 
-    template <typename M>
-    size_t MCTS<M>::runSimulation(const size_t s, const unsigned horizon) {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    size_t MCTS<M, StateHash>::runSimulation(const State & s, const unsigned horizon) {
         if ( !horizon ) return 0;
 
         maxDepth_ = horizon;
@@ -225,8 +234,9 @@ namespace AIToolbox::MDP {
         return std::distance(begin, findBestA(begin, std::end(graph_.children)));
     }
 
-    template <typename M>
-    double MCTS<M>::simulate(StateNode & sn, const size_t s, const unsigned depth) {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    double MCTS<M, StateHash>::simulate(StateNode & sn, const State & s, const unsigned depth) {
         // Head update
         sn.N++;
 
@@ -239,14 +249,27 @@ namespace AIToolbox::MDP {
 
         // We only go deeper if needed (maxDepth_ is always at least 1).
         if ( depth + 1 < maxDepth_ && !model_.isTerminal(s1) ) {
-            const auto end = std::end(aNode.children);
-            auto it = aNode.children.find(s1);
+            // If our state is not a size_t, hash it so we can work with the
+            // StateNode map. The reason to hash it ourselves is that the map
+            // *will* store the keys, and so if the state is an expensive
+            // object (like a vector), we will have tons of allocations which
+            // we can avoid, since we don't need to remember the exact state here.
+            //
+            // This *could* go wrong if two reachable states hash to the same
+            // thing, since in this way we won't be able to distinguish them
+            // (while a full-fledged map can), but this should be extremely
+            // improbable and worth the performance gain.
+            size_t s1Key;
+            if constexpr (hashState) s1Key = StateHash<State>()(s1);
+            else                     s1Key = s1;
+
+            auto it = aNode.children.find(s1Key);
 
             double futureRew;
-            if ( it == end ) {
+            if ( it == std::end(aNode.children) ) {
                 // Touch node to create it
-                aNode.children[s1];
-                futureRew = rollout(s1, depth + 1);
+                aNode.children[s1Key];
+                futureRew = rollout(model_, s1, maxDepth_ - depth + 1, rand_);
             }
             else {
                 // Since most memory is allocated on the leaves,
@@ -254,7 +277,7 @@ namespace AIToolbox::MDP {
                 // we are actually descending into a node. If the node
                 // already has memory this should not do anything in
                 // any case.
-                it->second.children.resize(A);
+                allocateActionNodes(it->second.children, s1);
                 futureRew = simulate( it->second, s1, depth + 1 );
             }
 
@@ -268,32 +291,17 @@ namespace AIToolbox::MDP {
         return rew;
     }
 
-    template <typename M>
-    double MCTS<M>::rollout(size_t s, unsigned depth) {
-        double rew = 0.0, totalRew = 0.0, gamma = 1.0;
-
-        std::uniform_int_distribution<size_t> generator(0, A-1);
-        for ( ; depth < maxDepth_; ++depth ) {
-            std::tie( s, rew ) = model_.sampleSR( s, generator(rand_) );
-            totalRew += gamma * rew;
-
-            if (model_.isTerminal(s))
-                return totalRew;
-
-            gamma *= model_.getDiscount();
-        }
-        return totalRew;
-    }
-
-    template <typename M>
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     template <typename Iterator>
-    Iterator MCTS<M>::findBestA(Iterator begin, Iterator end) {
+    Iterator MCTS<M, StateHash>::findBestA(Iterator begin, Iterator end) {
         return std::max_element(begin, end, [](const ActionNode & lhs, const ActionNode & rhs){ return lhs.V < rhs.V; });
     }
 
-    template <typename M>
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     template <typename Iterator>
-    Iterator MCTS<M>::findBestBonusA(Iterator begin, Iterator end, const unsigned count) {
+    Iterator MCTS<M, StateHash>::findBestBonusA(Iterator begin, Iterator end, const unsigned count) {
         // Count here can be as low as 1.
         // Since log(1) = 0, and 0/0 = error, we add 1.0.
         const double logCount = std::log(count + 1.0);
@@ -317,33 +325,48 @@ namespace AIToolbox::MDP {
         return bestIterator;
     }
 
-    template <typename M>
-    void MCTS<M>::setIterations(const unsigned iter) {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    void MCTS<M, StateHash>::allocateActionNodes(ActionNodes & an, const State & s) {
+        if constexpr (HasFixedActionSpace<M>)
+            an.resize(model_.getA());
+        else
+            an.resize(model_.getA(s));
+    }
+
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    void MCTS<M, StateHash>::setIterations(const unsigned iter) {
         iterations_ = iter;
     }
 
-    template <typename M>
-    void MCTS<M>::setExploration(const double exp) {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    void MCTS<M, StateHash>::setExploration(const double exp) {
         exploration_ = exp;
     }
 
-    template <typename M>
-    const M& MCTS<M>::getModel() const {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    const M& MCTS<M, StateHash>::getModel() const {
         return model_;
     }
 
-    template <typename M>
-    const typename MCTS<M>::StateNode& MCTS<M>::getGraph() const {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    const typename MCTS<M, StateHash>::StateNode& MCTS<M, StateHash>::getGraph() const {
         return graph_;
     }
 
-    template <typename M>
-    unsigned MCTS<M>::getIterations() const {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    unsigned MCTS<M, StateHash>::getIterations() const {
         return iterations_;
     }
 
-    template <typename M>
-    double MCTS<M>::getExploration() const {
+    template <typename M, template <typename> class StateHash>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    double MCTS<M, StateHash>::getExploration() const {
         return exploration_;
     }
 }

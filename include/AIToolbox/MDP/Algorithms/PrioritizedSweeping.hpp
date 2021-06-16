@@ -40,10 +40,8 @@ namespace AIToolbox::MDP {
      * Given how this algorithm updates the QFunction, the only problems
      * supported by this approach are ones with an infinite horizon.
      */
-    template <typename M>
+    template <IsModel M>
     class PrioritizedSweeping {
-        static_assert(is_model_v<M>, "This class only works for MDP models!");
-
         public:
             /**
              * @brief Basic constructor.
@@ -171,17 +169,17 @@ namespace AIToolbox::MDP {
             std::unordered_map<std::pair<size_t, size_t>, typename QueueType::handle_type, boost::hash<std::pair<size_t, size_t>>> queueHandles_;
     };
 
-    template <typename M>
+    template <IsModel M>
     PrioritizedSweeping<M>::PrioritizedSweeping(const M & m, const double theta, const unsigned n) :
             S(m.getS()), A(m.getA()), N(n), theta_(theta), model_(m),
             qfun_(makeQFunction(S,A)), vfun_(makeValueFunction(S)) {}
 
-    template <typename M>
+    template <IsModel M>
     void PrioritizedSweeping<M>::stepUpdateQ(const size_t s, const size_t a) {
         auto & values = vfun_.values;
 
         // Update q[s][a]
-        if constexpr(is_model_eigen_v<M>) {
+        if constexpr(IsModelEigen<M>) {
             qfun_(s,a) = model_.getRewardFunction().coeff(s, a) + model_.getTransitionFunction(a).row(s).dot(values * model_.getDiscount());
         } else {
             double newQValue = 0;
@@ -222,7 +220,7 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename M>
+    template <IsModel M>
     void PrioritizedSweeping<M>::batchUpdateQ() {
         for ( unsigned i = 0; i < N; ++i ) {
             if ( queue_.empty() ) return;
@@ -239,48 +237,48 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename M>
+    template <IsModel M>
     void PrioritizedSweeping<M>::setN(const unsigned n) {
         N = n;
     }
 
-    template <typename M>
+    template <IsModel M>
     unsigned PrioritizedSweeping<M>::getN() const {
         return N;
     }
 
-    template <typename M>
+    template <IsModel M>
     void PrioritizedSweeping<M>::setQueueThreshold(const double t) {
         if ( t < 0.0 ) throw std::invalid_argument("Theta parameter must be >= 0");
         theta_ = t;
     }
 
-    template <typename M>
+    template <IsModel M>
     double PrioritizedSweeping<M>::getQueueThreshold() const {
         return theta_;
     }
 
-    template <typename M>
+    template <IsModel M>
     size_t PrioritizedSweeping<M>::getQueueLength() const {
         return queue_.size();
     }
 
-    template <typename M>
+    template <IsModel M>
     const M & PrioritizedSweeping<M>::getModel() const {
         return model_;
     }
 
-    template <typename M>
+    template <IsModel M>
     const QFunction & PrioritizedSweeping<M>::getQFunction() const {
         return qfun_;
     }
 
-    template <typename M>
+    template <IsModel M>
     void PrioritizedSweeping<M>::setQFunction(const QFunction & qfun) {
         qfun_ = qfun;
     }
 
-    template <typename M>
+    template <IsModel M>
     const ValueFunction & PrioritizedSweeping<M>::getValueFunction() const {
         return vfun_;
     }

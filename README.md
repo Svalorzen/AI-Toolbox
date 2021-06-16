@@ -301,13 +301,13 @@ Dependencies
 
 To build the library you need:
 
-- [cmake](http://www.cmake.org/) >= 3.9
+- [cmake](http://www.cmake.org/) >= 3.12
 - the [boost library](http://www.boost.org/) >= 1.67
 - the [Eigen 3.3 library](http://eigen.tuxfamily.org/index.php?title=Main_Page).
 - the [lp\_solve library](http://lpsolve.sourceforge.net/5.5/) (a shared library
   must be available to compile the Python wrapper).
 
-In addition, full C++17 support is now required (**this means at least g++-7**)
+In addition, C++20 support is now required (**this means at least g++-10**)
 
 Building
 --------

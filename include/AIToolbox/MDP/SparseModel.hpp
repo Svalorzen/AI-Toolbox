@@ -136,7 +136,7 @@ namespace AIToolbox::MDP {
              * @param r The external rewards container.
              * @param d The discount factor for the MDP.
              */
-            template <typename T, typename R>
+            template <IsNaive3DMatrix T, IsNaive3DMatrix R>
             SparseModel(size_t s, size_t a, const T & t, const R & r, double d = 1.0);
 
             /**
@@ -151,7 +151,7 @@ namespace AIToolbox::MDP {
              * @tparam M The type of the other model.
              * @param model The model that needs to be copied.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             SparseModel(const M& model);
 
             /**
@@ -201,7 +201,7 @@ namespace AIToolbox::MDP {
              * @tparam T The external transition container type.
              * @param t The external transitions container.
              */
-            template <typename T>
+            template <IsNaive3DMatrix T>
             void setTransitionFunction(const T & t);
 
             /**
@@ -247,7 +247,7 @@ namespace AIToolbox::MDP {
              * @tparam R The external rewards container type.
              * @param r The external rewards container.
              */
-            template <typename R>
+            template <IsNaive3DMatrix R>
             void setRewardFunction(const R & r);
 
             /**
@@ -377,7 +377,7 @@ namespace AIToolbox::MDP {
             friend std::istream& operator>>(std::istream &is, SparseModel &);
     };
 
-    template <typename T, typename R>
+    template <IsNaive3DMatrix T, IsNaive3DMatrix R>
     SparseModel::SparseModel(const size_t s, const size_t a, const T & t, const R & r, const double d) :
             S(s), A(a), transitions_(A, SparseMatrix2D(S, S)),
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
@@ -387,7 +387,7 @@ namespace AIToolbox::MDP {
         setRewardFunction(r);
     }
 
-    template <typename M, typename>
+    template <IsModel M>
     SparseModel::SparseModel(const M& model) :
             S(model.getS()), A(model.getA()), transitions_(A, SparseMatrix2D(S, S)),
             rewards_(S, A), rand_(Impl::Seeder::getSeed())
@@ -413,7 +413,7 @@ namespace AIToolbox::MDP {
         rewards_.makeCompressed();
     }
 
-    template <typename T>
+    template <IsNaive3DMatrix T>
     void SparseModel::setTransitionFunction(const T & t) {
         // First we verify data, without modifying anything...
         for ( size_t s = 0; s < S; ++s )
@@ -434,7 +434,7 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename R>
+    template <IsNaive3DMatrix R>
     void SparseModel::setRewardFunction( const R & r ) {
         rewards_.setZero();
         for ( size_t a = 0; a < A; ++a ) {

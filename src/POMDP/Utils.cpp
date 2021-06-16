@@ -8,17 +8,16 @@ namespace AIToolbox::POMDP {
         return ValueFunction(1, VList(1, {values, 0, VObs()}));
     }
 
-    bool operator<(const VEntry & lhs, const VEntry & rhs) {
+    std::strong_ordering operator<=>(const VEntry & lhs, const VEntry & rhs) {
         auto cmp = veccmp(lhs.values, rhs.values);
-        if (cmp != 0) return cmp < 0;
-        if (lhs.action != rhs.action)
-            return lhs.action < rhs.action;
-        return lhs.observations < rhs.observations;
+        if (cmp != 0) return cmp;
+        cmp = lhs.action <=> rhs.action;
+        if (cmp != 0) return cmp;
+        return lhs.observations <=> rhs.observations;
     }
+
     bool operator==(const VEntry & lhs, const VEntry & rhs) {
-        return veccmp(lhs.values, rhs.values) == 0 &&
-               lhs.action == rhs.action &&
-               lhs.observations == rhs.observations;
+        return (lhs <=> rhs) == 0;
     }
 
     double weakBoundDistance(const VList & oldV, const VList & newV) {

@@ -3,19 +3,18 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
+#include <fstream>
+#include <iostream>
+#include <limits>
+
 #include <AIToolbox/POMDP/Policies/Policy.hpp>
 #include <AIToolbox/POMDP/Algorithms/IncrementalPruning.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/IO.hpp>
 #include <AIToolbox/MDP/SparseModel.hpp>
-#include <AIToolbox/Utils/Core.hpp>
 
 #include <AIToolbox/POMDP/Environments/TigerProblem.hpp>
-
-#include <fstream>
-#include <iostream>
-#include <limits>
 
 BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     using namespace AIToolbox;
@@ -88,8 +87,9 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
         {(MDP::Values(2) << 18.7039537733727385671045340 , -91.2960462266272685383228236).finished(), 2u, POMDP::VObs(0)},
     };
 
-    const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
-        return POMDP::operator<(lhs, rhs);
+    const auto comparer = [](POMDP::VEntry lhs, POMDP::VEntry rhs) -> bool {
+        // return POMDP::operator<(lhs, rhs);
+        return (lhs < rhs);
     };
 
     // Construct policy out of solver value function, and copy it out and in

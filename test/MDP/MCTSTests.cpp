@@ -103,3 +103,81 @@ BOOST_AUTO_TEST_CASE( sampleOneTime ) {
     // We make a,o the new head
     solver.sampleAction( 0, s1, horizon - 1);
 }
+
+class VarActionModel {
+    // This is a simple 3-door opening game where opening the middle door last
+    // yields the highest reward.
+    // - State = doors currently open (true = open, false = closed)
+    // - Action = One of the closed doors.
+    //   - 0 means "open the first closed door from the left"
+    //   - 1 means "open the second closed door from the left"
+    //   - 2 means "open the last closed door from the left"
+    //   Number of actions is obviously equal to the number of closed doors left.
+    public:
+        using State = std::array<bool, 3>;
+
+        State getS() const {
+            return {};
+        }
+        size_t getA(const State & s) const {
+            size_t A = 3;
+            for (auto i = 0; i < 3; ++i)
+                if (s[i]) --A;
+            return A;
+        }
+        double getDiscount() const { return 0.9; }
+        bool isTerminal(const State & s) const {
+            for (auto b : s) if (!b) return false;
+            return true;
+        }
+        std::tuple<State, double> sampleSR(const State & s, size_t a) const {
+            State s1 = s;
+
+            size_t count = 0, opened = 4;
+            for (auto i = 0; i < 3; ++i) {
+                if (s1[i]) ++count;
+                else {
+                    if (!a && opened == 4) {
+                        opened = i;
+                        s1[opened] = true;
+                        ++count;
+                    }
+                    --a; // This will wrap around but it's ok
+                }
+            }
+            double reward = 0.0;
+            if (count == 3)
+                reward = opened == 1 ? 5.0 : 1.0;
+            return {s1, reward};
+        }
+};
+
+BOOST_AUTO_TEST_CASE( variableActions ) {
+    using namespace AIToolbox::MDP;
+
+    VarActionModel model;
+    model.sampleSR(model.getS(), model.getA(model.getS()));
+
+    MCTS<decltype(model), boost::hash> solver(model, 100, 5.0);
+
+    auto s = model.getS();
+
+    // We simply act for 3 timesteps and check that indeed the last door we
+    // leave open is the middle one, which gives the most reward (5.0).
+    //
+    // We also check that we recommend actions within the action space.
+    auto a = solver.sampleAction(s, 3);
+    BOOST_CHECK(a < model.getA(s));
+    auto [s1, r1] = model.sampleSR(s, a);
+
+    auto a1 = solver.sampleAction(a, s1, 2);
+    BOOST_CHECK(a1 < model.getA(s1));
+    auto [s2, r2] = model.sampleSR(s1, a1);
+
+    auto a2 = solver.sampleAction(a1, s2, 1);
+    BOOST_CHECK(a2 < model.getA(s2));
+    auto [s3, r3] = model.sampleSR(s2, a2);
+
+    // Just check that we behaved correctly
+    BOOST_CHECK(r3 == 5.0);
+}

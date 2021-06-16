@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
         const auto scqla1 = scql.stepUpdateQ(s, a, s1, r);
 
         // Check actions are equal
-        BOOST_CHECK_EQUAL(AIToolbox::veccmp(cqla1, scqla1), 0);
+        BOOST_CHECK(AIToolbox::veccmp(cqla1, scqla1) == 0);
     }
 
     // Finally, check that the QFunction is the same for both methods.
@@ -207,7 +207,7 @@ BOOST_AUTO_TEST_CASE( action_returned ) {
         const auto scqla1 = scql.stepUpdateQ(s, a, s1, r);
 
         // Check actions are equal
-        BOOST_CHECK_EQUAL(AIToolbox::veccmp(cqla1, scqla1), 0);
+        BOOST_CHECK(AIToolbox::veccmp(cqla1, scqla1) == 0);
     }
 
     // Finally, check that the QFunction is the same for both methods.
@@ -253,5 +253,5 @@ BOOST_AUTO_TEST_CASE( action_returned ) {
     const auto scqla = scqlp.sampleAction(s);
     const auto cqla = cqlp.sampleAction(s);
 
-    BOOST_CHECK_EQUAL(AIToolbox::veccmp(scqla, cqla), 0);
+    BOOST_CHECK(AIToolbox::veccmp(scqla, cqla) == 0);
 }

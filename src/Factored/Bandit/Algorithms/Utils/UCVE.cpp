@@ -67,8 +67,7 @@ namespace AIToolbox::Factored::Bandit {
             for (const auto & rhsVal : rhs) {
                 auto tags = merge(lhsVal.tag, rhsVal.tag);
                 auto values = lhsVal.v + rhsVal.v;
-                // FIXME: C++20, remove useless temporary (they need to fix aggregates).
-                retval.emplace_back(UCVE::Entry{std::move(values), std::move(tags)});
+                retval.emplace_back(std::move(values), std::move(tags));
             }
         }
         return retval;

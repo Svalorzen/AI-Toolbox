@@ -11,53 +11,54 @@
 #include <AIToolbox/MDP/Experience.hpp>
 
 BOOST_AUTO_TEST_CASE( positives ) {
-    using namespace AIToolbox;
+    namespace POMDP = AIToolbox::POMDP;
     using namespace AIToolbox::MDP;
 
-    BOOST_CHECK(is_generative_model_v<Model>);
-    BOOST_CHECK(is_model_v<Model>);
-    BOOST_CHECK(is_model_eigen_v<Model>);
-    BOOST_CHECK(!is_model_not_eigen_v<Model>);
+    static_assert(IsGenerativeModel<Model>);
+    static_assert(IsModel<Model>);
+    static_assert(IsModelEigen<Model>);
 
-    BOOST_CHECK(is_generative_model_v<OldMDPModel>);
-    BOOST_CHECK(is_model_v<OldMDPModel>);
-    BOOST_CHECK(!is_model_eigen_v<OldMDPModel>);
-    BOOST_CHECK(is_model_not_eigen_v<OldMDPModel>);
+    static_assert(IsGenerativeModel<OldMDPModel>);
+    static_assert(IsModel<OldMDPModel>);
+    static_assert(!IsModelEigen<OldMDPModel>);
 
-    BOOST_CHECK(is_generative_model_v<POMDP::Model<Model>>);
-    BOOST_CHECK(is_model_v<POMDP::Model<Model>>);
-    BOOST_CHECK(is_model_eigen_v<POMDP::Model<Model>>);
-    BOOST_CHECK(!is_model_not_eigen_v<POMDP::Model<Model>>);
+    static_assert(IsGenerativeModel<POMDP::Model<Model>>);
+    static_assert(IsModel<POMDP::Model<Model>>);
+    static_assert(IsModelEigen<POMDP::Model<Model>>);
 
-    BOOST_CHECK(is_generative_model_v<POMDP::Model<OldMDPModel>>);
-    BOOST_CHECK(is_model_v<POMDP::Model<OldMDPModel>>);
-    BOOST_CHECK(!is_model_eigen_v<POMDP::Model<OldMDPModel>>);
-    BOOST_CHECK(is_model_not_eigen_v<POMDP::Model<OldMDPModel>>);
+    static_assert(IsGenerativeModel<POMDP::Model<OldMDPModel>>);
+    static_assert(IsModel<POMDP::Model<OldMDPModel>>);
+    static_assert(!IsModelEigen<POMDP::Model<OldMDPModel>>);
 
-    BOOST_CHECK(is_experience_v<Experience>);
+    static_assert(IsExperience<Experience>);
+    static_assert(IsExperienceEigen<Experience>);
 }
 
 BOOST_AUTO_TEST_CASE( negatives ) {
-    using namespace AIToolbox;
+    namespace AI = AIToolbox;
     using namespace AIToolbox::MDP;
 
-    BOOST_CHECK(!is_generative_model_v<Experience>);
-    BOOST_CHECK(!is_generative_model_v<int>);
-    BOOST_CHECK(!is_generative_model_v<void*>);
+    static_assert(!AI::IsGenerativeModel<Experience>);
+    static_assert(!AI::IsGenerativeModel<int>);
+    static_assert(!AI::IsGenerativeModel<void*>);
 
-    BOOST_CHECK(!is_model_v<Experience>);
-    BOOST_CHECK(!is_model_v<int>);
-    BOOST_CHECK(!is_model_v<void*>);
+    static_assert(!IsGenerativeModel<Experience>);
+    static_assert(!IsGenerativeModel<int>);
+    static_assert(!IsGenerativeModel<void*>);
 
-    BOOST_CHECK(!is_model_eigen_v<Experience>);
-    BOOST_CHECK(!is_model_eigen_v<int>);
-    BOOST_CHECK(!is_model_eigen_v<void*>);
+    static_assert(!IsModel<Experience>);
+    static_assert(!IsModel<int>);
+    static_assert(!IsModel<void*>);
 
-    BOOST_CHECK(!is_model_not_eigen_v<Experience>);
-    BOOST_CHECK(!is_model_not_eigen_v<int>);
-    BOOST_CHECK(!is_model_not_eigen_v<void*>);
+    static_assert(!IsModelEigen<Experience>);
+    static_assert(!IsModelEigen<int>);
+    static_assert(!IsModelEigen<void*>);
 
-    BOOST_CHECK(!is_experience_v<Model>);
-    BOOST_CHECK(!is_experience_v<int>);
-    BOOST_CHECK(!is_experience_v<void*>);
+    static_assert(!IsExperience<Model>);
+    static_assert(!IsExperience<int>);
+    static_assert(!IsExperience<void*>);
+
+    static_assert(!IsExperienceEigen<Model>);
+    static_assert(!IsExperienceEigen<int>);
+    static_assert(!IsExperienceEigen<void*>);
 }

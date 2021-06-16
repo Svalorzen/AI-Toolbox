@@ -111,7 +111,7 @@ namespace AIToolbox::POMDP {
              * @return A tuple containing the maximum variation for the
              *         ValueFunction and the computed ValueFunction.
              */
-            template <typename M, typename = std::enable_if_t<is_model_v<M>>>
+            template <IsModel M>
             std::tuple<double, ValueFunction> operator()(const M & model);
 
         private:
@@ -140,7 +140,7 @@ namespace AIToolbox::POMDP {
             std::unordered_set<VObs, boost::hash<VObs>> triedVectors_;
     };
 
-    template <typename M, typename>
+    template <IsModel M>
     std::tuple<double, ValueFunction> Witness::operator()(const M& model) {
         S = model.getS();
         A = model.getA();

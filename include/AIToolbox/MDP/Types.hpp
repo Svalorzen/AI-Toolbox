@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Utils/TypeTraits.hpp>
+#include <AIToolbox/TypeTraits.hpp>
 
 namespace AIToolbox::MDP {
     /**
@@ -47,10 +47,6 @@ namespace AIToolbox::MDP {
     struct ValueFunction {
         Values values;
         Actions actions;
-
-        ValueFunction() {}
-        ValueFunction(Values v, Actions a) :
-                values(std::move(v)), actions(std::move(a)) {}
     };
 
     using QFunction = Matrix2D;

@@ -84,7 +84,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizon ) {
     };
 
     const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
-        return POMDP::operator<(lhs, rhs);
+        // return POMDP::operator<(lhs, rhs);
+        return lhs < rhs;
     };
 
     // Make sure we can actually compare them
@@ -136,7 +137,8 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizon ) {
     };
 
     const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
-        return POMDP::operator<(lhs, rhs);
+        // return POMDP::operator<(lhs, rhs);
+        return lhs < rhs;
     };
 
     // Make sure we can actually compare them
@@ -230,7 +232,8 @@ BOOST_AUTO_TEST_CASE( discountedHorizonSparse ) {
     };
 
     const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
-        return POMDP::operator<(lhs, rhs);
+        // return POMDP::operator<(lhs, rhs);
+        return lhs < rhs;
     };
 
     // Make sure we can actually compare them
@@ -282,7 +285,8 @@ BOOST_AUTO_TEST_CASE( undiscountedHorizonSparse ) {
     };
 
     const auto comparer = [](const POMDP::VEntry & lhs, const POMDP::VEntry & rhs) {
-        return POMDP::operator<(lhs, rhs);
+        // return POMDP::operator<(lhs, rhs);
+        return lhs < rhs;
     };
 
     // Make sure we can actually compare them

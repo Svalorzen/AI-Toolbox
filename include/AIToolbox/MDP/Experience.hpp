@@ -4,8 +4,9 @@
 #include <iosfwd>
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/MDP/Types.hpp>
+#include <AIToolbox/TypeTraits.hpp>
 #include <AIToolbox/Utils/Core.hpp>
+#include <AIToolbox/MDP/Types.hpp>
 
 namespace AIToolbox::MDP {
     /**
@@ -50,7 +51,7 @@ namespace AIToolbox::MDP {
              * @tparam V The external visits container type.
              * @param v The external visits container.
              */
-            template <typename V>
+            template <IsNaive3DTable V>
             void setVisitsTable(const V & v);
 
             /**
@@ -73,7 +74,7 @@ namespace AIToolbox::MDP {
              * @tparam R The external rewards container type.
              * @param r The external rewards container.
              */
-            template <typename R>
+            template <IsNaive2DMatrix R>
             void setRewardMatrix(const R & r);
 
             /**
@@ -96,7 +97,7 @@ namespace AIToolbox::MDP {
              * @tparam MM The external M2 container type.
              * @param m The external M2 container.
              */
-            template <typename MM>
+            template <IsNaive2DMatrix MM>
             void setM2Matrix(const MM & mm);
 
             /**
@@ -219,7 +220,7 @@ namespace AIToolbox::MDP {
             friend std::istream& operator>>(std::istream &is, Experience &);
     };
 
-    template <typename V>
+    template <IsNaive3DTable V>
     void Experience::setVisitsTable(const V & v) {
         visitsSum_.setZero();
         for ( size_t s = 0; s < S; ++s ) {
@@ -232,14 +233,14 @@ namespace AIToolbox::MDP {
         }
     }
 
-    template <typename R>
+    template <IsNaive2DMatrix R>
     void Experience::setRewardMatrix(const R & r) {
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
                 rewards_(s, a) = r[s][a];
     }
 
-    template <typename MM>
+    template <IsNaive2DMatrix MM>
     void Experience::setM2Matrix(const MM & m) {
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )
