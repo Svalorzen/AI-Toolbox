@@ -28,7 +28,7 @@ namespace AIToolbox::MDP {
      * @return The discounted return from the input state.
      */
     template <typename M, typename Gen>
-    requires IsGenerativeModel<M> && HasIntegralActionSpace<M>
+    requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     double rollout(const M & m, std::remove_cvref_t<decltype(std::declval<M>().getS())> s, const unsigned maxDepth, Gen & rnd) {
         double rew = 0.0, totalRew = 0.0, gamma = 1.0;
 
