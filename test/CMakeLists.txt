@@ -93,6 +93,7 @@ if (MAKE_MDP)
         AddTestPython(MDP PolicyIteration)
         AddTestPython(MDP QLearning)
         AddTestPython(MDP ValueIteration)
+        AddTestPython(MDP Policy)
         AddTestPython(MDP MCTS)
     endif()
 
