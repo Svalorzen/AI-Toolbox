@@ -33,5 +33,13 @@ void exportMDPPolicyInterface() {
              "@param a The selected action.\n"
              "\n"
              "@return The probability of taking the selected action in the specified state.\n"
-        , (arg("self"), "s", "a"));
+        , (arg("self"), "s", "a"))
+
+        .def("getS",                    &MDP::PolicyInterface::getS, return_value_policy<copy_const_reference>(),
+                "This function returns the number of states of the world."
+        , (arg("self")))
+
+        .def("getA",                    &MDP::PolicyInterface::getA, return_value_policy<copy_const_reference>(),
+                "This function returns the number of available actions to the agent."
+        , (arg("self")));
 }
