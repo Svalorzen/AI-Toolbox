@@ -2,8 +2,39 @@
 
 #include <boost/python.hpp>
 
+#include <AIToolbox/POMDP/IO.hpp>
+#include <sstream>
+#include <string>
+
 void exportPOMDPPolicy() {
     using namespace AIToolbox::POMDP;
+
+    struct PolicyPickle : boost::python::pickle_suite {
+        static boost::python::tuple getinitargs(const Policy& p) {
+            return boost::python::make_tuple(p.getS(), p.getA(), p.getO());
+        }
+        // To avoid enabling pickling of the internal policy value function,
+        // which would be annoying, we pickle the policy as a string and reload
+        // it later.
+        static boost::python::tuple getstate(const Policy& p) {
+            std::ostringstream out; out << p;
+            std::string outString = out.str();
+            return boost::python::make_tuple(outString);
+        }
+        static void setstate(Policy& p, boost::python::tuple state) {
+            using namespace boost::python;
+            if (len(state) != 1) {
+                PyErr_SetObject(PyExc_ValueError,
+                        ("expected 1-item tuple in call to __setstate__; got %s" % state).ptr()
+                        );
+                throw_error_already_set();
+            }
+            std::string inString = extract<std::string>(state[0]);
+            std::istringstream in(inString);
+            in >> p;
+        }
+    };
+
     using namespace boost::python;
 
     class_<Policy, bases<Policy::Base>>{"Policy",
@@ -150,6 +181,8 @@ void exportPOMDPPolicy() {
 
     .def("getValueFunction",            &Policy::getValueFunction, return_internal_reference<>(),
                  "This function returns the internally stored ValueFunction."
-    , (arg("self")));
+    , (arg("self")))
+
+    .def_pickle(PolicyPickle());
 }
 
