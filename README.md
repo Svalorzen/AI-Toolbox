@@ -18,7 +18,8 @@ you can find [here](https://miat.inrae.fr/MDPtoolbox/), and from the
 An excellent introduction to the basics of reinforcement learning can be found
 freely online in [this book](http://incompleteideas.net/book/ebook/the-book.html).
 
-If you use this toolbox for research, please consider citing our JMLR article:
+If you use this toolbox for research, please consider citing our [JMLR
+article](https://www.jmlr.org/papers/volume21/18-402/18-402.pdf):
 
 ```
 @article{JMLR:v21:18-402,
