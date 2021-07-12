@@ -20,8 +20,8 @@ void exportMCTSByModel(std::string className) {
 
     using V = MCTS<M>;
 
-    size_t (V::*sampleAction1)(size_t, unsigned) = &V::sampleAction;
-    size_t (V::*sampleAction2)(size_t, size_t, unsigned) = &V::sampleAction;
+    size_t (V::*sampleAction1)(const size_t &, unsigned) = &V::sampleAction;
+    size_t (V::*sampleAction2)(size_t, const size_t &, unsigned) = &V::sampleAction;
 
     class_<V>{("MCTS" + className).c_str(), (
 

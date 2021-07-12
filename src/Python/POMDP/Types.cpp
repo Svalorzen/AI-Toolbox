@@ -5,6 +5,10 @@
 
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
+bool POMDPVentryLessOperator(const AIToolbox::POMDP::VEntry & lhs, const AIToolbox::POMDP::VEntry & rhs) {
+    return lhs < rhs;
+}
+
 void exportPOMDPTypes() {
     using namespace AIToolbox;
     using namespace boost::python;
@@ -15,7 +19,7 @@ void exportPOMDPTypes() {
         .def_readwrite("action", &POMDP::VEntry::action)
         .def_readwrite("observations", &POMDP::VEntry::observations)
         .def("__eq__", &POMDP::operator==)
-        .def("__lt__", &POMDP::operator<);
+        .def("__lt__", &POMDPVentryLessOperator);
     // FIXME: Here we set the NoProxy parameter of the vector_indexing_suite to
     // true, otherwise there is a weird bug where the VEntry cannot be seen in
     // Python if it is extracted from the VList. This unfortunately means that
