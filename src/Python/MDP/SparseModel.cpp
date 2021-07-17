@@ -8,8 +8,38 @@
 
 #include <boost/python.hpp>
 
+#include <AIToolbox/MDP/IO.hpp>
+#include <sstream>
+#include <string>
+
 void exportMDPSparseModel() {
     using namespace AIToolbox::MDP;
+
+    struct SparseModelPickle : boost::python::pickle_suite {
+        static boost::python::tuple getinitargs(const SparseModel& m) {
+            return boost::python::make_tuple(m.getS(), m.getA(), m.getDiscount());
+        }
+        // To avoid enabling pickling of the internal matrices, which would be
+        // annoying, we pickle the policy as a string and reload it later.
+        static boost::python::tuple getstate(const SparseModel& m) {
+            std::ostringstream out; out << m;
+            std::string outString = out.str();
+            return boost::python::make_tuple(outString);
+        }
+        static void setstate(SparseModel& m, boost::python::tuple state) {
+            using namespace boost::python;
+            if (len(state) != 1) {
+                PyErr_SetObject(PyExc_ValueError,
+                        ("expected 1-item tuple in call to __setstate__; got %s" % state).ptr()
+                        );
+                throw_error_already_set();
+            }
+            std::string inString = extract<std::string>(state[0]);
+            std::istringstream in(inString);
+            in >> m;
+        }
+    };
+
     using namespace boost::python;
 
     class_<SparseModel>{"SparseModel",
@@ -188,5 +218,7 @@ void exportMDPSparseModel() {
 
         .def("isTerminal",                  &SparseModel::isTerminal,
                 "This function returns whether a given state is a terminal."
-        , (arg("self"), "s"));
+        , (arg("self"), "s"))
+
+        .def_pickle(SparseModelPickle());
 }
