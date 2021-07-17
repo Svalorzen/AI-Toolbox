@@ -90,6 +90,7 @@ if (MAKE_MDP)
 
     if (MAKE_PYTHON)
         AddTestPython(MDP Experience)
+        AddTestPython(MDP Model)
         AddTestPython(MDP PolicyIteration)
         AddTestPython(MDP QLearning)
         AddTestPython(MDP ValueIteration)
