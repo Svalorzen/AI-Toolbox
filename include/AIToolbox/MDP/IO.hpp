@@ -142,6 +142,20 @@ namespace AIToolbox::MDP {
      */
     std::istream& operator>>(std::istream &is, Model & m);
 
+    class SparseModel;
+    /**
+     * @brief This function implements input from stream for the MDP::SparseModel class.
+     *
+     * Note that as all other input function, it does not actually change the
+     * input model if the reading fails.
+     *
+     * @param is The input stream.
+     * @param m The model to write into.
+     *
+     * @return The input stream.
+     */
+    std::istream& operator>>(std::istream &is, SparseModel & m);
+
     class Policy;
     /**
      * @brief This function implements input from stream for the MDP::Model class.
