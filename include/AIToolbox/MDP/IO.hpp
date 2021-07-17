@@ -31,11 +31,12 @@ namespace AIToolbox::MDP {
      *
      * @return The resulting output stream.
      */
-    // Here we use the =0 default template to avoid redefinition problems with other template ostream definitions.
     template <IsModel M>
     std::ostream& operator<<(std::ostream &os, const M & model) {
         const size_t S = model.getS();
         const size_t A = model.getA();
+
+        os << std::setw(os.precision()+2) << std::left << model.getDiscount() << '\n';
 
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {

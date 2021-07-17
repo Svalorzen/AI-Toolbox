@@ -86,6 +86,7 @@ BOOST_AUTO_TEST_CASE( files ) {
         BOOST_CHECK( inputFile >> m2 );
     }
     {
+        BOOST_CHECK(AIToolbox::checkEqualSmall(m.getDiscount(), m2.getDiscount()));
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
@@ -107,6 +108,7 @@ BOOST_AUTO_TEST_CASE( cassandraCorner ) {
     GridWorld grid(2, 2);
 
     auto m = makeCornerProblem(grid);
+    m.setDiscount(0.95);
     size_t S = m.getS(), A = m.getA();
 
     std::string inputFilename  = "./data/corner.MDP";
@@ -118,6 +120,7 @@ BOOST_AUTO_TEST_CASE( cassandraCorner ) {
 
     BOOST_CHECK_EQUAL(m.getS(), m2.getS());
     BOOST_CHECK_EQUAL(m.getA(), m2.getA());
+    BOOST_CHECK_EQUAL(m.getDiscount(), m2.getDiscount());
 
     for ( size_t a = 0; a < A; ++a )
     for ( size_t s = 0; s < S; ++s )

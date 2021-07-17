@@ -3,6 +3,7 @@
 values: rewards
 states: 4
 actions: 4
+discount: 0.95
 
 T : 0
 1.0 0.0 0.0 0.0

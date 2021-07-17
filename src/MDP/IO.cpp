@@ -126,6 +126,15 @@ namespace AIToolbox::MDP {
         Model in(S,A);
 
         double tmp;
+
+        // First read discount
+        if ( !(is >> tmp) ) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Model discount");
+            is.setstate(std::ios::failbit);
+            return is;
+        }
+        in.setDiscount(tmp);
+
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
                 double sum = 0.0;
@@ -160,23 +169,29 @@ namespace AIToolbox::MDP {
         SparseModel in(S,A);
         double p, r;
 
+        // First read discount
+        if ( !(is >> p) ) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read SparseModel discount");
+            is.setstate(std::ios::failbit);
+            return is;
+        }
+        in.setDiscount(p);
+
         for ( size_t s = 0; s < S; ++s ) {
             for ( size_t a = 0; a < A; ++a ) {
                 double sum = 0.0;
                 for ( size_t s1 = 0; s1 < S; ++s1 ) {
                     if ( !(is >> p >> r )) {
-                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Model data.");
+                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read SparseModel data.");
                         is.setstate(std::ios::failbit);
                         return is;
                     }
-                    else {
-                        if ( checkDifferentSmall(0.0, p) ) {
-                            sum += p;
-                            in.transitions_[a].coeffRef(s, s1) = p;
+                    if ( checkDifferentSmall(0.0, p) ) {
+                        sum += p;
+                        in.transitions_[a].coeffRef(s, s1) = p;
 
-                            if ( checkDifferentSmall(0.0, r) )
-                                in.rewards_.coeffRef(s, a) += r * p;
-                        }
+                        if ( checkDifferentSmall(0.0, r) )
+                            in.rewards_.coeffRef(s, a) += r * p;
                     }
                 }
                 if ( checkDifferentSmall(sum, 0.0) )
