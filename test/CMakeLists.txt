@@ -164,6 +164,7 @@ if (MAKE_POMDP)
     if (MAKE_PYTHON)
         # Here we have surely passed in the MDP Python test branch, so we know
         # we have everything we need.
+        AddTestPython(POMDP Model)
         AddTestPython(POMDP IncrementalPruning)
         AddTestPython(POMDP Policy)
         AddTestPython(POMDP GapMin)

@@ -5,11 +5,41 @@
 
 #include <boost/python.hpp>
 
+#include <AIToolbox/POMDP/IO.hpp>
+#include <sstream>
+#include <string>
+
 using POMDPModelBinded = AIToolbox::POMDP::Model<AIToolbox::MDP::Model>;
 using POMDPSparseModelBinded = AIToolbox::POMDP::SparseModel<AIToolbox::MDP::SparseModel>;
 
 void exportPOMDPModel() {
     using namespace AIToolbox::MDP;
+
+    struct BindedModelPickle : boost::python::pickle_suite {
+        static boost::python::tuple getinitargs(const POMDPModelBinded& m) {
+            return boost::python::make_tuple(m.getO(), m.getS(), m.getA(), m.getDiscount());
+        }
+        // To avoid enabling pickling of the internal matrices, which would be
+        // annoying, we pickle the policy as a string and reload it later.
+        static boost::python::tuple getstate(const POMDPModelBinded& m) {
+            std::ostringstream out; out << m;
+            std::string outString = out.str();
+            return boost::python::make_tuple(outString);
+        }
+        static void setstate(POMDPModelBinded& m, boost::python::tuple state) {
+            using namespace boost::python;
+            if (len(state) != 1) {
+                PyErr_SetObject(PyExc_ValueError,
+                        ("expected 1-item tuple in call to __setstate__; got %s" % state).ptr()
+                        );
+                throw_error_already_set();
+            }
+            std::string inString = extract<std::string>(state[0]);
+            std::istringstream in(inString);
+            in >> m;
+        }
+    };
+
     using namespace boost::python;
 
     class_<POMDPModelBinded, bases<AIToolbox::MDP::Model>>{"Model",
@@ -144,5 +174,7 @@ void exportPOMDPModel() {
 
         .def("getObservationProbability",   &POMDPModelBinded::getObservationProbability,
                  "This function returns the stored observation probability for the specified state-action pair."
-        , (arg("self"), "s", "a", "s1"));
+        , (arg("self"), "s", "a", "s1"))
+
+        .def_pickle(BindedModelPickle());
 }
