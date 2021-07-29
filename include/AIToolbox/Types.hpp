@@ -2,7 +2,6 @@
 #define AI_TOOLBOX_TYPES_HEADER_FILE
 
 #include <vector>
-#include <unordered_map>
 #include <random>
 
 #include <boost/multi_array.hpp>
