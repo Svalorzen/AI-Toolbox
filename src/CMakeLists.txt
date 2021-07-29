@@ -6,6 +6,7 @@ if (MAKE_MDP)
         Impl/CassandraParser.cpp
         Utils/Adam.cpp
         Utils/Combinatorics.cpp
+        Utils/IO.cpp
         Utils/Probability.cpp
         Utils/Polytope.cpp
         Utils/StorageEigen.cpp
