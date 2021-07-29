@@ -134,3 +134,59 @@ BOOST_AUTO_TEST_CASE( files ) {
         std::remove(outputFilename.c_str());
     }
 }
+
+BOOST_AUTO_TEST_CASE( setObservationFunctionDense ) {
+    using namespace AIToolbox;
+    const size_t S = 5, A = 6, O = 4;
+
+    POMDP::SparseModel<MDP::Model> m(O, S, A);
+
+    AIToolbox::DumbMatrix3D newO(boost::extents[S][A][O]);
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            newO[s][a][0] = 0.8;
+            newO[s][a][1] = 0.2;
+        }
+    }
+
+    m.setObservationFunction(newO);
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            BOOST_CHECK_EQUAL(m.getObservationProbability(s,a,0), 0.8);
+            BOOST_CHECK_EQUAL(m.getObservationProbability(s,a,1), 0.2);
+            for ( size_t o = 2; o < O; ++o ) {
+                BOOST_CHECK_EQUAL(m.getObservationProbability(s,a,o), 0.0);
+            }
+        }
+    }
+}
+
+BOOST_AUTO_TEST_CASE( setObservationFunctionSparse ) {
+    using namespace AIToolbox;
+    const size_t S = 5, A = 6, O = 4;
+
+    POMDP::SparseModel<MDP::Model> m(O, S, A);
+
+    AIToolbox::SparseMatrix3D newO(A, AIToolbox::SparseMatrix2D(S, O));
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            newO[a].insert(s, 0) = 0.8;
+            newO[a].insert(s, 1) = 0.2;
+        }
+    }
+
+    m.setObservationFunction(newO);
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            BOOST_CHECK_EQUAL(m.getObservationProbability(s,a,0), 0.8);
+            BOOST_CHECK_EQUAL(m.getObservationProbability(s,a,1), 0.2);
+            for ( size_t o = 2; o < O; ++o ) {
+                BOOST_CHECK_EQUAL(m.getObservationProbability(s,a,o), 0.0);
+            }
+        }
+    }
+}

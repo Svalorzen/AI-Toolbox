@@ -98,7 +98,34 @@ BOOST_AUTO_TEST_CASE( files ) {
     }
 }
 
-BOOST_AUTO_TEST_CASE( setTransitionFunction ) {
+BOOST_AUTO_TEST_CASE( setTransitionFunctionDense ) {
+    const size_t S = 5, A = 6;
+
+    AIToolbox::MDP::SparseModel m(S, A);
+
+    AIToolbox::DumbMatrix3D newT(boost::extents[S][A][S]);
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            newT[s][a][0] = 0.8;
+            newT[s][a][1] = 0.2;
+        }
+    }
+
+    m.setTransitionFunction(newT);
+
+    for ( size_t a = 0; a < A; ++a ) {
+        for ( size_t s = 0; s < S; ++s ) {
+            BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,0), 0.8);
+            BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,1), 0.2);
+            for ( size_t s1 = 2; s1 < S; ++s1 ) {
+                BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,s1), 0.0);
+            }
+        }
+    }
+}
+
+BOOST_AUTO_TEST_CASE( setTransitionFunctionSparse ) {
     const size_t S = 5, A = 6;
 
     AIToolbox::MDP::SparseModel m(S, A);
@@ -118,6 +145,9 @@ BOOST_AUTO_TEST_CASE( setTransitionFunction ) {
         for ( size_t s = 0; s < S; ++s ) {
             BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,0), 0.8);
             BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,1), 0.2);
+            for ( size_t s1 = 2; s1 < S; ++s1 ) {
+                BOOST_CHECK_EQUAL(m.getTransitionProbability(s,a,s1), 0.0);
+            }
         }
     }
 }

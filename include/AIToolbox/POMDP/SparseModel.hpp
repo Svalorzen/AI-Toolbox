@@ -166,7 +166,7 @@ namespace AIToolbox::POMDP {
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the
              * containers must match the ones provided as arguments
-             * (for three dimensions: s,a,o, in this order).
+             * (for three dimensions: S, A, O, in this order).
              *
              * This is important, as this function DOES NOT perform
              * any size checks on the external containers.
@@ -179,6 +179,25 @@ namespace AIToolbox::POMDP {
              */
             template <IsNaive3DMatrix ObFun>
             void setObservationFunction(const ObFun & of);
+
+            /**
+             * @brief This function sets the observation function using a SparseMatrix3D.
+             *
+             * This function will throw a std::invalid_argument if the
+             * matrix provided does not contain valid probabilities.
+             *
+             * The dimensions of the container must match the ones provided
+             * as arguments. BE CAREFUL.
+             *
+             * The sparse matrices MUST be SxO, while the std::vector
+             * containing them MUST have size A.
+             *
+             * This function does DOES NOT perform any size checks on the
+             * input.
+             *
+             * @param t The external transitions container.
+             */
+            void setObservationFunction(const ObservationMatrix & of);
 
             /**
              * @brief This function samples the POMDP for the specified state action pair.
@@ -334,15 +353,36 @@ namespace AIToolbox::POMDP {
                 if ( !isProbability(O, of[s1][a]) )
                     throw std::invalid_argument("Input observation matrix does not contain valid probabilities.");
 
-        for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
-            for ( size_t a = 0; a < this->getA(); ++a )
-                for ( size_t o = 0; o < O; ++o ) {
-                    const double p = of[s1][a][o];
-                    if ( checkDifferentSmall( p, 0.0 ) ) observations_[a].insert(s1, o) = p;
-                }
+        for ( size_t a = 0; a < this->getA(); ++a ) {
+            observations_[a].setZero();
+            for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
+            for ( size_t o = 0; o < O; ++o ) {
+                const double p = of[s1][a][o];
+                if ( checkDifferentSmall( p, 0.0 ) )
+                    observations_[a].insert(s1, o) = p;
+            }
+        }
 
         for ( size_t a = 0; a < this->getA(); ++a )
             observations_[a].makeCompressed();
+    }
+
+    template <MDP::IsModel M>
+    void SparseModel<M>::setObservationFunction(const SparseMatrix3D & o) {
+        // First we verify data, without modifying anything...
+        for ( size_t a = 0; a < this->getA(); ++a ) {
+            // Eigen sparse does not implement minCoeff so we can't check for negatives.
+            // So we force the matrix to its abs, and if then the sum goes haywire then
+            // we found an error.
+            for ( size_t s = 0; s < this->getS(); ++s ) {
+                if ( !checkEqualSmall(1.0, o[a].row(s).sum()) )
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
+                if ( !checkEqualSmall(1.0, o[a].row(s).cwiseAbs().sum()) )
+                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
+            }
+        }
+        // Then we copy.
+        observations_ = o;
     }
 
     template <MDP::IsModel M>
