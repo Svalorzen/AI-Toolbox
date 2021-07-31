@@ -19,16 +19,9 @@ namespace AIToolbox::MDP {
     }
 
     void Model::setTransitionFunction(const Matrix3D & t) {
-        // First we verify data, without modifying anything...
-        for ( size_t a = 0; a < A; ++a ) {
-            for ( size_t s = 0; s < S; ++s ) {
-                if ( t[a].row(s).minCoeff() < 0.0 ||
-                     !checkEqualSmall(1.0, t[a].row(s).sum()) )
-                {
-                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
-                }
-            }
-        }
+        if (!isProbability(t))
+            throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
+
         // Then we copy.
         transitions_ = t;
     }
