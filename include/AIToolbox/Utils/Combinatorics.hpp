@@ -62,15 +62,16 @@ namespace AIToolbox {
              * @brief Default constructor.
              *
              * @param elementsN The number of elements that the subset should have (<= limit);
-             * @param limit The upper bound for each element in the subset (excluded).
+             * @param lowerBound Either an integer, or an iterator to the start of a range containing the elements to subset.
+             * @param upperBound Either an integer (excluded), or an iterator to the end of a range containing the elements to subset.
              */
             SubsetEnumerator(size_t elementsN, Index lowerBound, Index upperBound) :
                     lowerBound_(lowerBound), upperBound_(upperBound), ids_(elementsN)
             {
-                assert(elementsN >= 0);
-                if constexpr (std::is_integral_v<Index>)
+                if constexpr (std::is_integral_v<Index>) {
+                    assert(upperBound_ > lowerBound_);
                     assert(static_cast<size_t>(upperBound_ - lowerBound_) >= elementsN);
-                else
+                } else
                     assert(static_cast<size_t>(std::distance(lowerBound_, upperBound_)) >= elementsN);
                 reset();
             }
