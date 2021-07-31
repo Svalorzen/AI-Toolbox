@@ -32,6 +32,22 @@ namespace AIToolbox::MDP {
         timesteps_ = 0;
     }
 
+    void Experience::setVisitsTable(const Table3D & v) {
+        visits_ = v;
+        visitsSum_.setZero();
+        for ( size_t s = 0; s < S; ++s )
+            for ( size_t a = 0; a < A; ++a )
+                visitsSum_(s, a) = visits_[a].row(s).sum();
+    }
+
+    void Experience::setRewardMatrix(const Matrix2D & r) {
+        rewards_ = r;
+    }
+
+    void Experience::setM2Matrix(const Matrix2D & mm) {
+        M2s_ = mm;
+    }
+
     unsigned long Experience::getTimesteps() const {
         return timesteps_;
     }
