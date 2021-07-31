@@ -210,11 +210,10 @@ namespace AIToolbox::MDP {
              * This function will throw a std::invalid_argument if the
              * matrix provided does not contain valid probabilities.
              *
-             * The dimensions of the container must match the ones provided
-             * as arguments. BE CAREFUL.
-             *
-             * The sparse matrices MUST be SxS, while the std::vector
-             * containing them MUST have size A.
+             * The dimensions of the container must match the ones used during
+             * construction (for three dimensions: A, S, S).
+             * BE CAREFUL. The sparse matrices MUST be SxS, while the
+             * std::vector containing them MUST have size A.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
@@ -254,8 +253,9 @@ namespace AIToolbox::MDP {
             /**
              * @brief This function replaces the reward function with the one provided.
              *
-             * The dimensions of the container must match the ones provided
-             * as arguments (for two dimensions: S, A). BE CAREFUL.
+             * The dimensions of the container must match the ones used during
+             * construction (for two dimensions: S, A).
+             * BE CAREFUL.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
@@ -374,8 +374,6 @@ namespace AIToolbox::MDP {
             RewardMatrix rewards_;
 
             mutable RandomEngine rand_;
-
-            friend std::istream& operator>>(std::istream &is, SparseModel &);
     };
 
     template <IsNaive3DMatrix T, IsNaive3DMatrix R>
@@ -416,11 +414,8 @@ namespace AIToolbox::MDP {
 
     template <IsNaive3DMatrix T>
     void SparseModel::setTransitionFunction(const T & t) {
-        // First we verify data, without modifying anything...
-        for ( size_t s = 0; s < S; ++s )
-            for ( size_t a = 0; a < A; ++a )
-                if ( !isProbability(S, t[s][a]) )
-                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
+        if (!isProbability(S, A, S, t))
+            throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
 
         // Then we copy.
         for ( size_t a = 0; a < A; ++a ) {
@@ -436,7 +431,7 @@ namespace AIToolbox::MDP {
     }
 
     template <IsNaive3DMatrix R>
-    void SparseModel::setRewardFunction( const R & r ) {
+    void SparseModel::setRewardFunction(const R & r) {
         rewards_.setZero();
         for ( size_t a = 0; a < A; ++a ) {
             for ( size_t s = 0; s < S; ++s ) {
