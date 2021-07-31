@@ -36,8 +36,7 @@ namespace AIToolbox::MDP {
     Policy::Policy(const PolicyMatrix & p) :
             PolicyInterface::Base(p.rows(), p.cols()), PolicyWrapper(policy_), policy_(p)
     {
-        for ( size_t s = 0; s < S; ++s )
-            if (checkDifferentSmall(policy_.row(s).sum(), 1.0))
-                throw std::invalid_argument("Initializing Policy with invalid PolicyMatrix");
+        if (!isProbability(policy_))
+            throw std::invalid_argument("Initializing Policy with invalid PolicyMatrix");
     }
 }
