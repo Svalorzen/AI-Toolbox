@@ -1,5 +1,9 @@
 #include <AIToolbox/MDP/IO.hpp>
 
+#include <iostream>
+
+#include <AIToolbox/Utils/IO.hpp>
+
 #include <AIToolbox/MDP/Experience.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
 #include <AIToolbox/MDP/Model.hpp>
@@ -8,8 +12,6 @@
 
 #include <AIToolbox/Impl/CassandraParser.hpp>
 #include <AIToolbox/Impl/Logging.hpp>
-
-#include <iostream>
 
 namespace AIToolbox::MDP {
     Model parseCassandra(std::istream & input) {
@@ -20,225 +22,198 @@ namespace AIToolbox::MDP {
         return Model(S, A, T, R, discount);
     }
 
+    std::ostream & operator<<(std::ostream & os, const Experience & exp) {
+        os << exp.getTimesteps() << '\n';
+        write(os, exp.getVisitsTable());
+        write(os, exp.getRewardMatrix());
+        write(os, exp.getM2Matrix());
+
+        return os;
+    }
+
+    std::ostream & operator<<(std::ostream & os, const SparseExperience & exp) {
+        os << exp.getTimesteps() << '\n';
+        write(os, exp.getVisitsTable());
+        write(os, exp.getRewardMatrix());
+        write(os, exp.getM2Matrix());
+
+        return os;
+    }
+
+    std::ostream & operator<<(std::ostream & os, const Model & model) {
+        write(os, model.getDiscount());
+        write(os, model.getTransitionFunction());
+        write(os, model.getRewardFunction());
+
+        return os;
+    }
+
+    std::ostream & operator<<(std::ostream & os, const SparseModel & model) {
+        write(os, model.getDiscount());
+        write(os, model.getTransitionFunction());
+        write(os, model.getRewardFunction());
+
+        return os;
+    }
+
     // Global discrete policy writer
     std::ostream& operator<<(std::ostream &os, const PolicyInterface & p) {
-        size_t S = p.getS();
-        size_t A = p.getA();
+        write(os, p.getPolicy());
 
-        for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t a = 0; a < A; ++a ) {
-                os << s << '\t' << a << '\t' << std::fixed << p.getActionProbability(s,a) << '\n';
-            }
-        }
         return os;
     }
 
     // Experience reader
     std::istream& operator>>(std::istream &is, Experience & exp) {
-        const size_t S = exp.getS();
-        const size_t A = exp.getA();
+        Experience e(exp.getS(), exp.getA());
 
-        Experience e(S,A);
+        if (!(is >> e.timesteps_))
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Experience timesteps.");
 
-        for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t a = 0; a < A; ++a ) {
-                long vSum = 0;
-                for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    if ( !(is >> e.visits_[a](s, s1)) ) {
-                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
-                        is.setstate(std::ios::failbit);
-                        return is;
-                    }
-                    vSum += e.visits_[a](s, s1);
-                }
-                e.visitsSum_(s, a) = vSum;
+        auto visits = e.getVisitsTable();
+        if (!read(is, visits)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Experience visits table.");
+            return is;
+        } else
+            e.setVisitsTable(visits);
 
-                if ( !(is >> e.rewards_(s, a) >> e.M2s_(s, a) )) {
-                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
-                    is.setstate(std::ios::failbit);
-                    return is;
-                }
-                // Verification/Sanitization
-                // Ignoring input reward if no visits.
-                if ( vSum == 0 ) {
-                    e.rewards_(s, a) = 0.0;
-                    e.M2s_(s, a) = 0.0;
-                }
-            }
-        }
-        // This guarantees that if input is invalid we still keep the old Exp.
+        auto rewards = e.getRewardMatrix();
+        if (!read(is, rewards)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Experience rewards matrix.");
+            return is;
+        } else
+            e.setRewardMatrix(rewards);
+
+        auto m2 = e.getM2Matrix();
+        if (!read(is, m2)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Experience m2 matrix.");
+            return is;
+        } else
+            e.setM2Matrix(m2);
+
         exp = std::move(e);
-
         return is;
     }
 
     // SparseExperience reader
     std::istream& operator>>(std::istream &is, SparseExperience & exp) {
-        const size_t S = exp.getS();
-        const size_t A = exp.getA();
+        SparseExperience e(exp.getS(), exp.getA());
 
-        long l;
-        double d1, d2;
+        if (!(is >> e.timesteps_))
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseExperience timesteps.");
 
-        SparseExperience e(S,A);
+        auto visits = e.getVisitsTable();
+        if (!read(is, visits)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseExperience visits table.");
+            return is;
+        } else
+            e.setVisitsTable(visits);
 
-        for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t a = 0; a < A; ++a ) {
-                long vSum = 0;
-                for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    if ( !(is >> l) ) {
-                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
-                        is.setstate(std::ios::failbit);
-                        return is;
-                    }
-                    if (l > 0) {
-                        e.visits_[a].insert(s, s1) = l;
-                        vSum += l;
-                    }
-                }
-                if ( vSum > 0 )
-                    e.visitsSum_.insert(s, a) = vSum;
+        auto rewards = e.getRewardMatrix();
+        if (!read(is, rewards)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseExperience rewards matrix.");
+            return is;
+        } else
+            e.setRewardMatrix(rewards);
 
-                if ( !(is >> d1 >> d2) ) {
-                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Experience data.");
-                    is.setstate(std::ios::failbit);
-                    return is;
-                }
-                // Verification/Sanitization
-                // Ignoring input reward if no visits.
-                if ( vSum > 0 ) {
-                    if ( checkDifferentSmall(0.0, d1) ) e.rewards_.insert(s, a) = d1;
-                    if ( checkDifferentSmall(0.0, d2) ) e.M2s_.insert(s, a) = d2;
-                }
-            }
-        }
-        // This guarantees that if input is invalid we still keep the old Exp.
+        auto m2 = e.getM2Matrix();
+        if (!read(is, m2)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseExperience m2 matrix.");
+            return is;
+        } else
+            e.setM2Matrix(m2);
+
         exp = std::move(e);
-
         return is;
     }
 
     // MDP::Model reader
     std::istream& operator>>(std::istream &is, Model & m) {
-        const size_t S = m.getS();
-        const size_t A = m.getA();
+        Model in(m.getS(), m.getA());
 
-        Model in(S,A);
-
-        double tmp;
-
-        // First read discount
-        if ( !(is >> tmp) ) {
-            AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Model discount");
-            is.setstate(std::ios::failbit);
+        double discount;
+        if (!(is >> discount)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Model discount.");
             return is;
-        }
-        in.setDiscount(tmp);
+        } else
+            in.setDiscount(discount);
 
-        for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t a = 0; a < A; ++a ) {
-                double sum = 0.0;
-                for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    if ( !(is >> in.transitions_[a](s, s1) >> tmp)) {
-                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read Model data at element " << s << ", " << a << ", " << s1);
-                        is.setstate(std::ios::failbit);
-                        return is;
-                    }
-                    sum += in.transitions_[a](s, s1);
-                    in.rewards_(s, a) += tmp * in.transitions_[a](s, s1);
-                }
-
-                // Verification/Sanitization
-                if ( checkDifferentSmall(sum, 0.0) )
-                    in.transitions_[a].row(s) /= sum;
-                else
-                    in.transitions_[a](s, s) = 1.0;
+        auto transitions = in.getTransitionFunction();
+        if (!read(is, transitions)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Model transition function.");
+            return is;
+        } else {
+            try {
+                in.setTransitionFunction(transitions);
+            } catch (const std::invalid_argument &) {
+                AI_LOGGER(AI_SEVERITY_ERROR, "The transition function for Model did not contain valid probabilities.");
+                is.setstate(std::ios::failbit);
+                return is;
             }
         }
-        // This guarantees that if input is invalid we still keep the old Model.
-        m = std::move(in);
 
+        auto rewards = in.getRewardFunction();
+        if (!read(is, rewards)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Model reward function.");
+            return is;
+        } else
+            in.setRewardFunction(rewards);
+
+        m = std::move(in);
         return is;
     }
 
     // MDP::SparseModel reader
     std::istream& operator>>(std::istream &is, SparseModel & m) {
-        const size_t S = m.getS();
-        const size_t A = m.getA();
+        SparseModel in(m.getS(), m.getA());
 
-        SparseModel in(S,A);
-        double p, r;
-
-        // First read discount
-        if ( !(is >> p) ) {
-            AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read SparseModel discount");
-            is.setstate(std::ios::failbit);
+        double discount;
+        if (!(is >> discount)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseModel discount.");
             return is;
-        }
-        in.setDiscount(p);
+        } else
+            in.setDiscount(discount);
 
-        for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t a = 0; a < A; ++a ) {
-                double sum = 0.0;
-                for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                    if ( !(is >> p >> r )) {
-                        AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read SparseModel data.");
-                        is.setstate(std::ios::failbit);
-                        return is;
-                    }
-                    if ( checkDifferentSmall(0.0, p) ) {
-                        sum += p;
-                        in.transitions_[a].coeffRef(s, s1) = p;
-
-                        if ( checkDifferentSmall(0.0, r) )
-                            in.rewards_.coeffRef(s, a) += r * p;
-                    }
-                }
-                if ( checkDifferentSmall(sum, 0.0) )
-                    in.transitions_[a].row(s) /= sum;
-                else
-                    in.transitions_[a].coeffRef(s, s) = 1.0;
+        auto transitions = in.getTransitionFunction();
+        if (!read(is, transitions)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseModel transition function.");
+            return is;
+        } else {
+            try {
+                in.setTransitionFunction(transitions);
+            } catch (const std::invalid_argument &) {
+                AI_LOGGER(AI_SEVERITY_ERROR, "The transition function for SparseModel did not contain valid probabilities.");
+                is.setstate(std::ios::failbit);
+                return is;
             }
         }
-        // This guarantees that if input is invalid we still keep the old Model.
-        m = std::move(in);
 
+        auto rewards = in.getRewardFunction();
+        if (!read(is, rewards)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseModel reward function.");
+            return is;
+        } else
+            in.setRewardFunction(rewards);
+
+        m = std::move(in);
         return is;
     }
 
     // MDP::Policy reader
     std::istream& operator>>(std::istream &is, Policy &p) {
-        const size_t S = p.getS();
-        const size_t A = p.getA();
-
-        Policy::PolicyMatrix policy(S, A);
-
-        size_t scheck, acheck;
-
-        bool fail = false;
-        for ( size_t s = 0; s < S; ++s ) {
-            for ( size_t a = 0; a < A; ++a ) {
-                if ( ! ( is >> scheck >> acheck >> policy(s,a) ) ) {
-                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Could not read policy data.");
-                    fail = true;
-                }
-                else if ( policy(s, a) < 0.0 || policy(s, a) > 1.0 ) {
-                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Input policy data contains non-probability values.");
-                    fail = true;
-                }
-                else if ( scheck != s || acheck != a ) {
-                    AI_LOGGER(AI_SEVERITY_ERROR, "AIToolbox: Input policy data is not sorted by state and action.");
-                    fail = true;
-                }
-                if ( fail ) {
-                    is.setstate(std::ios::failbit);
-                    return is;
-                }
-            }
+        Policy::PolicyMatrix pMatrix(p.getS(), p.getA());
+        if (!read(is, pMatrix)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Policy matrix.");
+            return is;
         }
-        // Read succeeded
-        p.policy_ = std::move(policy);
 
+        if (!isProbability(pMatrix)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Policy matrix does not contain valid probabilities.");
+            is.setstate(std::ios::failbit);
+            return is;
+        }
+
+        p.policy_ = std::move(pMatrix);
         return is;
     }
 }
