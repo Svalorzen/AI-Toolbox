@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE( files ) {
     const size_t S = 4, A = 2;
     AIToolbox::MDP::SparseModel m(S,A), m2(S,A);
 
-    std::string inputFilename  = "./data/mdp_model.txt";
+    std::string inputFilename  = "./data/mdp_sparse_model.txt";
     std::string outputFilename = "./loadedModel.txt";
     {
         std::ifstream inputFile(inputFilename);

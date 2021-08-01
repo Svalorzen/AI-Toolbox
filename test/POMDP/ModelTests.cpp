@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE( files ) {
 
     POMDP::Model<MDP::Model> m(O, S, A), m2(O, S, A);
 
-    std::string inputFilename  = "./data/pomdp_model.txt";
+    std::string inputFilename  = "./data/pomdp_dense_model.txt";
     std::string outputFilename = "./loadedModel.txt";
     {
         std::ifstream inputFile(inputFilename);
