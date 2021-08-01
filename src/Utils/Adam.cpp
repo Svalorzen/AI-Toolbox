@@ -11,8 +11,8 @@ namespace AIToolbox {
     }
 
     void Adam::step() {
-        assert(point);
-        assert(gradient);
+        assert(point_);
+        assert(gradient_);
 
         m_ = beta1_ * m_ + (1.0 - beta1_) * (*gradient_);
         v_ = beta2_ * v_ + (1.0 - beta2_) * (*gradient_).array().square().matrix();

@@ -1,6 +1,39 @@
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox {
+    bool isProbability(const Matrix2D & in) {
+        for (size_t row = 0; row < static_cast<size_t>(in.rows()); ++row)
+            if (in.row(row).minCoeff() < 0.0 || checkDifferentSmall(in.row(row).sum(), 1.0))
+                return false;
+        return true;
+    }
+
+    bool isProbability(const Matrix3D & in) {
+        for (const auto & m2 : in)
+            if (!isProbability(m2))
+                return false;
+        return true;
+    }
+
+    bool isProbability(const SparseMatrix2D & in) {
+        // Eigen sparse does not implement minCoeff so we can't check for negatives.
+        // So we force the matrix to its abs, and if then the sum goes haywire then
+        // we found an error.
+        for (size_t row = 0; row < static_cast<size_t>(in.rows()); ++row)
+            if (
+                checkDifferentSmall(in.row(row).sum(), 1.0) ||
+                checkDifferentSmall(in.row(row).cwiseAbs().sum(), 1.0)
+            ) return false;
+        return true;
+    }
+
+    bool isProbability(const SparseMatrix3D & in) {
+        for (const auto & m2 : in)
+            if (!isProbability(m2))
+                return false;
+        return true;
+    }
+
     ProbabilityVector projectToProbability(const Vector & v) {
         ProbabilityVector retval(v.size());
 

@@ -186,11 +186,10 @@ namespace AIToolbox::POMDP {
              * This function will throw a std::invalid_argument if the
              * matrix provided does not contain valid probabilities.
              *
-             * The dimensions of the container must match the ones provided
-             * as arguments. BE CAREFUL.
-             *
-             * The sparse matrices MUST be SxO, while the std::vector
-             * containing them MUST have size A.
+             * The dimensions of the container must match the ones used during
+             * construction (for three dimensions: A, S, O).
+             * BE CAREFUL. The matrices MUST be SxO, while the std::vector
+             * containing them MUST be of size A.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
@@ -289,8 +288,6 @@ namespace AIToolbox::POMDP {
             // We need this because we don't know if our parent already has one,
             // and we wouldn't know how to access it!
             mutable RandomEngine rand_;
-
-            friend std::istream& operator>> <M>(std::istream &is, SparseModel<M> &);
     };
 
     template <MDP::IsModel M>
@@ -368,21 +365,11 @@ namespace AIToolbox::POMDP {
     }
 
     template <MDP::IsModel M>
-    void SparseModel<M>::setObservationFunction(const SparseMatrix3D & o) {
-        // First we verify data, without modifying anything...
-        for ( size_t a = 0; a < this->getA(); ++a ) {
-            // Eigen sparse does not implement minCoeff so we can't check for negatives.
-            // So we force the matrix to its abs, and if then the sum goes haywire then
-            // we found an error.
-            for ( size_t s = 0; s < this->getS(); ++s ) {
-                if ( !checkEqualSmall(1.0, o[a].row(s).sum()) )
-                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
-                if ( !checkEqualSmall(1.0, o[a].row(s).cwiseAbs().sum()) )
-                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
-            }
-        }
+    void SparseModel<M>::setObservationFunction(const SparseMatrix3D & of) {
+        if (!isProbability(of))
+            throw std::invalid_argument("Input observation matrix does not contain valid probabilities.");
         // Then we copy.
-        observations_ = o;
+        observations_ = of;
     }
 
     template <MDP::IsModel M>

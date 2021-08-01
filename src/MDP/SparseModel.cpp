@@ -14,18 +14,8 @@ namespace AIToolbox::MDP {
     }
 
     void SparseModel::setTransitionFunction(const SparseMatrix3D & t) {
-        // First we verify data, without modifying anything...
-        for ( size_t a = 0; a < A; ++a ) {
-            // Eigen sparse does not implement minCoeff so we can't check for negatives.
-            // So we force the matrix to its abs, and if then the sum goes haywire then
-            // we found an error.
-            for ( size_t s = 0; s < S; ++s ) {
-                if ( !checkEqualSmall(1.0, t[a].row(s).sum()) )
-                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
-                if ( !checkEqualSmall(1.0, t[a].row(s).cwiseAbs().sum()) )
-                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
-            }
-        }
+        if (!isProbability(t))
+            throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
         // Then we copy.
         transitions_ = t;
     }

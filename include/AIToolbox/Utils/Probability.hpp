@@ -11,7 +11,7 @@ namespace AIToolbox {
     static std::uniform_real_distribution<double> probabilityDistribution(0.0, 1.0);
 
     /**
-     * @brief This function checks whether the supplied vector is a correct probability vector.
+     * @brief This function checks whether the supplied 1D container is a valid discrete distribution.
      *
      * This function verifies basic probability conditions on the
      * supplied container. The sum of all elements must be 1, and
@@ -22,31 +22,144 @@ namespace AIToolbox {
      * container must match the one provided as argument.
      *
      * This is important, as this function DOES NOT perform
-     * any size checks on the external container.
+     * any size checks on the input container.
      *
      * Internal values of the container will be converted to double,
-     * so the conversion T to double must be possible.
+     * so the conversion of its elements to double must be possible.
      *
-     * @tparam T The external transition container type.
-     * @param in The external transitions container.
-     * @param d The size of the supplied container.
+     * @tparam T The 1D container type.
+     * @param size The size of the container.
+     * @param in The input container.
      *
      * @return True if the container satisfies probability constraints,
      *         and false otherwise.
      */
     template <typename T>
-    bool isProbability(const size_t d, const T & in) {
+    bool isProbability(const size_t size, const T & in) {
         double p = 0.0;
-        for ( size_t i = 0; i < d; ++i ) {
+        for (size_t i = 0; i < size; ++i) {
             const double value = static_cast<double>(in[i]);
-            if ( value < 0.0 ) return false;
+            if (value < 0.0) return false;
             p += value;
         }
-        if ( checkDifferentSmall(p, 1.0) )
+        if (checkDifferentSmall(p, 1.0))
             return false;
 
         return true;
     }
+
+    /**
+     * @brief This function checks whether the rows of the input 2D container contain valid discrete distributions.
+     *
+     * The container needs to support data access through operator[]
+     * for both dimensions (i.e. in[row][col] must be valid). In
+     * addition, the dimensions of the container must match the ones
+     * provided.
+     *
+     * This is important, as this function DOES NOT perform
+     * any size checks on the external container.
+     *
+     * Internal values of the container will be converted to double,
+     * so the conversion T to double must be possible.
+     *
+     * \sa isProbability(const size_t size, const T & in);
+     *
+     * @tparam T The 2D container type.
+     * @param rows The size of the first dimension of the container.
+     * @param cols The size of the second dimension of the container.
+     * @param in The input container.
+     *
+     * @return True if the container satisfies probability constraints,
+     *         and false otherwise.
+     */
+    template <typename T>
+    bool isProbability(const size_t rows, const size_t cols, const T & in) {
+        for (size_t row = 0; row < rows; ++row)
+            if (!isProbability(cols, in[row]))
+                return false;
+        return true;
+    }
+
+    /**
+     * @brief This function checks whether the rows of the input 3D container contain valid discrete distributions.
+     *
+     * The container needs to support data access through operator[]
+     * for both dimensions (i.e. in[depth][row][col] must be valid).
+     * In addition, the dimensions of the container must match the
+     * ones provided.
+     *
+     * This is important, as this function DOES NOT perform
+     * any size checks on the external container.
+     *
+     * Internal values of the container will be converted to double,
+     * so the conversion T to double must be possible.
+     *
+     * \sa isProbability(const size_t size, const T & in);
+     *
+     * @tparam T The 3D container type.
+     * @param depth The size of the first dimension of the container.
+     * @param rows The size of the second dimension of the container.
+     * @param cols The size of the third dimension of the container.
+     * @param in The input container.
+     *
+     * @return True if the container satisfies probability constraints,
+     *         and false otherwise.
+     */
+    template <typename T>
+    bool isProbability(const size_t depth, const size_t rows, const size_t cols, const T & in) {
+        for (size_t d = 0; d < depth; ++d)
+            if (!isProbability(rows, cols, in[d]))
+                return false;
+        return true;
+    }
+
+    /**
+     * @brief This function checks whether the rows of the input matrix contain valid discrete distributions.
+     *
+     * \sa isProbability(const size_t size, const T & in);
+     *
+     * @param in The input matrix.
+     *
+     * @return True if the matrix satisfies probability constraints,
+     *         and false otherwise.
+     */
+    bool isProbability(const Matrix2D & in);
+
+    /**
+     * @brief This function checks whether the rows of the input matrix contain valid discrete distributions.
+     *
+     * \sa isProbability(const size_t size, const T & in);
+     *
+     * @param in The input matrix.
+     *
+     * @return True if the matrix satisfies probability constraints,
+     *         and false otherwise.
+     */
+    bool isProbability(const Matrix3D & in);
+
+    /**
+     * @brief This function checks whether the rows of the input matrix contain valid discrete distributions.
+     *
+     * \sa isProbability(const size_t size, const T & in);
+     *
+     * @param in The input matrix.
+     *
+     * @return True if the matrix satisfies probability constraints,
+     *         and false otherwise.
+     */
+    bool isProbability(const SparseMatrix2D & in);
+
+    /**
+     * @brief This function checks whether the rows of the input matrix contain valid discrete distributions.
+     *
+     * \sa isProbability(const size_t size, const T & in);
+     *
+     * @param in The input matrix.
+     *
+     * @return True if the matrix satisfies probability constraints,
+     *         and false otherwise.
+     */
+    bool isProbability(const SparseMatrix3D & in);
 
     /**
      * @brief This function samples an index from a probability vector.

@@ -166,7 +166,7 @@ namespace AIToolbox::MDP {
              *
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the container
-             * must match the ones provided as arguments (for three
+             * must match the ones used during construction (for three
              * dimensions: S,A,S).
              *
              * This is important, as this function DOES NOT perform any
@@ -182,15 +182,15 @@ namespace AIToolbox::MDP {
             void setTransitionFunction(const T & t);
 
             /**
-             * @brief This function sets the transition function using a Eigen dense matrices.
+             * @brief This function sets the transition function using a Eigen dense matrix.
              *
-             * This function will throw a std::invalid_argument if the
+             * This function will throw an std::invalid_argument if the
              * matrix provided does not contain valid probabilities.
              *
-             * The dimensions of the container must match the ones provided
-             * as arguments (for three dimensions: S, S, A). BE CAREFUL.
-             * The sparse matrices MUST be SxS, while the std::vector
-             * containing them MUST represent A.
+             * The dimensions of the container must match the ones used during
+             * construction (for three dimensions: A, S, S).
+             * BE CAREFUL. The matrices MUST be SxS, while the std::vector
+             * containing them MUST be of size A.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
@@ -204,8 +204,8 @@ namespace AIToolbox::MDP {
              *
              * The container needs to support data access through
              * operator[]. In addition, the dimensions of the containers
-             * must match the ones provided as arguments (for three
-             * dimensions: S,A,S).
+             * must match the ones used during construction (for three
+             * dimensions: S, A, S).
              *
              * This is important, as this function DOES NOT perform any
              * size checks on the external containers.
@@ -222,8 +222,9 @@ namespace AIToolbox::MDP {
             /**
              * @brief This function replaces the reward function with the one provided.
              *
-             * The dimensions of the container must match the ones provided
-             * as arguments (for three dimensions: S, A). BE CAREFUL.
+             * The dimensions of the container must match the ones used during
+             * construction(for two dimensions: S, A).
+             * BE CAREFUL.
              *
              * This function does DOES NOT perform any size checks on the
              * input.
@@ -342,8 +343,6 @@ namespace AIToolbox::MDP {
             RewardMatrix rewards_;
 
             mutable RandomEngine rand_;
-
-            friend std::istream& operator>>(std::istream &is, Model &);
     };
 
     template <IsNaive3DMatrix T, IsNaive3DMatrix R>
@@ -376,11 +375,8 @@ namespace AIToolbox::MDP {
 
     template <IsNaive3DMatrix T>
     void Model::setTransitionFunction(const T & t) {
-        // First we check, then we set if it is good.
-        for ( size_t s = 0; s < S; ++s )
-            for ( size_t a = 0; a < A; ++a )
-                if ( !isProbability(S, t[s][a]) )
-                    throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
+        if (!isProbability(S, A, S, t))
+            throw std::invalid_argument("Input transition matrix does not contain valid probabilities.");
 
         for ( size_t s = 0; s < S; ++s )
             for ( size_t a = 0; a < A; ++a )

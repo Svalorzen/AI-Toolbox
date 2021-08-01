@@ -32,10 +32,11 @@ namespace AIToolbox::MDP {
             Experience(size_t S, size_t A);
 
             /**
-             * @brief Compatibility setter.
+             * @brief This function sets the internal visits table to the input.
              *
              * This function takes an arbitrary three dimensional container and
-             * tries to copy its contents into the visits table.
+             * tries to copy its contents into the visits table. It
+             * automatically updates the visitsSum table as well.
              *
              * The container needs to support data access through operator[].
              * In addition, the dimensions of the container must match the ones
@@ -45,9 +46,6 @@ namespace AIToolbox::MDP {
              * This is important, as this function DOES NOT perform any size
              * checks on the external containers.
              *
-             * This function is provided so that it is easy to plug this
-             * library into existing code-bases.
-             *
              * @tparam V The external visits container type.
              * @param v The external visits container.
              */
@@ -55,7 +53,26 @@ namespace AIToolbox::MDP {
             void setVisitsTable(const V & v);
 
             /**
-             * @brief Compatibility setter.
+             * @brief This function sets the internal visits table to the input.
+             *
+             * This function copies the input Table3D into the visits table.
+             * It automatically updates the visitsSum table as well.
+             *
+             * The dimensions of the input must match the ones
+             * specified during the Experience construction (for three
+             * dimensions: A, S, S).
+             * BE CAREFUL. The tables MUST be SxS, while the std::vector
+             * containing them MUST be of size A.
+             *
+             * This is important, as this function DOES NOT perform any size
+             * checks on the external containers.
+             *
+             * @param v The external visits container.
+             */
+            void setVisitsTable(const Table3D & v);
+
+            /**
+             * @brief This function sets the internal reward matrix to the input.
              *
              * This function takes an arbitrary two dimensional container and
              * tries to copy its contents into the rewards matrix.
@@ -68,9 +85,6 @@ namespace AIToolbox::MDP {
              * This is important, as this function DOES NOT perform any size
              * checks on the external containers.
              *
-             * This function is provided so that it is easy to plug this
-             * library into existing code-bases.
-             *
              * @tparam R The external rewards container type.
              * @param r The external rewards container.
              */
@@ -78,7 +92,23 @@ namespace AIToolbox::MDP {
             void setRewardMatrix(const R & r);
 
             /**
-             * @brief Compatibility setter.
+             * @brief This function sets the internal reward matrix to the input.
+             *
+             * The dimensions of the input must match the ones
+             * specified during the Experience construction (for two
+             * dimensions: S, A).
+             * BE CAREFUL. The tables MUST be SxS, while the std::vector
+             * containing them MUST be of size A.
+             *
+             * This is important, as this function DOES NOT perform any size
+             * checks on the external containers.
+             *
+             * @param r The external rewards container.
+             */
+            void setRewardMatrix(const Matrix2D & r);
+
+            /**
+             * @brief This function sets the internal m2 matrix to the input.
              *
              * This function takes an arbitrary two dimensional container and
              * tries to copy its contents into the M2 matrix.
@@ -91,14 +121,27 @@ namespace AIToolbox::MDP {
              * This is important, as this function DOES NOT perform any size
              * checks on the external containers.
              *
-             * This function is provided so that it is easy to plug this
-             * library into existing code-bases.
-             *
              * @tparam MM The external M2 container type.
              * @param m The external M2 container.
              */
             template <IsNaive2DMatrix MM>
             void setM2Matrix(const MM & mm);
+
+            /**
+             * @brief This function sets the internal m2 matrix to the input.
+             *
+             * The dimensions of the input must match the ones
+             * specified during the Experience construction (for two
+             * dimensions: S, A).
+             * BE CAREFUL. The tables MUST be SxS, while the std::vector
+             * containing them MUST be of size A.
+             *
+             * This is important, as this function DOES NOT perform any size
+             * checks on the external containers.
+             *
+             * @param r The external M2 container.
+             */
+            void setM2Matrix(const Matrix2D & mm);
 
             /**
              * @brief This function adds a new event to the recordings.

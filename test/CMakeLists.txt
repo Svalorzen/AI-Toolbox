@@ -5,6 +5,7 @@ set(GlobalFileDependencies
     ${PROJECT_SOURCE_DIR}/src/Tools/Statistics.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Adam.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Combinatorics.cpp
+    ${PROJECT_SOURCE_DIR}/src/Utils/IO.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Probability.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/LP/LpSolveWrapper.cpp
 )
@@ -42,6 +43,7 @@ endfunction (AddTestPython)
 if (MAKE_MDP)
     AddTestGlobal(UtilsAdam)
     AddTestGlobal(UtilsCore)
+    AddTestGlobal(UtilsIO)
     AddTestGlobal(UtilsProbability)
     AddTestGlobal(UtilsPrune)
     AddTestGlobal(Tools)

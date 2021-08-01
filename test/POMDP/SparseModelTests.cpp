@@ -95,15 +95,15 @@ BOOST_AUTO_TEST_CASE( files ) {
     using namespace AIToolbox;
     const size_t S = 4, A = 2, O = 2;
 
-    POMDP::SparseModel<MDP::Model> m(O, S, A), m2(O, S, A);
+    POMDP::SparseModel<MDP::SparseModel> m(O, S, A), m2(O, S, A);
 
-    std::string inputFilename  = "./data/pomdp_model.txt";
+    std::string inputFilename  = "./data/pomdp_sparse_model.txt";
     std::string outputFilename = "./loadedModel.txt";
     {
         std::ifstream inputFile(inputFilename);
 
         if ( !inputFile ) BOOST_FAIL("Data to perform test could not be loaded: " + inputFilename);
-        BOOST_CHECK( POMDP::operator>>(inputFile, m) );
+        BOOST_REQUIRE( POMDP::operator>>(inputFile, m) );
     }
     {
         std::ofstream outputFile(outputFilename);

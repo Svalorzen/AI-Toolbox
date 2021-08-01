@@ -3,6 +3,7 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
+#include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/SparseExperience.hpp>
 #include <AIToolbox/MDP/IO.hpp>
 
@@ -101,7 +102,7 @@ BOOST_AUTO_TEST_CASE( files ) {
     const size_t S = 96, A = 2;
     AIToolbox::MDP::SparseExperience exp(S,A);
 
-    std::string inputFilename  = "./data/experience.txt";
+    std::string inputFilename  = "./data/mdp_sparse_experience.txt";
     std::string outputFilename = "./loadedExperience.txt";
     {
         std::ifstream inputFile(inputFilename);

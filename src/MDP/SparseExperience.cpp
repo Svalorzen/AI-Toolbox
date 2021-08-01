@@ -35,6 +35,25 @@ namespace AIToolbox::MDP {
         timesteps_ = 0;
     }
 
+    void SparseExperience::setVisitsTable(const SparseTable3D & v) {
+        visits_ = v;
+        visitsSum_.setZero();
+        for ( size_t s = 0; s < S; ++s ) {
+            for ( size_t a = 0; a < A; ++a ) {
+                auto totalVisits =  visits_[a].row(s).sum();
+                if (totalVisits > 0) visitsSum_.insert(s, a) = totalVisits;
+            }
+        }
+    }
+
+    void SparseExperience::setRewardMatrix(const SparseMatrix2D & r) {
+        rewards_ = r;
+    }
+
+    void SparseExperience::setM2Matrix(const SparseMatrix2D & mm) {
+        M2s_ = mm;
+    }
+
     unsigned long SparseExperience::getTimesteps() const {
         return timesteps_;
     }
