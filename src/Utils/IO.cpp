@@ -198,7 +198,7 @@ namespace AIToolbox {
                 AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseMatrix3D data, matrix " << i << " out of " << m.size());
                 break;
             }
-            in.push_back(inHelper);
+            in.push_back(std::move(inHelper));
         }
         if (is) m = std::move(in);
         return is;
