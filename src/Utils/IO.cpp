@@ -70,7 +70,7 @@ namespace AIToolbox {
 
     std::ostream & write(std::ostream & os, const SparseMatrix3D & m) {
         for (size_t i = 0; i < m.size(); ++i)
-            write(os, m);
+            write(os, m[i]);
         return os;
     }
 
@@ -107,7 +107,7 @@ namespace AIToolbox {
 
     std::ostream & write(std::ostream & os, const SparseTable3D & t) {
         for (size_t i = 0; i < t.size(); ++i)
-            write(os, t);
+            write(os, t[i]);
         return os;
     }
 
