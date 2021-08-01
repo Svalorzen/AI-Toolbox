@@ -7,7 +7,7 @@
 
 namespace AIToolbox {
     /**
-     * @name Output stream utilities
+     * @name Output stream utilities.
      *
      * These utilities output common types at the maximum possible precision.
      * This allows reading them back with no loss of accuracy.
@@ -38,13 +38,15 @@ namespace AIToolbox {
     /** @}  */
 
     /**
-     * @name Input stream utilities
+     * @name Input stream utilities.
      *
      * These utilities read back data outputted with their respective
      * write() function.
      *
      * Note that the inputs must already be pre-allocated with the
      * correct size, as write() does not save this information.
+     *
+     * These functions do not modify the input if the parsing fails.
      *
      * @{
      */
