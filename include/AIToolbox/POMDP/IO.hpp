@@ -4,13 +4,17 @@
 #include <iostream>
 #include <iomanip>
 
+#include <AIToolbox/Utils/IO.hpp>
 #include <AIToolbox/MDP/IO.hpp>
+
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
 #include <AIToolbox/POMDP/Model.hpp>
 #include <AIToolbox/POMDP/SparseModel.hpp>
 #include <AIToolbox/POMDP/Policies/Policy.hpp>
+
+#include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::POMDP {
     /**
@@ -26,43 +30,29 @@ namespace AIToolbox::POMDP {
     Model<MDP::Model> parseCassandra(std::istream & input);
 
     /**
-     * @brief This function prints any POMDP model to a file.
+     * @brief This function outputs a POMDP model to a stream.
      *
      * @tparam M The type of the model.
      * @param os The output stream.
-     * @param model The model to print.
+     * @param model The model to output.
      *
      * @return The resulting output stream.
      */
-    template <IsModel M>
+    template <IsModelEigen M>
     std::ostream& operator<<(std::ostream &os, const M & model) {
         // First print the MDP part
         MDP::operator<<(os, model);
 
-        const size_t S = model.getS();
-        const size_t A = model.getA();
-        const size_t O = model.getO();
-
-        for ( size_t a = 0; a < A; ++a ) {
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                for ( size_t o = 0; o < O; ++o ) {
-                    // The +2 is for first digit and the dot, since we know that here the max value possible is 1.0
-                    os << std::setw(os.precision()+2) << std::left << model.getObservationProbability(s1, a, o) << '\t';
-                }
-            }
-            os << '\n';
-        }
-
+        write(os, model.getObservationFunction());
         return os;
     }
 
     /**
-     * @brief This function implements input from stream for the POMDP::Model class.
+     * @brief This function parses a Model from a stream.
      *
-     * Note that as all other input function, it does not actually change the
-     * input model if the reading fails.
+     * This function does not modify the input model if the parsing fails.
      *
-     * @tparam M The underlying MDP model. Needs to have operator<< implemented.
+     * @tparam M The underlying MDP model. Needs to have operator>> implemented.
      * @param is The input stream.
      * @param m The model to write into.
      *
@@ -70,32 +60,27 @@ namespace AIToolbox::POMDP {
      */
     template <MDP::IsModel M>
     std::istream& operator>>(std::istream &is, Model<M> & m) {
-        const size_t S = m.getS();
-        const size_t A = m.getA();
-        const size_t O = m.getO();
+        Model<M> in(m.getO(), m.getS(), m.getA());
 
-        Model<M> in(O,S,A);
-        MDP::operator>>(is, in);
+        if (!MDP::operator>>(is, in)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read underlying MDP for POMDP Model.");
+            return is;
+        }
 
-        for ( size_t a = 0; a < A; ++a ) {
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                double sum = 0.0;
-                for ( size_t o = 0; o < O; ++o ) {
-                    if ( !(is >> in.observations_[a](s1, o))) {
-                        std::cerr << "AIToolbox: Could not read Model data.\n";
-                        is.setstate(std::ios::failbit);
-                        return is;
-                    }
-                    sum += in.observations_[a](s1, o);
-                }
-
-                if ( checkDifferentSmall(sum, 0.0) )
-                    in.observations_[a].row(s1) /= sum;
-                else
-                    in.observations_[a](s1, 0) = 1.0;
+        auto observations = in.getObservationFunction();
+        if (!read(is, observations)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read Model<M> observation function.");
+            return is;
+        } else {
+            try {
+                in.setObservationFunction(observations);
+            } catch (const std::invalid_argument &) {
+                AI_LOGGER(AI_SEVERITY_ERROR, "The observation function for Model<M> did not contain valid probabilities.");
+                is.setstate(std::ios::failbit);
+                return is;
             }
         }
-        // This guarantees that if input is invalid we still keep the old Model.
+
         m = std::move(in);
 
         return is;
@@ -115,40 +100,41 @@ namespace AIToolbox::POMDP {
      */
     template <MDP::IsModel M>
     std::istream& operator>>(std::istream &is, SparseModel<M> & m) {
-        const size_t S = m.getS();
-        const size_t A = m.getA();
-        const size_t O = m.getO();
+        SparseModel<M> in(m.getO(), m.getS(), m.getA());
 
-        SparseModel<M> in(O,S,A);
-        MDP::operator>>(is, in);
+        if (!MDP::operator>>(is, in)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read underlying MDP for POMDP Model.");
+            return is;
+        }
 
-        for ( size_t a = 0; a < A; ++a ) {
-            for ( size_t s1 = 0; s1 < S; ++s1 ) {
-                double sum = 0.0;
-                for ( size_t o = 0; o < O; ++o ) {
-                    double p;
-                    if ( !(is >> p) ) {
-                        std::cerr << "AIToolbox: Could not read Model data.\n";
-                        is.setstate(std::ios::failbit);
-                        return is;
-                    }
-                    if ( checkDifferentSmall(p, 0.0) ) {
-                        in.observations_[a].coeffRef(s1, o) = p;
-                        sum += p;
-                    }
-                }
-
-                if ( checkDifferentSmall(sum, 0.0) )
-                    in.observations_[a].row(s1) /= sum;
-                else
-                    in.observations_[a].coeffRef(s1, 0) = 1.0;
+        auto observations = in.getObservationFunction();
+        if (!read(is, observations)) {
+            AI_LOGGER(AI_SEVERITY_ERROR, "Could not read SparseModel<M> observation function.");
+            return is;
+        } else {
+            try {
+                in.setObservationFunction(observations);
+            } catch (const std::invalid_argument &) {
+                AI_LOGGER(AI_SEVERITY_ERROR, "The observation function for SparseModel<M> did not contain valid probabilities.");
+                is.setstate(std::ios::failbit);
+                return is;
             }
         }
-        // This guarantees that if input is invalid we still keep the old Model.
+
         m = std::move(in);
 
         return is;
     }
+
+    /**
+     * @brief This function outputs a Policy to a stream.
+     *
+     * @param os The stream where the policy is printed.
+     * @param p The policy that is begin printed.
+     *
+     * @return The original stream.
+     */
+    std::ostream& operator<<(std::ostream &os, const Policy & p);
 
     /**
      * @brief This function reads a policy from a file.
@@ -165,19 +151,6 @@ namespace AIToolbox::POMDP {
      * @return The input stream.
      */
     std::istream& operator>>(std::istream &is, Policy & p);
-
-    /**
-     * @brief This function prints the whole policy to a stream.
-     *
-     * This function basically outputs the internal ValueFunction
-     * wrapped by the Policy in a recoverable format.
-     *
-     * @param os The stream where the policy is printed.
-     * @param p The policy that is begin printed.
-     *
-     * @return The original stream.
-     */
-    std::ostream& operator<<(std::ostream &os, const Policy & p);
 }
 
 #endif
