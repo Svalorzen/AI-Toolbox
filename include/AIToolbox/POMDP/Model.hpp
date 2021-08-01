@@ -171,6 +171,24 @@ namespace AIToolbox::POMDP {
             void setObservationFunction(const ObFun & of);
 
             /**
+             * @brief This function sets the observation function using a Eigen dense matrix.
+             *
+             * This function will throw an std::invalid_argument if the
+             * matrix provided does not contain valid probabilities.
+             *
+             * The dimensions of the container must match the ones used during
+             * construction (for three dimensions: A, S, O).
+             * BE CAREFUL. The matrices MUST be SxO, while the std::vector
+             * containing them MUST be of size A.
+             *
+             * This function does DOES NOT perform any size checks on the
+             * input.
+             *
+             * @param t The external transitions container.
+             */
+            void setObservationFunction(const ObservationMatrix & o);
+
+            /**
              * @brief This function samples the POMDP for the specified state action pair.
              *
              * This function samples the model for simulated experience. The
@@ -249,8 +267,6 @@ namespace AIToolbox::POMDP {
             // We need this because we don't know if our parent already has one,
             // and we wouldn't know how to access it!
             mutable RandomEngine rand_;
-
-            friend std::istream& operator>> <M>(std::istream &is, Model<M> &);
     };
 
     template <MDP::IsModel M>
@@ -310,6 +326,14 @@ namespace AIToolbox::POMDP {
             for ( size_t a = 0; a < this->getA(); ++a )
                 for ( size_t o = 0; o < O; ++o )
                     observations_[a](s1, o) = of[s1][a][o];
+    }
+
+    template <MDP::IsModel M>
+    void Model<M>::setObservationFunction(const ObservationMatrix & of) {
+        if (!isProbability(of))
+            throw std::invalid_argument("Input observation matrix does not contain valid probabilities.");
+
+        observations_ = of;
     }
 
     template <MDP::IsModel M>
