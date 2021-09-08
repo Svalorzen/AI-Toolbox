@@ -15,8 +15,11 @@ you can find [here](https://miat.inrae.fr/MDPtoolbox/), and from the
 `pomdp-solve` software written by A. R. Cassandra, which you can find
 [here](http://www.pomdp.org/code/index.shtml).
 
-An excellent introduction to the basics of reinforcement learning can be found
-freely online in [this book](http://incompleteideas.net/book/ebook/the-book.html).
+If you are new to the field of reinforcement learning, we have a few [simple
+tutorials](http://svalorzen.github.io/AI-Toolbox/tutorials.html) that can help
+you get started. An excellent, more in depth introduction to the basics of
+reinforcement learning can be found freely online in [this
+book](http://incompleteideas.net/book/ebook/the-book.html).
 
 If you use this toolbox for research, please consider citing our [JMLR
 article](https://www.jmlr.org/papers/volume21/18-402/18-402.pdf):
@@ -79,8 +82,10 @@ Documentation
 =============
 
 The latest documentation is available [here](http://svalorzen.github.io/AI-Toolbox/).
-Keep in mind that it may not always be 100% up to date with the latest
-commits, while the one you compile yourself will of course be.
+We have a few [tutorials](http://svalorzen.github.io/AI-Toolbox/tutorials.html)
+that can help you get started with the toolbox. The tutorials are in C++, but
+the `examples` folder contains equivalent Python code which you can follow
+along just as well.
 
 For Python docs you can find them by typing `help(AIToolbox)` from the
 interpreter. It should show the exported API for each class, along with any
