@@ -46,10 +46,10 @@ namespace AIToolbox::Factored::MDP {
             // Both nodes only depend on the action of its agent.
 
             // Status node, only depends on the action of 'a'
-            DDNGraph::Node nodeStatus{{a}, {}};
+            DDNGraph::ParentSet statusParents{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
-            // Node that the transition node for action 0 depends on the neighbors,
+            // Note that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
             auto cell = grid(a);
@@ -65,10 +65,10 @@ namespace AIToolbox::Factored::MDP {
             auto beg = std::begin(sa0), end = std::end(sa0);
             std::sort(beg, end);
 
-            nodeStatus.parents.push_back(sa0);
-            nodeStatus.parents.push_back({cell*2});
+            statusParents.features.push_back(sa0);
+            statusParents.features.push_back({cell*2});
 
-            graph.pushNode(std::move(nodeStatus));
+            graph.push(std::move(statusParents));
 
             transitions.emplace_back(graph.getSize(cell * 2), S[cell * 2]);
             {
@@ -80,12 +80,12 @@ namespace AIToolbox::Factored::MDP {
                 T.bottomRows(sa1Matrix.rows()) = sa1Matrix;
             }
 
-            DDNGraph::Node nodeLoad{{a}, {}};
+            DDNGraph::ParentSet loadParents{{a}, {}};
 
-            nodeLoad.parents.push_back({cell * 2, (cell * 2) + 1});
-            nodeLoad.parents.push_back({(cell * 2) + 1});
+            loadParents.features.push_back({cell * 2, (cell * 2) + 1});
+            loadParents.features.push_back({(cell * 2) + 1});
 
-            graph.pushNode(std::move(nodeLoad));
+            graph.push(std::move(loadParents));
 
             transitions.emplace_back(graph.getSize(cell * 2 + 1), S[cell * 2 + 1]);
             {
@@ -155,10 +155,10 @@ namespace AIToolbox::Factored::MDP {
             // Both nodes only depend on the action of its agent.
 
             // Status node, only depends on the action of 'a'
-            DDNGraph::Node nodeStatus{{a}, {}};
+            DDNGraph::ParentSet statusParents{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
-            // Node that the transition node for action 0 depends on the neighbors,
+            // Note that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
             auto cell = grid(a);
@@ -171,10 +171,10 @@ namespace AIToolbox::Factored::MDP {
             auto beg = std::begin(sa0), end = std::end(sa0);
             std::sort(beg, end);
 
-            nodeStatus.parents.push_back(sa0);
-            nodeStatus.parents.push_back({cell * 2});
+            statusParents.features.push_back(sa0);
+            statusParents.features.push_back({cell * 2});
 
-            graph.pushNode(std::move(nodeStatus));
+            graph.push(std::move(statusParents));
 
             transitions.emplace_back(graph.getSize(cell * 2), S[cell * 2]);
             {
@@ -186,12 +186,12 @@ namespace AIToolbox::Factored::MDP {
                 T.bottomRows(sa1Matrix.rows()) = sa1Matrix;
             }
 
-            DDNGraph::Node nodeLoad{{a}, {}};
+            DDNGraph::ParentSet loadParents{{a}, {}};
 
-            nodeLoad.parents.push_back({cell * 2, (cell * 2) + 1});
-            nodeLoad.parents.push_back({(cell * 2) + 1});
+            loadParents.features.push_back({cell * 2, (cell * 2) + 1});
+            loadParents.features.push_back({(cell * 2) + 1});
 
-            graph.pushNode(std::move(nodeLoad));
+            graph.push(std::move(loadParents));
 
             transitions.emplace_back(graph.getSize(cell * 2 + 1), S[cell * 2 + 1]);
             {

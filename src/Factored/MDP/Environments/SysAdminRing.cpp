@@ -45,24 +45,24 @@ namespace AIToolbox::Factored::MDP {
 
             // ----- Status ------
 
-            DDNGraph::Node nodeStatus{{a}, {}};
+            DDNGraph::ParentSet statusParents{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
-            // Node that the transition node for action 0 depends on the neighbors,
+            // Note that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
             unsigned neighborId;
             // Set the correct dependencies for the ring
             if (a == 0) {
-                nodeStatus.parents.push_back({0, (agents - 1) * 2});
+                statusParents.features.push_back({0, (agents - 1) * 2});
                 neighborId = 0;
             }
             else {
-                nodeStatus.parents.push_back({(a - 1) * 2, a * 2});
+                statusParents.features.push_back({(a - 1) * 2, a * 2});
                 neighborId = 1;
             }
-            nodeStatus.parents.push_back({a * 2});
-            graph.pushNode(std::move(nodeStatus));
+            statusParents.features.push_back({a * 2});
+            graph.push(std::move(statusParents));
 
             transitions.emplace_back(graph.getSize(a * 2), S[a * 2]);
             {
@@ -74,13 +74,13 @@ namespace AIToolbox::Factored::MDP {
 
             // ----- Load ------
 
-            DDNGraph::Node nodeLoad{{a}, {}};
+            DDNGraph::ParentSet loadParents{{a}, {}};
 
             // Here we only depend on our own previous load state
-            nodeLoad.parents.push_back({a * 2, (a * 2) + 1});
-            nodeLoad.parents.push_back({(a * 2) + 1});
+            loadParents.features.push_back({a * 2, (a * 2) + 1});
+            loadParents.features.push_back({(a * 2) + 1});
 
-            graph.pushNode(std::move(nodeLoad));
+            graph.push(std::move(loadParents));
 
             transitions.emplace_back(graph.getSize(a * 2 + 1), S[a * 2 + 1]);
             {
@@ -149,28 +149,28 @@ namespace AIToolbox::Factored::MDP {
 
             // ----- Status ------
 
-            DDNGraph::Node nodeStatus{{a}, {}};
+            DDNGraph::ParentSet nodeStatus{{a}, {}};
 
             // Status nodes for action 0 (do nothing) and action 1 (restart) respectively.
-            // Node that the transition node for action 0 depends on the neighbors,
+            // Note that the transition node for action 0 depends on the neighbors,
             // since whether they are failing or not affects whether this machine
             // will fail or not. If we reset, we don't really care.
             unsigned neighborId;
             // Set the correct dependencies for the ring
             if (a == 0) {
-                nodeStatus.parents.push_back({0, 2, (agents - 1) * 2});
+                nodeStatus.features.push_back({0, 2, (agents - 1) * 2});
                 neighborId = 0;
             }
             else if (a == agents - 1) {
-                nodeStatus.parents.push_back({0, (a - 1) * 2, a * 2});
+                nodeStatus.features.push_back({0, (a - 1) * 2, a * 2});
                 neighborId = 2;
             }
             else {
-                nodeStatus.parents.push_back({(a - 1) * 2, a * 2, (a + 1) * 2});
+                nodeStatus.features.push_back({(a - 1) * 2, a * 2, (a + 1) * 2});
                 neighborId = 1;
             }
-            nodeStatus.parents.push_back({a*2});
-            graph.pushNode(std::move(nodeStatus));
+            nodeStatus.features.push_back({a*2});
+            graph.push(std::move(nodeStatus));
 
             transitions.emplace_back(graph.getSize(a * 2), S[a * 2]);
             {
@@ -182,11 +182,11 @@ namespace AIToolbox::Factored::MDP {
 
             // ----- Load ------
 
-            DDNGraph::Node nodeLoad{{a}, {}};
-            nodeLoad.parents.push_back({a * 2, (a * 2) + 1});
-            nodeLoad.parents.push_back({(a * 2) + 1});
+            DDNGraph::ParentSet nodeLoad{{a}, {}};
+            nodeLoad.features.push_back({a * 2, (a * 2) + 1});
+            nodeLoad.features.push_back({(a * 2) + 1});
 
-            graph.pushNode(std::move(nodeLoad));
+            graph.push(std::move(nodeLoad));
 
             transitions.emplace_back(graph.getSize(a * 2 + 1), S[a * 2 + 1]);
             {

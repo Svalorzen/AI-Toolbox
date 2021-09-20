@@ -20,7 +20,7 @@ namespace AIToolbox::Factored::MDP {
             throw std::invalid_argument("Input DDN has empty state space in its DDNGraph");
         if (A.size() == 0)
             throw std::invalid_argument("Input DDN has empty action space in its DDNGraph");
-        if (graph_.getNodes().size() != S.size())
+        if (graph_.getParentSets().size() != S.size())
             throw std::invalid_argument("Input DDN has an incorrect number of nodes in its DDNGraph!");
 
         if (transitions_.transitions.size() != S.size())

@@ -127,7 +127,7 @@ namespace AIToolbox::Factored::MDP {
         deltaStorage_.setZero();
         // We don't need to zero rewardStorage_
 
-        const auto & nodes = model_.getGraph().getNodes();
+        const auto & ps = model_.getGraph().getParentSets();
 
         q_.bases.reserve(qDomains_.size());
         for (const auto & domain : qDomains_) {
@@ -136,8 +136,8 @@ namespace AIToolbox::Factored::MDP {
 
             for (const auto d : domain) {
                 // Compute state-action domain for this Q factor.
-                q.actionTag = merge(q.actionTag, nodes[d].agents);
-                for (const auto & n : nodes[d].parents)
+                q.actionTag = merge(q.actionTag, ps[d].agents);
+                for (const auto & n : ps[d].features)
                     q.tag = merge(q.tag, n);
             }
             // We weight rewards based on the state features of each Q factor

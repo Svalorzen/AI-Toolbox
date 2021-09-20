@@ -33,16 +33,16 @@ namespace AIToolbox::Factored {
      *     [2, 5, 4, 2]
      *
      * then I have 4 agents. For each state feature, the DDNGraph has one
-     * DDNGraph::Node, so we have 3 of them. Let's assume that the state
-     * feature 0 depends on agents 0 and 3; then we will have that, in node 0,
+     * DDNGraph::ParentSet, so we have 3 of them. Let's assume that the state
+     * feature 0 depends on agents 0 and 3; then we will have that, in parents 0,
      *
-     *     nodes_[0].agents = [0, 3]
+     *     parents_[0].agents = [0, 3]
      *
      * Now, the space of joint actions for these two agents is 4 (2 * 2). For
      * each one of these, state feature 0 might depend on different sets of
      * state features. So we could have that
      *
-     *    nodes_[0].parents = [
+     *    parents_[0].features = [
      *         [0, 1],     // For joint action value 0,0
      *         [1, 2, 3],  // For joint action value 1,0
      *         [0, 2],     // For joint action value 0,1
@@ -54,23 +54,20 @@ namespace AIToolbox::Factored {
             /**
              * @brief This class contains the parent information for a single next-state feature.
              */
-            struct Node {
-                /**
-                 * @brief The
-                 */
+            struct ParentSet {
                 PartialKeys agents;
-                std::vector<PartialKeys> parents;
+                std::vector<PartialKeys> features;
             };
 
             /**
              * @brief Basic constructor.
              *
-             * Note that in order to be fully initialized, the pushNode(Node&&)
-             * method must be called for each state feature.
+             * Note that in order to be fully initialized, the push(ParentSet)
+             * method must be called once for each state feature.
              *
              * That method is separate to simplify construction and API.
              *
-             * \sa pushNode(Node &&);
+             * \sa push(ParentSet);
              *
              * @param S The state space of the DDN.
              * @param A The action space of the DDN.
@@ -78,7 +75,7 @@ namespace AIToolbox::Factored {
             DynamicDecisionNetworkGraph(State S, Action A);
 
             /**
-             * @brief This function adds a node to the graph.
+             * @brief This function adds a ParentSet to the graph.
              *
              * This method *MUST* be called once per state feature, after
              * construction.
@@ -87,23 +84,9 @@ namespace AIToolbox::Factored {
              * and state features. Additionally, it will pre-compute the size
              * of each set to speed up the computation of ids.
              *
-             * @param node The node to insert.
+             * @param parents The ParentSet to insert.
              */
-            void pushNode(Node && node);
-
-            /**
-             * @brief This function adds a node to the graph.
-             *
-             * This method *MUST* be called once per state feature, after
-             * construction.
-             *
-             * This method will sanity check all sets of parents, both agents
-             * and state features. Additionally, it will pre-compute the size
-             * of each set to speed up the computation of ids.
-             *
-             * @param node The node to insert.
-             */
-            void pushNode(const Node & node);
+            void push(ParentSet parents);
 
             /**
              * @brief This function computes an id for the input state and action, for the specified feature.
@@ -265,16 +248,16 @@ namespace AIToolbox::Factored {
             const Action & getA() const;
 
             /**
-             * @brief This function returns the internal nodes of the DDNGraph.
+             * @brief This function returns the internal parent sets of the DDNGraph.
              *
-             * @return The internal nodes.
+             * @return The internal parent sets.
              */
-            const std::vector<Node> & getNodes() const;
+            const std::vector<ParentSet> & getParentSets() const;
 
         private:
             State S;
             Action A;
-            std::vector<Node> nodes_;
+            std::vector<ParentSet> parents_;
             std::vector<std::vector<size_t>> startIds_;
     };
 

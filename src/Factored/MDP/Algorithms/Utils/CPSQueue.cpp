@@ -17,17 +17,17 @@ namespace AIToolbox::Factored {
         std::iota(std::begin(order_)+1, std::end(order_), 0);
 
         for (size_t i = 0; i < S.size(); ++i) {
-            const auto & gn = graph_.getNodes()[i];
+            const auto & gn = graph_.getParentSets()[i];
             auto & n = nodes_[i];
 
             n.maxV = -1.0;
             n.maxA = 0;
 
-            n.nodes.resize(gn.parents.size());
-            n.order.resize(gn.parents.size());
+            n.nodes.resize(gn.features.size());
+            n.order.resize(gn.features.size());
             std::iota(std::begin(n.order), std::end(n.order), 0);
 
-            for (size_t a = 0; a < gn.parents.size(); ++a) {
+            for (size_t a = 0; a < gn.features.size(); ++a) {
                 auto & nn = n.nodes[a];
                 nn.maxV = -1.0;
                 nn.maxS = 0;
@@ -116,17 +116,17 @@ namespace AIToolbox::Factored {
                 canTakeMax = true;
                 i = maxI;
             } else {
-                const auto & gNode = graph_.getNodes()[i];
+                const auto & ps = graph_.getParentSets()[i];
                 const auto & node = nodes_[i];
-                canTakeMax = partialMatch(A, reta, gNode.agents, node.maxA);
-                canTakeMax = canTakeMax && partialMatch(S, rets, gNode.parents[node.maxA], node.nodes[node.maxA].maxS);
+                canTakeMax = partialMatch(A, reta, ps.agents, node.maxA);
+                canTakeMax = canTakeMax && partialMatch(S, rets, ps.features[node.maxA], node.nodes[node.maxA].maxS);
             }
-            const auto & gNode = graph_.getNodes()[i];
+            const auto & ps = graph_.getParentSets()[i];
             auto & node = nodes_[i];
             if (canTakeMax) {
                 // Add to reta and rets the new values
-                assignMatch(A, reta, gNode.agents, node.maxA);
-                assignMatch(S, rets, gNode.parents[node.maxA], node.nodes[node.maxA].maxS);
+                assignMatch(A, reta, ps.agents, node.maxA);
+                assignMatch(S, rets, ps.features[node.maxA], node.nodes[node.maxA].maxS);
 
                 // Update max of i
                 auto & nn = node.nodes[node.maxA];
@@ -166,18 +166,18 @@ namespace AIToolbox::Factored {
             // picked the wrong action to try.
             auto j = 0;
             for (const auto jj : node.order) {
-                if (partialMatch(A, reta, gNode.agents, jj)) {
+                if (partialMatch(A, reta, ps.agents, jj)) {
                     j = jj;
                     break;
                 }
             }
 
             // Select compatible parent set with highest priority
-            const auto & parents = gNode.parents[j];
+            const auto & features = ps.features[j];
             auto && nn = node.nodes[j];
             auto x = nn.maxS;
             auto xVal = nn.maxV;
-            if (partialMatch(S, rets, parents, nn.maxS)) {
+            if (partialMatch(S, rets, features, nn.maxS)) {
                 // If the current max is alright...
                 // Set to zero
                 if (nn.maxV > 0.0)
@@ -195,7 +195,7 @@ namespace AIToolbox::Factored {
 
                 for (size_t xx = 0; xx < static_cast<size_t>(nn.priorities.size()); ++xx) {
                     if (xx == nn.maxS) continue;
-                    if (nn.priorities[xx] > xVal && partialMatch(S, rets, parents, xx)) {
+                    if (nn.priorities[xx] > xVal && partialMatch(S, rets, features, xx)) {
                         x = xx;
                         xVal = nn.priorities[x];
                     }
@@ -209,8 +209,8 @@ namespace AIToolbox::Factored {
             // We only assign if we found something interesting, otherwise we
             // avoid setting variables and wait till the end.
             if (xVal > 0.0) {
-                assignMatch(A, reta, gNode.agents, j);
-                assignMatch(S, rets, parents, x);
+                assignMatch(A, reta, ps.agents, j);
+                assignMatch(S, rets, features, x);
             }
         }
     }

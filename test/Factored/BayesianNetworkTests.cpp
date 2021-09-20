@@ -15,13 +15,13 @@ BOOST_AUTO_TEST_CASE( back_project ) {
     aif::Action a{2,2};
 
     aif::DDNGraph graph(s, a);
-    graph.pushNode({{0},
+    graph.push({{0},
         {{0,1},{0,2}}
     });
-    graph.pushNode({{1},
+    graph.push({{1},
         {{0,1},{0,2}}
     });
-    graph.pushNode({{1},
+    graph.push({{1},
         {{0,1},{0,2}}
     });
 

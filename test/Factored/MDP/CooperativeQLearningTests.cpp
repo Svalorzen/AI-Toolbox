@@ -40,8 +40,8 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
         aif::PartialKeys sTag;
         for (auto d : domain) {
             // Compute state-action domain for this Q factor.
-            aTag = aif::merge(aTag, ddngraph.getNodes()[d].agents);
-            for (const auto & n : ddngraph.getNodes()[d].parents)
+            aTag = aif::merge(aTag, ddngraph.getParentSets()[d].agents);
+            for (const auto & n : ddngraph.getParentSets()[d].features)
                 sTag = aif::merge(sTag, n);
         }
 
@@ -152,8 +152,8 @@ BOOST_AUTO_TEST_CASE( action_returned ) {
         aif::PartialKeys sTag;
         for (auto d : domain) {
             // Compute state-action domain for this Q factor.
-            aTag = aif::merge(aTag, ddngraph.getNodes()[d].agents);
-            for (const auto & n : ddngraph.getNodes()[d].parents)
+            aTag = aif::merge(aTag, ddngraph.getParentSets()[d].agents);
+            for (const auto & n : ddngraph.getParentSets()[d].features)
                 sTag = aif::merge(sTag, n);
         }
 

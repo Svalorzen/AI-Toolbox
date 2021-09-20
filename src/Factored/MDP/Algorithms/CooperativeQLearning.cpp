@@ -9,7 +9,7 @@ namespace AIToolbox::Factored::MDP {
             policy_(graph_.getS(), graph_.getA(), q_),
             agentNormRews_(graph_.getA().size())
     {
-        const auto & nodes = graph_.getNodes();
+        const auto & ps = graph_.getParentSets();
 
         q_.bases.reserve(basisDomains.size());
         for (const auto & domain : basisDomains) {
@@ -18,8 +18,8 @@ namespace AIToolbox::Factored::MDP {
 
             for (const auto d : domain) {
                 // Compute state-action domain for this Q factor.
-                q.actionTag = merge(q.actionTag, nodes[d].agents);
-                for (const auto & n : nodes[d].parents)
+                q.actionTag = merge(q.actionTag, ps[d].agents);
+                for (const auto & n : ps[d].features)
                     q.tag = merge(q.tag, n);
             }
 
