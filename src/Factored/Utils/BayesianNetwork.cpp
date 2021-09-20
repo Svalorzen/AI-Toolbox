@@ -107,7 +107,7 @@ namespace AIToolbox::Factored {
         return {parentId, actionId};
     }
 
-    std::pair<size_t, size_t> DDNGraph::getIds(const size_t feature, const size_t j) {
+    std::pair<size_t, size_t> DDNGraph::getIds(const size_t feature, const size_t j) const {
         // Start from the end (the -2 is there because the last element is the overall bound).
         std::pair<size_t, size_t> retval{0, startIds_[feature].size() - 2};
         auto & [parentId, actionId] = retval;

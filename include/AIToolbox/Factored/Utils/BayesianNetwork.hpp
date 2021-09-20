@@ -192,7 +192,7 @@ namespace AIToolbox::Factored {
              *
              * @return A pair of <parent id, action id>.
              */
-            std::pair<size_t, size_t> getIds(size_t feature, size_t j);
+            std::pair<size_t, size_t> getIds(size_t feature, size_t j) const;
 
             /**
              * @brief This function returns the size required to store one element per value of a parent set.
