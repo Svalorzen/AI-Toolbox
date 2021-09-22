@@ -80,10 +80,6 @@ namespace AIToolbox::Factored::MDP {
 
             /**
              * @brief This function returns a graphical representation of a State.
-             *
-             * @param s
-             *
-             * @return 
              */
             std::string printState(const State & s) const;
 
