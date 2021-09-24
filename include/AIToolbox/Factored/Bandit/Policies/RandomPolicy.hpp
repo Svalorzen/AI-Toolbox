@@ -26,6 +26,15 @@ namespace AIToolbox::Factored::Bandit {
             virtual Action sampleAction() const override;
 
             /**
+             * @brief This function chooses a random action for state s, following the policy distribution.
+             *
+             * This function does not allocate memory each call.
+             *
+             * @return The chosen action.
+             */
+            const Action & sampleActionNoAlloc() const;
+
+            /**
              * @brief This function returns the probability of taking the specified action in the specified state.
              *
              * @param a The selected action.
@@ -35,6 +44,8 @@ namespace AIToolbox::Factored::Bandit {
             virtual double getActionProbability(const Action & a) const override;
 
         private:
+            // Used to sample without allocating.
+            mutable Action action_;
             // Used to sampled random actions
             mutable std::vector<std::uniform_int_distribution<size_t>> randomDistributions_;
     };
