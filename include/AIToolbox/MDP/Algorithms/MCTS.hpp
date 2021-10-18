@@ -62,9 +62,8 @@ namespace AIToolbox::MDP {
             using ActionNodes = std::vector<ActionNode>;
 
             struct StateNode {
-                StateNode() : N(0) {}
                 ActionNodes children;
-                unsigned N;
+                unsigned N = 0;
             };
 
             /**
