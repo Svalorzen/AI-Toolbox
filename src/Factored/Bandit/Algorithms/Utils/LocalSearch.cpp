@@ -6,12 +6,12 @@ namespace AIToolbox::Factored::Bandit {
 
     LocalSearch::LocalSearch() : rnd_(Impl::Seeder::getSeed()) {}
 
-    LocalSearch::Result LocalSearch::operator()(const Action & A, Graph & graph) {
+    LocalSearch::Result LocalSearch::operator()(const Action & A, const Graph & graph) {
         Action startAction = makeRandomValue(A, rnd_);
         return (*this)(A, graph, std::move(startAction));
     }
 
-    LocalSearch::Result LocalSearch::operator()(const Action & A, Graph & graph, Action retAction) {
+    LocalSearch::Result LocalSearch::operator()(const Action & A, const Graph & graph, Action retAction) {
         double retval = 0.0;
 
         // Initialize ordering of agents

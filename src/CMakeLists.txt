@@ -83,6 +83,7 @@ if (MAKE_FMDP)
         Factored/Bandit/Algorithms/Utils/VariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/MaxPlus.cpp
         Factored/Bandit/Algorithms/Utils/LocalSearch.cpp
+        Factored/Bandit/Algorithms/Utils/ReusingIterativeLocalSearch.cpp
         Factored/Bandit/Algorithms/Utils/MultiObjectiveVariableElimination.cpp
         Factored/Bandit/Algorithms/Utils/UCVE.cpp
         Factored/Bandit/Experience.cpp

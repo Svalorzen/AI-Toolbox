@@ -11,28 +11,21 @@ namespace AIToolbox::Factored::Bandit {
             using Result = std::tuple<Action, double>;
             using Graph = FactorGraph<Vector>;
 
-            LocalSearch();
-
             /**
-             * @brief This function approximately finds the best Action-value pair for the provided QFunctionRules.
+             * @brief This function builds the appropriate graph for the LocalSearch process.
              *
-             * This function automatically sets up the Graph to perform local
-             * search on from an iterable of QFunctionRules.
+             * Since LocalSearch does not touch the Graph to perform its
+             * optimization, this function is provided in case the user wants
+             * to cache and operate directly on the Graph itself without having
+             * to rebuild it multiple times.
              *
              * @param A The action space of the agents.
              * @param rules An iterable object over QFunctionRules.
              *
-             * @return A tuple containing the best Action and its value over the input rules.
+             * @return A Graph to perform LocalSearch on.
              */
             template <typename Iterable>
-            Result operator()(const Action & A, const Iterable & inputRules) {
-                Action startAction = makeRandomValue(A, rnd_);
-
-                return (*this)(A, inputRules, startAction);
-            }
-
-            template <typename Iterable>
-            Result operator()(const Action & A, const Iterable & inputRules, Action startAction) {
+            static Graph makeGraph(const Action & A, const Iterable & inputRules) {
                 Graph graph(A.size());
 
                 for (const auto & rule : inputRules) {
@@ -46,9 +39,68 @@ namespace AIToolbox::Factored::Bandit {
                     const auto id = toIndexPartial(A, rule.action);
                     factorNode[id] += rule.value;
                 }
+                return graph;
+            }
+
+            /**
+             * @brief Basic constructor.
+             */
+            LocalSearch();
+
+            /**
+             * @brief This function approximately finds the best Action-value pair for the provided QFunctionRules.
+             *
+             * This function automatically sets up the Graph to perform local
+             * search on from an iterable of QFunctionRules.
+             *
+             * This function optimizes over a single randomly sampled initial action.
+             *
+             * @param A The action space of the agents.
+             * @param rules An iterable object over QFunctionRules.
+             *
+             * @return A tuple containing the best Action and its value over the input rules.
+             */
+            template <typename Iterable>
+            Result operator()(const Action & A, const Iterable & inputRules) {
+                Action startAction = makeRandomValue(A, rnd_);
+
+                return (*this)(A, inputRules, startAction);
+            }
+
+            /**
+             * @brief This function approximately finds the best Action-value pair for the provided QFunctionRules.
+             *
+             * This function automatically sets up the Graph to perform local
+             * search on from an iterable of QFunctionRules.
+             *
+             * This function optimizes over the input joint action.
+             *
+             * @param A The action space of the agents.
+             * @param rules An iterable object over QFunctionRules.
+             * @param startAction The initial action to optimize.
+             *
+             * @return A tuple containing the best Action and its value over the input rules.
+             */
+            template <typename Iterable>
+            Result operator()(const Action & A, const Iterable & inputRules, Action startAction) {
+                Graph graph = makeGraph(A, inputRules);
 
                 return (*this)(A, graph, std::move(startAction));
             }
+
+            /**
+             * @brief This function performs the actual local search process.
+             *
+             * This function optimizes over a single randomly sampled initial action.
+             *
+             * \sa operator(const Action &, Graph &, Action)
+             *
+             * @param A The action space of the agents.
+             * @param graph The graph to perform local search on.
+             *
+             * @return The pair for best Action and its value given the internal graph.
+             */
+            Result operator()(const Action & A, const Graph & graph);
 
             /**
              * @brief This function performs the actual local search process.
@@ -61,15 +113,32 @@ namespace AIToolbox::Factored::Bandit {
              * Note that this process is approximate, as it can converge to a
              * local optimum.
              *
+             * This function optimizes over the input joint action.
+             *
              * @param A The action space of the agents.
              * @param graph The graph to perform local search on.
+             * @param startAction The initial action to optimize.
              *
              * @return The pair for best Action and its value given the internal graph.
              */
-            Result operator()(const Action & A, Graph & graph);
-            Result operator()(const Action & A, Graph & graph, Action startAction);
+            Result operator()(const Action & A, const Graph & graph, Action startAction);
 
         private:
+
+            /**
+             * @brief This function evaluates the score for a subset of factors in a Graph.
+             *
+             * Since we only optimize a single agent at a time, there is no
+             * reason to re-evaluate the whole graph at each optimization step.
+             * This function evaluates only the factors that are needed in the
+             * Graph, given the current joint action.
+             *
+             * @param A The action space of the agents.
+             * @param factors The factors to consider for the score.
+             * @param jointAction The current full joint action.
+             *
+             * @return The score of the input factors.
+             */
             double evaluateFactors(const Action & A, const Graph::FactorItList & factors, const Action & jointAction) const;
 
             std::vector<size_t> agents_;
