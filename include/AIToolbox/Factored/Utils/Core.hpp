@@ -52,6 +52,19 @@ namespace AIToolbox::Factored {
     PartialFactors removeFactor(const PartialFactors & pf, size_t f);
 
     /**
+     * @brief This function randomly generates a valid value inside the provided space.
+     */
+    template <typename Gen>
+    Factors makeRandomValue(const Factors & space, Gen & rnd) {
+        Factors retval(space.size());
+        for (size_t i = 0; i < space.size(); ++i) {
+            std::uniform_int_distribution<size_t> dist(0, space[i]-1);
+            retval[i] = dist(rnd);
+        }
+        return retval;
+    }
+
+    /**
      * @brief This function returns whether the common factors in the inputs match in value.
      *
      * @param lhs The left hand side.
