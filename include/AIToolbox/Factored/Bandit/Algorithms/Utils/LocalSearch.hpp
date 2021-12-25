@@ -5,7 +5,12 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
+#include <iostream>
+
 namespace AIToolbox::Factored::Bandit {
+    /**
+     * @brief
+     */
     class LocalSearch {
         public:
             using Result = std::tuple<Action, double>;
@@ -32,7 +37,7 @@ namespace AIToolbox::Factored::Bandit {
                     auto & factorNode = graph.getFactor(rule.action.first)->getData();
 
                     if (factorNode.size() == 0) {
-                        factorNode.resize(factorSpacePartial(A, rule.action.first));
+                        factorNode.resize(factorSpacePartial(rule.action.first, A));
                         factorNode.setZero();
                     }
 
@@ -139,7 +144,9 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return The score of the input factors.
              */
+            double evaluateGraph(const Action & A, const Graph & graph, const Action & jointAction) const;
             double evaluateFactors(const Action & A, const Graph::FactorItList & factors, const Action & jointAction) const;
+            double evaluateFactor(const Action & A, const Graph::FactorNode & factor, const Action & jointAction) const;
 
             std::vector<size_t> agents_;
 
