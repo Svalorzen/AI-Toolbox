@@ -1,4 +1,5 @@
 #ifndef AI_TOOLBOX_TEST_GLOBAL_FIXTURES_HEADER_FILE
+#define AI_TOOLBOX_TEST_GLOBAL_FIXTURES_HEADER_FILE
 
 #include <boost/test/unit_test.hpp>
 #include <boost/test/results_collector.hpp>
