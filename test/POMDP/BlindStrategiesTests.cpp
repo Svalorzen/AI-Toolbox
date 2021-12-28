@@ -2,6 +2,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
+#include "GlobalFixtures.hpp"
 
 #include <AIToolbox/POMDP/Algorithms/BlindStrategies.hpp>
 #include <AIToolbox/POMDP/Types.hpp>

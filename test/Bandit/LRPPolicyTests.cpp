@@ -2,6 +2,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
+#include "GlobalFixtures.hpp"
 
 #include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Bandit/Policies/LRPPolicy.hpp>

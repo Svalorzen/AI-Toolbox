@@ -2,6 +2,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
+#include "GlobalFixtures.hpp"
 
 #include <AIToolbox/POMDP/IO.hpp>
 #include <AIToolbox/MDP/Model.hpp>
