@@ -32,6 +32,16 @@ namespace AIToolbox::Impl {
              */
             static void setRootSeed(unsigned seed);
 
+            /**
+             * @brief This function returns the root seed of Seeder.
+             *
+             * This works even if it has not been set manually. In this way it
+             * is possible to log the original seed of a run to replicate it.
+             *
+             * @return The last set root seed.
+             */
+            static unsigned getRootSeed();
+
         private:
             Seeder();
 
@@ -39,6 +49,7 @@ namespace AIToolbox::Impl {
 
             // Here we don't use a mersenne twister, since this is just for
             // seeding and it's not so important (I hope?).
+            unsigned rootSeed_;
             std::default_random_engine generator_;
     };
 }

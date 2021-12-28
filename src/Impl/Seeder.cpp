@@ -6,7 +6,10 @@
 namespace AIToolbox::Impl {
     Seeder Seeder::instance_;
 
-    Seeder::Seeder() : generator_(std::chrono::system_clock::now().time_since_epoch().count()) {}
+    Seeder::Seeder() {
+        rootSeed_ = std::chrono::system_clock::now().time_since_epoch().count();
+        generator_.seed(rootSeed_);
+    }
 
     unsigned Seeder::getSeed() {
         static std::uniform_int_distribution<unsigned> dist(0, std::numeric_limits<unsigned>::max());
@@ -15,6 +18,11 @@ namespace AIToolbox::Impl {
     }
 
     void Seeder::setRootSeed(const unsigned seed) {
-        instance_.generator_.seed(seed);
+        instance_.rootSeed_ = seed;
+        instance_.generator_.seed(instance_.rootSeed_);
+    }
+
+    unsigned Seeder::getRootSeed() {
+        return instance_.rootSeed_;
     }
 }
