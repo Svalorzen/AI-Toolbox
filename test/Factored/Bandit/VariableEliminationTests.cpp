@@ -109,7 +109,8 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
         {  {{0, 1}, {0, 0}},             9.0},
     };
 
-    const auto solA = aif::Action{1, 0};
+    const auto solA1 = aif::Action{1, 0};
+    const auto solA2 = aif::Action{1, 1};
     const auto solV = 0.0;
 
     const aif::Action a{2, 2};
@@ -118,6 +119,5 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
     const auto [bestAction, val] = v(a, rules);
 
     BOOST_CHECK_EQUAL(val, solV);
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
-                                  std::begin(solA),     std::end(solA));
+    BOOST_CHECK(bestAction == solA1 || bestAction == solA2);
 }
