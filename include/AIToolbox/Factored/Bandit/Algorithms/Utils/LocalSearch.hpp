@@ -5,11 +5,21 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
-#include <iostream>
-
 namespace AIToolbox::Factored::Bandit {
     /**
-     * @brief
+     * @brief This class approximately finds the best joint action using Local Search.
+     *
+     * The Local Search algorithm is a simple routine that maximizes each agent
+     * in turn, selecting its local action that maximizes the overall reward.
+     *
+     * We iteratively go over all agents (each time in random order to avoid
+     * adversarial inputs), optimizing each one in turn, until no optimizations
+     * can be done. In this way we are guaranteed to find a local optima, but
+     * there is no guarantee that Local Search will be able to find the global
+     * optima, which is why this is an approximate method.
+     *
+     * On the other hand, this method is quite fast, as each individual
+     * optimization is simple and quick to do.
      */
     class LocalSearch {
         public:
@@ -129,6 +139,16 @@ namespace AIToolbox::Factored::Bandit {
             Result operator()(const Action & A, const Graph & graph, Action startAction);
 
         private:
+            /**
+             * @brief This function evaluates the full score of a given joint action.
+             *
+             * @param A The action space of the agents.
+             * @param graph The graph to compute the score on.
+             * @param jointAction The current full joint action.
+             *
+             * @return The score of the joint action.
+             */
+            double evaluateGraph(const Action & A, const Graph & graph, const Action & jointAction) const;
 
             /**
              * @brief This function evaluates the score for a subset of factors in a Graph.
@@ -142,12 +162,22 @@ namespace AIToolbox::Factored::Bandit {
              * @param factors The factors to consider for the score.
              * @param jointAction The current full joint action.
              *
-             * @return The score of the input factors.
+             * @return The score of the joint action within the input factors.
              */
-            double evaluateGraph(const Action & A, const Graph & graph, const Action & jointAction) const;
             double evaluateFactors(const Action & A, const Graph::FactorItList & factors, const Action & jointAction) const;
+
+            /**
+             * @brief This function evaluates the score for a single factor in a Graph.
+             *
+             * @param A The action space of the agents.
+             * @param factor The factor to consider for the score.
+             * @param jointAction The current full joint action.
+             *
+             * @return The score of the joint action within the input factor.
+             */
             double evaluateFactor(const Action & A, const Graph::FactorNode & factor, const Action & jointAction) const;
 
+            // Storage for agent ordering (which is shuffled).
             std::vector<size_t> agents_;
 
             mutable RandomEngine rnd_;
