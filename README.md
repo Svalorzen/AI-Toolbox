@@ -252,7 +252,7 @@ Not in Python yet.
 | [Basic Model][fbmo]                                      | [Flattened Model][fbfm]                                        |                                                      |
 |                                                          | **Algorithms**                                                 |                                                      |
 | [Max-Plus][mplu]                                         | [Multi-Objective Variable Elimination (MOVE)][move]            | [Upper Confidence Variable Elimination (UCVE)][ucve] |
-| [Variable Elimination][vael]                             |                                                                |                                                      |
+| [Variable Elimination][vael]                             | [Local Search][lose]                                           | [Reusing Iterative Local Search][rils]               |
 |                                                          | **Policies**                                                   |                                                      |
 | [Q-Greedy Policy][fbqg]                                  | [Random Policy][fbra]                                          | [Learning with Linear Rewards (LLR)][llre]           |
 | [Multi-Agent Upper Confidence Exploration (MAUCE)][mauc] | [Multi-Agent Thompson-Sampling (Student-t distribution)][mats] | [Single-Action Policy][fbsa]                         |
@@ -264,6 +264,8 @@ Not in Python yet.
 [move]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html "Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al."
 [ucve]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
 [vael]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html "Multiagent Planning with Factored MDPs, Guestrin et al."
+[lose]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1LocalSearch.html "Heuristic Coordination in Cooperative Multi-Agent Reinforcement Learning, Petri et al."
+[rils]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html "Heuristic Coordination in Cooperative Multi-Agent Reinforcement Learning, Petri et al."
 
 [fbqg]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html
 [fbra]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html
