@@ -242,6 +242,8 @@ namespace AIToolbox {
      * @param b The 'b' shape parameter of the Beta distribution to sample.
      * @param generator A random number generator.
      *
+     * FIXME: make dist object like the others.
+     *
      * @return The sampled number.
      */
     template <typename G>

@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 3.12) # CMP0069 NEW
 
+include_directories(.)
+
 set(GlobalFileDependencies
     ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp
     ${PROJECT_SOURCE_DIR}/src/Tools/Statistics.cpp
@@ -120,6 +122,8 @@ if (MAKE_FMDP)
     AddTest(Factored/Bandit Model)
     AddTest(Factored/Bandit FlattenedModel)
     AddTest(Factored/Bandit VariableElimination)
+    AddTest(Factored/Bandit LocalSearch)
+    AddTest(Factored/Bandit ReusingIterativeLocalSearch)
     AddTest(Factored/Bandit MultiObjectiveVariableElimination)
     AddTest(Factored/Bandit UCVE)
     AddTest(Factored/Bandit MaxPlus)

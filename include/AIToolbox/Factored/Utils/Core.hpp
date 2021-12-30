@@ -52,6 +52,19 @@ namespace AIToolbox::Factored {
     PartialFactors removeFactor(const PartialFactors & pf, size_t f);
 
     /**
+     * @brief This function randomly generates a valid value inside the provided space.
+     */
+    template <typename Gen>
+    Factors makeRandomValue(const Factors & space, Gen & rnd) {
+        Factors retval(space.size());
+        for (size_t i = 0; i < space.size(); ++i) {
+            std::uniform_int_distribution<size_t> dist(0, space[i]-1);
+            retval[i] = dist(rnd);
+        }
+        return retval;
+    }
+
+    /**
      * @brief This function returns whether the common factors in the inputs match in value.
      *
      * @param lhs The left hand side.
@@ -453,6 +466,48 @@ namespace AIToolbox::Factored {
      * @return An integer which uniquely identifies the factor in the factor space for the factor's ids.
      */
     size_t toIndexPartial(const Factors & space, const PartialFactors & f);
+
+    /**
+     * @brief This function avoids computing indeces multiple times if only a single index is changing.
+     *
+     * If you need to compute a sequence of indeces given that you are
+     * iterating over the values of a single key id (and keeping all the rest
+     * identical), you can use this function.
+     *
+     * It returns the first valid index (the one where the input key id would
+     * have value 0, and all the rest of the input value is the same), and a
+     * skip value to find all the subsequent ones.
+     *
+     * For example, suppose you have a space of
+     * - space = { 2, 3, 4 }
+     * and you are considering all keys, so that ids here is
+     * - ids = { 0, 1, 2 }
+     * Finally, you are interested in values in the form of
+     * - f = { 1, _, 3 }
+     * Note that the value in f at the underscore position is
+     * irrelevant as this function does not use it.
+     * As the underscore is at the second position, id = 1 here.
+     *
+     * This function would output 19, 2.
+     *
+     * 19 is the index of { 1, 0, 3 }, which is the first value that matches the input f.
+     *
+     * Then, skipping by 2, we'd have { 1, 1, 3 } and { 1, 2, 3 }. Note you
+     * have to only repeat the process space[id] times to avoid going out of
+     * bounds.
+     *
+     * This is faster than calling toIndexPartial multiple times since we only
+     * go over the inputs once to do the multiplication, and the subsequent
+     * iteration is simply summing the skip value to the first index.
+     *
+     * @param ids The ids to consider in the input space and factor.
+     * @param space The factor space to consider.
+     * @param f The input factor to convert.
+     * @param id The single id we are interested in iterating over.
+     *
+     * @return
+     */
+    std::pair<size_t, size_t> toIndexPartialAndSkip(const PartialKeys & ids, const Factors & space, const Factors & f, size_t id);
 
     /**
      * @brief This class enumerates all possible values for a PartialFactors.

@@ -307,6 +307,22 @@ namespace AIToolbox::Factored {
         return result;
     }
 
+    std::pair<size_t, size_t> toIndexPartialAndSkip(const PartialKeys & ids, const Factors & space, const Factors & f, size_t toModify) {
+        size_t firstResult = 0;
+
+        size_t multiplier = 1, skipMultiplier = 1;
+        for (auto id : ids) {
+            // Since we output the first result, we consider the factor of
+            // the toModify id as 0.
+            if (id == toModify)
+                skipMultiplier = multiplier;
+            else
+                firstResult += multiplier * f[id];
+            multiplier *= space[id];
+        }
+        return {firstResult, skipMultiplier};
+    }
+
     // PartialFactorsEnumerator below.
 
     PartialFactorsEnumerator::PartialFactorsEnumerator(Factors f, PartialKeys factors) :

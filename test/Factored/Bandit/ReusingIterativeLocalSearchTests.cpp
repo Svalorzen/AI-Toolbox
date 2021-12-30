@@ -1,22 +1,18 @@
-#define BOOST_TEST_MODULE Factored_Bandit_MaxPlus
+#define BOOST_TEST_MODULE Factored_Bandit_ReusingIterativeLocalSearch
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 #include "GlobalFixtures.hpp"
 
-#include <AIToolbox/Factored/Bandit/Algorithms/Utils/MaxPlus.hpp>
+#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/ReusingIterativeLocalSearch.hpp>
 
 namespace aif = AIToolbox::Factored;
 namespace fb = AIToolbox::Factored::Bandit;
-using MP = fb::MaxPlus;
-
-// Note that in these tests we don't check the value (as we do in
-// VariableElimination) because MaxPlus is an approximate algorithm (at least
-// since our implementation is for loopy graphs and not trees). This makes the
-// outputted values not necessarily correct, so there's little point in testing
-// them. As long as the actions are correct, we should be fine.
+using RILS = fb::ReusingIterativeLocalSearch;
 
 BOOST_AUTO_TEST_CASE( simple_graph ) {
+    const aif::Action A{2, 2, 2};
     const std::vector<fb::QFunctionRule> rules {
         // Actions,                     Value
         {  {{0, 2}, {1, 0}},            4.0},
@@ -25,21 +21,22 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
         {  {{1, 2}, {1, 1}},            5.0},
     };
 
+    // Exact solution
     const auto solA = aif::Action{1, 0, 0};
-    // const auto solV = 11.0;
+    const auto solV = 11.0;
 
-    const aif::Action a{2, 2, 2};
+    RILS rils(0.5, 0.5, 10);
+    const auto [bestAction, val] = rils(A, rules);
 
-    MP mp;
-    const auto [bestAction, val] = mp(a, rules);
-    (void)val;
-
-    // BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
-                                  std::begin(solA),     std::end(solA));
+                                  std::begin(solA),       std::end(solA));
 }
 
 BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
+    // Here since the agents are unconnected LS should always be able to find
+    // the optimal solution.
+
     const std::vector<fb::QFunctionRule> rules {
         // Actions,                     Value
         {  {{0},    {2}},               4.0},
@@ -49,35 +46,35 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
     };
 
     const auto solA = aif::Action{2, 0, 0, 1};
-    // const auto solV = 16.0;
+    const auto solV = 16.0;
 
     const aif::Action a{3, 2, 3, 4};
 
-    MP mp;
-    const auto [bestAction, val] = mp(a, rules);
-    (void)val;
+    RILS rils(0.5, 0.5, 10);
+    const auto [bestAction, val] = rils(a, rules);
 
-    // BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
                                   std::begin(solA),     std::end(solA));
 }
 
 BOOST_AUTO_TEST_CASE( all_connected_agents ) {
+    // Here either we randomly start at a distance of "1" from the optimal
+    // action, or we cannot find it.
     const std::vector<fb::QFunctionRule> rules {
         // Actions,                     Value
         {  {{0, 1, 2}, {1, 1, 1}},      10.0},
     };
 
     const auto solA = aif::Action{1, 1, 1};
-    // const auto solV = 10.0;
+    const auto solV = 10.0;
 
     const aif::Action a{2, 2, 2};
 
-    MP mp;
-    const auto [bestAction, val] = mp(a, rules);
-    (void)val;
+    RILS rils(0.5, 0.5, 10);
+    const auto [bestAction, val] = rils(a, rules);
 
-    // BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
                                   std::begin(solA),     std::end(solA));
 }
@@ -95,17 +92,16 @@ BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
     };
 
     const auto solA = aif::Action{0, 0};
-    // const auto solV = 1.0;
+    const auto solV = 1.0;
 
     const aif::Action a{2, 2};
 
-    MP mp;
-    const auto [bestAction, val] = mp(a, rules);
-    (void)val;
+    RILS rils(0.5, 0.5, 20);
+    const auto [bestAction, val] = rils(a, rules);
 
-    // BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
-                                  std::begin(solA),     std::end(solA));
+                                  std::begin(solA),       std::end(solA));
 }
 
 BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
@@ -120,16 +116,15 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
         {  {{0, 1}, {0, 0}},             9.0},
     };
 
-    const auto solA = aif::Action{1, 0};
-    // const auto solV = 0.0;
+    const auto solA1 = aif::Action{1, 0};
+    const auto solA2 = aif::Action{1, 1};
+    const auto solV = 0.0;
 
     const aif::Action a{2, 2};
 
-    MP mp;
-    const auto [bestAction, val] = mp(a, rules);
-    (void)val;
+    RILS rils(0.5, 0.5, 10);
+    const auto [bestAction, val] = rils(a, rules);
 
-    // BOOST_CHECK_EQUAL(val, solV);
-    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
-                                  std::begin(solA),     std::end(solA));
+    BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK(bestAction == solA1 || bestAction == solA2);
 }

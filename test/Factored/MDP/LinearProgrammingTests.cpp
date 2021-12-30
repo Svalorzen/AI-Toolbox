@@ -2,6 +2,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
+#include "GlobalFixtures.hpp"
 
 #include <AIToolbox/Factored/MDP/Algorithms/LinearProgramming.hpp>
 #include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
