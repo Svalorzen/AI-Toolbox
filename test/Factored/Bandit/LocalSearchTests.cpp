@@ -97,7 +97,6 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
 }
 
 BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
-    AIToolbox::Impl::Seeder::setRootSeed(1597877677);
     const std::vector<fb::QFunctionRule> rules {
         // Actions,                     Value
         {  {{0}, {0}},                 -10.0},
