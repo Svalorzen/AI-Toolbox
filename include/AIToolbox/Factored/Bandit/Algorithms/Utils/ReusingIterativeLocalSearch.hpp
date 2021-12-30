@@ -7,6 +7,21 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/LocalSearch.hpp>
 
 namespace AIToolbox::Factored::Bandit {
+    /**
+     * @brief This class approximately finds the best joint action with Reusing Iterative Local Search.
+     *
+     * This class is mostly a wrapper around LocalSearch. The idea is to avoid
+     * local optima by adding noise to the solution found by LocalSearch, or
+     * alternatively restart from random points to see whether we can find a
+     * better solution.
+     *
+     * In addition, we cache the best action found, so that we can re-use it as
+     * a starting point if needed. The idea is that if the graph to solve has
+     * changed in a relatively minor way, it is likely that the optimal
+     * solution will be close to the one found previously. Note that this
+     * caching is optional in case it is known that the graph changed
+     * substantially (or we want to solve a different graph).
+     */
     class ReusingIterativeLocalSearch {
         public:
             using Result = std::tuple<Action, double>;
