@@ -13,13 +13,12 @@ namespace AIToolbox::Factored::Bandit {
     {}
 
     ReusingIterativeLocalSearch::Result ReusingIterativeLocalSearch::operator()(const Action & A, const Graph & graph, const bool resetAction) {
-        // If we haven't initialized the action yet, do so.
-        // Otherwise we keep the same, hoping that the graph has not
-        // changed too much and that the new optimum is close to our
-        // old one.
+        // If we haven't initialized the action yet, do so. Otherwise we keep
+        // the old one, hoping that the graph has not changed too much and that
+        // the new optimum is close to our old one.
         //
-        // If needed we can force the reset though (in case we know
-        // that the new graph has nothing in common with the old one).
+        // If needed we can also force a reset (in case we know that the new
+        // graph has nothing in common with the old one).
         if (resetAction || value_ == std::numeric_limits<double>::lowest())
             std::tie(action_, value_) = ls_(A, graph);
 
@@ -32,18 +31,18 @@ namespace AIToolbox::Factored::Bandit {
             } else {
                 newAction_ = action_;
 
-                // Or we start from our current best action, and
-                // randomize groups of agents. Note that we do not
-                // randomize one agent at a time because then it
-                // becomes much more likely that LS will simply climb
-                // back to the same action as before.
+                // Or we start from our current best action, and randomize
+                // groups of agents. Note that we do not iterate over agents,
+                // but on factors. This is because otherwise it would be much
+                // more likely that LS simply climbs back to the same action as
+                // before, ignoring our change.
                 for (const auto & f : graph) {
                     if (probabilityDistribution(rnd_) >= randomizeFactorProbability_)
                         continue;
 
                     for (auto a : f.getVariables()) {
                         std::uniform_int_distribution<size_t> dAction(0, A[a]-1);
-                        action_[a] = dAction(rnd_);
+                        newAction_[a] = dAction(rnd_);
                     }
                 }
             }
