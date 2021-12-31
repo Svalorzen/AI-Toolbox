@@ -3,7 +3,7 @@ name: AI-Toolbox
 on:
   push:
     branches:
-      - main
+      - master
       - test
   workflow_dispatch:
 
