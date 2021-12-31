@@ -51,7 +51,7 @@ r=[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0
 
 model.setTransitionFunction(t)
 model.setRewardFunction(r)
-
+model.setDiscount(0.95)
 
 class MDPPythonMCTSTests(unittest.TestCase):
 
