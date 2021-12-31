@@ -53,7 +53,7 @@ namespace AIToolbox::Factored::Bandit {
             auto [newOptimizedAction, newOptimizedValue] = ls_(A, graph, newAction_);
 
             // If we have improved, store it as the new best.
-            if (newOptimizedValue > 1.0) {
+            if (newOptimizedValue > value_) {
                 action_ = newOptimizedAction;
                 value_ = newOptimizedValue;
             }
