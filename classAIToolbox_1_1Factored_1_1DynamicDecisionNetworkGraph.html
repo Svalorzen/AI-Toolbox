@@ -98,8 +98,8 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Factored_1_1DynamicD
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html">Node</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class contains the parent information for a single next-state feature.  <a href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html">ParentSet</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class contains the parent information for a single next-state feature.  <a href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -107,12 +107,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3d96ca3d8ef6926dd0768418c29df611"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a3d96ca3d8ef6926dd0768418c29df611">DynamicDecisionNetworkGraph</a> (<a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> S, <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> A)</td></tr>
 <tr class="memdesc:a3d96ca3d8ef6926dd0768418c29df611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a3d96ca3d8ef6926dd0768418c29df611">More...</a><br /></td></tr>
 <tr class="separator:a3d96ca3d8ef6926dd0768418c29df611"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab26c76d2f97ab41006d77486a666ac45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#ab26c76d2f97ab41006d77486a666ac45">pushNode</a> (<a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html">Node</a> &amp;&amp;node)</td></tr>
-<tr class="memdesc:ab26c76d2f97ab41006d77486a666ac45"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function adds a node to the graph.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#ab26c76d2f97ab41006d77486a666ac45">More...</a><br /></td></tr>
-<tr class="separator:ab26c76d2f97ab41006d77486a666ac45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1525e44b48ec9f52d7dbace7e093f1bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a1525e44b48ec9f52d7dbace7e093f1bc">pushNode</a> (const <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html">Node</a> &amp;node)</td></tr>
-<tr class="memdesc:a1525e44b48ec9f52d7dbace7e093f1bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function adds a node to the graph.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a1525e44b48ec9f52d7dbace7e093f1bc">More...</a><br /></td></tr>
-<tr class="separator:a1525e44b48ec9f52d7dbace7e093f1bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5474ec3cee46e407d3da4369abfff963"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a5474ec3cee46e407d3da4369abfff963">push</a> (<a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html">ParentSet</a> parents)</td></tr>
+<tr class="memdesc:a5474ec3cee46e407d3da4369abfff963"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function adds a <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html" title="This class contains the parent information for a single next-state feature.">ParentSet</a> to the graph.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a5474ec3cee46e407d3da4369abfff963">More...</a><br /></td></tr>
+<tr class="separator:a5474ec3cee46e407d3da4369abfff963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adafa5163747837742da724ec768068fe"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#adafa5163747837742da724ec768068fe">getId</a> (size_t feature, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> &amp;s, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;a) const</td></tr>
 <tr class="memdesc:adafa5163747837742da724ec768068fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an id for the input state and action, for the specified feature.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#adafa5163747837742da724ec768068fe">More...</a><br /></td></tr>
 <tr class="separator:adafa5163747837742da724ec768068fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,9 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae69b5b18f763968c4ca79ebb67a0e5b5"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#ae69b5b18f763968c4ca79ebb67a0e5b5">getIds</a> (size_t feature, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a9b51c3929a9c66b0404954dfe3c85557">PartialState</a> &amp;s, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#ad7ce350ef07874f488f036098768c3d7">PartialAction</a> &amp;a) const</td></tr>
 <tr class="memdesc:ae69b5b18f763968c4ca79ebb67a0e5b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an action and parent ids for the input state, action and feature.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#ae69b5b18f763968c4ca79ebb67a0e5b5">More...</a><br /></td></tr>
 <tr class="separator:ae69b5b18f763968c4ca79ebb67a0e5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6eb1ecbe109ec2bcfa7efad94e2931c1"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a6eb1ecbe109ec2bcfa7efad94e2931c1">getIds</a> (size_t feature, size_t j)</td></tr>
-<tr class="memdesc:a6eb1ecbe109ec2bcfa7efad94e2931c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an action and parent ids for the input id and feature.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a6eb1ecbe109ec2bcfa7efad94e2931c1">More...</a><br /></td></tr>
-<tr class="separator:a6eb1ecbe109ec2bcfa7efad94e2931c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ccdc33c276cf7b70edbffb00e42fa9e"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a1ccdc33c276cf7b70edbffb00e42fa9e">getIds</a> (size_t feature, size_t j) const</td></tr>
+<tr class="memdesc:a1ccdc33c276cf7b70edbffb00e42fa9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an action and parent ids for the input id and feature.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a1ccdc33c276cf7b70edbffb00e42fa9e">More...</a><br /></td></tr>
+<tr class="separator:a1ccdc33c276cf7b70edbffb00e42fa9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82cd472419f713af3c4c7a916c88ab94"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a82cd472419f713af3c4c7a916c88ab94">getSize</a> (size_t feature) const</td></tr>
 <tr class="memdesc:a82cd472419f713af3c4c7a916c88ab94"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the size required to store one element per value of a parent set.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a82cd472419f713af3c4c7a916c88ab94">More...</a><br /></td></tr>
 <tr class="separator:a82cd472419f713af3c4c7a916c88ab94"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,9 +143,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acb468cb54d53f552d09dd0065a52316c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#acb468cb54d53f552d09dd0065a52316c">getA</a> () const</td></tr>
 <tr class="memdesc:acb468cb54d53f552d09dd0065a52316c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the action space of the DDNGraph.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#acb468cb54d53f552d09dd0065a52316c">More...</a><br /></td></tr>
 <tr class="separator:acb468cb54d53f552d09dd0065a52316c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78e6499ba787272290fc15d81224f92b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html">Node</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a78e6499ba787272290fc15d81224f92b">getNodes</a> () const</td></tr>
-<tr class="memdesc:a78e6499ba787272290fc15d81224f92b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the internal nodes of the DDNGraph.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a78e6499ba787272290fc15d81224f92b">More...</a><br /></td></tr>
-<tr class="separator:a78e6499ba787272290fc15d81224f92b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e41164dd0ba12cdb46d73e76ccc3726"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html">ParentSet</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a6e41164dd0ba12cdb46d73e76ccc3726">getParentSets</a> () const</td></tr>
+<tr class="memdesc:a6e41164dd0ba12cdb46d73e76ccc3726"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the internal parent sets of the DDNGraph.  <a href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a6e41164dd0ba12cdb46d73e76ccc3726">More...</a><br /></td></tr>
+<tr class="separator:a6e41164dd0ba12cdb46d73e76ccc3726"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the structure of a dynamic decision network. </p>
@@ -158,9 +155,9 @@ Public Member Functions</h2></td></tr>
 <p>This class considers DDNs where the action-parent features are fixed for each next-state-feature, but the state-parent features depend on both the next-state-feature and on what action the parent agents took.</p>
 <p>For example, if I have a state space </p><pre class="fragment">[3, 4, 2]
 </pre><p>then I have 3 state features. If I have an action space </p><pre class="fragment">[2, 5, 4, 2]
-</pre><p>then I have 4 agents. For each state feature, the DDNGraph has one DDNGraph::Node, so we have 3 of them. Let's assume that the state feature 0 depends on agents 0 and 3; then we will have that, in node 0, </p><pre class="fragment">nodes_[0].agents = [0, 3]
+</pre><p>then I have 4 agents. For each state feature, the DDNGraph has one DDNGraph::ParentSet, so we have 3 of them. Let's assume that the state feature 0 depends on agents 0 and 3; then we will have that, in parents 0, </p><pre class="fragment">parents_[0].agents = [0, 3]
 </pre><p>Now, the space of joint actions for these two agents is 4 (2 * 2). For each one of these, state feature 0 might depend on different sets of state features. So we could have that</p>
-<p>nodes_[0].parents = [ [0, 1], // For joint action value 0,0 [1, 2, 3], // For joint action value 1,0 [0, 2], // For joint action value 0,1 [1, 3], // For joint action value 1,1 ] </p>
+<p>parents_[0].features = [ [0, 1], // For joint action value 0,0 [1, 2, 3], // For joint action value 1,0 [0, 2], // For joint action value 0,1 [1, 3], // For joint action value 1,1 ] </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3d96ca3d8ef6926dd0768418c29df611"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3d96ca3d8ef6926dd0768418c29df611">&#9670;&nbsp;</a></span>DynamicDecisionNetworkGraph()</h2>
@@ -189,9 +186,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
-<p>Note that in order to be fully initialized, the <a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#ab26c76d2f97ab41006d77486a666ac45" title="This function adds a node to the graph.">pushNode(Node&amp;&amp;)</a> method must be called for each state feature.</p>
+<p>Note that in order to be fully initialized, the <a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a5474ec3cee46e407d3da4369abfff963" title="This function adds a ParentSet to the graph.">push(ParentSet)</a> method must be called once for each state feature.</p>
 <p>That method is separate to simplify construction and API.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#ab26c76d2f97ab41006d77486a666ac45" title="This function adds a node to the graph.">pushNode(Node &amp;&amp;)</a>;</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a5474ec3cee46e407d3da4369abfff963" title="This function adds a ParentSet to the graph.">push(ParentSet)</a>;</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">S</td><td>The state space of the DDN. </td></tr>
@@ -465,8 +462,8 @@ getPartialSize(size_t, size_t);</dd></dl>
 
 </div>
 </div>
-<a id="a6eb1ecbe109ec2bcfa7efad94e2931c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6eb1ecbe109ec2bcfa7efad94e2931c1">&#9670;&nbsp;</a></span>getIds() <span class="overload">[3/3]</span></h2>
+<a id="a1ccdc33c276cf7b70edbffb00e42fa9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ccdc33c276cf7b70edbffb00e42fa9e">&#9670;&nbsp;</a></span>getIds() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -486,7 +483,7 @@ getPartialSize(size_t, size_t);</dd></dl>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -507,14 +504,14 @@ getPartialSize(size_t, size_t);</dd></dl>
 
 </div>
 </div>
-<a id="a78e6499ba787272290fc15d81224f92b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78e6499ba787272290fc15d81224f92b">&#9670;&nbsp;</a></span>getNodes()</h2>
+<a id="a6e41164dd0ba12cdb46d73e76ccc3726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e41164dd0ba12cdb46d73e76ccc3726">&#9670;&nbsp;</a></span>getParentSets()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt;<a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html">Node</a>&gt;&amp; AIToolbox::Factored::DynamicDecisionNetworkGraph::getNodes </td>
+          <td class="memname">const std::vector&lt;<a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html">ParentSet</a>&gt;&amp; AIToolbox::Factored::DynamicDecisionNetworkGraph::getParentSets </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -522,8 +519,8 @@ getPartialSize(size_t, size_t);</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>This function returns the internal nodes of the DDNGraph. </p>
-<dl class="section return"><dt>Returns</dt><dd>The internal nodes. </dd></dl>
+<p>This function returns the internal parent sets of the DDNGraph. </p>
+<dl class="section return"><dt>Returns</dt><dd>The internal parent sets. </dd></dl>
 
 </div>
 </div>
@@ -643,56 +640,28 @@ getPartialSize(size_t, size_t);</dd></dl>
 
 </div>
 </div>
-<a id="a1525e44b48ec9f52d7dbace7e093f1bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1525e44b48ec9f52d7dbace7e093f1bc">&#9670;&nbsp;</a></span>pushNode() <span class="overload">[1/2]</span></h2>
+<a id="a5474ec3cee46e407d3da4369abfff963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5474ec3cee46e407d3da4369abfff963">&#9670;&nbsp;</a></span>push()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::Factored::DynamicDecisionNetworkGraph::pushNode </td>
+          <td class="memname">void AIToolbox::Factored::DynamicDecisionNetworkGraph::push </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html">Node</a> &amp;&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html">ParentSet</a>&#160;</td>
+          <td class="paramname"><em>parents</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This function adds a node to the graph. </p>
+<p>This function adds a <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html" title="This class contains the parent information for a single next-state feature.">ParentSet</a> to the graph. </p>
 <p>This method <em>MUST</em> be called once per state feature, after construction.</p>
 <p>This method will sanity check all sets of parents, both agents and state features. Additionally, it will pre-compute the size of each set to speed up the computation of ids.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">node</td><td>The node to insert. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ab26c76d2f97ab41006d77486a666ac45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab26c76d2f97ab41006d77486a666ac45">&#9670;&nbsp;</a></span>pushNode() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AIToolbox::Factored::DynamicDecisionNetworkGraph::pushNode </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html">Node</a> &amp;&amp;&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function adds a node to the graph. </p>
-<p>This method <em>MUST</em> be called once per state feature, after construction.</p>
-<p>This method will sanity check all sets of parents, both agents and state features. Additionally, it will pre-compute the size of each set to speed up the computation of ids.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">node</td><td>The node to insert. </td></tr>
+    <tr><td class="paramname">parents</td><td>The <a class="el" href="structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html" title="This class contains the parent information for a single next-state feature.">ParentSet</a> to insert. </td></tr>
   </table>
   </dd>
 </dl>

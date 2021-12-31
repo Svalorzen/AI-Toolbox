@@ -118,14 +118,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af756d47c7d506bcbc1b39eefe7355b51"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#af756d47c7d506bcbc1b39eefe7355b51">getBeliefSize</a> () const</td></tr>
 <tr class="memdesc:af756d47c7d506bcbc1b39eefe7355b51"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set number of support beliefs to use during a solve pass.  <a href="classAIToolbox_1_1POMDP_1_1PBVI.html#af756d47c7d506bcbc1b39eefe7355b51">More...</a><br /></td></tr>
 <tr class="separator:af756d47c7d506bcbc1b39eefe7355b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7dd382931ca9b619d999d73d61c9c26"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:aa7dd382931ca9b619d999d73d61c9c26"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#aa7dd382931ca9b619d999d73d61c9c26">operator()</a> (const M &amp;model, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> v={})</td></tr>
-<tr class="memdesc:aa7dd382931ca9b619d999d73d61c9c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> approximately.  <a href="classAIToolbox_1_1POMDP_1_1PBVI.html#aa7dd382931ca9b619d999d73d61c9c26">More...</a><br /></td></tr>
-<tr class="separator:aa7dd382931ca9b619d999d73d61c9c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#abc0ef4a6da34dd78af2cf7d4c960bd7d">operator()</a> (const M &amp;model, const std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &gt; &amp;bList, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> v={})</td></tr>
-<tr class="memdesc:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> approximately.  <a href="classAIToolbox_1_1POMDP_1_1PBVI.html#abc0ef4a6da34dd78af2cf7d4c960bd7d">More...</a><br /></td></tr>
-<tr class="separator:abc0ef4a6da34dd78af2cf7d4c960bd7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1ef6689edaea3030be90fb916eae8a4"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:ad1ef6689edaea3030be90fb916eae8a4"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#ad1ef6689edaea3030be90fb916eae8a4">operator()</a> (const M &amp;model, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> v={})</td></tr>
+<tr class="memdesc:ad1ef6689edaea3030be90fb916eae8a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> approximately.  <a href="classAIToolbox_1_1POMDP_1_1PBVI.html#ad1ef6689edaea3030be90fb916eae8a4">More...</a><br /></td></tr>
+<tr class="separator:ad1ef6689edaea3030be90fb916eae8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38dc0fb74b383eebffd0cd912c943d2b"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a38dc0fb74b383eebffd0cd912c943d2b"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html#a38dc0fb74b383eebffd0cd912c943d2b">operator()</a> (const M &amp;model, const std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &gt; &amp;bList, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> v={})</td></tr>
+<tr class="memdesc:a38dc0fb74b383eebffd0cd912c943d2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> approximately.  <a href="classAIToolbox_1_1POMDP_1_1PBVI.html#a38dc0fb74b383eebffd0cd912c943d2b">More...</a><br /></td></tr>
+<tr class="separator:a38dc0fb74b383eebffd0cd912c943d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Point Based Value Iteration algorithm. </p>
@@ -241,13 +241,13 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="abc0ef4a6da34dd78af2cf7d4c960bd7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc0ef4a6da34dd78af2cf7d4c960bd7d">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+<a id="a38dc0fb74b383eebffd0cd912c943d2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38dc0fb74b383eebffd0cd912c943d2b">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::PBVI::operator() </td>
@@ -296,13 +296,13 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="aa7dd382931ca9b619d999d73d61c9c26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7dd382931ca9b619d999d73d61c9c26">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+<a id="ad1ef6689edaea3030be90fb916eae8a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1ef6689edaea3030be90fb916eae8a4">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::PBVI::operator() </td>

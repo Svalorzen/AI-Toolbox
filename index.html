@@ -90,8 +90,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p><a href="https://www.youtube.com/watch?v=qjSo41DVSXg"><img src="https://user-images.githubusercontent.com/1609228/99919181-3404dc00-2d1c-11eb-8593-0bf6af44cef8.png" alt="Library overview video" class="inline"/></a></p>
 <p>This C++ toolbox is aimed at representing and solving common AI problems, implementing an easy-to-use interface which should be hopefully extensible to many problems, while keeping code readable.</p>
 <p>Current development includes MDPs, POMDPs and related algorithms. This toolbox was originally developed taking inspiration from the Matlab <code>MDPToolbox</code>, which you can find <a href="https://miat.inrae.fr/MDPtoolbox/">here</a>, and from the <code>pomdp-solve</code> software written by A. R. Cassandra, which you can find <a href="http://www.pomdp.org/code/index.shtml">here</a>.</p>
-<p>An excellent introduction to the basics of reinforcement learning can be found freely online in <a href="http://incompleteideas.net/book/ebook/the-book.html">this book</a>.</p>
-<p>If you use this toolbox for research, please consider citing our JMLR article:</p>
+<p>If you are new to the field of reinforcement learning, we have a few <a href="http://svalorzen.github.io/AI-Toolbox/tutorials.html">simple tutorials</a> that can help you get started. An excellent, more in depth introduction to the basics of reinforcement learning can be found freely online in <a href="http://incompleteideas.net/book/ebook/the-book.html">this book</a>.</p>
+<p>If you use this toolbox for research, please consider citing our <a href="https://www.jmlr.org/papers/volume21/18-402/18-402.pdf">JMLR article</a>:</p>
 <div class="fragment"><div class="line">@article{JMLR:v21:18-402,</div>
 <div class="line">  author  = {Eugenio Bargiacchi and Diederik M. Roijers and Ann Now\&#39;{e}},</div>
 <div class="line">  title   = {AI-Toolbox: A C++ library for Reinforcement Learning and Planning (with Python Bindings)},</div>
@@ -139,7 +139,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line">    s = s1; <span class="comment">// Finally we update the world for the next timestep.</span></div>
 <div class="line">}</div>
 </div><!-- fragment --><h1>Documentation </h1>
-<p>The latest documentation is available <a href="http://svalorzen.github.io/AI-Toolbox/">here</a>. Keep in mind that it may not always be 100% up to date with the latest commits, while the one you compile yourself will of course be.</p>
+<p>The latest documentation is available <a href="http://svalorzen.github.io/AI-Toolbox/">here</a>. We have a few <a href="http://svalorzen.github.io/AI-Toolbox/tutorials.html">tutorials</a> that can help you get started with the toolbox. The tutorials are in C++, but the <code>examples</code> folder contains equivalent Python code which you can follow along just as well.</p>
 <p>For Python docs you can find them by typing <code>help(AIToolbox)</code> from the interpreter. It should show the exported API for each class, along with any differences in input/output.</p>
 <h1>Features </h1>
 <h3>Cassandra POMDP Format Parsing</h3>
@@ -230,7 +230,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html" title="Collaborative Multiagent Reinforcement Learning by Payoff Propagation, Kok et al.">Max-Plus</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html" title="Multi-Objective Variable Elimination for Collaborative Graphical Games, Roijers et al.">Multi-Objective Variable Elimination (MOVE)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html" title="Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.">Upper Confidence Variable Elimination (UCVE)</a>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html" title="Multiagent Planning with Factored MDPs, Guestrin et al.">Variable Elimination</a> </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td></tr>
+<td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html" title="Multiagent Planning with Factored MDPs, Guestrin et al.">Variable Elimination</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1LocalSearch.html" title="Heuristic Coordination in Cooperative Multi-Agent Reinforcement Learning, Petri et al.">Local Search</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html" title="Heuristic Coordination in Cooperative Multi-Agent Reinforcement Learning, Petri et al.">Reusing Iterative Local Search</a>  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"><b>Policies</b> </td><td class="markdownTableBodyCenter"></td></tr>
 <tr class="markdownTableRowEven">
@@ -260,12 +260,12 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <h2>Dependencies </h2>
 <p>To build the library you need:</p>
 <ul>
-<li><a href="http://www.cmake.org/">cmake</a> &gt;= 3.9</li>
+<li><a href="http://www.cmake.org/">cmake</a> &gt;= 3.12</li>
 <li>the <a href="http://www.boost.org/">boost library</a> &gt;= 1.67</li>
 <li>the <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen 3.3 library</a>.</li>
 <li>the <a href="http://lpsolve.sourceforge.net/5.5/">lp_solve library</a> (a shared library must be available to compile the Python wrapper).</li>
 </ul>
-<p>In addition, full C++17 support is now required (<b>this means at least g++-7</b>)</p>
+<p>In addition, C++20 support is now required (<b>this means at least g++-10</b>)</p>
 <h2>Building </h2>
 <p>Once you have all required dependencies, you can simply execute the following commands from the project's main folder:</p>
 <div class="fragment"><div class="line">mkdir build</div>
@@ -306,7 +306,7 @@ help(AIToolbox.POMDP)
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespaceAIToolbox_1_1POMDP_html_abcd38fafda125d7a1e44a0d04c56e0e0"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#abcd38fafda125d7a1e44a0d04c56e0e0">AIToolbox::POMDP::makeTigerProblem</a></div><div class="ttdeci">AIToolbox::POMDP::Model&lt; AIToolbox::MDP::Model &gt; makeTigerProblem()</div><div class="ttdoc">This function sets up the tiger problem in a Model.</div><div class="ttdef"><b>Definition:</b> TigerProblem.hpp:58</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_ad73352f6ce65aa95f76b7399cf0d2cb0"><div class="ttname"><a href="namespaceAIToolbox.html#ad73352f6ce65aa95f76b7399cf0d2cb0">AIToolbox::sampleProbability</a></div><div class="ttdeci">size_t sampleProbability(const size_t d, const T &amp;in, G &amp;generator)</div><div class="ttdoc">This function samples an index from a probability vector.</div><div class="ttdef"><b>Definition:</b> Probability.hpp:75</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_ad73352f6ce65aa95f76b7399cf0d2cb0"><div class="ttname"><a href="namespaceAIToolbox.html#ad73352f6ce65aa95f76b7399cf0d2cb0">AIToolbox::sampleProbability</a></div><div class="ttdeci">size_t sampleProbability(const size_t d, const T &amp;in, G &amp;generator)</div><div class="ttdoc">This function samples an index from a probability vector.</div><div class="ttdef"><b>Definition:</b> Probability.hpp:188</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1POMDP_1_1Policy_html"><div class="ttname"><a href="classAIToolbox_1_1POMDP_1_1Policy.html">AIToolbox::POMDP::Policy</a></div><div class="ttdoc">This class represents a POMDP Policy.</div><div class="ttdef"><b>Definition:</b> Policy.hpp:26</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1POMDP_1_1IncrementalPruning_html"><div class="ttname"><a href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html">AIToolbox::POMDP::IncrementalPruning</a></div><div class="ttdoc">This class implements the Incremental Pruning algorithm.</div><div class="ttdef"><b>Definition:</b> IncrementalPruning.hpp:44</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1POMDP_html_a4522c5e35483fb30b2c43c271781e8bc"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">AIToolbox::POMDP::Belief</a></div><div class="ttdeci">ProbabilityVector Belief</div><div class="ttdoc">This represents a belief, which is a probability distribution over states.</div><div class="ttdef"><b>Definition:</b> Types.hpp:12</div></div>

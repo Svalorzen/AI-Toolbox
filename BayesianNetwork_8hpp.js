@@ -1,7 +1,7 @@
 var BayesianNetwork_8hpp =
 [
     [ "DynamicDecisionNetworkGraph", "classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html", "classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph" ],
-    [ "Node", "structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node.html", "structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1Node" ],
+    [ "ParentSet", "structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet.html", "structAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph_1_1ParentSet" ],
     [ "DynamicDecisionNetwork", "structAIToolbox_1_1Factored_1_1DynamicDecisionNetwork.html", "structAIToolbox_1_1Factored_1_1DynamicDecisionNetwork" ],
     [ "DDN", "BayesianNetwork_8hpp.html#ae982f64154558584f55a5f119e6a155c", null ],
     [ "DDNGraph", "BayesianNetwork_8hpp.html#af81c44d64cf98377be56973db15d0ede", null ],

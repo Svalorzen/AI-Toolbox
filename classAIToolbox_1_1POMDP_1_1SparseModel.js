@@ -3,7 +3,7 @@ var classAIToolbox_1_1POMDP_1_1SparseModel =
     [ "ObservationMatrix", "classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec", null ],
     [ "SparseModel", "classAIToolbox_1_1POMDP_1_1SparseModel.html#aaffc2edb08e6162df66acf8a5f2c92ab", null ],
     [ "SparseModel", "classAIToolbox_1_1POMDP_1_1SparseModel.html#ae2b90125070285503e42e358f0d9c982", null ],
-    [ "SparseModel", "classAIToolbox_1_1POMDP_1_1SparseModel.html#a003a5b06c7cc0670a791876a30ac48b6", null ],
+    [ "SparseModel", "classAIToolbox_1_1POMDP_1_1SparseModel.html#afecc675b7139227923f96fe196ec81d2", null ],
     [ "SparseModel", "classAIToolbox_1_1POMDP_1_1SparseModel.html#a1f004ec5308e566b19e859368ea2bd81", null ],
     [ "getO", "classAIToolbox_1_1POMDP_1_1SparseModel.html#aaba2400d7e6a6373b066411dbe1f66f4", null ],
     [ "getObservationFunction", "classAIToolbox_1_1POMDP_1_1SparseModel.html#aec330db7530f8d849e102735d998c508", null ],
@@ -13,5 +13,5 @@ var classAIToolbox_1_1POMDP_1_1SparseModel =
     [ "sampleOR", "classAIToolbox_1_1POMDP_1_1SparseModel.html#ae7897f3d66287915846c0188181ef051", null ],
     [ "sampleSOR", "classAIToolbox_1_1POMDP_1_1SparseModel.html#aab1a1eee64793c8a3c04c29e64ae14fc", null ],
     [ "setObservationFunction", "classAIToolbox_1_1POMDP_1_1SparseModel.html#aca394d9a053cb0bd238009c077326fd0", null ],
-    [ "operator>>", "classAIToolbox_1_1POMDP_1_1SparseModel.html#a4a018c8fac2d08e5fc48ac3dd2c963a5", null ]
+    [ "setObservationFunction", "classAIToolbox_1_1POMDP_1_1SparseModel.html#accddca5c54b5ca8b454381e51e676cac", null ]
 ];

@@ -112,10 +112,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a31b1ca5fb3076e5d42648ac93eea9f19"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a31b1ca5fb3076e5d42648ac93eea9f19">getHorizon</a> () const</td></tr>
 <tr class="memdesc:a31b1ca5fb3076e5d42648ac93eea9f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set horizon parameter.  <a href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a31b1ca5fb3076e5d42648ac93eea9f19">More...</a><br /></td></tr>
 <tr class="separator:a31b1ca5fb3076e5d42648ac93eea9f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a5c6b1fb03f0c69dcd7ed67485be019c2">operator()</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> completely.  <a href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a5c6b1fb03f0c69dcd7ed67485be019c2">More...</a><br /></td></tr>
-<tr class="separator:a5c6b1fb03f0c69dcd7ed67485be019c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a074d1c4cae7c56a0e0ec3675f204d67f"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a074d1c4cae7c56a0e0ec3675f204d67f"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a074d1c4cae7c56a0e0ec3675f204d67f">operator()</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:a074d1c4cae7c56a0e0ec3675f204d67f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> completely.  <a href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#a074d1c4cae7c56a0e0ec3675f204d67f">More...</a><br /></td></tr>
+<tr class="separator:a074d1c4cae7c56a0e0ec3675f204d67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Incremental Pruning algorithm. </p>
@@ -204,13 +204,13 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5c6b1fb03f0c69dcd7ed67485be019c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c6b1fb03f0c69dcd7ed67485be019c2">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a074d1c4cae7c56a0e0ec3675f204d67f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a074d1c4cae7c56a0e0ec3675f204d67f">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::IncrementalPruning::operator() </td>

@@ -101,10 +101,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0a756d01325f18d52f2d0ca6e6918e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#aa0a756d01325f18d52f2d0ca6e6918e2">QMDP</a> (unsigned horizon, double tolerance=0.001)</td></tr>
 <tr class="memdesc:aa0a756d01325f18d52f2d0ca6e6918e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1POMDP_1_1QMDP.html#aa0a756d01325f18d52f2d0ca6e6918e2">More...</a><br /></td></tr>
 <tr class="separator:aa0a756d01325f18d52f2d0ca6e6918e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9157c7826fbf93145874a230794cddf6"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a9157c7826fbf93145874a230794cddf6"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a9157c7826fbf93145874a230794cddf6">operator()</a> (const M &amp;m)</td></tr>
-<tr class="memdesc:a9157c7826fbf93145874a230794cddf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function applies the <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html" title="This class implements the QMDP algorithm.">QMDP</a> algorithm on the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1QMDP.html#a9157c7826fbf93145874a230794cddf6">More...</a><br /></td></tr>
-<tr class="separator:a9157c7826fbf93145874a230794cddf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30bc9d7aace90176549d0c15f6fde53a"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a30bc9d7aace90176549d0c15f6fde53a"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a30bc9d7aace90176549d0c15f6fde53a">operator()</a> (const M &amp;m)</td></tr>
+<tr class="memdesc:a30bc9d7aace90176549d0c15f6fde53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function applies the <a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html" title="This class implements the QMDP algorithm.">QMDP</a> algorithm on the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1QMDP.html#a30bc9d7aace90176549d0c15f6fde53a">More...</a><br /></td></tr>
+<tr class="separator:a30bc9d7aace90176549d0c15f6fde53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9136954ab7b3faa4e4720f8bb4ee9545"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1QMDP.html#a9136954ab7b3faa4e4720f8bb4ee9545">setTolerance</a> (double t)</td></tr>
 <tr class="memdesc:a9136954ab7b3faa4e4720f8bb4ee9545"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the tolerance parameter.  <a href="classAIToolbox_1_1POMDP_1_1QMDP.html#a9136954ab7b3faa4e4720f8bb4ee9545">More...</a><br /></td></tr>
 <tr class="separator:a9136954ab7b3faa4e4720f8bb4ee9545"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,13 +259,13 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9157c7826fbf93145874a230794cddf6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9157c7826fbf93145874a230794cddf6">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a30bc9d7aace90176549d0c15f6fde53a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30bc9d7aace90176549d0c15f6fde53a">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt; AIToolbox::POMDP::QMDP::operator() </td>

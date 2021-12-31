@@ -85,7 +85,6 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1POMDP_1_1SparseModel
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classAIToolbox_1_1POMDP_1_1SparseModel-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">AIToolbox::POMDP::SparseModel&lt; M &gt; Class Template Reference</div>  </div>
@@ -108,22 +107,25 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaffc2edb08e6162df66acf8a5f2c92ab"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aaffc2edb08e6162df66acf8a5f2c92ab">SparseModel</a> (size_t o, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:aaffc2edb08e6162df66acf8a5f2c92ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aaffc2edb08e6162df66acf8a5f2c92ab">More...</a><br /></td></tr>
 <tr class="separator:aaffc2edb08e6162df66acf8a5f2c92ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2b90125070285503e42e358f0d9c982"><td class="memTemplParams" colspan="2">template&lt;typename ObFun , typename... Args&gt; </td></tr>
+<tr class="memitem:ae2b90125070285503e42e358f0d9c982"><td class="memTemplParams" colspan="2">template&lt;IsNaive3DMatrix ObFun, typename... Args&gt; </td></tr>
 <tr class="memitem:ae2b90125070285503e42e358f0d9c982"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ae2b90125070285503e42e358f0d9c982">SparseModel</a> (size_t o, ObFun &amp;&amp;of, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:ae2b90125070285503e42e358f0d9c982"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ae2b90125070285503e42e358f0d9c982">More...</a><br /></td></tr>
 <tr class="separator:ae2b90125070285503e42e358f0d9c982"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a003a5b06c7cc0670a791876a30ac48b6"><td class="memTemplParams" colspan="2">template&lt;typename PM , typename  = std::enable_if_t&lt;is_model_v&lt;PM&gt; &amp;&amp; std::is_constructible_v&lt;M,PM&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a003a5b06c7cc0670a791876a30ac48b6"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a003a5b06c7cc0670a791876a30ac48b6">SparseModel</a> (const PM &amp;model)</td></tr>
-<tr class="memdesc:a003a5b06c7cc0670a791876a30ac48b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a003a5b06c7cc0670a791876a30ac48b6">More...</a><br /></td></tr>
-<tr class="separator:a003a5b06c7cc0670a791876a30ac48b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afecc675b7139227923f96fe196ec81d2"><td class="memTemplParams" colspan="2">template&lt;typename PM &gt; </td></tr>
+<tr class="memitem:afecc675b7139227923f96fe196ec81d2"><td class="memTemplItemLeft" align="right" valign="top">requires <a class="el" href="namespaceAIToolbox_1_1POMDP.html#abafca632223b32a193ac9e507b74de96">IsModel</a>&lt; PM &gt; &amp;&amp;std::constructible_from&lt; M, PM &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#afecc675b7139227923f96fe196ec81d2">SparseModel</a> (const PM &amp;model)</td></tr>
+<tr class="memdesc:afecc675b7139227923f96fe196ec81d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#afecc675b7139227923f96fe196ec81d2">More...</a><br /></td></tr>
+<tr class="separator:afecc675b7139227923f96fe196ec81d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f004ec5308e566b19e859368ea2bd81"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:a1f004ec5308e566b19e859368ea2bd81"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a1f004ec5308e566b19e859368ea2bd81">SparseModel</a> (<a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>, size_t o, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp;&amp;ot, Args &amp;&amp;... parameters)</td></tr>
 <tr class="memdesc:a1f004ec5308e566b19e859368ea2bd81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unchecked constructor.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a1f004ec5308e566b19e859368ea2bd81">More...</a><br /></td></tr>
 <tr class="separator:a1f004ec5308e566b19e859368ea2bd81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca394d9a053cb0bd238009c077326fd0"><td class="memTemplParams" colspan="2">template&lt;typename ObFun &gt; </td></tr>
+<tr class="memitem:aca394d9a053cb0bd238009c077326fd0"><td class="memTemplParams" colspan="2">template&lt;IsNaive3DMatrix ObFun&gt; </td></tr>
 <tr class="memitem:aca394d9a053cb0bd238009c077326fd0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aca394d9a053cb0bd238009c077326fd0">setObservationFunction</a> (const ObFun &amp;of)</td></tr>
 <tr class="memdesc:aca394d9a053cb0bd238009c077326fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">SparseModel</a> observation function with the one provided.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aca394d9a053cb0bd238009c077326fd0">More...</a><br /></td></tr>
 <tr class="separator:aca394d9a053cb0bd238009c077326fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accddca5c54b5ca8b454381e51e676cac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#accddca5c54b5ca8b454381e51e676cac">setObservationFunction</a> (const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp;of)</td></tr>
+<tr class="memdesc:accddca5c54b5ca8b454381e51e676cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the observation function using a SparseMatrix3D.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#accddca5c54b5ca8b454381e51e676cac">More...</a><br /></td></tr>
+<tr class="separator:accddca5c54b5ca8b454381e51e676cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab1a1eee64793c8a3c04c29e64ae14fc"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; size_t, size_t, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aab1a1eee64793c8a3c04c29e64ae14fc">sampleSOR</a> (size_t s, size_t a) const</td></tr>
 <tr class="memdesc:aab1a1eee64793c8a3c04c29e64ae14fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function samples the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> for the specified state action pair.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aab1a1eee64793c8a3c04c29e64ae14fc">More...</a><br /></td></tr>
 <tr class="separator:aab1a1eee64793c8a3c04c29e64ae14fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,15 +147,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aec330db7530f8d849e102735d998c508"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aec330db7530f8d849e102735d998c508">getObservationFunction</a> () const</td></tr>
 <tr class="memdesc:aec330db7530f8d849e102735d998c508"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the observation matrix for inspection.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aec330db7530f8d849e102735d998c508">More...</a><br /></td></tr>
 <tr class="separator:aec330db7530f8d849e102735d998c508"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a4a018c8fac2d08e5fc48ac3dd2c963a5"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a4a018c8fac2d08e5fc48ac3dd2c963a5">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a>&lt; M &gt; &amp;)</td></tr>
-<tr class="memdesc:a4a018c8fac2d08e5fc48ac3dd2c963a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::SparseModel</a> class.  <a href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a4a018c8fac2d08e5fc48ac3dd2c963a5">More...</a><br /></td></tr>
-<tr class="separator:a4a018c8fac2d08e5fc48ac3dd2c963a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename M&gt;<br />
+<div class="textblock"><h3>template&lt;MDP::IsModel M&gt;<br />
 class AIToolbox::POMDP::SparseModel&lt; M &gt;</h3>
 
 <p>This class represents a Partially Observable Markov Decision Process. </p>
@@ -177,7 +173,7 @@ class AIToolbox::POMDP::SparseModel&lt; M &gt;</h3>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> =  <a class="el" href="namespaceAIToolbox.html#a92d1ba8e10537e996faadb65f9c1fa77">SparseMatrix3D</a></td>
@@ -194,7 +190,7 @@ template&lt;typename M &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
 <div class="memtemplate">
 template&lt;typename... Args&gt; </div>
       <table class="memname">
@@ -242,9 +238,9 @@ template&lt;typename... Args&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
 <div class="memtemplate">
-template&lt;typename ObFun , typename... Args&gt; </div>
+template&lt;IsNaive3DMatrix ObFun, typename... Args&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a> </td>
@@ -295,18 +291,18 @@ template&lt;typename ObFun , typename... Args&gt; </div>
 
 </div>
 </div>
-<a id="a003a5b06c7cc0670a791876a30ac48b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a003a5b06c7cc0670a791876a30ac48b6">&#9670;&nbsp;</a></span>SparseModel() <span class="overload">[3/4]</span></h2>
+<a id="afecc675b7139227923f96fe196ec81d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afecc675b7139227923f96fe196ec81d2">&#9670;&nbsp;</a></span>SparseModel() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
 <div class="memtemplate">
-template&lt;typename PM , typename &gt; </div>
+template&lt;typename PM &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a> </td>
+          <td class="memname">requires <a class="el" href="namespaceAIToolbox_1_1POMDP.html#abafca632223b32a193ac9e507b74de96">IsModel</a>&lt; PM &gt; &amp;&amp;std::constructible_from&lt; M, PM &gt; <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a> </td>
           <td>(</td>
           <td class="paramtype">const PM &amp;&#160;</td>
           <td class="paramname"><em>model</em></td><td>)</td>
@@ -317,7 +313,7 @@ template&lt;typename PM , typename &gt; </div>
 
 <p>Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model. </p>
 <p>This allows to copy from any other model. A nice use for this is to convert any model which computes probabilities on the fly into an <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::SparseModel</a> where probabilities are all stored for fast access. Of course such a solution can be done only when the number of states, actions and observations is not too big.</p>
-<p>Of course this constructor is available only if the underlying <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a> allows to be constructed too.</p>
+<p>Of course this constructor is available only if the underlying <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a> can to be constructed from the input as well.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">PM</td><td>The type of the other model. </td></tr>
@@ -339,7 +335,7 @@ template&lt;typename PM , typename &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
 <div class="memtemplate">
 template&lt;typename... Args&gt; </div>
       <table class="memname">
@@ -396,7 +392,7 @@ template&lt;typename... Args&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">size_t <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::getO</td>
@@ -415,7 +411,7 @@ template&lt;typename M &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp; <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::getObservationFunction</td>
@@ -434,7 +430,7 @@ template&lt;typename M &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">const <a class="el" href="namespaceAIToolbox.html#ab00da5abb5609a6454852aa726d67161">SparseMatrix2D</a> &amp; <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::getObservationFunction </td>
@@ -463,7 +459,7 @@ template&lt;typename M &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">double <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::getObservationProbability </td>
@@ -510,7 +506,7 @@ template&lt;typename M &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">double <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::getObservationProbability </td>
@@ -557,7 +553,7 @@ template&lt;typename M &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; size_t, double &gt; <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::sampleOR </td>
@@ -605,7 +601,7 @@ template&lt;typename M &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; size_t, size_t, double &gt; <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::sampleSOR </td>
@@ -641,14 +637,14 @@ template&lt;typename M &gt; </div>
 </div>
 </div>
 <a id="aca394d9a053cb0bd238009c077326fd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca394d9a053cb0bd238009c077326fd0">&#9670;&nbsp;</a></span>setObservationFunction()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aca394d9a053cb0bd238009c077326fd0">&#9670;&nbsp;</a></span>setObservationFunction() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
 <div class="memtemplate">
-template&lt;typename ObFun &gt; </div>
+template&lt;IsNaive3DMatrix ObFun&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::setObservationFunction </td>
@@ -661,7 +657,7 @@ template&lt;typename ObFun &gt; </div>
 </div><div class="memdoc">
 
 <p>This function replaces the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">SparseModel</a> observation function with the one provided. </p>
-<p>The container needs to support data access through operator[]. In addition, the dimensions of the containers must match the ones provided as arguments (for three dimensions: s,a,o, in this order).</p>
+<p>The container needs to support data access through operator[]. In addition, the dimensions of the containers must match the ones provided as arguments (for three dimensions: S, A, O, in this order).</p>
 <p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
 <p>Internal values of the container will be converted to double, so these conversions must be possible.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -679,59 +675,34 @@ template&lt;typename ObFun &gt; </div>
 
 </div>
 </div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a4a018c8fac2d08e5fc48ac3dd2c963a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a018c8fac2d08e5fc48ac3dd2c963a5">&#9670;&nbsp;</a></span>operator&gt;&gt;</h2>
+<a id="accddca5c54b5ca8b454381e51e676cac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accddca5c54b5ca8b454381e51e676cac">&#9670;&nbsp;</a></span>setObservationFunction() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::istream&amp; operator&gt;&gt; </td>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">AIToolbox::POMDP::SparseModel</a>&lt; M &gt;::setObservationFunction </td>
           <td>(</td>
-          <td class="paramtype">std::istream &amp;&#160;</td>
-          <td class="paramname"><em>is</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ace30bafb7aa37ce98155addcb19697ec">ObservationMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>of</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a>&lt; M &gt; &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::SparseModel</a> class. </p>
-<p>Note that as all other input function, it does not actually change the input model if the reading fails.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">M</td><td>The underlying <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model. Needs to have operator&lt;&lt; implemented. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>This function sets the observation function using a SparseMatrix3D. </p>
+<p>This function will throw a std::invalid_argument if the matrix provided does not contain valid probabilities.</p>
+<p>The dimensions of the container must match the ones used during construction (for three dimensions: A, S, O). BE CAREFUL. The matrices MUST be SxO, while the std::vector containing them MUST be of size A.</p>
+<p>This function does DOES NOT perform any size checks on the input.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">is</td><td>The input stream. </td></tr>
-    <tr><td class="paramname">m</td><td>The model to write into.</td></tr>
+    <tr><td class="paramname">t</td><td>The external transitions container. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The input stream. </dd></dl>
 
 </div>
 </div>

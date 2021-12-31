@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('POMDP_2IO_8hpp.html',''); initResizabl
 <div class="contents">
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;<a class="el" href="Utils_2IO_8hpp_source.html">AIToolbox/Utils/IO.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="MDP_2IO_8hpp_source.html">AIToolbox/MDP/IO.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="MDP_2Model_8hpp_source.html">AIToolbox/MDP/Model.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2Types_8hpp_source.html">AIToolbox/POMDP/Types.hpp</a>&gt;</code><br />
@@ -98,6 +99,7 @@ $(document).ready(function(){initNavTree('POMDP_2IO_8hpp.html',''); initResizabl
 <code>#include &lt;<a class="el" href="POMDP_2Model_8hpp_source.html">AIToolbox/POMDP/Model.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2SparseModel_8hpp_source.html">AIToolbox/POMDP/SparseModel.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="POMDP_2Policies_2Policy_8hpp_source.html">AIToolbox/POMDP/Policies/Policy.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="Logging_8hpp_source.html">AIToolbox/Impl/Logging.hpp</a>&gt;</code><br />
 </div>
 <p><a href="POMDP_2IO_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -113,24 +115,24 @@ Functions</h2></td></tr>
 <tr class="memitem:a184e91a2441d41ffc7c249c587bf415c"><td class="memItemLeft" align="right" valign="top">Model&lt; MDP::Model &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a184e91a2441d41ffc7c249c587bf415c">AIToolbox::POMDP::parseCassandra</a> (std::istream &amp;input)</td></tr>
 <tr class="memdesc:a184e91a2441d41ffc7c249c587bf415c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> from a Cassandra formatted stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a184e91a2441d41ffc7c249c587bf415c">More...</a><br /></td></tr>
 <tr class="separator:a184e91a2441d41ffc7c249c587bf415c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#af460a8a2b997c9c93e620e9f805fcaf3">AIToolbox::POMDP::operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
-<tr class="memdesc:af460a8a2b997c9c93e620e9f805fcaf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model to a file.  <a href="namespaceAIToolbox_1_1POMDP.html#af460a8a2b997c9c93e620e9f805fcaf3">More...</a><br /></td></tr>
-<tr class="separator:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e6938312f6dd9d20f1f3767bb361a76"><td class="memTemplParams" colspan="2">template&lt;typename M , typename &gt; </td></tr>
-<tr class="memitem:a3e6938312f6dd9d20f1f3767bb361a76"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3e6938312f6dd9d20f1f3767bb361a76">AIToolbox::POMDP::operator&gt;&gt;</a> (std::istream &amp;is, Model&lt; M &gt; &amp;m)</td></tr>
-<tr class="memdesc:a3e6938312f6dd9d20f1f3767bb361a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> class.  <a href="namespaceAIToolbox_1_1POMDP.html#a3e6938312f6dd9d20f1f3767bb361a76">More...</a><br /></td></tr>
-<tr class="separator:a3e6938312f6dd9d20f1f3767bb361a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55c4ff8e7537e5d77f5edd0038705393"><td class="memTemplParams" colspan="2">template&lt;typename M , typename &gt; </td></tr>
-<tr class="memitem:a55c4ff8e7537e5d77f5edd0038705393"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a55c4ff8e7537e5d77f5edd0038705393">AIToolbox::POMDP::operator&gt;&gt;</a> (std::istream &amp;is, SparseModel&lt; M &gt; &amp;m)</td></tr>
-<tr class="memdesc:a55c4ff8e7537e5d77f5edd0038705393"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::SparseModel</a> class.  <a href="namespaceAIToolbox_1_1POMDP.html#a55c4ff8e7537e5d77f5edd0038705393">More...</a><br /></td></tr>
-<tr class="separator:a55c4ff8e7537e5d77f5edd0038705393"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a900c2a4bab15f2c05e023201bcfb5014"><td class="memTemplParams" colspan="2">template&lt;IsModelEigen M&gt; </td></tr>
+<tr class="memitem:a900c2a4bab15f2c05e023201bcfb5014"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a900c2a4bab15f2c05e023201bcfb5014">AIToolbox::POMDP::operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
+<tr class="memdesc:a900c2a4bab15f2c05e023201bcfb5014"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function outputs a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model to a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a900c2a4bab15f2c05e023201bcfb5014">More...</a><br /></td></tr>
+<tr class="separator:a900c2a4bab15f2c05e023201bcfb5014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="memTemplParams" colspan="2">template&lt;MDP::IsModel M&gt; </td></tr>
+<tr class="memitem:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#af3421fef4fb3613d11ae8b7c95b48b3e">AIToolbox::POMDP::operator&gt;&gt;</a> (std::istream &amp;is, Model&lt; M &gt; &amp;m)</td></tr>
+<tr class="memdesc:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a> from a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#af3421fef4fb3613d11ae8b7c95b48b3e">More...</a><br /></td></tr>
+<tr class="separator:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f55513348caedfb4a3dd663f346c631"><td class="memTemplParams" colspan="2">template&lt;MDP::IsModel M&gt; </td></tr>
+<tr class="memitem:a4f55513348caedfb4a3dd663f346c631"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4f55513348caedfb4a3dd663f346c631">AIToolbox::POMDP::operator&gt;&gt;</a> (std::istream &amp;is, SparseModel&lt; M &gt; &amp;m)</td></tr>
+<tr class="memdesc:a4f55513348caedfb4a3dd663f346c631"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::SparseModel</a> class.  <a href="namespaceAIToolbox_1_1POMDP.html#a4f55513348caedfb4a3dd663f346c631">More...</a><br /></td></tr>
+<tr class="separator:a4f55513348caedfb4a3dd663f346c631"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46eee8111107489e3d68d30055722ed8"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">AIToolbox::POMDP::operator&lt;&lt;</a> (std::ostream &amp;os, const Policy &amp;p)</td></tr>
+<tr class="memdesc:a46eee8111107489e3d68d30055722ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function outputs a <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html" title="This class represents a POMDP Policy.">Policy</a> to a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">More...</a><br /></td></tr>
+<tr class="separator:a46eee8111107489e3d68d30055722ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17b5a1ad1cf5759d34c6a8470089f9e1"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a17b5a1ad1cf5759d34c6a8470089f9e1">AIToolbox::POMDP::operator&gt;&gt;</a> (std::istream &amp;is, Policy &amp;p)</td></tr>
 <tr class="memdesc:a17b5a1ad1cf5759d34c6a8470089f9e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="namespaceAIToolbox_1_1POMDP.html#a17b5a1ad1cf5759d34c6a8470089f9e1">More...</a><br /></td></tr>
 <tr class="separator:a17b5a1ad1cf5759d34c6a8470089f9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46eee8111107489e3d68d30055722ed8"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">AIToolbox::POMDP::operator&lt;&lt;</a> (std::ostream &amp;os, const Policy &amp;p)</td></tr>
-<tr class="memdesc:a46eee8111107489e3d68d30055722ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">More...</a><br /></td></tr>
-<tr class="separator:a46eee8111107489e3d68d30055722ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

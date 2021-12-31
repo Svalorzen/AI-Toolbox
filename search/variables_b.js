@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['observationprobability_1716',['observationProbability',['../structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html#acbbb5eb29e949d93736aa7c2fbf39d3c',1,'AIToolbox::POMDP::SARSOP::TreeNode::Children']]],
-  ['observations_1717',['observations',['../structAIToolbox_1_1POMDP_1_1VEntry.html#a84c7389b6b1273623342cd521fee35c8',1,'AIToolbox::POMDP::VEntry']]],
-  ['ownsids_1718',['OwnsIds',['../classAIToolbox_1_1IndexMap.html#a9e917442408dc0a40a690bc2cd43485f',1,'AIToolbox::IndexMap::OwnsIds()'],['../classAIToolbox_1_1IndexSkipMap.html#ad03cc295957201193b8a52718663794d',1,'AIToolbox::IndexSkipMap::OwnsIds()']]]
+  ['match_1760',['match',['../structAIToolbox_1_1Impl_1_1Matcher.html#a0e8c9aaecd60cab955678b90081cb8a3',1,'AIToolbox::Impl::Matcher::match()'],['../structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_4_00_01std_1_1tuple_3_01B_8_8_8_01_4_00_01IDs_8_8_8_01_4.html#a5f1c5eff4525e6118fb5a314b05965de',1,'AIToolbox::Impl::Matcher&lt; N, std::tuple&lt;&gt;, std::tuple&lt; B... &gt;, IDs... &gt;::match()'],['../structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_01F_00_01A_8_8_8_01_4_00_01std_1_1t1ddab2984fa55bc4ddec29313b0db4c7.html#ae411b4c5d5787d1ed53514a63cda71f0',1,'AIToolbox::Impl::Matcher&lt; N, std::tuple&lt; F, A... &gt;, std::tuple&lt; F, B... &gt;, IDs... &gt;::match()'],['../structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_01FA_00_01A_8_8_8_01_4_00_01std_1_1dae9d21bfe0614a8d67ba5444832ecb4.html#a3c596cac244eddd11c227983b4e3120f',1,'AIToolbox::Impl::Matcher&lt; N, std::tuple&lt; FA, A... &gt;, std::tuple&lt; FB, B... &gt;, IDs... &gt;::match()']]],
+  ['matrix_1761',['matrix',['../classAIToolbox_1_1StorageMatrix2D.html#a23b7eb94e14c3dc03609855204b26d63',1,'AIToolbox::StorageMatrix2D']]],
+  ['maxs_5f_1762',['maxS_',['../structAIToolbox_1_1Impl_1_1POMDP_1_1BeliefNodeNoEntropyAddon.html#a58163dcba9a40d4d4a2af39de62c8b3d',1,'AIToolbox::Impl::POMDP::BeliefNodeNoEntropyAddon']]]
 ];

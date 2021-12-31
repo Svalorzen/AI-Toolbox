@@ -1,7 +1,7 @@
 var classAIToolbox_1_1MDP_1_1DoubleQLearning =
 [
     [ "DoubleQLearning", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html#a4ce0b5f55b9774f26c86fb0c9534a166", null ],
-    [ "DoubleQLearning", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html#a0b0ee11dc757a1341b95f0759be96bbf", null ],
+    [ "DoubleQLearning", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html#a3c9b6d52739dc5d6f5f7455f1d9913fd", null ],
     [ "getA", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html#a9bb7412bdd9e4cef6bed01c638b46a2a", null ],
     [ "getDiscount", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html#a29876cadf4888de79b2b2e3fdd1b9a50", null ],
     [ "getLearningRate", "classAIToolbox_1_1MDP_1_1DoubleQLearning.html#a5b58efb6a2a5f664d2b4a1cdd7dd738b", null ],

@@ -113,6 +113,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acd8e8b48c81c460f529c6f6273659a42"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#acd8e8b48c81c460f529c6f6273659a42">sampleAction</a> () const override</td></tr>
 <tr class="memdesc:acd8e8b48c81c460f529c6f6273659a42"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#acd8e8b48c81c460f529c6f6273659a42">More...</a><br /></td></tr>
 <tr class="separator:acd8e8b48c81c460f529c6f6273659a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01a31ab2c9444b0e3c4e56966b773b8c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a01a31ab2c9444b0e3c4e56966b773b8c">sampleActionNoAlloc</a> () const</td></tr>
+<tr class="memdesc:a01a31ab2c9444b0e3c4e56966b773b8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function chooses a random action for state s, following the policy distribution.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a01a31ab2c9444b0e3c4e56966b773b8c">More...</a><br /></td></tr>
+<tr class="separator:a01a31ab2c9444b0e3c4e56966b773b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29bb67b4c0da7a8fad877d4451c5a7c2"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a29bb67b4c0da7a8fad877d4451c5a7c2">getActionProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;a) const override</td></tr>
 <tr class="memdesc:a29bb67b4c0da7a8fad877d4451c5a7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action in the specified state.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a29bb67b4c0da7a8fad877d4451c5a7c2">More...</a><br /></td></tr>
 <tr class="separator:a29bb67b4c0da7a8fad877d4451c5a7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -234,6 +237,27 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
 
 <p>Implements <a class="el" href="classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a40b87f4b7da5887282213e7bafbed514">AIToolbox::PolicyInterface&lt; void, void, Action &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a01a31ab2c9444b0e3c4e56966b773b8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01a31ab2c9444b0e3c4e56966b773b8c">&#9670;&nbsp;</a></span>sampleActionNoAlloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a>&amp; AIToolbox::Factored::Bandit::RandomPolicy::sampleActionNoAlloc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function chooses a random action for state s, following the policy distribution. </p>
+<p>This function does not allocate memory each call.</p>
+<dl class="section return"><dt>Returns</dt><dd>The chosen action. </dd></dl>
 
 </div>
 </div>

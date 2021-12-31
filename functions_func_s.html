@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1BanditPolicyAdaptor.html#af1f657ef1ea276b1a523044691611cc4">AIToolbox::Factored::MDP::BanditPolicyAdaptor&lt; BanditPolicy &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html#a214b347c57c8e47ed66618e9ebe448d5">AIToolbox::Factored::MDP::QGreedyPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a6c3ba6af74e5b48039f23fcbb73c560d">AIToolbox::MDP::BanditPolicyAdaptor&lt; BanditPolicy &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a37e218ad372268e5d8e3e4965a5279b5">AIToolbox::MDP::MCTS&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a03b1f4303f4d95adc910ee859c46434b">AIToolbox::MDP::MCTS&lt; M, StateHash &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#a5cc3ae0c955f9086c12e5b3b7df06965">AIToolbox::MDP::PGAAPPPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1PolicyWrapper.html#ae15dd003171bdd4bc69f20ea233f028e">AIToolbox::MDP::PolicyWrapper</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html#a9f094d8cb872e504631cf9971685aea0">AIToolbox::MDP::QGreedyPolicy</a>
@@ -118,13 +118,16 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1rPOMCP.html#aa6b4157e14a353cab36da8ee7972e204">AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1RTBSS.html#a17dbd4c66f73fda2d91effd89f8e1de7">AIToolbox::POMDP::RTBSS&lt; M &gt;</a>
 </li>
+<li>sampleActionNoAlloc()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a01a31ab2c9444b0e3c4e56966b773b8c">AIToolbox::Factored::Bandit::RandomPolicy</a>
+</li>
 <li>sampleBelief()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1HeadBeliefNode.html#ac240cc934e6ea6804f66f7fdd22b1555">AIToolbox::POMDP::HeadBeliefNode&lt; UseEntropy &gt;</a>
 </li>
 <li>sampleOR()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#a00163197cdba09641470d1ed04b5c4cf">AIToolbox::POMDP::Model&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ae7897f3d66287915846c0188181ef051">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
-, <a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a439d22af8f0d735ff83ae134b7df3bcd">OldPOMDPModel&lt; M &gt;</a>
+, <a class="el" href="classOldPOMDPModel.html#a439d22af8f0d735ff83ae134b7df3bcd">OldPOMDPModel&lt; M &gt;</a>
 </li>
 <li>sampleProbability()
 : <a class="el" href="classAIToolbox_1_1VoseAliasSampler.html#a8f6c668fb35a996d7355948f74b1c6ab">AIToolbox::VoseAliasSampler</a>
@@ -145,7 +148,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>sampleSOR()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#a042559d5a5ba91e4da2048bcc0db8dd6">AIToolbox::POMDP::Model&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aab1a1eee64793c8a3c04c29e64ae14fc">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
-, <a class="el" href="classOldPOMDPModel_3_01M_01_4.html#aa65d7732bc476d1598a6d61f4f0971df">OldPOMDPModel&lt; M &gt;</a>
+, <a class="el" href="classOldPOMDPModel.html#aa65d7732bc476d1598a6d61f4f0971df">OldPOMDPModel&lt; M &gt;</a>
 </li>
 <li>sampleSR()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a1b1432a1636ca9fd3af58e5824645315">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
@@ -240,7 +243,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classAIToolbox_1_1MDP_1_1OffPolicyControl.html#ad02313a5a651936f6e6d2a00bdf611ae">AIToolbox::MDP::OffPolicyControl&lt; Derived &gt;</a>
 </li>
 <li>setExploration()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a5cb9e22381c8ba914633445eedd19e05">AIToolbox::MDP::MCTS&lt; M &gt;</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a944cdf39a9bdc667a715ad05061b404e">AIToolbox::MDP::MCTS&lt; M, StateHash &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP.html#a18d941fd2758329f72f146bdca0ae715">AIToolbox::POMDP::POMCP&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1rPOMCP.html#ab582aaefcc3a9bb74ba5b643301d1bcc">AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;</a>
 </li>
@@ -267,7 +270,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#aa764b474144d98201eed53a1204c97cb">AIToolbox::MDP::Dyna2&lt; M &gt;</a>
 </li>
 <li>setIterations()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a32147c368e584c1f3dd6996716db1715">AIToolbox::MDP::MCTS&lt; M &gt;</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#ac329e3970f6728bf9fe823c3438d0865">AIToolbox::MDP::MCTS&lt; M, StateHash &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1POMCP.html#aee2b7c6e46b35535c6e324352b641126">AIToolbox::POMDP::POMCP&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1rPOMCP.html#adc4e2c496c12ad273d4a5a0c3386d9c1">AIToolbox::POMDP::rPOMCP&lt; M, UseEntropy &gt;</a>
 </li>
@@ -311,7 +314,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>setObservationFunction()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#a49f9b49962fe702d073324a063abbc63">AIToolbox::POMDP::Model&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aca394d9a053cb0bd238009c077326fd0">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
-, <a class="el" href="classOldPOMDPModel_3_01M_01_4.html#a8cad5d463a8a894bcc4a0774ff4f6ca8">OldPOMDPModel&lt; M &gt;</a>
+, <a class="el" href="classOldPOMDPModel.html#a8cad5d463a8a894bcc4a0774ff4f6ca8">OldPOMDPModel&lt; M &gt;</a>
 </li>
 <li>setPermanentLambda()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#ae23463328aa28b1cdfeeedcef5d5b126">AIToolbox::MDP::Dyna2&lt; M &gt;</a>
@@ -340,7 +343,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 </li>
 <li>setRewardFunction()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a778bce7806b7fd265c8d89f74760def4">AIToolbox::MDP::Model</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a68d2c87fcbf2262e40e1e007fd7444f5">AIToolbox::MDP::SparseModel</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a0bfcfb8ef5067ea7c7469336da58dee0">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classOldMDPModel.html#a8e8565ce6da2f01cb457d97bef6a9dff">OldMDPModel</a>
 </li>
 <li>setRewardMatrix()
@@ -388,7 +391,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Dyna2.html#aee90a079c10d07b570fab9e0c68bd2f1">AIToolbox::MDP::Dyna2&lt; M &gt;</a>
 </li>
 <li>setTransitionFunction()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a1ad9ead7ffd3eb98b631c9cefeabd354">AIToolbox::MDP::Model</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#acef2bc9dcdea920f503413e846697d3e">AIToolbox::MDP::Model</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a0aca4006eb8f08ebc1433c5664d834bf">AIToolbox::MDP::SparseModel</a>
 , <a class="el" href="classOldMDPModel.html#a02f8101611255bbcc26a419c29283d0e">OldMDPModel</a>
 </li>
@@ -439,11 +442,8 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html#a972d4ac9d4aad85428c3569799142548">AIToolbox::MDP::SparseMaximumLikelihoodModel&lt; E &gt;</a>
 </li>
 <li>SparseModel()
-: <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#a9e5b14d7e2e63a4358754958a7b82100">AIToolbox::MDP::SparseModel</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#ae2b90125070285503e42e358f0d9c982">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
-</li>
-<li>StateNode()
-: <a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_1_1StateNode.html#a79e7e1c36c76848e545973b5e67c66b2">AIToolbox::MDP::MCTS&lt; M &gt;::StateNode</a>
+: <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#aacc70118f8f821ecd58529af1dc06424">AIToolbox::MDP::SparseModel</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#aaffc2edb08e6162df66acf8a5f2c92ab">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
 </li>
 <li>Statistics()
 : <a class="el" href="classAIToolbox_1_1Statistics.html#a4b73ef54583c2c127efe72f5998a12b3">AIToolbox::Statistics</a>
@@ -476,10 +476,10 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SARSAL.html#a6e7d147b86033ebe670a58f9d5e9d247">AIToolbox::MDP::SARSAL</a>
 </li>
 <li>StorageMatrix2D()
-: <a class="el" href="classAIToolbox_1_1StorageMatrix2D.html#ae74bb1fb5fa03285a9fe30498e3550a7">AIToolbox::StorageMatrix2D</a>
+: <a class="el" href="classAIToolbox_1_1StorageMatrix2D.html#acc87911f5199e0576df0bc6cc9efc305">AIToolbox::StorageMatrix2D</a>
 </li>
 <li>StorageVector()
-: <a class="el" href="classAIToolbox_1_1StorageVector.html#af3e6a386860053e0c1e508b8e3727bef">AIToolbox::StorageVector</a>
+: <a class="el" href="classAIToolbox_1_1StorageVector.html#a2488861756222def88ab3cf8f4c4be51">AIToolbox::StorageVector</a>
 </li>
 <li>SubsetEnumerator()
 : <a class="el" href="classAIToolbox_1_1SubsetEnumerator.html#a775182c21c051ff33864699431c94353">AIToolbox::SubsetEnumerator&lt; Index &gt;</a>
@@ -488,9 +488,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="classAIToolbox_1_1SubsetEnumerator.html#ae3294a5ac13756f3a911695a62e0439c">AIToolbox::SubsetEnumerator&lt; Index &gt;</a>
 </li>
 <li>sync()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a5bc790743b6d18d11c60e9cbfdd6a501">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
-, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#aa94d65abe760f6390db4ad3b56e20dd7">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html#a0e5770f0bdff1bb0140c2a079b63b61c">AIToolbox::MDP::MaximumLikelihoodModel&lt; E &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#ae40bd14174897a23f17c2081529512a8">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a1b43b17144685c301dd04f5cc3484fcb">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html#abf8797885995fad6ffc177c44799c926">AIToolbox::MDP::MaximumLikelihoodModel&lt; E &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html#afd33ddca7e3f8816718f28eb4d103237">AIToolbox::MDP::SparseMaximumLikelihoodModel&lt; E &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ThompsonModel.html#a5851af183c64ef4315812137a23dae35">AIToolbox::MDP::ThompsonModel&lt; E &gt;</a>
 </li>

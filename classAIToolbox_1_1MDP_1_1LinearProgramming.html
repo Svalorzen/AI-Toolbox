@@ -97,10 +97,10 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1MDP_1_1LinearProgram
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad0480c8c31efcaaffcea1523c0d8a49f"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:ad0480c8c31efcaaffcea1523c0d8a49f"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1LinearProgramming.html#ad0480c8c31efcaaffcea1523c0d8a49f">operator()</a> (const M &amp;m)</td></tr>
-<tr class="memdesc:ad0480c8c31efcaaffcea1523c0d8a49f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves the input <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> using linear programming.  <a href="classAIToolbox_1_1MDP_1_1LinearProgramming.html#ad0480c8c31efcaaffcea1523c0d8a49f">More...</a><br /></td></tr>
-<tr class="separator:ad0480c8c31efcaaffcea1523c0d8a49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d504d8b5bf2ba40e121e0e33145186c"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a0d504d8b5bf2ba40e121e0e33145186c"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1LinearProgramming.html#a0d504d8b5bf2ba40e121e0e33145186c">operator()</a> (const M &amp;m)</td></tr>
+<tr class="memdesc:a0d504d8b5bf2ba40e121e0e33145186c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves the input <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> using linear programming.  <a href="classAIToolbox_1_1MDP_1_1LinearProgramming.html#a0d504d8b5bf2ba40e121e0e33145186c">More...</a><br /></td></tr>
+<tr class="separator:a0d504d8b5bf2ba40e121e0e33145186c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class solves an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> using Linear Programming. </p>
@@ -108,13 +108,13 @@ Public Member Functions</h2></td></tr>
 <p>It creates a set of |S| variables and |S|*|A| constraints, which when solved obtain the optimal <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a> values.</p>
 <p>From there we compute the optimal QFunction, and we return them. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad0480c8c31efcaaffcea1523c0d8a49f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0480c8c31efcaaffcea1523c0d8a49f">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a0d504d8b5bf2ba40e121e0e33145186c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d504d8b5bf2ba40e121e0e33145186c">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="structAIToolbox_1_1MDP_1_1ValueFunction.html">ValueFunction</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &gt; AIToolbox::MDP::LinearProgramming::operator() </td>

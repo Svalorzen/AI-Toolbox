@@ -100,10 +100,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7ca8193d6fd76ebd30004630fd0051f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a7ca8193d6fd76ebd30004630fd0051f7">BlindStrategies</a> (unsigned horizon, double tolerance=0.001)</td></tr>
 <tr class="memdesc:a7ca8193d6fd76ebd30004630fd0051f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a7ca8193d6fd76ebd30004630fd0051f7">More...</a><br /></td></tr>
 <tr class="separator:a7ca8193d6fd76ebd30004630fd0051f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8455b77e2d6ed8b75f6b37f871e72c63"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a8455b77e2d6ed8b75f6b37f871e72c63"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a8455b77e2d6ed8b75f6b37f871e72c63">operator()</a> (const M &amp;m, bool fasterConvergence)</td></tr>
-<tr class="memdesc:a8455b77e2d6ed8b75f6b37f871e72c63"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the blind strategies for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a8455b77e2d6ed8b75f6b37f871e72c63">More...</a><br /></td></tr>
-<tr class="separator:a8455b77e2d6ed8b75f6b37f871e72c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74956f1159f258762ce5a607f9eb627e"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a74956f1159f258762ce5a607f9eb627e"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a74956f1159f258762ce5a607f9eb627e">operator()</a> (const M &amp;m, bool fasterConvergence)</td></tr>
+<tr class="memdesc:a74956f1159f258762ce5a607f9eb627e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the blind strategies for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a74956f1159f258762ce5a607f9eb627e">More...</a><br /></td></tr>
+<tr class="separator:a74956f1159f258762ce5a607f9eb627e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28c76967b192bce952fa3ba96974023d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a28c76967b192bce952fa3ba96974023d">setTolerance</a> (double tolerance)</td></tr>
 <tr class="memdesc:a28c76967b192bce952fa3ba96974023d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the tolerance parameter.  <a href="classAIToolbox_1_1POMDP_1_1BlindStrategies.html#a28c76967b192bce952fa3ba96974023d">More...</a><br /></td></tr>
 <tr class="separator:a28c76967b192bce952fa3ba96974023d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,13 +201,13 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8455b77e2d6ed8b75f6b37f871e72c63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8455b77e2d6ed8b75f6b37f871e72c63">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a74956f1159f258762ce5a607f9eb627e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74956f1159f258762ce5a607f9eb627e">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &gt; AIToolbox::POMDP::BlindStrategies::operator() </td>

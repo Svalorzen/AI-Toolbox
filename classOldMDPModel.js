@@ -4,7 +4,7 @@ var classOldMDPModel =
     [ "TransitionMatrix", "classOldMDPModel.html#ae4249d1e30d70f5615c0fe787170da50", null ],
     [ "OldMDPModel", "classOldMDPModel.html#aa62e2c03fdd0334a302cf3cc2014ceda", null ],
     [ "OldMDPModel", "classOldMDPModel.html#aa7cfcbab3d5cd16648d521b80e64b200", null ],
-    [ "OldMDPModel", "classOldMDPModel.html#ac75f7674d14277553f9774e58e41dcf5", null ],
+    [ "OldMDPModel", "classOldMDPModel.html#a23bad0e882bbcacfc5c988e1746b80db", null ],
     [ "getA", "classOldMDPModel.html#a4f3266b48a2dab2ebc816b12217dc5a0", null ],
     [ "getDiscount", "classOldMDPModel.html#a21273c8dd022590b352bbba8955ac6d3", null ],
     [ "getExpectedReward", "classOldMDPModel.html#afa9f2b5caa82fd85edfedbdc98a5bc61", null ],

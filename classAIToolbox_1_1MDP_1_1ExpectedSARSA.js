@@ -1,7 +1,7 @@
 var classAIToolbox_1_1MDP_1_1ExpectedSARSA =
 [
     [ "ExpectedSARSA", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a0da3d133179c0cd5cba29ee51c18d65a", null ],
-    [ "ExpectedSARSA", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#ab3476556bf504f33859254fc4e77ed40", null ],
+    [ "ExpectedSARSA", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a43c059eb7e6cd30e5f7ed62e9df33525", null ],
     [ "getA", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a1e894f10e3cdeff0273c284a9355e661", null ],
     [ "getDiscount", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#afd296bff229c404761a4aa81fcf1c083", null ],
     [ "getLearningRate", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#a51d12f22aa8300221023d435568c4790", null ],

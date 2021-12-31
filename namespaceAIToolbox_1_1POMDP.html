@@ -128,18 +128,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html">IncrementalPruning</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements the Incremental Pruning algorithm.  <a href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1POMDP_1_1is__generative__model.html">is_generative_model</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="structAIToolbox_1_1POMDP_1_1is__generative__model.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1POMDP_1_1is__model.html">is_model</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="structAIToolbox_1_1POMDP_1_1is__model.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1POMDP_1_1is__model__eigen.html">is_model_eigen</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface that allows <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> algorithms to leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="structAIToolbox_1_1POMDP_1_1is__model__eigen.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1POMDP_1_1is__model__not__eigen.html">is_model_not_eigen</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct verifies that a class satisfies the <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model.html" title="This struct represents the required interface for a POMDP Model.">is_model</a> interface but not the <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model__eigen.html" title="This struct represents the required interface that allows POMDP algorithms to leverage Eigen.">is_model_eigen</a> interface.  <a href="structAIToolbox_1_1POMDP_1_1is__model__not__eigen.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1POMDP_1_1is__witness__lp.html">is_witness_lp</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This check the interface for a <a class="el" href="classAIToolbox_1_1WitnessLP.html" title="This class implements an easy interface to do Witness discovery through linear programming.">WitnessLP</a>.  <a href="structAIToolbox_1_1POMDP_1_1is__witness__lp.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -216,29 +204,32 @@ Functions</h2></td></tr>
 <tr class="memitem:a184e91a2441d41ffc7c249c587bf415c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">Model</a>&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">MDP::Model</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a184e91a2441d41ffc7c249c587bf415c">parseCassandra</a> (std::istream &amp;input)</td></tr>
 <tr class="memdesc:a184e91a2441d41ffc7c249c587bf415c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> from a Cassandra formatted stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a184e91a2441d41ffc7c249c587bf415c">More...</a><br /></td></tr>
 <tr class="separator:a184e91a2441d41ffc7c249c587bf415c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#af460a8a2b997c9c93e620e9f805fcaf3">operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
-<tr class="memdesc:af460a8a2b997c9c93e620e9f805fcaf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model to a file.  <a href="namespaceAIToolbox_1_1POMDP.html#af460a8a2b997c9c93e620e9f805fcaf3">More...</a><br /></td></tr>
-<tr class="separator:af460a8a2b997c9c93e620e9f805fcaf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e6938312f6dd9d20f1f3767bb361a76"><td class="memTemplParams" colspan="2">template&lt;typename M , typename &gt; </td></tr>
-<tr class="memitem:a3e6938312f6dd9d20f1f3767bb361a76"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3e6938312f6dd9d20f1f3767bb361a76">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">Model</a>&lt; M &gt; &amp;m)</td></tr>
-<tr class="memdesc:a3e6938312f6dd9d20f1f3767bb361a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> class.  <a href="namespaceAIToolbox_1_1POMDP.html#a3e6938312f6dd9d20f1f3767bb361a76">More...</a><br /></td></tr>
-<tr class="separator:a3e6938312f6dd9d20f1f3767bb361a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55c4ff8e7537e5d77f5edd0038705393"><td class="memTemplParams" colspan="2">template&lt;typename M , typename &gt; </td></tr>
-<tr class="memitem:a55c4ff8e7537e5d77f5edd0038705393"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a55c4ff8e7537e5d77f5edd0038705393">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a>&lt; M &gt; &amp;m)</td></tr>
-<tr class="memdesc:a55c4ff8e7537e5d77f5edd0038705393"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::SparseModel</a> class.  <a href="namespaceAIToolbox_1_1POMDP.html#a55c4ff8e7537e5d77f5edd0038705393">More...</a><br /></td></tr>
-<tr class="separator:a55c4ff8e7537e5d77f5edd0038705393"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a900c2a4bab15f2c05e023201bcfb5014"><td class="memTemplParams" colspan="2">template&lt;IsModelEigen M&gt; </td></tr>
+<tr class="memitem:a900c2a4bab15f2c05e023201bcfb5014"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a900c2a4bab15f2c05e023201bcfb5014">operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
+<tr class="memdesc:a900c2a4bab15f2c05e023201bcfb5014"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function outputs a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model to a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a900c2a4bab15f2c05e023201bcfb5014">More...</a><br /></td></tr>
+<tr class="separator:a900c2a4bab15f2c05e023201bcfb5014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="memTemplParams" colspan="2">template&lt;MDP::IsModel M&gt; </td></tr>
+<tr class="memitem:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#af3421fef4fb3613d11ae8b7c95b48b3e">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html">Model</a>&lt; M &gt; &amp;m)</td></tr>
+<tr class="memdesc:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a> from a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#af3421fef4fb3613d11ae8b7c95b48b3e">More...</a><br /></td></tr>
+<tr class="separator:af3421fef4fb3613d11ae8b7c95b48b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f55513348caedfb4a3dd663f346c631"><td class="memTemplParams" colspan="2">template&lt;MDP::IsModel M&gt; </td></tr>
+<tr class="memitem:a4f55513348caedfb4a3dd663f346c631"><td class="memTemplItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4f55513348caedfb4a3dd663f346c631">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html">SparseModel</a>&lt; M &gt; &amp;m)</td></tr>
+<tr class="memdesc:a4f55513348caedfb4a3dd663f346c631"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::SparseModel</a> class.  <a href="namespaceAIToolbox_1_1POMDP.html#a4f55513348caedfb4a3dd663f346c631">More...</a><br /></td></tr>
+<tr class="separator:a4f55513348caedfb4a3dd663f346c631"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46eee8111107489e3d68d30055722ed8"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html">Policy</a> &amp;p)</td></tr>
+<tr class="memdesc:a46eee8111107489e3d68d30055722ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function outputs a <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html" title="This class represents a POMDP Policy.">Policy</a> to a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">More...</a><br /></td></tr>
+<tr class="separator:a46eee8111107489e3d68d30055722ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17b5a1ad1cf5759d34c6a8470089f9e1"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a17b5a1ad1cf5759d34c6a8470089f9e1">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html">Policy</a> &amp;p)</td></tr>
 <tr class="memdesc:a17b5a1ad1cf5759d34c6a8470089f9e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="namespaceAIToolbox_1_1POMDP.html#a17b5a1ad1cf5759d34c6a8470089f9e1">More...</a><br /></td></tr>
 <tr class="separator:a17b5a1ad1cf5759d34c6a8470089f9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46eee8111107489e3d68d30055722ed8"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html">Policy</a> &amp;p)</td></tr>
-<tr class="memdesc:a46eee8111107489e3d68d30055722ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8">More...</a><br /></td></tr>
-<tr class="separator:a46eee8111107489e3d68d30055722ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3dd0669f710850fc93fe8f7b102fb1b6">operator&lt;</a> (const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;lhs, const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;rhs)</td></tr>
-<tr class="memdesc:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function lexicographically sorts VEntries.  <a href="namespaceAIToolbox_1_1POMDP.html#a3dd0669f710850fc93fe8f7b102fb1b6">More...</a><br /></td></tr>
-<tr class="separator:a3dd0669f710850fc93fe8f7b102fb1b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a682502a5ab71e0e73d5fca82fb994d11"><td class="memItemLeft" align="right" valign="top">std::strong_ordering&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a682502a5ab71e0e73d5fca82fb994d11">operator&lt;=&gt;</a> (const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;lhs, const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a682502a5ab71e0e73d5fca82fb994d11"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function lexicographically sorts VEntries.  <a href="namespaceAIToolbox_1_1POMDP.html#a682502a5ab71e0e73d5fca82fb994d11">More...</a><br /></td></tr>
+<tr class="separator:a682502a5ab71e0e73d5fca82fb994d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45f5d972365404bca4ddfbef575b1bd0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a45f5d972365404bca4ddfbef575b1bd0">operator==</a> (const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;lhs, const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;rhs)</td></tr>
 <tr class="separator:a45f5d972365404bca4ddfbef575b1bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad67f808e2eb62f0a16ffe40c84d84e8d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad67f808e2eb62f0a16ffe40c84d84e8d">makeVEntry</a> (size_t S, size_t a, size_t O)</td></tr>
+<tr class="memdesc:ad67f808e2eb62f0a16ffe40c84d84e8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates and zeroes a <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#ad67f808e2eb62f0a16ffe40c84d84e8d">More...</a><br /></td></tr>
+<tr class="separator:ad67f808e2eb62f0a16ffe40c84d84e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5254fac18b477fde30cff6ccbb131a63"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5254fac18b477fde30cff6ccbb131a63">hash_value</a> (const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;v)</td></tr>
 <tr class="memdesc:a5254fac18b477fde30cff6ccbb131a63"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables hashing of VEntries with boost::hash.  <a href="namespaceAIToolbox_1_1POMDP.html#a5254fac18b477fde30cff6ccbb131a63">More...</a><br /></td></tr>
 <tr class="separator:a5254fac18b477fde30cff6ccbb131a63"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -251,88 +242,92 @@ Functions</h2></td></tr>
 <tr class="memitem:a05e4fb4a18324709e70b42d66cf2054b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a05e4fb4a18324709e70b42d66cf2054b">weakBoundDistance</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &amp;oldV, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &amp;newV)</td></tr>
 <tr class="memdesc:a05e4fb4a18324709e70b42d66cf2054b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a weak measure of distance between two VLists.  <a href="namespaceAIToolbox_1_1POMDP.html#a05e4fb4a18324709e70b42d66cf2054b">More...</a><br /></td></tr>
 <tr class="separator:a05e4fb4a18324709e70b42d66cf2054b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18f4d95909ab7eeee98d04317c5e88ac"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a18f4d95909ab7eeee98d04317c5e88ac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a18f4d95909ab7eeee98d04317c5e88ac">makeSOSA</a> (const M &amp;m)</td></tr>
-<tr class="memdesc:a18f4d95909ab7eeee98d04317c5e88ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates the SOSA matrix for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a18f4d95909ab7eeee98d04317c5e88ac">More...</a><br /></td></tr>
-<tr class="separator:a18f4d95909ab7eeee98d04317c5e88ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
-<tr class="memdesc:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2">More...</a><br /></td></tr>
-<tr class="separator:a6a6deb0f6f3d12bb59f0b9813604abc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeadb8ad292520175aea2ad4b9173c5cd"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:aeadb8ad292520175aea2ad4b9173c5cd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aeadb8ad292520175aea2ad4b9173c5cd">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
-<tr class="memdesc:aeadb8ad292520175aea2ad4b9173c5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#aeadb8ad292520175aea2ad4b9173c5cd">More...</a><br /></td></tr>
-<tr class="separator:aeadb8ad292520175aea2ad4b9173c5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33a1c23c71b6afae16da4db1863bf68d"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a33a1c23c71b6afae16da4db1863bf68d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a33a1c23c71b6afae16da4db1863bf68d">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
-<tr class="memdesc:a33a1c23c71b6afae16da4db1863bf68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a33a1c23c71b6afae16da4db1863bf68d">More...</a><br /></td></tr>
-<tr class="separator:a33a1c23c71b6afae16da4db1863bf68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad19c9f085248dc19299d511194210843"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:ad19c9f085248dc19299d511194210843"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad19c9f085248dc19299d511194210843">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
-<tr class="memdesc:ad19c9f085248dc19299d511194210843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#ad19c9f085248dc19299d511194210843">More...</a><br /></td></tr>
-<tr class="separator:ad19c9f085248dc19299d511194210843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a413832fe24061c45091f0a24e7a7eee2"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a413832fe24061c45091f0a24e7a7eee2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a413832fe24061c45091f0a24e7a7eee2">updateBeliefPartial</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
-<tr class="memdesc:a413832fe24061c45091f0a24e7a7eee2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially updates a belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a413832fe24061c45091f0a24e7a7eee2">More...</a><br /></td></tr>
-<tr class="separator:a413832fe24061c45091f0a24e7a7eee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9903a18de2b0961d2f9a58f18bed9e5"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:af9903a18de2b0961d2f9a58f18bed9e5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#af9903a18de2b0961d2f9a58f18bed9e5">updateBeliefPartial</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a)</td></tr>
-<tr class="memdesc:af9903a18de2b0961d2f9a58f18bed9e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially updates a belief.  <a href="namespaceAIToolbox_1_1POMDP.html#af9903a18de2b0961d2f9a58f18bed9e5">More...</a><br /></td></tr>
-<tr class="separator:af9903a18de2b0961d2f9a58f18bed9e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f00347484bfd228db82d264a889d649"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a0f00347484bfd228db82d264a889d649"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a0f00347484bfd228db82d264a889d649">updateBeliefPartialUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
-<tr class="memdesc:a0f00347484bfd228db82d264a889d649"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the unnormalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a0f00347484bfd228db82d264a889d649">More...</a><br /></td></tr>
-<tr class="separator:a0f00347484bfd228db82d264a889d649"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad03a82580eea9bba77d72052b181168a"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:ad03a82580eea9bba77d72052b181168a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad03a82580eea9bba77d72052b181168a">updateBeliefPartialUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
-<tr class="memdesc:ad03a82580eea9bba77d72052b181168a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the unnormalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#ad03a82580eea9bba77d72052b181168a">More...</a><br /></td></tr>
-<tr class="separator:ad03a82580eea9bba77d72052b181168a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3be3dce28e8d80fe6457ebbe0b5da9cb"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a3be3dce28e8d80fe6457ebbe0b5da9cb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a3be3dce28e8d80fe6457ebbe0b5da9cb">updateBeliefPartialNormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
-<tr class="memdesc:a3be3dce28e8d80fe6457ebbe0b5da9cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the normalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a3be3dce28e8d80fe6457ebbe0b5da9cb">More...</a><br /></td></tr>
-<tr class="separator:a3be3dce28e8d80fe6457ebbe0b5da9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fe1545a75c1d70a6fd97cb876bff9e2"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a0fe1545a75c1d70a6fd97cb876bff9e2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a0fe1545a75c1d70a6fd97cb876bff9e2">updateBeliefPartialNormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
-<tr class="memdesc:a0fe1545a75c1d70a6fd97cb876bff9e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the normalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a0fe1545a75c1d70a6fd97cb876bff9e2">More...</a><br /></td></tr>
-<tr class="separator:a0fe1545a75c1d70a6fd97cb876bff9e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a49e94718a9c0e92e4c0da630aa5d3dc9">beliefExpectedReward</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a)</td></tr>
-<tr class="memdesc:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an immediate reward based on a belief rather than a state.  <a href="namespaceAIToolbox_1_1POMDP.html#a49e94718a9c0e92e4c0da630aa5d3dc9">More...</a><br /></td></tr>
-<tr class="separator:a49e94718a9c0e92e4c0da630aa5d3dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70d5c7d0b909a8d64e51fd9f2e4d8a96"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a70d5c7d0b909a8d64e51fd9f2e4d8a96"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a70d5c7d0b909a8d64e51fd9f2e4d8a96">makeSOSA</a> (const M &amp;m)</td></tr>
+<tr class="memdesc:a70d5c7d0b909a8d64e51fd9f2e4d8a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates the SOSA matrix for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a70d5c7d0b909a8d64e51fd9f2e4d8a96">More...</a><br /></td></tr>
+<tr class="separator:a70d5c7d0b909a8d64e51fd9f2e4d8a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3237d09e20f62a42ea1f0eb5efcffd7"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:aa3237d09e20f62a42ea1f0eb5efcffd7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa3237d09e20f62a42ea1f0eb5efcffd7">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
+<tr class="memdesc:aa3237d09e20f62a42ea1f0eb5efcffd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#aa3237d09e20f62a42ea1f0eb5efcffd7">More...</a><br /></td></tr>
+<tr class="separator:aa3237d09e20f62a42ea1f0eb5efcffd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1451b3d376afb04138ed1366a2557d77"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a1451b3d376afb04138ed1366a2557d77"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a1451b3d376afb04138ed1366a2557d77">updateBeliefUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
+<tr class="memdesc:a1451b3d376afb04138ed1366a2557d77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a1451b3d376afb04138ed1366a2557d77">More...</a><br /></td></tr>
+<tr class="separator:a1451b3d376afb04138ed1366a2557d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6435dc19ae66469b3a8d65214ab04eb"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:ad6435dc19ae66469b3a8d65214ab04eb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ad6435dc19ae66469b3a8d65214ab04eb">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
+<tr class="memdesc:ad6435dc19ae66469b3a8d65214ab04eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#ad6435dc19ae66469b3a8d65214ab04eb">More...</a><br /></td></tr>
+<tr class="separator:ad6435dc19ae66469b3a8d65214ab04eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcd22cacbc8d98a272eef513c350de0a"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:adcd22cacbc8d98a272eef513c350de0a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#adcd22cacbc8d98a272eef513c350de0a">updateBelief</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
+<tr class="memdesc:adcd22cacbc8d98a272eef513c350de0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#adcd22cacbc8d98a272eef513c350de0a">More...</a><br /></td></tr>
+<tr class="separator:adcd22cacbc8d98a272eef513c350de0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e015491188b41f4dfd367b7faee71f8"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a9e015491188b41f4dfd367b7faee71f8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a9e015491188b41f4dfd367b7faee71f8">updateBeliefPartial</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
+<tr class="memdesc:a9e015491188b41f4dfd367b7faee71f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially updates a belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a9e015491188b41f4dfd367b7faee71f8">More...</a><br /></td></tr>
+<tr class="separator:a9e015491188b41f4dfd367b7faee71f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b8361202b0d51f12f600098bc9ecce5"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a2b8361202b0d51f12f600098bc9ecce5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a2b8361202b0d51f12f600098bc9ecce5">updateBeliefPartial</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a)</td></tr>
+<tr class="memdesc:a2b8361202b0d51f12f600098bc9ecce5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function partially updates a belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a2b8361202b0d51f12f600098bc9ecce5">More...</a><br /></td></tr>
+<tr class="separator:a2b8361202b0d51f12f600098bc9ecce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14f80ac145efd035d9378030e67d2231"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a14f80ac145efd035d9378030e67d2231"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a14f80ac145efd035d9378030e67d2231">updateBeliefPartialUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
+<tr class="memdesc:a14f80ac145efd035d9378030e67d2231"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the unnormalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a14f80ac145efd035d9378030e67d2231">More...</a><br /></td></tr>
+<tr class="separator:a14f80ac145efd035d9378030e67d2231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8548eb3311e9be5c37e8db2388cf9aca"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a8548eb3311e9be5c37e8db2388cf9aca"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a8548eb3311e9be5c37e8db2388cf9aca">updateBeliefPartialUnnormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
+<tr class="memdesc:a8548eb3311e9be5c37e8db2388cf9aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the unnormalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a8548eb3311e9be5c37e8db2388cf9aca">More...</a><br /></td></tr>
+<tr class="separator:a8548eb3311e9be5c37e8db2388cf9aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa80379c7779ffd9f8cf38a6514780cac"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:aa80379c7779ffd9f8cf38a6514780cac"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa80379c7779ffd9f8cf38a6514780cac">updateBeliefPartialNormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> *bRet)</td></tr>
+<tr class="memdesc:aa80379c7779ffd9f8cf38a6514780cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the normalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#aa80379c7779ffd9f8cf38a6514780cac">More...</a><br /></td></tr>
+<tr class="separator:aa80379c7779ffd9f8cf38a6514780cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83d7671267e639f135f8ca10e9778ac2"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a83d7671267e639f135f8ca10e9778ac2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a83d7671267e639f135f8ca10e9778ac2">updateBeliefPartialNormalized</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a, const size_t o)</td></tr>
+<tr class="memdesc:a83d7671267e639f135f8ca10e9778ac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function terminates the normalized update of a partially updated belief.  <a href="namespaceAIToolbox_1_1POMDP.html#a83d7671267e639f135f8ca10e9778ac2">More...</a><br /></td></tr>
+<tr class="separator:a83d7671267e639f135f8ca10e9778ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d223273964bafeb721700c32d7cf7c2"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a9d223273964bafeb721700c32d7cf7c2"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a9d223273964bafeb721700c32d7cf7c2">beliefExpectedReward</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const size_t a)</td></tr>
+<tr class="memdesc:a9d223273964bafeb721700c32d7cf7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an immediate reward based on a belief rather than a state.  <a href="namespaceAIToolbox_1_1POMDP.html#a9d223273964bafeb721700c32d7cf7c2">More...</a><br /></td></tr>
+<tr class="separator:a9d223273964bafeb721700c32d7cf7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad672b898c62f3501445585927276b0e"><td class="memTemplParams" colspan="2">template&lt;typename ActionRow &gt; </td></tr>
+<tr class="memitem:aad672b898c62f3501445585927276b0e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aad672b898c62f3501445585927276b0e">crossSumBestAtBelief</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const ActionRow &amp;row, <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> *outp, double *value=nullptr)</td></tr>
+<tr class="memdesc:aad672b898c62f3501445585927276b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief from the input VLists.  <a href="namespaceAIToolbox_1_1POMDP.html#aad672b898c62f3501445585927276b0e">More...</a><br /></td></tr>
+<tr class="separator:aad672b898c62f3501445585927276b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29c6a60175a6d93b7ec845c2a2cec928"><td class="memTemplParams" colspan="2">template&lt;typename ActionRow &gt; </td></tr>
 <tr class="memitem:a29c6a60175a6d93b7ec845c2a2cec928"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a29c6a60175a6d93b7ec845c2a2cec928">crossSumBestAtBelief</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const ActionRow &amp;row, const size_t a, double *value=nullptr)</td></tr>
-<tr class="memdesc:a29c6a60175a6d93b7ec845c2a2cec928"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief from the input VLists.  <a href="namespaceAIToolbox_1_1POMDP.html#a29c6a60175a6d93b7ec845c2a2cec928">More...</a><br /></td></tr>
+<tr class="memdesc:a29c6a60175a6d93b7ec845c2a2cec928"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function allocates and computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief from the input VLists.  <a href="namespaceAIToolbox_1_1POMDP.html#a29c6a60175a6d93b7ec845c2a2cec928">More...</a><br /></td></tr>
 <tr class="separator:a29c6a60175a6d93b7ec845c2a2cec928"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b1bf71cbc9a2c566437f1cda780c123"><td class="memTemplParams" colspan="2">template&lt;typename Projections &gt; </td></tr>
 <tr class="memitem:a7b1bf71cbc9a2c566437f1cda780c123"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a7b1bf71cbc9a2c566437f1cda780c123">crossSumBestAtBelief</a> (const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;b, const Projections &amp;projs, double *value=nullptr)</td></tr>
 <tr class="memdesc:a7b1bf71cbc9a2c566437f1cda780c123"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief across all actions.  <a href="namespaceAIToolbox_1_1POMDP.html#a7b1bf71cbc9a2c566437f1cda780c123">More...</a><br /></td></tr>
 <tr class="separator:a7b1bf71cbc9a2c566437f1cda780c123"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a7aa24800d72c0eef0139c3f989d36f"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a2a7aa24800d72c0eef0139c3f989d36f"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a2a7aa24800d72c0eef0139c3f989d36f">bestConservativeAction</a> (const M &amp;pomdp, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> immediateRewards, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;initialBelief, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &amp;lbVList, <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">MDP::Values</a> *alpha=nullptr)</td></tr>
-<tr class="memdesc:a2a7aa24800d72c0eef0139c3f989d36f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function obtains the best action with respect to the input VList.  <a href="namespaceAIToolbox_1_1POMDP.html#a2a7aa24800d72c0eef0139c3f989d36f">More...</a><br /></td></tr>
-<tr class="separator:a2a7aa24800d72c0eef0139c3f989d36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd6029ce127e9ec0495c02433b5c690e"><td class="memTemplParams" colspan="2">template&lt;bool useLP = true, typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:abd6029ce127e9ec0495c02433b5c690e"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#abd6029ce127e9ec0495c02433b5c690e">bestPromisingAction</a> (const M &amp;pomdp, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &amp;immediateRewards, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;belief, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &amp;ubQ, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ace6914f598eab0d79bf4e533295d6839">UpperBoundValueFunction</a> &amp;ubV, <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> *vals=nullptr)</td></tr>
-<tr class="memdesc:abd6029ce127e9ec0495c02433b5c690e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function obtains the best action with respect to the input QFunction and UbV.  <a href="namespaceAIToolbox_1_1POMDP.html#abd6029ce127e9ec0495c02433b5c690e">More...</a><br /></td></tr>
-<tr class="separator:abd6029ce127e9ec0495c02433b5c690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89c862651a1a5040010efc5a96d082db"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a89c862651a1a5040010efc5a96d082db"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a89c862651a1a5040010efc5a96d082db">bestConservativeAction</a> (const M &amp;pomdp, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> immediateRewards, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;initialBelief, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a> &amp;lbVList, <a class="el" href="namespaceAIToolbox_1_1MDP.html#ae6bfccca3b00146c82eb345ca8490b74">MDP::Values</a> *alpha=nullptr)</td></tr>
+<tr class="memdesc:a89c862651a1a5040010efc5a96d082db"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function obtains the best action with respect to the input VList.  <a href="namespaceAIToolbox_1_1POMDP.html#a89c862651a1a5040010efc5a96d082db">More...</a><br /></td></tr>
+<tr class="separator:a89c862651a1a5040010efc5a96d082db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4f103ba61563586fcd2a8b8626def29"><td class="memTemplParams" colspan="2">template&lt;bool useLP = true, IsModel M&gt; </td></tr>
+<tr class="memitem:ab4f103ba61563586fcd2a8b8626def29"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; size_t, double &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab4f103ba61563586fcd2a8b8626def29">bestPromisingAction</a> (const M &amp;pomdp, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &amp;immediateRewards, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;belief, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &amp;ubQ, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ace6914f598eab0d79bf4e533295d6839">UpperBoundValueFunction</a> &amp;ubV, <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> *vals=nullptr)</td></tr>
+<tr class="memdesc:ab4f103ba61563586fcd2a8b8626def29"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function obtains the best action with respect to the input QFunction and UbV.  <a href="namespaceAIToolbox_1_1POMDP.html#ab4f103ba61563586fcd2a8b8626def29">More...</a><br /></td></tr>
+<tr class="separator:ab4f103ba61563586fcd2a8b8626def29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a30d62c33ae0e760503f3712b498b3e47"><td class="memTemplParams" colspan="2">template&lt;typename LP &gt; </td></tr>
 <tr class="memitem:a30d62c33ae0e760503f3712b498b3e47"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a30d62c33ae0e760503f3712b498b3e47">is_witness_lp_v</a> = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__witness__lp.html">is_witness_lp</a>&lt;<a class="el" href="classAIToolbox_1_1LP.html">LP</a>&gt;::value</td></tr>
 <tr class="separator:a30d62c33ae0e760503f3712b498b3e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14f2ade0c0d30091b74297fce650ddbf"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a14f2ade0c0d30091b74297fce650ddbf"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a14f2ade0c0d30091b74297fce650ddbf">is_generative_model_v</a> = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__generative__model.html">is_generative_model</a>&lt;M&gt;::value</td></tr>
-<tr class="separator:a14f2ade0c0d30091b74297fce650ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c3d5eb7dc047b0b55379914b76fd132"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a7c3d5eb7dc047b0b55379914b76fd132"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a7c3d5eb7dc047b0b55379914b76fd132">is_model_v</a> = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model.html">is_model</a>&lt;M&gt;::value</td></tr>
-<tr class="separator:a7c3d5eb7dc047b0b55379914b76fd132"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a7899814376313aa6ee8dadecea379d"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a0a7899814376313aa6ee8dadecea379d"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a0a7899814376313aa6ee8dadecea379d">is_model_eigen_v</a> = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model__eigen.html">is_model_eigen</a>&lt;M&gt;::value</td></tr>
-<tr class="separator:a0a7899814376313aa6ee8dadecea379d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbf63587b8e90849d2501933a827061a"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:abbf63587b8e90849d2501933a827061a"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#abbf63587b8e90849d2501933a827061a">is_model_not_eigen_v</a> = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model__not__eigen.html">is_model_not_eigen</a>&lt;M&gt;::value</td></tr>
-<tr class="separator:abbf63587b8e90849d2501933a827061a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa332c89602230305361d04cdfcdf35ce"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:aa332c89602230305361d04cdfcdf35ce"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa332c89602230305361d04cdfcdf35ce">IsGenerativeModel</a></td></tr>
+<tr class="memdesc:aa332c89602230305361d04cdfcdf35ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#aa332c89602230305361d04cdfcdf35ce">More...</a><br /></td></tr>
+<tr class="separator:aa332c89602230305361d04cdfcdf35ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abafca632223b32a193ac9e507b74de96"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:abafca632223b32a193ac9e507b74de96"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#abafca632223b32a193ac9e507b74de96">IsModel</a></td></tr>
+<tr class="memdesc:abafca632223b32a193ac9e507b74de96"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required interface for a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#abafca632223b32a193ac9e507b74de96">More...</a><br /></td></tr>
+<tr class="separator:abafca632223b32a193ac9e507b74de96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4638d33ff6b4cc921b277f4f5738be24"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:a4638d33ff6b4cc921b277f4f5738be24"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4638d33ff6b4cc921b277f4f5738be24">IsModelEigen</a></td></tr>
+<tr class="memdesc:a4638d33ff6b4cc921b277f4f5738be24"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required interface that allows <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> algorithms to leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="namespaceAIToolbox_1_1POMDP.html#a4638d33ff6b4cc921b277f4f5738be24">More...</a><br /></td></tr>
+<tr class="separator:a4638d33ff6b4cc921b277f4f5738be24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a97f123407d50846293c4e9b46d7fbd49"></a>
@@ -470,13 +465,13 @@ template&lt;bool UseEntropy&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a49e94718a9c0e92e4c0da630aa5d3dc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49e94718a9c0e92e4c0da630aa5d3dc9">&#9670;&nbsp;</a></span>beliefExpectedReward()</h2>
+<a id="a9d223273964bafeb721700c32d7cf7c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d223273964bafeb721700c32d7cf7c2">&#9670;&nbsp;</a></span>beliefExpectedReward()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">double AIToolbox::POMDP::beliefExpectedReward </td>
@@ -517,13 +512,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a2a7aa24800d72c0eef0139c3f989d36f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a7aa24800d72c0eef0139c3f989d36f">&#9670;&nbsp;</a></span>bestConservativeAction()</h2>
+<a id="a89c862651a1a5040010efc5a96d082db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89c862651a1a5040010efc5a96d082db">&#9670;&nbsp;</a></span>bestConservativeAction()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt;size_t, double&gt; AIToolbox::POMDP::bestConservativeAction </td>
@@ -580,13 +575,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="abd6029ce127e9ec0495c02433b5c690e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd6029ce127e9ec0495c02433b5c690e">&#9670;&nbsp;</a></span>bestPromisingAction()</h2>
+<a id="ab4f103ba61563586fcd2a8b8626def29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4f103ba61563586fcd2a8b8626def29">&#9670;&nbsp;</a></span>bestPromisingAction()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;bool useLP = true, typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;bool useLP = true, IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt;size_t, double&gt; AIToolbox::POMDP::bestPromisingAction </td>
@@ -656,7 +651,7 @@ template&lt;bool useLP = true, typename M , std::enable_if_t&lt; is_model_v&lt; 
 </div>
 </div>
 <a id="a29c6a60175a6d93b7ec845c2a2cec928"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29c6a60175a6d93b7ec845c2a2cec928">&#9670;&nbsp;</a></span>crossSumBestAtBelief() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a29c6a60175a6d93b7ec845c2a2cec928">&#9670;&nbsp;</a></span>crossSumBestAtBelief() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -695,10 +690,9 @@ template&lt;typename ActionRow &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief from the input VLists. </p>
-<p>This function computes the best alphavector for the input belief. It assumes as input a list of VLists, one per observation. You can produce them with the <a class="el" href="classAIToolbox_1_1POMDP_1_1Projecter.html" title="This class offers projecting facilities for Models.">Projecter</a> class, for example.</p>
-<p>For each observation it will select the match with the best value, and use it to compute the output <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.</p>
-<p>The action is not used to perform computations here, but it is fed directly into the returned <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.</p>
+<p>This function allocates and computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief from the input VLists. </p>
+<p>This function allocates the <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> to return, rather than expecting one already allocated.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aad672b898c62f3501445585927276b0e" title="This function computes the best VEntry for the input belief from the input VLists.">crossSumBestAtBelief(const Belief &amp;, const ActionRow &amp;, VEntry *, double *)</a>;</dd></dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">ActionRow</td><td>The type of the list of VLists. </td></tr>
@@ -718,8 +712,70 @@ template&lt;typename ActionRow &gt; </div>
 
 </div>
 </div>
+<a id="aad672b898c62f3501445585927276b0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad672b898c62f3501445585927276b0e">&#9670;&nbsp;</a></span>crossSumBestAtBelief() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ActionRow &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void AIToolbox::POMDP::crossSumBestAtBelief </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ActionRow &amp;&#160;</td>
+          <td class="paramname"><em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> *&#160;</td>
+          <td class="paramname"><em>outp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>value</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function computes the best <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for the input belief from the input VLists. </p>
+<p>This function computes the best alphavector for the input belief. It assumes as input a list of VLists, one per observation. You can produce them with the <a class="el" href="classAIToolbox_1_1POMDP_1_1Projecter.html" title="This class offers projecting facilities for Models.">Projecter</a> class, for example.</p>
+<p>For each observation it will select the match with the best value, and use it to compute the output <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.</p>
+<p>The action is not used to perform computations here, but it is fed directly into the returned <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ActionRow</td><td>The type of the list of VLists. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>The belief to compute the <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> for. </td></tr>
+    <tr><td class="paramname">row</td><td>The list of VLists, one per observation. </td></tr>
+    <tr><td class="paramname">outp</td><td>A pointer to a pre-allocated <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> where to set the output. </td></tr>
+    <tr><td class="paramname">value</td><td>A pointer to double, which gets set to the value of the given belief with the generated <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a7b1bf71cbc9a2c566437f1cda780c123"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b1bf71cbc9a2c566437f1cda780c123">&#9670;&nbsp;</a></span>crossSumBestAtBelief() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b1bf71cbc9a2c566437f1cda780c123">&#9670;&nbsp;</a></span>crossSumBestAtBelief() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -838,13 +894,13 @@ template&lt;typename Projections &gt; </div>
 
 </div>
 </div>
-<a id="a18f4d95909ab7eeee98d04317c5e88ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18f4d95909ab7eeee98d04317c5e88ac">&#9670;&nbsp;</a></span>makeSOSA()</h2>
+<a id="a70d5c7d0b909a8d64e51fd9f2e4d8a96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70d5c7d0b909a8d64e51fd9f2e4d8a96">&#9670;&nbsp;</a></span>makeSOSA()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">auto AIToolbox::POMDP::makeSOSA </td>
@@ -936,23 +992,32 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a3dd0669f710850fc93fe8f7b102fb1b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dd0669f710850fc93fe8f7b102fb1b6">&#9670;&nbsp;</a></span>operator&lt;()</h2>
+<a id="ad67f808e2eb62f0a16ffe40c84d84e8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad67f808e2eb62f0a16ffe40c84d84e8d">&#9670;&nbsp;</a></span>makeVEntry()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool AIToolbox::POMDP::operator&lt; </td>
+          <td class="memname"><a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> AIToolbox::POMDP::makeVEntry </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>S</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>O</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -960,28 +1025,34 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>This function lexicographically sorts VEntries. </p>
-<p>This is useful during testing in order to sort and compare a solution with the correct result.</p>
+<p>This function creates and zeroes a <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>. </p>
+<p>We use this instead of making a constructor to keep <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> as an aggregate, which makes some stuff easier.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lhs</td><td>The left hand side of the comparison. </td></tr>
-    <tr><td class="paramname">rhs</td><td>The right hand side of the comparison.</td></tr>
+    <tr><td class="paramname">S</td><td>The size of the state space. </td></tr>
+    <tr><td class="paramname">a</td><td>The action associated with this <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>. </td></tr>
+    <tr><td class="paramname">O</td><td>The size of the observation space.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if lhs is less than rhs lexicographically, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The newly created <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a>. </dd></dl>
 
 </div>
 </div>
-<a id="af460a8a2b997c9c93e620e9f805fcaf3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af460a8a2b997c9c93e620e9f805fcaf3">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/2]</span></h2>
+<a id="a900c2a4bab15f2c05e023201bcfb5014"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a900c2a4bab15f2c05e023201bcfb5014">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModelEigen M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::ostream&amp; AIToolbox::POMDP::operator&lt;&lt; </td>
@@ -1003,7 +1074,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
       </table>
 </div><div class="memdoc">
 
-<p>This function prints any <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model to a file. </p>
+<p>This function outputs a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model to a stream. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The type of the model. </td></tr>
@@ -1013,7 +1084,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">os</td><td>The output stream. </td></tr>
-    <tr><td class="paramname">model</td><td>The model to print.</td></tr>
+    <tr><td class="paramname">model</td><td>The model to output.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1047,8 +1118,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
       </table>
 </div><div class="memdoc">
 
-<p>This function prints the whole policy to a stream. </p>
-<p>This function basically outputs the internal ValueFunction in a recoverable format.</p>
+<p>This function outputs a <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html" title="This class represents a POMDP Policy.">Policy</a> to a stream. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">os</td><td>The stream where the policy is printed. </td></tr>
@@ -1057,6 +1127,45 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The original stream. </dd></dl>
+
+</div>
+</div>
+<a id="a682502a5ab71e0e73d5fca82fb994d11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a682502a5ab71e0e73d5fca82fb994d11">&#9670;&nbsp;</a></span>operator&lt;=&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::strong_ordering AIToolbox::POMDP::operator&lt;=&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAIToolbox_1_1POMDP_1_1VEntry.html">VEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function lexicographically sorts VEntries. </p>
+<p>This is useful during testing in order to sort and compare a solution with the correct result.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>The left hand side of the comparison. </td></tr>
+    <tr><td class="paramname">rhs</td><td>The right hand side of the comparison.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if lhs is less than rhs lexicographically, false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -1088,13 +1197,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a3e6938312f6dd9d20f1f3767bb361a76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e6938312f6dd9d20f1f3767bb361a76">&#9670;&nbsp;</a></span>operator&gt;&gt;() <span class="overload">[1/3]</span></h2>
+<a id="af3421fef4fb3613d11ae8b7c95b48b3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3421fef4fb3613d11ae8b7c95b48b3e">&#9670;&nbsp;</a></span>operator&gt;&gt;() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::istream &amp; AIToolbox::POMDP::operator&gt;&gt; </td>
@@ -1116,11 +1225,11 @@ template&lt;typename M , typename &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function implements input from stream for the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> class. </p>
-<p>Note that as all other input function, it does not actually change the input model if the reading fails.</p>
+<p>This function parses a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a> from a stream. </p>
+<p>This function does not modify the input model if the parsing fails.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">M</td><td>The underlying <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model. Needs to have operator&lt;&lt; implemented. </td></tr>
+    <tr><td class="paramname">M</td><td>The underlying <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model. Needs to have operator&gt;&gt; implemented. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1162,7 +1271,7 @@ template&lt;typename M , typename &gt; </div>
 </div><div class="memdoc">
 
 <p>This function reads a policy from a file. </p>
-<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox_1_1POMDP.html#af460a8a2b997c9c93e620e9f805fcaf3" title="This function prints any POMDP model to a file.">operator&lt;&lt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
+<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8" title="This function outputs a Policy to a stream.">operator&lt;&lt;(std::ostream&amp;, const Policy&amp;)</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">is</td><td>The stream were the policy is being read from. </td></tr>
@@ -1174,13 +1283,13 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="a55c4ff8e7537e5d77f5edd0038705393"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55c4ff8e7537e5d77f5edd0038705393">&#9670;&nbsp;</a></span>operator&gt;&gt;() <span class="overload">[3/3]</span></h2>
+<a id="a4f55513348caedfb4a3dd663f346c631"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f55513348caedfb4a3dd663f346c631">&#9670;&nbsp;</a></span>operator&gt;&gt;() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;MDP::IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::istream &amp; AIToolbox::POMDP::operator&gt;&gt; </td>
@@ -1277,13 +1386,13 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="ad19c9f085248dc19299d511194210843"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad19c9f085248dc19299d511194210843">&#9670;&nbsp;</a></span>updateBelief() <span class="overload">[1/2]</span></h2>
+<a id="adcd22cacbc8d98a272eef513c350de0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcd22cacbc8d98a272eef513c350de0a">&#9670;&nbsp;</a></span>updateBelief() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> AIToolbox::POMDP::updateBelief </td>
@@ -1320,7 +1429,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 <p>Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>. </p>
 <p>This function needs to create a new belief since modifying a belief in place is not possible. This is because each cell update for the new belief requires all values from the previous belief.</p>
 <p>NOTE: This function assumes that the update and the normalization are possible, i.e. that from the input belief and action it is possible to receive the input observation.</p>
-<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
+<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa3237d09e20f62a42ea1f0eb5efcffd7" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The type of the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>. </td></tr>
@@ -1339,13 +1448,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a33a1c23c71b6afae16da4db1863bf68d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33a1c23c71b6afae16da4db1863bf68d">&#9670;&nbsp;</a></span>updateBelief() <span class="overload">[2/2]</span></h2>
+<a id="ad6435dc19ae66469b3a8d65214ab04eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6435dc19ae66469b3a8d65214ab04eb">&#9670;&nbsp;</a></span>updateBelief() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void AIToolbox::POMDP::updateBelief </td>
@@ -1388,7 +1497,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 <p>Creates a new belief reflecting changes after an action and observation for a particular <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>. </p>
 <p>This function writes directly into the provided Belief pointer. It assumes that the pointer points to a correctly sized Belief. It does a basic nullptr check.</p>
 <p>NOTE: This function assumes that the update and the normalization are possible, i.e. that from the input belief and action it is possible to receive the input observation.</p>
-<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
+<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa3237d09e20f62a42ea1f0eb5efcffd7" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The type of the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>. </td></tr>
@@ -1408,13 +1517,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="af9903a18de2b0961d2f9a58f18bed9e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9903a18de2b0961d2f9a58f18bed9e5">&#9670;&nbsp;</a></span>updateBeliefPartial() <span class="overload">[1/2]</span></h2>
+<a id="a2b8361202b0d51f12f600098bc9ecce5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b8361202b0d51f12f600098bc9ecce5">&#9670;&nbsp;</a></span>updateBeliefPartial() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> AIToolbox::POMDP::updateBeliefPartial </td>
@@ -1462,13 +1571,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a413832fe24061c45091f0a24e7a7eee2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a413832fe24061c45091f0a24e7a7eee2">&#9670;&nbsp;</a></span>updateBeliefPartial() <span class="overload">[2/2]</span></h2>
+<a id="a9e015491188b41f4dfd367b7faee71f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e015491188b41f4dfd367b7faee71f8">&#9670;&nbsp;</a></span>updateBeliefPartial() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void AIToolbox::POMDP::updateBeliefPartial </td>
@@ -1523,13 +1632,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a0fe1545a75c1d70a6fd97cb876bff9e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fe1545a75c1d70a6fd97cb876bff9e2">&#9670;&nbsp;</a></span>updateBeliefPartialNormalized() <span class="overload">[1/2]</span></h2>
+<a id="a83d7671267e639f135f8ca10e9778ac2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83d7671267e639f135f8ca10e9778ac2">&#9670;&nbsp;</a></span>updateBeliefPartialNormalized() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> AIToolbox::POMDP::updateBeliefPartialNormalized </td>
@@ -1565,10 +1674,10 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 <p>This function terminates the normalized update of a partially updated belief. </p>
 <p>This function is useful in case one needs to update a belief for all possible observations. In such a case, it is possible to avoid repeating the same operations by creating an intermediate belief, that only depends on the action and not on the observation.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a413832fe24061c45091f0a24e7a7eee2" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a9e015491188b41f4dfd367b7faee71f8" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
 <p>Note that the input action here must be the same one that produced the intermediate result.</p>
 <p>NOTE: This function assumes that the update and the normalization are possible, i.e. that from the input belief and action it is possible to receive the input observation.</p>
-<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
+<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa3237d09e20f62a42ea1f0eb5efcffd7" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The type of the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>. </td></tr>
@@ -1587,13 +1696,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a3be3dce28e8d80fe6457ebbe0b5da9cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3be3dce28e8d80fe6457ebbe0b5da9cb">&#9670;&nbsp;</a></span>updateBeliefPartialNormalized() <span class="overload">[2/2]</span></h2>
+<a id="aa80379c7779ffd9f8cf38a6514780cac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa80379c7779ffd9f8cf38a6514780cac">&#9670;&nbsp;</a></span>updateBeliefPartialNormalized() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void AIToolbox::POMDP::updateBeliefPartialNormalized </td>
@@ -1635,10 +1744,10 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 <p>This function terminates the normalized update of a partially updated belief. </p>
 <p>This function is useful in case one needs to update a belief for all possible observations. In such a case, it is possible to avoid repeating the same operations by creating an intermediate belief, that only depends on the action and not on the observation.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a413832fe24061c45091f0a24e7a7eee2" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a9e015491188b41f4dfd367b7faee71f8" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
 <p>Note that the input action here must be the same one that produced the intermediate result.</p>
 <p>NOTE: This function assumes that the update and the normalization are possible, i.e. that from the input belief and action it is possible to receive the input observation.</p>
-<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a6a6deb0f6f3d12bb59f0b9813604abc2" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
+<p>If that cannot be guaranteed, use the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa3237d09e20f62a42ea1f0eb5efcffd7" title="Creates a new belief reflecting changes after an action and observation for a particular Model.">updateBeliefUnnormalized()</a> function and do the normalization yourself (and check for it).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The type of the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>. </td></tr>
@@ -1658,13 +1767,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="ad03a82580eea9bba77d72052b181168a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad03a82580eea9bba77d72052b181168a">&#9670;&nbsp;</a></span>updateBeliefPartialUnnormalized() <span class="overload">[1/2]</span></h2>
+<a id="a8548eb3311e9be5c37e8db2388cf9aca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8548eb3311e9be5c37e8db2388cf9aca">&#9670;&nbsp;</a></span>updateBeliefPartialUnnormalized() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> AIToolbox::POMDP::updateBeliefPartialUnnormalized </td>
@@ -1700,7 +1809,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 <p>This function terminates the unnormalized update of a partially updated belief. </p>
 <p>This function is useful in case one needs to update a belief for all possible observations. In such a case, it is possible to avoid repeating the same operations by creating an intermediate belief, that only depends on the action and not on the observation.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a413832fe24061c45091f0a24e7a7eee2" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a9e015491188b41f4dfd367b7faee71f8" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
 <p>Note that the input action here must be the same one that produced the intermediate result.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -1720,13 +1829,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a0f00347484bfd228db82d264a889d649"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f00347484bfd228db82d264a889d649">&#9670;&nbsp;</a></span>updateBeliefPartialUnnormalized() <span class="overload">[2/2]</span></h2>
+<a id="a14f80ac145efd035d9378030e67d2231"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14f80ac145efd035d9378030e67d2231">&#9670;&nbsp;</a></span>updateBeliefPartialUnnormalized() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void AIToolbox::POMDP::updateBeliefPartialUnnormalized </td>
@@ -1768,7 +1877,7 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 <p>This function terminates the unnormalized update of a partially updated belief. </p>
 <p>This function is useful in case one needs to update a belief for all possible observations. In such a case, it is possible to avoid repeating the same operations by creating an intermediate belief, that only depends on the action and not on the observation.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a413832fe24061c45091f0a24e7a7eee2" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a9e015491188b41f4dfd367b7faee71f8" title="This function partially updates a belief.">updateBeliefPartial</a></dd></dl>
 <p>Note that the input action here must be the same one that produced the intermediate result.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -1789,13 +1898,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="aeadb8ad292520175aea2ad4b9173c5cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeadb8ad292520175aea2ad4b9173c5cd">&#9670;&nbsp;</a></span>updateBeliefUnnormalized() <span class="overload">[1/2]</span></h2>
+<a id="a1451b3d376afb04138ed1366a2557d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1451b3d376afb04138ed1366a2557d77">&#9670;&nbsp;</a></span>updateBeliefUnnormalized() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> AIToolbox::POMDP::updateBeliefUnnormalized </td>
@@ -1850,13 +1959,13 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 
 </div>
 </div>
-<a id="a6a6deb0f6f3d12bb59f0b9813604abc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a6deb0f6f3d12bb59f0b9813604abc2">&#9670;&nbsp;</a></span>updateBeliefUnnormalized() <span class="overload">[2/2]</span></h2>
+<a id="aa3237d09e20f62a42ea1f0eb5efcffd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3237d09e20f62a42ea1f0eb5efcffd7">&#9670;&nbsp;</a></span>updateBeliefUnnormalized() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void AIToolbox::POMDP::updateBeliefUnnormalized </td>
@@ -1959,102 +2068,6 @@ template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  =
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a14f2ade0c0d30091b74297fce650ddbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14f2ade0c0d30091b74297fce650ddbf">&#9670;&nbsp;</a></span>is_generative_model_v</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr bool AIToolbox::POMDP::is_generative_model_v = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__generative__model.html">is_generative_model</a>&lt;M&gt;::value</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0a7899814376313aa6ee8dadecea379d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a7899814376313aa6ee8dadecea379d">&#9670;&nbsp;</a></span>is_model_eigen_v</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr bool AIToolbox::POMDP::is_model_eigen_v = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model__eigen.html">is_model_eigen</a>&lt;M&gt;::value</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abbf63587b8e90849d2501933a827061a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbf63587b8e90849d2501933a827061a">&#9670;&nbsp;</a></span>is_model_not_eigen_v</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr bool AIToolbox::POMDP::is_model_not_eigen_v = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model__not__eigen.html">is_model_not_eigen</a>&lt;M&gt;::value</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c3d5eb7dc047b0b55379914b76fd132"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c3d5eb7dc047b0b55379914b76fd132">&#9670;&nbsp;</a></span>is_model_v</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr bool AIToolbox::POMDP::is_model_v = <a class="el" href="structAIToolbox_1_1POMDP_1_1is__model.html">is_model</a>&lt;M&gt;::value</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a30d62c33ae0e760503f3712b498b3e47"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a30d62c33ae0e760503f3712b498b3e47">&#9670;&nbsp;</a></span>is_witness_lp_v</h2>
 
@@ -2079,8 +2092,101 @@ template&lt;typename LP &gt; </div>
 
 </div>
 </div>
+<a id="aa332c89602230305361d04cdfcdf35ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa332c89602230305361d04cdfcdf35ce">&#9670;&nbsp;</a></span>IsGenerativeModel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept AIToolbox::POMDP::IsGenerativeModel</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= MDP::IsGenerativeModel&lt;M&gt; &amp;&amp; requires (M m) {</div>
+<div class="line">        { m.sampleSOR(m.getS(), m.getA()) } -&gt; std::convertible_to&lt;std::tuple&lt;size_t, size_t, double&gt;&gt;;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>This concept represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>. </p>
+<p>This concept tests for the interface of a generative <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model. The interface must be implemented and be public in the parameter class. The interface is the following:</p>
+<ul>
+<li>std::tuple&lt;size_t, size_t, double&gt; sampleSOR(size_t s, size_t a) const : Returns a sampled state-observation-reward tuple from (s,a)</li>
+</ul>
+<p>In addition the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> needs to respect the interface for the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> generative model.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1MDP.html#af568f46bc13052cf4823ea6c6524eed0" title="This concept represents the required interface for a generative MDP.">MDP::IsGenerativeModel</a></dd></dl>
+<p>Note that, at least for now, we can avoid asking this generative model for the total number of observation possible, because they are not required as parameters for the functions, but just returned. This may change in future though, depending on algorithms' requirements. </p>
+
+</div>
+</div>
+<a id="abafca632223b32a193ac9e507b74de96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abafca632223b32a193ac9e507b74de96">&#9670;&nbsp;</a></span>IsModel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept AIToolbox::POMDP::IsModel</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= MDP::IsModel&lt;M&gt; &amp;&amp; IsGenerativeModel&lt;M&gt; &amp;&amp; HasIntegralObservationSpace&lt;M&gt; &amp;&amp; requires (M m, <span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a) {</div>
+<div class="line">        { m.getObservationProbability(s, a, s) } -&gt; std::convertible_to&lt;double&gt;;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>This concept represents the required interface for a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>. </p>
+<p>This struct tests for the interface of a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.</p>
+<p>The interface must be implemented and be public in the parameter class. The interface is the following:</p>
+<ul>
+<li>size_t getO() const : Returns the number of observations of the <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">Model</a>.</li>
+<li>double getObservationProbability(size_t s1, size_t a, size_t o) const : Returns the probability for observation o after action a and final state s1.</li>
+</ul>
+<p>In addition the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> needs to respect the interface for the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> generative model and the <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#aa332c89602230305361d04cdfcdf35ce" title="This concept represents the required interface for a generative POMDP.">IsGenerativeModel</a> </dd>
+<dd>
+<a class="el" href="namespaceAIToolbox_1_1MDP.html#a1382ecc062a3b0d56b6e5b599f5d6880" title="This concept represents the required interface for a full MDP model.">MDP::IsModel</a> </dd>
+<dd>
+<a class="el" href="namespaceAIToolbox.html#a9b0c29cd9a093ae20c0b60b2a28ce142" title="This concept checks that getO() returns size_t.">HasIntegralObservationSpace</a> </dd></dl>
+
+</div>
+</div>
+<a id="a4638d33ff6b4cc921b277f4f5738be24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4638d33ff6b4cc921b277f4f5738be24">&#9670;&nbsp;</a></span>IsModelEigen</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept AIToolbox::POMDP::IsModelEigen</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= MDP::IsModelEigen&lt;M&gt; &amp;&amp; IsModel&lt;M&gt; &amp;&amp; requires (M m, <span class="keywordtype">size_t</span> a) {</div>
+<div class="line">        m.getObservationFunction(a);</div>
+<div class="line">        requires <a class="code" href="namespaceAIToolbox.html#a632766b390472851260e820e8054b091">IsDerivedFromEigen</a>&lt;std::remove_cvref_t&lt;decltype((m.getObservationFunction(a)))&gt;&gt;;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>This concept represents the required interface that allows <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> algorithms to leverage <a class="el" href="namespaceEigen.html">Eigen</a>. </p>
+<p>This concept tests for the interface of a <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model which uses <a class="el" href="namespaceEigen.html">Eigen</a> matrices internally.</p>
+<p>The interface must be implemented and be public in the parameter class. The interface is the following:</p>
+<ul>
+<li>O getObservationFunction(size_t a) const : Returns the observation function for a given action as a matrix S'xO, where O is some <a class="el" href="namespaceEigen.html">Eigen</a> matrix type.</li>
+</ul>
+<p>In addition the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> needs to respect the interface for the <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model and the <a class="el" href="namespaceEigen.html">Eigen</a> <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1POMDP.html#abafca632223b32a193ac9e507b74de96" title="This concept represents the required interface for a POMDP Model.">POMDP::IsModel</a> </dd>
+<dd>
+<a class="el" href="namespaceAIToolbox_1_1MDP.html#ab7834e5840e450ba9baef0b842c1625b" title="This concept represents the required interface that allows MDP algorithms to leverage Eigen.">MDP::IsModelEigen</a> </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespaceAIToolbox_html_a632766b390472851260e820e8054b091"><div class="ttname"><a href="namespaceAIToolbox.html#a632766b390472851260e820e8054b091">AIToolbox::IsDerivedFromEigen</a></div><div class="ttdeci">concept IsDerivedFromEigen</div><div class="ttdoc">This concept simplifies checking for non-void.</div><div class="ttdef"><b>Definition:</b> TypeTraits.hpp:65</div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

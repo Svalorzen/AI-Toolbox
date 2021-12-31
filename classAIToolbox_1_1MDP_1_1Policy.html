@@ -169,7 +169,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:a8ff69224ba5cf3445063326035ee6bd2"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html#a8ff69224ba5cf3445063326035ee6bd2">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1MDP_1_1Policy.html">Policy</a> &amp;p)</td></tr>
-<tr class="memdesc:a8ff69224ba5cf3445063326035ee6bd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">MDP::Model</a> class.  <a href="classAIToolbox_1_1MDP_1_1Policy.html#a8ff69224ba5cf3445063326035ee6bd2">More...</a><br /></td></tr>
+<tr class="memdesc:a8ff69224ba5cf3445063326035ee6bd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="classAIToolbox_1_1MDP_1_1Policy.html#a8ff69224ba5cf3445063326035ee6bd2">More...</a><br /></td></tr>
 <tr class="separator:a8ff69224ba5cf3445063326035ee6bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
@@ -407,18 +407,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">MDP::Model</a> class. </p>
-<p>This function reads a policy from a file.</p>
-<p>Note that as all other input function, it does not actually change the input model if the reading fails.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">is</td><td>The input stream. </td></tr>
-    <tr><td class="paramname">p</td><td>The policy to write into.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The input stream.</dd></dl>
-<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4" title="This function prints any MDP model to a file.">operator&lt;&lt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
+<p>This function reads a policy from a file. </p>
+<p>This function reads files that have been outputted through <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7f26a51e01e3b4799cf6d26d6376a79a">operator&lt;&lt;()</a>. If not enough values can be extracted from the stream, the function stops and the input policy is not modified. In addition, it checks whether the probability values are within 0 and 1.</p>
 <p>State and actions are also verified, and this function does not accept a randomly shuffled policy file. The file must be sorted by state, and each state must be sorted by action.</p>
 <p>As a layer of additional precaution, the function normalizes the policy once it has been read, to assure true probability distribution on the internal policy.</p>
 <dl class="params"><dt>Parameters</dt><dd>

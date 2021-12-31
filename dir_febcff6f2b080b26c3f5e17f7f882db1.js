@@ -15,5 +15,6 @@ var dir_febcff6f2b080b26c3f5e17f7f882db1 =
       [ "PolicyInterface", "classAIToolbox_1_1PolicyInterface.html", "classAIToolbox_1_1PolicyInterface" ],
       [ "PolicyInterface< void, void, Action >", "classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html", "classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4" ]
     ] ],
-    [ "Types.hpp", "Types_8hpp.html", "Types_8hpp" ]
+    [ "Types.hpp", "Types_8hpp.html", "Types_8hpp" ],
+    [ "TypeTraits.hpp", "TypeTraits_8hpp.html", "TypeTraits_8hpp" ]
 ];

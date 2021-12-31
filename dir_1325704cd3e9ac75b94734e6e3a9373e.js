@@ -7,5 +7,6 @@ var dir_1325704cd3e9ac75b94734e6e3a9373e =
     ] ],
     [ "PolicyEvaluation.hpp", "PolicyEvaluation_8hpp.html", [
       [ "PolicyEvaluation", "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html", "classAIToolbox_1_1MDP_1_1PolicyEvaluation" ]
-    ] ]
+    ] ],
+    [ "Rollout.hpp", "Rollout_8hpp.html", "Rollout_8hpp" ]
 ];

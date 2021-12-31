@@ -98,15 +98,19 @@ $(document).ready(function(){initNavTree('Factored_2Bandit_2Policies_2RandomPoli
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keyword">virtual</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#acd8e8b48c81c460f529c6f6273659a42">sampleAction</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a29bb67b4c0da7a8fad877d4451c5a7c2">getActionProbability</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp; a) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp; <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a01a31ab2c9444b0e3c4e56966b773b8c">sampleActionNoAlloc</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="comment">// Used to sampled random actions</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keyword">mutable</span> std::vector&lt;std::uniform_int_distribution&lt;size_t&gt;&gt; randomDistributions_;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a29bb67b4c0da7a8fad877d4451c5a7c2">getActionProbability</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp; a) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="comment">// Used to sample without allocating.</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">mutable</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> action_;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="comment">// Used to sampled random actions</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keyword">mutable</span> std::vector&lt;std::uniform_int_distribution&lt;size_t&gt;&gt; randomDistributions_;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    };</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy_html_acd8e8b48c81c460f529c6f6273659a42"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#acd8e8b48c81c460f529c6f6273659a42">AIToolbox::Factored::Bandit::RandomPolicy::sampleAction</a></div><div class="ttdeci">virtual Action sampleAction() const override</div><div class="ttdoc">This function chooses a random action for state s, following the policy distribution.</div></div>
@@ -116,7 +120,8 @@ $(document).ready(function(){initNavTree('Factored_2Bandit_2Policies_2RandomPoli
 <div class="ttc" id="anamespaceAIToolbox_1_1Factored_html_aa30fc73167a9c8e913053059e23f9692"><div class="ttname"><a href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">AIToolbox::Factored::Action</a></div><div class="ttdeci">Factors Action</div><div class="ttdef"><b>Definition:</b> Types.hpp:69</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Factored_1_1Bandit_1_1PolicyInterface_html"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1Bandit_1_1PolicyInterface.html">AIToolbox::Factored::Bandit::PolicyInterface</a></div><div class="ttdoc">Simple typedef for most of a normal Bandit's policy needs.</div><div class="ttdef"><b>Definition:</b> PolicyInterface.hpp:11</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy_html_a29bb67b4c0da7a8fad877d4451c5a7c2"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a29bb67b4c0da7a8fad877d4451c5a7c2">AIToolbox::Factored::Bandit::RandomPolicy::getActionProbability</a></div><div class="ttdeci">virtual double getActionProbability(const Action &amp;a) const override</div><div class="ttdoc">This function returns the probability of taking the specified action in the specified state.</div></div>
-<div class="ttc" id="anamespaceAIToolbox_1_1Factored_1_1Bandit_html"><div class="ttname"><a href="namespaceAIToolbox_1_1Factored_1_1Bandit.html">AIToolbox::Factored::Bandit</a></div><div class="ttdef"><b>Definition:</b> MaxPlus.hpp:8</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy_html_a01a31ab2c9444b0e3c4e56966b773b8c"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html#a01a31ab2c9444b0e3c4e56966b773b8c">AIToolbox::Factored::Bandit::RandomPolicy::sampleActionNoAlloc</a></div><div class="ttdeci">const Action &amp; sampleActionNoAlloc() const</div><div class="ttdoc">This function chooses a random action for state s, following the policy distribution.</div></div>
+<div class="ttc" id="anamespaceAIToolbox_1_1Factored_1_1Bandit_html"><div class="ttname"><a href="namespaceAIToolbox_1_1Factored_1_1Bandit.html">AIToolbox::Factored::Bandit</a></div><div class="ttdef"><b>Definition:</b> LocalSearch.hpp:8</div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

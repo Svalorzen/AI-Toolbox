@@ -83,39 +83,17 @@ $(document).ready(function(){initNavTree('MDP_2TypeTraits_8hpp.html',''); initRe
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">TypeTraits.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="MDP_2Types_8hpp_source.html">AIToolbox/MDP/Types.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="TypeTraits_8hpp_source.html">AIToolbox/TypeTraits.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="MDP_2Types_8hpp_source.html">AIToolbox/MDP/Types.hpp</a>&gt;</code><br />
 </div>
 <p><a href="MDP_2TypeTraits_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__generative__model.html">AIToolbox::MDP::is_generative_model&lt; M &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="structAIToolbox_1_1MDP_1_1is__generative__model.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html">AIToolbox::MDP::is_model&lt; M &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for a full <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="structAIToolbox_1_1MDP_1_1is__model.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html">AIToolbox::MDP::is_model_eigen&lt; M &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface that allows <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> algorithms to leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="structAIToolbox_1_1MDP_1_1is__model__eigen.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html">AIToolbox::MDP::is_model_not_eigen&lt; M &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct verifies that a class satisfies the <a class="el" href="structAIToolbox_1_1MDP_1_1is__model.html" title="This struct represents the required interface for a full MDP.">is_model</a> interface but not the <a class="el" href="structAIToolbox_1_1MDP_1_1is__model__eigen.html" title="This struct represents the required interface that allows MDP algorithms to leverage Eigen.">is_model_eigen</a> interface.  <a href="structAIToolbox_1_1MDP_1_1is__model__not__eigen.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__experience.html">AIToolbox::MDP::is_experience&lt; M &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required interface for an experience recorder.  <a href="structAIToolbox_1_1MDP_1_1is__experience.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1is__experience__eigen.html">AIToolbox::MDP::is_experience_eigen&lt; E &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents the required <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards.">Experience</a> interface that allows leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="structAIToolbox_1_1MDP_1_1is__experience__eigen.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceAIToolbox"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html">AIToolbox</a></td></tr>
@@ -123,81 +101,29 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespaceAIToolbox_1_1MDP"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html">AIToolbox::MDP</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:aee33769855c8ca99ee2e02ad392e142f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MDP_2TypeTraits_8hpp.html#aee33769855c8ca99ee2e02ad392e142f">RETVAL_EXTRACTOR</a>(fun_name)</td></tr>
-<tr class="separator:aee33769855c8ca99ee2e02ad392e142f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee33769855c8ca99ee2e02ad392e142f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MDP_2TypeTraits_8hpp.html#aee33769855c8ca99ee2e02ad392e142f">RETVAL_EXTRACTOR</a>(fun_name)</td></tr>
-<tr class="separator:aee33769855c8ca99ee2e02ad392e142f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:abcbad20abfe19af677e6dd37335039fe"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:abcbad20abfe19af677e6dd37335039fe"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#abcbad20abfe19af677e6dd37335039fe">AIToolbox::MDP::is_generative_model_v</a> = is_generative_model&lt;M&gt;::value</td></tr>
-<tr class="separator:abcbad20abfe19af677e6dd37335039fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f107f23a783e9626e3fb08d5d16e8e7"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a9f107f23a783e9626e3fb08d5d16e8e7"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a9f107f23a783e9626e3fb08d5d16e8e7">AIToolbox::MDP::is_model_v</a> = is_model&lt;M&gt;::value</td></tr>
-<tr class="separator:a9f107f23a783e9626e3fb08d5d16e8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8830726d2d24f52c3c758caf0b79fdd7"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a8830726d2d24f52c3c758caf0b79fdd7"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a8830726d2d24f52c3c758caf0b79fdd7">AIToolbox::MDP::is_model_eigen_v</a> = is_model_eigen&lt;M&gt;::value</td></tr>
-<tr class="separator:a8830726d2d24f52c3c758caf0b79fdd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc8053813b967815457d399c3cfde264"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:adc8053813b967815457d399c3cfde264"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#adc8053813b967815457d399c3cfde264">AIToolbox::MDP::is_model_not_eigen_v</a> = is_model_not_eigen&lt;M&gt;::value</td></tr>
-<tr class="separator:adc8053813b967815457d399c3cfde264"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4682bf37a8be34ba05441fc65d81177f"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a4682bf37a8be34ba05441fc65d81177f"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a4682bf37a8be34ba05441fc65d81177f">AIToolbox::MDP::is_experience_v</a> = is_experience&lt;M&gt;::value</td></tr>
-<tr class="separator:a4682bf37a8be34ba05441fc65d81177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f5e9d89342123814461790e37cd4fb5"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:a7f5e9d89342123814461790e37cd4fb5"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7f5e9d89342123814461790e37cd4fb5">AIToolbox::MDP::is_experience_eigen_v</a> = is_experience_eigen&lt;M&gt;::value</td></tr>
-<tr class="separator:a7f5e9d89342123814461790e37cd4fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af568f46bc13052cf4823ea6c6524eed0"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:af568f46bc13052cf4823ea6c6524eed0"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#af568f46bc13052cf4823ea6c6524eed0">AIToolbox::MDP::IsGenerativeModel</a></td></tr>
+<tr class="memdesc:af568f46bc13052cf4823ea6c6524eed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required interface for a generative <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a>.  <a href="namespaceAIToolbox_1_1MDP.html#af568f46bc13052cf4823ea6c6524eed0">More...</a><br /></td></tr>
+<tr class="separator:af568f46bc13052cf4823ea6c6524eed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1382ecc062a3b0d56b6e5b599f5d6880"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:a1382ecc062a3b0d56b6e5b599f5d6880"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a1382ecc062a3b0d56b6e5b599f5d6880">AIToolbox::MDP::IsModel</a></td></tr>
+<tr class="memdesc:a1382ecc062a3b0d56b6e5b599f5d6880"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required interface for a full <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.  <a href="namespaceAIToolbox_1_1MDP.html#a1382ecc062a3b0d56b6e5b599f5d6880">More...</a><br /></td></tr>
+<tr class="separator:a1382ecc062a3b0d56b6e5b599f5d6880"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7834e5840e450ba9baef0b842c1625b"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:ab7834e5840e450ba9baef0b842c1625b"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#ab7834e5840e450ba9baef0b842c1625b">AIToolbox::MDP::IsModelEigen</a></td></tr>
+<tr class="memdesc:ab7834e5840e450ba9baef0b842c1625b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required interface that allows <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> algorithms to leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="namespaceAIToolbox_1_1MDP.html#ab7834e5840e450ba9baef0b842c1625b">More...</a><br /></td></tr>
+<tr class="separator:ab7834e5840e450ba9baef0b842c1625b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a92af137a9f0ba90821c1ce3baec3ae"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; </td></tr>
+<tr class="memitem:a1a92af137a9f0ba90821c1ce3baec3ae"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a1a92af137a9f0ba90821c1ce3baec3ae">AIToolbox::MDP::IsExperience</a></td></tr>
+<tr class="memdesc:a1a92af137a9f0ba90821c1ce3baec3ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required interface for an experience recorder.  <a href="namespaceAIToolbox_1_1MDP.html#a1a92af137a9f0ba90821c1ce3baec3ae">More...</a><br /></td></tr>
+<tr class="separator:a1a92af137a9f0ba90821c1ce3baec3ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadca5f64952d27ab08376f5641143503"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; </td></tr>
+<tr class="memitem:aadca5f64952d27ab08376f5641143503"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#aadca5f64952d27ab08376f5641143503">AIToolbox::MDP::IsExperienceEigen</a></td></tr>
+<tr class="memdesc:aadca5f64952d27ab08376f5641143503"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents the required <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards.">Experience</a> interface that allows leverage <a class="el" href="namespaceEigen.html">Eigen</a>.  <a href="namespaceAIToolbox_1_1MDP.html#aadca5f64952d27ab08376f5641143503">More...</a><br /></td></tr>
+<tr class="separator:aadca5f64952d27ab08376f5641143503"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aee33769855c8ca99ee2e02ad392e142f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee33769855c8ca99ee2e02ad392e142f">&#9670;&nbsp;</a></span>RETVAL_EXTRACTOR <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RETVAL_EXTRACTOR</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">fun_name</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">                                                                                                                                    \</div>
-<div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(Z* z) -&gt;                                          \</div>
-<div class="line">                                                                remove_cv_ref_t&lt;decltype(z-&gt;fun_name(std::declval&lt;Args&gt;()...))&gt;;    \</div>
-<div class="line">                                                                                                                                    \</div>
-<div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(...) -&gt; <span class="keywordtype">int</span></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aee33769855c8ca99ee2e02ad392e142f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee33769855c8ca99ee2e02ad392e142f">&#9670;&nbsp;</a></span>RETVAL_EXTRACTOR <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RETVAL_EXTRACTOR</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">fun_name</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">                                                                                                                                    \</div>
-<div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(Z* z) -&gt;                                          \</div>
-<div class="line">                                                                remove_cv_ref_t&lt;decltype(z-&gt;fun_name(std::declval&lt;Args&gt;()...))&gt;;    \</div>
-<div class="line">                                                                                                                                    \</div>
-<div class="line">            template &lt;<span class="keyword">typename</span> Z, <span class="keyword">typename</span> ...Args&gt; <span class="keyword">static</span> <span class="keyword">auto</span> fun_name##RetType(...) -&gt; <span class="keywordtype">int</span></div>
-</div><!-- fragment -->
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.17-->

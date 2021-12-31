@@ -84,8 +84,7 @@ $(document).ready(function(){initNavTree('MDP_2Policies_2Policy_8hpp.html',''); 
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
 <div class="title">Policy.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -112,8 +111,13 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Input stream utilities</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>These utilities read back data outputted with their respective <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8" title="This function outputs a Policy to a stream.">operator&lt;&lt;()</a> function.</p>
+<p>Note that the inputs must already be constructed with the correct size (state-action spaces), as the <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a46eee8111107489e3d68d30055722ed8" title="This function outputs a Policy to a stream.">operator&lt;&lt;()</a> do not save this information.</p>
+<p>These functions do not modify the input if the parsing fails. </p>
+</div></td></tr>
 <tr class="memitem:acc89e7df9962e6311cb97708c152c6e5"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#acc89e7df9962e6311cb97708c152c6e5">AIToolbox::MDP::operator&gt;&gt;</a> (std::istream &amp;is, Policy &amp;p)</td></tr>
-<tr class="memdesc:acc89e7df9962e6311cb97708c152c6e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">MDP::Model</a> class.  <a href="namespaceAIToolbox_1_1MDP.html#acc89e7df9962e6311cb97708c152c6e5">More...</a><br /></td></tr>
+<tr class="memdesc:acc89e7df9962e6311cb97708c152c6e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="namespaceAIToolbox_1_1MDP.html#acc89e7df9962e6311cb97708c152c6e5">More...</a><br /></td></tr>
 <tr class="separator:acc89e7df9962e6311cb97708c152c6e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

@@ -89,11 +89,7 @@ $(document).ready(function(){initNavTree('MDP_2IO_8hpp.html',''); initResizable(
 <div class="title">IO.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;iomanip&gt;</code><br />
-<code>#include &lt;<a class="el" href="MDP_2Policies_2PolicyInterface_8hpp_source.html">AIToolbox/MDP/Policies/PolicyInterface.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="MDP_2Types_8hpp_source.html">AIToolbox/MDP/Types.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="MDP_2Model_8hpp_source.html">AIToolbox/MDP/Model.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;iosfwd&gt;</code><br />
 </div>
 <p><a href="MDP_2IO_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -109,28 +105,49 @@ Functions</h2></td></tr>
 <tr class="memitem:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memItemLeft" align="right" valign="top">Model&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">AIToolbox::MDP::parseCassandra</a> (std::istream &amp;input)</td></tr>
 <tr class="memdesc:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function parses an <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> from a Cassandra formatted stream.  <a href="namespaceAIToolbox_1_1MDP.html#a08930c6fa40a80c9d5b0094f0f720ce6">More...</a><br /></td></tr>
 <tr class="separator:a08930c6fa40a80c9d5b0094f0f720ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplParams" colspan="2">template&lt;typename M , std::enable_if_t&lt; is_model_v&lt; M &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a76cf690877bec652996d9f930878c6d4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const M &amp;model)</td></tr>
-<tr class="memdesc:a76cf690877bec652996d9f930878c6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints any <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model to a file.  <a href="namespaceAIToolbox_1_1MDP.html#a76cf690877bec652996d9f930878c6d4">More...</a><br /></td></tr>
-<tr class="separator:a76cf690877bec652996d9f930878c6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">MDP output stream operators.</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>These utilities output MDP types at the maximum possible precision. This allows reading them back with no loss of accuracy. </p>
+</div></td></tr>
+<tr class="memitem:a7f26a51e01e3b4799cf6d26d6376a79a"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7f26a51e01e3b4799cf6d26d6376a79a">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const Model &amp;model)</td></tr>
+<tr class="separator:a7f26a51e01e3b4799cf6d26d6376a79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5709860c843912a0d9637fc4f811662a"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a5709860c843912a0d9637fc4f811662a">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const SparseModel &amp;model)</td></tr>
+<tr class="separator:a5709860c843912a0d9637fc4f811662a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92734aa5f3490646ffed14fdc868795c"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a92734aa5f3490646ffed14fdc868795c">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const Experience &amp;exp)</td></tr>
+<tr class="separator:a92734aa5f3490646ffed14fdc868795c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea66d8e18a0239cb2e644de74c27cd6b"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#aea66d8e18a0239cb2e644de74c27cd6b">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const SparseExperience &amp;exp)</td></tr>
+<tr class="separator:aea66d8e18a0239cb2e644de74c27cd6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520c34d1f4f6a6e55da9455643386f29"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const PolicyInterface &amp;p)</td></tr>
-<tr class="memdesc:a520c34d1f4f6a6e55da9455643386f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints the whole policy to a stream.  <a href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">More...</a><br /></td></tr>
 <tr class="separator:a520c34d1f4f6a6e55da9455643386f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplParams" colspan="2">template&lt;typename E , std::enable_if_t&lt; is_experience_v&lt; E &gt;, int &gt;  = 0&gt; </td></tr>
-<tr class="memitem:a848bcd05ba792e8065107b34277e83a4"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a848bcd05ba792e8065107b34277e83a4">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const E &amp;exp)</td></tr>
-<tr class="memdesc:a848bcd05ba792e8065107b34277e83a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function prints an <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards.">Experience</a> to a stream.  <a href="namespaceAIToolbox_1_1MDP.html#a848bcd05ba792e8065107b34277e83a4">More...</a><br /></td></tr>
-<tr class="separator:a848bcd05ba792e8065107b34277e83a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">MDP output stream operators.</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>These utilities output MDP types at the maximum possible precision. This allows reading them back with no loss of accuracy. </p>
+</div></td></tr>
+<tr class="memitem:a7f26a51e01e3b4799cf6d26d6376a79a"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a7f26a51e01e3b4799cf6d26d6376a79a">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const Model &amp;model)</td></tr>
+<tr class="separator:a7f26a51e01e3b4799cf6d26d6376a79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5709860c843912a0d9637fc4f811662a"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a5709860c843912a0d9637fc4f811662a">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const SparseModel &amp;model)</td></tr>
+<tr class="separator:a5709860c843912a0d9637fc4f811662a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92734aa5f3490646ffed14fdc868795c"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a92734aa5f3490646ffed14fdc868795c">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const Experience &amp;exp)</td></tr>
+<tr class="separator:a92734aa5f3490646ffed14fdc868795c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea66d8e18a0239cb2e644de74c27cd6b"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#aea66d8e18a0239cb2e644de74c27cd6b">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const SparseExperience &amp;exp)</td></tr>
+<tr class="separator:aea66d8e18a0239cb2e644de74c27cd6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520c34d1f4f6a6e55da9455643386f29"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a520c34d1f4f6a6e55da9455643386f29">AIToolbox::MDP::operator&lt;&lt;</a> (std::ostream &amp;os, const PolicyInterface &amp;p)</td></tr>
+<tr class="separator:a520c34d1f4f6a6e55da9455643386f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Input stream utilities</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p><a class="anchor" id="amgrpd8a2622a578c3776274256f9a9806301"></a>These utilities read back data outputted with their respective <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7f26a51e01e3b4799cf6d26d6376a79a">operator&lt;&lt;()</a> function.</p>
+<p>Note that the inputs must already be constructed with the correct size (state-action spaces), as the <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7f26a51e01e3b4799cf6d26d6376a79a">operator&lt;&lt;()</a> do not save this information.</p>
+<p>These functions do not modify the input if the parsing fails. </p>
+</td></tr>
+<tr class="memitem:a489066905e509118f3b2891ec4dd5851"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a489066905e509118f3b2891ec4dd5851">AIToolbox::MDP::operator&gt;&gt;</a> (std::istream &amp;is, Model &amp;m)</td></tr>
+<tr class="separator:a489066905e509118f3b2891ec4dd5851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8f0faa918a54c18027e33e9c49f8b33"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#ac8f0faa918a54c18027e33e9c49f8b33">AIToolbox::MDP::operator&gt;&gt;</a> (std::istream &amp;is, SparseModel &amp;m)</td></tr>
+<tr class="separator:ac8f0faa918a54c18027e33e9c49f8b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67ef3e48d1d7a21ee0b2d22accc21eb8"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a67ef3e48d1d7a21ee0b2d22accc21eb8">AIToolbox::MDP::operator&gt;&gt;</a> (std::istream &amp;is, Experience &amp;e)</td></tr>
-<tr class="memdesc:a67ef3e48d1d7a21ee0b2d22accc21eb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards.">MDP::Experience</a> class.  <a href="namespaceAIToolbox_1_1MDP.html#a67ef3e48d1d7a21ee0b2d22accc21eb8">More...</a><br /></td></tr>
 <tr class="separator:a67ef3e48d1d7a21ee0b2d22accc21eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b52d2fa3f77fc356f9a33b549bcc6c3"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a4b52d2fa3f77fc356f9a33b549bcc6c3">AIToolbox::MDP::operator&gt;&gt;</a> (std::istream &amp;is, SparseExperience &amp;e)</td></tr>
-<tr class="memdesc:a4b52d2fa3f77fc356f9a33b549bcc6c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html" title="This class keeps track of registered events and rewards.">MDP::SparseExperience</a> class.  <a href="namespaceAIToolbox_1_1MDP.html#a4b52d2fa3f77fc356f9a33b549bcc6c3">More...</a><br /></td></tr>
 <tr class="separator:a4b52d2fa3f77fc356f9a33b549bcc6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a489066905e509118f3b2891ec4dd5851"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#a489066905e509118f3b2891ec4dd5851">AIToolbox::MDP::operator&gt;&gt;</a> (std::istream &amp;is, Model &amp;m)</td></tr>
-<tr class="memdesc:a489066905e509118f3b2891ec4dd5851"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">MDP::Model</a> class.  <a href="namespaceAIToolbox_1_1MDP.html#a489066905e509118f3b2891ec4dd5851">More...</a><br /></td></tr>
-<tr class="separator:a489066905e509118f3b2891ec4dd5851"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc89e7df9962e6311cb97708c152c6e5"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1MDP.html#acc89e7df9962e6311cb97708c152c6e5">AIToolbox::MDP::operator&gt;&gt;</a> (std::istream &amp;is, Policy &amp;p)</td></tr>
-<tr class="memdesc:acc89e7df9962e6311cb97708c152c6e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">MDP::Model</a> class.  <a href="namespaceAIToolbox_1_1MDP.html#acc89e7df9962e6311cb97708c152c6e5">More...</a><br /></td></tr>
+<tr class="memdesc:acc89e7df9962e6311cb97708c152c6e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function reads a policy from a file.  <a href="namespaceAIToolbox_1_1MDP.html#acc89e7df9962e6311cb97708c152c6e5">More...</a><br /></td></tr>
 <tr class="separator:acc89e7df9962e6311cb97708c152c6e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

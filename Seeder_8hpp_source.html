@@ -98,22 +98,26 @@ $(document).ready(function(){initNavTree('Seeder_8hpp_source.html',''); initResi
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Impl_1_1Seeder.html#a935453e24118e44ad7abc316bbdd2223">setRootSeed</a>(<span class="keywordtype">unsigned</span> seed);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <a class="code" href="classAIToolbox_1_1Impl_1_1Seeder.html">Seeder</a>();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keyword">static</span> <a class="code" href="classAIToolbox_1_1Impl_1_1Seeder.html">Seeder</a> instance_;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="comment">// Here we don&#39;t use a mersenne twister, since this is just for</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="comment">// seeding and it&#39;s not so important (I hope?).</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            std::default_random_engine generator_;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    };</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <a class="code" href="classAIToolbox_1_1Impl_1_1Seeder.html#a3a6be92ef4614fc22aebe50cf1da470e">getRootSeed</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <a class="code" href="classAIToolbox_1_1Impl_1_1Seeder.html">Seeder</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">static</span> <a class="code" href="classAIToolbox_1_1Impl_1_1Seeder.html">Seeder</a> instance_;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="comment">// Here we don&#39;t use a mersenne twister, since this is just for</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="comment">// seeding and it&#39;s not so important (I hope?).</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordtype">unsigned</span> rootSeed_;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            std::default_random_engine generator_;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    };</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassAIToolbox_1_1Impl_1_1Seeder_html"><div class="ttname"><a href="classAIToolbox_1_1Impl_1_1Seeder.html">AIToolbox::Impl::Seeder</a></div><div class="ttdoc">This class is an internal class used to seed all random engines in the library.</div><div class="ttdef"><b>Definition:</b> Seeder.hpp:14</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Impl_1_1Seeder_html_adb65fee18794efcddc25cbda1e22773e"><div class="ttname"><a href="classAIToolbox_1_1Impl_1_1Seeder.html#adb65fee18794efcddc25cbda1e22773e">AIToolbox::Impl::Seeder::getSeed</a></div><div class="ttdeci">static unsigned getSeed()</div><div class="ttdoc">This function gets a random number to seed generators.</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1Impl_1_1Seeder_html_a3a6be92ef4614fc22aebe50cf1da470e"><div class="ttname"><a href="classAIToolbox_1_1Impl_1_1Seeder.html#a3a6be92ef4614fc22aebe50cf1da470e">AIToolbox::Impl::Seeder::getRootSeed</a></div><div class="ttdeci">static unsigned getRootSeed()</div><div class="ttdoc">This function returns the root seed of Seeder.</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1Impl_html"><div class="ttname"><a href="namespaceAIToolbox_1_1Impl.html">AIToolbox::Impl</a></div><div class="ttdef"><b>Definition:</b> CassandraParser.hpp:10</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Impl_1_1Seeder_html_a935453e24118e44ad7abc316bbdd2223"><div class="ttname"><a href="classAIToolbox_1_1Impl_1_1Seeder.html#a935453e24118e44ad7abc316bbdd2223">AIToolbox::Impl::Seeder::setRootSeed</a></div><div class="ttdeci">static void setRootSeed(unsigned seed)</div><div class="ttdoc">This function sets the seed for the seed generator.</div></div>
 <!-- HTML footer for doxygen 1.8.17-->

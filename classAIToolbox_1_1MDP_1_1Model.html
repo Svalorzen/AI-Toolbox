@@ -85,7 +85,6 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1MDP_1_1Model.html','
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classAIToolbox_1_1MDP_1_1Model-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">AIToolbox::MDP::Model Class Reference</div>  </div>
@@ -109,25 +108,25 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af001e34af54054d72f5d6a9283667592"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#af001e34af54054d72f5d6a9283667592">Model</a> (size_t s, size_t a, double discount=1.0)</td></tr>
 <tr class="memdesc:af001e34af54054d72f5d6a9283667592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1MDP_1_1Model.html#af001e34af54054d72f5d6a9283667592">More...</a><br /></td></tr>
 <tr class="separator:af001e34af54054d72f5d6a9283667592"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a100c057de192f4993b5647aaca6f0227"><td class="memTemplParams" colspan="2">template&lt;typename T , typename R &gt; </td></tr>
+<tr class="memitem:a100c057de192f4993b5647aaca6f0227"><td class="memTemplParams" colspan="2">template&lt;IsNaive3DMatrix T, IsNaive3DMatrix R&gt; </td></tr>
 <tr class="memitem:a100c057de192f4993b5647aaca6f0227"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a100c057de192f4993b5647aaca6f0227">Model</a> (size_t s, size_t a, const T &amp;t, const R &amp;r, double d=1.0)</td></tr>
 <tr class="memdesc:a100c057de192f4993b5647aaca6f0227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1MDP_1_1Model.html#a100c057de192f4993b5647aaca6f0227">More...</a><br /></td></tr>
 <tr class="separator:a100c057de192f4993b5647aaca6f0227"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0396025e243a1a231246e5d018fccff"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:ac0396025e243a1a231246e5d018fccff"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ac0396025e243a1a231246e5d018fccff">Model</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:ac0396025e243a1a231246e5d018fccff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.  <a href="classAIToolbox_1_1MDP_1_1Model.html#ac0396025e243a1a231246e5d018fccff">More...</a><br /></td></tr>
-<tr class="separator:ac0396025e243a1a231246e5d018fccff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0869578196cdf976ebd6f68bff7a33ae"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a0869578196cdf976ebd6f68bff7a33ae"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a0869578196cdf976ebd6f68bff7a33ae">Model</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:a0869578196cdf976ebd6f68bff7a33ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor from any valid <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> model.  <a href="classAIToolbox_1_1MDP_1_1Model.html#a0869578196cdf976ebd6f68bff7a33ae">More...</a><br /></td></tr>
+<tr class="separator:a0869578196cdf976ebd6f68bff7a33ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad79aaa66abfc87d2f78e9defa950103f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ad79aaa66abfc87d2f78e9defa950103f">Model</a> (<a class="el" href="structAIToolbox_1_1NoCheck.html">NoCheck</a>, size_t s, size_t a, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> &amp;&amp;t, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a73fa23cf730f6f848fef5679e97a4857">RewardMatrix</a> &amp;&amp;r, double d)</td></tr>
 <tr class="memdesc:ad79aaa66abfc87d2f78e9defa950103f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unchecked constructor.  <a href="classAIToolbox_1_1MDP_1_1Model.html#ad79aaa66abfc87d2f78e9defa950103f">More...</a><br /></td></tr>
 <tr class="separator:ad79aaa66abfc87d2f78e9defa950103f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="memTemplParams" colspan="2">template&lt;IsNaive3DMatrix T&gt; </td></tr>
 <tr class="memitem:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a1ad9ead7ffd3eb98b631c9cefeabd354">setTransitionFunction</a> (const T &amp;t)</td></tr>
 <tr class="memdesc:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">Model</a> transition function with the one provided.  <a href="classAIToolbox_1_1MDP_1_1Model.html#a1ad9ead7ffd3eb98b631c9cefeabd354">More...</a><br /></td></tr>
 <tr class="separator:a1ad9ead7ffd3eb98b631c9cefeabd354"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acef2bc9dcdea920f503413e846697d3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#acef2bc9dcdea920f503413e846697d3e">setTransitionFunction</a> (const <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#ab4e24ef71fb66c64cfe179d905dea087">TransitionMatrix</a> &amp;t)</td></tr>
-<tr class="memdesc:acef2bc9dcdea920f503413e846697d3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the transition function using a <a class="el" href="namespaceEigen.html">Eigen</a> dense matrices.  <a href="classAIToolbox_1_1MDP_1_1Model.html#acef2bc9dcdea920f503413e846697d3e">More...</a><br /></td></tr>
+<tr class="memdesc:acef2bc9dcdea920f503413e846697d3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the transition function using a <a class="el" href="namespaceEigen.html">Eigen</a> dense matrix.  <a href="classAIToolbox_1_1MDP_1_1Model.html#acef2bc9dcdea920f503413e846697d3e">More...</a><br /></td></tr>
 <tr class="separator:acef2bc9dcdea920f503413e846697d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a778bce7806b7fd265c8d89f74760def4"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
+<tr class="memitem:a778bce7806b7fd265c8d89f74760def4"><td class="memTemplParams" colspan="2">template&lt;IsNaive3DMatrix R&gt; </td></tr>
 <tr class="memitem:a778bce7806b7fd265c8d89f74760def4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a778bce7806b7fd265c8d89f74760def4">setRewardFunction</a> (const R &amp;r)</td></tr>
 <tr class="memdesc:a778bce7806b7fd265c8d89f74760def4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function replaces the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">Model</a> reward function with the one provided.  <a href="classAIToolbox_1_1MDP_1_1Model.html#a778bce7806b7fd265c8d89f74760def4">More...</a><br /></td></tr>
 <tr class="separator:a778bce7806b7fd265c8d89f74760def4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,12 +166,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6ca4b6fc92c8089ec4cea5910f0f6a1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a6ca4b6fc92c8089ec4cea5910f0f6a1b">isTerminal</a> (size_t s) const</td></tr>
 <tr class="memdesc:a6ca4b6fc92c8089ec4cea5910f0f6a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns whether a given state is a terminal.  <a href="classAIToolbox_1_1MDP_1_1Model.html#a6ca4b6fc92c8089ec4cea5910f0f6a1b">More...</a><br /></td></tr>
 <tr class="separator:a6ca4b6fc92c8089ec4cea5910f0f6a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a21dae3ea2b31fc6f150644bb38aaeb03"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a21dae3ea2b31fc6f150644bb38aaeb03">operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a> &amp;)</td></tr>
-<tr class="memdesc:a21dae3ea2b31fc6f150644bb38aaeb03"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">MDP::Model</a> class.  <a href="classAIToolbox_1_1MDP_1_1Model.html#a21dae3ea2b31fc6f150644bb38aaeb03">More...</a><br /></td></tr>
-<tr class="separator:a21dae3ea2b31fc6f150644bb38aaeb03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents a Markov Decision Process. </p>
@@ -265,7 +258,7 @@ Friends</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename R &gt; </div>
+template&lt;IsNaive3DMatrix T, IsNaive3DMatrix R&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">AIToolbox::MDP::Model::Model </td>
@@ -332,13 +325,13 @@ template&lt;typename T , typename R &gt; </div>
 
 </div>
 </div>
-<a id="ac0396025e243a1a231246e5d018fccff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0396025e243a1a231246e5d018fccff">&#9670;&nbsp;</a></span>Model() <span class="overload">[3/4]</span></h2>
+<a id="a0869578196cdf976ebd6f68bff7a33ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0869578196cdf976ebd6f68bff7a33ae">&#9670;&nbsp;</a></span>Model() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">AIToolbox::MDP::Model::Model </td>
@@ -749,7 +742,7 @@ template&lt;typename M , typename &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R &gt; </div>
+template&lt;IsNaive3DMatrix R&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void AIToolbox::MDP::Model::setRewardFunction </td>
@@ -762,7 +755,7 @@ template&lt;typename R &gt; </div>
 </div><div class="memdoc">
 
 <p>This function replaces the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">Model</a> reward function with the one provided. </p>
-<p>The container needs to support data access through operator[]. In addition, the dimensions of the containers must match the ones provided as arguments (for three dimensions: S,A,S).</p>
+<p>The container needs to support data access through operator[]. In addition, the dimensions of the containers must match the ones used during construction (for three dimensions: S, A, S).</p>
 <p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
 <p>Internal values of the container will be converted to double, so these conversions must be possible.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -797,7 +790,7 @@ template&lt;typename R &gt; </div>
 </div><div class="memdoc">
 
 <p>This function replaces the reward function with the one provided. </p>
-<p>The dimensions of the container must match the ones provided as arguments (for three dimensions: S, A). BE CAREFUL.</p>
+<p>The dimensions of the container must match the ones used during construction(for two dimensions: S, A). BE CAREFUL.</p>
 <p>This function does DOES NOT perform any size checks on the input.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -814,7 +807,7 @@ template&lt;typename R &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;IsNaive3DMatrix T&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void AIToolbox::MDP::Model::setTransitionFunction </td>
@@ -828,7 +821,7 @@ template&lt;typename T &gt; </div>
 
 <p>This function replaces the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">Model</a> transition function with the one provided. </p>
 <p>This function will throw a std::invalid_argument if the matrix provided does not contain valid probabilities.</p>
-<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones provided as arguments (for three dimensions: S,A,S).</p>
+<p>The container needs to support data access through operator[]. In addition, the dimensions of the container must match the ones used during construction (for three dimensions: S,A,S).</p>
 <p>This is important, as this function DOES NOT perform any size checks on the external container.</p>
 <p>Internal values of the container will be converted to double, so these conversions must be possible.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -862,9 +855,9 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This function sets the transition function using a <a class="el" href="namespaceEigen.html">Eigen</a> dense matrices. </p>
-<p>This function will throw a std::invalid_argument if the matrix provided does not contain valid probabilities.</p>
-<p>The dimensions of the container must match the ones provided as arguments (for three dimensions: S, S, A). BE CAREFUL. The sparse matrices MUST be SxS, while the std::vector containing them MUST represent A.</p>
+<p>This function sets the transition function using a <a class="el" href="namespaceEigen.html">Eigen</a> dense matrix. </p>
+<p>This function will throw an std::invalid_argument if the matrix provided does not contain valid probabilities.</p>
+<p>The dimensions of the container must match the ones used during construction (for three dimensions: A, S, S). BE CAREFUL. The matrices MUST be SxS, while the std::vector containing them MUST be of size A.</p>
 <p>This function does DOES NOT perform any size checks on the input.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -872,54 +865,6 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a21dae3ea2b31fc6f150644bb38aaeb03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21dae3ea2b31fc6f150644bb38aaeb03">&#9670;&nbsp;</a></span>operator&gt;&gt;</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::istream&amp; operator&gt;&gt; </td>
-          <td>(</td>
-          <td class="paramtype">std::istream &amp;&#160;</td>
-          <td class="paramname"><em>is</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">Model</a> &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This function implements input from stream for the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">MDP::Model</a> class. </p>
-<p>Note that as all other input function, it does not actually change the input model if the reading fails.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">is</td><td>The input stream. </td></tr>
-    <tr><td class="paramname">m</td><td>The model to write into.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The input stream. </dd></dl>
 
 </div>
 </div>

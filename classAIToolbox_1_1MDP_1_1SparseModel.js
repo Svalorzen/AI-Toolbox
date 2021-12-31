@@ -4,7 +4,7 @@ var classAIToolbox_1_1MDP_1_1SparseModel =
     [ "TransitionMatrix", "classAIToolbox_1_1MDP_1_1SparseModel.html#ab58bd6da1e0c2810ece0c4ada7ec1847", null ],
     [ "SparseModel", "classAIToolbox_1_1MDP_1_1SparseModel.html#aacc70118f8f821ecd58529af1dc06424", null ],
     [ "SparseModel", "classAIToolbox_1_1MDP_1_1SparseModel.html#acf8a1651b7a4fded3084562ae6e821d8", null ],
-    [ "SparseModel", "classAIToolbox_1_1MDP_1_1SparseModel.html#a9614108fede1b78504f952dd973eaeba", null ],
+    [ "SparseModel", "classAIToolbox_1_1MDP_1_1SparseModel.html#a651f632f3da20709db169cbf57c8830a", null ],
     [ "SparseModel", "classAIToolbox_1_1MDP_1_1SparseModel.html#a9e5b14d7e2e63a4358754958a7b82100", null ],
     [ "getA", "classAIToolbox_1_1MDP_1_1SparseModel.html#aa2a9ce2d809a518ea4409a590f206cb0", null ],
     [ "getDiscount", "classAIToolbox_1_1MDP_1_1SparseModel.html#ab611ff6f8156ef9fc3dbb5ff954ede5b", null ],
@@ -20,6 +20,5 @@ var classAIToolbox_1_1MDP_1_1SparseModel =
     [ "setRewardFunction", "classAIToolbox_1_1MDP_1_1SparseModel.html#a68d2c87fcbf2262e40e1e007fd7444f5", null ],
     [ "setRewardFunction", "classAIToolbox_1_1MDP_1_1SparseModel.html#a0bfcfb8ef5067ea7c7469336da58dee0", null ],
     [ "setTransitionFunction", "classAIToolbox_1_1MDP_1_1SparseModel.html#ace30e0b38fdad00089d7eb7211ea1ef5", null ],
-    [ "setTransitionFunction", "classAIToolbox_1_1MDP_1_1SparseModel.html#a0aca4006eb8f08ebc1433c5664d834bf", null ],
-    [ "operator>>", "classAIToolbox_1_1MDP_1_1SparseModel.html#a5c04930d1932bc86fad99730441f4943", null ]
+    [ "setTransitionFunction", "classAIToolbox_1_1MDP_1_1SparseModel.html#a0aca4006eb8f08ebc1433c5664d834bf", null ]
 ];

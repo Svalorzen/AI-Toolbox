@@ -3,7 +3,7 @@ var classAIToolbox_1_1MDP_1_1SARSAL =
     [ "Trace", "classAIToolbox_1_1MDP_1_1SARSAL.html#ae5cb425a80db48828bde436d4574c117", null ],
     [ "Traces", "classAIToolbox_1_1MDP_1_1SARSAL.html#aecda3052358bc9c5eed68e10d829bcb0", null ],
     [ "SARSAL", "classAIToolbox_1_1MDP_1_1SARSAL.html#a07d308d8ce394989756edaf608f95b5a", null ],
-    [ "SARSAL", "classAIToolbox_1_1MDP_1_1SARSAL.html#a1b537e9ff8a9d313df69984b0a73b61b", null ],
+    [ "SARSAL", "classAIToolbox_1_1MDP_1_1SARSAL.html#ae3b79b316e14db917331f7196483166d", null ],
     [ "clearTraces", "classAIToolbox_1_1MDP_1_1SARSAL.html#a2d0eb982f9abd1c22d7986d71a99c9b0", null ],
     [ "getA", "classAIToolbox_1_1MDP_1_1SARSAL.html#adb106525fc3d5aec23202730778bf58d", null ],
     [ "getDiscount", "classAIToolbox_1_1MDP_1_1SARSAL.html#a9e47a8dcf2e3cb1ed70cfbca449adb17", null ],

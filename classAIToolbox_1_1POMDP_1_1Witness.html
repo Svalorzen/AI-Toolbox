@@ -112,10 +112,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab4b9195ec415f942840826ccf0d8732e"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#ab4b9195ec415f942840826ccf0d8732e">getHorizon</a> () const</td></tr>
 <tr class="memdesc:ab4b9195ec415f942840826ccf0d8732e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set horizon parameter.  <a href="classAIToolbox_1_1POMDP_1_1Witness.html#ab4b9195ec415f942840826ccf0d8732e">More...</a><br /></td></tr>
 <tr class="separator:ab4b9195ec415f942840826ccf0d8732e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a604403a0668d30f8af32730dd0cbe518"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a604403a0668d30f8af32730dd0cbe518"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#a604403a0668d30f8af32730dd0cbe518">operator()</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:a604403a0668d30f8af32730dd0cbe518"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> completely.  <a href="classAIToolbox_1_1POMDP_1_1Witness.html#a604403a0668d30f8af32730dd0cbe518">More...</a><br /></td></tr>
-<tr class="separator:a604403a0668d30f8af32730dd0cbe518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e39a4e9d9deb0726507f094fe3f4438"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a0e39a4e9d9deb0726507f094fe3f4438"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html#a0e39a4e9d9deb0726507f094fe3f4438">operator()</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:a0e39a4e9d9deb0726507f094fe3f4438"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> completely.  <a href="classAIToolbox_1_1POMDP_1_1Witness.html#a0e39a4e9d9deb0726507f094fe3f4438">More...</a><br /></td></tr>
+<tr class="separator:a0e39a4e9d9deb0726507f094fe3f4438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm.">Witness</a> algorithm. </p>
@@ -205,13 +205,13 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a604403a0668d30f8af32730dd0cbe518"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a604403a0668d30f8af32730dd0cbe518">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a0e39a4e9d9deb0726507f094fe3f4438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e39a4e9d9deb0726507f094fe3f4438">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::Witness::operator() </td>

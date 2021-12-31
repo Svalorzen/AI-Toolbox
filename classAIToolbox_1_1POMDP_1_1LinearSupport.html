@@ -113,10 +113,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad6da8231510ece409b57ba296d7b3e26"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#ad6da8231510ece409b57ba296d7b3e26">getHorizon</a> () const</td></tr>
 <tr class="memdesc:ad6da8231510ece409b57ba296d7b3e26"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set horizon parameter.  <a href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#ad6da8231510ece409b57ba296d7b3e26">More...</a><br /></td></tr>
 <tr class="separator:ad6da8231510ece409b57ba296d7b3e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7f7bae3e30a76ea54213d4340b889de"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:ac7f7bae3e30a76ea54213d4340b889de"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#ac7f7bae3e30a76ea54213d4340b889de">operator()</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:ac7f7bae3e30a76ea54213d4340b889de"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> completely.  <a href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#ac7f7bae3e30a76ea54213d4340b889de">More...</a><br /></td></tr>
-<tr class="separator:ac7f7bae3e30a76ea54213d4340b889de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca5d33bc4ae5f3c59b1ecec5bc710bdb"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:aca5d33bc4ae5f3c59b1ecec5bc710bdb"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#aca5d33bc4ae5f3c59b1ecec5bc710bdb">operator()</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:aca5d33bc4ae5f3c59b1ecec5bc710bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves a <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">POMDP::Model</a> completely.  <a href="classAIToolbox_1_1POMDP_1_1LinearSupport.html#aca5d33bc4ae5f3c59b1ecec5bc710bdb">More...</a><br /></td></tr>
+<tr class="separator:aca5d33bc4ae5f3c59b1ecec5bc710bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the <a class="el" href="classAIToolbox_1_1POMDP_1_1LinearSupport.html" title="This class represents the LinearSupport algorithm.">LinearSupport</a> algorithm. </p>
@@ -207,13 +207,13 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac7f7bae3e30a76ea54213d4340b889de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7f7bae3e30a76ea54213d4340b889de">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="aca5d33bc4ae5f3c59b1ecec5bc710bdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca5d33bc4ae5f3c59b1ecec5bc710bdb">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#ab1cada9fef241e48a9d14d36cb61dabb">ValueFunction</a> &gt; AIToolbox::POMDP::LinearSupport::operator() </td>

@@ -1,7 +1,7 @@
 var classAIToolbox_1_1MDP_1_1RLearning =
 [
     [ "RLearning", "classAIToolbox_1_1MDP_1_1RLearning.html#ab700efdf5598f8540b9454b2e86e7427", null ],
-    [ "RLearning", "classAIToolbox_1_1MDP_1_1RLearning.html#a7e5fcd5dd8c039fd810353884cd2632e", null ],
+    [ "RLearning", "classAIToolbox_1_1MDP_1_1RLearning.html#ad45062fe19e2c83803735011420a37b0", null ],
     [ "getA", "classAIToolbox_1_1MDP_1_1RLearning.html#ab1777127a7b0702d63c7cc64920e75f9", null ],
     [ "getAlphaLearningRate", "classAIToolbox_1_1MDP_1_1RLearning.html#a245884650873059b30c12f3f8985ea32", null ],
     [ "getAverageReward", "classAIToolbox_1_1MDP_1_1RLearning.html#a6b2b1e4e28d00178d67540f920e6013e", null ],

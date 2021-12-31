@@ -100,14 +100,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab120caa9f9999d82a7c99bd47e091ad3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#ab120caa9f9999d82a7c99bd47e091ad3">FastInformedBound</a> (unsigned horizon, double tolerance=0.001)</td></tr>
 <tr class="memdesc:ab120caa9f9999d82a7c99bd47e091ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#ab120caa9f9999d82a7c99bd47e091ad3">More...</a><br /></td></tr>
 <tr class="separator:ab120caa9f9999d82a7c99bd47e091ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53a257cf11342ff8388c8024be764dbf"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a53a257cf11342ff8388c8024be764dbf"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a53a257cf11342ff8388c8024be764dbf">operator()</a> (const M &amp;m, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &amp;oldQ={})</td></tr>
-<tr class="memdesc:a53a257cf11342ff8388c8024be764dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the Fast Informed Bound for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a53a257cf11342ff8388c8024be764dbf">More...</a><br /></td></tr>
-<tr class="separator:a53a257cf11342ff8388c8024be764dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68e53edd9092e6db49cfb2dc6f8bb13a"><td class="memTemplParams" colspan="2">template&lt;typename M , typename SOSA , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a68e53edd9092e6db49cfb2dc6f8bb13a"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a68e53edd9092e6db49cfb2dc6f8bb13a">operator()</a> (const M &amp;m, const SOSA &amp;sosa, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> oldQ={})</td></tr>
-<tr class="memdesc:a68e53edd9092e6db49cfb2dc6f8bb13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the Fast Informed Bound for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a68e53edd9092e6db49cfb2dc6f8bb13a">More...</a><br /></td></tr>
-<tr class="separator:a68e53edd9092e6db49cfb2dc6f8bb13a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1fdb3fce3a82514c8b9d7cb8f3a39ae"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:aa1fdb3fce3a82514c8b9d7cb8f3a39ae"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#aa1fdb3fce3a82514c8b9d7cb8f3a39ae">operator()</a> (const M &amp;m, const <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &amp;oldQ={})</td></tr>
+<tr class="memdesc:aa1fdb3fce3a82514c8b9d7cb8f3a39ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the Fast Informed Bound for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#aa1fdb3fce3a82514c8b9d7cb8f3a39ae">More...</a><br /></td></tr>
+<tr class="separator:aa1fdb3fce3a82514c8b9d7cb8f3a39ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975d7ce35e99840cacaf01380dc93fd7"><td class="memTemplParams" colspan="2">template&lt;IsModel M, typename SOSA &gt; </td></tr>
+<tr class="memitem:a975d7ce35e99840cacaf01380dc93fd7"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a975d7ce35e99840cacaf01380dc93fd7">operator()</a> (const M &amp;m, const SOSA &amp;sosa, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> oldQ={})</td></tr>
+<tr class="memdesc:a975d7ce35e99840cacaf01380dc93fd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes the Fast Informed Bound for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#a975d7ce35e99840cacaf01380dc93fd7">More...</a><br /></td></tr>
+<tr class="separator:a975d7ce35e99840cacaf01380dc93fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdf4512027ca14b1c4f2063f33cd7ea3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#abdf4512027ca14b1c4f2063f33cd7ea3">setTolerance</a> (double tolerance)</td></tr>
 <tr class="memdesc:abdf4512027ca14b1c4f2063f33cd7ea3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the tolerance parameter.  <a href="classAIToolbox_1_1POMDP_1_1FastInformedBound.html#abdf4512027ca14b1c4f2063f33cd7ea3">More...</a><br /></td></tr>
 <tr class="separator:abdf4512027ca14b1c4f2063f33cd7ea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,13 +221,13 @@ Q(s,a) = R(s,a) + gamma * Sum_o max_a' Sum_s' P(s',o|s,a) * Q(s',a')
 
 </div>
 </div>
-<a id="a53a257cf11342ff8388c8024be764dbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53a257cf11342ff8388c8024be764dbf">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+<a id="aa1fdb3fce3a82514c8b9d7cb8f3a39ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1fdb3fce3a82514c8b9d7cb8f3a39ae">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt; AIToolbox::POMDP::FastInformedBound::operator() </td>
@@ -263,13 +263,13 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="a68e53edd9092e6db49cfb2dc6f8bb13a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68e53edd9092e6db49cfb2dc6f8bb13a">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+<a id="a975d7ce35e99840cacaf01380dc93fd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a975d7ce35e99840cacaf01380dc93fd7">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename SOSA , typename &gt; </div>
+template&lt;IsModel M, typename SOSA &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt; AIToolbox::POMDP::FastInformedBound::operator() </td>

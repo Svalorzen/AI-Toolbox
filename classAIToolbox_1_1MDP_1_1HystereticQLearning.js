@@ -1,7 +1,7 @@
 var classAIToolbox_1_1MDP_1_1HystereticQLearning =
 [
     [ "HystereticQLearning", "classAIToolbox_1_1MDP_1_1HystereticQLearning.html#a3fe689ebd4ab765d33d42dd3cee8cf0d", null ],
-    [ "HystereticQLearning", "classAIToolbox_1_1MDP_1_1HystereticQLearning.html#ad9b7f264164013a55b2f620ab545a190", null ],
+    [ "HystereticQLearning", "classAIToolbox_1_1MDP_1_1HystereticQLearning.html#a8c8791dbbe638a2c28c19cdc7faa254b", null ],
     [ "getA", "classAIToolbox_1_1MDP_1_1HystereticQLearning.html#a82f36579d713e440b74930bed39dd78a", null ],
     [ "getDiscount", "classAIToolbox_1_1MDP_1_1HystereticQLearning.html#aab4fff4bccfa9da7dd327008b1f39719", null ],
     [ "getNegativeLearningRate", "classAIToolbox_1_1MDP_1_1HystereticQLearning.html#abb90f3deff71d74bd79c00c2a747a077", null ],

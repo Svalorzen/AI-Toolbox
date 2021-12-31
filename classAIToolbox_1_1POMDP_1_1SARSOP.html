@@ -113,10 +113,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1585ad838ba4a4dfb431d01c6b772391"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SARSOP.html#a1585ad838ba4a4dfb431d01c6b772391">getDelta</a> () const</td></tr>
 <tr class="memdesc:a1585ad838ba4a4dfb431d01c6b772391"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the delta for pruning to use at the start of a solving process.  <a href="classAIToolbox_1_1POMDP_1_1SARSOP.html#a1585ad838ba4a4dfb431d01c6b772391">More...</a><br /></td></tr>
 <tr class="separator:a1585ad838ba4a4dfb431d01c6b772391"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cfc548ef00fcfc47829f4fd9c7bcee5"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a6cfc548ef00fcfc47829f4fd9c7bcee5"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SARSOP.html#a6cfc548ef00fcfc47829f4fd9c7bcee5">operator()</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;initialBelief)</td></tr>
-<tr class="memdesc:a6cfc548ef00fcfc47829f4fd9c7bcee5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function efficiently computes bounds for the optimal value of the input belief for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1SARSOP.html#a6cfc548ef00fcfc47829f4fd9c7bcee5">More...</a><br /></td></tr>
-<tr class="separator:a6cfc548ef00fcfc47829f4fd9c7bcee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad349f59766499976158d008d9b0d3cce"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:ad349f59766499976158d008d9b0d3cce"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; double, double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1SARSOP.html#ad349f59766499976158d008d9b0d3cce">operator()</a> (const M &amp;model, const <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a4522c5e35483fb30b2c43c271781e8bc">Belief</a> &amp;initialBelief)</td></tr>
+<tr class="memdesc:ad349f59766499976158d008d9b0d3cce"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function efficiently computes bounds for the optimal value of the input belief for the input <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a>.  <a href="classAIToolbox_1_1POMDP_1_1SARSOP.html#ad349f59766499976158d008d9b0d3cce">More...</a><br /></td></tr>
+<tr class="separator:ad349f59766499976158d008d9b0d3cce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the <a class="el" href="classAIToolbox_1_1POMDP_1_1SARSOP.html" title="This class implements the SARSOP algorithm.">SARSOP</a> algorithm. </p>
@@ -204,13 +204,13 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6cfc548ef00fcfc47829f4fd9c7bcee5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cfc548ef00fcfc47829f4fd9c7bcee5">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="ad349f59766499976158d008d9b0d3cce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad349f59766499976158d008d9b0d3cce">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; double, double, <a class="el" href="namespaceAIToolbox_1_1POMDP.html#a5655ffd334a1e53622314eae70eab464">VList</a>, <a class="el" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">MDP::QFunction</a> &gt; AIToolbox::POMDP::SARSOP::operator() </td>

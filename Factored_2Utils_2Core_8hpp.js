@@ -17,6 +17,7 @@ var Factored_2Utils_2Core_8hpp =
     [ "join", "Factored_2Utils_2Core_8hpp.html#a0add821f0cf56e1cbcf6c4106d83b4b7", null ],
     [ "join", "Factored_2Utils_2Core_8hpp.html#ac9fe855ce28851c9973347791e422cff", null ],
     [ "join", "Factored_2Utils_2Core_8hpp.html#ac5c3f9c2a204f6280de79406ee032435", null ],
+    [ "makeRandomValue", "Factored_2Utils_2Core_8hpp.html#a0d3059b4cb6df1edf1d26728a11644a2", null ],
     [ "match", "Factored_2Utils_2Core_8hpp.html#a0b0d49ddebc26e8e6e5056bdf3a828a9", null ],
     [ "match", "Factored_2Utils_2Core_8hpp.html#a9704c9551f2720affccd397285ac19f1", null ],
     [ "match", "Factored_2Utils_2Core_8hpp.html#a54cda30c5e5faca1de6caa3c0e80ed98", null ],
@@ -36,6 +37,7 @@ var Factored_2Utils_2Core_8hpp =
     [ "toIndexPartial", "Factored_2Utils_2Core_8hpp.html#af7c2a1ffe8de84c03b8667a5ef8e04f5", null ],
     [ "toIndexPartial", "Factored_2Utils_2Core_8hpp.html#aff18e60ac68a11f3951487b8171e6e9c", null ],
     [ "toIndexPartial", "Factored_2Utils_2Core_8hpp.html#a9dc159c3286abb8ad0392a236a8867f0", null ],
+    [ "toIndexPartialAndSkip", "Factored_2Utils_2Core_8hpp.html#ac2c89cf0fd672961369ed17b82c05c09", null ],
     [ "toPartialFactors", "Factored_2Utils_2Core_8hpp.html#ab3dfc3bff85ff84f0d654781abaa5f6e", null ],
     [ "unsafe_join", "Factored_2Utils_2Core_8hpp.html#a9f1b888a1f1f2d08a107f56d61492912", null ]
 ];

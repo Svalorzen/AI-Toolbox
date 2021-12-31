@@ -92,6 +92,7 @@ $(document).ready(function(){initNavTree('Utils_2Core_8hpp.html',''); initResiza
 <div class="contents">
 <div class="textblock"><code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;compare&gt;</code><br />
 <code>#include &lt;<a class="el" href="Types_8hpp_source.html">AIToolbox/Types.hpp</a>&gt;</code><br />
 <code>#include &lt;boost/functional/hash.hpp&gt;</code><br />
 </div>
@@ -137,18 +138,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a65413c83ea777c89684f5d901ea33679"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a65413c83ea777c89684f5d901ea33679">AIToolbox::checkDifferentGeneral</a> (const V &amp;v, const double d)</td></tr>
 <tr class="memdesc:a65413c83ea777c89684f5d901ea33679"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function checks whether a given vector does not contain only the stated value.  <a href="namespaceAIToolbox.html#a65413c83ea777c89684f5d901ea33679">More...</a><br /></td></tr>
 <tr class="separator:a65413c83ea777c89684f5d901ea33679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a111282b4c465f34023497869fdeecd58"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
-<tr class="memitem:a111282b4c465f34023497869fdeecd58"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58">AIToolbox::veccmp</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
-<tr class="memdesc:a111282b4c465f34023497869fdeecd58"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a111282b4c465f34023497869fdeecd58">More...</a><br /></td></tr>
-<tr class="separator:a111282b4c465f34023497869fdeecd58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
-<tr class="memitem:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ad0927a8f10c7aa36aa7d341fab1834fc">AIToolbox::veccmpSmall</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
-<tr class="memdesc:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#ad0927a8f10c7aa36aa7d341fab1834fc">More...</a><br /></td></tr>
-<tr class="separator:ad0927a8f10c7aa36aa7d341fab1834fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ad90c42f9cf72812707724c6a669161"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
-<tr class="memitem:a2ad90c42f9cf72812707724c6a669161"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a2ad90c42f9cf72812707724c6a669161">AIToolbox::veccmpGeneral</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
-<tr class="memdesc:a2ad90c42f9cf72812707724c6a669161"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a2ad90c42f9cf72812707724c6a669161">More...</a><br /></td></tr>
-<tr class="separator:a2ad90c42f9cf72812707724c6a669161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6677e729c627e5bc93cc80679d57eff"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:ae6677e729c627e5bc93cc80679d57eff"><td class="memTemplItemLeft" align="right" valign="top">std::strong_ordering&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#ae6677e729c627e5bc93cc80679d57eff">AIToolbox::veccmp</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
+<tr class="memdesc:ae6677e729c627e5bc93cc80679d57eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#ae6677e729c627e5bc93cc80679d57eff">More...</a><br /></td></tr>
+<tr class="separator:ae6677e729c627e5bc93cc80679d57eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c9c3a15c88e80078a79a912c5dbf45"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a86c9c3a15c88e80078a79a912c5dbf45"><td class="memTemplItemLeft" align="right" valign="top">std::partial_ordering&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a86c9c3a15c88e80078a79a912c5dbf45">AIToolbox::veccmpSmall</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
+<tr class="memdesc:a86c9c3a15c88e80078a79a912c5dbf45"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a86c9c3a15c88e80078a79a912c5dbf45">More...</a><br /></td></tr>
+<tr class="separator:a86c9c3a15c88e80078a79a912c5dbf45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ded042724dc0b163ad37f33817a4597"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a1ded042724dc0b163ad37f33817a4597"><td class="memTemplItemLeft" align="right" valign="top">std::partial_ordering&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#a1ded042724dc0b163ad37f33817a4597">AIToolbox::veccmpGeneral</a> (const V &amp;lhs, const V &amp;rhs)</td></tr>
+<tr class="memdesc:a1ded042724dc0b163ad37f33817a4597"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function compares two general vectors of equal size lexicographically.  <a href="namespaceAIToolbox.html#a1ded042724dc0b163ad37f33817a4597">More...</a><br /></td></tr>
+<tr class="separator:a1ded042724dc0b163ad37f33817a4597"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add1a336767c8dd3b7999237a1149818a"><td class="memTemplParams" colspan="2">template&lt;typename It &gt; </td></tr>
 <tr class="memitem:add1a336767c8dd3b7999237a1149818a"><td class="memTemplItemLeft" align="right" valign="top">It&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox.html#add1a336767c8dd3b7999237a1149818a">AIToolbox::sequential_sorted_find</a> (It begin, It end, const typename std::iterator_traits&lt; It &gt;::value_type &amp;elem)</td></tr>
 <tr class="memdesc:add1a336767c8dd3b7999237a1149818a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns an iterator to the position where the input should be in a sorted range, via sequential scan.  <a href="namespaceAIToolbox.html#add1a336767c8dd3b7999237a1149818a">More...</a><br /></td></tr>

@@ -16,7 +16,10 @@ var classAIToolbox_1_1MDP_1_1SparseExperience =
     [ "record", "classAIToolbox_1_1MDP_1_1SparseExperience.html#a05dbd21a64db8450e80ea81a77228597", null ],
     [ "reset", "classAIToolbox_1_1MDP_1_1SparseExperience.html#ab7a01467d5ac8c809416eb715ce4cca4", null ],
     [ "setM2Matrix", "classAIToolbox_1_1MDP_1_1SparseExperience.html#acd9eba8a2dfa5259cab38aee29789f16", null ],
+    [ "setM2Matrix", "classAIToolbox_1_1MDP_1_1SparseExperience.html#af88931e8605d2c8d9dc4fe9001269539", null ],
     [ "setRewardMatrix", "classAIToolbox_1_1MDP_1_1SparseExperience.html#a9b8a90df63b077925b3db55507113726", null ],
+    [ "setRewardMatrix", "classAIToolbox_1_1MDP_1_1SparseExperience.html#a683409f37bb85fde6e58a27147d900a8", null ],
+    [ "setVisitsTable", "classAIToolbox_1_1MDP_1_1SparseExperience.html#a4196bc12efd31c38a9edd8234f25d1bb", null ],
     [ "setVisitsTable", "classAIToolbox_1_1MDP_1_1SparseExperience.html#ac9283dd27cdce2a440598f691d124c5c", null ],
     [ "operator>>", "classAIToolbox_1_1MDP_1_1SparseExperience.html#af9ceb911a07dcbe69f20e4b18479fd1a", null ]
 ];

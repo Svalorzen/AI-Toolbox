@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: AIToolbox::MDP::MCTS&lt; M &gt;::ActionNode Struct Reference</title>
+<title>AIToolbox: AIToolbox::MDP::MCTS&lt; M, StateHash &gt;::ActionNode Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('structAIToolbox_1_1MDP_1_1MCTS_1_1Acti
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AIToolbox::MDP::MCTS&lt; M &gt;::ActionNode Struct Reference</div>  </div>
+<div class="title">AIToolbox::MDP::MCTS&lt; M, StateHash &gt;::ActionNode Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -94,56 +94,56 @@ $(document).ready(function(){initNavTree('structAIToolbox_1_1MDP_1_1MCTS_1_1Acti
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ac57289039de2ef7966bca737fcaca6bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#adf14dc90b1dec372af521e169f191a30">StateNodes</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html#ac57289039de2ef7966bca737fcaca6bf">children</a></td></tr>
-<tr class="separator:ac57289039de2ef7966bca737fcaca6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0deb021412bc505c2e1793fbb24ffd83"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html#a0deb021412bc505c2e1793fbb24ffd83">V</a> = 0.0</td></tr>
-<tr class="separator:a0deb021412bc505c2e1793fbb24ffd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73cb31f4f9750bba11536aebb0ceba5f"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html#a73cb31f4f9750bba11536aebb0ceba5f">N</a> = 0</td></tr>
-<tr class="separator:a73cb31f4f9750bba11536aebb0ceba5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad28eea16f0bc7e3579e619d8076859ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a334ba6e1b26847452c0dbf3802d573d9">StateNodes</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html#ad28eea16f0bc7e3579e619d8076859ac">children</a></td></tr>
+<tr class="separator:ad28eea16f0bc7e3579e619d8076859ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0dde128bfd367d6cd4ca4f06c7d149"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html#aae0dde128bfd367d6cd4ca4f06c7d149">V</a> = 0.0</td></tr>
+<tr class="separator:aae0dde128bfd367d6cd4ca4f06c7d149"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b6f5771505681ce119abf0c965c8ba4"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html#a8b6f5771505681ce119abf0c965c8ba4">N</a> = 0</td></tr>
+<tr class="separator:a8b6f5771505681ce119abf0c965c8ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ac57289039de2ef7966bca737fcaca6bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac57289039de2ef7966bca737fcaca6bf">&#9670;&nbsp;</a></span>children</h2>
+<a id="ad28eea16f0bc7e3579e619d8076859ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad28eea16f0bc7e3579e619d8076859ac">&#9670;&nbsp;</a></span>children</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , template&lt; typename &gt; class StateHash = std::hash&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#adf14dc90b1dec372af521e169f191a30">StateNodes</a> <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html">AIToolbox::MDP::MCTS</a>&lt; M &gt;::ActionNode::children</td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html#a334ba6e1b26847452c0dbf3802d573d9">StateNodes</a> <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html">AIToolbox::MDP::MCTS</a>&lt; M, StateHash &gt;::ActionNode::children</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a73cb31f4f9750bba11536aebb0ceba5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73cb31f4f9750bba11536aebb0ceba5f">&#9670;&nbsp;</a></span>N</h2>
+<a id="a8b6f5771505681ce119abf0c965c8ba4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b6f5771505681ce119abf0c965c8ba4">&#9670;&nbsp;</a></span>N</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , template&lt; typename &gt; class StateHash = std::hash&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html">AIToolbox::MDP::MCTS</a>&lt; M &gt;::ActionNode::N = 0</td>
+          <td class="memname">unsigned <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html">AIToolbox::MDP::MCTS</a>&lt; M, StateHash &gt;::ActionNode::N = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0deb021412bc505c2e1793fbb24ffd83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0deb021412bc505c2e1793fbb24ffd83">&#9670;&nbsp;</a></span>V</h2>
+<a id="aae0dde128bfd367d6cd4ca4f06c7d149"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae0dde128bfd367d6cd4ca4f06c7d149">&#9670;&nbsp;</a></span>V</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , template&lt; typename &gt; class StateHash = std::hash&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html">AIToolbox::MDP::MCTS</a>&lt; M &gt;::ActionNode::V = 0.0</td>
+          <td class="memname">double <a class="el" href="classAIToolbox_1_1MDP_1_1MCTS.html">AIToolbox::MDP::MCTS</a>&lt; M, StateHash &gt;::ActionNode::V = 0.0</td>
         </tr>
       </table>
 </div><div class="memdoc">

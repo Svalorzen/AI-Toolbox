@@ -15,8 +15,11 @@ var classAIToolbox_1_1MDP_1_1Experience =
     [ "getVisitsTable", "classAIToolbox_1_1MDP_1_1Experience.html#a33d464ce1d09d0393476495a06457a5e", null ],
     [ "record", "classAIToolbox_1_1MDP_1_1Experience.html#a7fdfeefa22b8d7b05d7a1a11cb5d8576", null ],
     [ "reset", "classAIToolbox_1_1MDP_1_1Experience.html#a7c03f60d4385d96f5a9f6460e37ee272", null ],
+    [ "setM2Matrix", "classAIToolbox_1_1MDP_1_1Experience.html#a184d3fbaef3d80188eb8e6a4a69e0801", null ],
     [ "setM2Matrix", "classAIToolbox_1_1MDP_1_1Experience.html#acf0c442ba4cd3cc249197c2369626030", null ],
+    [ "setRewardMatrix", "classAIToolbox_1_1MDP_1_1Experience.html#a25580a44f44e213a52a63c6574c1a1f3", null ],
     [ "setRewardMatrix", "classAIToolbox_1_1MDP_1_1Experience.html#ae2922cdba41d9379655a792f72ed0b8f", null ],
+    [ "setVisitsTable", "classAIToolbox_1_1MDP_1_1Experience.html#ab69c0f9008b82c6c7464bea73d390db6", null ],
     [ "setVisitsTable", "classAIToolbox_1_1MDP_1_1Experience.html#a409d3fb3bc0de39beab3dff05251a3d2", null ],
     [ "operator>>", "classAIToolbox_1_1MDP_1_1Experience.html#ad462279f5e9079a9119b8291de0ffa69", null ]
 ];

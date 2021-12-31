@@ -118,14 +118,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae25d342f464c87fd0ec1f34fd0448bfa"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#ae25d342f464c87fd0ec1f34fd0448bfa">getEntropyBuckets</a> () const</td></tr>
 <tr class="memdesc:ae25d342f464c87fd0ec1f34fd0448bfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set number of entropy buckets.  <a href="classAIToolbox_1_1POMDP_1_1AMDP.html#ae25d342f464c87fd0ec1f34fd0448bfa">More...</a><br /></td></tr>
 <tr class="separator:ae25d342f464c87fd0ec1f34fd0448bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a697b5b31b0bac07942bc64deebdb3c2d"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a697b5b31b0bac07942bc64deebdb3c2d"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">MDP::Model</a>, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf">Discretizer</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a697b5b31b0bac07942bc64deebdb3c2d">discretizeDense</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:a697b5b31b0bac07942bc64deebdb3c2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function constructs an approximate <em>dense</em> <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> of the provided <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="classAIToolbox_1_1POMDP_1_1AMDP.html#a697b5b31b0bac07942bc64deebdb3c2d">More...</a><br /></td></tr>
-<tr class="separator:a697b5b31b0bac07942bc64deebdb3c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d6a58ae5eb30857450d0c08750e481b"><td class="memTemplParams" colspan="2">template&lt;typename M , typename  = std::enable_if_t&lt;is_model_v&lt;M&gt;&gt;&gt; </td></tr>
-<tr class="memitem:a3d6a58ae5eb30857450d0c08750e481b"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html">MDP::SparseModel</a>, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf">Discretizer</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a3d6a58ae5eb30857450d0c08750e481b">discretizeSparse</a> (const M &amp;model)</td></tr>
-<tr class="memdesc:a3d6a58ae5eb30857450d0c08750e481b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function constructs an approximate <em>sparse</em> <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> of the provided <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="classAIToolbox_1_1POMDP_1_1AMDP.html#a3d6a58ae5eb30857450d0c08750e481b">More...</a><br /></td></tr>
-<tr class="separator:a3d6a58ae5eb30857450d0c08750e481b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a44708f572d13f63e28a21920a80d61"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a2a44708f572d13f63e28a21920a80d61"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">MDP::Model</a>, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf">Discretizer</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a2a44708f572d13f63e28a21920a80d61">discretizeDense</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:a2a44708f572d13f63e28a21920a80d61"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function constructs an approximate <em>dense</em> <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> of the provided <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="classAIToolbox_1_1POMDP_1_1AMDP.html#a2a44708f572d13f63e28a21920a80d61">More...</a><br /></td></tr>
+<tr class="separator:a2a44708f572d13f63e28a21920a80d61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a454115d0dcf4661d0b8d48baa1c5880b"><td class="memTemplParams" colspan="2">template&lt;IsModel M&gt; </td></tr>
+<tr class="memitem:a454115d0dcf4661d0b8d48baa1c5880b"><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html">MDP::SparseModel</a>, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf">Discretizer</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a454115d0dcf4661d0b8d48baa1c5880b">discretizeSparse</a> (const M &amp;model)</td></tr>
+<tr class="memdesc:a454115d0dcf4661d0b8d48baa1c5880b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function constructs an approximate <em>sparse</em> <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> of the provided <a class="el" href="namespaceAIToolbox_1_1POMDP.html">POMDP</a> model.  <a href="classAIToolbox_1_1POMDP_1_1AMDP.html#a454115d0dcf4661d0b8d48baa1c5880b">More...</a><br /></td></tr>
+<tr class="separator:a454115d0dcf4661d0b8d48baa1c5880b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Augmented <a class="el" href="namespaceAIToolbox_1_1MDP.html">MDP</a> algorithm. </p>
@@ -187,13 +187,13 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a697b5b31b0bac07942bc64deebdb3c2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a697b5b31b0bac07942bc64deebdb3c2d">&#9670;&nbsp;</a></span>discretizeDense()</h2>
+<a id="a2a44708f572d13f63e28a21920a80d61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a44708f572d13f63e28a21920a80d61">&#9670;&nbsp;</a></span>discretizeDense()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html">MDP::Model</a>, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf">AMDP::Discretizer</a> &gt; AIToolbox::POMDP::AMDP::discretizeDense </td>
@@ -222,13 +222,13 @@ template&lt;typename M , typename &gt; </div>
 
 </div>
 </div>
-<a id="a3d6a58ae5eb30857450d0c08750e481b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d6a58ae5eb30857450d0c08750e481b">&#9670;&nbsp;</a></span>discretizeSparse()</h2>
+<a id="a454115d0dcf4661d0b8d48baa1c5880b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a454115d0dcf4661d0b8d48baa1c5880b">&#9670;&nbsp;</a></span>discretizeSparse()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M , typename &gt; </div>
+template&lt;IsModel M&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::tuple&lt; <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html">MDP::SparseModel</a>, <a class="el" href="classAIToolbox_1_1POMDP_1_1AMDP.html#a435d79052a1e78dfd80a5acdc5b13bbf">AMDP::Discretizer</a> &gt; AIToolbox::POMDP::AMDP::discretizeSparse </td>
