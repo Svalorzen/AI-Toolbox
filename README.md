@@ -1,7 +1,7 @@
 AI-Toolbox
 ==========
 
-[![Build Status](https://github.com/Svalorzen/AI-Toolbox/workflows/CMake/badge.svg?branch=master)](https://github.com/Svalorzen/AI-Toolbox/actions?query=workflow%3A"CMake")
+[![AI-Toolbox](https://github.com/Svalorzen/AI-Toolbox/actions/workflows/build_cmake.yml/badge.svg)](https://github.com/Svalorzen/AI-Toolbox/actions/workflows/build_cmake.yml)
 
 [![Library overview video](https://user-images.githubusercontent.com/1609228/99919181-3404dc00-2d1c-11eb-8593-0bf6af44cef8.png)](https://www.youtube.com/watch?v=qjSo41DVSXg)
 
