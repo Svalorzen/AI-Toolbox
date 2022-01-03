@@ -53,7 +53,7 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return A vector containing the rewards of each local arm.
              */
-            Rewards sampleR(const Action & a) const;
+            const Rewards & sampleR(const Action & a) const;
 
             /**
              * @brief This function returns the joint action space.
@@ -75,12 +75,14 @@ namespace AIToolbox::Factored::Bandit {
             std::vector<PartialKeys> groups_;
 
             mutable std::vector<AIToolbox::Bandit::Model<Dist>> arms_;
+            mutable Rewards rews_;
     };
 
     template <typename Dist>
     template <typename... TupleArgs>
     Model<Dist>::Model(Action a, std::vector<PartialKeys> deps, std::vector<AIToolbox::Bandit::Model<Dist>> arms) :
-            A(std::move(a)), groups_(std::move(deps)), arms_(std::move(arms))
+            A(std::move(a)), groups_(std::move(deps)), arms_(std::move(arms)),
+            rews_(groups_.size())
     {
         // Sanity checks
         //
@@ -98,16 +100,14 @@ namespace AIToolbox::Factored::Bandit {
     }
 
     template <typename Dist>
-    Rewards Model<Dist>::sampleR(const Action & a) const {
-        Rewards rews(groups_.size());
-
+    const Rewards & Model<Dist>::sampleR(const Action & a) const {
         for (size_t i = 0; i < groups_.size(); ++i) {
             const auto aid = toIndexPartial(groups_[i], A, a);
 
-            rews[i] = arms_[i].sampleR(aid);
+            rews_[i] = arms_[i].sampleR(aid);
         }
 
-        return rews;
+        return rews_;
     }
 
     template <typename Dist>
