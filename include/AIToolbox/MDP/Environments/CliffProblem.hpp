@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_MDP_CLIFF_PROBLEM
-#define AI_TOOLBOX_MDP_CLIFF_PROBLEM
+#ifndef AI_TOOLBOX_MDP_CLIFF_PROBLEM_HEADER_FILE
+#define AI_TOOLBOX_MDP_CLIFF_PROBLEM_HEADER_FILE
 
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/MDP/Environments/Utils/GridWorld.hpp>

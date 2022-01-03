@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_POMDP_CHENGD35
-#define AI_TOOLBOX_POMDP_CHENGD35
+#ifndef AI_TOOLBOX_POMDP_CHENGD35_HEADER_FILE
+#define AI_TOOLBOX_POMDP_CHENGD35_HEADER_FILE
 
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/POMDP/Model.hpp>

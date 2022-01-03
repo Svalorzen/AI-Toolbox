@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_MDP_GRIDWORLD
-#define AI_TOOLBOX_MDP_GRIDWORLD
+#ifndef AI_TOOLBOX_MDP_GRIDWORLD_HEADER_FILE
+#define AI_TOOLBOX_MDP_GRIDWORLD_HEADER_FILE
 
 #include <cstddef>
 #include <array>

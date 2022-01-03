@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_MDP_CORNER_PROBLEM
-#define AI_TOOLBOX_MDP_CORNER_PROBLEM
+#ifndef AI_TOOLBOX_MDP_CORNER_PROBLEM_HEADER_FILE
+#define AI_TOOLBOX_MDP_CORNER_PROBLEM_HEADER_FILE
 
 #include <AIToolbox/MDP/Model.hpp>
 #include <AIToolbox/MDP/Environments/Utils/GridWorld.hpp>
