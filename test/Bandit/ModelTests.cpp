@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE( construction ) {
         std::tuple<double,double>{1.0, 2.0}
     );
 
-    // Build the same bandit, but with the same constructor
+    // Build the same bandit, but with the other constructor
     Bandit::Model<std::uniform_real_distribution<double>> vectorConstructor(
         std::vector<std::tuple<double,double>>{
             {0.0, 1.0},
