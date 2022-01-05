@@ -106,7 +106,7 @@ namespace AIToolbox::Factored::Bandit {
     const Action & MiningBandit::getOptimalAction() const { return optimal_; }
 
     std::tuple<Action, std::vector<unsigned>, std::vector<double>> makeMiningParameters(unsigned seed) {
-        std::default_random_engine rand(seed);
+        RandomEngine rand(seed);
 
         std::uniform_int_distribution<size_t> villages(5, 15);
         std::uniform_int_distribution<unsigned> workersPerVillage(1, 5);
