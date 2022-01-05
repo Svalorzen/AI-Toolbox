@@ -74,6 +74,10 @@ namespace AIToolbox::Factored::Bandit {
     };
 
     double MiningBandit::getRegret(const Action & a) const {
+        // Special case for optimal action to avoid returning floating point
+        // fluff close to zero.
+        if (a == optimal_) return 0.0;
+
         computeProbabilities(a);
 
         return 1.0 - helper_.sum();
