@@ -11,6 +11,7 @@ void exportBanditRandomPolicy();
 void exportBanditQGreedyPolicy();
 void exportBanditQSoftmaxPolicy();
 void exportBanditThompsonSamplingPolicy();
+void exportBanditTopTwoThompsonSamplingPolicy();
 
 void exportBanditLRPPolicy();
 void exportBanditESRLPolicy();
@@ -35,6 +36,7 @@ void exportBandit() {
     exportBanditQGreedyPolicy();
     exportBanditQSoftmaxPolicy();
     exportBanditThompsonSamplingPolicy();
+    exportBanditTopTwoThompsonSamplingPolicy();
 
     exportBanditLRPPolicy();
     exportBanditESRLPolicy();
