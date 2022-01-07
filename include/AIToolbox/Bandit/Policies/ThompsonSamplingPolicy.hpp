@@ -63,6 +63,13 @@ namespace AIToolbox::Bandit {
              */
             virtual Vector getPolicy() const override;
 
+            /**
+             * @brief This function returns a reference to the underlying Experience we use.
+             *
+             * @return The internal Experience reference.
+             */
+            const Experience & getExperience() const;
+
         private:
             const Experience & exp_;
     };

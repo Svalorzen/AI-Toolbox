@@ -72,4 +72,8 @@ namespace AIToolbox::Bandit {
         retval /= retval.sum();
         return retval;
     }
+
+    const Experience & ThompsonSamplingPolicy::getExperience() const {
+        return exp_;
+    }
 }
