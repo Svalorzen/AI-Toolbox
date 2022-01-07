@@ -226,6 +226,8 @@ namespace AIToolbox::MDP {
             /**
              * @brief This function returns the rewards matrix for inspection.
              *
+             * The reward matrix contains the current average rewards computed for each state-action pairs.
+             *
              * @return The rewards matrix.
              */
             const QFunction & getRewardMatrix() const;
