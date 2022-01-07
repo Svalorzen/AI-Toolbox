@@ -25,6 +25,15 @@ namespace AIToolbox::Bandit {
         return secondBestAction;
     }
 
+    size_t TopTwoThompsonSamplingPolicy::recommendAction() const {
+        const auto & exp = policy_.getExperience();
+
+        size_t retval;
+        exp.getRewardMatrix().maxCoeff(&retval);
+
+        return retval;
+    }
+
     double TopTwoThompsonSamplingPolicy::getActionProbability(const size_t & a) const {
         // The true formula here is hard, so we don't compute this exactly.
         //

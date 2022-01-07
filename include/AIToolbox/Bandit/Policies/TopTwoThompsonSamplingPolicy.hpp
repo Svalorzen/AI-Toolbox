@@ -49,6 +49,13 @@ namespace AIToolbox::Bandit {
             virtual size_t sampleAction() const override;
 
             /**
+             * @brief This function returns the most likely best action until this point.
+             *
+             * @return The most likely best action.
+             */
+            size_t recommendAction() const;
+
+            /**
              * @brief This function returns the probability of taking the specified action.
              *
              * WARNING: The only way to compute the true probability of
