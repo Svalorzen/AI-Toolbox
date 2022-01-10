@@ -3,6 +3,19 @@
 #include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
+    double evaluateGraph(const Action & A, const MaxPlus::Graph & graph, const Action & jointAction) {
+        double retval = 0.0;
+
+        for (const auto & f : graph) {
+            const auto & vars = f.getVariables();
+            const auto & values = f.getData();
+
+            retval += values[toIndexPartial(vars, A, jointAction)];
+        }
+
+        return retval;
+    }
+
     MaxPlus::Result MaxPlus::operator()(const Action & A, const Graph & graph, size_t iterations) {
         // Preallocate memory.
         // - retval keeps the best currently found solution.
@@ -31,15 +44,19 @@ namespace AIToolbox::Factored::Bandit {
             outMessages[a].resize(rows + 1, A[a]);
 
             // We don't need to zero inMessages, we do it at the start
-            // of the each message passing iteration, just after the swap.
+            // of each message passing iteration, just after the swap.
             outMessages[a].setZero();
         }
 
-        // Initialize temporary local factor message with max possible size.
-        long maxSize = 0;
-        for (auto f = graph.begin(); f != graph.end(); ++f)
-            maxSize = std::max(maxSize, f->getData().size());
-        Vector message(maxSize);
+        // Initialize temporary local factor messages with max possible sizes.
+        size_t maxRows = 0, maxCols = 0;
+        for (auto f = graph.begin(); f != graph.end(); ++f) {
+            maxRows = std::max(maxRows, f->getVariables().size());
+            maxCols = std::max(maxCols, static_cast<size_t>(f->getData().size()));
+        }
+        // This stores the messages the factor will send to its adjacent
+        // agents, as they are being constructed.
+        Matrix2D factorMessage(maxRows + 1, maxCols);
 
         for (size_t iters = 0; iters < iterations; ++iters) {
             // Since we have processed outMessages in the previous iteration
@@ -61,11 +78,15 @@ namespace AIToolbox::Factored::Bandit {
                 // Note: we use head to avoid Eigen reallocating memory.
                 // message is also only accessed by indexes (and we never take
                 // its size directly), so it should be ok.
+                const size_t aSize = aNeighbors.size();
                 const size_t fSize = f->getData().size();
-                message.head(fSize) = f->getData();
+                factorMessage.row(aSize).head(fSize) = f->getData();
 
                 size_t len = 1;
-                for (const auto a : aNeighbors) {
+                for (size_t ai = 0; ai < aSize; ++ai) {
+                    const auto a = aNeighbors[ai];
+                    // Figure out the ID of this factor w.r.t. the current agent
+                    // so we know which row of messages to read.
                     const auto & fNeighbors = graph.getFactors(a);
                     const auto fId = std::distance(std::begin(fNeighbors), std::find(std::begin(fNeighbors), std::end(fNeighbors), f));
 
@@ -82,22 +103,27 @@ namespace AIToolbox::Factored::Bandit {
                     while (i < fSize)
                         for (size_t j = 0; j < A[a]; ++j)
                             for (size_t l = 0; l < len; ++l)
-                                message[i++] += inMessages[a].row(bottomRowId)[j];
+                                factorMessage.row(ai)[i++] = inMessages[a].row(bottomRowId)[j];
 
-                    // Restore sum message for later
+                    // Restore agent's sum message for later
                     inMessages[a].row(bottomRowId) += inMessages[a].row(fId);
 
                     len *= A[a];
+
+                    // Add message from this agent to the global sum as well
+                    factorMessage.row(aSize).head(fSize) += factorMessage.row(ai).head(fSize);
                 }
 
                 // Once the overall message is computed, we selectively
                 // maximize over it depending on which agent we are sending the
-                // message (we maximize all other agents).
-                for (const auto a : aNeighbors) {
-                    // Figure out the ID of this factor w.r.t. the current agent
-                    // so we know which row of messages to read.
+                // message to (we maximize all other agents).
+                for (size_t ai = 0; ai < aSize; ++ai) {
+                    const auto a = aNeighbors[ai];
                     const auto & fNeighbors = graph.getFactors(a);
                     const auto fId = std::distance(std::begin(fNeighbors), std::find(std::begin(fNeighbors), std::end(fNeighbors), f));
+
+                    // Remove message from this agent from the global sum
+                    factorMessage.row(aSize).head(fSize) -= factorMessage.row(ai).head(fSize);
 
                     // Compute the out message for each action of this agent.
                     double norm = 0.0;
@@ -110,12 +136,16 @@ namespace AIToolbox::Factored::Bandit {
 
                         double outMessage = std::numeric_limits<double>::lowest();
                         while (e.isValid()) {
-                            outMessage = std::max(outMessage, message[*e]);
+                            outMessage = std::max(outMessage, factorMessage(aSize, *e));
                             e.advance();
                         }
                         outMessages[a](fId, av) = outMessage;
                         norm += outMessage;
                     }
+
+                    // Add back message from this agent from the global sum
+                    factorMessage.row(aSize).head(fSize) += factorMessage.row(ai).head(fSize);
+
                     // Finally, we normalize the message (from the MaxPlus
                     // paper). This is done to avoid value explosions in loopy
                     // graphs (as a factor's messages will eventually come back
@@ -137,7 +167,6 @@ namespace AIToolbox::Factored::Bandit {
             // We still keep the rest of the matrix so it's easier to compute
             // the inMessages next iteration (one subtraction for each factor,
             // rather than re-summing the matrix every time).
-            cValue = 0.0;
             for (size_t a = 0; a < A.size(); ++a) {
                 auto & m = outMessages[a];
                 // Also last row ID
@@ -152,21 +181,26 @@ namespace AIToolbox::Factored::Bandit {
                 // Compute the local best action for this agent (and its value,
                 // which would ideally be the overall joint action value *for
                 // all agents*).
-                // Note that given the fact that we are also summing this over
-                // all agents it basically guarantees that in the end cValue
-                // won't be equal to the true value of the action.
-                cValue += m.row(rowsMinusOne).maxCoeff(&cAction[a]);
+                //
+                // Note that we do not save up the value of the action here,
+                // since it won't really add up to the true value of the action
+                // (which we compute later).
+                m.row(rowsMinusOne).maxCoeff(&cAction[a]);
             }
+
+            // If we need to evaluate the same action as before, just keep
+            // iterating.
+            // Ideally we'd be able to detect convergence, but I'm not sure how.
+            if (cAction == rAction) continue;
+
+            // Compute true value of the current action to see whether we
+            // should replace our current best with it.
+            cValue = evaluateGraph(A, graph, cAction);
 
             // We only change the selected action if it improves on the
             // previous best value.
-            // TODO: The paper specifies checking against the *true* value of
-            // the joint action. I'm not yet sure whether using cValue makes
-            // sense at all, but for now we keep it like this.
-            if (cValue > rValue) {
-                rValue = cValue;
-                rAction = cAction;
-            }
+            if (cValue > rValue)
+                retval = bestCurrent;
         }
         return retval;
     }

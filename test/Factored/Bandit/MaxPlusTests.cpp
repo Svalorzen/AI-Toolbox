@@ -5,6 +5,9 @@
 #include "GlobalFixtures.hpp"
 
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/MaxPlus.hpp>
+#include <AIToolbox/Factored/Bandit/Environments/MiningProblem.hpp>
+
+#include <iostream>
 
 namespace aif = AIToolbox::Factored;
 namespace fb = AIToolbox::Factored::Bandit;
@@ -130,6 +133,39 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
     (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(solA),     std::end(solA));
+}
+
+template <typename T>
+std::ostream & operator<<(std::ostream & os, const std::vector<T> & v) {
+    std::cout << '[';
+    for (size_t i = 0; i < v.size() - 1; ++i)
+        std::cout << v[i] << ", ";
+    std::cout << v.back() << ']';
+    return os;
+}
+
+double rewFun(double productivity, size_t totalWorkers) {
+    assert(totalWorkers > 0);
+    return productivity * std::pow(1.03, totalWorkers);
+};
+
+BOOST_AUTO_TEST_CASE( mining_problem ) {
+    auto [A, workers, minePs] = fb::makeMiningParameters(10);
+
+    fb::MiningBandit bandit(A, workers, minePs);
+    const auto solA = bandit.getOptimalAction();
+
+    const auto rules = bandit.getDeterministicRules();
+
+    MP mp;
+    const auto [bestAction, val] = mp(A, rules);
+
+    // Note that MaxPlus is not guaranteed to find the best action!
+    // In this case it does, but with other problem seeds it does not.
+    //
+    // In any case, we check this one and that's all we can really do.
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
                                   std::begin(solA),     std::end(solA));
 }

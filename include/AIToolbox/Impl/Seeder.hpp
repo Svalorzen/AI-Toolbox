@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_IMPL_SEEDER_HEADER_FILE
 
 #include <random>
+#include <AIToolbox/Types.hpp>
 
 namespace AIToolbox::Impl {
     /**
@@ -50,7 +51,7 @@ namespace AIToolbox::Impl {
             // Here we don't use a mersenne twister, since this is just for
             // seeding and it's not so important (I hope?).
             unsigned rootSeed_;
-            std::default_random_engine generator_;
+            RandomEngine generator_;
     };
 }
 
