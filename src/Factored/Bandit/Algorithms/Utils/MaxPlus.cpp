@@ -31,15 +31,19 @@ namespace AIToolbox::Factored::Bandit {
             outMessages[a].resize(rows + 1, A[a]);
 
             // We don't need to zero inMessages, we do it at the start
-            // of the each message passing iteration, just after the swap.
+            // of each message passing iteration, just after the swap.
             outMessages[a].setZero();
         }
 
-        // Initialize temporary local factor message with max possible size.
-        long maxSize = 0;
-        for (auto f = graph.begin(); f != graph.end(); ++f)
-            maxSize = std::max(maxSize, f->getData().size());
-        Vector message(maxSize);
+        // Initialize temporary local factor messages with max possible sizes.
+        size_t maxRows = 0, maxCols = 0;
+        for (auto f = graph.begin(); f != graph.end(); ++f) {
+            maxRows = std::max(maxRows, f->getVariables().size());
+            maxCols = std::max(maxCols, static_cast<size_t>(f->getData().size()));
+        }
+        // This stores the messages the factor will send to its adjacent
+        // agents, as they are being constructed.
+        Matrix2D factorMessage(maxRows + 1, maxCols);
 
         for (size_t iters = 0; iters < iterations; ++iters) {
             // Since we have processed outMessages in the previous iteration
@@ -61,11 +65,15 @@ namespace AIToolbox::Factored::Bandit {
                 // Note: we use head to avoid Eigen reallocating memory.
                 // message is also only accessed by indexes (and we never take
                 // its size directly), so it should be ok.
+                const size_t aSize = aNeighbors.size();
                 const size_t fSize = f->getData().size();
-                message.head(fSize) = f->getData();
+                factorMessage.row(aSize).head(fSize) = f->getData();
 
                 size_t len = 1;
-                for (const auto a : aNeighbors) {
+                for (size_t ai = 0; ai < aSize; ++ai) {
+                    const auto a = aNeighbors[ai];
+                    // Figure out the ID of this factor w.r.t. the current agent
+                    // so we know which row of messages to read.
                     const auto & fNeighbors = graph.getFactors(a);
                     const auto fId = std::distance(std::begin(fNeighbors), std::find(std::begin(fNeighbors), std::end(fNeighbors), f));
 
@@ -82,22 +90,27 @@ namespace AIToolbox::Factored::Bandit {
                     while (i < fSize)
                         for (size_t j = 0; j < A[a]; ++j)
                             for (size_t l = 0; l < len; ++l)
-                                message[i++] += inMessages[a].row(bottomRowId)[j];
+                                factorMessage.row(ai)[i++] = inMessages[a].row(bottomRowId)[j];
 
-                    // Restore sum message for later
+                    // Restore agent's sum message for later
                     inMessages[a].row(bottomRowId) += inMessages[a].row(fId);
 
                     len *= A[a];
+
+                    // Add message from this agent to the global sum as well
+                    factorMessage.row(aSize).head(fSize) += factorMessage.row(ai).head(fSize);
                 }
 
                 // Once the overall message is computed, we selectively
                 // maximize over it depending on which agent we are sending the
-                // message (we maximize all other agents).
-                for (const auto a : aNeighbors) {
-                    // Figure out the ID of this factor w.r.t. the current agent
-                    // so we know which row of messages to read.
+                // message to (we maximize all other agents).
+                for (size_t ai = 0; ai < aSize; ++ai) {
+                    const auto a = aNeighbors[ai];
                     const auto & fNeighbors = graph.getFactors(a);
                     const auto fId = std::distance(std::begin(fNeighbors), std::find(std::begin(fNeighbors), std::end(fNeighbors), f));
+
+                    // Remove message from this agent from the global sum
+                    factorMessage.row(aSize).head(fSize) -= factorMessage.row(ai).head(fSize);
 
                     // Compute the out message for each action of this agent.
                     double norm = 0.0;
@@ -110,12 +123,16 @@ namespace AIToolbox::Factored::Bandit {
 
                         double outMessage = std::numeric_limits<double>::lowest();
                         while (e.isValid()) {
-                            outMessage = std::max(outMessage, message[*e]);
+                            outMessage = std::max(outMessage, factorMessage(aSize, *e));
                             e.advance();
                         }
                         outMessages[a](fId, av) = outMessage;
                         norm += outMessage;
                     }
+
+                    // Add back message from this agent from the global sum
+                    factorMessage.row(aSize).head(fSize) += factorMessage.row(ai).head(fSize);
+
                     // Finally, we normalize the message (from the MaxPlus
                     // paper). This is done to avoid value explosions in loopy
                     // graphs (as a factor's messages will eventually come back
