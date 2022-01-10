@@ -36,27 +36,7 @@ namespace AIToolbox::Factored::Bandit {
         //
         // To do so we solve, with VE, the exact problem knowing the expected
         // rewards for each action (we have no random sampling here).
-        std::vector<QFunctionRule> rules;
-        for (size_t m = 0; m < villagesPerMine_.size(); ++m) {
-            const auto & mineVillages = villagesPerMine_[m];
-
-            PartialFactorsEnumerator enumerator(A, mineVillages);
-            while (enumerator.isValid()) {
-                const auto & villageAction = enumerator->second;
-
-                unsigned totalMiners = 0;
-                for (size_t v = 0; v < mineVillages.size(); ++v)
-                    if (mineVillages[v] + villageAction[v] == m)
-                        totalMiners += workersPerVillage_[mineVillages[v]];
-
-                if (totalMiners > 0) {
-                    const double v = rewFun(productivityPerMine_[m], totalMiners);
-                    rules.emplace_back(*enumerator, v);
-                }
-
-                enumerator.advance();
-            }
-        }
+        auto rules = getDeterministicRules();
 
         VariableElimination ve;
         std::tie(optimal_, rewardNorm_) = ve(A, rules);
@@ -99,6 +79,33 @@ namespace AIToolbox::Factored::Bandit {
             // and normalize the resulting probability.
             helper_[m] = rewFun(productivityPerMine_[m], helper_[m]) / rewardNorm_;
         }
+    }
+
+    std::vector<QFunctionRule> MiningBandit::getDeterministicRules() const {
+        // Here we simply aggregate, for each mine, the true values it would
+        // return for any given local joint action of its attached villages.
+        std::vector<QFunctionRule> rules;
+        for (size_t m = 0; m < villagesPerMine_.size(); ++m) {
+            const auto & mineVillages = villagesPerMine_[m];
+
+            PartialFactorsEnumerator enumerator(A, mineVillages);
+            while (enumerator.isValid()) {
+                const auto & villageAction = enumerator->second;
+
+                unsigned totalMiners = 0;
+                for (size_t v = 0; v < mineVillages.size(); ++v)
+                    if (mineVillages[v] + villageAction[v] == m)
+                        totalMiners += workersPerVillage_[mineVillages[v]];
+
+                if (totalMiners > 0) {
+                    const double v = rewFun(productivityPerMine_[m], totalMiners);
+                    rules.emplace_back(*enumerator, v);
+                }
+
+                enumerator.advance();
+            }
+        }
+        return rules;
     }
 
     const std::vector<PartialKeys> & MiningBandit::getGroups() const { return villagesPerMine_; }

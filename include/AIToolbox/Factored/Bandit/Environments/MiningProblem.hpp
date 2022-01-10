@@ -97,6 +97,21 @@ namespace AIToolbox::Factored::Bandit {
              */
             const std::vector<PartialKeys> & getGroups() const;
 
+            /**
+             * @brief This function returns a set of QFunctionRule for the bandit, ignoring stochasticity.
+             *
+             * This function is provided for testing maximization algorithms,
+             * to automatically generate rules for a given set of parameters.
+             *
+             * The rules contain the true underlying rewards of the problem,
+             * ignoring the sampling stochasticity that is present in the
+             * sampleR() function.
+             *
+             * In other words, finding the joint action that maximizes these
+             * rules is equivalent to finding the optimal action of the bandit.
+             */
+            std::vector<QFunctionRule> getDeterministicRules() const;
+
         private:
             /**
              * @brief This function computes the per-mine Bernoulli reward probabilities.
