@@ -152,72 +152,20 @@ double rewFun(double productivity, size_t totalWorkers) {
 };
 
 BOOST_AUTO_TEST_CASE( mining_problem ) {
-    auto [A, workers, minePs] = fb::makeMiningParameters(0);
-
-    std::cout << "There are " << A.size() << " villages.\n";
-    std::cout << " - " << A << '\n';
-    std::cout << "The villages have the following worker counts:\n";
-    std::cout << " - " << workers << '\n';
-    std::cout << "There are " << minePs.size() << " mines.\n";
-    std::cout << "The mines have the following productivities:\n";
-    std::cout << " - " << minePs << '\n';
+    auto [A, workers, minePs] = fb::makeMiningParameters(10);
 
     fb::MiningBandit bandit(A, workers, minePs);
+    const auto solA = bandit.getOptimalAction();
 
-    std::cout << "Each mine is connected to the following villages:\n";
-    for (const auto & m : bandit.getGroups())
-        std::cout << " - " << m << '\n';
-
-    std::cout << "The optimal action for the problem is: " << bandit.getOptimalAction() << '\n';
-
-    const auto & groups = bandit.getGroups();
-    std::vector<fb::QFunctionRule> rules;
-    for (size_t m = 0; m < groups.size(); ++m) {
-        const auto & mineVillages = groups[m];
-
-        aif::PartialFactorsEnumerator enumerator(A, mineVillages);
-        while (enumerator.isValid()) {
-            const auto & villageAction = enumerator->second;
-
-            unsigned totalMiners = 0;
-            for (size_t v = 0; v < mineVillages.size(); ++v)
-                if (mineVillages[v] + villageAction[v] == m)
-                    totalMiners += workers[mineVillages[v]];
-
-            if (totalMiners > 0) {
-                const double v = rewFun(minePs[m], totalMiners);
-                rules.emplace_back(*enumerator, v);
-            }
-
-            enumerator.advance();
-        }
-    }
+    const auto rules = bandit.getDeterministicRules();
 
     MP mp;
     const auto [bestAction, val] = mp(A, rules);
 
-    std::cout << "MaxPlus thinks that the optimal action for the problem is: " << bestAction << '\n';
-    std::cout << "- Regret for this action is: " << bandit.getRegret(bestAction) << '\n';
-
-    double minRegret = std::numeric_limits<double>::max();
-    double maxRegret = std::numeric_limits<double>::lowest();
-    double avgRegret = 0.0;
-
-    AIToolbox::RandomEngine eng(100);
-    constexpr size_t toTry = 100;
-    for (size_t i = 0; i < toTry; ++i) {
-        const auto action = aif::makeRandomValue(A, eng);
-
-        const auto regret = bandit.getRegret(action);
-
-        minRegret = std::min(minRegret, regret);
-        maxRegret = std::max(maxRegret, regret);
-        avgRegret += regret;
-    }
-    avgRegret /= toTry;
-
-    std::cout << "I also tried " << toTry << " random actions to see how it compares.\n";
-    std::cout << " - Min regret: " << minRegret << '\n';
-    std::cout << " - Max regret: " << maxRegret << '\n';
-    std::cout << " - Avg regret: " << avgRegret << '\n';
+    // Note that MaxPlus is not guaranteed to find the best action!
+    // In this case it does, but with other problem seeds it does not.
+    //
+    // In any case, we check this one and that's all we can really do.
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(solA),     std::end(solA));
 }
