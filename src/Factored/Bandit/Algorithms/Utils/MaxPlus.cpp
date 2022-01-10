@@ -3,6 +3,19 @@
 #include <AIToolbox/Impl/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
+    double evaluateGraph(const Action & A, const MaxPlus::Graph & graph, const Action & jointAction) {
+        double retval = 0.0;
+
+        for (const auto & f : graph) {
+            const auto & vars = f.getVariables();
+            const auto & values = f.getData();
+
+            retval += values[toIndexPartial(vars, A, jointAction)];
+        }
+
+        return retval;
+    }
+
     MaxPlus::Result MaxPlus::operator()(const Action & A, const Graph & graph, size_t iterations) {
         // Preallocate memory.
         // - retval keeps the best currently found solution.
@@ -154,7 +167,6 @@ namespace AIToolbox::Factored::Bandit {
             // We still keep the rest of the matrix so it's easier to compute
             // the inMessages next iteration (one subtraction for each factor,
             // rather than re-summing the matrix every time).
-            cValue = 0.0;
             for (size_t a = 0; a < A.size(); ++a) {
                 auto & m = outMessages[a];
                 // Also last row ID
@@ -169,21 +181,26 @@ namespace AIToolbox::Factored::Bandit {
                 // Compute the local best action for this agent (and its value,
                 // which would ideally be the overall joint action value *for
                 // all agents*).
-                // Note that given the fact that we are also summing this over
-                // all agents it basically guarantees that in the end cValue
-                // won't be equal to the true value of the action.
-                cValue += m.row(rowsMinusOne).maxCoeff(&cAction[a]);
+                //
+                // Note that we do not save up the value of the action here,
+                // since it won't really add up to the true value of the action
+                // (which we compute later).
+                m.row(rowsMinusOne).maxCoeff(&cAction[a]);
             }
+
+            // If we need to evaluate the same action as before, just keep
+            // iterating.
+            // Ideally we'd be able to detect convergence, but I'm not sure how.
+            if (cAction == rAction) continue;
+
+            // Compute true value of the current action to see whether we
+            // should replace our current best with it.
+            cValue = evaluateGraph(A, graph, cAction);
 
             // We only change the selected action if it improves on the
             // previous best value.
-            // TODO: The paper specifies checking against the *true* value of
-            // the joint action. I'm not yet sure whether using cValue makes
-            // sense at all, but for now we keep it like this.
-            if (cValue > rValue) {
-                rValue = cValue;
-                rAction = cAction;
-            }
+            if (cValue > rValue)
+                retval = bestCurrent;
         }
         return retval;
     }
