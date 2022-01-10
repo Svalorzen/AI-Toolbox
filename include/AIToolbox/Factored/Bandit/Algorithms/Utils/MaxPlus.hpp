@@ -41,8 +41,7 @@ namespace AIToolbox::Factored::Bandit {
             using Result = std::tuple<Action, double>;
 
             // Values of factor (in theory N dimensional matrix)
-            using Factor = Vector;
-            using Graph = FactorGraph<Factor>;
+            using Graph = FactorGraph<Vector>;
 
             /**
              * @brief This function finds the best Action-value pair for the provided QFunctionRules.
