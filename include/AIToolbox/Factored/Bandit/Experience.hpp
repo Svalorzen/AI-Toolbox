@@ -59,6 +59,8 @@ namespace AIToolbox::Factored::Bandit {
             /**
              * @brief This function returns a reference to the internal QFunction.
              *
+             * The reward matrix contains the current average rewards computed for each action.
+             *
              * @return A reference to the internal QFunction.
              */
             const QFunction & getRewardMatrix() const;
