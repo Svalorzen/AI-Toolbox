@@ -9,6 +9,7 @@ namespace AIToolbox::Factored::Bandit {
         qfun_.bases.resize(deps_.size());
         counts_.resize(deps_.size());
         M2s_.resize(deps_.size());
+        indeces_.resize(deps_.size());
 
         for (size_t i = 0; i < qfun_.bases.size(); ++i) {
             qfun_.bases[i].tag = deps_[i];
@@ -21,7 +22,7 @@ namespace AIToolbox::Factored::Bandit {
         }
     }
 
-    void Experience::record(const Action & a, const Rewards & rews) {
+    const Experience::Indeces & Experience::record(const Action & a, const Rewards & rews) {
         assert(static_cast<size_t>(rews.size()) == qfun_.bases.size());
 
         ++timesteps_;
@@ -40,7 +41,11 @@ namespace AIToolbox::Factored::Bandit {
             q[aId] += delta / c[aId];
             // Rolling sum of square diffs.
             m[aId] += delta * (rews[i] - q[aId]);
+
+            // Save indeces to return to avoid recomputation.
+            indeces_[i] = aId;
         }
+        return indeces_;
     }
 
     void Experience::reset() {
