@@ -37,6 +37,11 @@ namespace AIToolbox::Factored::Bandit {
             void reset();
 
             /**
+             * @brief This function returns the local groups of agents.
+             */
+            const std::vector<PartialKeys> & getDependencies() const;
+
+            /**
              * @brief This function returns the number of times the record function has been called.
              *
              * @return The number of recorded timesteps.
@@ -77,6 +82,7 @@ namespace AIToolbox::Factored::Bandit {
 
         private:
             Action A;
+            const std::vector<PartialKeys> & deps_;
             QFunction qfun_;
             std::vector<Vector> M2s_;
             VisitsTable counts_;

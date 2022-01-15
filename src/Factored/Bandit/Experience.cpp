@@ -4,15 +4,15 @@
 
 namespace AIToolbox::Factored::Bandit {
     Experience::Experience(Action a, const std::vector<PartialKeys> & dependencies) :
-            A(std::move(a)), timesteps_(0)
+            A(std::move(a)), deps_(dependencies), timesteps_(0)
     {
-        qfun_.bases.resize(dependencies.size());
-        counts_.resize(dependencies.size());
-        M2s_.resize(dependencies.size());
+        qfun_.bases.resize(deps_.size());
+        counts_.resize(deps_.size());
+        M2s_.resize(deps_.size());
 
         for (size_t i = 0; i < qfun_.bases.size(); ++i) {
-            qfun_.bases[i].tag = dependencies[i];
-            qfun_.bases[i].values.resize(factorSpacePartial(dependencies[i], A));
+            qfun_.bases[i].tag = deps_[i];
+            qfun_.bases[i].values.resize(factorSpacePartial(deps_[i], A));
             qfun_.bases[i].values.setZero();
 
             M2s_[i].resize(qfun_.bases[i].values.size());
@@ -54,6 +54,7 @@ namespace AIToolbox::Factored::Bandit {
     }
 
     unsigned long Experience::getTimesteps() const { return timesteps_; }
+    const std::vector<PartialKeys> & Experience::getDependencies() const { return deps_; }
     const QFunction & Experience::getRewardMatrix() const { return qfun_; }
     const Experience::VisitsTable & Experience::getVisitsTable() const { return counts_; }
     const std::vector<Vector> & Experience::getM2Matrix () const { return M2s_; }
