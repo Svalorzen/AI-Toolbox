@@ -294,3 +294,38 @@ BOOST_AUTO_TEST_CASE( best_removal ) {
     BOOST_CHECK(a != a2 && (a2 == 2 || a2 == 3));
     graph.erase(a);
 }
+
+BOOST_AUTO_TEST_CASE( factor_order_correct ) {
+    std::vector<aif::PartialKeys> rules {
+        {0, 1}, // (1)
+        {0, 2}, // (2)
+        {0},    // (3)
+        {2},    // (4)
+        {1, 3}, // (5)
+        {2, 3}, // (6)
+        {0, 4}, // (7)
+    };
+
+    {
+        const size_t agentsNum = 5;
+        aif::FactorGraph<EmptyFactor> graph(agentsNum);
+        for (const auto & rule : rules)
+            graph.getFactor(rule);
+
+        size_t i = 0;
+        for (const auto & f : graph)
+            BOOST_CHECK(f.getVariables() == rules[i++]);
+    }
+    // Now we do it in reverse; also to make sure that there's stuff in the
+    // pool so that branch gets used.
+    {
+        const size_t agentsNum = 5;
+        aif::FactorGraph<EmptyFactor> graph(agentsNum);
+        for (auto rit = rules.rbegin(); rit != rules.rend(); ++rit)
+            graph.getFactor(*rit);
+
+        size_t i = rules.size();
+        for (const auto & f : graph)
+            BOOST_CHECK(f.getVariables() == rules[--i]);
+    }
+}

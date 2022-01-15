@@ -346,8 +346,8 @@ namespace AIToolbox::Factored {
             factorAdjacencies_.emplace_back(FactorNode());
             it = --factorAdjacencies_.end();
         } else {
-            factorAdjacencies_.splice(std::begin(factorAdjacencies_), factorAdjacenciesPool_, std::begin(factorAdjacenciesPool_));
-            it = factorAdjacencies_.begin();
+            factorAdjacencies_.splice(std::end(factorAdjacencies_), factorAdjacenciesPool_, std::begin(factorAdjacenciesPool_));
+            it = std::prev(factorAdjacencies_.end());
             // We reset the data; just in case it's a vector we don't want to
             // move but assign so that it does not clear already allocated
             // memory.
