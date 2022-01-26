@@ -13,10 +13,11 @@ namespace AIToolbox::Factored {
      *
      * This class applies Variable Elimination to an input FactorGraph<Factor>.
      *
-     * Since the cross-sum steps in the algorithm differ from the type of node
-     * in the graph, we require as input a separate structure which may contain
-     * certain methods depending on what the use-case requires, and which holds
-     * any needed temporaries to store for the duration of the algorithm.
+     * Since the cross-sum steps in the algorithm differ depending on the type
+     * of node in the graph, we require as input a separate structure which may
+     * contain certain methods depending on what the use-case requires, and
+     * which holds any needed temporaries to store for the duration of the
+     * algorithm.
      *
      * In particular, this structure (the `global` parameter), *MUST* provide:
      *
