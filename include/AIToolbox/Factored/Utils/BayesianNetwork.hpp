@@ -13,7 +13,7 @@ namespace AIToolbox::Factored {
      * over a single time steps. In particular, it contains which
      * state-features and agents each next-state-feature depends on.
      *
-     * This class constains this information, and allows to compute easily
+     * This class contains this information, and allows to compute easily
      * indices to reference outside matrices for data; for example transition
      * probabilities or rewards.
      *
@@ -134,11 +134,11 @@ namespace AIToolbox::Factored {
              * This function is provided in case some code still needs to store
              * the "intermediate" ids of the graph.
              *
-             * The actionId, which is the first in the pair, is a number
+             * The actionId, which is the second in the pair, is a number
              * between 0 and the factorSpacePartial of the parent agents of the
              * feature.
              *
-             * The parentId, which is the second in the pair, is a number
+             * The parentId, which is the first in the pair, is a number
              * between 0 and the factorSpacePartial of the state parent
              * features of the feature, given the input action.
              *
@@ -159,11 +159,11 @@ namespace AIToolbox::Factored {
              * This function is provided in case some code still needs to store
              * the "intermediate" ids of the graph.
              *
-             * The actionId, which is the first in the pair, is a number
+             * The actionId, which is the second in the pair, is a number
              * between 0 and the factorSpacePartial of the parent agents of the
              * feature.
              *
-             * The parentId, which is the second in the pair, is a number
+             * The parentId, which is the first in the pair, is a number
              * between 0 and the factorSpacePartial of the state parent
              * features of the feature, given the input action.
              *
