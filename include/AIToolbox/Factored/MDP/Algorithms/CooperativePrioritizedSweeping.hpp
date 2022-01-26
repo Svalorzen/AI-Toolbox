@@ -64,7 +64,7 @@ namespace AIToolbox::Factored::MDP {
             /**
              * @brief This function returns a reference to the internal QFunction.
              */
-            const FactoredMatrix2D & getQFunction() const;
+            const QFunction & getQFunction() const;
 
             /**
              * @brief This function sets the QFunction to a set value.
@@ -99,7 +99,7 @@ namespace AIToolbox::Factored::MDP {
             std::vector<std::vector<size_t>> qDomains_;
             Vector rewardWeights_, deltaStorage_, rewardStorage_;
 
-            FactoredMatrix2D q_;
+            QFunction q_;
             QGreedyPolicy gp_;
             CPSQueue queue_;
 
@@ -298,7 +298,7 @@ namespace AIToolbox::Factored::MDP {
     }
 
     template <typename M>
-    const FactoredMatrix2D & CooperativePrioritizedSweeping<M>::getQFunction() const {
+    const QFunction & CooperativePrioritizedSweeping<M>::getQFunction() const {
         return q_;
     }
 }
