@@ -111,6 +111,7 @@ namespace AIToolbox::Factored::Bandit {
     const std::vector<PartialKeys> & MiningBandit::getGroups() const { return villagesPerMine_; }
     const Action & MiningBandit::getA() const { return A; }
     const Action & MiningBandit::getOptimalAction() const { return optimal_; }
+    double MiningBandit::getNormalizationConstant() const { return rewardNorm_; }
 
     std::tuple<Action, std::vector<unsigned>, std::vector<double>> makeMiningParameters(unsigned seed) {
         RandomEngine rand(seed);

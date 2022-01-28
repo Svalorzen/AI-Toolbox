@@ -112,6 +112,19 @@ namespace AIToolbox::Factored::Bandit {
              */
             std::vector<QFunctionRule> getDeterministicRules() const;
 
+            /**
+             * @brief This function returns the normalization constant used.
+             *
+             * This class ensures that the optimal action has an expected
+             * reward of 1. To do this, we normalize each local reward
+             * obtained by the unnormalized expected maximum possible reward.
+             *
+             * This function returns that value.
+             *
+             * @return The normalization constant used so that the optimal action has expected reward of 1.
+             */
+            double getNormalizationConstant() const;
+
         private:
             /**
              * @brief This function computes the per-mine Bernoulli reward probabilities.
