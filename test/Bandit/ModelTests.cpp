@@ -13,9 +13,9 @@ BOOST_AUTO_TEST_CASE( construction ) {
 
     // Test three possible ways to construct a uniform real distribution
     Bandit::Model<std::uniform_real_distribution<double>> tupleConstructor(
-        std::tuple<>{},
-        std::tuple<double>{-1.0},
-        std::tuple<double,double>{1.0, 2.0}
+        std::make_tuple(),
+        std::make_tuple(-1.0),
+        std::make_tuple(1.0, 2.0)
     );
 
     // Build the same bandit, but with the other constructor
