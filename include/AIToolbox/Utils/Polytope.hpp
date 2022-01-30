@@ -2,6 +2,7 @@
 #define AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE
 
 #include <array>
+#include <optional>
 
 #include <Eigen/Dense>
 

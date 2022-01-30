@@ -256,7 +256,7 @@ namespace AIToolbox::Factored {
                         if (ruleIt != std::end(data) && ruleIt->first == jvPartialIndex)
                             global.crossSum(ruleIt->second);
                     } else {
-                        for (const auto rule : factor->getData())
+                        for (const auto & rule : factor->getData())
                             if (jvPartialIndex == rule.first)
                                 global.crossSum(rule.second);
                     }

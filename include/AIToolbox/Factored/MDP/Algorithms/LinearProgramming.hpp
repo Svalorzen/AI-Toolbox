@@ -1,6 +1,8 @@
 #ifndef AI_TOOLBOX_FACTORED_MDP_LINEAR_PROGRAMMING_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_MDP_LINEAR_PROGRAMMING_HEADER_FILE
 
+#include <optional>
+
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Factored/Utils/BayesianNetwork.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
