@@ -34,17 +34,23 @@ namespace AIToolbox {
             const auto & [count, sum, square, sqsum] = d;
 
             const double mean = sum / count;
-            // The max is to avoid floating point negatives which create nan with sqrt
-            const double variance = std::max(0.0, (square - mean * sum) / (count - 1));
-            const double std = std::sqrt(variance);
+            // The max is to avoid floating point negatives which create nan with sqrt.
+            //
+            // Note that the std will be biased since we do a non-linear
+            // transform on the unbiased variance. The fix for this however
+            // depend on the distribution we're tracking, so we cna't do much
+            // here.
+            const double unbiasedVariance = std::max(0.0, (square - mean * sum) / (count - 1.0));
+            const double biasedStd = std::sqrt(unbiasedVariance);
 
             cumSum += sum;
             cumMean += mean;
-            // The max is to avoid floating point negatives which create nan with sqrt
-            const double cumVariance = std::max(0.0, (sqsum - cumMean * cumSum) / (count - 1));
-            const double cumStd = std::sqrt(cumVariance);
 
-            retval.emplace_back(mean, cumMean, std, cumStd);
+            // Same as above.
+            const double cumUnbiasedVariance = std::max(0.0, (sqsum - cumMean * cumSum) / (count - 1.0));
+            const double cumBiasedStd = std::sqrt(cumUnbiasedVariance);
+
+            retval.emplace_back(mean, cumMean, biasedStd, cumBiasedStd);
         }
         return retval;
     }
