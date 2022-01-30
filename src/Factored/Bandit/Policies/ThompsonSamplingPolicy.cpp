@@ -31,7 +31,7 @@ namespace AIToolbox::Factored::Bandit {
                 } else {
                     //     mu = est_mu + t * s / sqrt(n)
                     // where
-                    //     s^2 = 1 / (n-1) * sum_i (x_i - est_mu)^2
+                    //     s^2 = sum_i (x_i - est_mu)^2 / (n-1)
                     // and
                     //     t = student_t sample with n-1 degrees of freedom
                     std::student_t_distribution<double> dist(counts[y] - 1);
