@@ -16,9 +16,10 @@ namespace AIToolbox::Factored::Bandit {
         };
     }
 
-    MiningBandit::MiningBandit(Action aa, std::vector<unsigned> workersPerVillage, std::vector<double> pPerMine) :
+    MiningBandit::MiningBandit(Action aa, std::vector<unsigned> workersPerVillage, std::vector<double> pPerMine, bool normalizeToOne) :
         A(std::move(aa)), workersPerVillage_(std::move(workersPerVillage)), productivityPerMine_(std::move(pPerMine)),
         villagesPerMine_(productivityPerMine_.size()),
+        normalizeToOne_(normalizeToOne),
         helper_(productivityPerMine_.size())
     {
         assert(workersPerVillage_.size() == A.size());
@@ -40,6 +41,23 @@ namespace AIToolbox::Factored::Bandit {
 
         VariableElimination ve;
         std::tie(optimal_, rewardNorm_) = ve(A, rules);
+
+        // If we don't normalize the best reward to 1, then we simply normalize
+        // values so that productivities can never exceed 1 (since we use
+        // Bernoullis to sample).
+        if (!normalizeToOne_) {
+            rewardNorm_ = 1.0;
+
+            // For each mine, determine the maximum amount of workers that can go to it.
+            for (size_t m = 0; m < productivityPerMine_.size(); ++m) {
+                unsigned totalMiners = 0;
+                for (size_t v : villagesPerMine_[m])
+                    totalMiners += workersPerVillage_[v];
+
+                const double maxRew = rewFun(productivityPerMine_[m], totalMiners);
+                rewardNorm_ = std::max(rewardNorm_, maxRew);
+            }
+        }
     }
 
     const Rewards & MiningBandit::sampleR(const Action & a) const {

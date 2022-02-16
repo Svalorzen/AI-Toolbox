@@ -37,11 +37,14 @@ namespace AIToolbox::Factored::Bandit {
      * convert these amounts into stochastic rewards through Bernoulli
      * distributions.
      *
-     * First, we normalize the outputs of each mine that the maximum joint
-     * mineral amount that can be produced is 1. This means that, given a joint
-     * action, each mine will be associated with a number between 0 and 1. We
-     * use this number as the parameter of a Bernoulli distribution, which is
-     * sampled to generate the mine's actual reward (either 0 or 1).
+     * First, we optionally normalize the outputs of each mine that the maximum
+     * joint mineral amount that can be produced is 1. This is useful sometimes
+     * as it results in pretty values for regrets and rewards (since the
+     * expected optimal action then has reward exactly 1).
+     *
+     * In any case, each mine will be associated with a number between 0 and
+     * 1. We use this number as the parameter of a Bernoulli distribution,
+     * which is sampled to generate the mine's actual reward (either 0 or 1).
      *
      * Note that this means that it can happen that an action randomly produces
      * a higher reward than 1 (since multiple Bernoullis are sampled). However,
@@ -54,9 +57,10 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @param A The action space. There is one action per village, which represents to which mine to send the workers.
              * @param workersPerVillage How many workers there are in each village.
-             * @param productivityPerMine The productivity factor for each mine.
+             * @param productivityPerMine The productivity factor for each mine (between 0 and 1).
+             * @param normalizeToOne Whether to normalize rewards so that the optimal action has expected reward 1.
              */
-            MiningBandit(Action A, std::vector<unsigned> workersPerVillage, std::vector<double> productivityPerMine);
+            MiningBandit(Action A, std::vector<unsigned> workersPerVillage, std::vector<double> productivityPerMine, bool normalizeToOne = true);
 
             /**
              * @brief This function samples the rewards for each mine from a set of Bernoulli distributions.
@@ -141,6 +145,7 @@ namespace AIToolbox::Factored::Bandit {
 
             Action optimal_;
             double rewardNorm_;
+            bool normalizeToOne_;
 
             std::vector<PartialKeys> villagesPerMine_;
 
