@@ -61,7 +61,7 @@ namespace AIToolbox::Bandit {
              *
              * @return A return sampled from the arm's underlying distribution.
              */
-            double sampleR(size_t a) const;
+            decltype(auto) sampleR(size_t a) const;
 
             /**
              * @brief This function returns the number of arms of the bandit.
@@ -102,7 +102,7 @@ namespace AIToolbox::Bandit {
     }
 
     template <typename Dist>
-    double Model<Dist>::sampleR(const size_t a) const {
+    decltype(auto) Model<Dist>::sampleR(const size_t a) const {
         return arms_[a](rand_);
     }
 
