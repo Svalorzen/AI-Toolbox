@@ -319,6 +319,13 @@ To build the library you need:
 
 In addition, C++20 support is now required (**this means at least g++-10**)
 
+On a Ubuntu system, you can install these dependencies with the following
+command:
+
+```bash
+sudo apt install g++-10 cmake libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev
+```
+
 Building
 --------
 
