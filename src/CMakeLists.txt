@@ -19,6 +19,7 @@ if (MAKE_MDP)
         Bandit/Policies/QSoftmaxPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
         Bandit/Policies/TopTwoThompsonSamplingPolicy.cpp
+        Bandit/Policies/SuccessiveRejectsPolicy.cpp
         Bandit/Policies/LRPPolicy.cpp
         Bandit/Policies/ESRLPolicy.cpp
         MDP/Experience.cpp
@@ -141,6 +142,7 @@ if (MAKE_PYTHON)
             Python/Bandit/Policies/QSoftmaxPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
             Python/Bandit/Policies/TopTwoThompsonSamplingPolicy.cpp
+            Python/Bandit/Policies/SuccessiveRejectsPolicy.cpp
             Python/Bandit/Policies/LRPPolicy.cpp
             Python/Bandit/Policies/ESRLPolicy.cpp
             Python/BanditWrappers.cpp
