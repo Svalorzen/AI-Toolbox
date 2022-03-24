@@ -6,6 +6,8 @@ def Settings( **kwargs ):
         '-Wall', '-Wextra', '-Werror',
         '-DAI_LOGGING_ENABLED',
         '-Iinclude/',
-        '-isystem/usr/include/eigen3/'
+        '-Itest/',
+        '-isystem/usr/include/eigen3/',
+        '-isystem/usr/include/python3.8/'
     ],
   }
