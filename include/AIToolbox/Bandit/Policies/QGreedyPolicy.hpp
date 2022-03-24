@@ -6,7 +6,7 @@
 
 namespace AIToolbox::Bandit {
     /**
-     * @brief This class models a simple greedy policy.
+     * @brief This class implements a simple greedy policy.
      *
      * This class always selects the greediest action with respect to the
      * already obtained experience.

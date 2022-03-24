@@ -8,7 +8,7 @@ void exportBanditQGreedyPolicy() {
 
     class_<QGreedyPolicy, bases<PolicyInterface>>{"QGreedyPolicy",
 
-         "This class models a simple greedy policy.\n"
+         "This class implements a simple greedy policy.\n"
          "\n"
          "This class always selects the greediest action with respect to the\n"
          "already obtained experience.", no_init}

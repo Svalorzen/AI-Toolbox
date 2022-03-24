@@ -6,13 +6,14 @@
 
 namespace AIToolbox::MDP {
     /**
-     * @brief This class models the PGA-APP learning algorithm.
+     * @brief This class implements the PGA-APP learning algorithm.
      *
-     * This class models a learning algorithm for stochastic games. The
-     * underlying idea is that rather than just modifying the policy over time
-     * following gradient descent, we can try to predict where the opponents'
-     * policies are going, and follow the gradient there. This should
-     * significantly speed up learning and convergence to a Nash equilibrium.
+     * This class implements the PGA-APP learning algorithm for stochastic
+     * games. The underlying idea is that rather than just modifying the policy
+     * over time following gradient descent, we can try to predict where the
+     * opponents' policies are going, and follow the gradient there. This
+     * should significantly speed up learning and convergence to a Nash
+     * equilibrium.
      *
      * In the original paper, the QFunction was learning with QLearning before
      * tuning the policy with PGA-APP, so you might want to do the same.

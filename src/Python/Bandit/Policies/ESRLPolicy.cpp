@@ -8,7 +8,7 @@ void exportBanditESRLPolicy() {
 
     class_<Bandit::ESRLPolicy, bases<Bandit::PolicyInterface>>{"ESRLPolicy",
 
-         "This class models the Exploring Selfish Reinforcement Learning algorithm.\n"
+         "This class implements the Exploring Selfish Reinforcement Learning algorithm.\n"
          "\n"
          "This is a learning algorithm for common interest games. It tries to\n"
          "consider both Nash equilibria and Pareto-optimal solution in order to\n"

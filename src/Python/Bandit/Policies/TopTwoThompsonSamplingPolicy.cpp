@@ -8,6 +8,8 @@ void exportBanditTopTwoThompsonSamplingPolicy() {
 
     class_<TopTwoThompsonSamplingPolicy, bases<PolicyInterface>>{"TopTwoThompsonSamplingPolicy",
 
+         "This class implements the top-two Thompson sampling policy.\n"
+         "\n"
          "This class uses the Student-t distribution to model normally-distributed\n"
          "rewards with unknown mean and variance. As more experience is gained,\n"
          "each distribution becomes a Normal which models the mean of its\n"

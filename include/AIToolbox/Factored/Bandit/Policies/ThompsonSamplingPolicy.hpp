@@ -10,7 +10,7 @@
 
 namespace AIToolbox::Factored::Bandit {
     /**
-     * @brief This class models a Thompson sampling policy.
+     * @brief This class implements a Thompson sampling policy.
      *
      * This class uses the Normal distribution in order to estimate its
      * certainty about each arm average reward. Thus, each arm is estimated

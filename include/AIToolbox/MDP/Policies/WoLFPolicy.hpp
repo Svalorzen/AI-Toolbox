@@ -8,7 +8,7 @@
 
 namespace AIToolbox::MDP {
     /**
-     * @brief This class models the WoLF learning algorithm.
+     * @brief This class implements the WoLF learning algorithm.
      *
      * What this algorithm does is it progressively modifies the policy
      * given changes in the underlying QFunction. In particular, it

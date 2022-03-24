@@ -8,7 +8,7 @@ void exportBanditLRPPolicy() {
 
     class_<Bandit::LRPPolicy, bases<Bandit::PolicyInterface>>{"LRPPolicy",
 
-         "This class models the Linear Reward Penalty algorithm.\n"
+         "This class implements the Linear Reward Penalty algorithm.\n"
          "\n"
          "This algorithm performs direct policy updates depending on whether a\n"
          "given action was a success or a penalty.\n"

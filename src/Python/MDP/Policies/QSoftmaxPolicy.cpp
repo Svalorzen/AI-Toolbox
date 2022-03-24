@@ -8,7 +8,7 @@ void exportMDPQSoftmaxPolicy() {
 
     class_<QSoftmaxPolicy, bases<QPolicyInterface>>{"QSoftmaxPolicy",
 
-         "This class models a softmax policy through a QFunction.\n"
+         "This class implements a softmax policy through a QFunction.\n"
          "\n"
          "A softmax policy is a policy that selects actions based on their\n"
          "expected reward: the more advantageous an action seems to be, the more\n"

@@ -5,7 +5,7 @@
 
 namespace AIToolbox::Bandit {
     /**
-     * @brief This class models the Exploring Selfish Reinforcement Learning algorithm.
+     * @brief This class implements the Exploring Selfish Reinforcement Learning algorithm.
      *
      * This is a learning algorithm for common interest games. It tries to
      * consider both Nash equilibria and Pareto-optimal solution in order to
@@ -73,7 +73,7 @@ namespace AIToolbox::Bandit {
              * and will simply exploit the knowledge gained.
              *
              * Thus, if this method returns true, it won't be necessary anymore
-             * to call the stepUpdateQ method (although it won't have any
+             * to call the stepUpdateP method (although it won't have any
              * effect to do so).
              *
              * @return Whether ESRLPolicy is in the exploiting phase.

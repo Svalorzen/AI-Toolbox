@@ -8,7 +8,7 @@ void exportMDPQGreedyPolicy() {
 
     class_<QGreedyPolicy, bases<QPolicyInterface>>{"QGreedyPolicy",
 
-         "This class models a greedy policy through a QFunction.\n"
+         "This class implements a greedy policy through a QFunction.\n"
          "\n"
          "This class allows you to select effortlessly the best greedy actions\n"
          "from a given QFunction.", no_init}

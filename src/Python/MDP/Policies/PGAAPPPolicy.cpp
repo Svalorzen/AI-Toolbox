@@ -8,7 +8,7 @@ void exportMDPPGAAPPPolicy() {
 
     class_<PGAAPPPolicy, bases<QPolicyInterface>>{"PGAAPPPolicy",
 
-         "This class models the WoLF learning algorithm.\n"
+         "This class implements the WoLF learning algorithm.\n"
          "\n"
          "What this algorithm does is it progressively modifies the policy\n"
          "given changes in the underlying QFunction. In particular, it\n"

@@ -9,7 +9,7 @@
 
 namespace AIToolbox::Bandit {
     /**
-     * @brief This class models a Thompson sampling policy.
+     * @brief This class implements a Thompson sampling policy.
      *
      * This class uses the Student-t distribution to model normally-distributed
      * rewards with unknown mean and variance. As more experience is gained,

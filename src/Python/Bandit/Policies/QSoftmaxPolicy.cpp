@@ -8,7 +8,7 @@ void exportBanditQSoftmaxPolicy() {
 
     class_<QSoftmaxPolicy, bases<PolicyInterface>>{"QSoftmaxPolicy",
 
-         "This class models a simple greedy policy.\n"
+         "This class implements a simple softmax policy.\n"
          "\n"
          "This class always selects the greediest action with respect to the\n"
          "already obtained experience.", no_init}

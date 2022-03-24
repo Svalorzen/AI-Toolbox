@@ -6,7 +6,7 @@
 
 namespace AIToolbox::Bandit {
     /**
-     * @brief This class models the Linear Reward Penalty algorithm.
+     * @brief This class implements the Linear Reward Penalty algorithm.
      *
      * This algorithm performs direct policy updates depending on whether a
      * given action was a success or a penalty.
