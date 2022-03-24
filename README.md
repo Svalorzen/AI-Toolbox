@@ -147,7 +147,7 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 |                                                            | **Policies**                                       |                        |
 | [Exploring Selfish Reinforcement Learning (ESRL)][esrl]    | [Q-Greedy Policy][bqgr]                            | [Softmax Policy][bsof] |
 | [Linear Reward Penalty][lrpe]                              | [Thompson Sampling (Student-t distribution)][btho] | [Random Policy][brnd]  |
-| [Top-Two Thompson Sampling (Student-t distribution)][ttho] |                                                    |                        |
+| [Top-Two Thompson Sampling (Student-t distribution)][ttho] | [Successive Rejects][sure]                         |                        |
 
 [bmod]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1Model.html "Reinforcement Learning: An Introduction, Ch 2.1, Sutton & Barto"
 [esrl]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ESRLPolicy.html "Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al."
@@ -157,6 +157,7 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 [btho]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html "Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al."
 [brnd]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1RandomPolicy.html
 [ttho]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html "Simple Bayesian Algorithms for Best Arm Identification, Russo"
+[sure]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html "Best Arm Identification in Multi-Armed Bandits, Audibert et al."
 
 ### Single Agent MDP/Stochastic Games: ###
 
