@@ -56,6 +56,7 @@ if (MAKE_MDP)
     AddTest(Bandit ThompsonSamplingPolicy)
     AddTest(Bandit LRPPolicy)
     AddTest(Bandit ESRLPolicy)
+    AddTest(Bandit SuccessiveRejectsPolicy)
 
     AddTest(MDP Environments)
 
