@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1MDP_1_1WoLFPolicy.ht
 </div><!--header-->
 <div class="contents">
 
-<p>This class models the WoLF learning algorithm.  
+<p>This class implements the WoLF learning algorithm.  
  <a href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="WoLFPolicy_8hpp_source.html">AIToolbox/MDP/Policies/WoLFPolicy.hpp</a>&gt;</code></p>
@@ -179,7 +179,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a6975c6f8f853035f3fb4d624bdfca41d inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models the WoLF learning algorithm. </p>
+<div class="textblock"><p>This class implements the WoLF learning algorithm. </p>
 <p>What this algorithm does is it progressively modifies the policy given changes in the underlying QFunction. In particular, it modifies it rapidly if the agent is "losing" (getting less reward than expected), and more slowly when "winning", since there's little reason to change behaviour when things go right.</p>
 <p>An advantage of this algorithm is that it can allow the policy to converge to non-deterministic solutions: for example two players trying to outmatch each other in rock-paper-scissor. At the same time, this particular version of the algorithm can take quite some time to converge to a good solution. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -429,7 +429,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function sets the new learning rate if losing. </p>
-<p>This is the amount that the policy is modified when the updatePolicy() function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class models the WoLF learning algorithm.">WoLFPolicy</a> determines that it is currently losing based on the current QFunction.</p>
+<p>This is the amount that the policy is modified when the updatePolicy() function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class implements the WoLF learning algorithm.">WoLFPolicy</a> determines that it is currently losing based on the current QFunction.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">deltaL</td><td>The new learning rate during loss. </td></tr>
@@ -456,7 +456,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function sets the new learning rate if winning. </p>
-<p>This is the amount that the policy is modified when the updatePolicy() function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class models the WoLF learning algorithm.">WoLFPolicy</a> determines that it is currently winning based on the current QFunction.</p>
+<p>This is the amount that the policy is modified when the updatePolicy() function is called when <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class implements the WoLF learning algorithm.">WoLFPolicy</a> determines that it is currently winning based on the current QFunction.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">deltaW</td><td>The new learning rate during wins. </td></tr>
@@ -483,7 +483,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function modifies the scaling parameter. </p>
-<p>In order to be able to converge <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class models the WoLF learning algorithm.">WoLFPolicy</a> needs to progressively reduce the learning rates over time. It does so automatically to avoid needing to call both learning rate setters constantly. This is also because in theory the learning rate should change per state, so it would be even harder to do outside.</p>
+<p>In order to be able to converge <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="This class implements the WoLF learning algorithm.">WoLFPolicy</a> needs to progressively reduce the learning rates over time. It does so automatically to avoid needing to call both learning rate setters constantly. This is also because in theory the learning rate should change per state, so it would be even harder to do outside.</p>
 <p>Once determined if the policy is winning or losing, the selected learning rate is scaled with the following formula: </p><pre class="fragment">newLearningRate = originalLearningRate / ( c_[s] / scaling + 1 );
 </pre><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

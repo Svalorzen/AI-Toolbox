@@ -121,7 +121,7 @@ class AIToolbox::Factored::GenericVariableElimination&lt; Factor &gt;</h3>
 
 <p>This class represents the Variable Elimination algorithm. </p>
 <p>This class applies Variable Elimination to an input FactorGraph&lt;Factor&gt;.</p>
-<p>Since the cross-sum steps in the algorithm differ from the type of node in the graph, we require as input a separate structure which may contain certain methods depending on what the use-case requires, and which holds any needed temporaries to store for the duration of the algorithm.</p>
+<p>Since the cross-sum steps in the algorithm differ depending on the type of node in the graph, we require as input a separate structure which may contain certain methods depending on what the use-case requires, and which holds any needed temporaries to store for the duration of the algorithm.</p>
 <p>In particular, this structure (the <code>global</code> parameter), <em>MUST</em> provide:</p>
 <ul>
 <li>A member <code>Factor newFactor</code> which stores the results of the cross-sum of each removed variable. At each iteration over the values of that variable's neighbors, we move from it, so be sure to re-initialize it if needed.</li>

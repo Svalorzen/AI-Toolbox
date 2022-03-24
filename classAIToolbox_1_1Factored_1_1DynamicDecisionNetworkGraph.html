@@ -150,7 +150,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class represents the structure of a dynamic decision network. </p>
 <p>A DDN is a graph that relates how state features and agents are related over a single time steps. In particular, it contains which state-features and agents each next-state-feature depends on.</p>
-<p>This class constains this information, and allows to compute easily indices to reference outside matrices for data; for example transition probabilities or rewards.</p>
+<p>This class contains this information, and allows to compute easily indices to reference outside matrices for data; for example transition probabilities or rewards.</p>
 <p>This class is supposed to be created once and passed as reference to everybody who needs it, to avoid duplicating information for no reason.</p>
 <p>This class considers DDNs where the action-parent features are fixed for each next-state-feature, but the state-parent features depend on both the next-state-feature and on what action the parent agents took.</p>
 <p>For example, if I have a state space </p><pre class="fragment">[3, 4, 2]
@@ -394,8 +394,8 @@ getSize(size_t);</dd></dl>
 
 <p>This function computes an action and parent ids for the input state, action and feature. </p>
 <p>This function is provided in case some code still needs to store the "intermediate" ids of the graph.</p>
-<p>The actionId, which is the first in the pair, is a number between 0 and the factorSpacePartial of the parent agents of the feature.</p>
-<p>The parentId, which is the second in the pair, is a number between 0 and the factorSpacePartial of the state parent features of the feature, given the input action.</p>
+<p>The actionId, which is the second in the pair, is a number between 0 and the factorSpacePartial of the parent agents of the feature.</p>
+<p>The parentId, which is the first in the pair, is a number between 0 and the factorSpacePartial of the state parent features of the feature, given the input action.</p>
 <dl class="section see"><dt>See also</dt><dd>getPartialSize(size_t); </dd>
 <dd>
 getPartialSize(size_t, size_t);</dd></dl>
@@ -445,8 +445,8 @@ getPartialSize(size_t, size_t);</dd></dl>
 
 <p>This function computes an action and parent ids for the input state, action and feature. </p>
 <p>This function is provided in case some code still needs to store the "intermediate" ids of the graph.</p>
-<p>The actionId, which is the first in the pair, is a number between 0 and the factorSpacePartial of the parent agents of the feature.</p>
-<p>The parentId, which is the second in the pair, is a number between 0 and the factorSpacePartial of the state parent features of the feature, given the input action.</p>
+<p>The actionId, which is the second in the pair, is a number between 0 and the factorSpacePartial of the parent agents of the feature.</p>
+<p>The parentId, which is the first in the pair, is a number between 0 and the factorSpacePartial of the state parent features of the feature, given the input action.</p>
 <dl class="section see"><dt>See also</dt><dd>getPartialSize(size_t); </dd>
 <dd>
 getPartialSize(size_t, size_t);</dd></dl>

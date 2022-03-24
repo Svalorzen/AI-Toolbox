@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Bandit_1_1ESRLPolicy
 </div><!--header-->
 <div class="contents">
 
-<p>This class models the Exploring Selfish Reinforcement Learning algorithm.  
+<p>This class implements the Exploring Selfish Reinforcement Learning algorithm.  
  <a href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ESRLPolicy_8hpp_source.html">AIToolbox/Bandit/Policies/ESRLPolicy.hpp</a>&gt;</code></p>
@@ -183,7 +183,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a6975c6f8f853035f3fb4d624bdfca41d inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models the Exploring Selfish Reinforcement Learning algorithm. </p>
+<div class="textblock"><p>This class implements the Exploring Selfish Reinforcement Learning algorithm. </p>
 <p>This is a learning algorithm for common interest games. It tries to consider both Nash equilibria and Pareto-optimal solution in order to maximize the payoffs to the agents.</p>
 <p>The original algorithm can be modified in order to work with non-cooperative games, but here we implement only the most general version for cooperative games.</p>
 <p>An important point for this algorithm is that each agent only considers its own payoffs, and in the cooperative case does not need to communicate with the other agents.</p>
@@ -412,9 +412,9 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function returns whether ESRL is now in the exploiting phase. </p>
-<p>This method returns whether <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="This class models the Exploring Selfish Reinforcement Learning algorithm.">ESRLPolicy</a> has finished learning. Once in the exploiting phase, the method won't learn anymore, and will simply exploit the knowledge gained.</p>
-<p>Thus, if this method returns true, it won't be necessary anymore to call the stepUpdateQ method (although it won't have any effect to do so).</p>
-<dl class="section return"><dt>Returns</dt><dd>Whether <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="This class models the Exploring Selfish Reinforcement Learning algorithm.">ESRLPolicy</a> is in the exploiting phase. </dd></dl>
+<p>This method returns whether <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="This class implements the Exploring Selfish Reinforcement Learning algorithm.">ESRLPolicy</a> has finished learning. Once in the exploiting phase, the method won't learn anymore, and will simply exploit the knowledge gained.</p>
+<p>Thus, if this method returns true, it won't be necessary anymore to call the stepUpdateP method (although it won't have any effect to do so).</p>
+<dl class="section return"><dt>Returns</dt><dd>Whether <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="This class implements the Exploring Selfish Reinforcement Learning algorithm.">ESRLPolicy</a> is in the exploiting phase. </dd></dl>
 
 </div>
 </div>

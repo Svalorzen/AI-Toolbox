@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Factored_1_1Bandit_1
 </div><!--header-->
 <div class="contents">
 
-<p>This class models a Thompson sampling policy.  
+<p>This class implements a Thompson sampling policy.  
  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Factored_2Bandit_2Policies_2ThompsonSamplingPolicy_8hpp_source.html">AIToolbox/Factored/Bandit/Policies/ThompsonSamplingPolicy.hpp</a>&gt;</code></p>
@@ -149,7 +149,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ad1664cc0660a2975cd515615de518628 inherit pro_attribs_classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models a Thompson sampling policy. </p>
+<div class="textblock"><p>This class implements a Thompson sampling policy. </p>
 <p>This class uses the Normal distribution in order to estimate its certainty about each arm average reward. Thus, each arm is estimated through a Normal distribution centered on the average for the arm, with decreasing variance as more experience is gathered.</p>
 <p>Note that this class assumes that the reward obtained is normalized into a [0,1] range (which it does not check).</p>
 <p>The usage of the Normal distribution best matches a Normally distributed reward. Another implementation (not provided here) uses Beta distributions to handle Bernoulli distributed rewards. </p>
@@ -291,7 +291,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function constructs a graph by sampling the provided experience. </p>
-<p>This function is the core of <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html" title="This class models a Thompson sampling policy.">ThompsonSamplingPolicy</a>, and is provided so that other methods can leverage Thompson sampling in a simpler way.</p>
+<p>This function is the core of <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html" title="This class implements a Thompson sampling policy.">ThompsonSamplingPolicy</a>, and is provided so that other methods can leverage Thompson sampling in a simpler way.</p>
 <p>Given a newly built, empty graph, we sample the experience using Student t-distribution, so that the values sampled for each local joint action have the correct likelihood of being the true ones, following the Bayesian posteriors.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

@@ -7,6 +7,7 @@ var namespaceAIToolbox_1_1Factored_1_1Bandit =
     [ "LocalSearch", "classAIToolbox_1_1Factored_1_1Bandit_1_1LocalSearch.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1LocalSearch" ],
     [ "MAUCEPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy" ],
     [ "MaxPlus", "classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus" ],
+    [ "MiningBandit", "classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit" ],
     [ "Model", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model" ],
     [ "MOQFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html", "structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule" ],
     [ "MultiObjectiveVariableElimination", "classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination" ],

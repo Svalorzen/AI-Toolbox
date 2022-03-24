@@ -319,7 +319,7 @@ template&lt;IsGenerativeModel M&gt; </div>
 
 <p>This function returns a reference to the internal "sum" QFunction. </p>
 <p>The QFunction that is returned does not contain "true" values, but instead is the sum of the two QFunctions that are being updated by <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html" title="This class represents the double QLearning algorithm.">DoubleQLearning</a>. This is to make it possible to select actions using standard policy classes.</p>
-<p>The returned reference can be used to build Policies, for example <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction.">MDP::QGreedyPolicy</a>.</p>
+<p>The returned reference can be used to build Policies, for example <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class implements a greedy policy through a QFunction.">MDP::QGreedyPolicy</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>The internal "sum" QFunction. </dd></dl>
 
 </div>
@@ -340,7 +340,7 @@ template&lt;IsGenerativeModel M&gt; </div>
 </div><div class="memdoc">
 
 <p>This function returns a reference to the first internal QFunction. </p>
-<p>The returned reference can be used to build Policies, for example <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class models a greedy policy through a QFunction.">MDP::QGreedyPolicy</a>, but you should probably use <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html#ab7d378105ecc7bf0c1566fe7019acac9" title="This function returns a reference to the internal &quot;sum&quot; QFunction.">getQFunction()</a> for that.</p>
+<p>The returned reference can be used to build Policies, for example <a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class implements a greedy policy through a QFunction.">MDP::QGreedyPolicy</a>, but you should probably use <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html#ab7d378105ecc7bf0c1566fe7019acac9" title="This function returns a reference to the internal &quot;sum&quot; QFunction.">getQFunction()</a> for that.</p>
 <dl class="section return"><dt>Returns</dt><dd>The internal first QFunction. </dd></dl>
 
 </div>

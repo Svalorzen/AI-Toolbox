@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">AI-Toolbox </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a href="https://github.com/Svalorzen/AI-Toolbox/actions?query=workflow%3A" title="CMake"><object type="image/svg+xml" data="https://github.com/Svalorzen/AI-Toolbox/workflows/CMake/badge.svg?branch=master" style="pointer-events: none;">Build Status</object></a></p>
+<div class="textblock"><p><a href="https://github.com/Svalorzen/AI-Toolbox/actions/workflows/build_cmake.yml"><object type="image/svg+xml" data="https://github.com/Svalorzen/AI-Toolbox/actions/workflows/build_cmake.yml/badge.svg" style="pointer-events: none;">AI-Toolbox</object></a></p>
 <p><a href="https://www.youtube.com/watch?v=qjSo41DVSXg"><img src="https://user-images.githubusercontent.com/1609228/99919181-3404dc00-2d1c-11eb-8593-0bf6af44cef8.png" alt="Library overview video" class="inline"/></a></p>
 <p>This C++ toolbox is aimed at representing and solving common AI problems, implementing an easy-to-use interface which should be hopefully extensible to many problems, while keeping code readable.</p>
 <p>Current development includes MDPs, POMDPs and related algorithms. This toolbox was originally developed taking inspiration from the Matlab <code>MDPToolbox</code>, which you can find <a href="https://miat.inrae.fr/MDPtoolbox/">here</a>, and from the <code>pomdp-solve</code> software written by A. R. Cassandra, which you can find <a href="http://www.pomdp.org/code/index.shtml">here</a>.</p>
@@ -162,6 +162,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al.">Exploring Selfish Reinforcement Learning (ESRL)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html" title="A Tutorial on Thompson Sampling, Russo et al.">Q-Greedy Policy</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html" title="Reinforcement Learning: An Introduction, Ch 2.3, Sutton &amp; Barto">Softmax Policy</a>  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1LRPPolicy.html" title="Self-organization in large populations of mobile robots, Ch 3: Stochastic Learning Automata, Unsal">Linear Reward Penalty</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html" title="Thompson Sampling for 1-Dimensional Exponential Family Bandits, Korda et al.">Thompson Sampling (Student-t distribution)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1RandomPolicy.html">Random Policy</a>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html" title="Simple Bayesian Algorithms for Best Arm Identification, Russo">Top-Two Thompson Sampling (Student-t distribution)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html" title="Best Arm Identification in Multi-Armed Bandits, Audibert et al.">Successive Rejects</a> </td><td class="markdownTableBodyCenter"></td></tr>
 </table>
 <h3>Single Agent MDP/Stochastic Games:</h3>
 <table class="markdownTable">
@@ -266,7 +268,9 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li>the <a href="http://lpsolve.sourceforge.net/5.5/">lp_solve library</a> (a shared library must be available to compile the Python wrapper).</li>
 </ul>
 <p>In addition, C++20 support is now required (<b>this means at least g++-10</b>)</p>
-<h2>Building </h2>
+<p>On a Ubuntu system, you can install these dependencies with the following command:</p>
+<div class="fragment"><div class="line">sudo apt install g++-10 cmake libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev</div>
+</div><!-- fragment --><h2>Building </h2>
 <p>Once you have all required dependencies, you can simply execute the following commands from the project's main folder:</p>
 <div class="fragment"><div class="line">mkdir build</div>
 <div class="line">cd build/</div>

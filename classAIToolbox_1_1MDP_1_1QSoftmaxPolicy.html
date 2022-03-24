@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1MDP_1_1QSoftmaxPolic
 </div><!--header-->
 <div class="contents">
 
-<p>This class models a softmax policy through a QFunction.  
+<p>This class implements a softmax policy through a QFunction.  
  <a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="MDP_2Policies_2QSoftmaxPolicy_8hpp_source.html">AIToolbox/MDP/Policies/QSoftmaxPolicy.hpp</a>&gt;</code></p>
@@ -164,7 +164,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a6975c6f8f853035f3fb4d624bdfca41d inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models a softmax policy through a QFunction. </p>
+<div class="textblock"><p>This class implements a softmax policy through a QFunction. </p>
 <p>A softmax policy is a policy that selects actions based on their expected reward: the more advantageous an action seems to be, the more probable its selection is. There are many ways to implement a softmax policy, this class implements selection using the most common method of sampling from a Boltzmann distribution.</p>
 <p>As the epsilon-policy, this type of policy is useful to force the agent to explore an unknown model, in order to gain new information to refine it and thus gain more reward. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>

@@ -261,8 +261,8 @@ $(document).ready(function(){initNavTree('FactorGraph_8hpp_source.html',''); ini
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;            factorAdjacencies_.emplace_back(<a class="code" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html">FactorNode</a>());</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            it = --factorAdjacencies_.end();</div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            factorAdjacencies_.splice(std::begin(factorAdjacencies_), factorAdjacenciesPool_, std::begin(factorAdjacenciesPool_));</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            it = factorAdjacencies_.begin();</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            factorAdjacencies_.splice(std::end(factorAdjacencies_), factorAdjacenciesPool_, std::begin(factorAdjacenciesPool_));</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            it = std::prev(factorAdjacencies_.end());</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;            <span class="comment">// We reset the data; just in case it&#39;s a vector we don&#39;t want to</span></div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;            <span class="comment">// move but assign so that it does not clear already allocated</span></div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;            <span class="comment">// memory.</span></div>

@@ -101,14 +101,16 @@ Inheritance diagram for AIToolbox::Bandit::PolicyInterface:</div>
  <div class="center">
   <img src="classAIToolbox_1_1Bandit_1_1PolicyInterface.png" usemap="#AIToolbox::Bandit::PolicyInterface_map" alt=""/>
   <map id="AIToolbox::Bandit::PolicyInterface_map" name="AIToolbox::Bandit::PolicyInterface_map">
-<area href="classAIToolbox_1_1PolicyInterface.html" alt="AIToolbox::PolicyInterface&lt; void, void, size_t &gt;" shape="rect" coords="873,0,1154,24"/>
-<area href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html" alt="AIToolbox::Bandit::EpsilonPolicy" shape="rect" coords="0,112,281,136"/>
-<area href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="This class models the Exploring Selfish Reinforcement Learning algorithm." alt="AIToolbox::Bandit::ESRLPolicy" shape="rect" coords="291,112,572,136"/>
-<area href="classAIToolbox_1_1Bandit_1_1LRPPolicy.html" title="This class models the Linear Reward Penalty algorithm." alt="AIToolbox::Bandit::LRPPolicy" shape="rect" coords="582,112,863,136"/>
-<area href="classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html" title="This class models a simple greedy policy." alt="AIToolbox::Bandit::QGreedyPolicy" shape="rect" coords="873,112,1154,136"/>
-<area href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html" title="This class models a softmax policy through a QFunction." alt="AIToolbox::Bandit::QSoftmaxPolicy" shape="rect" coords="1164,112,1445,136"/>
-<area href="classAIToolbox_1_1Bandit_1_1RandomPolicy.html" title="This class represents a random policy." alt="AIToolbox::Bandit::RandomPolicy" shape="rect" coords="1455,112,1736,136"/>
-<area href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html" title="This class models a Thompson sampling policy." alt="AIToolbox::Bandit::ThompsonSamplingPolicy" shape="rect" coords="1746,112,2027,136"/>
+<area href="classAIToolbox_1_1PolicyInterface.html" alt="AIToolbox::PolicyInterface&lt; void, void, size_t &gt;" shape="rect" coords="0,0,302,24"/>
+<area href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html" alt="AIToolbox::Bandit::EpsilonPolicy" shape="rect" coords="312,112,614,136"/>
+<area href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html" title="This class implements the Exploring Selfish Reinforcement Learning algorithm." alt="AIToolbox::Bandit::ESRLPolicy" shape="rect" coords="312,168,614,192"/>
+<area href="classAIToolbox_1_1Bandit_1_1LRPPolicy.html" title="This class implements the Linear Reward Penalty algorithm." alt="AIToolbox::Bandit::LRPPolicy" shape="rect" coords="312,224,614,248"/>
+<area href="classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html" title="This class implements a simple greedy policy." alt="AIToolbox::Bandit::QGreedyPolicy" shape="rect" coords="312,280,614,304"/>
+<area href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html" title="This class implements a softmax policy through a QFunction." alt="AIToolbox::Bandit::QSoftmaxPolicy" shape="rect" coords="312,336,614,360"/>
+<area href="classAIToolbox_1_1Bandit_1_1RandomPolicy.html" title="This class represents a random policy." alt="AIToolbox::Bandit::RandomPolicy" shape="rect" coords="312,392,614,416"/>
+<area href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html" title="This class implements the successive rejects algorithm." alt="AIToolbox::Bandit::SuccessiveRejectsPolicy" shape="rect" coords="312,448,614,472"/>
+<area href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html" title="This class implements a Thompson sampling policy." alt="AIToolbox::Bandit::ThompsonSamplingPolicy" shape="rect" coords="312,504,614,528"/>
+<area href="classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html" title="This class implements the top-two Thompson sampling policy." alt="AIToolbox::Bandit::TopTwoThompsonSamplingPolicy" shape="rect" coords="312,560,614,584"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -197,7 +199,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Note that this may be expensive to compute, and should not be called often (aside from the fact that it needs to allocate a new Vector each time).</p>
 <p>Ideally this function can be called only when there is a repeated need to access the same policy values in an efficient manner. </p>
 
-<p>Implemented in <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#a537248b75ec50e6ac21be23fa4e32e2b">AIToolbox::Bandit::ESRLPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1LRPPolicy.html#aff1f91ce1ba44e56b41bd249eb9ffa98">AIToolbox::Bandit::LRPPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">AIToolbox::Bandit::QSoftmaxPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac96c0b5f13907e9a588aced882485105">AIToolbox::Bandit::ThompsonSamplingPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html#ac8ee08d445eada209fc3ebbae05f1f7e">AIToolbox::Bandit::QGreedyPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1RandomPolicy.html#a31b10902f7ed2be046a2c33b06e5d442">AIToolbox::Bandit::RandomPolicy</a>, and <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#a6bfb987965295393106eed696be18efb">AIToolbox::Bandit::EpsilonPolicy</a>.</p>
+<p>Implemented in <a class="el" href="classAIToolbox_1_1Bandit_1_1ESRLPolicy.html#a537248b75ec50e6ac21be23fa4e32e2b">AIToolbox::Bandit::ESRLPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1LRPPolicy.html#aff1f91ce1ba44e56b41bd249eb9ffa98">AIToolbox::Bandit::LRPPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aaf76c71be0375d8ec401ee39375b9492">AIToolbox::Bandit::SuccessiveRejectsPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">AIToolbox::Bandit::QSoftmaxPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html#a282a4aeaaa80ddeb3ba21cffa02b4b4e">AIToolbox::Bandit::TopTwoThompsonSamplingPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac96c0b5f13907e9a588aced882485105">AIToolbox::Bandit::ThompsonSamplingPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html#ac8ee08d445eada209fc3ebbae05f1f7e">AIToolbox::Bandit::QGreedyPolicy</a>, <a class="el" href="classAIToolbox_1_1Bandit_1_1RandomPolicy.html#a31b10902f7ed2be046a2c33b06e5d442">AIToolbox::Bandit::RandomPolicy</a>, and <a class="el" href="classAIToolbox_1_1Bandit_1_1EpsilonPolicy.html#a6bfb987965295393106eed696be18efb">AIToolbox::Bandit::EpsilonPolicy</a>.</p>
 
 </div>
 </div>

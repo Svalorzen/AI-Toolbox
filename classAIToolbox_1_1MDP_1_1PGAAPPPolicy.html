@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1MDP_1_1PGAAPPPolicy.
 </div><!--header-->
 <div class="contents">
 
-<p>This class models the PGA-APP learning algorithm.  
+<p>This class implements the PGA-APP learning algorithm.  
  <a href="classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="PGAAPPPolicy_8hpp_source.html">AIToolbox/MDP/Policies/PGAAPPPolicy.hpp</a>&gt;</code></p>
@@ -173,8 +173,8 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a6975c6f8f853035f3fb4d624bdfca41d inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models the PGA-APP learning algorithm. </p>
-<p>This class models a learning algorithm for stochastic games. The underlying idea is that rather than just modifying the policy over time following gradient descent, we can try to predict where the opponents' policies are going, and follow the gradient there. This should significantly speed up learning and convergence to a Nash equilibrium.</p>
+<div class="textblock"><p>This class implements the PGA-APP learning algorithm. </p>
+<p>This class implements the PGA-APP learning algorithm for stochastic games. The underlying idea is that rather than just modifying the policy over time following gradient descent, we can try to predict where the opponents' policies are going, and follow the gradient there. This should significantly speed up learning and convergence to a Nash equilibrium.</p>
 <p>In the original paper, the QFunction was learning with <a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm.">QLearning</a> before tuning the policy with PGA-APP, so you might want to do the same. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a18bde6cb02b227e80a2ca8f82b16e583"></a>

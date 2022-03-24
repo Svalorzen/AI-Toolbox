@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Bandit_1_1ThompsonSa
 </div><!--header-->
 <div class="contents">
 
-<p>This class models a Thompson sampling policy.  
+<p>This class implements a Thompson sampling policy.  
  <a href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Bandit_2Policies_2ThompsonSamplingPolicy_8hpp_source.html">AIToolbox/Bandit/Policies/ThompsonSamplingPolicy.hpp</a>&gt;</code></p>
@@ -119,6 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac96c0b5f13907e9a588aced882485105"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac96c0b5f13907e9a588aced882485105">getPolicy</a> () const override</td></tr>
 <tr class="memdesc:ac96c0b5f13907e9a588aced882485105"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a vector containing all probabilities of the policy.  <a href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac96c0b5f13907e9a588aced882485105">More...</a><br /></td></tr>
 <tr class="separator:ac96c0b5f13907e9a588aced882485105"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b9ba236ba108dd847b0d922ddaafbec"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html">Experience</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a5b9ba236ba108dd847b0d922ddaafbec">getExperience</a> () const</td></tr>
+<tr class="memdesc:a5b9ba236ba108dd847b0d922ddaafbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the underlying <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html" title="This class computes averages and counts for a Bandit problem.">Experience</a> we use.  <a href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a5b9ba236ba108dd847b0d922ddaafbec">More...</a><br /></td></tr>
+<tr class="separator:a5b9ba236ba108dd847b0d922ddaafbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classAIToolbox_1_1PolicyInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classAIToolbox_1_1PolicyInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; void, void, size_t &gt;</a></td></tr>
 <tr class="memitem:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">PolicyInterface</a> (void s, size_t a)</td></tr>
 <tr class="memdesc:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">More...</a><br /></td></tr>
@@ -153,7 +156,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a6975c6f8f853035f3fb4d624bdfca41d inherit pro_attribs_classAIToolbox_1_1PolicyInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class models a Thompson sampling policy. </p>
+<div class="textblock"><p>This class implements a Thompson sampling policy. </p>
 <p>This class uses the Student-t distribution to model normally-distributed rewards with unknown mean and variance. As more experience is gained, each distribution becomes a Normal which models the mean of its respective arm. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adbbba65cca05fc422afc54485c0fb1e1"></a>
@@ -216,6 +219,26 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>This function returns an approximation of the probability of choosing the input action. </dd></dl>
+
+</div>
+</div>
+<a id="a5b9ba236ba108dd847b0d922ddaafbec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b9ba236ba108dd847b0d922ddaafbec">&#9670;&nbsp;</a></span>getExperience()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html">Experience</a>&amp; AIToolbox::Bandit::ThompsonSamplingPolicy::getExperience </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns a reference to the underlying <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html" title="This class computes averages and counts for a Bandit problem.">Experience</a> we use. </p>
+<dl class="section return"><dt>Returns</dt><dd>The internal <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html" title="This class computes averages and counts for a Bandit problem.">Experience</a> reference. </dd></dl>
 
 </div>
 </div>

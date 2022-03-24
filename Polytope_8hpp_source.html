@@ -90,339 +90,340 @@ $(document).ready(function(){initNavTree('Polytope_8hpp_source.html',''); initRe
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define AI_TOOLBOX_UTILS_POLYTOPE_HEADER_FILE</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="TypeTraits_8hpp.html">AIToolbox/TypeTraits.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Utils_2Core_8hpp.html">AIToolbox/Utils/Core.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Combinatorics_8hpp.html">AIToolbox/Utils/Combinatorics.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="LP_8hpp.html">AIToolbox/Utils/LP.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceAIToolbox.html">AIToolbox</a> {</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">   18</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> = <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">   23</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> = <a class="code" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">   28</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> = std::pair&lt;std::vector&lt;Point&gt;, std::vector&lt;double&gt;&gt;;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">   33</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">CompactHyperplanes</a> = <a class="code" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#afa6c3c00a1d06d54b24559c996972183">   43</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="namespaceAIToolbox.html#afa6c3c00a1d06d54b24559c996972183">dominates</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; lhs, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; rhs) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span> (lhs.array() - rhs.array() &gt;= -<a class="code" href="namespaceAIToolbox.html#a395f82018bc6d027736805fec404d482">equalToleranceSmall</a>).minCoeff() ||</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;               (lhs.array() - rhs.array() &gt;= -lhs.array().min(rhs.array()) * <a class="code" href="namespaceAIToolbox.html#ad6fe7471894e7e26ec5a51003997d258">equalToleranceGeneral</a>).minCoeff();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    };</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">   63</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; point, Iterator begin, Iterator end, <span class="keywordtype">double</span> * value = <span class="keyword">nullptr</span>, P p = P{}) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">auto</span> bestMatch = begin;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">double</span> bestValue = point.dot(std::invoke(p, *bestMatch));</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">while</span> ( (++begin) &lt; end ) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> currValue = point.dot(std::invoke(p, *begin));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">if</span> ( currValue &gt; bestValue || ( currValue == bestValue &amp;&amp; <a class="code" href="namespaceAIToolbox.html#ae6677e729c627e5bc93cc80679d57eff">veccmp</a>(std::invoke(p, *begin), std::invoke(p, *bestMatch)) &gt; 0 ) ) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                bestMatch = begin;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                bestValue = currValue;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">if</span> ( value ) *value = bestValue;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> bestMatch;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">   92</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">findBestAtSimplexCorner</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> corner, Iterator begin, Iterator end, <span class="keywordtype">double</span> * value = <span class="keyword">nullptr</span>, P p = P{}) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">auto</span> bestMatch = begin;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordtype">double</span> bestValue = std::invoke(p, *bestMatch)[corner];</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">while</span> ( (++begin) &lt; end ) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> currValue = std::invoke(p, *begin)[corner];</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">if</span> ( currValue &gt; bestValue || ( currValue == bestValue &amp;&amp; <a class="code" href="namespaceAIToolbox.html#ae6677e729c627e5bc93cc80679d57eff">veccmp</a>(std::invoke(p, *begin), std::invoke(p, *bestMatch)) &gt; 0 ) ) {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                bestMatch = begin;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                bestValue = currValue;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">if</span> ( value ) *value = bestValue;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">return</span> bestMatch;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    }</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a9c125f5564ca7a035861f4bad13f59b1">  135</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#a9c125f5564ca7a035861f4bad13f59b1">findBestDeltaDominated</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; point, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; plane, <span class="keywordtype">double</span> delta, Iterator begin, Iterator end, P p = P{}) {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keyword">auto</span> retval = end;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> * maxPlane = &amp;plane;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordtype">double</span> maxVal = point.dot(*maxPlane);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = begin; it &lt; end; ++it) {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> * newPlane = &amp;std::invoke(p, *it);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> newVal = point.dot(*newPlane);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">if</span> (newVal &gt; maxVal) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">double</span> deltaValue = (newVal - maxVal) / (*newPlane - *maxPlane).norm();</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="keywordflow">if</span> (deltaValue &gt; delta) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                    maxVal = newVal;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                    maxPlane = newPlane;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                    retval = it;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        }</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordflow">return</span> retval;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    }</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a0cda3496f7e84c8247fc3c7fac1c93f2">  174</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#a0cda3496f7e84c8247fc3c7fac1c93f2">extractBestAtPoint</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; point, Iterator begin, Iterator bound, Iterator end, P p = P{}) {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keyword">auto</span> bestMatch = <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(point, begin, end, <span class="keyword">nullptr</span>, p);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordflow">if</span> ( bestMatch &gt;= bound )</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            std::iter_swap(bestMatch, bound++);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="keywordflow">return</span> bound;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#ac8ff7b74b51c088cda28e9371e4c2988">  206</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#ac8ff7b74b51c088cda28e9371e4c2988">extractBestAtSimplexCorners</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> S, Iterator begin, Iterator bound, Iterator end, P p = P{}) {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keywordflow">if</span> ( end == bound ) <span class="keywordflow">return</span> bound;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="comment">// For each corner</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s ) {</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            <span class="keyword">auto</span> bestMatch = <a class="code" href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">findBestAtSimplexCorner</a>(s, begin, end, <span class="keyword">nullptr</span>, p);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">if</span> ( bestMatch &gt;= bound )</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                std::iter_swap(bestMatch, bound++);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        }</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">return</span> bound;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    }</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> PIterator, <span class="keyword">typename</span> VIterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#ac4875f77e08a1ef6b4828279ac74aa23">  245</a></span>&#160;    PIterator <a class="code" href="namespaceAIToolbox.html#ac4875f77e08a1ef6b4828279ac74aa23">extractBestUsefulPoints</a>(PIterator pbegin, PIterator pend, VIterator begin, VIterator end, P p = P{}) {</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> pointsN  = std::distance(pbegin, pend);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> entriesN = std::distance(begin, end);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        std::vector&lt;std::pair&lt;PIterator, double&gt;&gt; bestValues(entriesN, {pend, std::numeric_limits&lt;double&gt;::lowest()});</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> maxBound = pointsN &lt; entriesN ? pend : pbegin + entriesN;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="comment">// So the idea here is that we advance IT only if we found a Point</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="comment">// which supports a previously unsupported Hyperplane. This allows us</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="comment">// to avoid doing later work for compacting the points before the</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="comment">// bound.</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">//</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="comment">// If instead the found Point takes into consideration an already</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="comment">// supported Hyperplane, then it either is better or not. If it&#39;s</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="comment">// better, we swap it with whatever was before. In both cases, the</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="comment">// Point to discard ends up at the end and we decrease the bound.</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keyword">auto</span> it = pbegin;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="keyword">auto</span> bound = pend;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keywordflow">while</span> (it &lt; bound &amp;&amp; it &lt; maxBound) {</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            <span class="keywordtype">double</span> value;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> vId = std::distance(begin, <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(*it, begin, end, &amp;value, p));</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="keywordflow">if</span> (bestValues[vId].second &lt; value) {</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                <span class="keywordflow">if</span> (bestValues[vId].first == pend) {</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                    bestValues[vId] = {it++, value};</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                    bestValues[vId].second = value;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                    std::iter_swap(bestValues[vId].first, it);</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            }</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            std::iter_swap(it, --bound);</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        }</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        <span class="keywordflow">if</span> (it == bound) <span class="keywordflow">return</span> it;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="comment">// If all Hyperplanes have been supported by at least one Point, then</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="comment">// we can finish up the rest with less swaps and checks. Here we only</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="comment">// swap with the best if needed, otherwise we don&#39;t have to do</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        <span class="comment">// anything.</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="comment">//</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="comment">// This is because we can return one Point per Hyperplane at the most,</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="comment">// so if we&#39;re here the bound is not going to move anyway.</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        <span class="keywordflow">while</span> (it &lt; bound) {</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            <span class="keywordtype">double</span> value;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> vId = std::distance(begin, <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(*it, begin, end, &amp;value, p));</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="keywordflow">if</span> (bestValues[vId].second &lt; value) {</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                bestValues[vId].second = value;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                std::iter_swap(bestValues[vId].first, it);</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            }</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            ++it;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        }</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <span class="keywordflow">return</span> maxBound;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    }</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> NewIt, <span class="keyword">typename</span> OldIt, <span class="keyword">typename</span> P1 = std::<span class="keywordtype">id</span>entity, <span class="keyword">typename</span> P2 = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">  337</a></span>&#160;    <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> <a class="code" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">findVerticesNaive</a>(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> vertices;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> alphasSize = std::distance(alphasBegin, alphasEnd);</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="keywordflow">if</span> (alphasSize == 0) <span class="keywordflow">return</span> vertices;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> S = std::invoke(p2, *alphasBegin).size();</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160; </div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="comment">// This enumerator allows us to compute all possible subsets of S-1</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="comment">// elements. We use it on both the alphas, and the boundaries, thus the</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="comment">// number of elements we iterate over is alphasSize + S.</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        SubsetEnumerator enumerator(S - 1, 0ul, alphasSize + S);</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="comment">// This is the matrix on the left side of Ax = b (where A is m)</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a> m(S + 1, S + 1);</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        m.row(0)[S] = -1; <span class="comment">// First row is always a vector</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> boundary(S+1);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        boundary[S] = 0.0; <span class="comment">// The boundary doesn&#39;t care about the value</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="comment">// This is the vector on the right side of Ax = b</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> b(S+1); b.setZero();</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> result(S+1);</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        <span class="comment">// Common matrix/vector setups</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160; </div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> newVIt = beginNew; newVIt != endNew; ++newVIt) {</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            m.row(0).head(S) = std::invoke(p1, *newVIt);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160; </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            enumerator.reset();</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            <span class="comment">// Get subset of planes, find corner with LU</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            <span class="keywordtype">size_t</span> last = 0;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            <span class="keywordflow">while</span> (enumerator.isValid()) {</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                <span class="comment">// Reset boundaries to care about all dimensions</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                boundary.head(S).fill(1.0);</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                <span class="keywordtype">size_t</span> counter = last + 1;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                <span class="comment">// Note that we start from last to avoid re-copying vectors</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                <span class="comment">// that are already in the matrix in their correct place.</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = last; i &lt; enumerator-&gt;size(); ++i) {</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                    <span class="comment">// For each value in the enumerator, if it is less than</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                    <span class="comment">// alphasSize it is referring to an alphaVector we need to</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                    <span class="comment">// take into account.</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> index = (*enumerator)[i];</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                    <span class="keywordflow">if</span> (index &lt; alphasSize) {</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                        <span class="comment">// Copy the right vector in the matrix.</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                        m.row(counter).head(S) = std::invoke(p2, *std::next(alphasBegin, index));</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                        m.row(counter)[S] = -1;</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                        ++counter;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                        <span class="comment">// We limit the index-th dimension (minus alphasSize to scale in a 0-S range)</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                        boundary[index - alphasSize] = 0.0;</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                    }</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                }</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                m.row(counter) = boundary;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                b[counter] = 1.0;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                ++counter;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                <span class="comment">// Note that we only need to consider the first &quot;counter&quot; rows,</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                <span class="comment">// as the boundaries get merged in a single one.</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                result = m.topRows(counter).colPivHouseholderQr().solve(b.head(counter));</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                b[counter-1] = 0.0;</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160; </div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                <span class="comment">// Add to found only if valid, otherwise skip.</span></div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">double</span> max = result.head(S).maxCoeff();</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                <span class="keywordflow">if</span> ((result.head(S).array() &gt;= 0).all() &amp;&amp; (max &lt; 1.0) &amp;&amp; <a class="code" href="namespaceAIToolbox.html#add1da51b88333c412b0978a7e95581f1">checkDifferentSmall</a>(max, 1.0)) {</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                    vertices.first.emplace_back(result.head(S));</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                    vertices.second.emplace_back(result[S]);</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                }</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                <span class="comment">// Advance, and take the id of the first index changed in the</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                <span class="comment">// next combination.</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                last = enumerator.advance();</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160; </div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                <span class="comment">// If the index went over the alpha list, then we&#39;d only have</span></div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                <span class="comment">// boundaries, but we don&#39;t care about those cases (since we</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                <span class="comment">// assume we already have the corners of the simplex computed).</span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                <span class="comment">// Thus, terminate.</span></div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                <span class="keywordflow">if</span> ((*enumerator)[0] &gt;= alphasSize) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            }</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        }</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <span class="keywordflow">return</span> vertices;</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    }</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160; </div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
-<div class="line"><a name="l00434"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a92a200c6c709aad831698f2bf145d7c1">  434</a></span>&#160;    <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> <a class="code" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">findVerticesNaive</a>(<span class="keyword">const</span> Range &amp; range, P p = P{}) {</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> retval;</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160; </div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        std::array&lt;size_t, 1&gt; indexToSkip;</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160; </div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        <span class="keyword">auto</span> goodBegin = range.cbegin();</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; range.size(); ++i, ++goodBegin) {</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;            <span class="comment">// For each alpha, we find its vertices against the others.</span></div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;            indexToSkip[0] = i;</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            <a class="code" href="namespaceAIToolbox.html#a0ad1be4bb3c810a6b25373d91a28038e">IndexSkipMap</a> map(&amp;indexToSkip, range);</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160; </div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> cbegin = map.cbegin();</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> cend   = map.cend();</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160; </div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;            <span class="comment">// Note that the range we pass here is made by a single vector.</span></div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            <span class="keyword">auto</span> newVertices = <a class="code" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">findVerticesNaive</a>(goodBegin, goodBegin + 1, cbegin, cend, p, p);</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            retval.first.insert(std::end(retval.first),</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;                std::make_move_iterator(std::begin(newVertices.first)),</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                std::make_move_iterator(std::end(newVertices.first))</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            );</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            retval.second.insert(std::end(retval.second),</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                std::make_move_iterator(std::begin(newVertices.second)),</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                std::make_move_iterator(std::end(newVertices.second))</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            );</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        }</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        <span class="keywordflow">return</span> retval;</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;    }</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160; </div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="namespaceAIToolbox.html#a6b0abfe5d76cd15d737279e7955cbea6">computeOptimisticValue</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; p, <span class="keyword">const</span> std::vector&lt;Point&gt; &amp; points, <span class="keyword">const</span> std::vector&lt;double&gt; &amp; values);</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    std::tuple&lt;double, Vector&gt; <a class="code" href="namespaceAIToolbox.html#ab6541804d91ba3c11903fd8d29f34bcc">LPInterpolation</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; p, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">CompactHyperplanes</a> &amp; ubQ, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> &amp; ubV);</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160; </div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;    std::tuple&lt;double, Vector&gt; <a class="code" href="namespaceAIToolbox.html#a3aec9476bc80e36874b755a4cf111dce">sawtoothInterpolation</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; p, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">CompactHyperplanes</a> &amp; ubQ, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> &amp; ubV);</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160; </div>
-<div class="line"><a name="l00548"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1WitnessLP.html">  548</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1WitnessLP.html">WitnessLP</a> {</div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;            <a class="code" href="classAIToolbox_1_1WitnessLP.html#a559d8ca0b794ff088a69389efe5a7330">WitnessLP</a>(<span class="keywordtype">size_t</span> S);</div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160; </div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1WitnessLP.html#a131f5184dc461deae77a17cf5c6aba8b">addOptimalRow</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; v);</div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160; </div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;            std::optional&lt;Point&gt; <a class="code" href="classAIToolbox_1_1WitnessLP.html#a4e939ffe6732320bf3da657859ba8f9a">findWitness</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; v);</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160; </div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1WitnessLP.html#a8383736865bdd8211281c49272dc12c2">reset</a>();</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160; </div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1WitnessLP.html#adb8f2d32ce64a4c7d77e8c4687c3c8e9">allocate</a>(<span class="keywordtype">size_t</span> rows);</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160; </div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;            <span class="keywordtype">size_t</span> S;</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;            <a class="code" href="classAIToolbox_1_1LP.html">LP</a> lp_;</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    };</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;}</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160; </div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;optional&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="TypeTraits_8hpp.html">AIToolbox/TypeTraits.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Utils_2Core_8hpp.html">AIToolbox/Utils/Core.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Combinatorics_8hpp.html">AIToolbox/Utils/Combinatorics.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="LP_8hpp.html">AIToolbox/Utils/LP.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceAIToolbox.html">AIToolbox</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">   19</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> = <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">   24</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> = <a class="code" href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">ProbabilityVector</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">   29</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> = std::pair&lt;std::vector&lt;Point&gt;, std::vector&lt;double&gt;&gt;;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">   34</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">CompactHyperplanes</a> = <a class="code" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#afa6c3c00a1d06d54b24559c996972183">   44</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="namespaceAIToolbox.html#afa6c3c00a1d06d54b24559c996972183">dominates</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; lhs, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; rhs) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> (lhs.array() - rhs.array() &gt;= -<a class="code" href="namespaceAIToolbox.html#a395f82018bc6d027736805fec404d482">equalToleranceSmall</a>).minCoeff() ||</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;               (lhs.array() - rhs.array() &gt;= -lhs.array().min(rhs.array()) * <a class="code" href="namespaceAIToolbox.html#ad6fe7471894e7e26ec5a51003997d258">equalToleranceGeneral</a>).minCoeff();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    };</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">   64</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; point, Iterator begin, Iterator end, <span class="keywordtype">double</span> * value = <span class="keyword">nullptr</span>, P p = P{}) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">auto</span> bestMatch = begin;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordtype">double</span> bestValue = point.dot(std::invoke(p, *bestMatch));</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">while</span> ( (++begin) &lt; end ) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> currValue = point.dot(std::invoke(p, *begin));</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordflow">if</span> ( currValue &gt; bestValue || ( currValue == bestValue &amp;&amp; <a class="code" href="namespaceAIToolbox.html#ae6677e729c627e5bc93cc80679d57eff">veccmp</a>(std::invoke(p, *begin), std::invoke(p, *bestMatch)) &gt; 0 ) ) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                bestMatch = begin;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                bestValue = currValue;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">if</span> ( value ) *value = bestValue;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">return</span> bestMatch;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">   93</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">findBestAtSimplexCorner</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> corner, Iterator begin, Iterator end, <span class="keywordtype">double</span> * value = <span class="keyword">nullptr</span>, P p = P{}) {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">auto</span> bestMatch = begin;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">double</span> bestValue = std::invoke(p, *bestMatch)[corner];</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">while</span> ( (++begin) &lt; end ) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> currValue = std::invoke(p, *begin)[corner];</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">if</span> ( currValue &gt; bestValue || ( currValue == bestValue &amp;&amp; <a class="code" href="namespaceAIToolbox.html#ae6677e729c627e5bc93cc80679d57eff">veccmp</a>(std::invoke(p, *begin), std::invoke(p, *bestMatch)) &gt; 0 ) ) {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                bestMatch = begin;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                bestValue = currValue;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">if</span> ( value ) *value = bestValue;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">return</span> bestMatch;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a9c125f5564ca7a035861f4bad13f59b1">  136</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#a9c125f5564ca7a035861f4bad13f59b1">findBestDeltaDominated</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; point, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; plane, <span class="keywordtype">double</span> delta, Iterator begin, Iterator end, P p = P{}) {</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keyword">auto</span> retval = end;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> * maxPlane = &amp;plane;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordtype">double</span> maxVal = point.dot(*maxPlane);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = begin; it &lt; end; ++it) {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> * newPlane = &amp;std::invoke(p, *it);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> newVal = point.dot(*newPlane);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordflow">if</span> (newVal &gt; maxVal) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">double</span> deltaValue = (newVal - maxVal) / (*newPlane - *maxPlane).norm();</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="keywordflow">if</span> (deltaValue &gt; delta) {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                    maxVal = newVal;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                    maxPlane = newPlane;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    retval = it;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                }</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            }</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">return</span> retval;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    }</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a0cda3496f7e84c8247fc3c7fac1c93f2">  175</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#a0cda3496f7e84c8247fc3c7fac1c93f2">extractBestAtPoint</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; point, Iterator begin, Iterator bound, Iterator end, P p = P{}) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keyword">auto</span> bestMatch = <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(point, begin, end, <span class="keyword">nullptr</span>, p);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">if</span> ( bestMatch &gt;= bound )</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            std::iter_swap(bestMatch, bound++);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keywordflow">return</span> bound;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    }</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00207"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#ac8ff7b74b51c088cda28e9371e4c2988">  207</a></span>&#160;    Iterator <a class="code" href="namespaceAIToolbox.html#ac8ff7b74b51c088cda28e9371e4c2988">extractBestAtSimplexCorners</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> S, Iterator begin, Iterator bound, Iterator end, P p = P{}) {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">if</span> ( end == bound ) <span class="keywordflow">return</span> bound;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="comment">// For each corner</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s ) {</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="keyword">auto</span> bestMatch = <a class="code" href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">findBestAtSimplexCorner</a>(s, begin, end, <span class="keyword">nullptr</span>, p);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            <span class="keywordflow">if</span> ( bestMatch &gt;= bound )</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                std::iter_swap(bestMatch, bound++);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        }</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">return</span> bound;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    }</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> PIterator, <span class="keyword">typename</span> VIterator, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00246"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#ac4875f77e08a1ef6b4828279ac74aa23">  246</a></span>&#160;    PIterator <a class="code" href="namespaceAIToolbox.html#ac4875f77e08a1ef6b4828279ac74aa23">extractBestUsefulPoints</a>(PIterator pbegin, PIterator pend, VIterator begin, VIterator end, P p = P{}) {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> pointsN  = std::distance(pbegin, pend);</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> entriesN = std::distance(begin, end);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        std::vector&lt;std::pair&lt;PIterator, double&gt;&gt; bestValues(entriesN, {pend, std::numeric_limits&lt;double&gt;::lowest()});</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> maxBound = pointsN &lt; entriesN ? pend : pbegin + entriesN;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="comment">// So the idea here is that we advance IT only if we found a Point</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="comment">// which supports a previously unsupported Hyperplane. This allows us</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="comment">// to avoid doing later work for compacting the points before the</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">// bound.</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="comment">//</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="comment">// If instead the found Point takes into consideration an already</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="comment">// supported Hyperplane, then it either is better or not. If it&#39;s</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="comment">// better, we swap it with whatever was before. In both cases, the</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="comment">// Point to discard ends up at the end and we decrease the bound.</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="keyword">auto</span> it = pbegin;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keyword">auto</span> bound = pend;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        <span class="keywordflow">while</span> (it &lt; bound &amp;&amp; it &lt; maxBound) {</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            <span class="keywordtype">double</span> value;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> vId = std::distance(begin, <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(*it, begin, end, &amp;value, p));</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">if</span> (bestValues[vId].second &lt; value) {</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">if</span> (bestValues[vId].first == pend) {</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                    bestValues[vId] = {it++, value};</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                    bestValues[vId].second = value;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    std::iter_swap(bestValues[vId].first, it);</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                }</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            }</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            std::iter_swap(it, --bound);</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        }</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keywordflow">if</span> (it == bound) <span class="keywordflow">return</span> it;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="comment">// If all Hyperplanes have been supported by at least one Point, then</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="comment">// we can finish up the rest with less swaps and checks. Here we only</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        <span class="comment">// swap with the best if needed, otherwise we don&#39;t have to do</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="comment">// anything.</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="comment">//</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="comment">// This is because we can return one Point per Hyperplane at the most,</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        <span class="comment">// so if we&#39;re here the bound is not going to move anyway.</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="keywordflow">while</span> (it &lt; bound) {</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            <span class="keywordtype">double</span> value;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> vId = std::distance(begin, <a class="code" href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">findBestAtPoint</a>(*it, begin, end, &amp;value, p));</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordflow">if</span> (bestValues[vId].second &lt; value) {</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                bestValues[vId].second = value;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                std::iter_swap(bestValues[vId].first, it);</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            }</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;            ++it;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        }</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">return</span> maxBound;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    }</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> NewIt, <span class="keyword">typename</span> OldIt, <span class="keyword">typename</span> P1 = std::<span class="keywordtype">id</span>entity, <span class="keyword">typename</span> P2 = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00338"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">  338</a></span>&#160;    <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> <a class="code" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">findVerticesNaive</a>(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1 = P1{}, P2 p2 = P2{}) {</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> vertices;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> alphasSize = std::distance(alphasBegin, alphasEnd);</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="keywordflow">if</span> (alphasSize == 0) <span class="keywordflow">return</span> vertices;</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> S = std::invoke(p2, *alphasBegin).size();</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="comment">// This enumerator allows us to compute all possible subsets of S-1</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="comment">// elements. We use it on both the alphas, and the boundaries, thus the</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        <span class="comment">// number of elements we iterate over is alphasSize + S.</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        SubsetEnumerator enumerator(S - 1, 0ul, alphasSize + S);</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <span class="comment">// This is the matrix on the left side of Ax = b (where A is m)</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a> m(S + 1, S + 1);</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        m.row(0)[S] = -1; <span class="comment">// First row is always a vector</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> boundary(S+1);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        boundary[S] = 0.0; <span class="comment">// The boundary doesn&#39;t care about the value</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <span class="comment">// This is the vector on the right side of Ax = b</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> b(S+1); b.setZero();</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> result(S+1);</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="comment">// Common matrix/vector setups</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> newVIt = beginNew; newVIt != endNew; ++newVIt) {</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            m.row(0).head(S) = std::invoke(p1, *newVIt);</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160; </div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            enumerator.reset();</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            <span class="comment">// Get subset of planes, find corner with LU</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            <span class="keywordtype">size_t</span> last = 0;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            <span class="keywordflow">while</span> (enumerator.isValid()) {</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                <span class="comment">// Reset boundaries to care about all dimensions</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                boundary.head(S).fill(1.0);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                <span class="keywordtype">size_t</span> counter = last + 1;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                <span class="comment">// Note that we start from last to avoid re-copying vectors</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                <span class="comment">// that are already in the matrix in their correct place.</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = last; i &lt; enumerator-&gt;size(); ++i) {</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                    <span class="comment">// For each value in the enumerator, if it is less than</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                    <span class="comment">// alphasSize it is referring to an alphaVector we need to</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                    <span class="comment">// take into account.</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> index = (*enumerator)[i];</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                    <span class="keywordflow">if</span> (index &lt; alphasSize) {</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                        <span class="comment">// Copy the right vector in the matrix.</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                        m.row(counter).head(S) = std::invoke(p2, *std::next(alphasBegin, index));</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                        m.row(counter)[S] = -1;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                        ++counter;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                        <span class="comment">// We limit the index-th dimension (minus alphasSize to scale in a 0-S range)</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                        boundary[index - alphasSize] = 0.0;</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                    }</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                }</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                m.row(counter) = boundary;</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                b[counter] = 1.0;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                ++counter;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; </div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                <span class="comment">// Note that we only need to consider the first &quot;counter&quot; rows,</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                <span class="comment">// as the boundaries get merged in a single one.</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                result = m.topRows(counter).colPivHouseholderQr().solve(b.head(counter));</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160; </div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                b[counter-1] = 0.0;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160; </div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                <span class="comment">// Add to found only if valid, otherwise skip.</span></div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">double</span> max = result.head(S).maxCoeff();</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                <span class="keywordflow">if</span> ((result.head(S).array() &gt;= 0).all() &amp;&amp; (max &lt; 1.0) &amp;&amp; <a class="code" href="namespaceAIToolbox.html#add1da51b88333c412b0978a7e95581f1">checkDifferentSmall</a>(max, 1.0)) {</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                    vertices.first.emplace_back(result.head(S));</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                    vertices.second.emplace_back(result[S]);</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                }</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160; </div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                <span class="comment">// Advance, and take the id of the first index changed in the</span></div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                <span class="comment">// next combination.</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                last = enumerator.advance();</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160; </div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                <span class="comment">// If the index went over the alpha list, then we&#39;d only have</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                <span class="comment">// boundaries, but we don&#39;t care about those cases (since we</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                <span class="comment">// assume we already have the corners of the simplex computed).</span></div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                <span class="comment">// Thus, terminate.</span></div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                <span class="keywordflow">if</span> ((*enumerator)[0] &gt;= alphasSize) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            }</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        }</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        <span class="keywordflow">return</span> vertices;</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    }</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160; </div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> P = std::<span class="keywordtype">id</span>entity&gt;</div>
+<div class="line"><a name="l00435"></a><span class="lineno"><a class="line" href="namespaceAIToolbox.html#a92a200c6c709aad831698f2bf145d7c1">  435</a></span>&#160;    <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> <a class="code" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">findVerticesNaive</a>(<span class="keyword">const</span> Range &amp; range, P p = P{}) {</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> retval;</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160; </div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        std::array&lt;size_t, 1&gt; indexToSkip;</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160; </div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="keyword">auto</span> goodBegin = range.cbegin();</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; range.size(); ++i, ++goodBegin) {</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;            <span class="comment">// For each alpha, we find its vertices against the others.</span></div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            indexToSkip[0] = i;</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            <a class="code" href="namespaceAIToolbox.html#a0ad1be4bb3c810a6b25373d91a28038e">IndexSkipMap</a> map(&amp;indexToSkip, range);</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> cbegin = map.cbegin();</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span> cend   = map.cend();</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            <span class="comment">// Note that the range we pass here is made by a single vector.</span></div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            <span class="keyword">auto</span> newVertices = <a class="code" href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">findVerticesNaive</a>(goodBegin, goodBegin + 1, cbegin, cend, p, p);</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            retval.first.insert(std::end(retval.first),</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                std::make_move_iterator(std::begin(newVertices.first)),</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                std::make_move_iterator(std::end(newVertices.first))</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            );</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;            retval.second.insert(std::end(retval.second),</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                std::make_move_iterator(std::begin(newVertices.second)),</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                std::make_move_iterator(std::end(newVertices.second))</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;            );</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        }</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        <span class="keywordflow">return</span> retval;</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    }</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160; </div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="namespaceAIToolbox.html#a6b0abfe5d76cd15d737279e7955cbea6">computeOptimisticValue</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; p, <span class="keyword">const</span> std::vector&lt;Point&gt; &amp; points, <span class="keyword">const</span> std::vector&lt;double&gt; &amp; values);</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160; </div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    std::tuple&lt;double, Vector&gt; <a class="code" href="namespaceAIToolbox.html#ab6541804d91ba3c11903fd8d29f34bcc">LPInterpolation</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; p, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">CompactHyperplanes</a> &amp; ubQ, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> &amp; ubV);</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160; </div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;    std::tuple&lt;double, Vector&gt; <a class="code" href="namespaceAIToolbox.html#a3aec9476bc80e36874b755a4cf111dce">sawtoothInterpolation</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">Point</a> &amp; p, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">CompactHyperplanes</a> &amp; ubQ, <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">PointSurface</a> &amp; ubV);</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160; </div>
+<div class="line"><a name="l00549"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1WitnessLP.html">  549</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1WitnessLP.html">WitnessLP</a> {</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;        <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;            <a class="code" href="classAIToolbox_1_1WitnessLP.html#a559d8ca0b794ff088a69389efe5a7330">WitnessLP</a>(<span class="keywordtype">size_t</span> S);</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160; </div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1WitnessLP.html#a131f5184dc461deae77a17cf5c6aba8b">addOptimalRow</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; v);</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160; </div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;            std::optional&lt;Point&gt; <a class="code" href="classAIToolbox_1_1WitnessLP.html#a4e939ffe6732320bf3da657859ba8f9a">findWitness</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">Hyperplane</a> &amp; v);</div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160; </div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1WitnessLP.html#a8383736865bdd8211281c49272dc12c2">reset</a>();</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160; </div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1WitnessLP.html#adb8f2d32ce64a4c7d77e8c4687c3c8e9">allocate</a>(<span class="keywordtype">size_t</span> rows);</div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160; </div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;            <span class="keywordtype">size_t</span> S;</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;            <a class="code" href="classAIToolbox_1_1LP.html">LP</a> lp_;</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;    };</div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;}</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160; </div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespaceAIToolbox_html_add1da51b88333c412b0978a7e95581f1"><div class="ttname"><a href="namespaceAIToolbox.html#add1da51b88333c412b0978a7e95581f1">AIToolbox::checkDifferentSmall</a></div><div class="ttdeci">bool checkDifferentSmall(const double a, const double b)</div><div class="ttdoc">This function checks if two doubles near [0,1] are reasonably different.</div><div class="ttdef"><b>Definition:</b> Core.hpp:60</div></div>
 <div class="ttc" id="aUtils_2Core_8hpp_html"><div class="ttname"><a href="Utils_2Core_8hpp.html">Core.hpp</a></div></div>
 <div class="ttc" id="aclassAIToolbox_1_1WitnessLP_html_a559d8ca0b794ff088a69389efe5a7330"><div class="ttname"><a href="classAIToolbox_1_1WitnessLP.html#a559d8ca0b794ff088a69389efe5a7330">AIToolbox::WitnessLP::WitnessLP</a></div><div class="ttdeci">WitnessLP(size_t S)</div><div class="ttdoc">Basic constructor.</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_a196a2986a1edf009b2c2f057aae24b71"><div class="ttname"><a href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">AIToolbox::CompactHyperplanes</a></div><div class="ttdeci">Matrix2D CompactHyperplanes</div><div class="ttdoc">A compact set of (probably |A|) hyperplanes, one per column (probably |S| rows). This is generally us...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:33</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_a9c125f5564ca7a035861f4bad13f59b1"><div class="ttname"><a href="namespaceAIToolbox.html#a9c125f5564ca7a035861f4bad13f59b1">AIToolbox::findBestDeltaDominated</a></div><div class="ttdeci">Iterator findBestDeltaDominated(const Point &amp;point, const Hyperplane &amp;plane, double delta, Iterator begin, Iterator end, P p=P{})</div><div class="ttdoc">This function returns, if it exists, an iterator to the highest Hyperplane that delta-dominates the i...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:135</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_af8ab0db4b1347fdd3a0b383a185b9f98"><div class="ttname"><a href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">AIToolbox::findVerticesNaive</a></div><div class="ttdeci">PointSurface findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1=P1{}, P2 p2=P2{})</div><div class="ttdoc">This function implements a naive vertex enumeration algorithm.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:337</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_a196a2986a1edf009b2c2f057aae24b71"><div class="ttname"><a href="namespaceAIToolbox.html#a196a2986a1edf009b2c2f057aae24b71">AIToolbox::CompactHyperplanes</a></div><div class="ttdeci">Matrix2D CompactHyperplanes</div><div class="ttdoc">A compact set of (probably |A|) hyperplanes, one per column (probably |S| rows). This is generally us...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:34</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_a9c125f5564ca7a035861f4bad13f59b1"><div class="ttname"><a href="namespaceAIToolbox.html#a9c125f5564ca7a035861f4bad13f59b1">AIToolbox::findBestDeltaDominated</a></div><div class="ttdeci">Iterator findBestDeltaDominated(const Point &amp;point, const Hyperplane &amp;plane, double delta, Iterator begin, Iterator end, P p=P{})</div><div class="ttdoc">This function returns, if it exists, an iterator to the highest Hyperplane that delta-dominates the i...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:136</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_af8ab0db4b1347fdd3a0b383a185b9f98"><div class="ttname"><a href="namespaceAIToolbox.html#af8ab0db4b1347fdd3a0b383a185b9f98">AIToolbox::findVerticesNaive</a></div><div class="ttdeci">PointSurface findVerticesNaive(NewIt beginNew, NewIt endNew, OldIt alphasBegin, OldIt alphasEnd, P1 p1=P1{}, P2 p2=P2{})</div><div class="ttdoc">This function implements a naive vertex enumeration algorithm.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:338</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_ae6677e729c627e5bc93cc80679d57eff"><div class="ttname"><a href="namespaceAIToolbox.html#ae6677e729c627e5bc93cc80679d57eff">AIToolbox::veccmp</a></div><div class="ttdeci">std::strong_ordering veccmp(const V &amp;lhs, const V &amp;rhs)</div><div class="ttdoc">This function compares two general vectors of equal size lexicographically.</div><div class="ttdef"><b>Definition:</b> Core.hpp:158</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_afc68b38e82940ad0963445f1a44ce64a"><div class="ttname"><a href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">AIToolbox::findBestAtSimplexCorner</a></div><div class="ttdeci">Iterator findBestAtSimplexCorner(const size_t corner, Iterator begin, Iterator end, double *value=nullptr, P p=P{})</div><div class="ttdoc">This function returns an iterator pointing to the best Hyperplane for the specified corner of the sim...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:92</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_afc68b38e82940ad0963445f1a44ce64a"><div class="ttname"><a href="namespaceAIToolbox.html#afc68b38e82940ad0963445f1a44ce64a">AIToolbox::findBestAtSimplexCorner</a></div><div class="ttdeci">Iterator findBestAtSimplexCorner(const size_t corner, Iterator begin, Iterator end, double *value=nullptr, P p=P{})</div><div class="ttdoc">This function returns an iterator pointing to the best Hyperplane for the specified corner of the sim...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:93</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a9d66d3e9eba8d23aeef6c6b865b6965a"><div class="ttname"><a href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">AIToolbox::Matrix2D</a></div><div class="ttdeci">Eigen::Matrix&lt; double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor|Eigen::AutoAlign &gt; Matrix2D</div><div class="ttdef"><b>Definition:</b> Types.hpp:18</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1WitnessLP_html_a131f5184dc461deae77a17cf5c6aba8b"><div class="ttname"><a href="classAIToolbox_1_1WitnessLP.html#a131f5184dc461deae77a17cf5c6aba8b">AIToolbox::WitnessLP::addOptimalRow</a></div><div class="ttdeci">void addOptimalRow(const Hyperplane &amp;v)</div><div class="ttdoc">This function adds a new optimal constraint to the LP, which will not be removed unless the LP is res...</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_a0cda3496f7e84c8247fc3c7fac1c93f2"><div class="ttname"><a href="namespaceAIToolbox.html#a0cda3496f7e84c8247fc3c7fac1c93f2">AIToolbox::extractBestAtPoint</a></div><div class="ttdeci">Iterator extractBestAtPoint(const Point &amp;point, Iterator begin, Iterator bound, Iterator end, P p=P{})</div><div class="ttdoc">This function finds and moves the Hyperplane with the highest value for the given point at the beginn...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:174</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_a0cda3496f7e84c8247fc3c7fac1c93f2"><div class="ttname"><a href="namespaceAIToolbox.html#a0cda3496f7e84c8247fc3c7fac1c93f2">AIToolbox::extractBestAtPoint</a></div><div class="ttdeci">Iterator extractBestAtPoint(const Point &amp;point, Iterator begin, Iterator bound, Iterator end, P p=P{})</div><div class="ttdoc">This function finds and moves the Hyperplane with the highest value for the given point at the beginn...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:175</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1WitnessLP_html_a4e939ffe6732320bf3da657859ba8f9a"><div class="ttname"><a href="classAIToolbox_1_1WitnessLP.html#a4e939ffe6732320bf3da657859ba8f9a">AIToolbox::WitnessLP::findWitness</a></div><div class="ttdeci">std::optional&lt; Point &gt; findWitness(const Hyperplane &amp;v)</div><div class="ttdoc">This function solves the currently set LP.</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a1e6976de7a0159cd1630c4f2553fc9f3"><div class="ttname"><a href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">AIToolbox::Vector</a></div><div class="ttdeci">Eigen::Matrix&lt; double, Eigen::Dynamic, 1 &gt; Vector</div><div class="ttdef"><b>Definition:</b> Types.hpp:16</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1LP_html"><div class="ttname"><a href="classAIToolbox_1_1LP.html">AIToolbox::LP</a></div><div class="ttdoc">This class presents a common interface for solving Linear Programming problems.</div><div class="ttdef"><b>Definition:</b> LP.hpp:23</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_ac8ff7b74b51c088cda28e9371e4c2988"><div class="ttname"><a href="namespaceAIToolbox.html#ac8ff7b74b51c088cda28e9371e4c2988">AIToolbox::extractBestAtSimplexCorners</a></div><div class="ttdeci">Iterator extractBestAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end, P p=P{})</div><div class="ttdoc">This function finds and moves all best Hyperplanes in the simplex corners at the beginning of the spe...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:206</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_a967d7ac0afaa61470bc00b04df196dca"><div class="ttname"><a href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">AIToolbox::Hyperplane</a></div><div class="ttdeci">Vector Hyperplane</div><div class="ttdoc">Defines a plane in a simplex where each value is the height at that corner.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:18</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_ac8ff7b74b51c088cda28e9371e4c2988"><div class="ttname"><a href="namespaceAIToolbox.html#ac8ff7b74b51c088cda28e9371e4c2988">AIToolbox::extractBestAtSimplexCorners</a></div><div class="ttdeci">Iterator extractBestAtSimplexCorners(const size_t S, Iterator begin, Iterator bound, Iterator end, P p=P{})</div><div class="ttdoc">This function finds and moves all best Hyperplanes in the simplex corners at the beginning of the spe...</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:207</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_a967d7ac0afaa61470bc00b04df196dca"><div class="ttname"><a href="namespaceAIToolbox.html#a967d7ac0afaa61470bc00b04df196dca">AIToolbox::Hyperplane</a></div><div class="ttdeci">Vector Hyperplane</div><div class="ttdoc">Defines a plane in a simplex where each value is the height at that corner.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:19</div></div>
 <div class="ttc" id="aTypeTraits_8hpp_html"><div class="ttname"><a href="TypeTraits_8hpp.html">TypeTraits.hpp</a></div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a395f82018bc6d027736805fec404d482"><div class="ttname"><a href="namespaceAIToolbox.html#a395f82018bc6d027736805fec404d482">AIToolbox::equalToleranceSmall</a></div><div class="ttdeci">constexpr auto equalToleranceSmall</div><div class="ttdoc">This is the max absolute difference for which two values can be considered equal.</div><div class="ttdef"><b>Definition:</b> Core.hpp:14</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_a917e72df43c1ed5e15caa4e8d8b80552"><div class="ttname"><a href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">AIToolbox::Point</a></div><div class="ttdeci">ProbabilityVector Point</div><div class="ttdoc">Defines a point inside a simplex. Coordinates sum to 1.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:23</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_a917e72df43c1ed5e15caa4e8d8b80552"><div class="ttname"><a href="namespaceAIToolbox.html#a917e72df43c1ed5e15caa4e8d8b80552">AIToolbox::Point</a></div><div class="ttdeci">ProbabilityVector Point</div><div class="ttdoc">Defines a point inside a simplex. Coordinates sum to 1.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:24</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_ad6fe7471894e7e26ec5a51003997d258"><div class="ttname"><a href="namespaceAIToolbox.html#ad6fe7471894e7e26ec5a51003997d258">AIToolbox::equalToleranceGeneral</a></div><div class="ttdeci">constexpr auto equalToleranceGeneral</div><div class="ttdef"><b>Definition:</b> Core.hpp:18</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a3aec9476bc80e36874b755a4cf111dce"><div class="ttname"><a href="namespaceAIToolbox.html#a3aec9476bc80e36874b755a4cf111dce">AIToolbox::sawtoothInterpolation</a></div><div class="ttdeci">std::tuple&lt; double, Vector &gt; sawtoothInterpolation(const Point &amp;p, const CompactHyperplanes &amp;ubQ, const PointSurface &amp;ubV)</div><div class="ttdoc">This function computes an approximate, but quick, upper bound on the surface value at the input point...</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html"><div class="ttname"><a href="namespaceAIToolbox.html">AIToolbox</a></div><div class="ttdef"><b>Definition:</b> Experience.hpp:6</div></div>
 <div class="ttc" id="aLP_8hpp_html"><div class="ttname"><a href="LP_8hpp.html">LP.hpp</a></div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_a5baa50917e25aabd8cb3e292ce37d040"><div class="ttname"><a href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">AIToolbox::PointSurface</a></div><div class="ttdeci">std::pair&lt; std::vector&lt; Point &gt;, std::vector&lt; double &gt; &gt; PointSurface</div><div class="ttdoc">A surface within a simplex defined by points and their height. Should not contain the corners.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:28</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_a5baa50917e25aabd8cb3e292ce37d040"><div class="ttname"><a href="namespaceAIToolbox.html#a5baa50917e25aabd8cb3e292ce37d040">AIToolbox::PointSurface</a></div><div class="ttdeci">std::pair&lt; std::vector&lt; Point &gt;, std::vector&lt; double &gt; &gt; PointSurface</div><div class="ttdoc">A surface within a simplex defined by points and their height. Should not contain the corners.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:29</div></div>
 <div class="ttc" id="aCombinatorics_8hpp_html"><div class="ttname"><a href="Combinatorics_8hpp.html">Combinatorics.hpp</a></div></div>
 <div class="ttc" id="aclassAIToolbox_1_1WitnessLP_html_a8383736865bdd8211281c49272dc12c2"><div class="ttname"><a href="classAIToolbox_1_1WitnessLP.html#a8383736865bdd8211281c49272dc12c2">AIToolbox::WitnessLP::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">This function resets the internal LP to only the simplex constraint.</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a6b0abfe5d76cd15d737279e7955cbea6"><div class="ttname"><a href="namespaceAIToolbox.html#a6b0abfe5d76cd15d737279e7955cbea6">AIToolbox::computeOptimisticValue</a></div><div class="ttdeci">double computeOptimisticValue(const Point &amp;p, const std::vector&lt; Point &gt; &amp;points, const std::vector&lt; double &gt; &amp;values)</div><div class="ttdoc">This function computes the optimistic value of a point given known vertices and values.</div></div>
-<div class="ttc" id="aclassAIToolbox_1_1WitnessLP_html"><div class="ttname"><a href="classAIToolbox_1_1WitnessLP.html">AIToolbox::WitnessLP</a></div><div class="ttdoc">This class implements an easy interface to do Witness discovery through linear programming.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:548</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_ac4875f77e08a1ef6b4828279ac74aa23"><div class="ttname"><a href="namespaceAIToolbox.html#ac4875f77e08a1ef6b4828279ac74aa23">AIToolbox::extractBestUsefulPoints</a></div><div class="ttdeci">PIterator extractBestUsefulPoints(PIterator pbegin, PIterator pend, VIterator begin, VIterator end, P p=P{})</div><div class="ttdoc">This function finds and moves all non-useful points at the end of the input range.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:245</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1WitnessLP_html"><div class="ttname"><a href="classAIToolbox_1_1WitnessLP.html">AIToolbox::WitnessLP</a></div><div class="ttdoc">This class implements an easy interface to do Witness discovery through linear programming.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:549</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_ac4875f77e08a1ef6b4828279ac74aa23"><div class="ttname"><a href="namespaceAIToolbox.html#ac4875f77e08a1ef6b4828279ac74aa23">AIToolbox::extractBestUsefulPoints</a></div><div class="ttdeci">PIterator extractBestUsefulPoints(PIterator pbegin, PIterator pend, VIterator begin, VIterator end, P p=P{})</div><div class="ttdoc">This function finds and moves all non-useful points at the end of the input range.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:246</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1WitnessLP_html_adb8f2d32ce64a4c7d77e8c4687c3c8e9"><div class="ttname"><a href="classAIToolbox_1_1WitnessLP.html#adb8f2d32ce64a4c7d77e8c4687c3c8e9">AIToolbox::WitnessLP::allocate</a></div><div class="ttdeci">void allocate(size_t rows)</div><div class="ttdoc">This function reserves space for a certain amount of rows (not counting the simplex) to avoid realloc...</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_a1b4429b1f3771a012553ce96c2760f8a"><div class="ttname"><a href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">AIToolbox::findBestAtPoint</a></div><div class="ttdeci">Iterator findBestAtPoint(const Point &amp;point, Iterator begin, Iterator end, double *value=nullptr, P p=P{})</div><div class="ttdoc">This function returns an iterator pointing to the best Hyperplane for the specified point.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:63</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_a1b4429b1f3771a012553ce96c2760f8a"><div class="ttname"><a href="namespaceAIToolbox.html#a1b4429b1f3771a012553ce96c2760f8a">AIToolbox::findBestAtPoint</a></div><div class="ttdeci">Iterator findBestAtPoint(const Point &amp;point, Iterator begin, Iterator end, double *value=nullptr, P p=P{})</div><div class="ttdoc">This function returns an iterator pointing to the best Hyperplane for the specified point.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:64</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_af4149b71e91dee03ad9d0c8c207eddf0"><div class="ttname"><a href="namespaceAIToolbox.html#af4149b71e91dee03ad9d0c8c207eddf0">AIToolbox::ProbabilityVector</a></div><div class="ttdeci">Vector ProbabilityVector</div><div class="ttdef"><b>Definition:</b> Types.hpp:34</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a0ad1be4bb3c810a6b25373d91a28038e"><div class="ttname"><a href="namespaceAIToolbox.html#a0ad1be4bb3c810a6b25373d91a28038e">AIToolbox::IndexSkipMap</a></div><div class="ttdeci">IndexSkipMap(std::initializer_list&lt; T &gt; i, Container c) -&gt; IndexSkipMap&lt; std::vector&lt; T &gt;, Container &gt;</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_ab6541804d91ba3c11903fd8d29f34bcc"><div class="ttname"><a href="namespaceAIToolbox.html#ab6541804d91ba3c11903fd8d29f34bcc">AIToolbox::LPInterpolation</a></div><div class="ttdeci">std::tuple&lt; double, Vector &gt; LPInterpolation(const Point &amp;p, const CompactHyperplanes &amp;ubQ, const PointSurface &amp;ubV)</div><div class="ttdoc">This function computes the exact value of the input Point w.r.t. the given surfaces.</div></div>
-<div class="ttc" id="anamespaceAIToolbox_html_afa6c3c00a1d06d54b24559c996972183"><div class="ttname"><a href="namespaceAIToolbox.html#afa6c3c00a1d06d54b24559c996972183">AIToolbox::dominates</a></div><div class="ttdeci">bool dominates(const Hyperplane &amp;lhs, const Hyperplane &amp;rhs)</div><div class="ttdoc">This function checks whether an Hyperplane dominates another.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:43</div></div>
+<div class="ttc" id="anamespaceAIToolbox_html_afa6c3c00a1d06d54b24559c996972183"><div class="ttname"><a href="namespaceAIToolbox.html#afa6c3c00a1d06d54b24559c996972183">AIToolbox::dominates</a></div><div class="ttdeci">bool dominates(const Hyperplane &amp;lhs, const Hyperplane &amp;rhs)</div><div class="ttdoc">This function checks whether an Hyperplane dominates another.</div><div class="ttdef"><b>Definition:</b> Polytope.hpp:44</div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

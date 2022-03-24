@@ -96,6 +96,7 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1Model.html#aa158de739224b5d4efa04bac12114598">AIToolbox::Bandit::Model&lt; Dist &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#af8aaf56c26165cfeff06ad0b261bad9a">AIToolbox::Factored::Bandit::Experience</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1FlattenedModel.html#a4d3ed429e11e67f9ec8eb760f10ea0e0">AIToolbox::Factored::Bandit::FlattenedModel&lt; Dist &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html#a5c810ceebf11a3202bfe2c3f748919dc">AIToolbox::Factored::Bandit::MiningBandit</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html#ac68d2d7c9dfeffbcb3822cca0bbe0af1">AIToolbox::Factored::Bandit::Model&lt; Dist &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#acb468cb54d53f552d09dd0065a52316c">AIToolbox::Factored::DynamicDecisionNetworkGraph</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeExperience.html#a275c2051f4b85ed6cb02b9464216d324">AIToolbox::Factored::MDP::CooperativeExperience</a>
@@ -134,7 +135,9 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a27b493fd7109d9f7cce0f6057b7a01a0">AIToolbox::Bandit::QSoftmaxPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicyWrapper.html#a2715284d0c0504a041a9ab5582904158">AIToolbox::Bandit::QSoftmaxPolicyWrapper&lt; V, Gen &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1RandomPolicy.html#a56e0c4ac1923087ea9151bec9e49b49e">AIToolbox::Bandit::RandomPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a6a5224bc9efa240e42714a74bfa32703">AIToolbox::Bandit::SuccessiveRejectsPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a26f6891f5956dd927e9015fd8bf68607">AIToolbox::Bandit::ThompsonSamplingPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html#aa2b3ac3b1aadb97de1195b6635ee3f28">AIToolbox::Bandit::TopTwoThompsonSamplingPolicy</a>
 , <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface.html#a23f4a142f2db283a8ef34d8669405e34">AIToolbox::EpsilonPolicyInterface&lt; State, Sampling, Action &gt;</a>
 , <a class="el" href="classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a8b056a2d95eefba8a5d7444f259568aa">AIToolbox::EpsilonPolicyInterface&lt; void, void, Action &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html#a35a5ef125a0fd1d0969fbf7a21faa48a">AIToolbox::Factored::Bandit::LLRPolicy</a>
@@ -201,6 +204,12 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 <li>getContainer()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FilterMap.html#a5c7bf7ce8cf66731692e71bd8d532665">AIToolbox::Factored::FilterMap&lt; T, TrieType &gt;</a>
 </li>
+<li>getCurrentNk()
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a4626218bfce9445250b134cd395d2335">AIToolbox::Bandit::SuccessiveRejectsPolicy</a>
+</li>
+<li>getCurrentPhase()
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a235926993100eaf7aef13de767413e86">AIToolbox::Bandit::SuccessiveRejectsPolicy</a>
+</li>
 <li>getData()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html#aad29c5a576c5d901a3e6a459de0e2a1a">AIToolbox::Factored::FactorGraph&lt; FactorData &gt;::FactorNode</a>
 </li>
@@ -212,6 +221,12 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 </li>
 <li>getDeltaW()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1WoLFPolicy.html#aa655065c001b564558715907720519b9">AIToolbox::MDP::WoLFPolicy</a>
+</li>
+<li>getDependencies()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#aec667200a278ccda4aa55c913c29c987">AIToolbox::Factored::Bandit::Experience</a>
+</li>
+<li>getDeterministicRules()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html#ae38126be0cfc2faf0f9d19918ffc8087">AIToolbox::Factored::Bandit::MiningBandit</a>
 </li>
 <li>getDiscount()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a984340b792aeeb7179eb2a7b94359abb">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
@@ -257,11 +272,13 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 , <a class="el" href="classOldMDPModel.html#afa9f2b5caa82fd85edfedbdc98a5bc61">OldMDPModel</a>
 </li>
 <li>getExpectedRewards()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a82d8716ca6161d0fdc140c05471f263a">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a89e87be497ca46ad06230a5ba095c708">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#ab5d4291bf45224e8804d1fbd53b33100">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
 </li>
 <li>getExperience()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html#a10da6ee502bf919a231d364766510801">AIToolbox::Factored::Bandit::LLRPolicy</a>
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a5b9ba236ba108dd847b0d922ddaafbec">AIToolbox::Bandit::ThompsonSamplingPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html#a338313601225eb40178a1cb80232ce1b">AIToolbox::Bandit::TopTwoThompsonSamplingPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html#a10da6ee502bf919a231d364766510801">AIToolbox::Factored::Bandit::LLRPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html#a2fdd8dc92db85c43765dada9b72c5da7">AIToolbox::Factored::Bandit::MAUCEPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a49dd43740024f119ff7060b83d49ab20">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#add2b1ac744d3925a633db7b19abdc5d2">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
@@ -306,7 +323,8 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1TigerAntelope.html#a0f6e91e83b5c4162bfd9c3955feccd4d">AIToolbox::Factored::MDP::TigerAntelope</a>
 </li>
 <li>getGroups()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html#a8c011d2ef233709af8bfcaf70f7fdb44">AIToolbox::Factored::Bandit::Model&lt; Dist &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html#a1b69f844ebd999f7282f5002caf2ccc1">AIToolbox::Factored::Bandit::MiningBandit</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html#a8c011d2ef233709af8bfcaf70f7fdb44">AIToolbox::Factored::Bandit::Model&lt; Dist &gt;</a>
 </li>
 <li>getH()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a44d6ffe6b7863e3f046227330b7f3d55">AIToolbox::POMDP::Policy</a>
@@ -408,6 +426,9 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 <li>getNonZeroPriorities()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1CPSQueue.html#aa582890a648aa197d53c3f7574b9560b">AIToolbox::Factored::CPSQueue</a>
 </li>
+<li>getNormalizationConstant()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html#a92fdfa54b5276405b59d7a3ee7a6c975">AIToolbox::Factored::Bandit::MiningBandit</a>
+</li>
 <li>getO()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#a64630d180c9bb13d2b6ebba7aa084bb0">AIToolbox::POMDP::Model&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html#a09d9665016569d0f06b3782ba0a88184">AIToolbox::POMDP::Policy</a>
@@ -421,8 +442,11 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 </li>
 <li>getObservationProbability()
 : <a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html#ae981495300eb50500a1f4ebb73f0d573">AIToolbox::POMDP::Model&lt; M &gt;</a>
-, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a9e6fc0e3aa1cbbbe11c558ccf7cc1df1">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
+, <a class="el" href="classAIToolbox_1_1POMDP_1_1SparseModel.html#a2daf1172ad0960f81b9d3a185f6d9a7a">AIToolbox::POMDP::SparseModel&lt; M &gt;</a>
 , <a class="el" href="classOldPOMDPModel.html#a564e56ba7d929a8ab0a8baa3a84f7c7f">OldPOMDPModel&lt; M &gt;</a>
+</li>
+<li>getOptimalAction()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html#a188a496c8040e3b3da5fbaac325deb9d">AIToolbox::Factored::Bandit::MiningBandit</a>
 </li>
 <li>getParentSets()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1DynamicDecisionNetworkGraph.html#a6e41164dd0ba12cdb46d73e76ccc3726">AIToolbox::Factored::DynamicDecisionNetworkGraph</a>
@@ -446,7 +470,9 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">AIToolbox::Bandit::QSoftmaxPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicyWrapper.html#a44e514222ba1fc83f777e4a6c65a6cdc">AIToolbox::Bandit::QSoftmaxPolicyWrapper&lt; V, Gen &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1RandomPolicy.html#a31b10902f7ed2be046a2c33b06e5d442">AIToolbox::Bandit::RandomPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aaf76c71be0375d8ec401ee39375b9492">AIToolbox::Bandit::SuccessiveRejectsPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac96c0b5f13907e9a588aced882485105">AIToolbox::Bandit::ThompsonSamplingPolicy</a>
+, <a class="el" href="classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html#a282a4aeaaa80ddeb3ba21cffa02b4b4e">AIToolbox::Bandit::TopTwoThompsonSamplingPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#ac726a6c47f039f3f940ce4226bd4b52e">AIToolbox::MDP::BanditPolicyAdaptor&lt; BanditPolicy &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a7a0358f1e22c9f6cfd4e7dd446cc59a4">AIToolbox::MDP::EpsilonPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1ExpectedSARSA.html#ae7bfdbc1045bc3b3eaba3ef89dfa96fe">AIToolbox::MDP::ExpectedSARSA</a>
@@ -472,8 +498,11 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 <li>getPredictionLength()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#aa6a3eb2a87fefe8ba1334f6539cfa0e8">AIToolbox::MDP::PGAAPPPolicy</a>
 </li>
+<li>getPreviousNk()
+: <a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a119ac21b862ae0cbac252dcf8d321762">AIToolbox::Bandit::SuccessiveRejectsPolicy</a>
+</li>
 <li>getQFunction()
-: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a5f47723ff4aa0b146181307aa081ef6f">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt;</a>
+: <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#afce414ec7cd3e5b6fa3cda4a91ddbaca">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt;</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html#aed0088305e1117506dcf1322dc478444">AIToolbox::Factored::MDP::CooperativeQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1DoubleQLearning.html#ab7d378105ecc7bf0c1566fe7019acac9">AIToolbox::MDP::DoubleQLearning</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1DynaQ.html#ac331f9acb45b1faa8b446d4417087aba">AIToolbox::MDP::DynaQ&lt; M &gt;</a>
@@ -509,6 +538,9 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1EpsilonPolicy.html#ad32be62c83f1b50eb58e5f49929d4a13">AIToolbox::Factored::Bandit::EpsilonPolicy</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html#aab8628cfc019922bbd923ada35315a0b">AIToolbox::Factored::MDP::EpsilonPolicy</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1EpsilonPolicy.html#a2dd7da4576a3d09c93403daa450c4bc3">AIToolbox::MDP::EpsilonPolicy</a>
+</li>
+<li>getRegret()
+: <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html#a081cb56ce6a9f24cba5f5dd8bf375fc9">AIToolbox::Factored::Bandit::MiningBandit</a>
 </li>
 <li>getReward()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#abecb7015b6b42deba85009cd2842d099">AIToolbox::MDP::Experience</a>
@@ -623,11 +655,11 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#ad96a37614fdc22cf42cff2612e30c056">AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html#a16e251207262338de589d5b44c83f120">AIToolbox::Factored::MDP::CooperativeModel</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html#a3e40f889642f0d2d80589ca0d5af5aab">AIToolbox::Factored::MDP::CooperativeThompsonModel</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html#a3ac0a789c53ab389271b6790e041d733">AIToolbox::MDP::MaximumLikelihoodModel&lt; E &gt;</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#aa6c7be4aea9cd59597e34a572c72af0f">AIToolbox::MDP::Model</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html#aab0314578de8ee6d54314d9ebcd51967">AIToolbox::MDP::SparseMaximumLikelihoodModel&lt; E &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1MaximumLikelihoodModel.html#a6040706ed95da5d8cd68042f506cac06">AIToolbox::MDP::MaximumLikelihoodModel&lt; E &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html#a008def0b5aaf2abf1184a39d43e428ee">AIToolbox::MDP::Model</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html#a0b84f72ef8362b965e1f9b490d93d58f">AIToolbox::MDP::SparseMaximumLikelihoodModel&lt; E &gt;</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1SparseModel.html#aeb6023ba3cad9e4fddbcd78e642c0d1f">AIToolbox::MDP::SparseModel</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1ThompsonModel.html#a3b8ecb173c9f8c5c64095e1503914323">AIToolbox::MDP::ThompsonModel&lt; E &gt;</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1ThompsonModel.html#a22db4113890ee93cb044b105b3a21ae3">AIToolbox::MDP::ThompsonModel&lt; E &gt;</a>
 , <a class="el" href="classOldMDPModel.html#a86be447802578829f44e3dbca05341dc">OldMDPModel</a>
 </li>
 <li>getTransitionProbability()
@@ -647,7 +679,7 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 </li>
 <li>getValue()
 : <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredMatrix2D.html#aba29547b66fe33c0df22b7318a870942">AIToolbox::Factored::FactoredMatrix2D</a>
-, <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredVector.html#a1b7b43a30da240034b3356d46932fef2">AIToolbox::Factored::FactoredVector</a>
+, <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredVector.html#a02493b9846b7d8477144d1f81e248854">AIToolbox::Factored::FactoredVector</a>
 </li>
 <li>getValueFunction()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html#ad2395dd11a3cae8c3ce5ca1253f4e562">AIToolbox::MDP::PrioritizedSweeping&lt; M &gt;</a>
@@ -659,7 +691,7 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 </li>
 <li>getVariables()
 : <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph_1_1FactorNode.html#af9b1b584e8e9490929a972dbce0dd495">AIToolbox::Factored::FactorGraph&lt; FactorData &gt;::FactorNode</a>
-, <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a3da6d96c93b7f9e879b7e8bf7ca30389">AIToolbox::Factored::FactorGraph&lt; FactorData &gt;</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a0e2a0cf068006175faf9fe3b6b1f5239">AIToolbox::Factored::FactorGraph&lt; FactorData &gt;</a>
 </li>
 <li>getVisits()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#a0e0a2e6b9cc7074df9443b2b9557f340">AIToolbox::MDP::Experience</a>
@@ -678,7 +710,7 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a0220ba8f4934d0457e1c3792532106db">AIToolbox::Factored::Bandit::Experience</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeExperience.html#afa55f71483afdb5d93e1a92fdff56fda">AIToolbox::Factored::MDP::CooperativeExperience</a>
 , <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html#af7cb2bdef9c20ab6d2a34d080b25c830">AIToolbox::MDP::Experience</a>
-, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a169ebf26b3f5c5b6d0f3cc28c735f7ee">AIToolbox::MDP::SparseExperience</a>
+, <a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a5cd8f4ff119ac3c84903bfbac440d882">AIToolbox::MDP::SparseExperience</a>
 </li>
 <li>getWidth()
 : <a class="el" href="classAIToolbox_1_1MDP_1_1GridWorld.html#a71d432bf7d5694225ceb446a795b99d5">AIToolbox::MDP::GridWorld</a>
@@ -694,7 +726,7 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 </li>
 <li>Graph
 : <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1LocalSearch.html#a0f384c641b1eb83c90adb96003ebfd4a">AIToolbox::Factored::Bandit::LocalSearch</a>
-, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html#ad1bd7e42df749fb220ac1ccbfcc1fa9b">AIToolbox::Factored::Bandit::MaxPlus</a>
+, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html#a5db554b0dd9b47a102eda3489c078e95">AIToolbox::Factored::Bandit::MaxPlus</a>
 , <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#aeda4a0de3e20cc84e77528dfdb9b252d">AIToolbox::Factored::Bandit::ReusingIterativeLocalSearch</a>
 </li>
 <li>graph

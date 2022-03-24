@@ -22,7 +22,13 @@ var dir_6a50ee72886a30c2706246641bda9e94 =
     [ "RandomPolicy.hpp", "Bandit_2Policies_2RandomPolicy_8hpp.html", [
       [ "RandomPolicy", "classAIToolbox_1_1Bandit_1_1RandomPolicy.html", "classAIToolbox_1_1Bandit_1_1RandomPolicy" ]
     ] ],
+    [ "SuccessiveRejectsPolicy.hpp", "SuccessiveRejectsPolicy_8hpp.html", [
+      [ "SuccessiveRejectsPolicy", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy" ]
+    ] ],
     [ "ThompsonSamplingPolicy.hpp", "Bandit_2Policies_2ThompsonSamplingPolicy_8hpp.html", [
       [ "ThompsonSamplingPolicy", "classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html", "classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy" ]
+    ] ],
+    [ "TopTwoThompsonSamplingPolicy.hpp", "TopTwoThompsonSamplingPolicy_8hpp.html", [
+      [ "TopTwoThompsonSamplingPolicy", "classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html", "classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy" ]
     ] ]
 ];

@@ -100,18 +100,23 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Factored_1_1Bandit_1
 Public Types</h2></td></tr>
 <tr class="memitem:a5cc02147eabed50d42af5ed65a86129d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a5cc02147eabed50d42af5ed65a86129d">VisitsTable</a> = std::vector&lt; std::vector&lt; unsigned long &gt; &gt;</td></tr>
 <tr class="separator:a5cc02147eabed50d42af5ed65a86129d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a2aa6349cb9f1e2104a4890582bc188"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a2a2aa6349cb9f1e2104a4890582bc188">Indeces</a> = std::vector&lt; size_t &gt;</td></tr>
+<tr class="separator:a2a2aa6349cb9f1e2104a4890582bc188"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1bfeb0ceca0feb233c56ea2169673c33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a1bfeb0ceca0feb233c56ea2169673c33">Experience</a> (<a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> A, const std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9">PartialKeys</a> &gt; &amp;dependencies)</td></tr>
 <tr class="memdesc:a1bfeb0ceca0feb233c56ea2169673c33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a1bfeb0ceca0feb233c56ea2169673c33">More...</a><br /></td></tr>
 <tr class="separator:a1bfeb0ceca0feb233c56ea2169673c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31c7c65fa46b207b4542fbdaf04ede21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a31c7c65fa46b207b4542fbdaf04ede21">record</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;a, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aad6527c0695fd67b56fec310055a7bdc">Rewards</a> &amp;rews)</td></tr>
-<tr class="memdesc:a31c7c65fa46b207b4542fbdaf04ede21"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the QFunction and counts.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a31c7c65fa46b207b4542fbdaf04ede21">More...</a><br /></td></tr>
-<tr class="separator:a31c7c65fa46b207b4542fbdaf04ede21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d37b8b1eea594aff726eff71a55682c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a2a2aa6349cb9f1e2104a4890582bc188">Indeces</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a0d37b8b1eea594aff726eff71a55682c">record</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;a, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aad6527c0695fd67b56fec310055a7bdc">Rewards</a> &amp;rews)</td></tr>
+<tr class="memdesc:a0d37b8b1eea594aff726eff71a55682c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function updates the QFunction and counts.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a0d37b8b1eea594aff726eff71a55682c">More...</a><br /></td></tr>
+<tr class="separator:a0d37b8b1eea594aff726eff71a55682c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6885980da874f5bcbafc9cd2ffcb1fc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a6885980da874f5bcbafc9cd2ffcb1fc6">reset</a> ()</td></tr>
 <tr class="memdesc:a6885980da874f5bcbafc9cd2ffcb1fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function resets the QFunction and counts to zero.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a6885980da874f5bcbafc9cd2ffcb1fc6">More...</a><br /></td></tr>
 <tr class="separator:a6885980da874f5bcbafc9cd2ffcb1fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec667200a278ccda4aa55c913c29c987"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9">PartialKeys</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#aec667200a278ccda4aa55c913c29c987">getDependencies</a> () const</td></tr>
+<tr class="memdesc:aec667200a278ccda4aa55c913c29c987"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the local groups of agents.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#aec667200a278ccda4aa55c913c29c987">More...</a><br /></td></tr>
+<tr class="separator:aec667200a278ccda4aa55c913c29c987"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c28ce36b82de1b050efc1d2e39b8bbd"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a5c28ce36b82de1b050efc1d2e39b8bbd">getTimesteps</a> () const</td></tr>
 <tr class="memdesc:a5c28ce36b82de1b050efc1d2e39b8bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the number of times the record function has been called.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a5c28ce36b82de1b050efc1d2e39b8bbd">More...</a><br /></td></tr>
 <tr class="separator:a5c28ce36b82de1b050efc1d2e39b8bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,6 +137,20 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>This class computes averages and counts for a multi-agent cooperative <a class="el" href="namespaceAIToolbox_1_1Factored_1_1Bandit.html">Bandit</a> problem. </p>
 <p>This class can be used to compute the averages and counts for all actions in a <a class="el" href="namespaceAIToolbox_1_1Factored_1_1Bandit.html">Bandit</a> problem over time. The class assumes that the problem is factored, and agents depend on each other in smaller groups. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a2a2aa6349cb9f1e2104a4890582bc188"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a2aa6349cb9f1e2104a4890582bc188">&#9670;&nbsp;</a></span>Indeces</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a2a2aa6349cb9f1e2104a4890582bc188">AIToolbox::Factored::Bandit::Experience::Indeces</a> =  std::vector&lt;size_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5cc02147eabed50d42af5ed65a86129d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5cc02147eabed50d42af5ed65a86129d">&#9670;&nbsp;</a></span>VisitsTable</h2>
 
@@ -205,6 +224,25 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aec667200a278ccda4aa55c913c29c987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec667200a278ccda4aa55c913c29c987">&#9670;&nbsp;</a></span>getDependencies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt;<a class="el" href="namespaceAIToolbox_1_1Factored.html#ae129867ea8459fe258423e61f0e0abb9">PartialKeys</a>&gt;&amp; AIToolbox::Factored::Bandit::Experience::getDependencies </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the local groups of agents. </p>
+
+</div>
+</div>
 <a id="a083efd34e9414e7d56f341ee434465f4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a083efd34e9414e7d56f341ee434465f4">&#9670;&nbsp;</a></span>getM2Matrix()</h2>
 
@@ -242,6 +280,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function returns a reference to the internal QFunction. </p>
+<p>The reward matrix contains the current average rewards computed for each action.</p>
 <dl class="section return"><dt>Returns</dt><dd>A reference to the internal QFunction. </dd></dl>
 
 </div>
@@ -286,14 +325,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a31c7c65fa46b207b4542fbdaf04ede21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31c7c65fa46b207b4542fbdaf04ede21">&#9670;&nbsp;</a></span>record()</h2>
+<a id="a0d37b8b1eea594aff726eff71a55682c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d37b8b1eea594aff726eff71a55682c">&#9670;&nbsp;</a></span>record()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void AIToolbox::Factored::Bandit::Experience::record </td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html#a2a2aa6349cb9f1e2104a4890582bc188">Indeces</a>&amp; AIToolbox::Factored::Bandit::Experience::record </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -313,13 +352,15 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function updates the QFunction and counts. </p>
+<p>This function additionally returns a reference to the indeces updated for each group of agents. This is useful, for example, when updating a model or a policy without needing to recompute these indeces all the time.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>The action taken. </td></tr>
-    <tr><td class="paramname">rews</td><td>The rewards obtained in the previous timestep, one per agent group. </td></tr>
+    <tr><td class="paramname">rews</td><td>The rewards obtained in the previous timestep, one per agent group.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The indeces of each agent group updated. </dd></dl>
 
 </div>
 </div>
