@@ -15,12 +15,12 @@ namespace AIToolbox::Bandit {
     }
 
     size_t SuccessiveRejectsPolicy::sampleAction() const {
-        ++currentArmPulls_;
-
         return availableActions_[currentActionId_];
     }
 
     void SuccessiveRejectsPolicy::stepUpdateQ() {
+        ++currentArmPulls_;
+
         if (currentArmPulls_ < (nKNew_ - nKOld_))
             return;
 

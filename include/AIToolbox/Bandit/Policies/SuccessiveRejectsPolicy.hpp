@@ -106,7 +106,7 @@ namespace AIToolbox::Bandit {
 
             unsigned currentPhase_;
             size_t currentActionId_;
-            mutable unsigned currentArmPulls_;
+            unsigned currentArmPulls_;
 
             unsigned nKOld_, nKNew_;
             double logBarK_;
