@@ -73,4 +73,8 @@ namespace AIToolbox::Factored::Bandit {
 
         return static_cast<double>(selected) / trials;
     }
+
+    const Experience & ThompsonSamplingPolicy::getExperience() const {
+        return exp_;
+    }
 }
