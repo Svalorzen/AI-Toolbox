@@ -18,8 +18,8 @@ namespace AIToolbox::Factored::Bandit {
 
     MiningBandit::MiningBandit(Action aa, std::vector<unsigned> workersPerVillage, std::vector<double> pPerMine, bool normalizeToOne) :
         A(std::move(aa)), workersPerVillage_(std::move(workersPerVillage)), productivityPerMine_(std::move(pPerMine)),
-        villagesPerMine_(productivityPerMine_.size()),
         normalizeToOne_(normalizeToOne),
+        villagesPerMine_(productivityPerMine_.size()),
         helper_(productivityPerMine_.size())
     {
         assert(workersPerVillage_.size() == A.size());
