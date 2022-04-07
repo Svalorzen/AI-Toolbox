@@ -10,10 +10,10 @@ project (AIToolbox LANGUAGES CXX)
 # MAKE_MDP:      Builds the core C++ MDP library
 # MAKE_FMDP:     Builds the core C++ Factored MDP and MDP library
 # MAKE_POMDP:    Builds the core C++ POMDP and MDP library
-# MAKE_PYTHON:   Builds Python bindings for the compiled core library
-# PYTHON_VERSION: Selects Python version to use
 # MAKE_TESTS:    Builds the library's tests for the compiled core library
 # MAKE_EXAMPLES: Builds the library's examples using the compiled core library
+# MAKE_PYTHON:   Builds Python bindings for the compiled core library
+# AI_PYTHON_VERSION: Selects Python version to use
 # AI_LOGGING_ENABLED: Enables logging in the library.
 
 # NOTE TO COMPILE ON WINDOWS:
@@ -42,7 +42,7 @@ function(append value)
 endfunction()
 
 ##############################
-## Compiler/Linker Settings ##
+##     Project Settings     ##
 ##############################
 
 # Set default cmake build type to release
@@ -53,43 +53,29 @@ if(NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif()
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+# Give default value to all option settings (0 if they were not set)
+# - The only one we don't preset here if unset is AI_PYTHON_VERSION, since we do that later.
+foreach(v MAKE_ALL;MAKE_LIB;MAKE_MDP;MAKE_FMDP;MAKE_POMDP;MAKE_TESTS;MAKE_EXAMPLES;MAKE_PYTHON;AI_LOGGING_ENABLED)
+    if (NOT DEFINED ${v} OR NOT ${${v}})
+        set(${v} 0)
+    endif()
+endforeach(v)
 
-if (NOT WIN32)
-    add_definitions(
-        -Wall
-        -Wextra
-    )
-endif()
-
-# Check for Link Time Optimizations with this compiler
-include(CheckIPOSupported)
-check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT LTO_ERROR)
-
-if( LTO_SUPPORTED )
-    message(STATUS "IPO / LTO enabled")
-else()
-    message(STATUS "IPO / LTO not supported: <${LTO_ERROR}>")
-endif()
-
-##############################
-##     Project Settings     ##
-##############################
+set(DEFAULT_BUILD 0)
 
 # Default is to build everything
 if (NOT MAKE_ALL AND NOT MAKE_LIB AND NOT MAKE_MDP AND NOT MAKE_FMDP AND NOT MAKE_POMDP)
+    set(DEFAULT_BUILD 1)
     set(MAKE_ALL    1)
 endif()
 
 if (MAKE_ALL)
-    set(MAKE_MDP        1)
-    set(MAKE_FMDP       1)
-    set(MAKE_POMDP      1)
+    set(MAKE_LIB        1)
     set(MAKE_TESTS      1)
     set(MAKE_EXAMPLES   1)
-elseif (MAKE_LIB)
+endif()
+
+if(MAKE_LIB)
     set(MAKE_MDP        1)
     set(MAKE_FMDP       1)
     set(MAKE_POMDP      1)
@@ -112,6 +98,25 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+
+##############################
+## Compiler/Linker Settings ##
+##############################
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+if (NOT WIN32)
+    add_definitions(
+        -Wall
+        -Wextra
+    )
+endif()
+
+# Check for Link Time Optimizations with this compiler
+include(CheckIPOSupported)
+check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT LTO_ERROR)
 
 ##############################
 ##       Dependencies       ##
@@ -142,14 +147,14 @@ if (MAKE_PYTHON)
     set(MAKE_PYTHON     1)
     set(Python_USE_STATIC_LIBS 0)
 
-    # Set a default to PYTHON_VERSION to void breaking the next if. In any
+    # Set a default to AI_PYTHON_VERSION to void breaking the next if. In any
     # case, if Python is not explicitly set to 2, we'll pick what is there
     # anyway (so this doesn't actually force Python 3).
-    if (NOT PYTHON_VERSION)
-        set(PYTHON_VERSION 3)
+    if (NOT AI_PYTHON_VERSION)
+        set(AI_PYTHON_VERSION 3)
     endif()
 
-    if (${PYTHON_VERSION} EQUAL 2)
+    if (${AI_PYTHON_VERSION} EQUAL 2)
         find_package(Python2 COMPONENTS Interpreter Development REQUIRED)
         # Rename libs so we can keep the rest of the script independent of version
         set(Python_LIBRARIES ${Python2_LIBRARIES})
@@ -161,7 +166,7 @@ if (MAKE_PYTHON)
         # This tries to find out which version of Python we should be targeting depending
         # on which interpreter is found, but prefers Python 3 so if we selected that we should be alright.
         find_package(Python COMPONENTS Interpreter Development REQUIRED)
-        set(PYTHON_VERSION ${Python_VERSION_MAJOR})
+        set(AI_PYTHON_VERSION ${Python_VERSION_MAJOR})
     endif()
 
     find_package(Boost ${BOOST_VERSION_REQUIRED} COMPONENTS python${Python_VERSION_MAJOR}${Python_VERSION_MINOR} REQUIRED)
@@ -176,26 +181,64 @@ if (MAKE_TESTS)
 endif()
 
 ##############################
-##      Project Start       ##
+##      User Feedback       ##
 ##############################
 
-# Print what we're actually doing
-set(MAP_MAKE_MDP        "# Building MDP")
-set(MAP_MAKE_FMDP       "# Building Factored MDP")
-set(MAP_MAKE_POMDP      "# Building POMDP")
-set(MAP_MAKE_PYTHON     "# Building Python ${Python_VERSION_MAJOR}.${Python_VERSION_MINOR} bindings")
-set(MAP_MAKE_TESTS      "# Building Tests")
-set(MAP_MAKE_EXAMPLES   "# Building Examples")
+if(NOT WIN32)
+  string(ASCII 27 Esc)
+  set(ColorReset "${Esc}[m")
+  set(Red         "${Esc}[31m")
+  set(Green       "${Esc}[32m")
+  set(Yellow      "${Esc}[33m")
+  set(Blue        "${Esc}[34m")
+  set(Magenta     "${Esc}[35m")
+  set(Cyan        "${Esc}[36m")
+  set(White       "${Esc}[37m")
+endif()
+
+# These strings contain the user feedback on what things we are actually building.
+set(MAP_MAKE_ALL           "Building everything      (-DMAKE_ALL=${MAKE_ALL})")
+set(MAP_MAKE_LIB           "Building library         (-DMAKE_LIB=${MAKE_LIB})")
+set(MAP_MAKE_MDP           "Building MDP             (-DMAKE_MDP=${MAKE_MDP})")
+set(MAP_MAKE_POMDP         "Building POMDP           (-DMAKE_POMDP=${MAKE_POMDP})")
+set(MAP_MAKE_FMDP          "Building Factored MDP    (-DMAKE_FMDP=${MAKE_FMDP})")
+set(MAP_MAKE_TESTS         "Building Tests           (-DMAKE_TESTS=${MAKE_TESTS})")
+set(MAP_MAKE_EXAMPLES      "Building Examples        (-DMAKE_EXAMPLES=${MAKE_EXAMPLES})")
+set(MAP_MAKE_PYTHON        "Building Python bindings (-DMAKE_PYTHON=${MAKE_PYTHON})")
+if (${MAKE_PYTHON})
+    set(MAP_MAKE_PYTHON "${MAP_MAKE_PYTHON}\n  - Selected Python ${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}    (-DAI_PYTHON_VERSION=${AI_PYTHON_VERSION})")
+endif()
+set(MAP_AI_LOGGING_ENABLED "Enabled runtime logging  (-DAI_LOGGING_ENABLED=${AI_LOGGING_ENABLED})")
+
+# Actual feedback print.
+message("")
+
+message("### AI_TOOLBOX SETTINGS ###")
+if (DEFAULT_BUILD)
+    message("- No project build options provided, defaulting to MAKE_ALL..")
+endif()
+
+message(STATUS "CMAKE_BUILD_TYPE:   " ${CMAKE_BUILD_TYPE})
+if( LTO_SUPPORTED )
+    message(STATUS "IPO / LTO enabled")
+else()
+    message(STATUS "IPO / LTO not supported: <${LTO_ERROR}>")
+endif()
+
+foreach(v MAKE_ALL;MAKE_LIB;MAKE_MDP;MAKE_FMDP;MAKE_POMDP;MAKE_TESTS;MAKE_EXAMPLES;MAKE_PYTHON;AI_LOGGING_ENABLED)
+    set(N "${Green}✓${ColorReset} ")
+    if (NOT ${${v}})
+        set(N "${Cyan}✗${ColorReset} NOT ")
+    endif()
+
+    message("${N}${MAP_${v}}")
+endforeach(v)
 
 message("")
-message("Build type: " ${CMAKE_BUILD_TYPE})
-message("Logging is " ${LOGGING_STATUS})
-foreach(v MAKE_MDP;MAKE_FMDP;MAKE_POMDP;MAKE_PYTHON;MAKE_TESTS;MAKE_EXAMPLES)
-    if (${${v}})
-        message(${MAP_${v}})
-    endif()
-endforeach(v)
-message("")
+
+##############################
+##      Project Start       ##
+##############################
 
 # Add library directories
 include_directories(${PROJECT_SOURCE_DIR}/include)
