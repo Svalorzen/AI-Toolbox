@@ -40,7 +40,7 @@ jobs:
       run: |
         if [ "${{ matrix.cxx }}" = "g++" ];     then export CXX="/usr/bin/g++-10"     CC="/usr/bin/gcc-10"; fi
         if [ "${{ matrix.cxx }}" = "clang++" ]; then export CXX="/usr/bin/clang++" CC="/usr/bin/clang"; fi
-        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DMAKE_PYTHON=1 -DPYTHON_VERSION=${{ matrix.python_version }}
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DMAKE_PYTHON=1 -DAI_PYTHON_VERSION=${{ matrix.python_version }}
 
     - name: Build
       working-directory: ${{ runner.workspace }}/AI-Toolbox/build
