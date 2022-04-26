@@ -32,13 +32,13 @@ namespace AIToolbox {
              * the gradient at that point.
              *
              * @param point A pointer to preallocated space where to write the point.
-             * @param gradient A pointer to preallocated space containing the current gradient.
+             * @param gradient A reference to preallocated space containing the current gradient.
              * @param alpha Adam's step size/learning rate.
              * @param beta1 Adam's exponential decay rate for first moment estimates.
              * @param beta2 Adam's exponential decay rate for second moment estimates.
              * @param epsilon Additive parameter to prevent division by zero.
              */
-            Adam(AIToolbox::Vector * point, const AIToolbox::Vector * gradient, double alpha = 0.001, double beta1 = 0.9, double beta2 = 0.999, double epsilon = 1e-8);
+            Adam(AIToolbox::Vector * point, const AIToolbox::Vector & gradient, double alpha = 0.001, double beta1 = 0.9, double beta2 = 0.999, double epsilon = 1e-8);
 
             /**
              * @brief This function updates the point using the currently set gradient.
@@ -67,9 +67,9 @@ namespace AIToolbox {
              * This function clears all internal values so that the gradient
              * descent process can be restarted from scratch.
              *
-             * The point and gradient pointers are updated with the new inputs.
+             * The point pointer and gradient reference are updated with the new inputs.
              */
-            void reset(AIToolbox::Vector * point, const AIToolbox::Vector * gradient);
+            void reset(AIToolbox::Vector * point, const AIToolbox::Vector & gradient);
 
             /**
              * @brief This function sets the current learning rate.

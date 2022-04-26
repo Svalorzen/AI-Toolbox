@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( simple_gradient_descent ) {
     ai::Vector gradient(2);
     derivative(point, gradient);
 
-    ai::Adam adam(&point, &gradient, 0.02);
+    ai::Adam adam(&point, gradient, 0.02);
 
     for (auto i = 0; i < 100; ++i) {
         adam.step();

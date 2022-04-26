@@ -1,8 +1,8 @@
 #include <AIToolbox/Utils/Adam.hpp>
 
 namespace AIToolbox {
-    Adam::Adam(AIToolbox::Vector * point, const AIToolbox::Vector * gradient, const double alpha, const double beta1, const double beta2, const double epsilon) :
-        point_(point), gradient_(gradient),
+    Adam::Adam(AIToolbox::Vector * point, const AIToolbox::Vector & gradient, const double alpha, const double beta1, const double beta2, const double epsilon) :
+        point_(point), gradient_(&gradient),
         m_(point_->size()), v_(point_->size()),
         beta1_(beta1), beta2_(beta2), alpha_(alpha), epsilon_(epsilon),
         step_(1)
@@ -30,9 +30,9 @@ namespace AIToolbox {
         step_ = 1;
     }
 
-    void Adam::reset(AIToolbox::Vector * point, const AIToolbox::Vector * gradient) {
+    void Adam::reset(AIToolbox::Vector * point, const AIToolbox::Vector & gradient) {
         point_ = point;
-        gradient_ = gradient;
+        gradient_ = &gradient;
         reset();
     }
 
