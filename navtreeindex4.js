@@ -1,5 +1,6 @@
 var NAVTREEINDEX4 =
 {
+"classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#aba1e7d91d0dcb6898d5bb8266044d5b8":[7,0,0,1,1,2,1],
 "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#abbd723ac7ceb74d8d5b25d4035152623":[7,0,0,1,1,2,11],
 "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#ad96a37614fdc22cf42cff2612e30c056":[7,0,0,1,1,2,12],
 "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#ae40bd14174897a23f17c2081529512a8":[7,0,0,1,1,2,19],
@@ -160,8 +161,8 @@ var NAVTREEINDEX4 =
 "classAIToolbox_1_1IndexMap.html#a1dc22f33af48706791d8c656cdb7b8ce":[7,0,0,9,9],
 "classAIToolbox_1_1IndexMap.html#a3ae26f137558eaeff4d1e369a9ebb7b4":[7,0,0,9,0],
 "classAIToolbox_1_1IndexMap.html#a3eb14ac64df0609457a28cbcec6d1c6f":[7,0,0,9,3],
-"classAIToolbox_1_1IndexMap.html#a45e07c58f39a87d1a9986a0ebde2d5ba":[7,0,0,9,5],
 "classAIToolbox_1_1IndexMap.html#a45e07c58f39a87d1a9986a0ebde2d5ba":[7,0,0,9,4],
+"classAIToolbox_1_1IndexMap.html#a45e07c58f39a87d1a9986a0ebde2d5ba":[7,0,0,9,5],
 "classAIToolbox_1_1IndexMap.html#a48220d5365c454fd3a1013954c358d1c":[7,0,0,9,1],
 "classAIToolbox_1_1IndexMap.html#a6be9f4ff956afa99cad763e3d311477a":[7,0,0,9,11],
 "classAIToolbox_1_1IndexMap.html#a7ae8a89841fc8e231ebd108f6ca1dc81":[7,0,0,9,2],
@@ -214,8 +215,8 @@ var NAVTREEINDEX4 =
 "classAIToolbox_1_1IndexSkipMap.html#ad03cc295957201193b8a52718663794d":[7,0,0,11,13],
 "classAIToolbox_1_1IndexSkipMap.html#af8c696a717f0a76dcf64d9f554fbf992":[7,0,0,11,8],
 "classAIToolbox_1_1IndexSkipMap.html#afb111eb5f00bbdab5aa9a76cb1425b7a":[7,0,0,11,1],
-"classAIToolbox_1_1IndexSkipMap.html#afdf8e61ba560c21482b75f330276ced6":[7,0,0,11,4],
 "classAIToolbox_1_1IndexSkipMap.html#afdf8e61ba560c21482b75f330276ced6":[7,0,0,11,5],
+"classAIToolbox_1_1IndexSkipMap.html#afdf8e61ba560c21482b75f330276ced6":[7,0,0,11,4],
 "classAIToolbox_1_1IndexSkipMapIterator.html":[7,0,0,12],
 "classAIToolbox_1_1IndexSkipMapIterator.html#a21542e77187dc35b0f80da96a710bcdd":[7,0,0,12,13],
 "classAIToolbox_1_1IndexSkipMapIterator.html#a35b77b2003780170270d3435dd1fb5d8":[7,0,0,12,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX4 =
 "classAIToolbox_1_1LP.html#abcd28bf038d3f31870e5029c7f496870":[7,0,0,13,7],
 "classAIToolbox_1_1LP.html#ac3746d26c3700ebcd2ca8af75a2ff683":[7,0,0,13,5],
 "classAIToolbox_1_1LP.html#acaa356ecc18e68b4da2ebdeb0544cbc5":[7,0,0,13,4],
-"classAIToolbox_1_1LP.html#afd4c4d7d75c9f4b3bb2b3e776e98bd0d":[7,0,0,13,3],
-"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html":[7,0,0,3,0]
+"classAIToolbox_1_1LP.html#afd4c4d7d75c9f4b3bb2b3e776e98bd0d":[7,0,0,13,3]
 };

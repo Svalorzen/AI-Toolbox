@@ -277,20 +277,21 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line">cmake ..</div>
 <div class="line">make</div>
 </div><!-- fragment --><p><code>cmake</code> can be called with a series of flags in order to customize the output, if building everything is not desirable. The following flags are available:</p>
-<div class="fragment"><div class="line">CMAKE_BUILD_TYPE # Defines the build type</div>
-<div class="line">MAKE_ALL         # Builds all there is to build in the project, but Python.</div>
-<div class="line">MAKE_LIB         # Builds the whole core C++ libraries (MDP, POMDP, etc..)</div>
-<div class="line">MAKE_MDP         # Builds only the core C++ MDP library</div>
-<div class="line">MAKE_FMDP        # Builds only the core C++ Factored/Multi-Agent and MDP libraries</div>
-<div class="line">MAKE_POMDP       # Builds only the core C++ POMDP and MDP libraries</div>
-<div class="line">MAKE_TESTS       # Builds the library&#39;s tests for the compiled core libraries</div>
-<div class="line">MAKE_EXAMPLES    # Builds the library&#39;s examples using the compiled core libraries</div>
-<div class="line">MAKE_PYTHON      # Builds Python bindings for the compiled core libraries</div>
-<div class="line">PYTHON_VERSION   # Selects the Python version you want (2 or 3). If not</div>
-<div class="line">                 # specified, we try to guess based on your default interpreter.</div>
+<div class="fragment"><div class="line">CMAKE_BUILD_TYPE   # Defines the build type</div>
+<div class="line">MAKE_ALL           # Builds all there is to build in the project, but Python.</div>
+<div class="line">MAKE_LIB           # Builds the whole core C++ libraries (MDP, POMDP, etc..)</div>
+<div class="line">MAKE_MDP           # Builds only the core C++ MDP library</div>
+<div class="line">MAKE_FMDP          # Builds only the core C++ Factored/Multi-Agent and MDP libraries</div>
+<div class="line">MAKE_POMDP         # Builds only the core C++ POMDP and MDP libraries</div>
+<div class="line">MAKE_TESTS         # Builds the library&#39;s tests for the compiled core libraries</div>
+<div class="line">MAKE_EXAMPLES      # Builds the library&#39;s examples using the compiled core libraries</div>
+<div class="line">MAKE_PYTHON        # Builds Python bindings for the compiled core libraries</div>
+<div class="line">AI_PYTHON_VERSION  # Selects the Python version you want (2 or 3). If not</div>
+<div class="line">                   #   specified, we try to guess based on your default interpreter.</div>
+<div class="line">AI_LOGGING_ENABLED # Whether the library logging code is enabled at runtime.</div>
 </div><!-- fragment --><p>These flags can be combined as needed. For example:</p>
 <div class="fragment"><div class="line"># Will build MDP and MDP Python 3 bindings</div>
-<div class="line">cmake -DCMAKE_BUILD_TYPE=Debug -DMAKE_MDP=1 -DMAKE_PYTHON=1 -DPYTHON_VERSION=3 ..</div>
+<div class="line">cmake -DCMAKE_BUILD_TYPE=Debug -DMAKE_MDP=1 -DMAKE_PYTHON=1 -DAI_PYTHON_VERSION=3 ..</div>
 </div><!-- fragment --><p>The default flags when nothing is specified are <code>MAKE_ALL</code> and <code>CMAKE_BUILD_TYPE=Release</code>.</p>
 <p>Note that by default <code>MAKE_ALL</code> does not build the Python bindings, as they have a minor performance hit on the C++ static libraries. You can easily enable them by using the flag <code>MAKE_PYTHON</code>.</p>
 <p>The static library files will be available directly in the build directory. Three separate libraries are built: <code>AIToolboxMDP</code>, <code>AIToolboxPOMDP</code> and <code>AIToolboxFMDP</code>. In case you want to link against either the POMDP library or the Factored MDP library, you will also need to link against the MDP one, since both of them use MDP functionality.</p>

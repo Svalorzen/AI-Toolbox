@@ -100,10 +100,11 @@ var NAVTREEINDEX3 =
 "classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html#aaa4e2f80cb2b81608652248a9a1eafdd":[7,0,0,1,0,16,1],
 "classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html#ac3419cdf23f0f96af220c39875070579":[7,0,0,1,0,16,2],
 "classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html":[7,0,0,1,0,17],
+"classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#a210675991527d2b0d0ac3413cba9b503":[7,0,0,1,0,17,2],
 "classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#a37973a377a30778f02dc987c86612b5b":[7,0,0,1,0,17,0],
 "classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#aaa32de5a3abd0feb4c83d7afbf448383":[7,0,0,1,0,17,1],
-"classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac7139609f79e1b4557cadf8271abd0a2":[7,0,0,1,0,17,3],
-"classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#ad54dbb55e9961a3e1dc8effbbe659350":[7,0,0,1,0,17,2],
+"classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac7139609f79e1b4557cadf8271abd0a2":[7,0,0,1,0,17,4],
+"classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html#ad54dbb55e9961a3e1dc8effbbe659350":[7,0,0,1,0,17,3],
 "classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html":[7,0,0,1,0,18],
 "classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a116513486a9254ce66af1872d3abb688":[7,0,0,1,0,18,1],
 "classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a2456e9f126507ca27ba9e53b7a6cb298":[7,0,0,1,0,18,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a973f4656dda34bb919d974e97ed8edce":[7,0,0,1,1,2,13],
 "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a97da0e173417f85154d25e750f99fd5e":[7,0,0,1,1,2,9],
 "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a984340b792aeeb7179eb2a7b94359abb":[7,0,0,1,1,2,4],
-"classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#aad74d3c92a0b513b6690232176bacfdb":[7,0,0,1,1,2,18],
-"classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#aba1e7d91d0dcb6898d5bb8266044d5b8":[7,0,0,1,1,2,1]
+"classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#aad74d3c92a0b513b6690232176bacfdb":[7,0,0,1,1,2,18]
 };

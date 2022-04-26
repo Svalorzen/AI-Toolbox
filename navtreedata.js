@@ -92,12 +92,12 @@ var NAVTREEINDEX =
 "LLRPolicy_8hpp.html",
 "SysAdmin_8hpp.html#a5829cec956bc3c248f8c70dcb545e993",
 "classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html#a9256559f6ffc0689a2c350f65ed44014",
-"classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#abbd723ac7ceb74d8d5b25d4035152623",
-"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a3d583c319531f709a8ff94db4b40c60f",
-"classAIToolbox_1_1MDP_1_1PolicyInterface.html#ae10f920bd58bd6fa87355cbaf998192a",
-"classAIToolbox_1_1POMDP_1_1BeliefNode.html#a21fdfaed9c910fadee03508c0d1a20ac",
-"classOldMDPModel.html#a8e8565ce6da2f01cb457d97bef6a9dff",
-"namespacemembers_vars.html"
+"classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#aba1e7d91d0dcb6898d5bb8266044d5b8",
+"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html",
+"classAIToolbox_1_1MDP_1_1PolicyInterface.html#ad79b9ffabb4fd29f6e2207fa12bc23ed",
+"classAIToolbox_1_1POMDP_1_1BeliefNode.html#a125d2bce89ba02a67d522eb68d921b61",
+"classOldMDPModel.html#a8c5f0b6bf5f51be457401483776c2d07",
+"namespacemembers_v.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

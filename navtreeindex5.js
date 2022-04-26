@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html":[7,0,0,3,0],
 "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a3d583c319531f709a8ff94db4b40c60f":[7,0,0,3,0,0],
 "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a6a878031d7594fb60fd400d1d72b9879":[7,0,0,3,0,2],
 "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a6c3ba6af74e5b48039f23fcbb73c560d":[7,0,0,3,0,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#a758c3b8e34a678c678e999db01c61b00":[7,0,0,3,21,5],
 "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#ac5936c3e4173b5044c9d9a8f262859c5":[7,0,0,3,21,4],
 "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#ae8beb5d377fc21cbef1d1f8ec126d470":[7,0,0,3,21,1],
-"classAIToolbox_1_1MDP_1_1PolicyInterface.html":[7,0,0,3,22],
-"classAIToolbox_1_1MDP_1_1PolicyInterface.html#ad79b9ffabb4fd29f6e2207fa12bc23ed":[7,0,0,3,22,1]
+"classAIToolbox_1_1MDP_1_1PolicyInterface.html":[7,0,0,3,22]
 };

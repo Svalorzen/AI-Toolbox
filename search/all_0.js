@@ -10,7 +10,7 @@ var searchData=
   ['actions_7',['actions',['../structAIToolbox_1_1MDP_1_1ValueFunction.html#ad4fde3f16968af4b01b582e70c2d17e6',1,'AIToolbox::MDP::ValueFunction::actions()'],['../namespaceAIToolbox_1_1MDP.html#a42a6ee8b9f55d5503151441128736d14',1,'AIToolbox::MDP::Actions()']]],
   ['actionsv_8',['actionsV',['../classAIToolbox_1_1POMDP_1_1BeliefNode.html#a21fdfaed9c910fadee03508c0d1a20ac',1,'AIToolbox::POMDP::BeliefNode']]],
   ['actiontag_9',['actionTag',['../structAIToolbox_1_1Factored_1_1BasisMatrix.html#ab7c02cf2d00e1d0c0c1e95c5df0aa217',1,'AIToolbox::Factored::BasisMatrix']]],
-  ['adam_10',['Adam',['../classAIToolbox_1_1Adam.html',1,'AIToolbox::Adam'],['../classAIToolbox_1_1Adam.html#a46ba9927a806f336e5a06aa5a335c511',1,'AIToolbox::Adam::Adam()']]],
+  ['adam_10',['Adam',['../classAIToolbox_1_1Adam.html',1,'AIToolbox::Adam'],['../classAIToolbox_1_1Adam.html#a667f05a18c041df24cda244a1cd03cdd',1,'AIToolbox::Adam::Adam()']]],
   ['adam_2ehpp_11',['Adam.hpp',['../Adam_8hpp.html',1,'']]],
   ['addcolumn_12',['addColumn',['../classAIToolbox_1_1LP.html#afd4c4d7d75c9f4b3bb2b3e776e98bd0d',1,'AIToolbox::LP']]],
   ['addoptimalrow_13',['addOptimalRow',['../classAIToolbox_1_1WitnessLP.html#a131f5184dc461deae77a17cf5c6aba8b',1,'AIToolbox::WitnessLP']]],

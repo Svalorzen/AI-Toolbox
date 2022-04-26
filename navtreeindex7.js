@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"classAIToolbox_1_1POMDP_1_1BeliefNode.html#a125d2bce89ba02a67d522eb68d921b61":[7,0,0,4,3,1],
 "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a21fdfaed9c910fadee03508c0d1a20ac":[7,0,0,4,3,5],
 "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a651c4226144428394390b71aef15f50f":[7,0,0,4,3,7],
 "classAIToolbox_1_1POMDP_1_1BeliefNode.html#a82c2893987100ce38c62757dda23b33a":[7,0,0,4,3,11],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "classOldMDPModel.html#a23bad0e882bbcacfc5c988e1746b80db":[7,0,2,4],
 "classOldMDPModel.html#a4f3266b48a2dab2ebc816b12217dc5a0":[7,0,2,5],
 "classOldMDPModel.html#a67311240122128f91ee83b203b7e8f83":[7,0,2,0],
-"classOldMDPModel.html#a86be447802578829f44e3dbca05341dc":[7,0,2,10],
-"classOldMDPModel.html#a8c5f0b6bf5f51be457401483776c2d07":[7,0,2,12]
+"classOldMDPModel.html#a86be447802578829f44e3dbca05341dc":[7,0,2,10]
 };
