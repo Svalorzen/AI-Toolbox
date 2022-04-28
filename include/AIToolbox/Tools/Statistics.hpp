@@ -58,7 +58,18 @@ namespace AIToolbox {
             /**
              * @brief This function computes mean and standard deviation for all timesteps.
              *
-             * @return The mean and standard deviation for the recorded data.
+             * The return value of this function is a vector of tuples of the same size
+             * as the number of timesteps that the Statistics was constructed with.
+             *
+             * Each tuple contains 4 double values.
+             *
+             * In order, they are:
+             * - The mean computed of all recorded values for the timestep.
+             * - The cumulative mean computed from all recorded values for the timestep.
+             * - The biased standard deviation of the recorded values (computed as sqrt from the unbiased variance)
+             * - The biased standard deviation of the cumulative mean (computed as sqrt from the unbiased variance)
+             *
+             * @return The mean and standard deviation (immediate and cumulative) for the recorded data.
              */
             Results process() const;
 
@@ -81,6 +92,8 @@ namespace AIToolbox {
      *
      * Note that each reprint will recompute the statistics from scratch, as
      * they are not cached.
+     *
+     * \sa Statistics::process()
      *
      * @param os The stream to write to.
      * @param rh The Statistics to get data from.
