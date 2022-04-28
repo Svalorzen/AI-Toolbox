@@ -1,6 +1,6 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/MaxPlus.hpp>
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     double evaluateGraph(const Action & A, const MaxPlus::Graph & graph, const Action & jointAction) {

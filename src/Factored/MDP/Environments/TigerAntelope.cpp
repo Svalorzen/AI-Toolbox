@@ -1,10 +1,10 @@
 #include <AIToolbox/Factored/MDP/Environments/TigerAntelope.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox::Factored::MDP {
     TigerAntelope::TigerAntelope(unsigned width, unsigned height) :
-            grid_(width, height, true), rand_(Impl::Seeder::getSeed())
+            grid_(width, height, true), rand_(Seeder::getSeed())
     {
         antelopePosition_ = grid_(width / 2, height / 2);
     }

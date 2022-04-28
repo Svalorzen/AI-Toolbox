@@ -4,7 +4,7 @@
 #include <boost/test/unit_test.hpp>
 #include "GlobalFixtures.hpp"
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Bandit/Policies/ESRLPolicy.hpp>
 
 double testGuessingGame(unsigned a, unsigned b, unsigned c) {
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE( guessing_game ) {
     ESRLPolicy p3(A, 0.05, 2000, 7, 100);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Seeder::getSeed());
 
     unsigned t = 0;
     while (!p1.isExploiting()) {

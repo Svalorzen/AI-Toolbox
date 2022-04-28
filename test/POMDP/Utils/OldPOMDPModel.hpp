@@ -3,7 +3,7 @@
 
 #include <random>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Types.hpp>
@@ -223,7 +223,7 @@ class OldPOMDPModel : public M {
 template <AIToolbox::MDP::IsModel M>
 template <typename... Args>
 OldPOMDPModel<M>::OldPOMDPModel(size_t o, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
-                                              rand_(AIToolbox::Impl::Seeder::getSeed())
+                                              rand_(AIToolbox::Seeder::getSeed())
 {
     for ( size_t s = 0; s < this->getS(); ++s )
         for ( size_t a = 0; a < this->getA(); ++a )
@@ -233,7 +233,7 @@ OldPOMDPModel<M>::OldPOMDPModel(size_t o, Args&&... params) : M(std::forward<Arg
 template <AIToolbox::MDP::IsModel M>
 template <AIToolbox::IsNaive3DMatrix ObFun, typename... Args>
 OldPOMDPModel<M>::OldPOMDPModel(size_t o, ObFun && of, Args&&... params) : M(std::forward<Args>(params)...), O(o), observations_(boost::extents[this->getS()][this->getA()][O]),
-                                                                rand_(AIToolbox::Impl::Seeder::getSeed())
+                                                                rand_(AIToolbox::Seeder::getSeed())
 {
     setObservationFunction(of);
 }
@@ -242,7 +242,7 @@ template <AIToolbox::MDP::IsModel M>
 template <typename PM>
 requires AIToolbox::POMDP::IsModel<PM> && std::constructible_from<M, PM>
 OldPOMDPModel<M>::OldPOMDPModel(const PM& model) : M(model), O(model.getO()), observations_(boost::extents[this->getS()][this->getA()][O]),
-                                   rand_(AIToolbox::Impl::Seeder::getSeed())
+                                   rand_(AIToolbox::Seeder::getSeed())
 {
     for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
         for ( size_t a = 0; a < this->getA(); ++a ) {

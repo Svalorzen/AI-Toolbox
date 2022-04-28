@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE( escapeToCorners ) {
     // This is the policy we use during batch updates (owned by the solver).
     solver.setInternalPolicy(new EpsilonPolicy(p2, 0.4));
 
-    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Seeder::getSeed());
     std::uniform_int_distribution<size_t> initState(0, model.getS() - 1);
 
     for (size_t e = 0; e < 3000; ++e) {

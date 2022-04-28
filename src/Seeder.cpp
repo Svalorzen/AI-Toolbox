@@ -1,9 +1,9 @@
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 #include <chrono>
 #include <limits>
 
-namespace AIToolbox::Impl {
+namespace AIToolbox {
     Seeder Seeder::instance_;
 
     Seeder::Seeder() {

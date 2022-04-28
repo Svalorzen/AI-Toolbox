@@ -20,7 +20,7 @@ namespace aif = AIToolbox::Factored;
 namespace fm = AIToolbox::Factored::MDP;
 
 BOOST_AUTO_TEST_CASE( simple_rule_update ) {
-    ai::Impl::Seeder::setRootSeed(199);
+    ai::Seeder::setRootSeed(199);
     auto problem = fm::makeSysAdminUniRing(2, 0.1, 0.2, 0.3, 0.4, 0.4, 0.4, 0.3);
 
     fm::CooperativeExperience exp(problem.getGraph());

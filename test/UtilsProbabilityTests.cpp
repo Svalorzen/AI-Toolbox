@@ -6,10 +6,10 @@
 
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 BOOST_AUTO_TEST_CASE( probGeneration ) {
-    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Seeder::getSeed());
 
     for (size_t i = 0; i < 100; ++i) {
         const auto v = AIToolbox::makeRandomProbability(i+1, rand);
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE( probProjection ) {
 }
 
 BOOST_AUTO_TEST_CASE( vose_alias_sampling ) {
-    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Seeder::getSeed());
 
     AIToolbox::ProbabilityVector p(7);
     p << 1.0/8, 1.0/5, 1.0/10, 1.0/4, 1.0/10, 1.0/10, 1.0/8;

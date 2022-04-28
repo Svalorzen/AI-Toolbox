@@ -1,5 +1,5 @@
-#ifndef AI_TOOLBOX_IMPL_CASSANDRA_PARSER_HEADER_FILE
-#define AI_TOOLBOX_IMPL_CASSANDRA_PARSER_HEADER_FILE
+#ifndef AI_TOOLBOX_CASSANDRA_PARSER_HEADER_FILE
+#define AI_TOOLBOX_CASSANDRA_PARSER_HEADER_FILE
 
 #include <AIToolbox/Types.hpp>
 #include <string>
@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace AIToolbox::Impl {
+namespace AIToolbox {
     /**
      * @brief This class can parse files containing MDPs and POMDPs in the Cassandra file format.
      */

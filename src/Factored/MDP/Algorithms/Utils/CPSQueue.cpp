@@ -2,14 +2,14 @@
 
 #include <algorithm>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox::Factored {
     CPSQueue::CPSQueue(const DDNGraph & graph) :
             graph_(graph),
             nonZeroPriorities_(0),
             order_(graph_.getS().size()+1), nodes_(graph_.getS().size()),
-            rand_(Impl::Seeder::getSeed())
+            rand_(Seeder::getSeed())
     {
         const auto & S = graph_.getS();
 

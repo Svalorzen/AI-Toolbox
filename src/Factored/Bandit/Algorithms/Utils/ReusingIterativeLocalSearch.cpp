@@ -1,6 +1,6 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/ReusingIterativeLocalSearch.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::Factored::Bandit {
@@ -9,7 +9,7 @@ namespace AIToolbox::Factored::Bandit {
         randomizeFactorProbability_(randomizeFactorProbability),
         trialNum_(trialNum),
         value_(std::numeric_limits<double>::lowest()),
-        rnd_(Impl::Seeder::getSeed())
+        rnd_(Seeder::getSeed())
     {}
 
     ReusingIterativeLocalSearch::Result ReusingIterativeLocalSearch::operator()(const Action & A, const Graph & graph, const bool resetAction) {

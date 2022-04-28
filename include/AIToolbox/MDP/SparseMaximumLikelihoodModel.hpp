@@ -4,7 +4,7 @@
 #include <tuple>
 #include <random>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Types.hpp>
@@ -272,7 +272,7 @@ namespace AIToolbox::MDP {
     template <IsExperience E>
     SparseMaximumLikelihoodModel<E>::SparseMaximumLikelihoodModel(const E & exp, const double discount, const bool toSync) :
             S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         setDiscount(discount);
 

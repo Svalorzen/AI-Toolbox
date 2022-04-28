@@ -13,7 +13,7 @@
 
 #include <AIToolbox/Utils/Polytope.hpp>
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 
 namespace AIToolbox::POMDP {
     /**

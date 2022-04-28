@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.12) # CMP0069 NEW
 include_directories(.)
 
 set(GlobalFileDependencies
-    ${PROJECT_SOURCE_DIR}/src/Impl/Seeder.cpp
+    ${PROJECT_SOURCE_DIR}/src/Seeder.cpp
     ${PROJECT_SOURCE_DIR}/src/Tools/Statistics.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Adam.cpp
     ${PROJECT_SOURCE_DIR}/src/Utils/Combinatorics.cpp

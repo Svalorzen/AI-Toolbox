@@ -4,7 +4,6 @@
 #include <boost/test/unit_test.hpp>
 #include "GlobalFixtures.hpp"
 
-#include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/ReusingIterativeLocalSearch.hpp>
 
 namespace aif = AIToolbox::Factored;

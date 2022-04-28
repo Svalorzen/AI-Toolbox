@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_POMDP_SARSOP_HEADER_FILE
 #define AI_TOOLBOX_POMDP_SARSOP_HEADER_FILE
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>

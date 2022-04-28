@@ -2,11 +2,11 @@
 
 namespace AIToolbox::MDP {
     SparseModel::SparseModel(NoCheck, const size_t s, const size_t a, TransitionMatrix && t, RewardMatrix && r, const double d) :
-            S(s), A(a), discount_(d), transitions_(t), rewards_(r), rand_(Impl::Seeder::getSeed()) {}
+            S(s), A(a), discount_(d), transitions_(t), rewards_(r), rand_(Seeder::getSeed()) {}
 
     SparseModel::SparseModel(const size_t s, const size_t a, const double discount) :
             S(s), A(a), discount_(discount), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         // Make transition matrix true probability
         for ( size_t a = 0; a < A; ++a )

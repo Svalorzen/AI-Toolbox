@@ -4,7 +4,7 @@
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/MDP/Algorithms/Utils/Rollout.hpp>
 
 #include <unordered_map>
@@ -178,7 +178,7 @@ namespace AIToolbox::MDP {
     requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>
     MCTS<M, StateHash>::MCTS(const M& m, const unsigned iter, const double exp) :
             model_(m), iterations_(iter),
-            exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}
+            exploration_(exp), graph_(), rand_(Seeder::getSeed()) {}
 
     template <typename M, template <typename> class StateHash>
     requires AIToolbox::IsGenerativeModel<M> && HasIntegralActionSpace<M>

@@ -1,10 +1,10 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/LocalSearch.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox::Factored::Bandit {
 
-    LocalSearch::LocalSearch() : rnd_(Impl::Seeder::getSeed()) {}
+    LocalSearch::LocalSearch() : rnd_(Seeder::getSeed()) {}
 
     LocalSearch::Result LocalSearch::operator()(const Action & A, const Graph & graph) {
         Action startAction = makeRandomValue(A, rnd_);

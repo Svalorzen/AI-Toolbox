@@ -1,11 +1,11 @@
 #include <AIToolbox/POMDP/Algorithms/PERSEUS.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox::POMDP {
     PERSEUS::PERSEUS(const size_t nBeliefs, const unsigned h, const double t) :
             beliefSize_(nBeliefs), horizon_(h),
-            rand_(Impl::Seeder::getSeed())
+            rand_(Seeder::getSeed())
     {
         setTolerance(t);
     }

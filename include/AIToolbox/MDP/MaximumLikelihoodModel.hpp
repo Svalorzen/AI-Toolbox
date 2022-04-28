@@ -7,7 +7,7 @@
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::MDP {
@@ -262,7 +262,7 @@ namespace AIToolbox::MDP {
     template <IsExperience E>
     MaximumLikelihoodModel<E>::MaximumLikelihoodModel(const E& exp, const double discount, const bool toSync) :
             S(exp.getS()), A(exp.getA()), experience_(exp), transitions_(A, Matrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         setDiscount(discount);
         rewards_.setZero();

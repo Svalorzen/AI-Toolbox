@@ -10,7 +10,7 @@
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 /**
  * @brief This class represents a Markov Decision Process.
@@ -297,7 +297,7 @@ class OldMDPModel {
 
 template <AIToolbox::IsNaive3DMatrix T, AIToolbox::IsNaive3DMatrix R>
 OldMDPModel::OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
-    rand_(AIToolbox::Impl::Seeder::getSeed())
+    rand_(AIToolbox::Seeder::getSeed())
 {
     setDiscount(d);
     setTransitionFunction(t);
@@ -306,7 +306,7 @@ OldMDPModel::OldMDPModel(size_t s, size_t a, const T & t, const R & r, double d)
 
 template <AIToolbox::MDP::IsModel M>
 OldMDPModel::OldMDPModel(const M& model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
-    rand_(AIToolbox::Impl::Seeder::getSeed())
+    rand_(AIToolbox::Seeder::getSeed())
 {
     for ( size_t s = 0; s < S; ++s )
         for ( size_t a = 0; a < A; ++a ) {
@@ -335,7 +335,7 @@ void OldMDPModel::setRewardFunction( const R & r ) {
 }
 
 OldMDPModel::OldMDPModel(size_t s, size_t a, double discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),
-    rand_(AIToolbox::Impl::Seeder::getSeed())
+    rand_(AIToolbox::Seeder::getSeed())
 {
     // Make transition matrix true probability
     for ( size_t s = 0; s < S; ++s )

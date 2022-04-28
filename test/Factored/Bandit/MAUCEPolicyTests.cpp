@@ -5,7 +5,6 @@
 #include <boost/test/unit_test.hpp>
 #include "GlobalFixtures.hpp"
 
-#include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Bandit/Policies/MAUCEPolicy.hpp>
 #include <AIToolbox/Factored/Bandit/Policies/QGreedyPolicy.hpp>

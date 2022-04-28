@@ -2,7 +2,7 @@
 #define AI_TOOLBOX_POLICYINTERFACE_HEADER_FILE
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox {
     /**
@@ -86,7 +86,7 @@ namespace AIToolbox {
 
     template <typename State, typename Sampling, typename Action>
     PolicyInterface<State, Sampling, Action>::PolicyInterface(State s, Action a) :
-            S(std::move(s)), A(std::move(a)), rand_(Impl::Seeder::getSeed()) {}
+            S(std::move(s)), A(std::move(a)), rand_(Seeder::getSeed()) {}
 
     template <typename State, typename Sampling, typename Action>
     PolicyInterface<State, Sampling, Action>::~PolicyInterface() {}
@@ -153,7 +153,7 @@ namespace AIToolbox {
 
     template <typename Action>
     PolicyInterface<void, void, Action>::PolicyInterface(Action a) :
-            A(std::move(a)), rand_(Impl::Seeder::getSeed()) {}
+            A(std::move(a)), rand_(Seeder::getSeed()) {}
 
     template <typename Action>
     PolicyInterface<void, void, Action>::~PolicyInterface() {}

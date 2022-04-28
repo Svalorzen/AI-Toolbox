@@ -3,7 +3,7 @@
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Prune.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     namespace {

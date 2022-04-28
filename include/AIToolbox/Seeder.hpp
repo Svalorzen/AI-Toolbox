@@ -1,10 +1,10 @@
-#ifndef AI_TOOLBOX_IMPL_SEEDER_HEADER_FILE
-#define AI_TOOLBOX_IMPL_SEEDER_HEADER_FILE
+#ifndef AI_TOOLBOX_SEEDER_HEADER_FILE
+#define AI_TOOLBOX_SEEDER_HEADER_FILE
 
 #include <random>
 #include <AIToolbox/Types.hpp>
 
-namespace AIToolbox::Impl {
+namespace AIToolbox {
     /**
      * @brief This class is an internal class used to seed all random engines in the library.
      *

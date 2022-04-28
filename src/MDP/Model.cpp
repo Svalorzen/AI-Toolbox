@@ -5,11 +5,11 @@ namespace AIToolbox::MDP {
             S(s), A(a), discount_(d),
             transitions_(std::move(t)),
             rewards_(std::move(r)),
-            rand_(Impl::Seeder::getSeed()) {}
+            rand_(Seeder::getSeed()) {}
 
     Model::Model(const size_t s, const size_t a, const double discount) :
             S(s), A(a), discount_(discount), transitions_(A, Matrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         // Make transition matrix true probability
         for ( size_t a = 0; a < A; ++a )

@@ -10,12 +10,12 @@
 #include <AIToolbox/MDP/SparseModel.hpp>
 #include <AIToolbox/MDP/Policies/Policy.hpp>
 
-#include <AIToolbox/Impl/CassandraParser.hpp>
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Tools/CassandraParser.hpp>
+#include <AIToolbox/Logging.hpp>
 
 namespace AIToolbox::MDP {
     Model parseCassandra(std::istream & input) {
-        Impl::CassandraParser parser;
+        CassandraParser parser;
 
         const auto & [S, A, T, R, discount] = parser.parseMDP(input);
 

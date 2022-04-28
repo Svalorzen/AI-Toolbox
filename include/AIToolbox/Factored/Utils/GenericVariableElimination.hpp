@@ -4,7 +4,7 @@
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 #include <AIToolbox/Impl/FunctionMatching.hpp>
 
 namespace AIToolbox::Factored {

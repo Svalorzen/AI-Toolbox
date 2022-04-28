@@ -37,7 +37,7 @@
  * And this would start logging automatically with no filtering. Remember to
  * include the logging header!
  *
- *     #include <AIToolbox/Impl/Logging.hpp>
+ *     #include <AIToolbox/Logging.hpp>
  *
  * ## Priorities and Log Information ##
  *
@@ -58,8 +58,8 @@
  * longer logs, feel free to change the length of the array and recompile.
  */
 
-#ifndef AI_TOOLBOX_IMPL_LOGGING_HEADER_FILE
-#define AI_TOOLBOX_IMPL_LOGGING_HEADER_FILE
+#ifndef AI_TOOLBOX_LOGGING_HEADER_FILE
+#define AI_TOOLBOX_LOGGING_HEADER_FILE
 
 #ifndef AI_LOGGING_ENABLED
 #define AI_LOGGING_ENABLED 0
@@ -75,14 +75,21 @@
 #include <sstream>
 
 namespace AIToolbox {
+    // ##################################################################
+    //
+    // THESE HERE ARE THE ONLY THINGS YOU NEED TO CARE ABOUT IN YOUR OWN
+    // PROGRAMS IN THIS ENTIRE FILE. THE REST ARE IMPLEMENTATION DETAILS!
+    //
     using AILoggerFun = void(int, const char *);
-
     /**
      * @brief This pointer defines the function used to log.
      *
      * \sa \ref Logging
      */
     inline AILoggerFun * AILogger = nullptr;
+    //
+    //
+    // ##################################################################
 
     namespace Impl {
         // We use this to dump logs in.

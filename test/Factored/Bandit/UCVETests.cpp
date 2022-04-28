@@ -5,7 +5,6 @@
 #include <boost/test/unit_test.hpp>
 #include "GlobalFixtures.hpp"
 
-#include <AIToolbox/Impl/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/UCVE.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>

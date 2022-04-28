@@ -1,6 +1,6 @@
 #include <AIToolbox/Factored/MDP/CooperativeModel.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
@@ -9,7 +9,7 @@ namespace AIToolbox::Factored::MDP {
             discount_(discount),
             graph_(std::move(graph)),
             transitions_({graph_, std::move(transitions)}), rewards_(std::move(rewards)),
-            rand_(Impl::Seeder::getSeed())
+            rand_(Seeder::getSeed())
     {
         // Now we validate both the transition function and the rewards.
         // The DDN graph we can already trust since it's a class and not a

@@ -2,8 +2,7 @@ cmake_minimum_required (VERSION 3.12) # CMP0069 NEW
 
 if (MAKE_MDP)
     add_library(AIToolboxMDP
-        Impl/Seeder.cpp
-        Impl/CassandraParser.cpp
+        Seeder.cpp
         Utils/Adam.cpp
         Utils/Combinatorics.cpp
         Utils/IO.cpp
@@ -12,6 +11,7 @@ if (MAKE_MDP)
         Utils/StorageEigen.cpp
         Utils/LP/LpSolveWrapper.cpp
         Tools/Statistics.cpp
+        Tools/CassandraParser.cpp
         Bandit/Experience.cpp
         Bandit/Policies/EpsilonPolicy.cpp
         Bandit/Policies/RandomPolicy.cpp

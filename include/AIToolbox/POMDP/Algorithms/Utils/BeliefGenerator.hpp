@@ -5,7 +5,7 @@
 
 #include <boost/container/flat_set.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
@@ -92,7 +92,7 @@ namespace AIToolbox::POMDP {
     template <IsGenerativeModel M>
     BeliefGenerator<M>::BeliefGenerator(const M& model) :
             model_(model), S(model_.getS()), A(model_.getA()),
-            rand_(Impl::Seeder::getSeed()),
+            rand_(Seeder::getSeed()),
             blp_(nullptr), sop_(nullptr), up_(nullptr), dp_(nullptr), helper_(S) {}
 
     template <IsGenerativeModel M>

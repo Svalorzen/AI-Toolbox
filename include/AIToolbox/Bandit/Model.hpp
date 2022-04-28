@@ -2,7 +2,7 @@
 #define AI_TOOLBOX_BANDIT_MODEL_HEADER_FILE
 
 #include <AIToolbox/Types.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox::Bandit {
     /**
@@ -85,13 +85,13 @@ namespace AIToolbox::Bandit {
     template <typename Dist>
     template <typename... TupleArgs>
     Model<Dist>::Model(TupleArgs... tupleArgs) :
-        arms_({std::make_from_tuple<Dist>(std::move(tupleArgs))...}), rand_(AIToolbox::Impl::Seeder::getSeed())
+        arms_({std::make_from_tuple<Dist>(std::move(tupleArgs))...}), rand_(AIToolbox::Seeder::getSeed())
     {}
 
     template <typename Dist>
     template <typename... Args>
     Model<Dist>::Model(std::vector<std::tuple<Args...>> args) :
-        rand_(AIToolbox::Impl::Seeder::getSeed())
+        rand_(AIToolbox::Seeder::getSeed())
     {
         arms_.reserve(args.size());
 

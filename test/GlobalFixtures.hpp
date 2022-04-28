@@ -6,7 +6,7 @@
 #include <boost/test/tree/visitor.hpp>
 #include <boost/test/tree/traverse.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 struct SeedPrinter {
     struct AllPassVisitor : boost::unit_test::test_tree_visitor {
@@ -26,7 +26,7 @@ struct SeedPrinter {
 
         // If not, print the global seed to reproduce errors.
         if (!v.passed)
-            BOOST_CHECK_MESSAGE(false, "ROOT SEED: " << AIToolbox::Impl::Seeder::getRootSeed());
+            BOOST_CHECK_MESSAGE(false, "ROOT SEED: " << AIToolbox::Seeder::getRootSeed());
     }
 };
 

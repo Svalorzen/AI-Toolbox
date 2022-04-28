@@ -2,11 +2,11 @@
 
 #include <AIToolbox/POMDP/Utils.hpp>
 
-#include <AIToolbox/Impl/CassandraParser.hpp>
+#include <AIToolbox/Tools/CassandraParser.hpp>
 
 namespace AIToolbox::POMDP {
     Model<MDP::Model> parseCassandra(std::istream & input) {
-        Impl::CassandraParser parser;
+        CassandraParser parser;
 
         const auto & [S, A, O, T, R, W, discount] = parser.parsePOMDP(input);
 

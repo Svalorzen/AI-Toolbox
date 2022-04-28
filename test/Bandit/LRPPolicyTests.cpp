@@ -4,7 +4,7 @@
 #include <boost/test/unit_test.hpp>
 #include "GlobalFixtures.hpp"
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Bandit/Policies/LRPPolicy.hpp>
 
 std::pair<double, double> testPrisonersDilemma(unsigned a, unsigned b) {
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( prisoners_dilemma ) {
     LRPPolicy p2(A, 0.05);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Seeder::getSeed());
 
     for ( unsigned i = 0; i < 1000; ++i ) {
         const size_t a = p1.sampleAction();
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE( randomish_game ) {
     LRPPolicy p2(A, 0.01);
 
     std::uniform_real_distribution<double> dist(0.0, 1.0);
-    AIToolbox::RandomEngine rand(AIToolbox::Impl::Seeder::getSeed());
+    AIToolbox::RandomEngine rand(AIToolbox::Seeder::getSeed());
 
     for ( unsigned i = 0; i < 50000; ++i ) {
         const size_t a = p1.sampleAction();

@@ -197,7 +197,7 @@ inline AIToolbox::POMDP::Model<AIToolbox::MDP::Model> makeTigerProblem() {
 
 int main() {
     // We create a random engine, since we will need this later.
-    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    std::default_random_engine rand(AIToolbox::Seeder::getSeed());
 
     // Create model of the problem.
     auto model = makeTigerProblem();

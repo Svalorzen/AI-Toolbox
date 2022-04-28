@@ -228,7 +228,7 @@ int main() {
     AIToolbox::MDP::Policy policy(world.getS(), world.getA(), std::get<1>(solution));
 
     // We create a random engine to pick a random state as start.
-    std::default_random_engine rand(AIToolbox::Impl::Seeder::getSeed());
+    std::default_random_engine rand(AIToolbox::Seeder::getSeed());
     std::uniform_int_distribution<size_t> start(0, SQUARE_SIZE * SQUARE_SIZE * SQUARE_SIZE * SQUARE_SIZE - 1);
 
     size_t s, a, s1;

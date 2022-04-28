@@ -1,10 +1,10 @@
 #include <AIToolbox/POMDP/Algorithms/PBVI.hpp>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox::POMDP {
     PBVI::PBVI(const size_t nBeliefs, const unsigned h, const double t) :
-            beliefSize_(nBeliefs), horizon_(h), rand_(Impl::Seeder::getSeed())
+            beliefSize_(nBeliefs), horizon_(h), rand_(Seeder::getSeed())
     {
         setTolerance(t);
     }

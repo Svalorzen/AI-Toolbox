@@ -3,7 +3,7 @@
 #include <limits>
 #include <iomanip>
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 
 namespace AIToolbox {
     // ################################################

@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_MDP_SPARSE_MODEL_HEADER_FILE
 #define AI_TOOLBOX_MDP_SPARSE_MODEL_HEADER_FILE
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
@@ -379,7 +379,7 @@ namespace AIToolbox::MDP {
     template <IsNaive3DMatrix T, IsNaive3DMatrix R>
     SparseModel::SparseModel(const size_t s, const size_t a, const T & t, const R & r, const double d) :
             S(s), A(a), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         setDiscount(d);
         setTransitionFunction(t);
@@ -389,7 +389,7 @@ namespace AIToolbox::MDP {
     template <IsModel M>
     SparseModel::SparseModel(const M& model) :
             S(model.getS()), A(model.getA()), transitions_(A, SparseMatrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         setDiscount(model.getDiscount());
         for ( size_t s = 0; s < S; ++s )

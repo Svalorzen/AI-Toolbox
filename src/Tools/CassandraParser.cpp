@@ -1,4 +1,4 @@
-#include <AIToolbox/Impl/CassandraParser.hpp>
+#include <AIToolbox/Tools/CassandraParser.hpp>
 
 #include <numeric>
 #include <istream>
@@ -7,7 +7,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
 
-namespace AIToolbox::Impl {
+namespace AIToolbox {
     CassandraParser::CassandraParser() {
         // Assign an action to parse each value for the preambles. Lines parsed
         // in the preamble are parsed before the others.

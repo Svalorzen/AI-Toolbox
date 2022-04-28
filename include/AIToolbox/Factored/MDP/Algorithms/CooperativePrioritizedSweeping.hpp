@@ -6,7 +6,7 @@
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 #include <AIToolbox/Factored/Utils/FasterTrie.hpp>
 #include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Factored/MDP/Algorithms/Utils/CPSQueue.hpp>
 
 namespace AIToolbox::Factored::MDP {
@@ -116,7 +116,7 @@ namespace AIToolbox::Factored::MDP {
             rewardStorage_(model_.getS().size()),
             gp_(model_.getS(), model_.getA(), q_),
             queue_(model_.getGraph()),
-            rand_(Impl::Seeder::getSeed())
+            rand_(Seeder::getSeed())
     {
         // We weight the rewards so that they are split correctly between the
         // components of the QFunction.

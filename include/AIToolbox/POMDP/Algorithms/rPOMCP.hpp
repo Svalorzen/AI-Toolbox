@@ -3,8 +3,8 @@
 
 #include <unordered_map>
 
-#include <AIToolbox/Impl/Logging.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Logging.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/POMDP/Types.hpp>
 #include <AIToolbox/POMDP/TypeTraits.hpp>
@@ -203,7 +203,7 @@ namespace AIToolbox::POMDP {
     rPOMCP<M, UseEntropy>::rPOMCP(const M& m, const size_t beliefSize, const unsigned iter, const double exp, const unsigned k) : model_(m), S(model_.getS()), A(model_.getA()),
         beliefSize_(beliefSize), iterations_(iter),
         exploration_(exp), k_(k),
-        rand_(AIToolbox::Impl::Seeder::getSeed()), graph_(A, rand_) {}
+        rand_(AIToolbox::Seeder::getSeed()), graph_(A, rand_) {}
 
     template <IsGenerativeModel M, bool UseEntropy>
     size_t rPOMCP<M, UseEntropy>::sampleAction(const Belief& b, const unsigned horizon) {

@@ -4,7 +4,7 @@
 #include <utility>
 #include <random>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Types.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
@@ -348,7 +348,7 @@ namespace AIToolbox::MDP {
     template <IsNaive3DMatrix T, IsNaive3DMatrix R>
     Model::Model(const size_t s, const size_t a, const T & t, const R & r, const double d) :
             S(s), A(a), transitions_(A, Matrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         setDiscount(d);
         setTransitionFunction(t);
@@ -358,7 +358,7 @@ namespace AIToolbox::MDP {
     template <IsModel M>
     Model::Model(const M& model) :
             S(model.getS()), A(model.getA()), transitions_(A, Matrix2D(S, S)),
-            rewards_(S, A), rand_(Impl::Seeder::getSeed())
+            rewards_(S, A), rand_(Seeder::getSeed())
     {
         setDiscount(model.getDiscount());
         rewards_.setZero();

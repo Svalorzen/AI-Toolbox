@@ -1,7 +1,7 @@
 #ifndef AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 #define AI_TOOLBOX_MDP_VALUE_ITERATION_HEADER_FILE
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Utils.hpp>

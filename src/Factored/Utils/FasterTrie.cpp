@@ -2,13 +2,13 @@
 
 #include <algorithm>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 namespace AIToolbox::Factored {
     FasterTrie::FasterTrie(Factors f) :
             F(std::move(f)),
             counter_(0), keys_(F.size()),
-            rand_(Impl::Seeder::getSeed()), orders_(F.size()+1)
+            rand_(Seeder::getSeed()), orders_(F.size()+1)
     {
         for (size_t i = 0; i < F.size(); ++i)
             keys_[i].resize(F[i]);

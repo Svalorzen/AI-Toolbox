@@ -4,7 +4,7 @@
 #include <AIToolbox/MDP/Types.hpp>
 #include <AIToolbox/MDP/TypeTraits.hpp>
 #include <AIToolbox/MDP/Algorithms/QLearning.hpp>
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 
 #include <boost/functional/hash.hpp>
 #include <utility>
@@ -138,7 +138,7 @@ namespace AIToolbox::MDP {
 
     template <IsGenerativeModel M>
     DynaQ<M>::DynaQ(const M & m, const double alpha, const unsigned n) :
-            N(n), model_(m), qLearning_(model_, alpha), rand_(Impl::Seeder::getSeed())
+            N(n), model_(m), qLearning_(model_, alpha), rand_(Seeder::getSeed())
     {
         visitedStatesActionsInserter_.reserve(model_.getS()*model_.getA());
         visitedStatesActionsSampler_.reserve(model_.getS()*model_.getA());

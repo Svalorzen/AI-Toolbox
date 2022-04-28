@@ -5,7 +5,7 @@
 
 #include <boost/heap/fibonacci_heap.hpp>
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 
 #include <AIToolbox/Utils/Polytope.hpp>
 

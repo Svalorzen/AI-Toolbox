@@ -3,7 +3,7 @@
 
 #include <random>
 
-#include <AIToolbox/Impl/Seeder.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Probability.hpp>
 #include <AIToolbox/MDP/Types.hpp>
@@ -294,7 +294,7 @@ namespace AIToolbox::POMDP {
     template <typename... Args>
     SparseModel<M>::SparseModel(const size_t o, Args&&... params) :
             M(std::forward<Args>(params)...), O(o), observations_(this->getA(),
-            SparseMatrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
+            SparseMatrix2D(this->getS(), O)), rand_(Seeder::getSeed())
     {
         for ( size_t a = 0; a < this->getA(); ++a ) {
             for ( size_t s1 = 0; s1 < this->getS(); ++s1 )
@@ -307,7 +307,7 @@ namespace AIToolbox::POMDP {
     template <IsNaive3DMatrix ObFun, typename... Args>
     SparseModel<M>::SparseModel(const size_t o, ObFun && of, Args&&... params) :
             M(std::forward<Args>(params)...), O(o),
-            observations_(this->getA(), SparseMatrix2D(this->getS(), O)), rand_(Impl::Seeder::getSeed())
+            observations_(this->getA(), SparseMatrix2D(this->getS(), O)), rand_(Seeder::getSeed())
     {
         setObservationFunction(of);
     }
@@ -324,7 +324,7 @@ namespace AIToolbox::POMDP {
     requires IsModel<PM> && std::constructible_from<M, PM>
     SparseModel<M>::SparseModel(const PM& model) :
             M(model), O(model.getO()), observations_(this->getA(), SparseMatrix2D(this->getS(), O)),
-            rand_(Impl::Seeder::getSeed())
+            rand_(Seeder::getSeed())
     {
         for ( size_t a = 0; a < this->getA(); ++a ) {
             for ( size_t s1 = 0; s1 < this->getS(); ++s1 ) {

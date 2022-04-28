@@ -2,7 +2,7 @@
 
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
-#include <AIToolbox/Impl/Logging.hpp>
+#include <AIToolbox/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
     MAUCEPolicy::MAUCEPolicy(const Experience & exp, std::vector<double> ranges) :
