@@ -48,8 +48,6 @@ namespace AIToolbox {
 
             static Seeder instance_;
 
-            // Here we don't use a mersenne twister, since this is just for
-            // seeding and it's not so important (I hope?).
             unsigned rootSeed_;
             RandomEngine generator_;
     };
