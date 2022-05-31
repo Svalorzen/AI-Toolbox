@@ -101,7 +101,7 @@ MDP or POMDP model. You can find some examples
 [here](http://pomdp.org/examples/). While it is absolutely not necessary to use
 this format, and you can define models via code, we do parse a reasonable subset
 of Cassandra's POMDP format, which allows to reuse already defined problems with
-this library. [Here's the docs on that](http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Impl_1_1CassandraParser.html).
+this library. [Here's the docs on that](http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1CassandraParser.html).
 
 ### Python 2 and 3 Bindings! ###
 
