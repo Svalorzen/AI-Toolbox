@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('MCTS_8hpp_source.html',''); initResiza
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="MDP_2Types_8hpp.html">AIToolbox/MDP/Types.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="MDP_2TypeTraits_8hpp.html">AIToolbox/MDP/TypeTraits.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Probability_8hpp.html">AIToolbox/Utils/Probability.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Seeder_8hpp.html">AIToolbox/Impl/Seeder.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Seeder_8hpp.html">AIToolbox/Seeder.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Rollout_8hpp.html">AIToolbox/MDP/Algorithms/Utils/Rollout.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
@@ -163,7 +163,7 @@ $(document).ready(function(){initNavTree('MCTS_8hpp_source.html',''); initResiza
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    requires AIToolbox::IsGenerativeModel&lt;M&gt; &amp;&amp; HasIntegralActionSpace&lt;M&gt;</div>
 <div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1MDP_1_1MCTS.html#aef1c1a26c4eb6efaca0c866e2607e03d">  179</a></span>&#160;    <a class="code" href="classAIToolbox_1_1MDP_1_1MCTS.html#aef1c1a26c4eb6efaca0c866e2607e03d">MCTS&lt;M, StateHash&gt;::MCTS</a>(<span class="keyword">const</span> M&amp; m, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> iter, <span class="keyword">const</span> <span class="keywordtype">double</span> exp) :</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            model_(m), iterations_(iter),</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            exploration_(exp), graph_(), rand_(Impl::Seeder::getSeed()) {}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            exploration_(exp), graph_(), rand_(<a class="code" href="classAIToolbox_1_1Seeder.html">Seeder</a>::getSeed()) {}</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> M, <span class="keyword">template</span> &lt;<span class="keyword">typename</span>&gt; <span class="keyword">class </span>StateHash&gt;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    requires AIToolbox::IsGenerativeModel&lt;M&gt; &amp;&amp; HasIntegralActionSpace&lt;M&gt;</div>
@@ -358,6 +358,7 @@ $(document).ready(function(){initNavTree('MCTS_8hpp_source.html',''); initResiza
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclassAIToolbox_1_1Seeder_html"><div class="ttname"><a href="classAIToolbox_1_1Seeder.html">AIToolbox::Seeder</a></div><div class="ttdoc">This class is an internal class used to seed all random engines in the library.</div><div class="ttdef"><b>Definition:</b> Seeder.hpp:15</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils_html_afa390becb8ed2819c310e81cc67184fb"><div class="ttname"><a href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#afa390becb8ed2819c310e81cc67184fb">AIToolbox::POMDP::TigerProblemUtils::State</a></div><div class="ttdeci">State</div><div class="ttdef"><b>Definition:</b> TigerProblem.hpp:15</div></div>
 <div class="ttc" id="astructAIToolbox_1_1MDP_1_1MCTS_1_1StateNode_html_a46150d71ed633f1b39763c2f8455fe24"><div class="ttname"><a href="structAIToolbox_1_1MDP_1_1MCTS_1_1StateNode.html#a46150d71ed633f1b39763c2f8455fe24">AIToolbox::MDP::MCTS::StateNode::N</a></div><div class="ttdeci">unsigned N</div><div class="ttdef"><b>Definition:</b> MCTS.hpp:66</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1MDP_1_1MCTS_html"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1MCTS.html">AIToolbox::MDP::MCTS</a></div><div class="ttdoc">This class represents the MCTS online planner using UCB1.</div><div class="ttdef"><b>Definition:</b> MCTS.hpp:49</div></div>

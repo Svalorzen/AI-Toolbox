@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('OldMDPModel_8hpp_source.html',''); ini
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="MDP_2TypeTraits_8hpp.html">AIToolbox/MDP/TypeTraits.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Utils_2Core_8hpp.html">AIToolbox/Utils/Core.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Probability_8hpp.html">AIToolbox/Utils/Probability.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Seeder_8hpp.html">AIToolbox/Impl/Seeder.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Seeder_8hpp.html">AIToolbox/Seeder.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classOldMDPModel.html">   75</a></span>&#160;<span class="keyword">class </span><a class="code" href="classOldMDPModel.html">OldMDPModel</a> {</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">public</span>:</div>
@@ -153,7 +153,7 @@ $(document).ready(function(){initNavTree('OldMDPModel_8hpp_source.html',''); ini
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="keyword">template</span> &lt;AIToolbox::IsNaive3DMatrix T, AIToolbox::IsNaive3DMatrix R&gt;</div>
 <div class="line"><a name="l00299"></a><span class="lineno"><a class="line" href="classOldMDPModel.html#aa7cfcbab3d5cd16648d521b80e64b200">  299</a></span>&#160;<a class="code" href="classOldMDPModel.html#aa62e2c03fdd0334a302cf3cc2014ceda">OldMDPModel::OldMDPModel</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keyword">const</span> T &amp; t, <span class="keyword">const</span> R &amp; r, <span class="keywordtype">double</span> d) : S(s), A(a), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Impl::Seeder::getSeed())</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Seeder::getSeed())</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;{</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <a class="code" href="classOldMDPModel.html#a0447e11e8015945ec46b76caa6fd960b">setDiscount</a>(d);</div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <a class="code" href="classOldMDPModel.html#a02f8101611255bbcc26a419c29283d0e">setTransitionFunction</a>(t);</div>
@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('OldMDPModel_8hpp_source.html',''); ini
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; </div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="keyword">template</span> &lt;AIToolbox::MDP::IsModel M&gt;</div>
 <div class="line"><a name="l00308"></a><span class="lineno"><a class="line" href="classOldMDPModel.html#a23bad0e882bbcacfc5c988e1746b80db">  308</a></span>&#160;<a class="code" href="classOldMDPModel.html#aa62e2c03fdd0334a302cf3cc2014ceda">OldMDPModel::OldMDPModel</a>(<span class="keyword">const</span> M&amp; model) : S(model.getS()), A(model.getA()), discount_(model.getDiscount()), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Impl::Seeder::getSeed())</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Seeder::getSeed())</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;{</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; A; ++a ) {</div>
@@ -191,7 +191,7 @@ $(document).ready(function(){initNavTree('OldMDPModel_8hpp_source.html',''); ini
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;}</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160; </div>
 <div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="classOldMDPModel.html#aa62e2c03fdd0334a302cf3cc2014ceda">  337</a></span>&#160;<a class="code" href="classOldMDPModel.html#aa62e2c03fdd0334a302cf3cc2014ceda">OldMDPModel::OldMDPModel</a>(<span class="keywordtype">size_t</span> s, <span class="keywordtype">size_t</span> a, <span class="keywordtype">double</span> discount) : S(s), A(a), discount_(discount), transitions_(boost::extents[S][A][S]), rewards_(boost::extents[S][A][S]),</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Impl::Seeder::getSeed())</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Seeder::getSeed())</div>
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;{</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="comment">// Make transition matrix true probability</span></div>
 <div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; S; ++s )</div>

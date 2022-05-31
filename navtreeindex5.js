@@ -1,9 +1,5 @@
 var NAVTREEINDEX5 =
 {
-"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html":[7,0,0,3,0],
-"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a3d583c319531f709a8ff94db4b40c60f":[7,0,0,3,0,0],
-"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a6a878031d7594fb60fd400d1d72b9879":[7,0,0,3,0,2],
-"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a6c3ba6af74e5b48039f23fcbb73c560d":[7,0,0,3,0,5],
 "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a9e374893acbba4ea89fbe1a3d9eaef77":[7,0,0,3,0,3],
 "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#ab57ca9f33be016329e96f721664c7cdf":[7,0,0,3,0,1],
 "classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#ac726a6c47f039f3f940ce4226bd4b52e":[7,0,0,3,0,4],
@@ -249,5 +245,9 @@ var NAVTREEINDEX5 =
 "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#a758c3b8e34a678c678e999db01c61b00":[7,0,0,3,21,5],
 "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#ac5936c3e4173b5044c9d9a8f262859c5":[7,0,0,3,21,4],
 "classAIToolbox_1_1MDP_1_1PolicyEvaluation.html#ae8beb5d377fc21cbef1d1f8ec126d470":[7,0,0,3,21,1],
-"classAIToolbox_1_1MDP_1_1PolicyInterface.html":[7,0,0,3,22]
+"classAIToolbox_1_1MDP_1_1PolicyInterface.html":[7,0,0,3,22],
+"classAIToolbox_1_1MDP_1_1PolicyInterface.html#ad79b9ffabb4fd29f6e2207fa12bc23ed":[7,0,0,3,22,1],
+"classAIToolbox_1_1MDP_1_1PolicyInterface.html#ae10f920bd58bd6fa87355cbaf998192a":[7,0,0,3,22,0],
+"classAIToolbox_1_1MDP_1_1PolicyIteration.html":[7,0,0,3,23],
+"classAIToolbox_1_1MDP_1_1PolicyIteration.html#a2a9c4c022ed7564a653b75c42be5ee7d":[7,0,0,3,23,1]
 };

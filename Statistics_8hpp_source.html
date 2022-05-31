@@ -103,21 +103,21 @@ $(document).ready(function(){initNavTree('Statistics_8hpp_source.html',''); init
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Statistics.html#a139db9f2b824b22fe567fa137918ddf4">record</a>(<span class="keywordtype">double</span> value, <span class="keywordtype">size_t</span> timestep);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <a class="code" href="classAIToolbox_1_1Statistics.html#a6cbb234d8c64b6bdea41044b2a207cb4">Results</a> <a class="code" href="classAIToolbox_1_1Statistics.html#aa535ac248a0f4273fffbe4b6910cbc65">process</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">//                       Count,    sum,    sum squared, squared sum</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">using</span> Point = std::tuple&lt;unsigned, double, double,      double&gt;;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            std::vector&lt;Point&gt; data_;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordtype">size_t</span> prevTimestep_;  </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordtype">double</span> currentCumulativeValue_; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    };</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    std::ostream&amp; <a class="code" href="namespaceAIToolbox.html#a6ca50b6d2585387be42d0ae76205f34a">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1Statistics.html">Statistics</a> &amp; rh);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <a class="code" href="classAIToolbox_1_1Statistics.html#a6cbb234d8c64b6bdea41044b2a207cb4">Results</a> <a class="code" href="classAIToolbox_1_1Statistics.html#aa535ac248a0f4273fffbe4b6910cbc65">process</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="comment">//                       Count,    sum,    sum squared, squared sum</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keyword">using</span> Point = std::tuple&lt;unsigned, double, double,      double&gt;;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            std::vector&lt;Point&gt; data_;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordtype">size_t</span> prevTimestep_;  </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordtype">double</span> currentCumulativeValue_; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    };</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    std::ostream&amp; <a class="code" href="namespaceAIToolbox.html#a6ca50b6d2585387be42d0ae76205f34a">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1Statistics.html">Statistics</a> &amp; rh);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassAIToolbox_1_1Statistics_html_aa535ac248a0f4273fffbe4b6910cbc65"><div class="ttname"><a href="classAIToolbox_1_1Statistics.html#aa535ac248a0f4273fffbe4b6910cbc65">AIToolbox::Statistics::process</a></div><div class="ttdeci">Results process() const</div><div class="ttdoc">This function computes mean and standard deviation for all timesteps.</div></div>

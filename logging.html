@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('logging.html',''); initResizable(); })
     std::cout &lt;&lt; '[' &lt;&lt; severity &lt;&lt; "] " &lt;&lt; message &lt;&lt; '\n';
 }
 </pre><p>And then, at the beginning of your main function: </p><pre class="fragment">AIToolbox::AILogger = myLoggerFunction;
-</pre><p>And this would start logging automatically with no filtering. Remember to include the logging header! </p><pre class="fragment">#include &lt;AIToolbox/Impl/Logging.hpp&gt;
+</pre><p>And this would start logging automatically with no filtering. Remember to include the logging header! </p><pre class="fragment">#include &lt;AIToolbox/Logging.hpp&gt;
 </pre><h2>Priorities and Log Information</h2>
 <p><a class="el" href="namespaceAIToolbox.html">AIToolbox</a> defines 4 different severity levels:</p>
 <ul>

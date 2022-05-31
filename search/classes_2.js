@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['cassandraparser_935',['CassandraParser',['../classAIToolbox_1_1Impl_1_1CassandraParser.html',1,'AIToolbox::Impl']]],
+  ['cassandraparser_935',['CassandraParser',['../classAIToolbox_1_1CassandraParser.html',1,'AIToolbox']]],
   ['children_936',['Children',['../structAIToolbox_1_1POMDP_1_1SARSOP_1_1TreeNode_1_1Children.html',1,'AIToolbox::POMDP::SARSOP::TreeNode']]],
   ['cooperativeexperience_937',['CooperativeExperience',['../classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeExperience.html',1,'AIToolbox::Factored::MDP']]],
   ['cooperativemaximumlikelihoodmodel_938',['CooperativeMaximumLikelihoodModel',['../classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html',1,'AIToolbox::Factored::MDP']]],

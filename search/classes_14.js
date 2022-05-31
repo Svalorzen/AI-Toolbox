@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['valuefunction_1100',['ValueFunction',['../structAIToolbox_1_1MDP_1_1ValueFunction.html',1,'AIToolbox::MDP::ValueFunction'],['../structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html',1,'AIToolbox::Factored::MDP::ValueFunction']]],
+  ['valuefunction_1100',['ValueFunction',['../structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html',1,'AIToolbox::Factored::MDP::ValueFunction'],['../structAIToolbox_1_1MDP_1_1ValueFunction.html',1,'AIToolbox::MDP::ValueFunction']]],
   ['valuefunctionrule_1101',['ValueFunctionRule',['../structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html',1,'AIToolbox::Factored::MDP']]],
   ['valueiteration_1102',['ValueIteration',['../classAIToolbox_1_1MDP_1_1ValueIteration.html',1,'AIToolbox::MDP']]],
   ['variableelimination_1103',['VariableElimination',['../classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html',1,'AIToolbox::Factored::Bandit']]],

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['thompsonmodel_1090',['ThompsonModel',['../classAIToolbox_1_1MDP_1_1ThompsonModel.html',1,'AIToolbox::MDP']]],
-  ['thompsonsamplingpolicy_1091',['ThompsonSamplingPolicy',['../classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html',1,'AIToolbox::Bandit::ThompsonSamplingPolicy'],['../classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html',1,'AIToolbox::Factored::Bandit::ThompsonSamplingPolicy']]],
+  ['thompsonsamplingpolicy_1091',['ThompsonSamplingPolicy',['../classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html',1,'AIToolbox::Factored::Bandit::ThompsonSamplingPolicy'],['../classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html',1,'AIToolbox::Bandit::ThompsonSamplingPolicy']]],
   ['tigerantelope_1092',['TigerAntelope',['../classAIToolbox_1_1Factored_1_1MDP_1_1TigerAntelope.html',1,'AIToolbox::Factored::MDP']]],
   ['toptwothompsonsamplingpolicy_1093',['TopTwoThompsonSamplingPolicy',['../classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html',1,'AIToolbox::Bandit']]],
   ['treebackupl_1094',['TreeBackupL',['../classAIToolbox_1_1MDP_1_1TreeBackupL.html',1,'AIToolbox::MDP']]],

@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('OldPOMDPModel_8hpp_source.html',''); i
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;random&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Seeder_8hpp.html">AIToolbox/Impl/Seeder.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Seeder_8hpp.html">AIToolbox/Seeder.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Utils_2Core_8hpp.html">AIToolbox/Utils/Core.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Probability_8hpp.html">AIToolbox/Utils/Probability.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Types_8hpp.html">AIToolbox/Types.hpp</a>&gt;</span></div>
@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('OldPOMDPModel_8hpp_source.html',''); i
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="keyword">template</span> &lt;AIToolbox::MDP::IsModel M&gt;</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
 <div class="line"><a name="l00225"></a><span class="lineno"><a class="line" href="classOldPOMDPModel.html#a78358cf6817fae0a9637a809d918519a">  225</a></span>&#160;<a class="code" href="classOldPOMDPModel.html#a78358cf6817fae0a9637a809d918519a">OldPOMDPModel&lt;M&gt;::OldPOMDPModel</a>(<span class="keywordtype">size_t</span> o, Args&amp;&amp;... params) : M(std::forward&lt;Args&gt;(params)...), O(o), observations_(boost::extents[this-&gt;getS()][this-&gt;getA()][O]),</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                                              rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Impl::Seeder::getSeed())</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                                              rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Seeder::getSeed())</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;{</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s = 0; s &lt; this-&gt;getS(); ++s )</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; this-&gt;getA(); ++a )</div>
@@ -151,7 +151,7 @@ $(document).ready(function(){initNavTree('OldPOMDPModel_8hpp_source.html',''); i
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="keyword">template</span> &lt;AIToolbox::MDP::IsModel M&gt;</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="keyword">template</span> &lt;<a class="code" href="namespaceAIToolbox.html#a61f3f8932c6ce6bf6e9b2595888c1e4c">AIToolbox::IsNaive3DMatrix</a> ObFun, <span class="keyword">typename</span>... Args&gt;</div>
 <div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="classOldPOMDPModel.html#a725b79205ee3079a51a8f10ba79f1b11">  235</a></span>&#160;<a class="code" href="classOldPOMDPModel.html#a78358cf6817fae0a9637a809d918519a">OldPOMDPModel&lt;M&gt;::OldPOMDPModel</a>(<span class="keywordtype">size_t</span> o, ObFun &amp;&amp; of, Args&amp;&amp;... params) : M(std::forward&lt;Args&gt;(params)...), O(o), observations_(boost::extents[this-&gt;getS()][this-&gt;getA()][O]),</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                                                                rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Impl::Seeder::getSeed())</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                                                                rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Seeder::getSeed())</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;{</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <a class="code" href="classOldPOMDPModel.html#a8cad5d463a8a894bcc4a0774ff4f6ca8">setObservationFunction</a>(of);</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;}</div>
@@ -160,7 +160,7 @@ $(document).ready(function(){initNavTree('OldPOMDPModel_8hpp_source.html',''); i
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> PM&gt;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;requires AIToolbox::POMDP::IsModel&lt;PM&gt; &amp;&amp; std::constructible_from&lt;M, PM&gt;</div>
 <div class="line"><a name="l00244"></a><span class="lineno"><a class="line" href="classOldPOMDPModel.html#a193f4aaaca801b00d9910540f98803ac">  244</a></span>&#160;<a class="code" href="classOldPOMDPModel.html#a78358cf6817fae0a9637a809d918519a">OldPOMDPModel&lt;M&gt;::OldPOMDPModel</a>(<span class="keyword">const</span> PM&amp; model) : M(model), O(model.getO()), observations_(boost::extents[this-&gt;getS()][this-&gt;getA()][O]),</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                                   rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Impl::Seeder::getSeed())</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                                   rand_(<a class="code" href="namespaceAIToolbox.html">AIToolbox</a>::Seeder::getSeed())</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;{</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> s1 = 0; s1 &lt; this-&gt;getS(); ++s1 )</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">size_t</span> a = 0; a &lt; this-&gt;getA(); ++a ) {</div>

@@ -195,7 +195,15 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function computes mean and standard deviation for all timesteps. </p>
-<dl class="section return"><dt>Returns</dt><dd>The mean and standard deviation for the recorded data. </dd></dl>
+<p>The return value of this function is a vector of tuples of the same size as the number of timesteps that the <a class="el" href="classAIToolbox_1_1Statistics.html" title="This class registers sets of data and computes statistics about it.">Statistics</a> was constructed with.</p>
+<p>Each tuple contains 4 double values.</p>
+<p>In order, they are:</p><ul>
+<li>The mean computed of all recorded values for the timestep.</li>
+<li>The cumulative mean computed from all recorded values for the timestep.</li>
+<li>The biased standard deviation of the recorded values (computed as sqrt from the unbiased variance)</li>
+<li>The biased standard deviation of the cumulative mean (computed as sqrt from the unbiased variance)</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>The mean and standard deviation (immediate and cumulative) for the recorded data. </dd></dl>
 
 </div>
 </div>

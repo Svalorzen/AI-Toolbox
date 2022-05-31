@@ -1,7 +1,7 @@
 var searchData=
 [
   ['qfunctionrule_1055',['QFunctionRule',['../structAIToolbox_1_1Factored_1_1Bandit_1_1QFunctionRule.html',1,'AIToolbox::Factored::Bandit::QFunctionRule'],['../structAIToolbox_1_1Factored_1_1MDP_1_1QFunctionRule.html',1,'AIToolbox::Factored::MDP::QFunctionRule']]],
-  ['qgreedypolicy_1056',['QGreedyPolicy',['../classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html',1,'AIToolbox::Factored::Bandit::QGreedyPolicy'],['../classAIToolbox_1_1MDP_1_1QGreedyPolicy.html',1,'AIToolbox::MDP::QGreedyPolicy'],['../classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html',1,'AIToolbox::Factored::MDP::QGreedyPolicy'],['../classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html',1,'AIToolbox::Bandit::QGreedyPolicy']]],
+  ['qgreedypolicy_1056',['QGreedyPolicy',['../classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html',1,'AIToolbox::Factored::Bandit::QGreedyPolicy'],['../classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html',1,'AIToolbox::Factored::MDP::QGreedyPolicy'],['../classAIToolbox_1_1MDP_1_1QGreedyPolicy.html',1,'AIToolbox::MDP::QGreedyPolicy'],['../classAIToolbox_1_1Bandit_1_1QGreedyPolicy.html',1,'AIToolbox::Bandit::QGreedyPolicy']]],
   ['qgreedypolicywrapper_1057',['QGreedyPolicyWrapper',['../classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper.html',1,'AIToolbox::Bandit']]],
   ['ql_1058',['QL',['../classAIToolbox_1_1MDP_1_1QL.html',1,'AIToolbox::MDP']]],
   ['qlearning_1059',['QLearning',['../classAIToolbox_1_1MDP_1_1QLearning.html',1,'AIToolbox::MDP']]],
