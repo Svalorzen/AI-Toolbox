@@ -143,6 +143,7 @@ if (MAKE_PYTHON)
             Python/Bandit/Policies/QSoftmaxPolicy.cpp
             Python/Bandit/Policies/ThompsonSamplingPolicy.cpp
             Python/Bandit/Policies/TopTwoThompsonSamplingPolicy.cpp
+            Python/Bandit/Policies/T3CPolicy.cpp
             Python/Bandit/Policies/SuccessiveRejectsPolicy.cpp
             Python/Bandit/Policies/LRPPolicy.cpp
             Python/Bandit/Policies/ESRLPolicy.cpp
