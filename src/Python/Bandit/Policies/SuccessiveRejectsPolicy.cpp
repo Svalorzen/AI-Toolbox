@@ -60,5 +60,9 @@ void exportBanditSuccessiveRejectsPolicy() {
 
         .def("getCurrentNk", &SuccessiveRejectsPolicy::getCurrentNk,
                  "This function returns the nK_ for the current phase."
+        , (arg("self")))
+
+        .def("getExperience", &SuccessiveRejectsPolicy::getExperience, return_internal_reference<>(),
+                "This function returns a reference to the underlying Experience we use."
         , (arg("self")));
 }

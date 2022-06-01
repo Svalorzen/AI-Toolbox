@@ -12,6 +12,7 @@ void exportBanditQGreedyPolicy();
 void exportBanditQSoftmaxPolicy();
 void exportBanditThompsonSamplingPolicy();
 void exportBanditTopTwoThompsonSamplingPolicy();
+void exportBanditT3CPolicy();
 void exportBanditSuccessiveRejectsPolicy();
 
 void exportBanditLRPPolicy();
@@ -38,6 +39,7 @@ void exportBandit() {
     exportBanditQSoftmaxPolicy();
     exportBanditThompsonSamplingPolicy();
     exportBanditTopTwoThompsonSamplingPolicy();
+    exportBanditT3CPolicy();
     exportBanditSuccessiveRejectsPolicy();
 
     exportBanditLRPPolicy();
