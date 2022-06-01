@@ -84,4 +84,8 @@ namespace AIToolbox::Bandit {
 
         return v;
     }
+
+    const Experience & SuccessiveRejectsPolicy::getExperience() const {
+        return exp_;
+    }
 }
