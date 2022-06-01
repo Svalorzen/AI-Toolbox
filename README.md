@@ -141,13 +141,13 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 
 ### Bandit/Normal Games: ###
 
-|                                                            | **Models**                                         |                        |
-| :--------------------------------------------------------: | :------------------------------------------------: | :--------------------: |
-| [Basic Model][bmod]                                        |                                                    |                        |
-|                                                            | **Policies**                                       |                        |
-| [Exploring Selfish Reinforcement Learning (ESRL)][esrl]    | [Q-Greedy Policy][bqgr]                            | [Softmax Policy][bsof] |
-| [Linear Reward Penalty][lrpe]                              | [Thompson Sampling (Student-t distribution)][btho] | [Random Policy][brnd]  |
-| [Top-Two Thompson Sampling (Student-t distribution)][ttho] | [Successive Rejects][sure]                         |                        |
+|                                                            | **Models**                                         |                                     |
+| :--------------------------------------------------------: | :------------------------------------------------: | :---------------------------------: |
+| [Basic Model][bmod]                                        |                                                    |                                     |
+|                                                            | **Policies**                                       |                                     |
+| [Exploring Selfish Reinforcement Learning (ESRL)][esrl]    | [Q-Greedy Policy][bqgr]                            | [Softmax Policy][bsof]              |
+| [Linear Reward Penalty][lrpe]                              | [Thompson Sampling (Student-t distribution)][btho] | [Random Policy][brnd]               |
+| [Top-Two Thompson Sampling (Student-t distribution)][ttho] | [Successive Rejects][sure]                         | [T3C (Normal distribution)][t3cp]   |
 
 [bmod]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1Model.html "Reinforcement Learning: An Introduction, Ch 2.1, Sutton & Barto"
 [esrl]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1ESRLPolicy.html "Exploring selfish reinforcement learning in repeated games with stochastic rewards, Verbeeck et al."
@@ -158,6 +158,7 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 [brnd]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1RandomPolicy.html
 [ttho]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html "Simple Bayesian Algorithms for Best Arm Identification, Russo"
 [sure]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html "Best Arm Identification in Multi-Armed Bandits, Audibert et al."
+[t3cp]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1T3CPolicy.html "Fixed-confidence guarantees for Bayesian best-arm identification, Shang et al."
 
 ### Single Agent MDP/Stochastic Games: ###
 
