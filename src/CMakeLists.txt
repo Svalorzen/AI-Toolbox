@@ -19,6 +19,7 @@ if (MAKE_MDP)
         Bandit/Policies/QSoftmaxPolicy.cpp
         Bandit/Policies/ThompsonSamplingPolicy.cpp
         Bandit/Policies/TopTwoThompsonSamplingPolicy.cpp
+        Bandit/Policies/T3CPolicy.cpp
         Bandit/Policies/SuccessiveRejectsPolicy.cpp
         Bandit/Policies/LRPPolicy.cpp
         Bandit/Policies/ESRLPolicy.cpp
