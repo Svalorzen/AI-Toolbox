@@ -36,5 +36,13 @@ void exportBanditTopTwoThompsonSamplingPolicy() {
                  "\n"
                  "@param exp The Experience we learn from.\n"
                  "@param beta The probability of playing the first sampled best action instead of the second sampled best."
-        , (arg("self"), "exp", "beta")));
+        , (arg("self"), "exp", "beta")))
+
+        .def("recommendAction",    &TopTwoThompsonSamplingPolicy::recommendAction,
+                "This function returns the most likely best action until this point."
+        , (arg("self")))
+
+        .def("getExperience",    &TopTwoThompsonSamplingPolicy::getExperience, return_internal_reference<>(),
+                "This function returns a reference to the underlying Experience we use."
+        , (arg("self")));
 }
