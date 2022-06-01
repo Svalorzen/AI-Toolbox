@@ -198,7 +198,7 @@ endif()
 
 # These strings contain the user feedback on what things we are actually building.
 set(MAP_MAKE_ALL           "Building everything      (-DMAKE_ALL=${MAKE_ALL})")
-set(MAP_MAKE_LIB           "Building library         (-DMAKE_LIB=${MAKE_LIB})")
+set(MAP_MAKE_LIB           "Building entire library  (-DMAKE_LIB=${MAKE_LIB})")
 set(MAP_MAKE_MDP           "Building MDP             (-DMAKE_MDP=${MAKE_MDP})")
 set(MAP_MAKE_POMDP         "Building POMDP           (-DMAKE_POMDP=${MAKE_POMDP})")
 set(MAP_MAKE_FMDP          "Building Factored MDP    (-DMAKE_FMDP=${MAKE_FMDP})")
