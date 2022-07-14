@@ -51,7 +51,7 @@ namespace AIToolbox {
             }
             bool operator!=(IndexMapIterator other) const { return !(*this == other); }
 
-            auto operator++() {
+            auto& operator++() {
                 ++currentId_;
                 return *this;
             }
