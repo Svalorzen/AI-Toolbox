@@ -6,6 +6,7 @@
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Bandit/Types.hpp>
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/GraphUtils.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
 
 namespace AIToolbox::Factored::Bandit {
@@ -40,7 +41,9 @@ namespace AIToolbox::Factored::Bandit {
         auto rules = getDeterministicRules();
 
         VariableElimination ve;
-        std::tie(optimal_, rewardNorm_) = ve(A, rules);
+        auto g = MakeGraph<VariableElimination>()(rules, A);
+        UpdateGraph<VariableElimination>()(g, rules, A);
+        std::tie(optimal_, rewardNorm_) = ve(A, g);
 
         // If we don't normalize the best reward to 1, then we simply normalize
         // values so that productivities can never exceed 1 (since we use
