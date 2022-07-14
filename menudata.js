@@ -78,7 +78,8 @@ var menudata={children:[
 {text:"h",url:"namespacemembers_vars.html#index_h"},
 {text:"i",url:"namespacemembers_vars.html#index_i"},
 {text:"l",url:"namespacemembers_vars.html#index_l"},
-{text:"n",url:"namespacemembers_vars.html#index_n"}]},
+{text:"n",url:"namespacemembers_vars.html#index_n"},
+{text:"q",url:"namespacemembers_vars.html#index_q"}]},
 {text:"Typedefs",url:"namespacemembers_type.html",children:[
 {text:"a",url:"namespacemembers_type.html#index_a"},
 {text:"b",url:"namespacemembers_type.html#index_b"},
@@ -179,6 +180,7 @@ var menudata={children:[
 {text:"g",url:"functions_type.html#index_g"},
 {text:"h",url:"functions_type.html#index_h"},
 {text:"i",url:"functions_type.html#index_i"},
+{text:"l",url:"functions_type.html#index_l"},
 {text:"m",url:"functions_type.html#index_m"},
 {text:"o",url:"functions_type.html#index_o"},
 {text:"p",url:"functions_type.html#index_p"},

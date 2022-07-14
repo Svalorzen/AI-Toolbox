@@ -12,6 +12,7 @@ var namespaceAIToolbox_1_1Bandit =
     [ "QSoftmaxPolicyWrapper", "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicyWrapper.html", "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicyWrapper" ],
     [ "RandomPolicy", "classAIToolbox_1_1Bandit_1_1RandomPolicy.html", "classAIToolbox_1_1Bandit_1_1RandomPolicy" ],
     [ "SuccessiveRejectsPolicy", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy" ],
+    [ "T3CPolicy", "classAIToolbox_1_1Bandit_1_1T3CPolicy.html", "classAIToolbox_1_1Bandit_1_1T3CPolicy" ],
     [ "ThompsonSamplingPolicy", "classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html", "classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy" ],
     [ "TopTwoThompsonSamplingPolicy", "classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html", "classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy" ]
 ];

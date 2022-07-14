@@ -137,6 +137,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaf76c71be0375d8ec401ee39375b9492"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aaf76c71be0375d8ec401ee39375b9492">getPolicy</a> () const override</td></tr>
 <tr class="memdesc:aaf76c71be0375d8ec401ee39375b9492"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function probably should not be called, but otherwise is what you would expect given the current timestep.  <a href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aaf76c71be0375d8ec401ee39375b9492">More...</a><br /></td></tr>
 <tr class="separator:aaf76c71be0375d8ec401ee39375b9492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1f9bd2a7aaf06df177986040f04d323"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html">Experience</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aa1f9bd2a7aaf06df177986040f04d323">getExperience</a> () const</td></tr>
+<tr class="memdesc:aa1f9bd2a7aaf06df177986040f04d323"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the underlying <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html" title="This class computes averages and counts for a Bandit problem.">Experience</a> we use.  <a href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aa1f9bd2a7aaf06df177986040f04d323">More...</a><br /></td></tr>
+<tr class="separator:aa1f9bd2a7aaf06df177986040f04d323"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classAIToolbox_1_1PolicyInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classAIToolbox_1_1PolicyInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; void, void, size_t &gt;</a></td></tr>
 <tr class="memitem:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">PolicyInterface</a> (void s, size_t a)</td></tr>
 <tr class="memdesc:a68923fb951ce7c2bb27a97eba4afcb73 inherit pub_methods_classAIToolbox_1_1PolicyInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">More...</a><br /></td></tr>
@@ -297,6 +300,26 @@ Additional Inherited Members</h2></td></tr>
 
 <p>This function returns the current phase. </p>
 <p>Note that if the exploration process is ended, the current phase will be equal to the number of actions. </p>
+
+</div>
+</div>
+<a id="aa1f9bd2a7aaf06df177986040f04d323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1f9bd2a7aaf06df177986040f04d323">&#9670;&nbsp;</a></span>getExperience()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html">Experience</a>&amp; AIToolbox::Bandit::SuccessiveRejectsPolicy::getExperience </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns a reference to the underlying <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html" title="This class computes averages and counts for a Bandit problem.">Experience</a> we use. </p>
+<dl class="section return"><dt>Returns</dt><dd>The internal <a class="el" href="classAIToolbox_1_1Bandit_1_1Experience.html" title="This class computes averages and counts for a Bandit problem.">Experience</a> reference. </dd></dl>
 
 </div>
 </div>

@@ -25,6 +25,9 @@ var dir_6a50ee72886a30c2706246641bda9e94 =
     [ "SuccessiveRejectsPolicy.hpp", "SuccessiveRejectsPolicy_8hpp.html", [
       [ "SuccessiveRejectsPolicy", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy" ]
     ] ],
+    [ "T3CPolicy.hpp", "T3CPolicy_8hpp.html", [
+      [ "T3CPolicy", "classAIToolbox_1_1Bandit_1_1T3CPolicy.html", "classAIToolbox_1_1Bandit_1_1T3CPolicy" ]
+    ] ],
     [ "ThompsonSamplingPolicy.hpp", "Bandit_2Policies_2ThompsonSamplingPolicy_8hpp.html", [
       [ "ThompsonSamplingPolicy", "classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html", "classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy" ]
     ] ],

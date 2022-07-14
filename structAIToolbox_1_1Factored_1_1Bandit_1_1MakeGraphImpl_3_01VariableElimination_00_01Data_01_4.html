@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: AIToolbox::Factored::MDP::ValueFunctionRule Struct Reference</title>
+<title>AIToolbox: AIToolbox::Factored::Bandit::MakeGraphImpl&lt; VariableElimination, Data &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl_3_01VariableElimination_00_01Data_01_4.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -83,59 +83,61 @@ $(document).ready(function(){initNavTree('structAIToolbox_1_1Factored_1_1MDP_1_1
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule-members.html">List of all members</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl_3_01VariableElimination_00_01Data_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AIToolbox::Factored::MDP::ValueFunctionRule Struct Reference</div>  </div>
+<div class="title">AIToolbox::Factored::Bandit::MakeGraphImpl&lt; VariableElimination, Data &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This struct represents a single state/value tuple.  
- <a href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="Factored_2MDP_2Types_8hpp_source.html">AIToolbox/Factored/MDP/Types.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Bandit_2Algorithms_2Utils_2GraphUtils_8hpp_source.html">AIToolbox/Factored/Bandit/Algorithms/Utils/GraphUtils.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a30838cd01110325f05dcc6af3787dceb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1Factored.html#a9b51c3929a9c66b0404954dfe3c85557">PartialState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html#a30838cd01110325f05dcc6af3787dceb">state</a></td></tr>
-<tr class="separator:a30838cd01110325f05dcc6af3787dceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab059c93773b75ce17c114bb29fa2a3b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html#aab059c93773b75ce17c114bb29fa2a3b">value</a></td></tr>
-<tr class="separator:aab059c93773b75ce17c114bb29fa2a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a5e6b4100f20f05fcbcf5dcda2d39f6ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a7717dde8a96421d9e22d08a7d10f14da">VariableElimination::Graph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl_3_01VariableElimination_00_01Data_01_4.html#a5e6b4100f20f05fcbcf5dcda2d39f6ac">operator()</a> (const Data &amp;, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;)</td></tr>
+<tr class="separator:a5e6b4100f20f05fcbcf5dcda2d39f6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This struct represents a single state/value tuple. </p>
-<p>This struct can be used to represent factored Value Functions (possibly inside a <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html" title="This class offers a minimal interface to manager a factor graph.">FactorGraph</a>) or a set of basis functions. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a30838cd01110325f05dcc6af3787dceb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30838cd01110325f05dcc6af3787dceb">&#9670;&nbsp;</a></span>state</h2>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5e6b4100f20f05fcbcf5dcda2d39f6ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e6b4100f20f05fcbcf5dcda2d39f6ac">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Data &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceAIToolbox_1_1Factored.html#a9b51c3929a9c66b0404954dfe3c85557">PartialState</a> AIToolbox::Factored::MDP::ValueFunctionRule::state</td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html#a7717dde8a96421d9e22d08a7d10f14da">VariableElimination::Graph</a> <a class="el" href="structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl.html">AIToolbox::Factored::Bandit::MakeGraphImpl</a>&lt; <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html">VariableElimination</a>, Data &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const Data &amp;&#160;</td>
+          <td class="paramname">, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aab059c93773b75ce17c114bb29fa2a3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab059c93773b75ce17c114bb29fa2a3b">&#9670;&nbsp;</a></span>value</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">double AIToolbox::Factored::MDP::ValueFunctionRule::value</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/AIToolbox/Factored/MDP/<a class="el" href="Factored_2MDP_2Types_8hpp_source.html">Types.hpp</a></li>
+<li>include/AIToolbox/Factored/Bandit/Algorithms/Utils/<a class="el" href="Bandit_2Algorithms_2Utils_2GraphUtils_8hpp_source.html">GraphUtils.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

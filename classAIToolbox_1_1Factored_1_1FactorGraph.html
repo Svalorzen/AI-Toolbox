@@ -132,6 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afb9c6f8a76d3ba93667048c5d0d50627"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afb9c6f8a76d3ba93667048c5d0d50627">operator=</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a> &amp;)=delete</td></tr>
 <tr class="memdesc:afb9c6f8a76d3ba93667048c5d0d50627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted assignment operator.  <a href="classAIToolbox_1_1Factored_1_1FactorGraph.html#afb9c6f8a76d3ba93667048c5d0d50627">More...</a><br /></td></tr>
 <tr class="separator:afb9c6f8a76d3ba93667048c5d0d50627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f8be91a9ae5ba8fea13a3617e41b618"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a1f8be91a9ae5ba8fea13a3617e41b618">reset</a> (size_t variables)</td></tr>
+<tr class="memdesc:a1f8be91a9ae5ba8fea13a3617e41b618"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function re-initializes the graph from scratch as if it was just being built.  <a href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a1f8be91a9ae5ba8fea13a3617e41b618">More...</a><br /></td></tr>
+<tr class="separator:a1f8be91a9ae5ba8fea13a3617e41b618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37c433e95a56649af07bed9ac6b45ad7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#af77815a68f838461dc0b204a2e1ab74c">FactorItList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a37c433e95a56649af07bed9ac6b45ad7">getFactors</a> (size_t variable) const</td></tr>
 <tr class="memdesc:a37c433e95a56649af07bed9ac6b45ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns all factors adjacent to the given variable.  <a href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a37c433e95a56649af07bed9ac6b45ad7">More...</a><br /></td></tr>
 <tr class="separator:a37c433e95a56649af07bed9ac6b45ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -794,6 +797,34 @@ template&lt;typename FactorData &gt; </div>
 
 <p>Deleted assignment operator. </p>
 <p>Since we already provide a copy constructor, this is redundant. The assignment operator provided by default would be broken, so we remove it. </p>
+
+</div>
+</div>
+<a id="a1f8be91a9ae5ba8fea13a3617e41b618"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f8be91a9ae5ba8fea13a3617e41b618">&#9670;&nbsp;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FD &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">AIToolbox::Factored::FactorGraph</a>&lt; FD &gt;::reset </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function re-initializes the graph from scratch as if it was just being built. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">variables</td><td>The number of variables with which to start the graph. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

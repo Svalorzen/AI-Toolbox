@@ -89,15 +89,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AMDP_8hpp.html",
-"LLRPolicy_8hpp.html",
-"SysAdmin_8hpp.html#a5829cec956bc3c248f8c70dcb545e993",
-"classAIToolbox_1_1EpsilonPolicyInterface.html#ae3beb62b97a4bf8ca14a2a8fd49ade7c",
-"classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html#a89e87be497ca46ad06230a5ba095c708",
-"classAIToolbox_1_1MDP_1_1BanditPolicyAdaptor.html#a9e374893acbba4ea89fbe1a3d9eaef77",
-"classAIToolbox_1_1MDP_1_1PolicyIteration.html#a6f9f1efbfe20527724f5a1b6b0b6088c",
-"classAIToolbox_1_1POMDP_1_1BeliefNode.html#a8cdf3f90bc400d0c75662c1c1c6f9561",
-"classOldMDPModel.html#a8c5f0b6bf5f51be457401483776c2d07",
-"namespacemembers_v.html"
+"IncrementalPruning_8hpp.html",
+"SysAdminUtils_8hpp.html#af0e36ac71bc7cf837050303572d8dd31",
+"classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html",
+"classAIToolbox_1_1Factored_1_1GenericVariableElimination.html#af2acc23d00f052abdeabbb9e7b196337",
+"classAIToolbox_1_1IndexSkipMapIterator.html#a75c7ddc163084b9ede446e5185c180ed",
+"classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#a18bde6cb02b227e80a2ca8f82b16e583",
+"classAIToolbox_1_1MDP_1_1WoLFPolicy.html",
+"classAIToolbox_1_1StorageVector.html#acfecc324f37566e3a3e30206b03d8e30",
+"namespacemembers_func_f.html",
+"structTupleToPython.html#a5f0ff244aa06aecaf1a0ab3d66b0e5ec"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

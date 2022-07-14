@@ -1,0 +1,4 @@
+var structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01MDP_1_1QFunction_01_4 =
+[
+    [ "operator()", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01MDP_1_1QFunction_01_4.html#a968a04c7ac3e3c914632761f33ce733d", null ]
+];

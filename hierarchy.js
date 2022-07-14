@@ -1,8 +1,8 @@
 var hierarchy =
 [
+    [ "AIToolbox::MDP::MCTS< M, StateHash >::ActionNode", "structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html", null ],
     [ "AIToolbox::POMDP::POMCP< M >::ActionNode", "structAIToolbox_1_1POMDP_1_1POMCP_1_1ActionNode.html", null ],
     [ "AIToolbox::POMDP::ActionNode< UseEntropy >", "structAIToolbox_1_1POMDP_1_1ActionNode.html", null ],
-    [ "AIToolbox::MDP::MCTS< M, StateHash >::ActionNode", "structAIToolbox_1_1MDP_1_1MCTS_1_1ActionNode.html", null ],
     [ "AIToolbox::Adam", "classAIToolbox_1_1Adam.html", null ],
     [ "AIToolbox::POMDP::AMDP", "classAIToolbox_1_1POMDP_1_1AMDP.html", null ],
     [ "AIToolbox::Factored::BasisFunction", "structAIToolbox_1_1Factored_1_1BasisFunction.html", null ],
@@ -38,9 +38,9 @@ var hierarchy =
     [ "AIToolbox::Factored::Bandit::UCVE::Entry", "structAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_1_1Entry.html", null ],
     [ "AIToolbox::Factored::Bandit::MultiObjectiveVariableElimination::Entry", "structAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination_1_1Entry.html", null ],
     [ "AIToolbox::MDP::ExpectedSARSA", "classAIToolbox_1_1MDP_1_1ExpectedSARSA.html", null ],
+    [ "AIToolbox::MDP::Experience", "classAIToolbox_1_1MDP_1_1Experience.html", null ],
     [ "AIToolbox::Factored::Bandit::Experience", "classAIToolbox_1_1Factored_1_1Bandit_1_1Experience.html", null ],
     [ "AIToolbox::Bandit::Experience", "classAIToolbox_1_1Bandit_1_1Experience.html", null ],
-    [ "AIToolbox::MDP::Experience", "classAIToolbox_1_1MDP_1_1Experience.html", null ],
     [ "TupleFromPython< T >::ExtractPythonTuple< Id, bool >", "structTupleFromPython_1_1ExtractPythonTuple.html", null ],
     [ "TupleFromPython< T >::ExtractPythonTuple< 0, dummyForSpecialization >", "structTupleFromPython_1_1ExtractPythonTuple_3_010_00_01dummyForSpecialization_01_4.html", null ],
     [ "AIToolbox::Factored::MDP::FactoredLP", "classAIToolbox_1_1Factored_1_1MDP_1_1FactoredLP.html", null ],
@@ -85,6 +85,28 @@ var hierarchy =
     [ "AIToolbox::POMDP::LinearSupport", "classAIToolbox_1_1POMDP_1_1LinearSupport.html", null ],
     [ "AIToolbox::Factored::Bandit::LocalSearch", "classAIToolbox_1_1Factored_1_1Bandit_1_1LocalSearch.html", null ],
     [ "AIToolbox::LP", "classAIToolbox_1_1LP.html", null ],
+    [ "AIToolbox::Factored::MDP::MakeGraph< Maximizer >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph.html", null ],
+    [ "AIToolbox::Factored::Bandit::MakeGraph< Maximizer >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraph.html", null ],
+    [ "AIToolbox::Factored::MDP::MakeGraph< Bandit::LocalSearch >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph.html", [
+      [ "AIToolbox::Factored::MDP::MakeGraph< Bandit::MaxPlus >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph_3_01Bandit_1_1MaxPlus_01_4.html", null ],
+      [ "AIToolbox::Factored::MDP::MakeGraph< Bandit::ReusingIterativeLocalSearch >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph_3_01Bandit_1_1ReusingIterativeLocalSearch_01_4.html", null ]
+    ] ],
+    [ "AIToolbox::Factored::Bandit::MakeGraph< LocalSearch >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraph.html", [
+      [ "AIToolbox::Factored::Bandit::MakeGraph< MaxPlus >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraph_3_01MaxPlus_01_4.html", null ],
+      [ "AIToolbox::Factored::Bandit::MakeGraph< ReusingIterativeLocalSearch >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraph_3_01ReusingIterativeLocalSearch_01_4.html", null ]
+    ] ],
+    [ "AIToolbox::Factored::MDP::MakeGraphImpl< Maximizer, Data >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl.html", null ],
+    [ "AIToolbox::Factored::Bandit::MakeGraphImpl< Maximizer, Data >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl.html", [
+      [ "AIToolbox::Factored::MDP::MakeGraphImpl< Bandit::VariableElimination, Data >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl_3_01Bandit_1_1VariableElimination_00_01Data_01_4.html", null ]
+    ] ],
+    [ "AIToolbox::Factored::Bandit::MakeGraphImpl< Bandit::LocalSearch, Iterable >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl.html", [
+      [ "AIToolbox::Factored::MDP::MakeGraphImpl< Bandit::LocalSearch, Iterable >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl_3_01Bandit_1_1LocalSearch_00_01Iterable_01_4.html", null ]
+    ] ],
+    [ "AIToolbox::Factored::MDP::MakeGraphImpl< Bandit::LocalSearch, MDP::QFunction >", "structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl_3_01Bandit_1_1LocalSearch_00_01MDP_1_1QFunction_01_4.html", null ],
+    [ "AIToolbox::Factored::Bandit::MakeGraphImpl< Bandit::VariableElimination, Data >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl.html", null ],
+    [ "AIToolbox::Factored::Bandit::MakeGraphImpl< LocalSearch, Iterable >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl_3_01LocalSearch_00_01Iterable_01_4.html", null ],
+    [ "AIToolbox::Factored::Bandit::MakeGraphImpl< LocalSearch, QFunction >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl_3_01LocalSearch_00_01QFunction_01_4.html", null ],
+    [ "AIToolbox::Factored::Bandit::MakeGraphImpl< VariableElimination, Data >", "structAIToolbox_1_1Factored_1_1Bandit_1_1MakeGraphImpl_3_01VariableElimination_00_01Data_01_4.html", null ],
     [ "AIToolbox::Impl::Matcher< N, T, U, IDs >", "structAIToolbox_1_1Impl_1_1Matcher.html", null ],
     [ "AIToolbox::Impl::Matcher< N, std::tuple< F, A... >, std::tuple< F, B... >, IDs... >", "structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_01F_00_01A_8_8_8_01_4_00_01std_1_1t1ddab2984fa55bc4ddec29313b0db4c7.html", null ],
     [ "AIToolbox::Impl::Matcher< N, std::tuple< FA, A... >, std::tuple< FB, B... >, IDs... >", "structAIToolbox_1_1Impl_1_1Matcher_3_01N_00_01std_1_1tuple_3_01FA_00_01A_8_8_8_01_4_00_01std_1_1dae9d21bfe0614a8d67ba5444832ecb4.html", null ],
@@ -94,11 +116,11 @@ var hierarchy =
     [ "AIToolbox::MDP::MCTS< M, StateHash >", "classAIToolbox_1_1MDP_1_1MCTS.html", null ],
     [ "AIToolbox::Factored::Bandit::MiningBandit", "classAIToolbox_1_1Factored_1_1Bandit_1_1MiningBandit.html", null ],
     [ "AIToolbox::Bandit::Model< Dist >", "classAIToolbox_1_1Bandit_1_1Model.html", null ],
-    [ "AIToolbox::POMDP::Model< M >", "classAIToolbox_1_1POMDP_1_1Model.html", null ],
-    [ "AIToolbox::Factored::Bandit::Model< Dist >", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html", null ],
     [ "AIToolbox::MDP::Model", "classAIToolbox_1_1MDP_1_1Model.html", null ],
-    [ "AIToolbox::Factored::Bandit::MOQFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html", null ],
+    [ "AIToolbox::Factored::Bandit::Model< Dist >", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html", null ],
+    [ "AIToolbox::POMDP::Model< M >", "classAIToolbox_1_1POMDP_1_1Model.html", null ],
     [ "AIToolbox::Factored::MDP::MOQFunctionRule", "structAIToolbox_1_1Factored_1_1MDP_1_1MOQFunctionRule.html", null ],
+    [ "AIToolbox::Factored::Bandit::MOQFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1MOQFunctionRule.html", null ],
     [ "AIToolbox::Factored::Bandit::MultiObjectiveVariableElimination", "classAIToolbox_1_1Factored_1_1Bandit_1_1MultiObjectiveVariableElimination.html", null ],
     [ "AIToolbox::NoCheck", "structAIToolbox_1_1NoCheck.html", null ],
     [ "AIToolbox::MDP::OffPolicyBase", "classAIToolbox_1_1MDP_1_1OffPolicyBase.html", [
@@ -164,7 +186,7 @@ var hierarchy =
     ] ],
     [ "AIToolbox::PolicyInterface< State, State, Action >", "classAIToolbox_1_1PolicyInterface.html", [
       [ "AIToolbox::Factored::MDP::BanditPolicyAdaptor< BanditPolicy >", "classAIToolbox_1_1Factored_1_1MDP_1_1BanditPolicyAdaptor.html", null ],
-      [ "AIToolbox::Factored::MDP::QGreedyPolicy", "classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html", null ],
+      [ "AIToolbox::Factored::MDP::QGreedyPolicy< Maximizer >", "classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html", null ],
       [ "AIToolbox::EpsilonPolicyInterface< State, State, Action >", "classAIToolbox_1_1EpsilonPolicyInterface.html", [
         [ "AIToolbox::Factored::MDP::EpsilonPolicy", "classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html", null ]
       ] ]
@@ -177,7 +199,7 @@ var hierarchy =
         [ "AIToolbox::Factored::Bandit::EpsilonPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1EpsilonPolicy.html", null ],
         [ "AIToolbox::Factored::Bandit::LLRPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html", null ],
         [ "AIToolbox::Factored::Bandit::MAUCEPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html", null ],
-        [ "AIToolbox::Factored::Bandit::QGreedyPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html", null ],
+        [ "AIToolbox::Factored::Bandit::QGreedyPolicy< Maximizer >", "classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html", null ],
         [ "AIToolbox::Factored::Bandit::RandomPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1RandomPolicy.html", null ],
         [ "AIToolbox::Factored::Bandit::SingleActionPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html", null ],
         [ "AIToolbox::Factored::Bandit::ThompsonSamplingPolicy", "classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html", null ]
@@ -192,6 +214,7 @@ var hierarchy =
         [ "AIToolbox::Bandit::QSoftmaxPolicy", "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html", null ],
         [ "AIToolbox::Bandit::RandomPolicy", "classAIToolbox_1_1Bandit_1_1RandomPolicy.html", null ],
         [ "AIToolbox::Bandit::SuccessiveRejectsPolicy", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html", null ],
+        [ "AIToolbox::Bandit::T3CPolicy", "classAIToolbox_1_1Bandit_1_1T3CPolicy.html", null ],
         [ "AIToolbox::Bandit::ThompsonSamplingPolicy", "classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html", null ],
         [ "AIToolbox::Bandit::TopTwoThompsonSamplingPolicy", "classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html", null ]
       ] ],
@@ -223,8 +246,8 @@ var hierarchy =
     [ "AIToolbox::Factored::MDP::SparseCooperativeQLearning", "classAIToolbox_1_1Factored_1_1MDP_1_1SparseCooperativeQLearning.html", null ],
     [ "AIToolbox::MDP::SparseExperience", "classAIToolbox_1_1MDP_1_1SparseExperience.html", null ],
     [ "AIToolbox::MDP::SparseMaximumLikelihoodModel< E >", "classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html", null ],
-    [ "AIToolbox::POMDP::SparseModel< M >", "classAIToolbox_1_1POMDP_1_1SparseModel.html", null ],
     [ "AIToolbox::MDP::SparseModel", "classAIToolbox_1_1MDP_1_1SparseModel.html", null ],
+    [ "AIToolbox::POMDP::SparseModel< M >", "classAIToolbox_1_1POMDP_1_1SparseModel.html", null ],
     [ "AIToolbox::MDP::GridWorld::State", "structAIToolbox_1_1MDP_1_1GridWorld_1_1State.html", null ],
     [ "AIToolbox::MDP::MCTS< M, StateHash >::StateNode", "structAIToolbox_1_1MDP_1_1MCTS_1_1StateNode.html", null ],
     [ "AIToolbox::Statistics", "classAIToolbox_1_1Statistics.html", null ],
@@ -240,9 +263,28 @@ var hierarchy =
     [ "TupleFromPython< T >", "structTupleFromPython.html", null ],
     [ "TupleToPython< T >", "structTupleToPython.html", null ],
     [ "AIToolbox::Factored::Bandit::UCVE", "classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html", null ],
-    [ "AIToolbox::Factored::MDP::ValueFunction", "structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html", null ],
+    [ "AIToolbox::Factored::MDP::UpdateGraph< Maximizer >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph.html", null ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraph< Maximizer >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraph.html", null ],
+    [ "AIToolbox::Factored::MDP::UpdateGraph< Bandit::LocalSearch >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph.html", [
+      [ "AIToolbox::Factored::MDP::UpdateGraph< Bandit::MaxPlus >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph_3_01Bandit_1_1MaxPlus_01_4.html", null ],
+      [ "AIToolbox::Factored::MDP::UpdateGraph< Bandit::ReusingIterativeLocalSearch >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph_3_01Bandit_1_1ReusingIterativeLocalSearch_01_4.html", null ]
+    ] ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraph< LocalSearch >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraph.html", [
+      [ "AIToolbox::Factored::Bandit::UpdateGraph< MaxPlus >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraph_3_01MaxPlus_01_4.html", null ],
+      [ "AIToolbox::Factored::Bandit::UpdateGraph< ReusingIterativeLocalSearch >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraph_3_01ReusingIterativeLocalSearch_01_4.html", null ]
+    ] ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraphImpl< Maximizer, Data >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraphImpl.html", null ],
+    [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Maximizer, Data >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl.html", null ],
+    [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Bandit::LocalSearch, Iterable >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01Iterable_01_4.html", null ],
+    [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Bandit::LocalSearch, MDP::QFunction >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01MDP_1_1QFunction_01_4.html", null ],
+    [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Bandit::VariableElimination, Iterable >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1VariableElimination_00_01Iterable_01_4.html", null ],
+    [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Bandit::VariableElimination, MDP::QFunction >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1VariableElimination_00_01MDP_1_1QFunction_01_4.html", null ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraphImpl< LocalSearch, Iterable >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraphImpl_3_01LocalSearch_00_01Iterable_01_4.html", null ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraphImpl< LocalSearch, QFunction >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraphImpl_3_01LocalSearch_00_01QFunction_01_4.html", null ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraphImpl< VariableElimination, Iterable >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraphImpl_3_01VariableElimination_00_01Iterable_01_4.html", null ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraphImpl< VariableElimination, QFunction >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraphImpl_3_01VariableElimination_00_01QFunction_01_4.html", null ],
     [ "AIToolbox::MDP::ValueFunction", "structAIToolbox_1_1MDP_1_1ValueFunction.html", null ],
-    [ "AIToolbox::Factored::MDP::ValueFunctionRule", "structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html", null ],
+    [ "AIToolbox::Factored::MDP::ValueFunction", "structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html", null ],
     [ "AIToolbox::MDP::ValueIteration", "classAIToolbox_1_1MDP_1_1ValueIteration.html", null ],
     [ "AIToolbox::Factored::Bandit::VariableElimination", "classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html", null ],
     [ "Vector2DFromPython< T >", "structVector2DFromPython.html", null ],

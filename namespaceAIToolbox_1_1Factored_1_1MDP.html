@@ -86,7 +86,8 @@ $(document).ready(function(){initNavTree('namespaceAIToolbox_1_1Factored_1_1MDP.
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">AIToolbox::Factored::MDP Namespace Reference</div>  </div>
 </div><!--header-->
@@ -132,6 +133,22 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1LinearProgramming.html">LinearProgramming</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class solves a factored <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html">MDP</a> with Linear Programming.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1LinearProgramming.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph.html">MakeGraph</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is the public interface for initializing the graph in generic code that uses the maximizers.  <a href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph_3_01Bandit_1_1MaxPlus_01_4.html">MakeGraph&lt; Bandit::MaxPlus &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraph_3_01Bandit_1_1ReusingIterativeLocalSearch_01_4.html">MakeGraph&lt; Bandit::ReusingIterativeLocalSearch &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl.html">MakeGraphImpl</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class clumps all implementations that create graphs for data for certain Maximizers.  <a href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl_3_01Bandit_1_1LocalSearch_00_01Iterable_01_4.html">MakeGraphImpl&lt; Bandit::LocalSearch, Iterable &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl_3_01Bandit_1_1LocalSearch_00_01MDP_1_1QFunction_01_4.html">MakeGraphImpl&lt; Bandit::LocalSearch, MDP::QFunction &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MakeGraphImpl_3_01Bandit_1_1VariableElimination_00_01Data_01_4.html">MakeGraphImpl&lt; Bandit::VariableElimination, Data &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1MOQFunctionRule.html">MOQFunctionRule</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents a single state/action/values tuple.  <a href="structAIToolbox_1_1Factored_1_1MDP_1_1MOQFunctionRule.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,11 +164,26 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1TigerAntelope.html">TigerAntelope</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents a 2-agent tiger antelope environment.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1TigerAntelope.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph.html">UpdateGraph</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is the public interface for updating the input graph with the input data in generic code that uses the maximizers.  <a href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph_3_01Bandit_1_1MaxPlus_01_4.html">UpdateGraph&lt; Bandit::MaxPlus &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraph_3_01Bandit_1_1ReusingIterativeLocalSearch_01_4.html">UpdateGraph&lt; Bandit::ReusingIterativeLocalSearch &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl.html">UpdateGraphImpl</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class clumps all implementations that update graphs with data for certain Maximizers.  <a href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01Iterable_01_4.html">UpdateGraphImpl&lt; Bandit::LocalSearch, Iterable &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01MDP_1_1QFunction_01_4.html">UpdateGraphImpl&lt; Bandit::LocalSearch, MDP::QFunction &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1VariableElimination_00_01Iterable_01_4.html">UpdateGraphImpl&lt; Bandit::VariableElimination, Iterable &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1VariableElimination_00_01MDP_1_1QFunction_01_4.html">UpdateGraphImpl&lt; Bandit::VariableElimination, MDP::QFunction &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html">ValueFunction</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents a factored <a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html" title="This struct represents a factored ValueFunction.">ValueFunction</a>.  <a href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html">ValueFunctionRule</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct represents a single state/value tuple.  <a href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunctionRule.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -183,6 +215,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a098d7784c7a7c55ad2a64418d130afa6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a1bc627b8fb0feff602ecd4a3a4175a5b">QFunction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a098d7784c7a7c55ad2a64418d130afa6">bellmanBackup</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html">CooperativeModel</a> &amp;m, const <a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html">ValueFunction</a> &amp;v)</td></tr>
 <tr class="memdesc:a098d7784c7a7c55ad2a64418d130afa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function applies a one-step backup on the input <a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1ValueFunction.html" title="This struct represents a factored ValueFunction.">ValueFunction</a>.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a098d7784c7a7c55ad2a64418d130afa6">More...</a><br /></td></tr>
 <tr class="separator:a098d7784c7a7c55ad2a64418d130afa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03684a2ea292c8e16daec9889b471b03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a1bc627b8fb0feff602ecd4a3a4175a5b">QFunction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a03684a2ea292c8e16daec9889b471b03">makeQFunction</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#af81c44d64cf98377be56973db15d0ede">DDNGraph</a> &amp;graph, const std::vector&lt; std::vector&lt; size_t &gt;&gt; &amp;basisDomains)</td></tr>
+<tr class="memdesc:a03684a2ea292c8e16daec9889b471b03"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function creates a new factored QFunction from the given graph and basis domain.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a03684a2ea292c8e16daec9889b471b03">More...</a><br /></td></tr>
+<tr class="separator:a03684a2ea292c8e16daec9889b471b03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7654deb58944ac05c89270323ac346b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">Matrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#ae7654deb58944ac05c89270323ac346b">makeA0MatrixStatus</a> (unsigned neighbors, size_t id, double pFailBase, double pFailBonus, double pDeadBase, double pDeadBonus)</td></tr>
 <tr class="memdesc:ae7654deb58944ac05c89270323ac346b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function builds the transition matrix for a single status state factor in the SysAdmin problem in case of action 0 (no-reboot).  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#ae7654deb58944ac05c89270323ac346b">More...</a><br /></td></tr>
 <tr class="separator:ae7654deb58944ac05c89270323ac346b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,6 +239,17 @@ Functions</h2></td></tr>
 <tr class="memitem:ae036249f3be5d717c457f20be177bf40"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#ae036249f3be5d717c457f20be177bf40">printMachineLoad</a> (unsigned l)</td></tr>
 <tr class="memdesc:ae036249f3be5d717c457f20be177bf40"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a printable character of a machine's load.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#ae036249f3be5d717c457f20be177bf40">More...</a><br /></td></tr>
 <tr class="separator:ae036249f3be5d717c457f20be177bf40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5b1003d3ff4da54406636db6702fb9a5"><td class="memTemplParams" colspan="2">template&lt;typename QR &gt; </td></tr>
+<tr class="memitem:a5b1003d3ff4da54406636db6702fb9a5"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a5b1003d3ff4da54406636db6702fb9a5">IsQFunctionRule</a></td></tr>
+<tr class="memdesc:a5b1003d3ff4da54406636db6702fb9a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept models the interface for a <a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1QFunctionRule.html" title="This struct represents a single state/action/value tuple.">QFunctionRule</a>.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a5b1003d3ff4da54406636db6702fb9a5">More...</a><br /></td></tr>
+<tr class="separator:a5b1003d3ff4da54406636db6702fb9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a1cba5790349b7e8a1e51fe5c8d3be6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a5a1cba5790349b7e8a1e51fe5c8d3be6"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a5a1cba5790349b7e8a1e51fe5c8d3be6">QFRuleRange</a> = std::ranges::range&lt;T&gt; &amp;&amp; <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a5b1003d3ff4da54406636db6702fb9a5">IsQFunctionRule</a>&lt;std::ranges::range_value_t&lt;T&gt;&gt;</td></tr>
+<tr class="memdesc:a5a1cba5790349b7e8a1e51fe5c8d3be6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept represents a range of QFunctionRules.  <a href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a5a1cba5790349b7e8a1e51fe5c8d3be6">More...</a><br /></td></tr>
+<tr class="separator:a5a1cba5790349b7e8a1e51fe5c8d3be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a1bc627b8fb0feff602ecd4a3a4175a5b"></a>
@@ -444,6 +490,46 @@ Functions</h2></td></tr>
 <p>This function builds the transition matrix for a single status state factor in the SysAdmin problem in case of action 1 (reboot). </p>
 <p>Note that this does not depend on anything, since we are rebooting the machine. Thus the matrix is always the same for all status state factors.</p>
 <dl class="section return"><dt>Returns</dt><dd>The transition matrix of size (3, 3). </dd></dl>
+
+</div>
+</div>
+<a id="a03684a2ea292c8e16daec9889b471b03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03684a2ea292c8e16daec9889b471b03">&#9670;&nbsp;</a></span>makeQFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a1bc627b8fb0feff602ecd4a3a4175a5b">QFunction</a> AIToolbox::Factored::MDP::makeQFunction </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#af81c44d64cf98377be56973db15d0ede">DDNGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; size_t &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>basisDomains</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function creates a new factored QFunction from the given graph and basis domain. </p>
+<p>The basisDomains is a set of state feature id groups. Each group should be unique.</p>
+<p>For each such group, this function will identify the ids of the parent features and agents as defined by the input graph, and a new basis function is created inside the output QFunction. The parent features/agents ids are then set as the tags of a new basis function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>The DDNGraph containing the information about the factored <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html">MDP</a> structure. </td></tr>
+    <tr><td class="paramname">basisDomains</td><td>The required domains for each of the outputted basis functions of the QFunction.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A newly built QFunction. </dd></dl>
 
 </div>
 </div>
@@ -945,6 +1031,47 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A graphical representation to print on screen. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a5b1003d3ff4da54406636db6702fb9a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b1003d3ff4da54406636db6702fb9a5">&#9670;&nbsp;</a></span>IsQFunctionRule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename QR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept AIToolbox::Factored::MDP::IsQFunctionRule</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= Bandit::IsQFunctionRule&lt;QR&gt; &amp;&amp; requires (<span class="keyword">const</span> QR qr) {</div>
+<div class="line">        { qr.state } -&gt; std::convertible_to&lt;PartialState&gt;;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>This concept models the interface for a <a class="el" href="structAIToolbox_1_1Factored_1_1MDP_1_1QFunctionRule.html" title="This struct represents a single state/action/value tuple.">QFunctionRule</a>. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1Factored_1_1Bandit.html#adba7a34da3aceac721fa9eb8afbeb1d3" title="This concept models the interface for a QFunctionRule.">AIToolbox::Factored::Bandit::IsQFunctionRule</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5a1cba5790349b7e8a1e51fe5c8d3be6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a1cba5790349b7e8a1e51fe5c8d3be6">&#9670;&nbsp;</a></span>QFRuleRange</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept AIToolbox::Factored::MDP::QFRuleRange = std::ranges::range&lt;T&gt; &amp;&amp; <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a5b1003d3ff4da54406636db6702fb9a5">IsQFunctionRule</a>&lt;std::ranges::range_value_t&lt;T&gt;&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This concept represents a range of QFunctionRules. </p>
 
 </div>
 </div>

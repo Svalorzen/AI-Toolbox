@@ -116,24 +116,26 @@ $(document).ready(function(){initNavTree('SuccessiveRejectsPolicy_8hpp_source.ht
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keyword">virtual</span> <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> <a class="code" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aaf76c71be0375d8ec401ee39375b9492">getPolicy</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordtype">void</span> updateNks();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1Experience.html">Experience</a> &amp; exp_;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordtype">unsigned</span> budget_;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keywordtype">unsigned</span> currentPhase_;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordtype">size_t</span> currentActionId_;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordtype">unsigned</span> currentArmPulls_;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1Experience.html">Experience</a> &amp; <a class="code" href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aa1f9bd2a7aaf06df177986040f04d323">getExperience</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordtype">void</span> updateNks();</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="keywordtype">unsigned</span> nKOld_, nKNew_;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordtype">double</span> logBarK_;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            std::vector&lt;size_t&gt; availableActions_;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    };</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="keyword">const</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1Experience.html">Experience</a> &amp; exp_;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordtype">unsigned</span> budget_;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordtype">unsigned</span> currentPhase_;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="keywordtype">size_t</span> currentActionId_;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordtype">unsigned</span> currentArmPulls_;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keywordtype">unsigned</span> nKOld_, nKNew_;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordtype">double</span> logBarK_;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            std::vector&lt;size_t&gt; availableActions_;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    };</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy_html_a16129dc4e486c59ed43d73ff141f60bb"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a16129dc4e486c59ed43d73ff141f60bb">AIToolbox::Bandit::SuccessiveRejectsPolicy::canRecommendAction</a></div><div class="ttdeci">bool canRecommendAction() const</div><div class="ttdoc">This function returns whether a single action remains in the pool.</div></div>
@@ -142,6 +144,7 @@ $(document).ready(function(){initNavTree('SuccessiveRejectsPolicy_8hpp_source.ht
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy_html_a1ccf10ad2cdf53fc8c31c986c166afe9"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a1ccf10ad2cdf53fc8c31c986c166afe9">AIToolbox::Bandit::SuccessiveRejectsPolicy::recommendAction</a></div><div class="ttdeci">size_t recommendAction() const</div><div class="ttdoc">If the pool has a single element, this function returns the best estimated action after the SR explor...</div></div>
 <div class="ttc" id="aBandit_2Experience_8hpp_html"><div class="ttname"><a href="Bandit_2Experience_8hpp.html">Experience.hpp</a></div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1PolicyInterface_html"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1PolicyInterface.html">AIToolbox::Bandit::PolicyInterface</a></div><div class="ttdoc">Simple typedef for most of a normal Bandit's policy needs.</div><div class="ttdef"><b>Definition:</b> PolicyInterface.hpp:11</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy_html_aa1f9bd2a7aaf06df177986040f04d323"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aa1f9bd2a7aaf06df177986040f04d323">AIToolbox::Bandit::SuccessiveRejectsPolicy::getExperience</a></div><div class="ttdeci">const Experience &amp; getExperience() const</div><div class="ttdoc">This function returns a reference to the underlying Experience we use.</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a1e6976de7a0159cd1630c4f2553fc9f3"><div class="ttname"><a href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">AIToolbox::Vector</a></div><div class="ttdeci">Eigen::Matrix&lt; double, Eigen::Dynamic, 1 &gt; Vector</div><div class="ttdef"><b>Definition:</b> Types.hpp:16</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy_html_a4626218bfce9445250b134cd395d2335"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a4626218bfce9445250b134cd395d2335">AIToolbox::Bandit::SuccessiveRejectsPolicy::getCurrentNk</a></div><div class="ttdeci">size_t getCurrentNk() const</div><div class="ttdoc">This function returns the nK_ for the current phase.</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1Bandit_html"><div class="ttname"><a href="namespaceAIToolbox_1_1Bandit.html">AIToolbox::Bandit</a></div><div class="ttdef"><b>Definition:</b> Experience.hpp:6</div></div>

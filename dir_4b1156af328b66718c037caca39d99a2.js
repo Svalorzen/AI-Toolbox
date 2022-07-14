@@ -12,5 +12,6 @@ var dir_4b1156af328b66718c037caca39d99a2 =
     [ "Model.hpp", "Factored_2Bandit_2Model_8hpp.html", [
       [ "Model", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html", "classAIToolbox_1_1Factored_1_1Bandit_1_1Model" ]
     ] ],
-    [ "Types.hpp", "Factored_2Bandit_2Types_8hpp.html", "Factored_2Bandit_2Types_8hpp" ]
+    [ "Types.hpp", "Factored_2Bandit_2Types_8hpp.html", "Factored_2Bandit_2Types_8hpp" ],
+    [ "TypeTraits.hpp", "Factored_2Bandit_2TypeTraits_8hpp.html", "Factored_2Bandit_2TypeTraits_8hpp" ]
 ];

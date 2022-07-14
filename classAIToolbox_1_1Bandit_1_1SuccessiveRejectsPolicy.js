@@ -5,6 +5,7 @@ var classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy =
     [ "getActionProbability", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a6a5224bc9efa240e42714a74bfa32703", null ],
     [ "getCurrentNk", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a4626218bfce9445250b134cd395d2335", null ],
     [ "getCurrentPhase", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a235926993100eaf7aef13de767413e86", null ],
+    [ "getExperience", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aa1f9bd2a7aaf06df177986040f04d323", null ],
     [ "getPolicy", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#aaf76c71be0375d8ec401ee39375b9492", null ],
     [ "getPreviousNk", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a119ac21b862ae0cbac252dcf8d321762", null ],
     [ "recommendAction", "classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html#a1ccf10ad2cdf53fc8c31c986c166afe9", null ],

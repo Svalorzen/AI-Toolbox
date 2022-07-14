@@ -16,5 +16,6 @@ var dir_12ced7710a3ddac1cdbeef3b35930e9c =
       [ "CooperativeThompsonModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel" ]
     ] ],
     [ "Types.hpp", "Factored_2MDP_2Types_8hpp.html", "Factored_2MDP_2Types_8hpp" ],
+    [ "TypeTraits.hpp", "Factored_2MDP_2TypeTraits_8hpp.html", "Factored_2MDP_2TypeTraits_8hpp" ],
     [ "Utils.hpp", "include_2AIToolbox_2Factored_2MDP_2Utils_8hpp.html", "include_2AIToolbox_2Factored_2MDP_2Utils_8hpp" ]
 ];
