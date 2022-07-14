@@ -5,6 +5,9 @@
 #include <AIToolbox/Factored/MDP/Types.hpp>
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
 
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
+#include <AIToolbox/Factored/MDP/Algorithms/Utils/GraphUtils.hpp>
+
 namespace AIToolbox::Factored::MDP {
     /**
      * @brief This class implements a greedy policy through a QFunction.
@@ -16,6 +19,7 @@ namespace AIToolbox::Factored::MDP {
      * QGreedyPolicy must run VariableElimination on the stored rules, so the
      * process can get a bit expensive.
      */
+    template <typename Maximizer = Bandit::VariableElimination>
     class QGreedyPolicy : public PolicyInterface<State, State, Action> {
         public:
             using Base = PolicyInterface<State, State, Action>;
@@ -26,8 +30,10 @@ namespace AIToolbox::Factored::MDP {
              * @param s The number of states of the world.
              * @param a The number of actions available to the agent.
              * @param q The QFunctionRules this policy is linked with.
+             * @param ...args Parameters to pass to the maximizer on construction.
              */
-            QGreedyPolicy(State s, Action a, const FilterMap<QFunctionRule> & q);
+            template <typename... Args>
+            QGreedyPolicy(State s, Action a, const FilterMap<QFunctionRule> & q, Args && ...args);
 
             /**
              * @brief Basic constructor with QFunction.
@@ -35,8 +41,10 @@ namespace AIToolbox::Factored::MDP {
              * @param s The number of states of the world.
              * @param a The number of actions available to the agent.
              * @param q The QFunction this policy is linked with.
+             * @param ...args Parameters to pass to the maximizer on construction.
              */
-            QGreedyPolicy(State s, Action a, const QFunction & q);
+            template <typename... Args>
+            QGreedyPolicy(State s, Action a, const QFunction & q, Args && ...args);
 
             /**
              * @brief This function chooses the greediest action for state s.
@@ -57,10 +65,52 @@ namespace AIToolbox::Factored::MDP {
              */
             virtual double getActionProbability(const State & s, const Action & a) const override;
 
+            /**
+             * @brief This function returns a reference to the internal maximizer.
+             *
+             * This can be used to set the parameters of the chosen maximizer.
+             */
+            Maximizer & getMaximizer();
+
         private:
             const FilterMap<QFunctionRule> * qc_;
             const QFunction * qm_;
+
+            mutable Maximizer max_;
+            mutable typename Maximizer::Graph graph_;
     };
+
+    template <typename Maximizer>
+    template <typename... Args>
+    QGreedyPolicy<Maximizer>::QGreedyPolicy(State s, Action a, const FilterMap<QFunctionRule> & q, Args && ...args) :
+            Base(std::move(s), std::move(a)), qc_(&q), qm_(nullptr),
+            max_(std::forward<Args>(args)...),
+            graph_(MakeGraph<Maximizer>()(q, A))
+    {}
+
+    template <typename Maximizer>
+    template <typename... Args>
+    QGreedyPolicy<Maximizer>::QGreedyPolicy(State s, Action a, const QFunction & q, Args && ...args) :
+            Base(std::move(s), std::move(a)), qc_(nullptr), qm_(&q),
+            max_(std::forward<Args>(args)...),
+            graph_(MakeGraph<Maximizer>()(q, A))
+    {}
+
+    template <typename Maximizer>
+    Action QGreedyPolicy<Maximizer>::sampleAction(const State & s) const {
+        if (qc_) {
+            UpdateGraph<Maximizer>()(graph_, qc_->filter(s), S, A, s);
+        } else {
+            UpdateGraph<Maximizer>()(graph_, *qm_, S, A, s);
+        }
+        return std::get<0>(max_(A, graph_));
+    }
+
+    template <typename Maximizer>
+    double QGreedyPolicy<Maximizer>::getActionProbability(const State & s, const Action & a) const {
+        if (veccmp(a, sampleAction(s)) == 0) return 1.0;
+        return 0.0;
+    }
 }
 
 #endif
