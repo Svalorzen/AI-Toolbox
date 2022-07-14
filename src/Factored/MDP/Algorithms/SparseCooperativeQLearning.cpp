@@ -2,30 +2,27 @@
 
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
-#include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
 
 namespace AIToolbox::Factored::MDP {
-    SparseCooperativeQLearning::SparseCooperativeQLearning(State s, Action a, const double discount, const double alpha) :
-            S(std::move(s)), A(std::move(a)), discount_(discount), alpha_(alpha), rules_(join(S, A)) {}
+    FilterMap<QFunctionRule> initMap(const State & S, const Action & A, const std::vector<QFunctionRule> & rules) {
+        FilterMap<QFunctionRule> map(join(S, A));
 
-    void SparseCooperativeQLearning::reserveRules(const size_t s) {
-        rules_.reserve(s);
+        map.reserve(rules.size());
+        for (const auto & rule : rules) {
+            auto factor = join(S.size(), rule.state, rule.action);
+            map.emplace(factor, std::move(rule));
+        }
+        return map;
     }
 
-    void SparseCooperativeQLearning::insertRule(QFunctionRule rule) {
-        auto factor = join(S.size(), rule.state, rule.action);
-        rules_.emplace(factor, std::move(rule));
-    }
-
-    size_t SparseCooperativeQLearning::rulesSize() const {
-        return rules_.size();
-    }
+    SparseCooperativeQLearning::SparseCooperativeQLearning(State s, Action a, const std::vector<QFunctionRule> & rules, const double discount, const double alpha) :
+            S(std::move(s)), A(std::move(a)), discount_(discount), alpha_(alpha),
+            rules_(initMap(S, A, rules)),
+            policy_(S, A, rules_)
+    {}
 
     Action SparseCooperativeQLearning::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & rew) {
-        Bandit::VariableElimination ve;
-
-        const auto rules = rules_.filter(s1);
-        const auto a1 = std::get<0>(ve(A, rules));
+        const auto a1 = policy_.sampleAction(s1);
 
         auto beforeRules = rules_.filter(join(s, a));
         const auto afterRules = rules_.filter(join(s1, a1));

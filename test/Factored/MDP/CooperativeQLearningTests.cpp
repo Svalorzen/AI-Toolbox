@@ -59,9 +59,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
         }
     }
 
-    fm::SparseCooperativeQLearning scql(problem.getS(), problem.getA(), problem.getDiscount(), alpha);
-    for (const auto & rule : rules)
-        scql.insertRule(rule);
+    fm::SparseCooperativeQLearning scql(problem.getS(), problem.getA(), rules, problem.getDiscount(), alpha);
 
     // Run some random experiences and verify that the computed optimal actions
     // are the same.
@@ -171,9 +169,7 @@ BOOST_AUTO_TEST_CASE( action_returned ) {
         }
     }
 
-    fm::SparseCooperativeQLearning scql(problem.getS(), problem.getA(), problem.getDiscount(), alpha);
-    for (const auto & rule : rules)
-        scql.insertRule(rule);
+    fm::SparseCooperativeQLearning scql(problem.getS(), problem.getA(), rules, problem.getDiscount(), alpha);
 
     // Run some random experiences and verify that the computed optimal actions
     // are the same.

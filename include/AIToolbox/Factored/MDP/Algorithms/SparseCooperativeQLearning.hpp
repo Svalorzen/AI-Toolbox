@@ -4,6 +4,7 @@
 #include <AIToolbox/Factored/MDP/Types.hpp>
 
 #include <AIToolbox/Factored/Utils/FilterMap.hpp>
+#include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
 
 namespace AIToolbox::Factored::MDP {
     /**
@@ -45,28 +46,7 @@ namespace AIToolbox::Factored::MDP {
              * @param discount The discount for future rewards.
              * @param alpha The learning parameter.
              */
-            SparseCooperativeQLearning(State S, Action A, double discount, double alpha);
-
-            /**
-             * @brief This function reserves memory for at least s rules.
-             *
-             * @param s The number of rules to be reserved.
-             */
-            void reserveRules(size_t s);
-
-            /**
-             * @brief This function inserts a QFunctionRule in the covered set.
-             *
-             * @param rule The new rule to cover.
-             */
-            void insertRule(QFunctionRule rule);
-
-            /**
-             * @brief This function returns the number of rules currently stored.
-             *
-             * @return The number of stored QFunctionRules.
-             */
-            size_t rulesSize() const;
+            SparseCooperativeQLearning(State S, Action A, const std::vector<QFunctionRule> & rules, double discount, double alpha);
 
             /**
              * @brief This function sets the learning rate parameter.
@@ -168,7 +148,9 @@ namespace AIToolbox::Factored::MDP {
             State S;
             Action A;
             double discount_, alpha_;
+
             FilterMap<QFunctionRule> rules_;
+            QGreedyPolicy<> policy_;
     };
 }
 
