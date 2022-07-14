@@ -5,6 +5,7 @@
 #include "GlobalFixtures.hpp"
 
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/VariableElimination.hpp>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/GraphUtils.hpp>
 
 namespace aif = AIToolbox::Factored;
 namespace fb = AIToolbox::Factored::Bandit;
@@ -22,10 +23,14 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
     const auto solA = aif::Action{1, 0, 0};
     const auto solV = 11.0;
 
-    const aif::Action a{2, 2, 2};
+    const aif::Action A{2, 2, 2};
 
     VE v;
-    const auto [bestAction, val] = v(a, rules);
+
+    auto graph = fb::MakeGraph<VE>()(rules, A);
+    fb::UpdateGraph<VE>()(graph, rules, A);
+
+    const auto [bestAction, val] = v(A, graph);
 
     BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -44,10 +49,14 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
     const auto solA = aif::Action{2, 0, 0, 1};
     const auto solV = 16.0;
 
-    const aif::Action a{3, 2, 3, 4};
+    const aif::Action A{3, 2, 3, 4};
 
     VE v;
-    const auto [bestAction, val] = v(a, rules);
+
+    auto graph = fb::MakeGraph<VE>()(rules, A);
+    fb::UpdateGraph<VE>()(graph, rules, A);
+
+    const auto [bestAction, val] = v(A, graph);
 
     BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -63,10 +72,14 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
     const auto solA = aif::Action{1, 1, 1};
     const auto solV = 10.0;
 
-    const aif::Action a{2, 2, 2};
+    const aif::Action A{2, 2, 2};
 
     VE v;
-    const auto [bestAction, val] = v(a, rules);
+
+    auto graph = fb::MakeGraph<VE>()(rules, A);
+    fb::UpdateGraph<VE>()(graph, rules, A);
+
+    const auto [bestAction, val] = v(A, graph);
 
     BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -88,10 +101,14 @@ BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
     const auto solA = aif::Action{0, 0};
     const auto solV = 1.0;
 
-    const aif::Action a{2, 2};
+    const aif::Action A{2, 2};
 
     VE v;
-    const auto [bestAction, val] = v(a, rules);
+
+    auto graph = fb::MakeGraph<VE>()(rules, A);
+    fb::UpdateGraph<VE>()(graph, rules, A);
+
+    const auto [bestAction, val] = v(A, graph);
 
     BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
@@ -114,10 +131,14 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
     const auto solA2 = aif::Action{1, 1};
     const auto solV = 0.0;
 
-    const aif::Action a{2, 2};
+    const aif::Action A{2, 2};
 
     VE v;
-    const auto [bestAction, val] = v(a, rules);
+
+    auto graph = fb::MakeGraph<VE>()(rules, A);
+    fb::UpdateGraph<VE>()(graph, rules, A);
+
+    const auto [bestAction, val] = v(A, graph);
 
     BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK(bestAction == solA1 || bestAction == solA2);

@@ -1,22 +1,12 @@
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/MaxPlus.hpp>
 
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/LocalSearch.hpp>
 #include <AIToolbox/Logging.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    double evaluateGraph(const Action & A, const MaxPlus::Graph & graph, const Action & jointAction) {
-        double retval = 0.0;
+    MaxPlus::MaxPlus(const unsigned iterations) : iterations_(iterations) {}
 
-        for (const auto & f : graph) {
-            const auto & vars = f.getVariables();
-            const auto & values = f.getData();
-
-            retval += values[toIndexPartial(vars, A, jointAction)];
-        }
-
-        return retval;
-    }
-
-    MaxPlus::Result MaxPlus::operator()(const Action & A, const Graph & graph, size_t iterations) {
+    MaxPlus::Result MaxPlus::operator()(const Action & A, const Graph & graph) {
         // Preallocate memory.
         // - retval keeps the best currently found solution.
         // - bestCurrent keeps the currently found solution.
@@ -58,7 +48,7 @@ namespace AIToolbox::Factored::Bandit {
         // agents, as they are being constructed.
         Matrix2D factorMessage(maxRows + 1, maxCols);
 
-        for (size_t iters = 0; iters < iterations; ++iters) {
+        for (size_t iters = 0; iters < iterations_; ++iters) {
             // Since we have processed outMessages in the previous iteration
             // step, we can now swap in&out, and reset the out for this
             // iteration.
@@ -195,7 +185,7 @@ namespace AIToolbox::Factored::Bandit {
 
             // Compute true value of the current action to see whether we
             // should replace our current best with it.
-            cValue = evaluateGraph(A, graph, cAction);
+            cValue = LocalSearch::evaluateGraph(A, graph, cAction);
 
             // We only change the selected action if it improves on the
             // previous best value.
@@ -204,4 +194,7 @@ namespace AIToolbox::Factored::Bandit {
         }
         return retval;
     }
+
+    unsigned MaxPlus::getIterations() const { return iterations_; }
+    void MaxPlus::setIterations(const unsigned iterations) { iterations_ = iterations; }
 }

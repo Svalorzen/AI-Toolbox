@@ -5,6 +5,7 @@
 #include <utility>
 #include <concepts>
 #include <cstddef>
+
 #include <Eigen/Core>
 
 namespace AIToolbox {

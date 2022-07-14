@@ -149,7 +149,7 @@ namespace AIToolbox::Factored::MDP {
             const DDNGraph & graph_;
             double discount_, alpha_;
             FactoredMatrix2D q_;
-            QGreedyPolicy policy_;
+            QGreedyPolicy<> policy_;
             // Helper
             Vector agentNormRews_;
     };

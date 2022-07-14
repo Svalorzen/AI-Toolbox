@@ -2,36 +2,16 @@
 
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
+#include <AIToolbox/Factored/MDP/Utils.hpp>
 
 namespace AIToolbox::Factored::MDP {
     CooperativeQLearning::CooperativeQLearning(const DDNGraph & g, const std::vector<std::vector<size_t>> & basisDomains, double discount, double alpha) :
             graph_(g), discount_(discount), alpha_(alpha),
+            q_(makeQFunction(graph_, basisDomains)),
             policy_(graph_.getS(), graph_.getA(), q_),
             agentNormRews_(graph_.getA().size())
     {
-        const auto & ps = graph_.getParentSets();
-
-        q_.bases.reserve(basisDomains.size());
-        for (const auto & domain : basisDomains) {
-            q_.bases.emplace_back();
-            auto & q = q_.bases.back();
-
-            for (const auto d : domain) {
-                // Compute state-action domain for this Q factor.
-                q.actionTag = merge(q.actionTag, ps[d].agents);
-                for (const auto & n : ps[d].features)
-                    q.tag = merge(q.tag, n);
-            }
-
-            // Initialize this factor's matrix.
-            const size_t sizeA = factorSpacePartial(q.actionTag, graph_.getA());
-            const size_t sizeS = factorSpacePartial(q.tag, graph_.getS());
-
-            q.values.resize(sizeS, sizeA);
-            q.values.setZero();
-        }
-
-        // We can also pre-compute the perAgentRews_ here, since they do not depend on random subsets of rules.
+        // We also pre-compute the perAgentRews_ here, since they do not depend on random subsets of rules.
         for (const auto & q : q_.bases)
             for (auto a : q.actionTag)
                 ++agentNormRews_[a];

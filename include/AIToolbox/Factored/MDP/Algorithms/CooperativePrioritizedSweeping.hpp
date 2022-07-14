@@ -1,12 +1,13 @@
 #ifndef AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_PRIORITIZED_SWEEPING_HEADER_FILE
 #define AI_TOOLBOX_FACTORED_MDP_COOPERATIVE_PRIORITIZED_SWEEPING_HEADER_FILE
 
-#include <AIToolbox/Factored/MDP/Types.hpp>
+#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Factored/Utils/Core.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 #include <AIToolbox/Factored/Utils/FasterTrie.hpp>
+#include <AIToolbox/Factored/MDP/Types.hpp>
+#include <AIToolbox/Factored/MDP/Utils.hpp>
 #include <AIToolbox/Factored/MDP/Policies/QGreedyPolicy.hpp>
-#include <AIToolbox/Seeder.hpp>
 #include <AIToolbox/Factored/MDP/Algorithms/Utils/CPSQueue.hpp>
 
 namespace AIToolbox::Factored::MDP {
@@ -100,7 +101,7 @@ namespace AIToolbox::Factored::MDP {
             Vector rewardWeights_, deltaStorage_, rewardStorage_;
 
             QFunction q_;
-            QGreedyPolicy gp_;
+            QGreedyPolicy<> gp_;
             CPSQueue queue_;
 
             mutable RandomEngine rand_;
@@ -114,6 +115,7 @@ namespace AIToolbox::Factored::MDP {
             rewardWeights_(model_.getS().size()),
             deltaStorage_(model_.getS().size()),
             rewardStorage_(model_.getS().size()),
+            q_(makeQFunction(model_.getGraph(), qDomains_)),
             gp_(model_.getS(), model_.getA(), q_),
             queue_(model_.getGraph()),
             rand_(Seeder::getSeed())
@@ -127,30 +129,10 @@ namespace AIToolbox::Factored::MDP {
         deltaStorage_.setZero();
         // We don't need to zero rewardStorage_
 
-        const auto & ps = model_.getGraph().getParentSets();
-
-        q_.bases.reserve(qDomains_.size());
-        for (const auto & domain : qDomains_) {
-            q_.bases.emplace_back();
-            auto & q = q_.bases.back();
-
-            for (const auto d : domain) {
-                // Compute state-action domain for this Q factor.
-                q.actionTag = merge(q.actionTag, ps[d].agents);
-                for (const auto & n : ps[d].features)
-                    q.tag = merge(q.tag, n);
-            }
-            // We weight rewards based on the state features of each Q factor
+        // We weight rewards based on the state features of each Q factor
+        for (const auto & q : q_.bases)
             for (const auto d : q.tag)
                 rewardWeights_[d] += 1.0;
-
-            // Initialize this factor's matrix.
-            const size_t sizeA = factorSpacePartial(q.actionTag, model_.getA());
-            const size_t sizeS = factorSpacePartial(q.tag, model_.getS());
-
-            q.values.resize(sizeS, sizeA);
-            q.values.setZero();
-        }
     }
 
     template <typename M>

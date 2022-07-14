@@ -25,10 +25,7 @@ BOOST_AUTO_TEST_CASE( simple_rule_update ) {
     };
 
     const double alpha = 0.3, gamma = 0.9;
-    fm::SparseCooperativeQLearning solver(S, A, gamma, alpha);
-
-    for (const auto & rule : rules)
-        solver.insertRule(rule);
+    fm::SparseCooperativeQLearning solver(S, A, rules, gamma, alpha);
 
     const auto & container = solver.getQFunctionRules().getContainer();
     BOOST_CHECK_EQUAL(container[0].value,  v1);

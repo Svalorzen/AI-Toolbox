@@ -87,6 +87,13 @@ namespace AIToolbox::Factored {
             FactorGraph & operator=(const FactorGraph &) = delete;
 
             /**
+             * @brief This function re-initializes the graph from scratch as if it was just being built.
+             *
+             * @param variables The number of variables with which to start the graph.
+             */
+            void reset(size_t variables);
+
+            /**
              * @brief This function returns all factors adjacent to the given variable.
              *
              * @param variable The variable to look for.
@@ -272,7 +279,7 @@ namespace AIToolbox::Factored {
     typename FactorGraph<FD>::FactorList FactorGraph<FD>::factorAdjacenciesPool_;
 
     template <typename FD>
-    FactorGraph<FD>::FactorGraph(size_t variables) : variableAdjacencies_(variables), activeVariables_(variables) {}
+    FactorGraph<FD>::FactorGraph(const size_t variables) : variableAdjacencies_(variables), activeVariables_(variables) {}
 
     template <typename FD>
     FactorGraph<FD>::FactorGraph(const FactorGraph & other) :
@@ -304,6 +311,15 @@ namespace AIToolbox::Factored {
                 variableAdjacencies_[a].factors.push_back(it);
             }
         }
+    }
+
+    template <typename FD>
+    void FactorGraph<FD>::reset(const size_t variables) {
+        factorAdjacencies_.clear();
+
+        variableAdjacencies_.clear();
+        variableAdjacencies_.resize(variables);
+        activeVariables_ = variables;
     }
 
     template <typename FD>

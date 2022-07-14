@@ -94,7 +94,6 @@ if (MAKE_FMDP)
         Factored/Bandit/Policies/SingleActionPolicy.cpp
         Factored/Bandit/Policies/RandomPolicy.cpp
         Factored/Bandit/Policies/EpsilonPolicy.cpp
-        Factored/Bandit/Policies/QGreedyPolicy.cpp
         Factored/Bandit/Policies/ThompsonSamplingPolicy.cpp
         Factored/Bandit/Policies/LLRPolicy.cpp
         Factored/Bandit/Policies/MAUCEPolicy.cpp
@@ -104,7 +103,6 @@ if (MAKE_FMDP)
         Factored/MDP/CooperativeThompsonModel.cpp
         Factored/MDP/CooperativeModel.cpp
         Factored/MDP/Policies/EpsilonPolicy.cpp
-        Factored/MDP/Policies/QGreedyPolicy.cpp
         Factored/MDP/Algorithms/Utils/FactoredLP.cpp
         Factored/MDP/Algorithms/Utils/CPSQueue.cpp
         Factored/MDP/Algorithms/SparseCooperativeQLearning.cpp

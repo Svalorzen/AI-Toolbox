@@ -29,34 +29,13 @@ namespace AIToolbox::Factored::Bandit {
 
             /**
              * @brief Basic constructor.
+             *
+             * @param resetActionProbability For each trial, the probability of testing a random action.
+             * @param randomizeFactorProbability For each trial, the probability of randomizing a random factor of our current best.
+             * @param trialNum The number of trials to perform before returning.
+             * @param forceResetAction Whether force restarting from a random action rather than using the last returned best action.
              */
-            ReusingIterativeLocalSearch(double resetActionProbability, double randomizeFactorProbability, unsigned trialNum);
-
-            /**
-             * @brief This function approximately finds the best Action-value pair for the provided QFunctionRules.
-             *
-             * This function automatically sets up the Graph to perform local
-             * search on from an iterable of QFunctionRules.
-             *
-             * On first call, this function optimizes over a single randomly
-             * sampled initial action. Subsequently it will optimize using the
-             * last best action as a starting point, unless it is explicitly
-             * reset.
-             *
-             * \sa operator()(const Action &, Graph &, bool)
-             *
-             * @param A The action space of the agents.
-             * @param rules An iterable object over QFunctionRules.
-             * @param resetAction Whether to reset the internally cached last best action.
-             *
-             * @return A tuple containing the best Action and its value over the input rules.
-             */
-            template <typename Iterable>
-            Result operator()(const Action & A, const Iterable & inputRules, bool resetAction = false) {
-                auto graph = LocalSearch::makeGraph(A, inputRules);
-
-                return (*this)(A, graph, resetAction);
-            }
+            ReusingIterativeLocalSearch(double resetActionProbability, double randomizeFactorProbability, unsigned trialNum, bool forceResetAction);
 
             /**
              * @brief This function approximately finds the best Action-value pair for the provided Graph.
@@ -66,23 +45,63 @@ namespace AIToolbox::Factored::Bandit {
              * last best action as a starting point, unless it is explicitly
              * reset.
              *
-             * We perform
-             *
              * \sa operator()(const Action &, Graph &, bool)
              *
              * @param A The action space of the agents.
              * @param rules An iterable object over QFunctionRules.
-             * @param resetAction Whether to reset the internally cached last best action.
              *
              * @return A tuple containing the best Action and its value over the input rules.
              */
-            Result operator()(const Action & A, const Graph & graph, bool resetAction = false);
+            Result operator()(const Action & A, const Graph & graph);
+
+            /**
+             * @brief This function returns the currently set probability for testing a random action.
+             */
+            double getResetActionProbability() const;
+
+            /**
+             * @brief This function sets the probability for testing a random action.
+             */
+            void setResetActionProbability(double resetActionProbability);
+
+            /**
+             * @brief This function returns the currently set probability of randomizing each factor.
+             */
+            double getRandomizeFactorProbability() const;
+
+            /**
+             * @brief This function sets the probability of randomizing each factor.
+             */
+            void setRandomizeFactorProbability(double randomizeFactorProbability);
+
+            /**
+             * @brief This function returns the currently set number of trials to perform.
+             */
+            unsigned getTrialNum() const;
+
+            /**
+             * @brief This function sets the number of trials to perform.
+             */
+            void setTrialNum(unsigned trialNum);
+
+            /**
+             * @brief This function returns whether we always restart from a random action at each optimization.
+             *
+             * If this is false, we always start from the lastly returned best action.
+             */
+            bool getForceResetAction() const;
+
+            /**
+             * @brief This function sets whether we always restart from a random action at each optimization.
+             */
+            void setForceResetAction(bool forceResetAction);
 
         private:
             // Parameters
             double resetActionProbability_;
             double randomizeFactorProbability_;
             unsigned trialNum_;
+            bool forceResetAction_;
 
             // Caches
             Action action_, newAction_;

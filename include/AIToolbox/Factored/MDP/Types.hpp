@@ -5,9 +5,6 @@
 #include <AIToolbox/Factored/Types.hpp>
 #include <AIToolbox/Factored/Utils/FactoredMatrix.hpp>
 
-#include <vector>
-#include <utility>
-
 namespace AIToolbox::Factored::MDP {
     /**
      * @brief This struct represents a factored ValueFunction.
@@ -27,17 +24,6 @@ namespace AIToolbox::Factored::MDP {
      * @brief This represents a factored QFunction.
      */
     using QFunction = FactoredMatrix2D;
-
-    /**
-     * @brief This struct represents a single state/value tuple.
-     *
-     * This struct can be used to represent factored Value Functions (possibly
-     * inside a FactorGraph) or a set of basis functions.
-     */
-    struct ValueFunctionRule {
-        PartialState state;
-        double value;
-    };
 
     /**
      * @brief This struct represents a single state/action/value tuple.

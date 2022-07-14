@@ -64,7 +64,7 @@ namespace AIToolbox::Factored::Bandit {
         return {std::move(retAction), retval};
     }
 
-    double LocalSearch::evaluateGraph(const Action & A, const Graph & graph, const Action & jointAction) const {
+    double LocalSearch::evaluateGraph(const Action & A, const Graph & graph, const Action & jointAction) {
         double retval = 0.0;
 
         for (const auto & f : graph)
@@ -73,7 +73,7 @@ namespace AIToolbox::Factored::Bandit {
         return retval;
     }
 
-    double LocalSearch::evaluateFactors(const Action & A, const Graph::FactorItList & factors, const Action & jointAction) const {
+    double LocalSearch::evaluateFactors(const Action & A, const Graph::FactorItList & factors, const Action & jointAction) {
         double retval = 0.0;
 
         for (auto it : factors)
@@ -82,7 +82,7 @@ namespace AIToolbox::Factored::Bandit {
         return retval;
     }
 
-    double LocalSearch::evaluateFactor(const Action & A, const Graph::FactorNode & factor, const Action & jointAction) const {
+    double LocalSearch::evaluateFactor(const Action & A, const Graph::FactorNode & factor, const Action & jointAction) {
         const auto & vars = factor.getVariables();
         const auto & values = factor.getData();
 

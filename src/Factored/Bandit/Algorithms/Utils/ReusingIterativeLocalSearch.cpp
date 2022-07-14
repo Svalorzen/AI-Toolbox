@@ -4,22 +4,23 @@
 #include <AIToolbox/Utils/Probability.hpp>
 
 namespace AIToolbox::Factored::Bandit {
-    ReusingIterativeLocalSearch::ReusingIterativeLocalSearch(const double resetActionProbability, const double randomizeFactorProbability, const unsigned trialNum) :
+    ReusingIterativeLocalSearch::ReusingIterativeLocalSearch(const double resetActionProbability, const double randomizeFactorProbability, const unsigned trialNum, const bool forceResetAction) :
         resetActionProbability_(resetActionProbability),
         randomizeFactorProbability_(randomizeFactorProbability),
         trialNum_(trialNum),
+        forceResetAction_(forceResetAction),
         value_(std::numeric_limits<double>::lowest()),
         rnd_(Seeder::getSeed())
     {}
 
-    ReusingIterativeLocalSearch::Result ReusingIterativeLocalSearch::operator()(const Action & A, const Graph & graph, const bool resetAction) {
+    ReusingIterativeLocalSearch::Result ReusingIterativeLocalSearch::operator()(const Action & A, const Graph & graph) {
         // If we haven't initialized the action yet, do so. Otherwise we keep
         // the old one, hoping that the graph has not changed too much and that
         // the new optimum is close to our old one.
         //
         // If needed we can also force a reset (in case we know that the new
         // graph has nothing in common with the old one).
-        if (resetAction || value_ == std::numeric_limits<double>::lowest())
+        if (forceResetAction_ || value_ == std::numeric_limits<double>::lowest())
             std::tie(action_, value_) = ls_(A, graph);
 
         // In the trials we look around to see if we got stuck in some
@@ -61,4 +62,16 @@ namespace AIToolbox::Factored::Bandit {
 
         return {action_, value_};
     }
+
+    double ReusingIterativeLocalSearch::getResetActionProbability() const { return resetActionProbability_; }
+    void ReusingIterativeLocalSearch::setResetActionProbability(double resetActionProbability) { resetActionProbability_ = resetActionProbability; }
+
+    double ReusingIterativeLocalSearch::getRandomizeFactorProbability() const { return randomizeFactorProbability_; }
+    void ReusingIterativeLocalSearch::setRandomizeFactorProbability(double randomizeFactorProbability) { randomizeFactorProbability_ = randomizeFactorProbability; }
+
+    unsigned ReusingIterativeLocalSearch::getTrialNum() const { return trialNum_; }
+    void ReusingIterativeLocalSearch::setTrialNum(unsigned trialNum) { trialNum_ = trialNum; }
+
+    bool ReusingIterativeLocalSearch::getForceResetAction() const { return forceResetAction_; }
+    void ReusingIterativeLocalSearch::setForceResetAction(bool forceResetAction) { forceResetAction_ = forceResetAction; }
 }

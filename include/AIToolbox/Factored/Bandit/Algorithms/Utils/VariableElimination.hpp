@@ -45,41 +45,7 @@ namespace AIToolbox::Factored::Bandit {
             // Value of rule, tags of processed actions
             using Factor = std::pair<double, std::vector<std::pair<size_t, size_t>>>;
             using GVE = GenericVariableElimination<Factor>;
-
-            /**
-             * @brief This function finds the best Action-value pair for the provided QFunctionRules.
-             *
-             * This function automatically sets up the Graph to perform GVE on
-             * from an iterable of QFunctionRules.
-             *
-             * @param A The action space of the agents.
-             * @param rules An iterable object over QFunctionRules.
-             *
-             * @return A tuple containing the best Action and its value over the input rules.
-             */
-            template <typename Iterable>
-            Result operator()(const Action & A, const Iterable & inputRules) {
-                GVE::Graph graph(A.size());
-
-                for (const auto & rule : inputRules) {
-                    auto & factorNode = graph.getFactor(rule.action.first)->getData();
-                    const auto id = toIndexPartial(A, rule.action);
-
-                    const auto it = std::lower_bound(
-                        std::begin(factorNode),
-                        std::end(factorNode),
-                        id,
-                        [](const auto & rule, size_t rhs) {return rule.first < rhs;}
-                    );
-
-                    if (it != std::end(factorNode) && it->first == id)
-                        it->second.first += rule.value;
-                    else
-                        factorNode.emplace(it, id, Factor{rule.value, {}});
-                }
-
-                return (*this)(A, graph);
-            }
+            using Graph = GVE::Graph;
 
             /**
              * @brief This function performs the actual agent elimination process.
@@ -103,7 +69,7 @@ namespace AIToolbox::Factored::Bandit {
              *
              * @return The pair for best Action and its value given the internal graph.
              */
-            Result operator()(const Action & A, GVE::Graph & graph);
+            Result operator()(const Action & A, Graph & graph);
     };
 }
 
