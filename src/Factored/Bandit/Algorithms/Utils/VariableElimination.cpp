@@ -26,7 +26,7 @@ namespace AIToolbox::Factored::Bandit {
         };
     }
 
-    VE::Result VE::operator()(const Action & A, GVE::Graph & graph) {
+    VE::Result VE::operator()(const Action & A, Graph & graph) {
         GVE gve;
         Global global{A, {}, 0, {}, {}};
 
