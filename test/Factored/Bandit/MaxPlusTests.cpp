@@ -6,8 +6,7 @@
 
 #include <AIToolbox/Factored/Bandit/Algorithms/Utils/MaxPlus.hpp>
 #include <AIToolbox/Factored/Bandit/Environments/MiningProblem.hpp>
-
-#include <iostream>
+#include <AIToolbox/Factored/Bandit/Algorithms/Utils/GraphUtils.hpp>
 
 namespace aif = AIToolbox::Factored;
 namespace fb = AIToolbox::Factored::Bandit;
@@ -31,10 +30,14 @@ BOOST_AUTO_TEST_CASE( simple_graph ) {
     const auto solA = aif::Action{1, 0, 0};
     // const auto solV = 11.0;
 
-    const aif::Action a{2, 2, 2};
+    const aif::Action A{2, 2, 2};
 
     MP mp;
-    const auto [bestAction, val] = mp(a, rules);
+
+    auto graph = fb::MakeGraph<MP>()(rules, A);
+    fb::UpdateGraph<MP>()(graph, rules, A);
+
+    const auto [bestAction, val] = mp(A, graph);
     (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
@@ -54,10 +57,14 @@ BOOST_AUTO_TEST_CASE( all_unconnected_agents ) {
     const auto solA = aif::Action{2, 0, 0, 1};
     // const auto solV = 16.0;
 
-    const aif::Action a{3, 2, 3, 4};
+    const aif::Action A{3, 2, 3, 4};
 
     MP mp;
-    const auto [bestAction, val] = mp(a, rules);
+
+    auto graph = fb::MakeGraph<MP>()(rules, A);
+    fb::UpdateGraph<MP>()(graph, rules, A);
+
+    const auto [bestAction, val] = mp(A, graph);
     (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
@@ -74,10 +81,14 @@ BOOST_AUTO_TEST_CASE( all_connected_agents ) {
     const auto solA = aif::Action{1, 1, 1};
     // const auto solV = 10.0;
 
-    const aif::Action a{2, 2, 2};
+    const aif::Action A{2, 2, 2};
 
     MP mp;
-    const auto [bestAction, val] = mp(a, rules);
+
+    auto graph = fb::MakeGraph<MP>()(rules, A);
+    fb::UpdateGraph<MP>()(graph, rules, A);
+
+    const auto [bestAction, val] = mp(A, graph);
     (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
@@ -100,10 +111,14 @@ BOOST_AUTO_TEST_CASE( negative_graph_1 ) {
     const auto solA = aif::Action{0, 0};
     // const auto solV = 1.0;
 
-    const aif::Action a{2, 2};
+    const aif::Action A{2, 2};
 
     MP mp;
-    const auto [bestAction, val] = mp(a, rules);
+
+    auto graph = fb::MakeGraph<MP>()(rules, A);
+    fb::UpdateGraph<MP>()(graph, rules, A);
+
+    const auto [bestAction, val] = mp(A, graph);
     (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
@@ -126,10 +141,14 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
     const auto solA = aif::Action{1, 0};
     // const auto solV = 0.0;
 
-    const aif::Action a{2, 2};
+    const aif::Action A{2, 2};
 
     MP mp;
-    const auto [bestAction, val] = mp(a, rules);
+
+    auto graph = fb::MakeGraph<MP>()(rules, A);
+    fb::UpdateGraph<MP>()(graph, rules, A);
+
+    const auto [bestAction, val] = mp(A, graph);
     (void)val;
 
     // BOOST_CHECK_EQUAL(val, solV);
@@ -146,7 +165,11 @@ BOOST_AUTO_TEST_CASE( mining_problem ) {
     const auto rules = bandit.getDeterministicRules();
 
     MP mp;
-    const auto [bestAction, val] = mp(A, rules);
+
+    auto graph = fb::MakeGraph<MP>()(rules, A);
+    fb::UpdateGraph<MP>()(graph, rules, A);
+
+    const auto [bestAction, val] = mp(A, graph);
 
     // Note that MaxPlus is not guaranteed to find the best action!
     // In this case it does, but with other problem seeds it does not.
