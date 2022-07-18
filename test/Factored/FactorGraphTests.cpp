@@ -5,6 +5,7 @@
 #include "GlobalFixtures.hpp"
 
 #include <AIToolbox/Factored/Utils/FactorGraph.hpp>
+#include <AIToolbox/Factored/Utils/APSP.hpp>
 
 namespace aif = AIToolbox::Factored;
 
@@ -328,4 +329,49 @@ BOOST_AUTO_TEST_CASE( factor_order_correct ) {
         for (const auto & f : graph)
             BOOST_CHECK(f.getVariables() == rules[--i]);
     }
+}
+
+BOOST_AUTO_TEST_CASE( small_graph_diameter ) {
+    aif::FactorGraph<EmptyFactor> graph(4);
+
+    // ###########
+    // #         #
+    // #    O    #
+    // #   / \   #
+    // #  /   \  #
+    // # O-----O #
+    // #  \   /  #
+    // #   \ /   #
+    // #    O    #
+    // #         #
+    // ###########
+
+    graph.getFactor({0, 1, 2});
+    graph.getFactor({1, 2, 3});
+
+    BOOST_CHECK_EQUAL(APSP(graph), 2);
+}
+
+BOOST_AUTO_TEST_CASE( medium_graph_diameter ) {
+    aif::FactorGraph<EmptyFactor> graph(7);
+
+    // ###############
+    // #             #
+    // #      O      #
+    // #     / \     #
+    // # O--O   O--O #
+    // #     \ /     #
+    // #      O--O   #
+    // #             #
+    // ###############
+
+    graph.getFactor({0, 1});
+    graph.getFactor({1, 2});
+    graph.getFactor({1, 3});
+    graph.getFactor({3, 4});
+    graph.getFactor({2, 5});
+    graph.getFactor({3, 5});
+    graph.getFactor({5, 6});
+
+    BOOST_CHECK_EQUAL(APSP(graph), 4);
 }
