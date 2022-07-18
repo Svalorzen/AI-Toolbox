@@ -72,6 +72,16 @@ namespace AIToolbox::Factored::MDP {
              */
             Maximizer & getMaximizer();
 
+            /**
+             * @brief This function returns a reference to the internal maximizer.
+             */
+            const Maximizer & getMaximizer() const;
+
+            /**
+             * @brief This function returns the currently set graph.
+             */
+            const typename Maximizer::Graph & getGraph() const;
+
         private:
             const FilterMap<QFunctionRule> * qc_;
             const QFunction * qm_;
@@ -110,6 +120,21 @@ namespace AIToolbox::Factored::MDP {
     double QGreedyPolicy<Maximizer>::getActionProbability(const State & s, const Action & a) const {
         if (veccmp(a, sampleAction(s)) == 0) return 1.0;
         return 0.0;
+    }
+
+    template <typename Maximizer>
+    Maximizer & QGreedyPolicy<Maximizer>::getMaximizer() {
+        return max_;
+    }
+
+    template <typename Maximizer>
+    const Maximizer & QGreedyPolicy<Maximizer>::getMaximizer() const {
+        return max_;
+    }
+
+    template <typename Maximizer>
+    const typename Maximizer::Graph & QGreedyPolicy<Maximizer>::getGraph() const {
+        return graph_;
     }
 }
 
