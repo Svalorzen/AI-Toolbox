@@ -31,7 +31,7 @@ namespace AIToolbox::Factored::Bandit {
              * @brief Basic constructor.
              *
              * @param resetActionProbability For each trial, the probability of testing a random action.
-             * @param randomizeFactorProbability For each trial, the probability of randomizing a random factor of our current best.
+             * @param randomizeFactorProbability For each trial, the probability for each factor of being randomized from the current best.
              * @param trialNum The number of trials to perform before returning.
              * @param forceResetAction Whether force restarting from a random action rather than using the last returned best action.
              */
