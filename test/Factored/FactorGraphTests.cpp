@@ -375,3 +375,13 @@ BOOST_AUTO_TEST_CASE( medium_graph_diameter ) {
 
     BOOST_CHECK_EQUAL(APSP(graph), 4);
 }
+
+BOOST_AUTO_TEST_CASE( disjoint_graph_diameter ) {
+    aif::FactorGraph<EmptyFactor> graph(3);
+
+    graph.getFactor({0});
+    graph.getFactor({1});
+    graph.getFactor({2});
+
+    BOOST_CHECK_EQUAL(APSP(graph), 0);
+}

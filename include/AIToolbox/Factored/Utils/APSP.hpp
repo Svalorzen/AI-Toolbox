@@ -39,18 +39,18 @@ namespace AIToolbox::Factored {
         const auto adjacencyList = buildAdjacencyList(graph);
 
         for (size_t a = 0; a < A; ++a) {
-            std::fill(std::begin(distances), std::end(distances), A);
+            std::fill(std::begin(distances), std::end(distances), 0);
             front.clear();
 
             front.push_back(a);
-            distances[a] = 0;
+            distances[a] = A;
 
-            for (size_t i = 0; i < A; ++i) {
+            for (size_t i = 0; i < front.size(); ++i) {
                 const auto a2 = front[i];
-                const auto d = distances[a2];
+                const auto d = (distances[a2] == A) ? 0 : distances[a2];
 
                 for (auto n : adjacencyList[a2]) {
-                    if (distances[n] == A) {
+                    if (distances[n] == 0) {
                         distances[n] = d + 1;
                         front.push_back(n);
                     }
