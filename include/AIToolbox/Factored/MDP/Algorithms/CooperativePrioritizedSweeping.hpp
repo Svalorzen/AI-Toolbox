@@ -65,7 +65,9 @@ namespace AIToolbox::Factored::MDP {
             /**
              * @brief This function returns the QGreedyPolicy we use to determine a1* in the updates.
              *
-             * This function is useful to set the parameters of the Maximizer used by the policy.
+             * This function is useful to set the parameters of the Maximizer
+             * used by the policy, or even to use it to sample actions greedily
+             * from the QFunction without necessarily constructing another policy.
              */
             QGreedyPolicy<Maximizer> & getInternalQGreedyPolicy();
 
