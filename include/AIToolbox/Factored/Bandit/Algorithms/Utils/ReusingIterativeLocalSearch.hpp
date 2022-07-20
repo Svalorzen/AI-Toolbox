@@ -30,12 +30,19 @@ namespace AIToolbox::Factored::Bandit {
             /**
              * @brief Basic constructor.
              *
+             * The default parameters are provided mostly so that it's possible
+             * to initialize RILS in classes internally without knowing the
+             * explicit parameters.
+             *
+             * It's quite likely they won't work for your problem, so remember
+             * to pass something that makes sense!
+             *
              * @param resetActionProbability For each trial, the probability of testing a random action.
              * @param randomizeFactorProbability For each trial, the probability for each factor of being randomized from the current best.
              * @param trialNum The number of trials to perform before returning.
              * @param forceResetAction Whether force restarting from a random action rather than using the last returned best action.
              */
-            ReusingIterativeLocalSearch(double resetActionProbability, double randomizeFactorProbability, unsigned trialNum, bool forceResetAction);
+            ReusingIterativeLocalSearch(double resetActionProbability = 0.3, double randomizeFactorProbability = 0.1, unsigned trialNum = 10, bool forceResetAction = true);
 
             /**
              * @brief This function approximately finds the best Action-value pair for the provided Graph.
