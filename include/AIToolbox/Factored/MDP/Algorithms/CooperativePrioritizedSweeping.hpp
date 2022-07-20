@@ -29,7 +29,7 @@ namespace AIToolbox::Factored::MDP {
      *
      * @tparam M The type of the model to sample from.
      */
-    template <typename M>
+    template <typename M, typename Maximizer = Bandit::VariableElimination>
     class CooperativePrioritizedSweeping {
         public:
             /**
@@ -61,6 +61,18 @@ namespace AIToolbox::Factored::MDP {
              * @param N The number of priority updates to perform.
              */
             void batchUpdateQ(const unsigned N = 50);
+
+            /**
+             * @brief This function returns the QGreedyPolicy we use to determine a1* in the updates.
+             *
+             * This function is useful to set the parameters of the Maximizer used by the policy.
+             */
+            QGreedyPolicy<Maximizer> & getInternalQGreedyPolicy();
+
+            /**
+             * @brief This function returns the QGreedyPolicy we use to determine a1* in the updates.
+             */
+            const QGreedyPolicy<Maximizer> & getInternalQGreedyPolicy() const;
 
             /**
              * @brief This function returns a reference to the internal QFunction.
@@ -101,14 +113,14 @@ namespace AIToolbox::Factored::MDP {
             Vector rewardWeights_, deltaStorage_, rewardStorage_;
 
             QFunction q_;
-            QGreedyPolicy<> gp_;
+            QGreedyPolicy<Maximizer> gp_;
             CPSQueue queue_;
 
             mutable RandomEngine rand_;
     };
 
-    template <typename M>
-    CooperativePrioritizedSweeping<M>::CooperativePrioritizedSweeping(const M & m, std::vector<std::vector<size_t>> basisDomains, double alpha, double theta) :
+    template <typename M, typename Maximizer>
+    CooperativePrioritizedSweeping<M, Maximizer>::CooperativePrioritizedSweeping(const M & m, std::vector<std::vector<size_t>> basisDomains, double alpha, double theta) :
             model_(m),
             alpha_(alpha), theta_(theta),
             qDomains_(std::move(basisDomains)),
@@ -135,14 +147,14 @@ namespace AIToolbox::Factored::MDP {
                 rewardWeights_[d] += 1.0;
     }
 
-    template <typename M>
-    void CooperativePrioritizedSweeping<M>::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
+    template <typename M, typename Maximizer>
+    void CooperativePrioritizedSweeping<M, Maximizer>::stepUpdateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
         updateQ(s, a, s1, r);
         addToQueue(s);
     }
 
-    template <typename M>
-    void CooperativePrioritizedSweeping<M>::batchUpdateQ(const unsigned N) {
+    template <typename M, typename Maximizer>
+    void CooperativePrioritizedSweeping<M, Maximizer>::batchUpdateQ(const unsigned N) {
         // Initialize some variables to avoid reallocations
         State s(model_.getS().size());
         State s1(model_.getS().size());
@@ -179,8 +191,8 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    template <typename M>
-    void CooperativePrioritizedSweeping<M>::updateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
+    template <typename M, typename Maximizer>
+    void CooperativePrioritizedSweeping<M, Maximizer>::updateQ(const State & s, const Action & a, const State & s1, const Rewards & r) {
         // Compute optimal action to do Q-Learning update.
         const auto a1 = gp_.sampleAction(s1);
 
@@ -241,8 +253,8 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    template <typename M>
-    void CooperativePrioritizedSweeping<M>::addToQueue(const State & s1) {
+    template <typename M, typename Maximizer>
+    void CooperativePrioritizedSweeping<M, Maximizer>::addToQueue(const State & s1) {
         // Note that s1 was s before, but here we consider it as the
         // "future" state as we look for its parents.
         const auto & T = model_.getTransitionFunction();
@@ -273,15 +285,25 @@ namespace AIToolbox::Factored::MDP {
         }
     }
 
-    template <typename M>
-    void CooperativePrioritizedSweeping<M>::setQFunction(const double val) {
+    template <typename M, typename Maximizer>
+    void CooperativePrioritizedSweeping<M, Maximizer>::setQFunction(const double val) {
         for (auto & q : q_.bases)
             q.values.fill(val);
     }
 
-    template <typename M>
-    const QFunction & CooperativePrioritizedSweeping<M>::getQFunction() const {
+    template <typename M, typename Maximizer>
+    const QFunction & CooperativePrioritizedSweeping<M, Maximizer>::getQFunction() const {
         return q_;
+    }
+
+    template <typename M, typename Maximizer>
+    QGreedyPolicy<Maximizer> & CooperativePrioritizedSweeping<M, Maximizer>::getInternalQGreedyPolicy() {
+        return gp_;
+    }
+
+    template <typename M, typename Maximizer>
+    const QGreedyPolicy<Maximizer> & CooperativePrioritizedSweeping<M, Maximizer>::getInternalQGreedyPolicy() const {
+        return gp_;
     }
 }
 
