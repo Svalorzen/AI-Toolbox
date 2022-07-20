@@ -9,7 +9,6 @@ namespace AIToolbox::Factored::Bandit {
         randomizeFactorProbability_(randomizeFactorProbability),
         trialNum_(trialNum),
         forceResetAction_(forceResetAction),
-        value_(std::numeric_limits<double>::lowest()),
         rnd_(Seeder::getSeed())
     {}
 
@@ -20,8 +19,15 @@ namespace AIToolbox::Factored::Bandit {
         //
         // If needed we can also force a reset (in case we know that the new
         // graph has nothing in common with the old one).
-        if (forceResetAction_ || value_ == std::numeric_limits<double>::lowest())
-            std::tie(action_, value_) = ls_(A, graph);
+        //
+        // In both cases we need to recompute the action value, since the
+        // values in the graph have likely changed (otherwise we wouldn't be
+        // here).
+        double value;
+        if (forceResetAction_ || action_.empty())
+            std::tie(action_, value) = ls_(A, graph);
+        else
+            value = LocalSearch::evaluateGraph(A, graph, action_);
 
         // In the trials we look around to see if we got stuck in some
         // local optima.
@@ -54,13 +60,13 @@ namespace AIToolbox::Factored::Bandit {
             auto [newOptimizedAction, newOptimizedValue] = ls_(A, graph, newAction_);
 
             // If we have improved, store it as the new best.
-            if (newOptimizedValue > value_) {
+            if (newOptimizedValue > value) {
                 action_ = newOptimizedAction;
-                value_ = newOptimizedValue;
+                value = newOptimizedValue;
             }
         }
 
-        return {action_, value_};
+        return {action_, value};
     }
 
     double ReusingIterativeLocalSearch::getResetActionProbability() const { return resetActionProbability_; }

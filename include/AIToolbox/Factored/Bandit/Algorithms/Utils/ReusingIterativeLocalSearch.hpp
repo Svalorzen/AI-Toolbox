@@ -105,7 +105,6 @@ namespace AIToolbox::Factored::Bandit {
 
             // Caches
             Action action_, newAction_;
-            double value_;
 
             // Nested local search
             LocalSearch ls_;

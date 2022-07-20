@@ -148,3 +148,45 @@ BOOST_AUTO_TEST_CASE( negative_graph_2 ) {
     BOOST_CHECK_EQUAL(val, solV);
     BOOST_CHECK(bestAction == solA1 || bestAction == solA2);
 }
+
+BOOST_AUTO_TEST_CASE( changing_graph ) {
+    const aif::Action A{2, 2};
+    std::vector<fb::QFunctionRule> rules {
+        // Actions,                     Value
+        {  {{0},    {0}},               5.0},
+        {  {{1},    {1}},               5.0},
+    };
+
+    // Exact solution
+    const auto solA1 = aif::Action{0, 1};
+    const auto solV1 = 10.0;
+
+    RILS rils(0.5, 0.5, 10, false);
+
+    auto graph = fb::MakeGraph<RILS>()(rules, A);
+    fb::UpdateGraph<RILS>()(graph, rules, A);
+
+    {
+        const auto [bestAction, val] = rils(A, graph);
+
+        BOOST_CHECK_EQUAL(val, solV1);
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                      std::begin(solA1),       std::end(solA1));
+    }
+
+    rules[0].value = -5.0;
+
+    // Exact solution
+    const auto solA2 = aif::Action{1, 1};
+    const auto solV2 = 5.0;
+
+    fb::UpdateGraph<RILS>()(graph, rules, A);
+
+    {
+        const auto [bestAction, val] = rils(A, graph);
+
+        BOOST_CHECK_EQUAL(val, solV2);
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                      std::begin(solA2),       std::end(solA2));
+    }
+}
