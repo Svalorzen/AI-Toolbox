@@ -322,7 +322,7 @@ namespace AIToolbox {
              */
             auto toContainerId() const { return currentId_; }
 
-            auto operator++() {
+            auto& operator++() {
                 ++currentId_;
                 skip();
                 return *this;
