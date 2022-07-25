@@ -9,6 +9,7 @@
 #include <AIToolbox/TypeTraits.hpp>
 #include <AIToolbox/Utils/Core.hpp>
 #include <AIToolbox/Utils/Combinatorics.hpp>
+#include <AIToolbox/Utils/IndexMap.hpp>
 
 #include <AIToolbox/Utils/LP.hpp>
 

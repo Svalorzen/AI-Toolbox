@@ -1,7 +1,9 @@
 #ifndef AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
 #define AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
 
-#include <AIToolbox/Utils/IndexMap.hpp>
+#include <vector>
+#include <numeric>
+#include <cassert>
 
 namespace AIToolbox {
     /**
