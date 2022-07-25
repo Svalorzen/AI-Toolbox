@@ -291,6 +291,13 @@ namespace AIToolbox::Factored::MDP {
     void CooperativePrioritizedSweeping<M, Maximizer>::setQFunction(const double val) {
         for (auto & q : q_.bases)
             q.values.fill(val);
+
+        // Add some noise to avoid non-unique maximum with MaxPlus since it cannot handle them.
+        if constexpr(std::is_same_v<Maximizer, Bandit::MaxPlus>) {
+            std::uniform_real_distribution<double> dist(-0.01 * val, 0.01 * val);
+            for (auto & q : q_.bases)
+                q.values += Matrix2D::NullaryExpr(q.values.rows(), q.values.cols(), [&](){return dist(rand_);});
+        }
     }
 
     template <typename M, typename Maximizer>
