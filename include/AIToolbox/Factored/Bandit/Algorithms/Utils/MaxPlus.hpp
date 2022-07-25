@@ -34,6 +34,13 @@ namespace AIToolbox::Factored::Bandit {
      * Since in loopy graphs this is not guaranteed to convergence, we only
      * update the returned action if the new overall value is greater than what
      * was selected before.
+     *
+     * Note: the way this algoritm is implemented, it assumes that an unique
+     * max always exists. If there are multiple, the algorithm will likely fail
+     * to identify any of them. This can in principle be fixed for graphs
+     * without cycles, but cannot be fixed for graphs with cycles (and indeed
+     * trying to do so can be arbitrarily bad). Thus we simply ignore the
+     * problem, and we require that the graph has a unique max.
      */
     class MaxPlus {
         public:

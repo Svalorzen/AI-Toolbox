@@ -178,3 +178,36 @@ BOOST_AUTO_TEST_CASE( mining_problem ) {
     BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
                                   std::begin(solA),     std::end(solA));
 }
+
+BOOST_AUTO_TEST_CASE( broken_graph ) {
+    // This test specifically addresses the case of a graph with multiple
+    // maxes. In this case MaxPlus will fail, and will not be able to select
+    // any of the best actions. This is because MaxPlus maximizes each agent
+    // independently, and does not have a way to transfer information to one
+    // agent to another.
+    //
+    // This specific case, having no cycles, is in theory solvable. However,
+    // graphs with cycles are hopeless, and so we support neither.
+    const std::vector<fb::QFunctionRule> rules {
+        // Actions,                     Value
+        {  {{0, 1}, {0, 1}},      1.0},
+        {  {{0, 1}, {1, 0}},      1.0},
+    };
+
+    const auto wrongA = aif::Action{0, 0};
+    // const auto solV = 1.0;
+
+    const aif::Action A{2, 2};
+
+    MP mp;
+
+    auto graph = fb::MakeGraph<MP>()(rules, A);
+    fb::UpdateGraph<MP>()(graph, rules, A);
+
+    const auto [bestAction, val] = mp(A, graph);
+    (void)val;
+
+    // BOOST_CHECK_EQUAL(val, solV);
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(bestAction), std::end(bestAction),
+                                  std::begin(wrongA),     std::end(wrongA));
+}
