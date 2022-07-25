@@ -11,9 +11,14 @@ namespace AIToolbox::Factored::Bandit {
         // - retval keeps the best currently found solution.
         // - bestCurrent keeps the currently found solution.
         Result retval, bestCurrent;
-        std::get<0>(retval).resize(A.size());
-        std::get<1>(retval) = std::numeric_limits<double>::lowest();
-        std::get<0>(bestCurrent).resize(A.size());
+
+        auto & [rAction, rValue] = retval;
+        auto & [cAction, cValue] = bestCurrent;
+
+        rAction.resize(A.size());
+        cAction.resize(A.size());
+
+        rValue = std::numeric_limits<double>::lowest();
 
         // Initialize the message caches.
         // - inMessages are the previous timestep's messages sent
@@ -146,9 +151,7 @@ namespace AIToolbox::Factored::Bandit {
 
             // Finally check whether we have a new best action, and
             // compute the messages for the next iteration.
-            auto & [rAction, rValue] = retval;
-            auto & [cAction, cValue] = bestCurrent;
-
+            //
             // Here we also handle the agent nodes' part of the work. We sum
             // all messages received in the last row of the outMessages
             // (reserved for this purpose), and use it to see if we have found
@@ -192,6 +195,12 @@ namespace AIToolbox::Factored::Bandit {
             if (cValue > rValue)
                 retval = bestCurrent;
         }
+        // It can happen that the initial default action is indeed the best. If
+        // that's the case, we'll never have a chance to update its true value,
+        // so we do it here if it is still needed.
+        if (rValue == std::numeric_limits<double>::lowest())
+            rValue = LocalSearch::evaluateGraph(A, graph, rAction);
+
         return retval;
     }
 
