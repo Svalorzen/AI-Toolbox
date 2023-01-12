@@ -1,6 +1,8 @@
 MDP RL Beginner Tutorial {#tutorialmdprl}
 =========================================
 
+[TOC]
+
 This tutorial is meant to teach you how to learn a policy in an MDP even when
 the dynamics are not known a priori.
 

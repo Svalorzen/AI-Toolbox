@@ -1,3 +1,6 @@
+Extending AI Toolbox {#extendingaitoolbox}
+====================
+
 [TOC]
 
 Introduction {#intro}

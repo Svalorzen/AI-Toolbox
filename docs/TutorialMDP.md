@@ -1,6 +1,8 @@
 MDP Beginner Tutorial {#tutorialmdp}
 ====================================
 
+[TOC]
+
 This tutorial is meant to give you information about this library and the
 theoretical foundations behind it. It is not meant to be a full-on class about
 it, but I hope it will be enough to get you started.

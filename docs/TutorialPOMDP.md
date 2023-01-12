@@ -1,6 +1,8 @@
 POMDP Beginner Tutorial {#tutorialpomdp}
 ========================================
 
+[TOC]
+
 This tutorial assumes you have read and understood the MDP tutorial.
 
 This tutorial's code can be found in the `examples/POMDP/tiger_door.cpp` file,
