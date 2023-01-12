@@ -405,9 +405,15 @@ main directory.
 Compiling a Program
 ===================
 
-To compile a program that uses this library, simply link it against the compiled
-libraries you need, and possibly to the `lp_solve` libraries (if using POMDP or
-FMDP).
+For an extensive pre-made setup of a C++/CMake project using AI-Toolbox *on
+Linux*, please do checkout [this
+repository](https://github.com/Svalorzen/AI-Toolbox-Experiments). It contains
+the setup I personally use when working with AI-Toolbox. It also comes with many
+additional tools you might need, which are nevertheless all optional.
+
+Alternatively, to compile a program that uses this library, simply link it
+against the compiled libraries you need, and possibly to the `lp_solve`
+libraries (if using POMDP or FMDP).
 
 Please note that since both POMDP and FMDP libraries rely on the MDP code, you
 __MUST__ specify those libraries *before* the MDP library when linking,
