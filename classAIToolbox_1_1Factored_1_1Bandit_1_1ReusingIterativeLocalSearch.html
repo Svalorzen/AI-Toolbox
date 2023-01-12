@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -105,9 +112,9 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a30ad224aa560ad778c6c6bd1bcba7233"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#a30ad224aa560ad778c6c6bd1bcba7233">ReusingIterativeLocalSearch</a> (double resetActionProbability, double randomizeFactorProbability, unsigned trialNum, bool forceResetAction)</td></tr>
-<tr class="memdesc:a30ad224aa560ad778c6c6bd1bcba7233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#a30ad224aa560ad778c6c6bd1bcba7233">More...</a><br /></td></tr>
-<tr class="separator:a30ad224aa560ad778c6c6bd1bcba7233"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2062b34dde8a40ffd40ce716404090e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#a2062b34dde8a40ffd40ce716404090e9">ReusingIterativeLocalSearch</a> (double resetActionProbability=0.3, double randomizeFactorProbability=0.1, unsigned trialNum=10, bool forceResetAction=true)</td></tr>
+<tr class="memdesc:a2062b34dde8a40ffd40ce716404090e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#a2062b34dde8a40ffd40ce716404090e9">More...</a><br /></td></tr>
+<tr class="separator:a2062b34dde8a40ffd40ce716404090e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29364439cecb4fc05f9739666a33ecc5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#a19cd66a887985769636883d104ecdb2e">Result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#a29364439cecb4fc05f9739666a33ecc5">operator()</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;A, const <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#aeda4a0de3e20cc84e77528dfdb9b252d">Graph</a> &amp;graph)</td></tr>
 <tr class="memdesc:a29364439cecb4fc05f9739666a33ecc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function approximately finds the best Action-value pair for the provided Graph.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1ReusingIterativeLocalSearch.html#a29364439cecb4fc05f9739666a33ecc5">More...</a><br /></td></tr>
 <tr class="separator:a29364439cecb4fc05f9739666a33ecc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,8 +177,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a30ad224aa560ad778c6c6bd1bcba7233"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30ad224aa560ad778c6c6bd1bcba7233">&#9670;&nbsp;</a></span>ReusingIterativeLocalSearch()</h2>
+<a id="a2062b34dde8a40ffd40ce716404090e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2062b34dde8a40ffd40ce716404090e9">&#9670;&nbsp;</a></span>ReusingIterativeLocalSearch()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,25 +187,25 @@ Public Member Functions</h2></td></tr>
           <td class="memname">AIToolbox::Factored::Bandit::ReusingIterativeLocalSearch::ReusingIterativeLocalSearch </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>resetActionProbability</em>, </td>
+          <td class="paramname"><em>resetActionProbability</em> = <code>0.3</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>randomizeFactorProbability</em>, </td>
+          <td class="paramname"><em>randomizeFactorProbability</em> = <code>0.1</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>trialNum</em>, </td>
+          <td class="paramname"><em>trialNum</em> = <code>10</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>forceResetAction</em>&#160;</td>
+          <td class="paramname"><em>forceResetAction</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -209,10 +216,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Basic constructor. </p>
+<p>The default parameters are provided mostly so that it's possible to initialize RILS in classes internally without knowing the explicit parameters.</p>
+<p>It's quite likely they won't work for your problem, so remember to pass something that makes sense!</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">resetActionProbability</td><td>For each trial, the probability of testing a random action. </td></tr>
-    <tr><td class="paramname">randomizeFactorProbability</td><td>For each trial, the probability of randomizing a random factor of our current best. </td></tr>
+    <tr><td class="paramname">randomizeFactorProbability</td><td>For each trial, the probability for each factor of being randomized from the current best. </td></tr>
     <tr><td class="paramname">trialNum</td><td>The number of trials to perform before returning. </td></tr>
     <tr><td class="paramname">forceResetAction</td><td>Whether force restarting from a random action rather than using the last returned best action. </td></tr>
   </table>
@@ -331,7 +340,7 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>The action space of the agents. </td></tr>
-    <tr><td class="paramname">rules</td><td>An iterable object over QFunctionRules.</td></tr>
+    <tr><td class="paramname">graph</td><td>The graph to perform RILS on.</td></tr>
   </table>
   </dd>
 </dl>

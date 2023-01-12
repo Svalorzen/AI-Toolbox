@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -291,7 +298,7 @@ template&lt;typename V &gt; </div>
 <p>This function does not modify the view. We also call <a class="el" href="namespaceEigen.html">Eigen</a>'s <code>conservativeResize</code> so that already stored data is maintained.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>The requested new rows. </td></tr>
+    <tr><td class="paramname">rows</td><td>The requested new rows. </td></tr>
   </table>
   </dd>
 </dl>
@@ -318,7 +325,7 @@ template&lt;typename V &gt; </div>
 <p>We first call <a class="el" href="classAIToolbox_1_1StorageMatrix2D.html#a87d71a92dd37651500e3030baf77fa15" title="This function reserves row space in the underlying storage.">reserve(size_t)</a> to make sure that the storage is appropriately sized.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>The requested new rows. </td></tr>
+    <tr><td class="paramname">rows</td><td>The requested new rows. </td></tr>
   </table>
   </dd>
 </dl>

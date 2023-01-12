@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -237,6 +244,8 @@ template&lt;typename Iterable &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">A</td><td>The size of the action space </td></tr>
+    <tr><td class="paramname">logtA</td><td>The precomputed value for logtA for this timestep. </td></tr>
     <tr><td class="paramname">inputRules</td><td>The rules on which the Variable Elimination process will work.</td></tr>
   </table>
   </dd>
@@ -278,6 +287,14 @@ template&lt;typename Iterable &gt; </div>
 </div><div class="memdoc">
 
 <p>This function performs the actual agent elimination process. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>The size of the action space </td></tr>
+    <tr><td class="paramname">logtA</td><td>The precomputed value for logtA for this timestep. </td></tr>
+    <tr><td class="paramname">graph</td><td>The graph to perform <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html" title="This class represents the UCVE process.">UCVE</a> on.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>The best action, randomly taken if multiple actions are eligible. </dd></dl>
 
 </div>

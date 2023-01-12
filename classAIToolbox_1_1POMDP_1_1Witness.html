@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -156,7 +163,7 @@ Public Member Functions</h2></td></tr>
 <p>The tolerance parameter must be &gt;= 0.0, otherwise the constructor will throw an std::runtime_error. The tolerance parameter sets the convergence criterion. A tolerance of 0.0 forces <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm.">Witness</a> to perform a number of iterations equal to the horizon specified. Otherwise, <a class="el" href="classAIToolbox_1_1POMDP_1_1Witness.html" title="This class implements the Witness algorithm.">Witness</a> will stop as soon as the difference between two iterations is less than the tolerance specified.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">h</td><td>The horizon chosen. </td></tr>
+    <tr><td class="paramname">horizon</td><td>The horizon chosen. </td></tr>
     <tr><td class="paramname">tolerance</td><td>The tolerance factor to stop the value iteration loop. </td></tr>
   </table>
   </dd>

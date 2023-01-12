@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AIToolbox: AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt; Class Template Reference</title>
+<title>AIToolbox: AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M, Maximizer &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -86,7 +93,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Factored_1_1MDP_1_1C
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt; Class Template Reference</div>  </div>
+<div class="title">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M, Maximizer &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -97,25 +104,31 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Factored_1_1MDP_1_1C
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7340b9d6d871cc20855268068ef6db58"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a7340b9d6d871cc20855268068ef6db58">CooperativePrioritizedSweeping</a> (const M &amp;m, std::vector&lt; std::vector&lt; size_t &gt;&gt; basisDomains, double alpha=0.3, double theta=0.001)</td></tr>
-<tr class="memdesc:a7340b9d6d871cc20855268068ef6db58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a7340b9d6d871cc20855268068ef6db58">More...</a><br /></td></tr>
-<tr class="separator:a7340b9d6d871cc20855268068ef6db58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff8e39cdde956c5d0adefeb836bf2bf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#aff8e39cdde956c5d0adefeb836bf2bf4">stepUpdateQ</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> &amp;s, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;a, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> &amp;s1, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aad6527c0695fd67b56fec310055a7bdc">Rewards</a> &amp;r)</td></tr>
-<tr class="memdesc:aff8e39cdde956c5d0adefeb836bf2bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function performs a single update of the Q-Function with the input data.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#aff8e39cdde956c5d0adefeb836bf2bf4">More...</a><br /></td></tr>
-<tr class="separator:aff8e39cdde956c5d0adefeb836bf2bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a366802aeeaea47e32ed93936a9416617"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a366802aeeaea47e32ed93936a9416617">batchUpdateQ</a> (const unsigned N=50)</td></tr>
-<tr class="memdesc:a366802aeeaea47e32ed93936a9416617"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function performs a series of batch updates using the model to sample.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a366802aeeaea47e32ed93936a9416617">More...</a><br /></td></tr>
-<tr class="separator:a366802aeeaea47e32ed93936a9416617"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afce414ec7cd3e5b6fa3cda4a91ddbaca"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a1bc627b8fb0feff602ecd4a3a4175a5b">QFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#afce414ec7cd3e5b6fa3cda4a91ddbaca">getQFunction</a> () const</td></tr>
-<tr class="memdesc:afce414ec7cd3e5b6fa3cda4a91ddbaca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal QFunction.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#afce414ec7cd3e5b6fa3cda4a91ddbaca">More...</a><br /></td></tr>
-<tr class="separator:afce414ec7cd3e5b6fa3cda4a91ddbaca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1394115da3268335553cec1f876c8a42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a1394115da3268335553cec1f876c8a42">setQFunction</a> (double val)</td></tr>
-<tr class="memdesc:a1394115da3268335553cec1f876c8a42"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the QFunction to a set value.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a1394115da3268335553cec1f876c8a42">More...</a><br /></td></tr>
-<tr class="separator:a1394115da3268335553cec1f876c8a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f932b9cfa337c37b410c814c1083c38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a8f932b9cfa337c37b410c814c1083c38">CooperativePrioritizedSweeping</a> (const M &amp;m, std::vector&lt; std::vector&lt; size_t &gt;&gt; basisDomains, double alpha=0.3, double theta=0.001)</td></tr>
+<tr class="memdesc:a8f932b9cfa337c37b410c814c1083c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a8f932b9cfa337c37b410c814c1083c38">More...</a><br /></td></tr>
+<tr class="separator:a8f932b9cfa337c37b410c814c1083c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85ccd5e2bceb96ca8f8a56e37591c130"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a85ccd5e2bceb96ca8f8a56e37591c130">stepUpdateQ</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> &amp;s, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;a, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> &amp;s1, const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aad6527c0695fd67b56fec310055a7bdc">Rewards</a> &amp;r)</td></tr>
+<tr class="memdesc:a85ccd5e2bceb96ca8f8a56e37591c130"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function performs a single update of the Q-Function with the input data.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a85ccd5e2bceb96ca8f8a56e37591c130">More...</a><br /></td></tr>
+<tr class="separator:a85ccd5e2bceb96ca8f8a56e37591c130"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5457becdd9506ab44487489617f1b331"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a5457becdd9506ab44487489617f1b331">batchUpdateQ</a> (const unsigned N=50)</td></tr>
+<tr class="memdesc:a5457becdd9506ab44487489617f1b331"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function performs a series of batch updates using the model to sample.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a5457becdd9506ab44487489617f1b331">More...</a><br /></td></tr>
+<tr class="separator:a5457becdd9506ab44487489617f1b331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abccc7c688aebec80ecc40264dd8860d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html">QGreedyPolicy</a>&lt; Maximizer &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#abccc7c688aebec80ecc40264dd8860d7">getInternalQGreedyPolicy</a> ()</td></tr>
+<tr class="memdesc:abccc7c688aebec80ecc40264dd8860d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html" title="This class implements a greedy policy through a QFunction.">QGreedyPolicy</a> we use to determine a1* in the updates.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#abccc7c688aebec80ecc40264dd8860d7">More...</a><br /></td></tr>
+<tr class="separator:abccc7c688aebec80ecc40264dd8860d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc1b140af3a58351df8975008d29ad08"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html">QGreedyPolicy</a>&lt; Maximizer &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#acc1b140af3a58351df8975008d29ad08">getInternalQGreedyPolicy</a> () const</td></tr>
+<tr class="memdesc:acc1b140af3a58351df8975008d29ad08"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html" title="This class implements a greedy policy through a QFunction.">QGreedyPolicy</a> we use to determine a1* in the updates.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#acc1b140af3a58351df8975008d29ad08">More...</a><br /></td></tr>
+<tr class="separator:acc1b140af3a58351df8975008d29ad08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72490b4f7cf37bc024fb37ac20410d50"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a1bc627b8fb0feff602ecd4a3a4175a5b">QFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a72490b4f7cf37bc024fb37ac20410d50">getQFunction</a> () const</td></tr>
+<tr class="memdesc:a72490b4f7cf37bc024fb37ac20410d50"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal QFunction.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a72490b4f7cf37bc024fb37ac20410d50">More...</a><br /></td></tr>
+<tr class="separator:a72490b4f7cf37bc024fb37ac20410d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b49a86b43b4e81708114b58b3dce750"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a4b49a86b43b4e81708114b58b3dce750">setQFunction</a> (double val)</td></tr>
+<tr class="memdesc:a4b49a86b43b4e81708114b58b3dce750"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the QFunction to a set value.  <a href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html#a4b49a86b43b4e81708114b58b3dce750">More...</a><br /></td></tr>
+<tr class="separator:a4b49a86b43b4e81708114b58b3dce750"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename M&gt;<br />
-class AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt;</h3>
+<div class="textblock"><h3>template&lt;typename M, typename Maximizer = Bandit::VariableElimination&gt;<br />
+class AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M, Maximizer &gt;</h3>
 
 <p>This class implements PrioritizedSweeping for cooperative environments. </p>
 <p>This class allows to perform prioritized sweeping in cooperative environments.</p>
@@ -128,16 +141,16 @@ class AIToolbox::Factored::MDP::CooperativePrioritizedSweeping&lt; M &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a7340b9d6d871cc20855268068ef6db58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7340b9d6d871cc20855268068ef6db58">&#9670;&nbsp;</a></span>CooperativePrioritizedSweeping()</h2>
+<a id="a8f932b9cfa337c37b410c814c1083c38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f932b9cfa337c37b410c814c1083c38">&#9670;&nbsp;</a></span>CooperativePrioritizedSweeping()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , typename Maximizer &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">CooperativePrioritizedSweeping</a> </td>
+          <td class="memname"><a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M, Maximizer &gt;::<a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">CooperativePrioritizedSweeping</a> </td>
           <td>(</td>
           <td class="paramtype">const M &amp;&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -182,16 +195,16 @@ template&lt;typename M &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a366802aeeaea47e32ed93936a9416617"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a366802aeeaea47e32ed93936a9416617">&#9670;&nbsp;</a></span>batchUpdateQ()</h2>
+<a id="a5457becdd9506ab44487489617f1b331"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5457becdd9506ab44487489617f1b331">&#9670;&nbsp;</a></span>batchUpdateQ()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , typename Maximizer &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M &gt;::batchUpdateQ </td>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M, Maximizer &gt;::batchUpdateQ </td>
           <td>(</td>
           <td class="paramtype">const unsigned&#160;</td>
           <td class="paramname"><em>N</em> = <code>50</code></td><td>)</td>
@@ -211,16 +224,56 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
-<a id="afce414ec7cd3e5b6fa3cda4a91ddbaca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afce414ec7cd3e5b6fa3cda4a91ddbaca">&#9670;&nbsp;</a></span>getQFunction()</h2>
+<a id="abccc7c688aebec80ecc40264dd8860d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abccc7c688aebec80ecc40264dd8860d7">&#9670;&nbsp;</a></span>getInternalQGreedyPolicy() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , typename Maximizer &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a1bc627b8fb0feff602ecd4a3a4175a5b">QFunction</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M &gt;::getQFunction</td>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html">QGreedyPolicy</a>&lt; Maximizer &gt; &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M, Maximizer &gt;::getInternalQGreedyPolicy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html" title="This class implements a greedy policy through a QFunction.">QGreedyPolicy</a> we use to determine a1* in the updates. </p>
+<p>This function is useful to set the parameters of the Maximizer used by the policy, or even to use it to sample actions greedily from the QFunction without necessarily constructing another policy. </p>
+
+</div>
+</div>
+<a id="acc1b140af3a58351df8975008d29ad08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc1b140af3a58351df8975008d29ad08">&#9670;&nbsp;</a></span>getInternalQGreedyPolicy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M , typename Maximizer  = Bandit::VariableElimination&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html">QGreedyPolicy</a>&lt;Maximizer&gt;&amp; <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M, Maximizer &gt;::getInternalQGreedyPolicy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html" title="This class implements a greedy policy through a QFunction.">QGreedyPolicy</a> we use to determine a1* in the updates. </p>
+
+</div>
+</div>
+<a id="a72490b4f7cf37bc024fb37ac20410d50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72490b4f7cf37bc024fb37ac20410d50">&#9670;&nbsp;</a></span>getQFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M , typename Maximizer &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="namespaceAIToolbox_1_1Factored_1_1MDP.html#a1bc627b8fb0feff602ecd4a3a4175a5b">QFunction</a> &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M, Maximizer &gt;::getQFunction</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -229,16 +282,16 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
-<a id="a1394115da3268335553cec1f876c8a42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1394115da3268335553cec1f876c8a42">&#9670;&nbsp;</a></span>setQFunction()</h2>
+<a id="a4b49a86b43b4e81708114b58b3dce750"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b49a86b43b4e81708114b58b3dce750">&#9670;&nbsp;</a></span>setQFunction()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , typename Maximizer &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M &gt;::setQFunction </td>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M, Maximizer &gt;::setQFunction </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
@@ -258,16 +311,16 @@ template&lt;typename M &gt; </div>
 
 </div>
 </div>
-<a id="aff8e39cdde956c5d0adefeb836bf2bf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff8e39cdde956c5d0adefeb836bf2bf4">&#9670;&nbsp;</a></span>stepUpdateQ()</h2>
+<a id="a85ccd5e2bceb96ca8f8a56e37591c130"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85ccd5e2bceb96ca8f8a56e37591c130">&#9670;&nbsp;</a></span>stepUpdateQ()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename M &gt; </div>
+template&lt;typename M , typename Maximizer &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M &gt;::stepUpdateQ </td>
+          <td class="memname">void <a class="el" href="classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html">AIToolbox::Factored::MDP::CooperativePrioritizedSweeping</a>&lt; M, Maximizer &gt;::stepUpdateQ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#a597904bffe91df4e1b0d8d11f17f3620">State</a> &amp;&#160;</td>
           <td class="paramname"><em>s</em>, </td>

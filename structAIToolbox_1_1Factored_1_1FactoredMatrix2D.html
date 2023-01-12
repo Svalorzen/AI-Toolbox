@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -221,7 +228,9 @@ Public Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">space</td><td>The factor space to use. </td></tr>
-    <tr><td class="paramname">value</td><td>The value of the factor space to compute the value for. </td></tr>
+    <tr><td class="paramname">actions</td><td>The action space to use. </td></tr>
+    <tr><td class="paramname">value</td><td>The factor to compute the value for. </td></tr>
+    <tr><td class="paramname">action</td><td>The action to compute the value for. </td></tr>
     <tr><td class="paramname">weights</td><td>The weights to multiply the bases with, with an optional constant basis.</td></tr>
   </table>
   </dd>

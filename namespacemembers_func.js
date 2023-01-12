@@ -1,6 +1,7 @@
 var namespacemembers_func =
 [
-    [ "b", "namespacemembers_func.html", null ],
+    [ "a", "namespacemembers_func.html", null ],
+    [ "b", "namespacemembers_func_b.html", null ],
     [ "c", "namespacemembers_func_c.html", null ],
     [ "d", "namespacemembers_func_d.html", null ],
     [ "e", "namespacemembers_func_e.html", null ],

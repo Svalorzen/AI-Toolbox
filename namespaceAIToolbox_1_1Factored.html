@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -169,6 +176,17 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a97fbb3d781c7f3dcd1cff94c3425f190"><td class="memTemplParams" colspan="2">template&lt;typename Factor &gt; </td></tr>
+<tr class="memitem:a97fbb3d781c7f3dcd1cff94c3425f190"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored.html#a97fbb3d781c7f3dcd1cff94c3425f190">buildAdjacencyList</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;A, const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt; &amp;graph)</td></tr>
+<tr class="separator:a97fbb3d781c7f3dcd1cff94c3425f190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad044acbbda0123a3521868d0a9b835f0"><td class="memTemplParams" colspan="2">template&lt;typename Factor &gt; </td></tr>
+<tr class="memitem:ad044acbbda0123a3521868d0a9b835f0"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored.html#ad044acbbda0123a3521868d0a9b835f0">APSP</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt; &amp;graph)</td></tr>
+<tr class="memdesc:ad044acbbda0123a3521868d0a9b835f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function solves the APSP problem for the provided graph.  <a href="namespaceAIToolbox_1_1Factored.html#ad044acbbda0123a3521868d0a9b835f0">More...</a><br /></td></tr>
+<tr class="separator:ad044acbbda0123a3521868d0a9b835f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afee91bc16c2a06b23dc52d6c43770266"><td class="memTemplParams" colspan="2">template&lt;typename Factor &gt; </td></tr>
+<tr class="memitem:afee91bc16c2a06b23dc52d6c43770266"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored.html#afee91bc16c2a06b23dc52d6c43770266">buildAdjacencyList</a> (const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt; &amp;graph)</td></tr>
+<tr class="memdesc:afee91bc16c2a06b23dc52d6c43770266"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes an adjacency list between the variables of the input graph.  <a href="namespaceAIToolbox_1_1Factored.html#afee91bc16c2a06b23dc52d6c43770266">More...</a><br /></td></tr>
+<tr class="separator:afee91bc16c2a06b23dc52d6c43770266"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb4967d350ac709a7b452bf76cfba5bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structAIToolbox_1_1Factored_1_1BasisMatrix.html">BasisMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored.html#abb4967d350ac709a7b452bf76cfba5bb">backProject</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae982f64154558584f55a5f119e6a155c">DDN</a> &amp;ddn, const <a class="el" href="structAIToolbox_1_1Factored_1_1BasisFunction.html">BasisFunction</a> &amp;bf)</td></tr>
 <tr class="separator:abb4967d350ac709a7b452bf76cfba5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0028352421afe3bb7b75651dbf27cb43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structAIToolbox_1_1Factored_1_1FactoredMatrix2D.html">FactoredMatrix2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceAIToolbox_1_1Factored.html#a0028352421afe3bb7b75651dbf27cb43">backProject</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#ae982f64154558584f55a5f119e6a155c">DDN</a> &amp;ddn, const <a class="el" href="structAIToolbox_1_1Factored_1_1FactoredVector.html">FactoredVector</a> &amp;fv)</td></tr>
@@ -464,6 +482,37 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ad044acbbda0123a3521868d0a9b835f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad044acbbda0123a3521868d0a9b835f0">&#9670;&nbsp;</a></span>APSP()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t AIToolbox::Factored::APSP </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt; &amp;&#160;</td>
+          <td class="paramname"><em>graph</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function solves the APSP problem for the provided graph. </p>
+<p>This function computes the graph diameter; i.e. the shortest longest path between any two variable nodes. Factor nodes are treated as multi-edges for this purpose, so they do not count as actual nodes and they do not (directly) contribute to the diameter size.</p>
+<p>This function can be used to compute the iteration parameter for MaxPlus, as the number of message iterations needed should be the same as the diameter of the graph.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>The graph to compute the diameter for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The diameter of the graph. </dd></dl>
+
+</div>
+</div>
 <a id="abb4967d350ac709a7b452bf76cfba5bb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abb4967d350ac709a7b452bf76cfba5bb">&#9670;&nbsp;</a></span>backProject() <span class="overload">[1/2]</span></h2>
 
@@ -517,6 +566,66 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a97fbb3d781c7f3dcd1cff94c3425f190"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97fbb3d781c7f3dcd1cff94c3425f190">&#9670;&nbsp;</a></span>buildAdjacencyList() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto AIToolbox::Factored::buildAdjacencyList </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt; &amp;&#160;</td>
+          <td class="paramname"><em>graph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afee91bc16c2a06b23dc52d6c43770266"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afee91bc16c2a06b23dc52d6c43770266">&#9670;&nbsp;</a></span>buildAdjacencyList() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Factor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto AIToolbox::Factored::buildAdjacencyList </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">FactorGraph</a>&lt; Factor &gt; &amp;&#160;</td>
+          <td class="paramname"><em>graph</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function computes an adjacency list between the variables of the input graph. </p>
+<p>This function returns a vector with one element for each variable. Each variable's element is itself a vector containing the indeces of all neighbors of the variable. Two variables are neighbors if they are connected to at least one common factor.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>The graph to compute the adjacency list for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The adjacency list of the graph. </dd></dl>
 
 </div>
 </div>
@@ -654,6 +763,7 @@ Functions</h2></td></tr>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceAIToolbox_1_1Factored.html#afbb89585848102a28e6aad11e5465b10" title="This function returns the multiplication of all elements of the input factor.">factorSpace</a></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">ids</td><td>The indeces to consider. </td></tr>
     <tr><td class="paramname">space</td><td>The factored factor space.</td></tr>
   </table>
   </dd>
@@ -2777,7 +2887,7 @@ template&lt;typename It &gt; </div>
   <table class="params">
     <tr><td class="paramname">ids</td><td>The ids to consider in the input space and factor. </td></tr>
     <tr><td class="paramname">space</td><td>The factor space to consider. </td></tr>
-    <tr><td class="paramname">f</td><td>The input factor to convert.</td></tr>
+    <tr><td class="paramname">pf</td><td>The input factor to convert.</td></tr>
   </table>
   </dd>
 </dl>

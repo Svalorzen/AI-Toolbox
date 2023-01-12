@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -108,36 +115,36 @@ $(document).ready(function(){initNavTree('UCVE_8hpp_source.html',''); initResiza
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a95aa23d740cb3819540d6b035ad3c515">   40</a></span>&#160;            <span class="keyword">using</span> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a95aa23d740cb3819540d6b035ad3c515">Result</a> = std::tuple&lt;Action, V&gt;;</div>
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a956f058aa57f422a1366f13836d972e8">   41</a></span>&#160;            <span class="keyword">using</span> <a class="code" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html">GVE</a> = <a class="code" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html">GenericVariableElimination&lt;Factor&gt;</a>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterable&gt;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">   52</a></span>&#160;            <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a95aa23d740cb3819540d6b035ad3c515">Result</a> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">operator()</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp; A, <span class="keyword">const</span> <span class="keywordtype">double</span> logtA, <span class="keyword">const</span> Iterable &amp; inputRules) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <a class="code" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">GVE::Graph</a> graph(A.size());</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code" href="structAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_1_1Entry.html">Entry</a> &amp; rule : inputRules) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> &amp; [v, a] = rule;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    <span class="keyword">auto</span> &amp; factorNode = graph.<a class="code" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a515c6ec3d4f06308d5d6ea0efa5fa596">getFactor</a>(a.first)-&gt;getData();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> <span class="keywordtype">id</span> = <a class="code" href="namespaceAIToolbox_1_1Factored.html#aff18e60ac68a11f3951487b8171e6e9c">toIndexPartial</a>(A, a);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> it = std::lower_bound(</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        std::begin(factorNode),</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        std::end(factorNode),</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        <span class="keywordtype">id</span>,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        [](<span class="keyword">const</span> <span class="keyword">auto</span> &amp; rule, <span class="keywordtype">size_t</span> rhs) {<span class="keywordflow">return</span> rule.first &lt; rhs;}</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    );</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="keywordflow">if</span> (it != std::end(factorNode) &amp;&amp; it-&gt;first == <span class="keywordtype">id</span>)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                        it-&gt;second[0].v += v;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                        factorNode.emplace(it, <span class="keywordtype">id</span>, <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a116513486a9254ce66af1872d3abb688">Factor</a>{{v, <a class="code" href="namespaceAIToolbox_1_1Factored.html#ad7ce350ef07874f488f036098768c3d7">PartialAction</a>()}});</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="comment">// Start solving process.</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keywordflow">return</span> (*<span class="keyword">this</span>)(A, logtA, graph);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a95aa23d740cb3819540d6b035ad3c515">Result</a> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">operator()</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp; A, <span class="keyword">const</span> <span class="keywordtype">double</span> logtA, <a class="code" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html#aad82512b25de1577a13107906322947f">GVE::Graph</a> &amp; graph);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    };</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterable&gt;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">   54</a></span>&#160;            <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a95aa23d740cb3819540d6b035ad3c515">Result</a> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">operator()</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp; A, <span class="keyword">const</span> <span class="keywordtype">double</span> logtA, <span class="keyword">const</span> Iterable &amp; inputRules) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <a class="code" href="classAIToolbox_1_1Factored_1_1FactorGraph.html">GVE::Graph</a> graph(A.size());</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code" href="structAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_1_1Entry.html">Entry</a> &amp; rule : inputRules) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> &amp; [v, a] = rule;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keyword">auto</span> &amp; factorNode = graph.<a class="code" href="classAIToolbox_1_1Factored_1_1FactorGraph.html#a515c6ec3d4f06308d5d6ea0efa5fa596">getFactor</a>(a.first)-&gt;getData();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> <span class="keywordtype">id</span> = <a class="code" href="namespaceAIToolbox_1_1Factored.html#aff18e60ac68a11f3951487b8171e6e9c">toIndexPartial</a>(A, a);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="keyword">const</span> <span class="keyword">auto</span> it = std::lower_bound(</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        std::begin(factorNode),</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        std::end(factorNode),</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        <span class="keywordtype">id</span>,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        [](<span class="keyword">const</span> <span class="keyword">auto</span> &amp; rule, <span class="keywordtype">size_t</span> rhs) {<span class="keywordflow">return</span> rule.first &lt; rhs;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    );</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    <span class="keywordflow">if</span> (it != std::end(factorNode) &amp;&amp; it-&gt;first == <span class="keywordtype">id</span>)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                        it-&gt;second[0].v += v;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        factorNode.emplace(it, <span class="keywordtype">id</span>, <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a116513486a9254ce66af1872d3abb688">Factor</a>{{v, <a class="code" href="namespaceAIToolbox_1_1Factored.html#ad7ce350ef07874f488f036098768c3d7">PartialAction</a>()}});</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="comment">// Start solving process.</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span> (*<span class="keyword">this</span>)(A, logtA, graph);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a95aa23d740cb3819540d6b035ad3c515">Result</a> <a class="code" href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">operator()</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp; A, <span class="keyword">const</span> <span class="keywordtype">double</span> logtA, <a class="code" href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html#aad82512b25de1577a13107906322947f">GVE::Graph</a> &amp; graph);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    };</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_html_a30426fde543e5cea310b32a112a50a6c"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#a30426fde543e5cea310b32a112a50a6c">AIToolbox::Factored::Bandit::UCVE::V</a></div><div class="ttdeci">Eigen::Vector2d V</div><div class="ttdef"><b>Definition:</b> UCVE.hpp:31</div></div>
@@ -156,7 +163,7 @@ $(document).ready(function(){initNavTree('UCVE_8hpp_source.html',''); initResiza
 <div class="ttc" id="aclassAIToolbox_1_1Factored_1_1GenericVariableElimination_html_aad82512b25de1577a13107906322947f"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1GenericVariableElimination.html#aad82512b25de1577a13107906322947f">AIToolbox::Factored::GenericVariableElimination::Graph</a></div><div class="ttdeci">FactorGraph&lt; Rules &gt; Graph</div><div class="ttdef"><b>Definition:</b> GenericVariableElimination.hpp:76</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1Factored_html_aa30fc73167a9c8e913053059e23f9692"><div class="ttname"><a href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">AIToolbox::Factored::Action</a></div><div class="ttdeci">Factors Action</div><div class="ttdef"><b>Definition:</b> Types.hpp:69</div></div>
 <div class="ttc" id="astructAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_1_1Entry_html_a9edf5e68966b8a98d0916ad1ae20d9ee"><div class="ttname"><a href="structAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_1_1Entry.html#a9edf5e68966b8a98d0916ad1ae20d9ee">AIToolbox::Factored::Bandit::UCVE::Entry::tag</a></div><div class="ttdeci">PartialAction tag</div><div class="ttdef"><b>Definition:</b> UCVE.hpp:35</div></div>
-<div class="ttc" id="aclassAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_html_ab911825cef60d9e6df4421f9840551a0"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">AIToolbox::Factored::Bandit::UCVE::operator()</a></div><div class="ttdeci">Result operator()(const Action &amp;A, const double logtA, const Iterable &amp;inputRules)</div><div class="ttdoc">This function is the entry point for the solving process.</div><div class="ttdef"><b>Definition:</b> UCVE.hpp:52</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1Factored_1_1Bandit_1_1UCVE_html_ab911825cef60d9e6df4421f9840551a0"><div class="ttname"><a href="classAIToolbox_1_1Factored_1_1Bandit_1_1UCVE.html#ab911825cef60d9e6df4421f9840551a0">AIToolbox::Factored::Bandit::UCVE::operator()</a></div><div class="ttdeci">Result operator()(const Action &amp;A, const double logtA, const Iterable &amp;inputRules)</div><div class="ttdoc">This function is the entry point for the solving process.</div><div class="ttdef"><b>Definition:</b> UCVE.hpp:54</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1Factored_1_1Bandit_html"><div class="ttname"><a href="namespaceAIToolbox_1_1Factored_1_1Bandit.html">AIToolbox::Factored::Bandit</a></div><div class="ttdef"><b>Definition:</b> GraphUtils.hpp:12</div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->

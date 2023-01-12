@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -425,7 +432,7 @@ template&lt;typename... Args&gt; </div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classAIToolbox_1_1Factored_1_1Trie.html#af4d2d78df15379b746f298933b33dd73" title="This function inserts a new id using the input as a key.">Trie::insert()</a></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ps</td><td>The key where the value should be stored. </td></tr>
+    <tr><td class="paramname">pf</td><td>The key where the value should be stored. </td></tr>
     <tr><td class="paramname">args</td><td>The arguments needed to emplace the new value. </td></tr>
   </table>
   </dd>
@@ -561,8 +568,7 @@ template&lt;typename T , typename TrieType  = FasterTrie&gt; </div>
 <p>Note that the input may be shorter than the overall Factor domain. In any case, we assume the search will begin from the zero element.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>The key that must be matched. </td></tr>
-    <tr><td class="paramname">offset</td><td>The offset of the key, if smaller than the factor space.</td></tr>
+    <tr><td class="paramname">f</td><td>The key that must be matched.</td></tr>
   </table>
   </dd>
 </dl>
@@ -705,7 +711,7 @@ template&lt;typename T , typename TrieType  = FasterTrie&gt; </div>
 <p>This method can only be used if the underlying TrieType supports it.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>The key that must be matched.</td></tr>
+    <tr><td class="paramname">pf</td><td>The key that must be matched.</td></tr>
   </table>
   </dd>
 </dl>
@@ -744,7 +750,7 @@ template&lt;typename T , typename TrieType  = FasterTrie&gt; </div>
 <p>This method can only be used if the underlying TrieType supports it.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>The key that must be matched.</td></tr>
+    <tr><td class="paramname">pf</td><td>The key that must be matched.</td></tr>
   </table>
   </dd>
 </dl>

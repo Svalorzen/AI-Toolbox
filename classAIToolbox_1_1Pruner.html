@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -136,7 +143,7 @@ Public Member Functions</h2></td></tr>
 <p>Basic constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">S</td><td>The number of dimensions of the simplex to operate on. </td></tr>
+    <tr><td class="paramname">s</td><td>The number of dimensions of the simplex to operate on. </td></tr>
   </table>
   </dd>
 </dl>
@@ -181,7 +188,9 @@ template&lt;typename It , typename P &gt; </div>
 <p>This function prunes all non useful hyperplanes from the provided list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">w</td><td>The list that needs to be pruned. </td></tr>
+    <tr><td class="paramname">begin</td><td>An iterator to the start of the list that needs to be pruned. </td></tr>
+    <tr><td class="paramname">end</td><td>An iterator to the end of the list that needs to be pruned. </td></tr>
+    <tr><td class="paramname">p</td><td>An optional projection to access the hyperplanes from more complex structures. </td></tr>
   </table>
   </dd>
 </dl>

@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -212,11 +219,11 @@ template&lt;typename F , typename... Args, size_t... IDs&gt; </div>
 </div><div class="memdoc">
 
 <p>This function calls the input function with the subset of correct parameters from the input tuple. </p>
+<p>The nameless <a class="el" href="structAIToolbox_1_1Impl_1_1IdPack.html" title="This class is simply a template container for ids.">IdPack</a> parameter contains the indeces of the arguments to pass to the function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">f</td><td>The function to call. </td></tr>
     <tr><td class="paramname">args</td><td>All arguments. </td></tr>
-    <tr><td class="paramname"><a class="el" href="structAIToolbox_1_1Impl_1_1IdPack.html" title="This class is simply a template container for ids.">IdPack</a></td><td>The type containing the indeces of the arguments to pass to the function. </td></tr>
   </table>
   </dd>
 </dl>

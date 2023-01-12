@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -98,9 +105,9 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1MDP_1_1SparseExperie
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac2a73356a404bbb611c3abb27287444e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ac2a73356a404bbb611c3abb27287444e">SparseExperience</a> (size_t s, size_t a)</td></tr>
-<tr class="memdesc:ac2a73356a404bbb611c3abb27287444e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ac2a73356a404bbb611c3abb27287444e">More...</a><br /></td></tr>
-<tr class="separator:ac2a73356a404bbb611c3abb27287444e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2445c8804780ba9d899a81d1dbad2e6a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a2445c8804780ba9d899a81d1dbad2e6a">SparseExperience</a> (size_t S, size_t A)</td></tr>
+<tr class="memdesc:a2445c8804780ba9d899a81d1dbad2e6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1MDP_1_1SparseExperience.html#a2445c8804780ba9d899a81d1dbad2e6a">More...</a><br /></td></tr>
+<tr class="separator:a2445c8804780ba9d899a81d1dbad2e6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9283dd27cdce2a440598f691d124c5c"><td class="memTemplParams" colspan="2">template&lt;IsNaive3DTable V&gt; </td></tr>
 <tr class="memitem:ac9283dd27cdce2a440598f691d124c5c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ac9283dd27cdce2a440598f691d124c5c">setVisitsTable</a> (const V &amp;v)</td></tr>
 <tr class="memdesc:ac9283dd27cdce2a440598f691d124c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sets the internal visits table to the input.  <a href="classAIToolbox_1_1MDP_1_1SparseExperience.html#ac9283dd27cdce2a440598f691d124c5c">More...</a><br /></td></tr>
@@ -176,8 +183,8 @@ Friends</h2></td></tr>
 <p>It does not record each event separately (i.e. you can't extract the results of a particular transition in the past).</p>
 <p>The difference between this class and the <a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards.">MDP::Experience</a> class is that this class stores recorded events in sparse matrices. This results in very high space savings when the state space of the environment being logged is very high but only a small subset of the states are really possible, at the cost of some efficiency (possibly offset by cache savings). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac2a73356a404bbb611c3abb27287444e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2a73356a404bbb611c3abb27287444e">&#9670;&nbsp;</a></span>SparseExperience()</h2>
+<a id="a2445c8804780ba9d899a81d1dbad2e6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2445c8804780ba9d899a81d1dbad2e6a">&#9670;&nbsp;</a></span>SparseExperience()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,13 +193,13 @@ Friends</h2></td></tr>
           <td class="memname">AIToolbox::MDP::SparseExperience::SparseExperience </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
+          <td class="paramname"><em>S</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
+          <td class="paramname"><em>A</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -638,7 +645,7 @@ template&lt;IsNaive2DMatrix MM&gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">m</td><td>The external M2 container. </td></tr>
+    <tr><td class="paramname">mm</td><td>The external M2 container. </td></tr>
   </table>
   </dd>
 </dl>
@@ -666,7 +673,7 @@ template&lt;IsNaive2DMatrix MM&gt; </div>
 <p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>The external M2 container. </td></tr>
+    <tr><td class="paramname">mm</td><td>The external M2 container. </td></tr>
   </table>
   </dd>
 </dl>

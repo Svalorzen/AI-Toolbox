@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -127,8 +134,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac6d69ed93e8739278dcb5378fe3913f4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html#ac6d69ed93e8739278dcb5378fe3913f4">toContainerId</a> () const</td></tr>
 <tr class="memdesc:ac6d69ed93e8739278dcb5378fe3913f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the equivalent item id of this iterator in its container.  <a href="classAIToolbox_1_1IndexSkipMapIterator.html#ac6d69ed93e8739278dcb5378fe3913f4">More...</a><br /></td></tr>
 <tr class="separator:ac6d69ed93e8739278dcb5378fe3913f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad79d93c5a216331ab9254d16e7e9d1b0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html#ad79d93c5a216331ab9254d16e7e9d1b0">operator++</a> ()</td></tr>
-<tr class="separator:ad79d93c5a216331ab9254d16e7e9d1b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c22db5fcbb4dc0956a85c66d3f4a11c"><td class="memItemLeft" align="right" valign="top">auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html#a3c22db5fcbb4dc0956a85c66d3f4a11c">operator++</a> ()</td></tr>
+<tr class="separator:a3c22db5fcbb4dc0956a85c66d3f4a11c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21542e77187dc35b0f80da96a710bcdd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html#a21542e77187dc35b0f80da96a710bcdd">operator==</a> (const <a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html">IndexSkipMapIterator</a> &amp;other) const</td></tr>
 <tr class="separator:a21542e77187dc35b0f80da96a710bcdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abccf8bd79e3ee939a08b78c0064fba04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html#abccf8bd79e3ee939a08b78c0064fba04">operator!=</a> (const <a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html">IndexSkipMapIterator</a> &amp;other) const</td></tr>
@@ -282,7 +289,9 @@ template&lt;typename IdsContainer , typename Container &gt; </div>
 <p>Basic constructor for begin iterators. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">parent</td><td>The parent iterable object holding ids and values. </td></tr>
+    <tr><td class="paramname">start</td><td>The index to start iterating from. </td></tr>
+    <tr><td class="paramname">ids</td><td>The container holding the indeces to not iterate. </td></tr>
+    <tr><td class="paramname">items</td><td>The container holding the values to iterate. </td></tr>
   </table>
   </dd>
 </dl>
@@ -372,8 +381,8 @@ template&lt;typename IdsContainer , typename Container &gt; </div>
 
 </div>
 </div>
-<a id="ad79d93c5a216331ab9254d16e7e9d1b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad79d93c5a216331ab9254d16e7e9d1b0">&#9670;&nbsp;</a></span>operator++()</h2>
+<a id="a3c22db5fcbb4dc0956a85c66d3f4a11c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c22db5fcbb4dc0956a85c66d3f4a11c">&#9670;&nbsp;</a></span>operator++()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -384,7 +393,7 @@ template&lt;typename IdsContainer , typename Container &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html">AIToolbox::IndexSkipMapIterator</a>&lt; IdsContainer, Container &gt;::operator++ </td>
+          <td class="memname">auto&amp; <a class="el" href="classAIToolbox_1_1IndexSkipMapIterator.html">AIToolbox::IndexSkipMapIterator</a>&lt; IdsContainer, Container &gt;::operator++ </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

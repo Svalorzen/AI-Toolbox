@@ -1,5 +1,10 @@
 var NAVTREEINDEX1 =
 {
+"GridWorld_8hpp_source.html":[8,0,1,0,3,1,0,0],
+"HystereticQLearning_8hpp.html":[8,0,1,0,3,0,5],
+"HystereticQLearning_8hpp_source.html":[8,0,1,0,3,0,5],
+"ImportanceSampling_8hpp.html":[8,0,1,0,3,0,6],
+"ImportanceSampling_8hpp_source.html":[8,0,1,0,3,0,6],
 "IncrementalPruning_8hpp.html":[8,0,1,0,4,0,5],
 "IncrementalPruning_8hpp_source.html":[8,0,1,0,4,0,5],
 "IndexMap_8hpp.html":[8,0,1,0,6,3],
@@ -244,10 +249,5 @@ var NAVTREEINDEX1 =
 "SuccessiveRejectsPolicy_8hpp.html":[8,0,1,0,0,0,8],
 "SuccessiveRejectsPolicy_8hpp_source.html":[8,0,1,0,0,0,8],
 "SysAdminUtils_8hpp.html":[8,0,2,0,0,0,0],
-"SysAdminUtils_8hpp.html#a1cc55f6663927921d9b11d4a607b116f":[8,0,2,0,0,0,0,6],
-"SysAdminUtils_8hpp.html#ac4600b0dbf127eed2ac458a0e0af9c4f":[8,0,2,0,0,0,0,0],
-"SysAdminUtils_8hpp.html#ad8bdf586e2228f8f7e6e18b25d050054":[8,0,2,0,0,0,0,3],
-"SysAdminUtils_8hpp.html#ae036249f3be5d717c457f20be177bf40":[8,0,2,0,0,0,0,5],
-"SysAdminUtils_8hpp.html#ae7654deb58944ac05c89270323ac346b":[8,0,2,0,0,0,0,1],
-"SysAdminUtils_8hpp.html#aee2e09b445a6879394446fe0bf55a7b7":[8,0,2,0,0,0,0,2]
+"SysAdminUtils_8hpp.html#a1cc55f6663927921d9b11d4a607b116f":[8,0,2,0,0,0,0,6]
 };

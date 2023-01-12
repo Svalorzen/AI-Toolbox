@@ -23,7 +23,7 @@ var hierarchy =
     [ "AIToolbox::Factored::MDP::CooperativeExperience", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeExperience.html", null ],
     [ "AIToolbox::Factored::MDP::CooperativeMaximumLikelihoodModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeMaximumLikelihoodModel.html", null ],
     [ "AIToolbox::Factored::MDP::CooperativeModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeModel.html", null ],
-    [ "AIToolbox::Factored::MDP::CooperativePrioritizedSweeping< M >", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html", null ],
+    [ "AIToolbox::Factored::MDP::CooperativePrioritizedSweeping< M, Maximizer >", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativePrioritizedSweeping.html", null ],
     [ "AIToolbox::Factored::MDP::CooperativeQLearning", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeQLearning.html", null ],
     [ "AIToolbox::Factored::MDP::CooperativeThompsonModel", "classAIToolbox_1_1Factored_1_1MDP_1_1CooperativeThompsonModel.html", null ],
     [ "AIToolbox::copy_const< CopiedType, ConstReference >", "structAIToolbox_1_1copy__const.html", null ],
@@ -189,7 +189,8 @@ var hierarchy =
       [ "AIToolbox::Factored::MDP::QGreedyPolicy< Maximizer >", "classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html", null ],
       [ "AIToolbox::EpsilonPolicyInterface< State, State, Action >", "classAIToolbox_1_1EpsilonPolicyInterface.html", [
         [ "AIToolbox::Factored::MDP::EpsilonPolicy", "classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html", null ]
-      ] ]
+      ] ],
+      [ "AIToolbox::Factored::MDP::QGreedyPolicy< Bandit::VariableElimination >", "classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html", null ]
     ] ],
     [ "AIToolbox::PolicyInterface< void, void, Action >", "classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html", [
       [ "AIToolbox::EpsilonPolicyInterface< void, void, Action >", "classAIToolbox_1_1EpsilonPolicyInterface_3_01void_00_01void_00_01Action_01_4.html", [
@@ -227,8 +228,8 @@ var hierarchy =
     [ "AIToolbox::MDP::PrioritizedSweeping< M >", "classAIToolbox_1_1MDP_1_1PrioritizedSweeping.html", null ],
     [ "AIToolbox::POMDP::Projecter< M >", "classAIToolbox_1_1POMDP_1_1Projecter.html", null ],
     [ "AIToolbox::Pruner", "classAIToolbox_1_1Pruner.html", null ],
-    [ "AIToolbox::Factored::Bandit::QFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1QFunctionRule.html", null ],
     [ "AIToolbox::Factored::MDP::QFunctionRule", "structAIToolbox_1_1Factored_1_1MDP_1_1QFunctionRule.html", null ],
+    [ "AIToolbox::Factored::Bandit::QFunctionRule", "structAIToolbox_1_1Factored_1_1Bandit_1_1QFunctionRule.html", null ],
     [ "AIToolbox::Bandit::QGreedyPolicyWrapper< V, Gen >", "classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper.html", null ],
     [ "AIToolbox::MDP::QLearning", "classAIToolbox_1_1MDP_1_1QLearning.html", null ],
     [ "AIToolbox::POMDP::QMDP", "classAIToolbox_1_1POMDP_1_1QMDP.html", null ],
@@ -273,8 +274,8 @@ var hierarchy =
       [ "AIToolbox::Factored::Bandit::UpdateGraph< MaxPlus >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraph_3_01MaxPlus_01_4.html", null ],
       [ "AIToolbox::Factored::Bandit::UpdateGraph< ReusingIterativeLocalSearch >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraph_3_01ReusingIterativeLocalSearch_01_4.html", null ]
     ] ],
-    [ "AIToolbox::Factored::Bandit::UpdateGraphImpl< Maximizer, Data >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraphImpl.html", null ],
     [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Maximizer, Data >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl.html", null ],
+    [ "AIToolbox::Factored::Bandit::UpdateGraphImpl< Maximizer, Data >", "structAIToolbox_1_1Factored_1_1Bandit_1_1UpdateGraphImpl.html", null ],
     [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Bandit::LocalSearch, Iterable >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01Iterable_01_4.html", null ],
     [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Bandit::LocalSearch, MDP::QFunction >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1LocalSearch_00_01MDP_1_1QFunction_01_4.html", null ],
     [ "AIToolbox::Factored::MDP::UpdateGraphImpl< Bandit::VariableElimination, Iterable >", "structAIToolbox_1_1Factored_1_1MDP_1_1UpdateGraphImpl_3_01Bandit_1_1VariableElimination_00_01Iterable_01_4.html", null ],

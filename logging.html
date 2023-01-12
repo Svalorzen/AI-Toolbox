@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -87,18 +94,21 @@ $(document).ready(function(){initNavTree('logging.html',''); initResizable(); })
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Since <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> is a library, it leaves the choice of how to log to you. You can use any framework, library or C++ iostream facilities you want.</p>
-<h2>Enabling Logging in the Library</h2>
+<h2><a class="anchor" id="autotoc_md46"></a>
+Enabling Logging in the Library</h2>
 <p>In order to enable logging the library MUST be compiled with the flag AI_LOGGING_ENABLED set to 1 (You can do this via CMake). If it's not, no logging will be produced by the pre-compiled parts of the library.</p>
 <p>In addition, you need to set the AI_LOGGING_ENABLED macro to 1 before including any <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> header files in your project too, or logging in header-only classes will not work.</p>
 <p>This has been done in order to obtain the best possible performance when logging is disabled.</p>
-<h2>Setting the Logging Function</h2>
+<h2><a class="anchor" id="autotoc_md47"></a>
+Setting the Logging Function</h2>
 <p>In order to log you need to overwrite the <a class="el" href="namespaceAIToolbox.html#a7ac7114c76d8082333e9222fd1aac187" title="This pointer defines the function used to log.">AIToolbox::AILogger</a> function pointer. This is a pointer to a function with signature: </p><pre class="fragment">void(int severity, const char * message);
 </pre><p>So for example, in your code you could define: </p><pre class="fragment">void myLoggerFunction(int severity, const char * message) {
     std::cout &lt;&lt; '[' &lt;&lt; severity &lt;&lt; "] " &lt;&lt; message &lt;&lt; '\n';
 }
 </pre><p>And then, at the beginning of your main function: </p><pre class="fragment">AIToolbox::AILogger = myLoggerFunction;
 </pre><p>And this would start logging automatically with no filtering. Remember to include the logging header! </p><pre class="fragment">#include &lt;AIToolbox/Logging.hpp&gt;
-</pre><h2>Priorities and Log Information</h2>
+</pre><h2><a class="anchor" id="autotoc_md48"></a>
+Priorities and Log Information</h2>
 <p><a class="el" href="namespaceAIToolbox.html">AIToolbox</a> defines 4 different severity levels:</p>
 <ul>
 <li>AI_SEVERITY_DEBUG (0),</li>

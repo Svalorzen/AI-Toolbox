@@ -1,5 +1,10 @@
 var NAVTREEINDEX2 =
 {
+"SysAdminUtils_8hpp.html#ac4600b0dbf127eed2ac458a0e0af9c4f":[8,0,2,0,0,0,0,0],
+"SysAdminUtils_8hpp.html#ad8bdf586e2228f8f7e6e18b25d050054":[8,0,2,0,0,0,0,3],
+"SysAdminUtils_8hpp.html#ae036249f3be5d717c457f20be177bf40":[8,0,2,0,0,0,0,5],
+"SysAdminUtils_8hpp.html#ae7654deb58944ac05c89270323ac346b":[8,0,2,0,0,0,0,1],
+"SysAdminUtils_8hpp.html#aee2e09b445a6879394446fe0bf55a7b7":[8,0,2,0,0,0,0,2],
 "SysAdminUtils_8hpp.html#af0e36ac71bc7cf837050303572d8dd31":[8,0,2,0,0,0,0,4],
 "SysAdminUtils_8hpp_source.html":[8,0,2,0,0,0,0],
 "SysAdmin_8hpp.html":[8,0,1,0,1,1,1,0],
@@ -39,8 +44,8 @@ var NAVTREEINDEX2 =
 "TopTwoThompsonSamplingPolicy_8hpp_source.html":[8,0,1,0,0,0,11],
 "TreeBackupL_8hpp.html":[8,0,1,0,3,0,17],
 "TreeBackupL_8hpp_source.html":[8,0,1,0,3,0,17],
-"Trie_8hpp.html":[8,0,1,0,1,2,7],
-"Trie_8hpp_source.html":[8,0,1,0,1,2,7],
+"Trie_8hpp.html":[8,0,1,0,1,2,8],
+"Trie_8hpp_source.html":[8,0,1,0,1,2,8],
 "TypeTraits_8hpp.html":[8,0,1,0,12],
 "TypeTraits_8hpp.html#a01755d4237420879162296fa38a3b6cd":[8,0,1,0,12,14],
 "TypeTraits_8hpp.html#a04828a75e81f4a933f8278a1a861407a":[8,0,1,0,12,3],
@@ -210,9 +215,9 @@ var NAVTREEINDEX2 =
 "classAIToolbox_1_1Bandit_1_1QGreedyPolicyWrapper.html#ab4fd7106c9d0a652bc9302b2d09d1bd0":[7,0,0,0,7,3],
 "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html":[7,0,0,0,8],
 "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a27b493fd7109d9f7cce0f6057b7a01a0":[7,0,0,0,8,1],
+"classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a62333cfe6bfe6538b3889bd8129dce6a":[7,0,0,0,8,0],
 "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3":[7,0,0,0,8,2],
 "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a7b44ca8cb5444504f7576c01aff74f4d":[7,0,0,0,8,5],
-"classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a9e404d8dbe138890a90680a8cd9cb5c9":[7,0,0,0,8,0],
 "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#aa675378b25b1d4863e332ec1b2868bed":[7,0,0,0,8,4],
 "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#ad49489701e5566e6811cd1095a6544b9":[7,0,0,0,8,3],
 "classAIToolbox_1_1Bandit_1_1QSoftmaxPolicyWrapper.html":[7,0,0,0,9],
@@ -244,10 +249,5 @@ var NAVTREEINDEX2 =
 "classAIToolbox_1_1Bandit_1_1T3CPolicy.html#ab6457201a4d0d7832edc6692391e82a5":[7,0,0,0,12,4],
 "classAIToolbox_1_1Bandit_1_1T3CPolicy.html#af367dd359f21a4832b4f7aa7c6040c3e":[7,0,0,0,12,3],
 "classAIToolbox_1_1Bandit_1_1T3CPolicy.html#afdb87f9c278a1a3fdd4022614a8fc473":[7,0,0,0,12,1],
-"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html":[7,0,0,0,13],
-"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a26f6891f5956dd927e9015fd8bf68607":[7,0,0,0,13,1],
-"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a5b9ba236ba108dd847b0d922ddaafbec":[7,0,0,0,13,2],
-"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a9169eafe07e50692af7838f1fb41f0cc":[7,0,0,0,13,4],
-"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#ac96c0b5f13907e9a588aced882485105":[7,0,0,0,13,3],
-"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#adbbba65cca05fc422afc54485c0fb1e1":[7,0,0,0,13,0]
+"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html":[7,0,0,0,13]
 };

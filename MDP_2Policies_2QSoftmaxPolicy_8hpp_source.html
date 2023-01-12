@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -95,7 +102,7 @@ $(document).ready(function(){initNavTree('MDP_2Policies_2QSoftmaxPolicy_8hpp_sou
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceAIToolbox_1_1MDP.html">AIToolbox::MDP</a> {</div>
 <div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html">   21</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html">QSoftmaxPolicy</a> : <span class="keyword">public</span> <a class="code" href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html">QPolicyInterface</a> {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <a class="code" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#abcde0c27be2ddb184946b372c4fc8fe6">QSoftmaxPolicy</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp; q, <span class="keywordtype">double</span> t = 1.0);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <a class="code" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#ab87bdae1997348e521c26b9d5ee86cff">QSoftmaxPolicy</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">QFunction</a> &amp; q, <span class="keywordtype">double</span> temperature = 1.0);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#af41b39ff3946d06dc56b353c5c9791e4">sampleAction</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> &amp; s) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
@@ -119,13 +126,13 @@ $(document).ready(function(){initNavTree('MDP_2Policies_2QSoftmaxPolicy_8hpp_sou
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aQPolicyInterface_8hpp_html"><div class="ttname"><a href="QPolicyInterface_8hpp.html">QPolicyInterface.hpp</a></div></div>
+<div class="ttc" id="aclassAIToolbox_1_1MDP_1_1QSoftmaxPolicy_html_ab87bdae1997348e521c26b9d5ee86cff"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#ab87bdae1997348e521c26b9d5ee86cff">AIToolbox::MDP::QSoftmaxPolicy::QSoftmaxPolicy</a></div><div class="ttdeci">QSoftmaxPolicy(const QFunction &amp;q, double temperature=1.0)</div><div class="ttdoc">Basic constructor.</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1MDP_1_1QPolicyInterface_html"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1QPolicyInterface.html">AIToolbox::MDP::QPolicyInterface</a></div><div class="ttdoc">This class is an interface to specify a policy through a QFunction.</div><div class="ttdef"><b>Definition:</b> QPolicyInterface.hpp:20</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1MDP_html_a7511ad35cec2e20bf392458125e28ebc"><div class="ttname"><a href="namespaceAIToolbox_1_1MDP.html#a7511ad35cec2e20bf392458125e28ebc">AIToolbox::MDP::QFunction</a></div><div class="ttdeci">Matrix2D QFunction</div><div class="ttdef"><b>Definition:</b> Types.hpp:52</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a9d66d3e9eba8d23aeef6c6b865b6965a"><div class="ttname"><a href="namespaceAIToolbox.html#a9d66d3e9eba8d23aeef6c6b865b6965a">AIToolbox::Matrix2D</a></div><div class="ttdeci">Eigen::Matrix&lt; double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor|Eigen::AutoAlign &gt; Matrix2D</div><div class="ttdef"><b>Definition:</b> Types.hpp:18</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a1e6976de7a0159cd1630c4f2553fc9f3"><div class="ttname"><a href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">AIToolbox::Vector</a></div><div class="ttdeci">Eigen::Matrix&lt; double, Eigen::Dynamic, 1 &gt; Vector</div><div class="ttdef"><b>Definition:</b> Types.hpp:16</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1MDP_1_1QSoftmaxPolicy_html_a96e33667eb1a92412a40a5e937b6343a"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#a96e33667eb1a92412a40a5e937b6343a">AIToolbox::MDP::QSoftmaxPolicy::setTemperature</a></div><div class="ttdeci">void setTemperature(double t)</div><div class="ttdoc">This function sets the temperature parameter.</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1MDP_html"><div class="ttname"><a href="namespaceAIToolbox_1_1MDP.html">AIToolbox::MDP</a></div><div class="ttdef"><b>Definition:</b> DoubleQLearning.hpp:10</div></div>
-<div class="ttc" id="aclassAIToolbox_1_1MDP_1_1QSoftmaxPolicy_html_abcde0c27be2ddb184946b372c4fc8fe6"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#abcde0c27be2ddb184946b372c4fc8fe6">AIToolbox::MDP::QSoftmaxPolicy::QSoftmaxPolicy</a></div><div class="ttdeci">QSoftmaxPolicy(const QFunction &amp;q, double t=1.0)</div><div class="ttdoc">Basic constructor.</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1MDP_1_1QSoftmaxPolicy_html_a075bf06beafcf5f293a9899284f41f06"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#a075bf06beafcf5f293a9899284f41f06">AIToolbox::MDP::QSoftmaxPolicy::getActionProbability</a></div><div class="ttdeci">virtual double getActionProbability(const size_t &amp;s, const size_t &amp;a) const override</div><div class="ttdoc">This function returns the probability of taking the specified action in the specified state.</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1MDP_1_1QSoftmaxPolicy_html"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html">AIToolbox::MDP::QSoftmaxPolicy</a></div><div class="ttdoc">This class implements a softmax policy through a QFunction.</div><div class="ttdef"><b>Definition:</b> QSoftmaxPolicy.hpp:21</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1MDP_1_1QSoftmaxPolicy_html_af41b39ff3946d06dc56b353c5c9791e4"><div class="ttname"><a href="classAIToolbox_1_1MDP_1_1QSoftmaxPolicy.html#af41b39ff3946d06dc56b353c5c9791e4">AIToolbox::MDP::QSoftmaxPolicy::sampleAction</a></div><div class="ttdeci">virtual size_t sampleAction(const size_t &amp;s) const override</div><div class="ttdoc">This function chooses an action for state s with probability dependent on value.</div></div>

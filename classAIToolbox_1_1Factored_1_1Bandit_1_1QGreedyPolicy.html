@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -121,9 +128,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7d8a6d8e460dd13eb86d30f082db226f"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#a7d8a6d8e460dd13eb86d30f082db226f">getActionProbability</a> (const <a class="el" href="namespaceAIToolbox_1_1Factored.html#aa30fc73167a9c8e913053059e23f9692">Action</a> &amp;a) const override</td></tr>
 <tr class="memdesc:a7d8a6d8e460dd13eb86d30f082db226f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the probability of taking the specified action.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#a7d8a6d8e460dd13eb86d30f082db226f">More...</a><br /></td></tr>
 <tr class="separator:a7d8a6d8e460dd13eb86d30f082db226f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3a08240067d0a0ca7fbe547bac19ce8"><td class="memItemLeft" align="right" valign="top">Maximizer &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#ad3a08240067d0a0ca7fbe547bac19ce8">getMaximizer</a> ()</td></tr>
-<tr class="memdesc:ad3a08240067d0a0ca7fbe547bac19ce8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal maximizer.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#ad3a08240067d0a0ca7fbe547bac19ce8">More...</a><br /></td></tr>
-<tr class="separator:ad3a08240067d0a0ca7fbe547bac19ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84f204bfd52678b65b2612a55609db57"><td class="memItemLeft" align="right" valign="top">Maximizer &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#a84f204bfd52678b65b2612a55609db57">getMaximizer</a> ()</td></tr>
+<tr class="memdesc:a84f204bfd52678b65b2612a55609db57"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal maximizer.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#a84f204bfd52678b65b2612a55609db57">More...</a><br /></td></tr>
+<tr class="separator:a84f204bfd52678b65b2612a55609db57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7bb154f2a0f7ef743c1166e26f1f502"><td class="memItemLeft" align="right" valign="top">const Maximizer &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#ae7bb154f2a0f7ef743c1166e26f1f502">getMaximizer</a> () const</td></tr>
+<tr class="memdesc:ae7bb154f2a0f7ef743c1166e26f1f502"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns a reference to the internal maximizer.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#ae7bb154f2a0f7ef743c1166e26f1f502">More...</a><br /></td></tr>
+<tr class="separator:ae7bb154f2a0f7ef743c1166e26f1f502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b4d35323a4a8a284fbf3d747fb72c35"><td class="memItemLeft" align="right" valign="top">const Maximizer::Graph &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#a7b4d35323a4a8a284fbf3d747fb72c35">getGraph</a> () const</td></tr>
+<tr class="memdesc:a7b4d35323a4a8a284fbf3d747fb72c35"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the currently set graph.  <a href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html#a7b4d35323a4a8a284fbf3d747fb72c35">More...</a><br /></td></tr>
+<tr class="separator:a7b4d35323a4a8a284fbf3d747fb72c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html">AIToolbox::PolicyInterface&lt; void, void, Action &gt;</a></td></tr>
 <tr class="memitem:ab5535d1aea97ac937b0dafe5aed62971 inherit pub_methods_classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#ab5535d1aea97ac937b0dafe5aed62971">PolicyInterface</a> (Action a)</td></tr>
 <tr class="memdesc:ab5535d1aea97ac937b0dafe5aed62971 inherit pub_methods_classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="classAIToolbox_1_1PolicyInterface_3_01void_00_01void_00_01Action_01_4.html#ab5535d1aea97ac937b0dafe5aed62971">More...</a><br /></td></tr>
@@ -290,8 +303,45 @@ template&lt;typename Maximizer &gt; </div>
 
 </div>
 </div>
-<a id="ad3a08240067d0a0ca7fbe547bac19ce8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3a08240067d0a0ca7fbe547bac19ce8">&#9670;&nbsp;</a></span>getMaximizer()</h2>
+<a id="a7b4d35323a4a8a284fbf3d747fb72c35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b4d35323a4a8a284fbf3d747fb72c35">&#9670;&nbsp;</a></span>getGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Maximizer &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const Maximizer::Graph &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html">AIToolbox::Factored::Bandit::QGreedyPolicy</a>&lt; Maximizer &gt;::getGraph</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the currently set graph. </p>
+
+</div>
+</div>
+<a id="a84f204bfd52678b65b2612a55609db57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84f204bfd52678b65b2612a55609db57">&#9670;&nbsp;</a></span>getMaximizer() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Maximizer &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const Maximizer &amp; <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html">AIToolbox::Factored::Bandit::QGreedyPolicy</a>&lt; Maximizer &gt;::getMaximizer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns a reference to the internal maximizer. </p>
+<p>This can be used to set the parameters of the chosen maximizer. </p>
+
+</div>
+</div>
+<a id="ae7bb154f2a0f7ef743c1166e26f1f502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7bb154f2a0f7ef743c1166e26f1f502">&#9670;&nbsp;</a></span>getMaximizer() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,16 +349,15 @@ template&lt;typename Maximizer &gt; </div>
 template&lt;typename Maximizer  = VariableElimination&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">Maximizer&amp; <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html">AIToolbox::Factored::Bandit::QGreedyPolicy</a>&lt; Maximizer &gt;::getMaximizer </td>
+          <td class="memname">const Maximizer&amp; <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1QGreedyPolicy.html">AIToolbox::Factored::Bandit::QGreedyPolicy</a>&lt; Maximizer &gt;::getMaximizer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>This function returns a reference to the internal maximizer. </p>
-<p>This can be used to set the parameters of the chosen maximizer. </p>
 
 </div>
 </div>

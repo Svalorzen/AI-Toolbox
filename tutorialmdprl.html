@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -86,9 +93,20 @@ $(document).ready(function(){initNavTree('tutorialmdprl.html',''); initResizable
 <div class="title">MDP RL Beginner Tutorial </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#autotoc_md29">Reinforcement Learning</a><ul><li class="level2"><a href="#autotoc_md30">MDP RL Example</a><ul><li class="level3"><a href="#autotoc_md31">Q-Learning</a></li>
+<li class="level3"><a href="#autotoc_md32">Prioritized Sweeping</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#autotoc_md33">Conclusions</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="textblock"><p>This tutorial is meant to teach you how to learn a policy in an MDP even when the dynamics are not known a priori.</p>
 <p>This tutorial's code can be found in the <code>examples/MDP/cliff.cpp</code> file, including comments and additional nodes.</p>
-<h1>Reinforcement Learning </h1>
+<h1><a class="anchor" id="autotoc_md29"></a>
+Reinforcement Learning</h1>
 <p>While exact definitions vary depending on who is asked, here we consider reinforcement learning to be the process of learning a policy by interaction with an environment, without having previous information about its dynamics.</p>
 <p>In particular, the policy we want to learn is the one that maximizes the reward the agent obtains from the environment. An additional constraint that we want to impose is that we learn while trying to maximize the reward we obtain during the learning process. Thus, the exploration done by the agent is indirectly encouraged to quickly figure out promising actions to perform, rather than trying to understand the problem fully, which would require much more time.</p>
 <p>While there are many possible approaches to RL, in this tutorial we focus on two:</p>
@@ -98,7 +116,8 @@ $(document).ready(function(){initNavTree('tutorialmdprl.html',''); initResizable
 </ul>
 <p>In the first case, we don't try to learn the dynamics of the environment, and we only focus on what the agent is doing. Some methods use the data to directly modify the policy; in this tutorial instead we use the data to update a value-function, which is then used to inform the agent's policy.</p>
 <p>In the model-based case, on the other hand, we will need some infrastructure to store the perceived transitions and rewards, as we want to build a model of the environment. From this model we could plan to obtain a policy, but as our model is updated every timestep (with the new data we gain), planning every timestep gets very expensive. There are methods that can take advantage of the fact that changes are incremental, and update their policies quite quickly.</p>
-<h2>MDP RL Example</h2>
+<h2><a class="anchor" id="autotoc_md30"></a>
+MDP RL Example</h2>
 <p>In this tutorial we won't create a model from scratch, and instead we will use one of the environments that are provided in the <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> library. The environment is this:</p>
 <blockquote class="doxtable">
 <p>The agent stands in a gridworld, at the edge of a long cliff. He needs to walk towards some unknown point nearby, and it needs to figure out where it needs to go. At the same time, walking off the cliff sends the agent to its death, while resetting the trial. Can the agent figure out where to go, without falling into the cliff? </p>
@@ -114,7 +133,8 @@ $(document).ready(function(){initNavTree('tutorialmdprl.html',''); initResizable
 <div class="line"><span class="comment">// of the grid will be marked as the cliff: going there will give a large</span></div>
 <div class="line"><span class="comment">// penalty to the agent, and will reset its position to the bottom left corner.</span></div>
 <div class="line"><span class="keyword">auto</span> problem = <a class="code" href="namespaceAIToolbox_1_1MDP.html#a3d48bc7cca5e75779ffc157e9be6721c">makeCliffProblem</a>(grid);</div>
-</div><!-- fragment --><h3>Q-Learning</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md31"></a>
+Q-Learning</h3>
 <p>For our model-free method, we are going to use <code><a class="el" href="classAIToolbox_1_1MDP_1_1QLearning.html" title="This class represents the QLearning algorithm.">AIToolbox::MDP::QLearning</a></code>, which is a staple of modern RL, for its flexibility, simplicity and power.</p>
 <p>QLearning uses the data we obtain from interacting with the environment in order to update a QFunction: a mapping between a state-action pair and a numerical value. These values represent how good we think taking a given action in a given state is: higher values are better.</p>
 <p>From this QFunction we can then create a policy: in particular, we are going to use a <code><a class="el" href="classAIToolbox_1_1MDP_1_1QGreedyPolicy.html" title="This class implements a greedy policy through a QFunction.">AIToolbox::MDP::QGreedyPolicy</a></code>. This policy selects the action with the highest value in a certain state: it acts <em>greedily</em> with respect to the QFunction.</p>
@@ -169,7 +189,8 @@ $(document).ready(function(){initNavTree('tutorialmdprl.html',''); initResizable
 </div><!-- fragment --><p>Once we are done, the agent is ready to act optimally. The only difference is that now we would draw the actions directly from the greedy policy, rather than from the epsilon policy, to avoid taking random actions:</p>
 <div class="fragment"><div class="line"><span class="comment">// Take greedy actions directly, skipping ePolicy</span></div>
 <div class="line">a = gPolicy.sampleAction( s );</div>
-</div><!-- fragment --><h3>Prioritized Sweeping</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md32"></a>
+Prioritized Sweeping</h3>
 <p>We're now going to try a different approach, where we try to learn a model of the environment, and use that to obtain a policy.</p>
 <p>First, we're going to need <code><a class="el" href="classAIToolbox_1_1MDP_1_1Experience.html" title="This class keeps track of registered events and rewards.">AIToolbox::MDP::Experience</a></code>, which is a class that records the data we observe from the environment. It records the number of state-action to new state transitions, and for each state-action pair, the average reward obtained and its M2 value (an aggregate of the squared distance from the mean).</p>
 <div class="fragment"><div class="line">Experience exp(problem.getS(), problem.getA());</div>
@@ -230,7 +251,8 @@ $(document).ready(function(){initNavTree('tutorialmdprl.html',''); initResizable
 <div class="line">}</div>
 </div><!-- fragment --><p>As you can see, we didn't need many more lines of code in order to run this model-based method.</p>
 <p>The full code of this example can be found in the <code>examples/MDP/cliff.cpp</code> file, and is built automatically by adding <code>-DMAKE_EXAMPLES=1</code> when running CMake.</p>
-<h2>Conclusions</h2>
+<h2><a class="anchor" id="autotoc_md33"></a>
+Conclusions</h2>
 <p>This tutorial should have given you the basics to start using the RL tools in <a class="el" href="namespaceAIToolbox.html">AIToolbox</a>. Most other algorithms and classes work in a similar manner to the ones described, so it should not be too difficult to read the documentation and understand how they work.</p>
 <p>Remember that if the documentation is unclear or you need help you can always open an issue on GitHub! </p>
 </div></div><!-- contents -->

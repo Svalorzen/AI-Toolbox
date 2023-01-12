@@ -23,28 +23,50 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "AIToolbox", "index.html", [
-    [ "AI-Toolbox", "index.html", null ],
-    [ "Contribution Guidelines", "md_CONTRIBUTING.html", null ],
-    [ "ExtendingAIToolbox", "md_docs_ExtendingAIToolbox.html", [
-      [ "Introduction", "md_docs_ExtendingAIToolbox.html#intro", [
-        [ "Code Organization", "md_docs_ExtendingAIToolbox.html#org", null ],
-        [ "Types", "md_docs_ExtendingAIToolbox.html#types", null ],
-        [ "Utilities", "md_docs_ExtendingAIToolbox.html#utils", null ],
-        [ "What are Algorithms and Policies?", "md_docs_ExtendingAIToolbox.html#algopol", null ],
-        [ "Mostly Templates", "md_docs_ExtendingAIToolbox.html#inherit", null ]
+    [ "AI-Toolbox", "index.html", [
+      [ "Example", "index.html#autotoc_md0", null ],
+      [ "Documentation", "index.html#autotoc_md1", null ],
+      [ "Features", "index.html#autotoc_md2", null ],
+      [ "Build Instructions", "index.html#autotoc_md12", [
+        [ "Dependencies", "index.html#autotoc_md13", null ],
+        [ "Building", "index.html#autotoc_md14", null ]
       ] ],
-      [ "Interfaces", "md_docs_ExtendingAIToolbox.html#int", [
-        [ "Experience Interfaces", "md_docs_ExtendingAIToolbox.html#expint", [
-          [ "Standard Experience", "md_docs_ExtendingAIToolbox.html#exp", null ],
-          [ "Eigen Experience Interface", "md_docs_ExtendingAIToolbox.html#eigexp", null ]
+      [ "Compiling a Program", "index.html#autotoc_md15", null ]
+    ] ],
+    [ "Contribution Guidelines", "md_CONTRIBUTING.html", [
+      [ "How to Contribute", "md_CONTRIBUTING.html#autotoc_md16", null ],
+      [ "Signing Commits", "md_CONTRIBUTING.html#autotoc_md17", null ]
+    ] ],
+    [ "Extending AI Toolbox", "extendingaitoolbox.html", [
+      [ "Introduction", "extendingaitoolbox.html#intro", [
+        [ "Code Organization", "extendingaitoolbox.html#org", null ],
+        [ "Types", "extendingaitoolbox.html#types", null ],
+        [ "Utilities", "extendingaitoolbox.html#utils", null ],
+        [ "What are Algorithms and Policies?", "extendingaitoolbox.html#algopol", null ],
+        [ "Mostly Templates", "extendingaitoolbox.html#inherit", null ]
+      ] ],
+      [ "Interfaces", "extendingaitoolbox.html#int", [
+        [ "Experience Interfaces", "extendingaitoolbox.html#expint", [
+          [ "Cassandra POMDP Format Parsing", "index.html#autotoc_md3", null ],
+          [ "Python 2 and 3 Bindings!", "index.html#autotoc_md4", null ],
+          [ "Utilities", "index.html#autotoc_md5", null ],
+          [ "Bandit/Normal Games:", "index.html#autotoc_md6", null ],
+          [ "Single Agent MDP/Stochastic Games:", "index.html#autotoc_md7", null ],
+          [ "Single Agent POMDP:", "index.html#autotoc_md8", null ],
+          [ "Factored/Joint Multi-Agent:", "index.html#autotoc_md9", [
+            [ "Bandits:", "index.html#autotoc_md10", null ],
+            [ "MDP:", "index.html#autotoc_md11", null ]
+          ] ],
+          [ "Standard Experience", "extendingaitoolbox.html#exp", null ],
+          [ "Eigen Experience Interface", "extendingaitoolbox.html#eigexp", null ]
         ] ],
-        [ "Model Interfaces", "md_docs_ExtendingAIToolbox.html#modint", [
-          [ "Generative MDP Model", "md_docs_ExtendingAIToolbox.html#genmod", null ],
-          [ "Standard MDP Model", "md_docs_ExtendingAIToolbox.html#mod", null ],
-          [ "Eigen MDP Model", "md_docs_ExtendingAIToolbox.html#eigmod", null ]
+        [ "Model Interfaces", "extendingaitoolbox.html#modint", [
+          [ "Generative MDP Model", "extendingaitoolbox.html#genmod", null ],
+          [ "Standard MDP Model", "extendingaitoolbox.html#mod", null ],
+          [ "Eigen MDP Model", "extendingaitoolbox.html#eigmod", null ]
         ] ],
-        [ "Algorithm Interfaces", "md_docs_ExtendingAIToolbox.html#algoint", null ],
-        [ "Policy Interfaces", "md_docs_ExtendingAIToolbox.html#polint", null ]
+        [ "Algorithm Interfaces", "extendingaitoolbox.html#algoint", null ],
+        [ "Policy Interfaces", "extendingaitoolbox.html#polint", null ]
       ] ]
     ] ],
     [ "Tutorials", "tutorials.html", "tutorials" ],
@@ -89,16 +111,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AMDP_8hpp.html",
-"IncrementalPruning_8hpp.html",
-"SysAdminUtils_8hpp.html#af0e36ac71bc7cf837050303572d8dd31",
-"classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html",
-"classAIToolbox_1_1Factored_1_1GenericVariableElimination.html#af2acc23d00f052abdeabbb9e7b196337",
-"classAIToolbox_1_1IndexSkipMapIterator.html#a75c7ddc163084b9ede446e5185c180ed",
-"classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html#a18bde6cb02b227e80a2ca8f82b16e583",
-"classAIToolbox_1_1MDP_1_1WoLFPolicy.html",
-"classAIToolbox_1_1StorageVector.html#acfecc324f37566e3a3e30206b03d8e30",
-"namespacemembers_func_f.html",
-"structTupleToPython.html#a5f0ff244aa06aecaf1a0ab3d66b0e5ec"
+"GridWorld_8hpp_source.html",
+"SysAdminUtils_8hpp.html#ac4600b0dbf127eed2ac458a0e0af9c4f",
+"classAIToolbox_1_1Bandit_1_1ThompsonSamplingPolicy.html#a26f6891f5956dd927e9015fd8bf68607",
+"classAIToolbox_1_1Factored_1_1FilterMap.html#ae4c03b48509ec04c0d78abc84906ba30",
+"classAIToolbox_1_1IndexSkipMap.html#ad03cc295957201193b8a52718663794d",
+"classAIToolbox_1_1MDP_1_1OffPolicyControl.html#a1f29316601d53e8265b7377d4d8305be",
+"classAIToolbox_1_1MDP_1_1TreeBackupLEvaluation.html#a5be18a8afa10fe79e170e3f84ed08351",
+"classAIToolbox_1_1StorageMatrix2D.html#a7aad0e094e903ea6fb100f1d4663a410",
+"namespaceAIToolbox_1_1Factored.html",
+"structAIToolbox_1_1POMDP_1_1VEntry.html#a84c7389b6b1273623342cd521fee35c8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -211,7 +218,8 @@ template&lt;typename Iterable &gt; </div>
 <p>This function finds the best Action-value pair for the provided MOQFunctionRules. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">rules</td><td>An iterable object over MOQFunctionRules.</td></tr>
+    <tr><td class="paramname">A</td><td>The multi-agent action space. </td></tr>
+    <tr><td class="paramname">inputRules</td><td>An iterable object over MOQFunctionRules.</td></tr>
   </table>
   </dd>
 </dl>

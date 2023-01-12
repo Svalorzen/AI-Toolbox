@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -86,9 +93,26 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <div class="title">MDP Beginner Tutorial </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#autotoc_md19">Markov Decision Process</a><ul><li class="level2"><a href="#autotoc_md20">MDP Example</a><ul><li class="level3"><a href="#autotoc_md21">State Space (S)</a></li>
+<li class="level3"><a href="#autotoc_md22">Action Space (A)</a></li>
+<li class="level3"><a href="#autotoc_md23">Transition Function (T)</a></li>
+<li class="level3"><a href="#autotoc_md24">Reward Function (R)</a></li>
+<li class="level3"><a href="#autotoc_md25">Discount</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#autotoc_md26">The MDP Model</a><ul><li class="level3"><a href="#autotoc_md27">The Actual Planning Code</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#autotoc_md28">Conclusions</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="textblock"><p>This tutorial is meant to give you information about this library and the theoretical foundations behind it. It is not meant to be a full-on class about it, but I hope it will be enough to get you started.</p>
 <p>This tutorial's code can be found in the <code>examples/MDP/tiger_antelope.cpp</code> file, including comments and additional nodes.</p>
-<h1>Markov Decision Process </h1>
+<h1><a class="anchor" id="autotoc_md19"></a>
+Markov Decision Process</h1>
 <p>A Markov Decision Process, or MDP in short, is a way to model a decision making process. Here we will focus on single agent decision making processes, since they are the most simple ones.</p>
 <p>Let's start with some definitions:</p>
 <ul>
@@ -100,7 +124,7 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <li>The agent interacts with the environment through <b>actions</b>. An action modifies the way in which the environment transitions from a state to another. Thus, at each timestep, the agent needs to select the action which will maximize its obtained reward.</li>
 <li>An agent interacts with the environment using a <b>policy</b>. The policy is what tells the agent what actions to take in each state. A policy can be deterministic or stochastic.</li>
 <li>The agent is able to interact with the environment during a certain amount of timesteps. This is called the <b>horizon</b>. The horizon can be either finite, meaning that the agent will stop receiving rewards after a certain number of timesteps, and thus should think only for those, or infinite. In this last case the agent will keep interacting with the environment forever, and should thus plan accordingly.</li>
-<li>The last thing we need to define is the <b>discount</b>. The agent tries to maximize the sum of all rewards obtained over time. The discount is a number between 0 and 1, which determines how much rewards obtained in future timesteps affect the agent's decisions, in a geometric progression, so that we try to maximize <img class="formulaInl" alt="$\sum_{t=0}^{T} \gamma^t r_t$" src="form_0.png"/>. A discount of 0 will make the agent greedy as all terms but for the first one become zero. The agent will then take actions that maximize the reward obtained in the next timestep, and nothing else. A discount of 1 will make the agent lazy, as a reward obtained new will be "worth" the same as a reward obtained in the future, so it will delay reward-obtaining actions possibly indefinitely.</li>
+<li>The last thing we need to define is the <b>discount</b>. The agent tries to maximize the sum of all rewards obtained over time. The discount is a number between 0 and 1, which determines how much rewards obtained in future timesteps affect the agent's decisions, in a geometric progression, so that we try to maximize \(\sum_{t=0}^{T} \gamma^t r_t\). A discount of 0 will make the agent greedy as all terms but for the first one become zero. The agent will then take actions that maximize the reward obtained in the next timestep, and nothing else. A discount of 1 will make the agent lazy, as a reward obtained new will be "worth" the same as a reward obtained in the future, so it will delay reward-obtaining actions possibly indefinitely.</li>
 </ul>
 <p>Armed with our new vocabulary, we can now define an MDP more formally. An MDP is a tuple &lt;<em>S</em>, <em>A</em>, <em>T</em>, <em>R</em>, <em>d</em>&gt;, where:</p>
 <ul>
@@ -110,7 +134,8 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <li><em>R</em> is a <b>reward function</b>. Its shape is the same as <em>T</em>, and it contains the arbitrary rewards (positive or negative) that the agent will obtain depending on how the environment transitions. The reward function specifies for any triple &lt;<em>s</em>, <em>a</em>, <em>s'</em>&gt; the reward that the agent will obtain.</li>
 <li>d is the discount factor, which we discussed above.</li>
 </ul>
-<h2>MDP Example</h2>
+<h2><a class="anchor" id="autotoc_md20"></a>
+MDP Example</h2>
 <p>Let's try to create an MDP to show how it would work out in practice. Our problem is going to be the following:</p>
 <blockquote class="doxtable">
 <p>Suppose you have a grid shaped world, of 11 cells by 11 cells. The world loops on itself like a torus, so that the top and bottom borders are connected with each other, and the same is true for the left and right borders. Two creatures walk this world: a tiger, and an antelope. Both creatures can move in the following way: up, down, left or right or stand still. When they decide to move, their movement is deterministic. The two creatures have different goals.</p>
@@ -118,7 +143,8 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <p>The tiger has the goal of catching the antelope. Once it catches it, the game ends. What would be the best way for it to move? </p>
 </blockquote>
 <p>Let's think about how to encode this world into an MDP. We will go through each component of the MDP and try to fill it out.</p>
-<h3>State Space (S)</h3>
+<h3><a class="anchor" id="autotoc_md21"></a>
+State Space (S)</h3>
 <p>There seem to be no time dependent components, so that makes it easier for us to create the states. In this case a naive approach would be to use the current coordinates of both the tiger and the antelope as our state. Each pair of coordinate is unique and encodes all the information the tiger needs to act.</p>
 <p>We might as well add some code in order to determine the distance between two coordinates, since we will need this later.</p>
 <div class="fragment"><div class="line">constexpr <span class="keywordtype">int</span> SQUARE_SIZE = 11;</div>
@@ -140,7 +166,8 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <div class="line">    <span class="keywordflow">if</span> ( distance1 &lt; distance2 ) <span class="keywordflow">return</span> diff;</div>
 <div class="line">    <span class="keywordflow">return</span> diff &gt; 0 ? -distance2 : distance2;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3>Action Space (A)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md22"></a>
+Action Space (A)</h3>
 <p>The tiger can move, and possibly stand still. Thus, it has 5 actions.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> A = 5;</div>
 <div class="line"><span class="keyword">enum</span> {</div>
@@ -150,7 +177,8 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <div class="line">    <a class="code" href="namespaceAIToolbox_1_1MDP_1_1GridWorldUtils.html#af78dc31f183b982eefd814b9d5a09a5caf3b722dfc394e4601161c71976ba7c45">RIGHT</a> = 3,</div>
 <div class="line">    STAND = 4</div>
 <div class="line">};</div>
-</div><!-- fragment --><h3>Transition Function (T)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md23"></a>
+Transition Function (T)</h3>
 <p>Transition functions are generally the most time consuming part of defining an MDP, and where it's easier to make mistakes. The transition function is needed since, in general, exact MDP solving methods rely on it to find out the best policy for the problem. You do not necessarily need to manually create a table containing all of them, as long as you can compute them on the fly. This however can become <em>very</em> expensive computationally depending on the method you use; how much of the transition function you want to cache is your decision to make.</p>
 <p>In this function we specify the probability of ending up in a certain tiger-antelope state, given that the tiger has taken a certain action from a certain initial state.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">double</span> getTransitionProbability( <span class="keyword">const</span> CoordType &amp; c1, <span class="keywordtype">size_t</span> action, <span class="keyword">const</span> CoordType &amp; c2 ) {</div>
@@ -202,16 +230,19 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <div class="line">    <span class="comment">// a possible antelope action.</span></div>
 <div class="line">    <span class="keywordflow">return</span> 1.0 / 4.0;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3>Reward Function (R)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md24"></a>
+Reward Function (R)</h3>
 <p>Here we define the reward function. Fortunately for us, this can be easily done: we will reward the tiger when it catches the antelope with a reward of 10, and otherwise it will get no reward. In this particular example the amount of reward the tiger obtains does not really matter, as long as it is positive, but 10 looks nice. When the agent has multiple ways to obtain reward, their relative magnitude starts to get an important role in the final policy of the agent!</p>
 <div class="fragment"><div class="line"><span class="keywordtype">double</span> getReward( <span class="keyword">const</span> CoordType &amp; c ) {</div>
 <div class="line">    <span class="keywordflow">if</span> ( c[TIGER_X] == c[ANTEL_X] &amp;&amp; c[TIGER_Y] == c[ANTEL_Y] ) <span class="keywordflow">return</span> 10.0;</div>
 <div class="line">    <span class="keywordflow">return</span> 0.0;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3>Discount</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md25"></a>
+Discount</h3>
 <p>We want the tiger to catch the antelope. We want it to catch it no matter how far it is, and at the same time we do not want it to wait forever to catch it. To model this, a high discount value makes sense. A low discount value tends to rapidly devalue reward far in the future, and it can happen, if the tiger takes too much, that floating point errors will eat the reward before the solving method can compute the best policy. A high discount value avoids this problem; however, the time that the method takes to converge to the best solution increases as the number of timesteps it must look in the future increases.</p>
 <div class="fragment"><div class="line">constexpr <span class="keywordtype">double</span> discount = 0.9;</div>
-</div><!-- fragment --><h2>The MDP Model</h2>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md26"></a>
+The MDP Model</h2>
 <p>One more thing needs to be addressed. Every problem has in general a different type of state. In this case, it is a set of coordinates, but depending on your specific setting, it might be significantly different. This is problematic, because there's no simple way, for example, to iterate over custom states. Since states are unique, this library abstracts over this problem, and requires states to be integers. Thus, we write some code to automatically convert our states into integers:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> encodeState(<span class="keyword">const</span> CoordType &amp; coords) {</div>
 <div class="line">    <span class="keywordtype">size_t</span> state = 0; <span class="keywordtype">unsigned</span> multiplier = 1;</div>
@@ -260,7 +291,8 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <div class="line">        <span class="keywordtype">bool</span> isTerminal(<span class="keywordtype">size_t</span>) <span class="keyword">const</span>;</div>
 <div class="line">};</div>
 </div><!-- fragment --><p>Voilà! All that is needed now is simply some <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> magic!</p>
-<h3>The Actual Planning Code</h3>
+<h3><a class="anchor" id="autotoc_md27"></a>
+The Actual Planning Code</h3>
 <p>We use the <code><a class="el" href="classAIToolbox_1_1MDP_1_1ValueIteration.html" title="This class applies the value iteration algorithm on a Model.">AIToolbox::MDP::ValueIteration</a></code> algorithm in order to solve the MDP and obtain the solution (also called value function). From it, it's possible to create a policy which will dictate how the tiger will move in the environment to catch the antelope.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    GridWorld world;</div>
@@ -301,7 +333,8 @@ $(document).ready(function(){initNavTree('tutorialmdp.html',''); initResizable()
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>The full code of this example can be found in the <code>examples/MDP/tiger_antelope.cpp</code> file, and is built automatically by adding <code>-DMAKE_EXAMPLES=1</code> when running CMake.</p>
-<h2>Conclusions</h2>
+<h2><a class="anchor" id="autotoc_md28"></a>
+Conclusions</h2>
 <p>The code we saw was a very inefficient implementation, for a number of reasons. First, the particular method we used needs to repeatedly look up the transition probabilities of the MDP model. In our implementation, these need to be recomputed almost constantly. A better way would be to save them up into a single transition matrix once, and simply return the values of the table when asked. <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> already does this for you in the <a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">AIToolbox::MDP::Model</a> class. This is done in the full example code, so go check it out!</p>
 <p>In addition, our state space was way bigger than what was actually needed. This is because the problem in question has a very high symmetry. For example, it does not actually matter where the antelope is, since we could simply translate both the antelope and the tiger until the antelope is at coordinates 5,5. We can do this because the world is toroidal. This change allows us to remove the coordinates of the antelope from the state, greatly reducing the size of <em>S</em>.</p>
 <p>Another thing is that the world is symmetrical, both vertically, horizontally and diagonally. Thus we could rewrite the transition function and the model so that only an eighth of the states were needed. Combined with the translational symmetry, this would enormously reduce the time needed to solve the MDP.</p>

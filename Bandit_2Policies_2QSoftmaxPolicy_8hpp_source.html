@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -95,33 +102,32 @@ $(document).ready(function(){initNavTree('Bandit_2Policies_2QSoftmaxPolicy_8hpp_
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceAIToolbox_1_1Bandit.html">AIToolbox::Bandit</a> {</div>
 <div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html">   21</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html">QSoftmaxPolicy</a> : <span class="keyword">public</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1PolicyInterface.html">PolicyInterface</a> {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a9e404d8dbe138890a90680a8cd9cb5c9">QSoftmaxPolicy</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Bandit.html#aeffeb8d444aa1331625516b89c5c1235">QFunction</a> &amp; q, <span class="keywordtype">double</span> t = 1.0);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#aa675378b25b1d4863e332ec1b2868bed">sampleAction</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a27b493fd7109d9f7cce0f6057b7a01a0">getActionProbability</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> &amp; a) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a7b44ca8cb5444504f7576c01aff74f4d">setTemperature</a>(<span class="keywordtype">double</span> t);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#ad49489701e5566e6811cd1095a6544b9">getTemperature</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keyword">virtual</span> <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">getPolicy</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordtype">double</span> temperature_;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Bandit.html#aeffeb8d444aa1331625516b89c5c1235">QFunction</a> &amp; q_;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="comment">// To avoid reallocating a vector every time for sampling.</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keyword">mutable</span> std::vector&lt;size_t&gt; bestActions_;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keyword">mutable</span> <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> vbuffer_;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    };</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a62333cfe6bfe6538b3889bd8129dce6a">QSoftmaxPolicy</a>(<span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Bandit.html#aeffeb8d444aa1331625516b89c5c1235">QFunction</a> &amp; q, <span class="keywordtype">double</span> temperature = 1.0);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#aa675378b25b1d4863e332ec1b2868bed">sampleAction</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a27b493fd7109d9f7cce0f6057b7a01a0">getActionProbability</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> &amp; a) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordtype">void</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a7b44ca8cb5444504f7576c01aff74f4d">setTemperature</a>(<span class="keywordtype">double</span> t);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordtype">double</span> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#ad49489701e5566e6811cd1095a6544b9">getTemperature</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keyword">virtual</span> <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> <a class="code" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">getPolicy</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordtype">double</span> temperature_;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keyword">const</span> <a class="code" href="namespaceAIToolbox_1_1Bandit.html#aeffeb8d444aa1331625516b89c5c1235">QFunction</a> &amp; q_;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="comment">// To avoid reallocating a vector every time for sampling.</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keyword">mutable</span> std::vector&lt;size_t&gt; bestActions_;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keyword">mutable</span> <a class="code" href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">Vector</a> vbuffer_;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    };</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1QSoftmaxPolicy_html_a27b493fd7109d9f7cce0f6057b7a01a0"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a27b493fd7109d9f7cce0f6057b7a01a0">AIToolbox::Bandit::QSoftmaxPolicy::getActionProbability</a></div><div class="ttdeci">virtual double getActionProbability(const size_t &amp;a) const override</div><div class="ttdoc">This function returns the probability of taking the specified action in the specified state.</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1Bandit_html_aeffeb8d444aa1331625516b89c5c1235"><div class="ttname"><a href="namespaceAIToolbox_1_1Bandit.html#aeffeb8d444aa1331625516b89c5c1235">AIToolbox::Bandit::QFunction</a></div><div class="ttdeci">Vector QFunction</div><div class="ttdef"><b>Definition:</b> Types.hpp:16</div></div>
-<div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1QSoftmaxPolicy_html_a9e404d8dbe138890a90680a8cd9cb5c9"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a9e404d8dbe138890a90680a8cd9cb5c9">AIToolbox::Bandit::QSoftmaxPolicy::QSoftmaxPolicy</a></div><div class="ttdeci">QSoftmaxPolicy(const QFunction &amp;q, double t=1.0)</div><div class="ttdoc">Basic constructor.</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1PolicyInterface_html"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1PolicyInterface.html">AIToolbox::Bandit::PolicyInterface</a></div><div class="ttdoc">Simple typedef for most of a normal Bandit's policy needs.</div><div class="ttdef"><b>Definition:</b> PolicyInterface.hpp:11</div></div>
 <div class="ttc" id="anamespaceAIToolbox_html_a1e6976de7a0159cd1630c4f2553fc9f3"><div class="ttname"><a href="namespaceAIToolbox.html#a1e6976de7a0159cd1630c4f2553fc9f3">AIToolbox::Vector</a></div><div class="ttdeci">Eigen::Matrix&lt; double, Eigen::Dynamic, 1 &gt; Vector</div><div class="ttdef"><b>Definition:</b> Types.hpp:16</div></div>
 <div class="ttc" id="anamespaceAIToolbox_1_1Bandit_html"><div class="ttname"><a href="namespaceAIToolbox_1_1Bandit.html">AIToolbox::Bandit</a></div><div class="ttdef"><b>Definition:</b> Experience.hpp:6</div></div>
@@ -131,6 +137,7 @@ $(document).ready(function(){initNavTree('Bandit_2Policies_2QSoftmaxPolicy_8hpp_
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1QSoftmaxPolicy_html_aa675378b25b1d4863e332ec1b2868bed"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#aa675378b25b1d4863e332ec1b2868bed">AIToolbox::Bandit::QSoftmaxPolicy::sampleAction</a></div><div class="ttdeci">virtual size_t sampleAction() const override</div><div class="ttdoc">This function chooses an action for state s with probability dependent on value.</div></div>
 <div class="ttc" id="aBandit_2Types_8hpp_html"><div class="ttname"><a href="Bandit_2Types_8hpp.html">Types.hpp</a></div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1QSoftmaxPolicy_html_a7b44ca8cb5444504f7576c01aff74f4d"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a7b44ca8cb5444504f7576c01aff74f4d">AIToolbox::Bandit::QSoftmaxPolicy::setTemperature</a></div><div class="ttdeci">void setTemperature(double t)</div><div class="ttdoc">This function sets the temperature parameter.</div></div>
+<div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1QSoftmaxPolicy_html_a62333cfe6bfe6538b3889bd8129dce6a"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a62333cfe6bfe6538b3889bd8129dce6a">AIToolbox::Bandit::QSoftmaxPolicy::QSoftmaxPolicy</a></div><div class="ttdeci">QSoftmaxPolicy(const QFunction &amp;q, double temperature=1.0)</div><div class="ttdoc">Basic constructor.</div></div>
 <div class="ttc" id="aclassAIToolbox_1_1Bandit_1_1QSoftmaxPolicy_html_a6603fa914daf26765b2f2a84e2e5d3f3"><div class="ttname"><a href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a6603fa914daf26765b2f2a84e2e5d3f3">AIToolbox::Bandit::QSoftmaxPolicy::getPolicy</a></div><div class="ttdeci">virtual Vector getPolicy() const override</div><div class="ttdoc">This function returns a vector containing all probabilities of the policy.</div></div>
 <!-- HTML footer for doxygen 1.8.17-->
 <!-- start footer part -->

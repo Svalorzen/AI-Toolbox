@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -98,7 +105,7 @@ $(document).ready(function(){initNavTree('classAIToolbox_1_1Bandit_1_1QSoftmaxPo
   <tr class="even"><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#af63551eecbcccc433e107bfe72bff4ae">getS</a>() const</td><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; void, void, size_t &gt;</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#ad49489701e5566e6811cd1095a6544b9">getTemperature</a>() const</td><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html">AIToolbox::Bandit::QSoftmaxPolicy</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a68923fb951ce7c2bb27a97eba4afcb73">PolicyInterface</a>(void s, size_t a)</td><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; void, void, size_t &gt;</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a9e404d8dbe138890a90680a8cd9cb5c9">QSoftmaxPolicy</a>(const QFunction &amp;q, double t=1.0)</td><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html">AIToolbox::Bandit::QSoftmaxPolicy</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#a62333cfe6bfe6538b3889bd8129dce6a">QSoftmaxPolicy</a>(const QFunction &amp;q, double temperature=1.0)</td><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html">AIToolbox::Bandit::QSoftmaxPolicy</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#a6975c6f8f853035f3fb4d624bdfca41d">rand_</a></td><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; void, void, size_t &gt;</a></td><td class="entry"><span class="mlabel">mutable</span><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html#afc3dfcb0c94294b3de303ac948cf7a21">S</a></td><td class="entry"><a class="el" href="classAIToolbox_1_1PolicyInterface.html">AIToolbox::PolicyInterface&lt; void, void, size_t &gt;</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html#aa675378b25b1d4863e332ec1b2868bed">sampleAction</a>() const override</td><td class="entry"><a class="el" href="classAIToolbox_1_1Bandit_1_1QSoftmaxPolicy.html">AIToolbox::Bandit::QSoftmaxPolicy</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>

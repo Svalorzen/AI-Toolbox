@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -124,7 +131,8 @@ Public Member Functions</h2></td></tr>
 <p>Max-Plus works by sending messages between the agents and factors in the <a class="el" href="classAIToolbox_1_1Factored_1_1FactorGraph.html" title="This class offers a minimal interface to manager a factor graph.">FactorGraph</a> representation of the coordination problem. While algorithms like <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1VariableElimination.html" title="This class represents the Variable Elimination algorithm.">VariableElimination</a> postpone the actual maximization until the end, <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html" title="This class represents the Max-Plus optimization algorithm for loopy FactorGraphs.">MaxPlus</a> performs local maximizations repeatedly until convergence. Since local maximizations are performed on relatively small functions (and can possibly be done in parallel), <a class="el" href="classAIToolbox_1_1Factored_1_1Bandit_1_1MaxPlus.html" title="This class represents the Max-Plus optimization algorithm for loopy FactorGraphs.">MaxPlus</a> is quite fast, although it cannot guarantee convergence in loopy graphs.</p>
 <p>Agent nodes simply send to each adjacent factor the sum of all messages received from the other ones (so it excludes the message received by that same factor).</p>
 <p>Factor nodes add their own original function to the cross-product of all received messages. Then, to each adjacent agent they send a message where all other agents are maximized.</p>
-<p>The optimal action is selected locally by the agent nodes, by simply selecting the action that maximizes the sum of all received messages. Since in loopy graphs this is not guaranteed to convergence, we only update the returned action if the new overall value is greater than what was selected before. </p>
+<p>The optimal action is selected locally by the agent nodes, by simply selecting the action that maximizes the sum of all received messages. Since in loopy graphs this is not guaranteed to convergence, we only update the returned action if the new overall value is greater than what was selected before.</p>
+<p>Note: the way this algoritm is implemented, it assumes that an unique max always exists. If there are multiple, the algorithm will likely fail to identify any of them. This can in principle be fixed for graphs without cycles, but cannot be fixed for graphs with cycles (and indeed trying to do so can be arbitrarily bad). Thus we simply ignore the problem, and we require that the graph has a unique max. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a5db554b0dd9b47a102eda3489c078e95"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5db554b0dd9b47a102eda3489c078e95">&#9670;&nbsp;</a></span>Graph</h2>

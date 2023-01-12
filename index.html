@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -102,7 +109,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line">  pages   = {1-12},</div>
 <div class="line">  url     = {http://jmlr.org/papers/v21/18-402.html}</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1>Example </h1>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md0"></a>
+Example</h1>
 <div class="fragment"><div class="line"><span class="comment">// The model can be any custom class that respects a 10-method interface.</span></div>
 <div class="line"><span class="keyword">auto</span> model = <a class="code" href="namespaceAIToolbox_1_1POMDP.html#abcd38fafda125d7a1e44a0d04c56e0e0">makeTigerProblem</a>();</div>
 <div class="line"><span class="keywordtype">unsigned</span> horizon = 10; <span class="comment">// The horizon of the solution.</span></div>
@@ -138,19 +146,25 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line"> </div>
 <div class="line">    s = s1; <span class="comment">// Finally we update the world for the next timestep.</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><h1>Documentation </h1>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md1"></a>
+Documentation</h1>
 <p>The latest documentation is available <a href="http://svalorzen.github.io/AI-Toolbox/">here</a>. We have a few <a href="http://svalorzen.github.io/AI-Toolbox/tutorials.html">tutorials</a> that can help you get started with the toolbox. The tutorials are in C++, but the <code>examples</code> folder contains equivalent Python code which you can follow along just as well.</p>
 <p>For Python docs you can find them by typing <code>help(AIToolbox)</code> from the interpreter. It should show the exported API for each class, along with any differences in input/output.</p>
-<h1>Features </h1>
-<h3>Cassandra POMDP Format Parsing</h3>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Features</h1>
+<h3><a class="anchor" id="autotoc_md3"></a>
+Cassandra POMDP Format Parsing</h3>
 <p>Cassandra's POMDP format is a type of text file that contains a definition of an MDP or POMDP model. You can find some examples <a href="http://pomdp.org/examples/">here</a>. While it is absolutely not necessary to use this format, and you can define models via code, we do parse a reasonable subset of Cassandra's POMDP format, which allows to reuse already defined problems with this library. <a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1CassandraParser.html">Here's the docs on that</a>.</p>
-<h3>Python 2 and 3 Bindings!</h3>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Python 2 and 3 Bindings!</h3>
 <p>The user interface of the library is pretty much the same with Python than what you would get by using simply C++. See the <code>examples</code> folder to see just how much Python and C++ code resemble each other. Since Python does not allow templates, the classes are binded with as many instantiations as possible.</p>
 <p>Additionally, the library allows the usage of native Python generative models (where you don't need to specify the transition and reward functions, you only sample next state and reward). This allows for example to directly use OpenAI gym environments with minimal code writing.</p>
 <p>That said, if you need to customize a specific implementation to make it perform better on your specific use-cases, or if you want to try something completely new, you will have to use C++.</p>
-<h3>Utilities</h3>
+<h3><a class="anchor" id="autotoc_md5"></a>
+Utilities</h3>
 <p>The library has an extensive set of utilities which would be too long to enumerate here. In particular, we have utilities for <a href="http://svalorzen.github.io/AI-Toolbox/Combinatorics_8hpp.html">combinatorics</a>, <a href="http://svalorzen.github.io/AI-Toolbox/Polytope_8hpp.html">polytopes</a>, <a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1LP.html">linear programming</a>, <a href="http://svalorzen.github.io/AI-Toolbox/Probability_8hpp.html">sampling and distributions</a>, <a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Statistics.html">automated statistics</a>, <a href="http://svalorzen.github.io/AI-Toolbox/include_2AIToolbox_2POMDP_2Utils_8hpp.html">belief updating</a>, <a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Trie.html">many</a> <a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1FactorGraph.html">data</a> <a href="http://svalorzen.github.io/AI-Toolbox/FactoredMatrix_8hpp.html">structures</a>, <a href="http://svalorzen.github.io/AI-Toolbox/logging.html">logging</a>, <a href="http://svalorzen.github.io/AI-Toolbox/Seeder_8hpp.html">seeding</a> and much more.</p>
-<h3>Bandit/Normal Games:</h3>
+<h3><a class="anchor" id="autotoc_md6"></a>
+Bandit/Normal Games:</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter"></th><th class="markdownTableHeadCenter"><b>Models</b> </th><th class="markdownTableHeadCenter"></th></tr>
@@ -165,7 +179,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1TopTwoThompsonSamplingPolicy.html" title="Simple Bayesian Algorithms for Best Arm Identification, Russo">Top-Two Thompson Sampling (Student-t distribution)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1SuccessiveRejectsPolicy.html" title="Best Arm Identification in Multi-Armed Bandits, Audibert et al.">Successive Rejects</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Bandit_1_1T3CPolicy.html" title="Fixed-confidence guarantees for Bayesian best-arm identification, Shang et al.">T3C (Normal distribution)</a>  </td></tr>
 </table>
-<h3>Single Agent MDP/Stochastic Games:</h3>
+<h3><a class="anchor" id="autotoc_md7"></a>
+Single Agent MDP/Stochastic Games:</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter"></th><th class="markdownTableHeadCenter"><b>Models</b> </th><th class="markdownTableHeadCenter"></th></tr>
@@ -196,7 +211,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1QGreedyPolicy.html">Q-Greedy Policy</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1PGAAPPPolicy.html" title="Multi-Agent Learning with Policy Prediction, Zhang et al.">PGA-APP</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1WoLFPolicy.html" title="Rational and Convergent Learning in Stochastic Games, Bowling et al.">Win or Learn Fast Policy Iteration (WoLF)</a>  </td></tr>
 </table>
-<h3>Single Agent POMDP:</h3>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Single Agent POMDP:</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter"></th><th class="markdownTableHeadCenter"><b>Models</b> </th><th class="markdownTableHeadCenter"></th></tr>
@@ -219,8 +235,10 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1Policy.html">Basic Policy</a> </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td></tr>
 </table>
-<h3>Factored/Joint Multi-Agent:</h3>
-<h4>Bandits:</h4>
+<h3><a class="anchor" id="autotoc_md9"></a>
+Factored/Joint Multi-Agent:</h3>
+<h4><a class="anchor" id="autotoc_md10"></a>
+Bandits:</h4>
 <p>Not in Python yet.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -240,7 +258,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html" title="Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al.">Multi-Agent Upper Confidence Exploration (MAUCE)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html" title="Multi-Agent Thompson Sampling for Bandit Applications with Sparse Neighbourhood Structures, Verstraeten et al.">Multi-Agent Thompson-Sampling (Student-t distribution)</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html">Single-Action Policy</a>  </td></tr>
 </table>
-<h4>MDP:</h4>
+<h4><a class="anchor" id="autotoc_md11"></a>
+MDP:</h4>
 <p>Not in Python yet.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -258,8 +277,10 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1BanditPolicyAdaptor.html">All Bandit Policies</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1EpsilonPolicy.html">Epsilon-Greedy Policy</a> </td><td class="markdownTableBodyCenter"><a href="http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1MDP_1_1QGreedyPolicy.html">Q-Greedy Policy</a>  </td></tr>
 </table>
-<h1>Build Instructions </h1>
-<h2>Dependencies </h2>
+<h1><a class="anchor" id="autotoc_md12"></a>
+Build Instructions</h1>
+<h2><a class="anchor" id="autotoc_md13"></a>
+Dependencies</h2>
 <p>To build the library you need:</p>
 <ul>
 <li><a href="http://www.cmake.org/">cmake</a> &gt;= 3.12</li>
@@ -270,7 +291,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p>In addition, C++20 support is now required (<b>this means at least g++-10</b>)</p>
 <p>On a Ubuntu system, you can install these dependencies with the following command:</p>
 <div class="fragment"><div class="line">sudo apt install g++-10 cmake libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev</div>
-</div><!-- fragment --><h2>Building </h2>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
+Building</h2>
 <p>Once you have all required dependencies, you can simply execute the following commands from the project's main folder:</p>
 <div class="fragment"><div class="line">mkdir build</div>
 <div class="line">cd build/</div>
@@ -301,7 +323,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <p>To compile the library's documentation you need <a href="http://www.doxygen.nl/">Doxygen</a>. To use it it is sufficient to execute the following command from the project's root folder:</p>
 <div class="fragment"><div class="line">doxygen</div>
 </div><!-- fragment --><p>After that the documentation will be generated into an <code>html</code> folder in the main directory.</p>
-<h1>Compiling a Program </h1>
+<h1><a class="anchor" id="autotoc_md15"></a>
+Compiling a Program</h1>
 <p>To compile a program that uses this library, simply link it against the compiled libraries you need, and possibly to the <code>lp_solve</code> libraries (if using POMDP or FMDP).</p>
 <p>Please note that since both POMDP and FMDP libraries rely on the MDP code, you <b>MUST</b> specify those libraries <em>before</em> the MDP library when linking, otherwise it may result in <code>undefined reference</code> errors. The POMDP and Factored MDP libraries are not currently dependent on each other so their order does not matter.</p>
 <p>For Python, you just need to import the <code>AIToolbox.so</code> module, and you'll be able to use the classes as exported to Python. All classes are documented, and you can run in the Python CLI </p><pre class="fragment">help(AIToolbox.MDP)

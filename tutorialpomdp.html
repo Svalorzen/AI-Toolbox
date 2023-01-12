@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -86,10 +93,29 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <div class="title">POMDP Beginner Tutorial </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#autotoc_md34">Partially Observable Markov Decision Process</a><ul><li class="level2"><a href="#autotoc_md35">POMDP Example</a><ul><li class="level3"><a href="#autotoc_md36">State Space (S)</a></li>
+<li class="level3"><a href="#autotoc_md37">Action Space (A)</a></li>
+<li class="level3"><a href="#autotoc_md38">Observation Space (O)</a></li>
+<li class="level3"><a href="#autotoc_md39">Transition Function (T)</a></li>
+<li class="level3"><a href="#autotoc_md40">Reward Function (R)</a></li>
+<li class="level3"><a href="#autotoc_md41">Observation Function (W)</a></li>
+<li class="level3"><a href="#autotoc_md42">Discount</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#autotoc_md43">The POMDP Model</a><ul><li class="level3"><a href="#autotoc_md44">The Actual Planning Code</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#autotoc_md45">Conclusions</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="textblock"><p>This tutorial assumes you have read and understood the MDP tutorial.</p>
 <p>This tutorial's code can be found in the <code>examples/POMDP/tiger_door.cpp</code> file, including comments and additional nodes.</p>
 <p>Another good tutorial on POMDPs available online can be found <a href="http://pomdp.org/tutorial/">here</a>.</p>
-<h1>Partially Observable Markov Decision Process </h1>
+<h1><a class="anchor" id="autotoc_md34"></a>
+Partially Observable Markov Decision Process</h1>
 <p>A Partially Observable Markov Decision Process, or POMDP in short, is a generalization of the ideas of an MDP to environments where the agents does not directly know the current state of the underlying environment. It simply has no access to it.</p>
 <p>Instead, after performing each action, the agent receives an <b>observation</b> which helps it restrict the range of the possible current states. The observation is obtained from the environment following an <b>observation function</b>, which dictates the probability of obtaining a certain observation given a certain state and action.</p>
 <p>Indeed, a POMDP is defined as a tuple &lt;<em>S</em>, <em>A</em>, <em>O</em>, <em>T</em>, <em>R</em>, <em>W</em>, <em>d</em>&gt;, where:</p>
@@ -102,7 +128,8 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <p>In POMDP planning this belief can be maintained over time, as the agent knows the POMDP dynamics. Thus, given his previous belief and knowing which action has been performed and what observation was received, the agent can compute a new belief, with probabilities for every possible state of the environment.</p>
 <p>Given that this is a complicated process, POMDP policies are usually in the shape of a tree. Depending on which action was performed, and which observation was received, the agent descends the appropriate tree branch and sees what action it should perform next. Thus, in POMDPs the horizon (the number of timesteps that you plan to act in the environment) is very important, as it significantly affects which actions you should take.</p>
 <p>Keep in mind that POMDPs are much harder to solve than MDPs, so it's important to keep the size of the state,action and observation spaces as small as possible.</p>
-<h2>POMDP Example</h2>
+<h2><a class="anchor" id="autotoc_md35"></a>
+POMDP Example</h2>
 <p>Let's try to create an POMDP to show how it would work out in practice. Our problem is going to be the following:</p>
 <blockquote class="doxtable">
 <p>Suppose you are in front of two doors. Behind one is a treasure. Behind the other a man-eating tiger. You don't know in advance where each is, but you want to try to get to the treasure safely. Also, after picking, the doors are reset, so you can try again.</p>
@@ -110,14 +137,16 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <p>How much time should you spend listening for the tiger, before trying your luck and opening a door? </p>
 </blockquote>
 <p>Let's think about how to encode this world into an POMDP. We will go through each component of the POMDP and try to fill it out.</p>
-<h3>State Space (S)</h3>
+<h3><a class="anchor" id="autotoc_md36"></a>
+State Space (S)</h3>
 <p>There are only two possibilities: either the door on the left holds the treasure (and the tiger is behind the right), or vice-versa. This will be simple!</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> S = 2;</div>
 <div class="line"><span class="keyword">enum</span> {</div>
 <div class="line">    <a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#afa390becb8ed2819c310e81cc67184fbaacbd4baeac054bf60a8db53001920857">TIG_LEFT</a>    = 0,</div>
 <div class="line">    <a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#afa390becb8ed2819c310e81cc67184fbab260352eba527b0d18b59025bb314e37">TIG_RIGHT</a>   = 1,</div>
 <div class="line">};</div>
-</div><!-- fragment --><h3>Action Space (A)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md37"></a>
+Action Space (A)</h3>
 <p>Only three actions: open the door on the left, open the door on the right, or wait and listen for the breathing tiger.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> A = 3;</div>
 <div class="line"><span class="keyword">enum</span> {</div>
@@ -125,12 +154,14 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <div class="line">    <a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#ad134aa4ea6aac37c3eddcc42c2cdeb82ab07d44b5577748f36f4f8f445a9d01af">A_LEFT</a>   = 1,</div>
 <div class="line">    <a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#ad134aa4ea6aac37c3eddcc42c2cdeb82a3a1f7eecb3c13c46d4c047cbe2af8ace">A_RIGHT</a>  = 2,</div>
 <div class="line">};</div>
-</div><!-- fragment --><h3>Observation Space (O)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md38"></a>
+Observation Space (O)</h3>
 <p>Finally, the observations: there are also only two. When we listen, we get an observation on whether we heard the tiger behind the left door or the right one.</p>
 <p>Keep in mind that such an observation does not mirror the truth! We may have misheard, and it's this uncertainty that makes this problem a POMDP (rather than an MDP).</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> O = 2;</div>
 <div class="line"><span class="comment">// Using same enum as states</span></div>
-</div><!-- fragment --><h3>Transition Function (T)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md39"></a>
+Transition Function (T)</h3>
 <p>The transition function in this problem is also quite simple. If we are listening, nothing changes in the world. When we instead open a door, we discover what's behind it, and the problem is reset.</p>
 <p>We can directly write a 3-dimensional transition matrix, as this should be relatively simple.</p>
 <div class="fragment"><div class="line"><a class="code" href="namespaceAIToolbox.html#aa09bff0da64cdd264561fe009fa85812">AIToolbox::DumbMatrix3D</a> transitions(boost::extents[S][A][S]);</div>
@@ -147,7 +178,8 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <div class="line">        transitions[s][<a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#ad134aa4ea6aac37c3eddcc42c2cdeb82a3a1f7eecb3c13c46d4c047cbe2af8ace">A_RIGHT</a>][s1] = 1.0 / S;</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3>Reward Function (R)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md40"></a>
+Reward Function (R)</h3>
 <p>The reward function is similar. We want to give a small penalty for listening, so that the agent won't try that forever. We'll give a decent reward for obtaining a treasure, and a great penalty for opening the door to the tiger.</p>
 <div class="fragment"><div class="line"><a class="code" href="namespaceAIToolbox.html#aa09bff0da64cdd264561fe009fa85812">AIToolbox::DumbMatrix3D</a> rewards(boost::extents[S][A][S]);</div>
 <div class="line"> </div>
@@ -165,7 +197,8 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <div class="line">    rewards[<a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#afa390becb8ed2819c310e81cc67184fbaacbd4baeac054bf60a8db53001920857">TIG_LEFT</a> ][<a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#ad134aa4ea6aac37c3eddcc42c2cdeb82a3a1f7eecb3c13c46d4c047cbe2af8ace">A_RIGHT</a>][s1] = 10.0;</div>
 <div class="line">    rewards[<a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#afa390becb8ed2819c310e81cc67184fbab260352eba527b0d18b59025bb314e37">TIG_RIGHT</a>][<a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#ad134aa4ea6aac37c3eddcc42c2cdeb82a3a1f7eecb3c13c46d4c047cbe2af8ace">A_RIGHT</a>][s1] = -100.0;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3>Observation Function (W)</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md41"></a>
+Observation Function (W)</h3>
 <p>Finally, the observation function. We want to give the agent an 85% chance of hearing the tiger correctly. So most of the time the observation will mirror the truth, but not always.</p>
 <p>We also have to give the agent an observation when it opens a door; in that case we return an observation randomly (with probability <code>1.0 / O</code>), so not to give any information to the agent during a reset.</p>
 <div class="fragment"><div class="line"><a class="code" href="namespaceAIToolbox.html#aa09bff0da64cdd264561fe009fa85812">AIToolbox::DumbMatrix3D</a> observations(boost::extents[S][A][O]);</div>
@@ -185,9 +218,11 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <div class="line">        observations[s][<a class="code" href="namespaceAIToolbox_1_1POMDP_1_1TigerProblemUtils.html#ad134aa4ea6aac37c3eddcc42c2cdeb82a3a1f7eecb3c13c46d4c047cbe2af8ace">A_RIGHT</a>][o] = 1.0 / O;</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3>Discount</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md42"></a>
+Discount</h3>
 <p>We finally use a discount of 0.95 as it's usually done with this problem. Its meaning has not changed from the MDP case.</p>
-<h2>The POMDP Model</h2>
+<h2><a class="anchor" id="autotoc_md43"></a>
+The POMDP Model</h2>
 <p>Since, differently from the MDP tutorial, we have not written functions for T, R and W, but instead we have directly created matrices, we can simply copy them into a new <code><a class="el" href="classAIToolbox_1_1POMDP_1_1Model.html" title="This class represents a Partially Observable Markov Decision Process.">AIToolbox::POMDP::Model</a></code> to start solving.</p>
 <p>The default POMDP model is an extension of a given MDP (since as we said, the POMDP is a generalization of MDPs; the basic environment is still there, it's just that the agent cannot see it directly). In our case, we inherit from <code><a class="el" href="classAIToolbox_1_1MDP_1_1Model.html" title="This class represents a Markov Decision Process.">AIToolbox::MDP::Model</a></code> to keep things simple.</p>
 <div class="fragment"><div class="line"><a class="code" href="classAIToolbox_1_1POMDP_1_1Model.html">AIToolbox::POMDP::Model&lt;AIToolbox::MDP::Model&gt;</a> model(O, S, A);</div>
@@ -196,7 +231,8 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <div class="line">model.setRewardFunction(rewards);</div>
 <div class="line">model.setObservationFunction(observations);</div>
 <div class="line">model.setDiscount(0.95);</div>
-</div><!-- fragment --><h3>The Actual Planning Code</h3>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md44"></a>
+The Actual Planning Code</h3>
 <p>In case of this POMDP, it's simple enough that we can solve it exactly. We use the <code><a class="el" href="classAIToolbox_1_1POMDP_1_1IncrementalPruning.html" title="This class implements the Incremental Pruning algorithm.">AIToolbox::POMDP::IncrementalPruning</a></code> algorithm, which is one of the most performant exact solvers available.</p>
 <p>Here we show also some code that explains how to use the value function from the solution to obtain a policy, and how to use it. As we mentioned, policies are a bit more complex in POMDPs due to their tree-shape.</p>
 <p>Please check out the documentation of <code><a class="el" href="classAIToolbox_1_1POMDP_1_1Policy.html" title="This class represents a POMDP Policy.">AIToolbox::POMDP::Policy</a></code> to better learn how to use it.</p>
@@ -269,7 +305,8 @@ $(document).ready(function(){initNavTree('tutorialpomdp.html',''); initResizable
 <div class="line">    s = s1;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>The full code of this example can be found in the <code>examples/POMDP/tiger_door.cpp</code> file, and is built automatically by adding <code>-DMAKE_EXAMPLES=1</code> when running CMake.</p>
-<h2>Conclusions</h2>
+<h2><a class="anchor" id="autotoc_md45"></a>
+Conclusions</h2>
 <p>This tutorial has given you a very brief introduction in the world of POMDPs. Given that they are so hard to solve, a lot of research has been done in approximate solvers: point-based solvers in particular, where the POMDP is solved only for a certain number of possible beliefs, have seen great success both in theory and in practical applications. <a class="el" href="namespaceAIToolbox.html">AIToolbox</a> implements some of them, for example <code><a class="el" href="classAIToolbox_1_1POMDP_1_1PBVI.html" title="This class implements the Point Based Value Iteration algorithm.">AIToolbox::POMDP::PBVI</a></code>, <code><a class="el" href="classAIToolbox_1_1POMDP_1_1PERSEUS.html" title="This class implements the PERSEUS algorithm.">AIToolbox::POMDP::PERSEUS</a></code>, or even the bound-based <code><a class="el" href="classAIToolbox_1_1POMDP_1_1GapMin.html" title="This class implements the GapMin algorithm.">AIToolbox::POMDP::GapMin</a></code>.</p>
 <p>Remember to read each class' documentation, as they explain the ideas behind each algorithm, and how to use them, and feel free to check out external references to learn more about POMDPs. </p>
 </div></div><!-- contents -->

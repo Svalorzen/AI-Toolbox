@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -94,10 +101,12 @@ $(document).ready(function(){initNavTree('md_CONTRIBUTING.html',''); initResizab
 </ul>
 <p>About the last point, I'd very much prefer if you discuss any new implementation with me before working away at a patch. I maintain this library for many reasons, one of which is the opportunity to learn and improve by reading new papers and try to implement them. For this reason, I'd love to have a first opportunity myself to write new core code. Please open a new issue about these.</p>
 <p>If it is something I don't really care about, then you can implement it yourself! Otherwise I'll really try my best to get a working implementation up and running as soon as I possibly can.</p>
-<h1>How to Contribute </h1>
+<h1><a class="anchor" id="autotoc_md16"></a>
+How to Contribute</h1>
 <p>Just create a new branch, do your improvements and open a pull request! All contributions should aim to be at least at the level of documentation and quality of the project in its current state.</p>
 <p>All code contribution should try to be consistent with the code style of existing code. There is no official style guide (although the Google one is close to what I usually do), so just try to get close and worst case I'll just point out some minor things to change.</p>
-<h1>Signing Commits </h1>
+<h1><a class="anchor" id="autotoc_md17"></a>
+Signing Commits</h1>
 <p>In order to avoid copyright problems, all commits in your pull requests should be signed by you. To sign a commit it is sufficient to call <code>git commit</code> with the <code>-s</code>, which will add a signed off line to the commit message (this message can also be included by hand if need be). The signoff certifies that you have read and accepted the following:</p>
 <blockquote class="doxtable">
 <p>Developer Certificate of Origin Version 1.1</p>

@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -628,7 +635,7 @@ Friends</h2></td></tr>
 <p>This is important, as this function DOES NOT perform any size checks on the external containers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>The external M2 container. </td></tr>
+    <tr><td class="paramname">mm</td><td>The external M2 container. </td></tr>
   </table>
   </dd>
 </dl>
@@ -665,7 +672,7 @@ template&lt;IsNaive2DMatrix MM&gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">m</td><td>The external M2 container. </td></tr>
+    <tr><td class="paramname">mm</td><td>The external M2 container. </td></tr>
   </table>
   </dd>
 </dl>

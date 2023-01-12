@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -1510,7 +1517,7 @@ template&lt;typename Iterator , typename P  = std::identity&gt; </div>
 <p>This function uses an already existing bound containing previously marked useful hyperplanes. The order is 'begin'-&gt;'bound'-&gt;'end', where bound may be equal to end where no previous bound exists. The found hyperplane is moved between 'begin' and 'bound', but only if it was not there previously.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The point where we need to check the value </td></tr>
+    <tr><td class="paramname">point</td><td>The point where we need to check the value </td></tr>
     <tr><td class="paramname">begin</td><td>The begin of the search range. </td></tr>
     <tr><td class="paramname">bound</td><td>The begin of the 'useful' range. </td></tr>
     <tr><td class="paramname">end</td><td>The range end to be checked. It is NOT included in the search. </td></tr>
@@ -1808,7 +1815,7 @@ template&lt;typename Iterator , typename P  = std::identity&gt; </div>
 <p>Given a list of hyperplanes as a surface, this function returns the hyperplane which provides the highest value at the specified point.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The point where we need to check the value </td></tr>
+    <tr><td class="paramname">point</td><td>The point where we need to check the value </td></tr>
     <tr><td class="paramname">begin</td><td>The start of the range to look in. </td></tr>
     <tr><td class="paramname">end</td><td>The end of the range to look in (excluded). </td></tr>
     <tr><td class="paramname">value</td><td>A pointer to double, which gets set to the value of the given point with the found Hyperplane. </td></tr>
@@ -1873,6 +1880,7 @@ template&lt;typename Iterator , typename P  = std::identity&gt; </div>
     <tr><td class="paramname">corner</td><td>The corner of the simplex space we are checking. </td></tr>
     <tr><td class="paramname">begin</td><td>The start of the range to look in. </td></tr>
     <tr><td class="paramname">end</td><td>The end of the range to look in (excluded). </td></tr>
+    <tr><td class="paramname">value</td><td>A pointer to double, which gets set to the value of the corner with the found Hyperplane. </td></tr>
     <tr><td class="paramname">p</td><td>A projection function to call on the iterators (defaults to identity).</td></tr>
   </table>
   </dd>
@@ -4082,7 +4090,7 @@ template&lt;typename V &gt; </div>
 </div><div class="memdoc">
 
 <p>This pointer defines the function used to log. </p>
-<dl class="section see"><dt>See also</dt><dd>Logging </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="logging.html">How Logging Works</a> </dd></dl>
 
 </div>
 </div>

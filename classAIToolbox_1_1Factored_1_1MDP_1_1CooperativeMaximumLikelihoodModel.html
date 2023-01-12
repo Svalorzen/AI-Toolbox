@@ -16,6 +16,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -432,7 +439,8 @@ initialization".</p>
   <table class="params">
     <tr><td class="paramname">s</td><td>The initial state of the transition. </td></tr>
     <tr><td class="paramname">a</td><td>The action performed in the transition. </td></tr>
-    <tr><td class="paramname">s1</td><td>The final state of the transition.</td></tr>
+    <tr><td class="paramname">s1</td><td>The final state of the transition. </td></tr>
+    <tr><td class="paramname">rews</td><td>The preallocated pointer where to write the expected reward.</td></tr>
   </table>
   </dd>
 </dl>
