@@ -182,14 +182,16 @@ next:;
             /**
              * @brief Basic constructor.
              *
-             * @param S The number of dimensions of the simplex to operate on.
+             * @param s The number of dimensions of the simplex to operate on.
              */
             Pruner(const size_t s) : S(s), lp_(S) {}
 
             /**
              * @brief This function prunes all non useful hyperplanes from the provided list.
              *
-             * @param w The list that needs to be pruned.
+             * @param begin An iterator to the start of the list that needs to be pruned.
+             * @param end An iterator to the end of the list that needs to be pruned.
+             * @param p An optional projection to access the hyperplanes from more complex structures.
              */
             template <typename It, typename P = std::identity>
             It operator()(It begin, It end, P p = P{});

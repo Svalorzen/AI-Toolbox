@@ -102,7 +102,7 @@ namespace AIToolbox::MDP {
              * This parameter determines how much to decrease updates for each
              * timestep in the past.
              *
-             * \SA SARSAL
+             * \sa SARSAL
              *
              * The lambda parameter must be >= 0.0 and <= 1.0, otherwise the
              * function will throw an std::invalid_argument.
@@ -124,7 +124,7 @@ namespace AIToolbox::MDP {
              * This parameter determines how much to decrease updates for each
              * timestep in the past.
              *
-             * \SA SARSAL
+             * \sa SARSAL
              *
              * The lambda parameter must be >= 0.0 and <= 1.0, otherwise the
              * function will throw an std::invalid_argument.

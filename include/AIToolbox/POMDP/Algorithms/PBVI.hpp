@@ -157,7 +157,7 @@ namespace AIToolbox::POMDP {
              *         ValueFunction and the computed ValueFunction.
              */
             template <IsModel M>
-            std::tuple<double, ValueFunction> operator()(const M & model, const std::vector<Belief> & bList, ValueFunction v = {});
+            std::tuple<double, ValueFunction> operator()(const M & model, const std::vector<Belief> & beliefs, ValueFunction v = {});
 
         private:
             /**

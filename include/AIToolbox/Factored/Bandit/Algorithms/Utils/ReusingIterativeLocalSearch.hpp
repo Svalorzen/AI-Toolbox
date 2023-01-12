@@ -55,7 +55,7 @@ namespace AIToolbox::Factored::Bandit {
              * \sa operator()(const Action &, Graph &, bool)
              *
              * @param A The action space of the agents.
-             * @param rules An iterable object over QFunctionRules.
+             * @param graph The graph to perform RILS on.
              *
              * @return A tuple containing the best Action and its value over the input rules.
              */

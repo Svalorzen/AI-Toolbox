@@ -20,6 +20,7 @@ namespace AIToolbox::Factored::MDP {
             /**
              * @brief Basic constructor
              *
+             * @param graph The DDNGraph of the underlying MDP.
              * @param transitions The transition function.
              * @param rewards The reward function.
              * @param discount The discount factor for the MDP.

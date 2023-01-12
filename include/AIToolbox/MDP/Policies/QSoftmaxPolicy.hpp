@@ -29,7 +29,7 @@ namespace AIToolbox::MDP {
              * @param q The QFunction this policy is linked with.
              * @param temperature The parameter that controls the amount of exploration.
              */
-            QSoftmaxPolicy(const QFunction & q, double t = 1.0);
+            QSoftmaxPolicy(const QFunction & q, double temperature = 1.0);
 
             /**
              * @brief This function chooses an action for state s with probability dependent on value.

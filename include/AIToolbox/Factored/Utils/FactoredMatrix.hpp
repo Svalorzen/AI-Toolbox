@@ -157,7 +157,9 @@ namespace AIToolbox::Factored {
          * added to the value as a constant basis.
          *
          * @param space The factor space to use.
-         * @param value The value of the factor space to compute the value for.
+         * @param actions The action space to use.
+         * @param value The factor to compute the value for.
+         * @param action The action to compute the value for.
          * @param weights The weights to multiply the bases with, with an optional constant basis.
          *
          * @return The value of the FactoredMatrix2D at the specified point.

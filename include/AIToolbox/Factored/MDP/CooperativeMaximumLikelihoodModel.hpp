@@ -249,6 +249,7 @@ namespace AIToolbox::Factored::MDP {
              * @param s The initial state of the transition.
              * @param a The action performed in the transition.
              * @param s1 The final state of the transition.
+             * @param rews The preallocated pointer where to write the expected reward.
              *
              * @return The expected reward of the specified transition.
              */

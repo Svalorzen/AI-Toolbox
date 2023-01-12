@@ -43,6 +43,7 @@ namespace AIToolbox::Factored::MDP {
              *
              * @param S The factored state space of the environment.
              * @param A The factored action space for the agent.
+             * @param rules The QFunctionRules to operate upon.
              * @param discount The discount for future rewards.
              * @param alpha The learning parameter.
              */

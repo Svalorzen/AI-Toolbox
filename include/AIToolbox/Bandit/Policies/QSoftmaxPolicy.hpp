@@ -23,9 +23,10 @@ namespace AIToolbox::Bandit {
             /**
              * @brief Basic constructor.
              *
-             * @param A The size of the action space.
+             * @param q The QFunction to act upon.
+             * @param temperature The temperature for the softmax equation.
              */
-            QSoftmaxPolicy(const QFunction & q, double t = 1.0);
+            QSoftmaxPolicy(const QFunction & q, double temperature = 1.0);
 
             /**
              * @brief This function chooses an action for state s with probability dependent on value.

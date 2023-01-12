@@ -79,7 +79,7 @@ namespace AIToolbox::Factored {
              *
              * \sa Trie::insert()
              *
-             * @param ps The key where the value should be stored.
+             * @param pf The key where the value should be stored.
              * @param args The arguments needed to emplace the new value.
              */
             template <typename... Args>
@@ -111,7 +111,6 @@ namespace AIToolbox::Factored {
              * zero element.
              *
              * @param f The key that must be matched.
-             * @param offset The offset of the key, if smaller than the factor space.
              *
              * @return An iterable object over all values matching the input.
              */
@@ -160,7 +159,7 @@ namespace AIToolbox::Factored {
              *
              * This method can only be used if the underlying TrieType supports it.
              *
-             * @param s The key that must be matched.
+             * @param pf The key that must be matched.
              *
              * @return An iterable object over all values matching the input.
              */
@@ -175,7 +174,7 @@ namespace AIToolbox::Factored {
              *
              * This method can only be used if the underlying TrieType supports it.
              *
-             * @param s The key that must be matched.
+             * @param pf The key that must be matched.
              *
              * @return An iterable object over all values matching the input.
              */

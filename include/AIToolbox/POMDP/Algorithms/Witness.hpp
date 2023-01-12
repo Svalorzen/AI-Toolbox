@@ -56,7 +56,7 @@ namespace AIToolbox::POMDP {
              * as the difference between two iterations is less than the
              * tolerance specified.
              *
-             * @param h The horizon chosen.
+             * @param horizon The horizon chosen.
              * @param tolerance The tolerance factor to stop the value iteration loop.
              */
             Witness(unsigned horizon, double tolerance);

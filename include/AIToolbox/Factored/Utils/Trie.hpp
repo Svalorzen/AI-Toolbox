@@ -119,7 +119,7 @@ namespace AIToolbox::Factored {
              * If an id is found matching in all factors, then such a key
              * was inserted and is added to the returned list.
              *
-             * @param f The PartialFactors used as filter in the trie.
+             * @param pf The PartialFactors used as filter in the trie.
              *
              * @return The ids of all inserted keys which match the input.
              */

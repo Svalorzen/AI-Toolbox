@@ -104,7 +104,7 @@ namespace AIToolbox::Bandit {
              *
              * The b parameter determines the amount of learning on losing actions.
              *
-             * @param a The new b parameter.
+             * @param b The new b parameter.
              */
             void setBParam(double b);
 

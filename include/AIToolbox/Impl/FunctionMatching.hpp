@@ -133,9 +133,10 @@ namespace AIToolbox::Impl {
     /**
      * @brief This function calls the input function with the subset of correct parameters from the input tuple.
      *
+     * The nameless IdPack parameter contains the indeces of the arguments to pass to the function.
+     *
      * @param f The function to call.
      * @param args All arguments.
-     * @param IdPack The type containing the indeces of the arguments to pass to the function.
      */
     template <typename F, typename... Args, size_t... IDs>
     void caller(F f, std::tuple<Args...> && args, IdPack<IDs...>) {

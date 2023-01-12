@@ -258,6 +258,7 @@ namespace AIToolbox::Factored {
      *
      * \sa factorSpace
      *
+     * @param ids The indeces to consider.
      * @param space The factored factor space.
      *
      * @return The possible number of factors if representable, otherwise the max size_t.
@@ -446,7 +447,7 @@ namespace AIToolbox::Factored {
      *
      * @param ids The ids to consider in the input space and factor.
      * @param space The factor space to consider.
-     * @param f The input factor to convert.
+     * @param pf The input factor to convert.
      *
      * @return An integer which uniquely identifies the factor in the factor space for the specified ids.
      */

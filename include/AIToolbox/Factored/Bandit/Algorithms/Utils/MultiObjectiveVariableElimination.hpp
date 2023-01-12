@@ -53,7 +53,8 @@ namespace AIToolbox::Factored::Bandit {
             /**
              * @brief This function finds the best Action-value pair for the provided MOQFunctionRules.
              *
-             * @param rules An iterable object over MOQFunctionRules.
+             * @param A The multi-agent action space.
+             * @param inputRules An iterable object over MOQFunctionRules.
              *
              * @return All pairs of PartialAction, Rewards found during the elimination process.
              */

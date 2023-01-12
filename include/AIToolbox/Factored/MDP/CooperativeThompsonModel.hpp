@@ -79,7 +79,6 @@ namespace AIToolbox::Factored::MDP {
              *
              * @param exp The CooperativeExperience of the model.
              * @param discount The discount used in solving methods.
-             * @param sync Whether to sync with the CooperativeExperience immediately or delay it.
              */
             CooperativeThompsonModel(const CooperativeExperience & exp, double discount = 1.0);
 
@@ -249,8 +248,7 @@ namespace AIToolbox::Factored::MDP {
              * @param s The initial state of the transition.
              * @param a The action performed in the transition.
              * @param s1 The final state of the transition.
-             *
-             * @return The expected reward of the specified transition.
+             * @param rews The preallocated pointer where to write the expected reward.
              */
             void getExpectedRewards(const State & s, const Action & a, const State & s1, Rewards * rews) const;
 

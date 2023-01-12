@@ -84,7 +84,7 @@ namespace AIToolbox {
     /**
      * @brief This pointer defines the function used to log.
      *
-     * \sa \ref Logging
+     * \sa \ref logging
      */
     inline AILoggerFun * AILogger = nullptr;
     //

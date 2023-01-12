@@ -137,7 +137,7 @@ namespace AIToolbox {
              * We first call reserve(size_t) to make sure that the storage is
              * appropriately sized.
              *
-             * @param size The requested new rows.
+             * @param rows The requested new rows.
              */
             void resize(size_t rows);
 
@@ -147,7 +147,7 @@ namespace AIToolbox {
              * This function does not modify the view. We also call Eigen's
              * `conservativeResize` so that already stored data is maintained.
              *
-             * @param size The requested new rows.
+             * @param rows The requested new rows.
              */
             void reserve(size_t rows);
     };

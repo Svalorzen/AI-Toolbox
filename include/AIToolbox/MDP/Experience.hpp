@@ -122,7 +122,7 @@ namespace AIToolbox::MDP {
              * checks on the external containers.
              *
              * @tparam MM The external M2 container type.
-             * @param m The external M2 container.
+             * @param mm The external M2 container.
              */
             template <IsNaive2DMatrix MM>
             void setM2Matrix(const MM & mm);
@@ -139,7 +139,7 @@ namespace AIToolbox::MDP {
              * This is important, as this function DOES NOT perform any size
              * checks on the external containers.
              *
-             * @param r The external M2 container.
+             * @param mm The external M2 container.
              */
             void setM2Matrix(const Matrix2D & mm);
 

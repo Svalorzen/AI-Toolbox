@@ -16,7 +16,7 @@ namespace AIToolbox::Bandit {
             /**
              * @brief Basic constructor.
              *
-             * @param A The size of the action space.
+             * @param q The QFunction to act upon.
              */
             QGreedyPolicy(const QFunction & q);
 

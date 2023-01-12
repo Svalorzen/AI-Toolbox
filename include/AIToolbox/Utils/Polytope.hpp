@@ -53,7 +53,7 @@ namespace AIToolbox {
      * Given a list of hyperplanes as a surface, this function returns the
      * hyperplane which provides the highest value at the specified point.
      *
-     * @param p The point where we need to check the value
+     * @param point The point where we need to check the value
      * @param begin The start of the range to look in.
      * @param end The end of the range to look in (excluded).
      * @param value A pointer to double, which gets set to the value of the given point with the found Hyperplane.
@@ -86,6 +86,7 @@ namespace AIToolbox {
      * @param corner The corner of the simplex space we are checking.
      * @param begin The start of the range to look in.
      * @param end The end of the range to look in (excluded).
+     * @param value A pointer to double, which gets set to the value of the corner with the found Hyperplane.
      * @param p A projection function to call on the iterators (defaults to identity).
      *
      * @return An iterator pointing to the best choice in range.
@@ -164,7 +165,7 @@ namespace AIToolbox {
      * hyperplane is moved between 'begin' and 'bound', but only if it was not
      * there previously.
      *
-     * @param p The point where we need to check the value
+     * @param point The point where we need to check the value
      * @param begin The begin of the search range.
      * @param bound The begin of the 'useful' range.
      * @param end The range end to be checked. It is NOT included in the search.

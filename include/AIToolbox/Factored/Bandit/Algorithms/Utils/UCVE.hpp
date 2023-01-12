@@ -44,6 +44,8 @@ namespace AIToolbox::Factored::Bandit {
              * @brief This function is the entry point for the solving process.
              *
              * @tparam Iterable An iterable object containing a series of Entry.
+             * @param A The size of the action space
+             * @param logtA The precomputed value for logtA for this timestep.
              * @param inputRules The rules on which the Variable Elimination process will work.
              *
              * @return The optimal action to take, and its value.
@@ -75,6 +77,10 @@ namespace AIToolbox::Factored::Bandit {
 
             /**
              * @brief This function performs the actual agent elimination process.
+             *
+             * @param A The size of the action space
+             * @param logtA The precomputed value for logtA for this timestep.
+             * @param graph The graph to perform UCVE on.
              *
              * @return The best action, randomly taken if multiple actions are eligible.
              */

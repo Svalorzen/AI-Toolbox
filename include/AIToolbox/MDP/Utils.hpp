@@ -69,7 +69,7 @@ namespace AIToolbox::MDP {
      *
      * Note that this function is more efficient with eigen models.
      *
-     * @param m The MDP that needs to be solved.
+     * @param model The MDP that needs to be solved.
      *
      * @return The Models's immediate rewards.
      */

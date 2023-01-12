@@ -184,7 +184,7 @@ namespace AIToolbox::POMDP {
              * This function does DOES NOT perform any size checks on the
              * input.
              *
-             * @param t The external transitions container.
+             * @param o The external observations container.
              */
             void setObservationFunction(const ObservationMatrix & o);
 
