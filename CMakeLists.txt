@@ -133,6 +133,10 @@ set(EIGEN_VERSION_REQUIRED 3.2.92)
 find_package(Boost ${BOOST_VERSION_REQUIRED} REQUIRED)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
+# TEMPORARY: Ignore BOOST deprecated headers that appear in 1.74.
+add_definitions("-DBOOST_ALLOW_DEPRECATED_HEADERS")
+add_definitions("-DBOOST_BIND_GLOBAL_PLACEHOLDERS")
+
 find_package(Eigen3 ${EIGEN_VERSION_REQUIRED} REQUIRED)
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
@@ -186,7 +190,7 @@ endif()
 
 if(NOT WIN32)
   string(ASCII 27 Esc)
-  set(ColorReset "${Esc}[m")
+  set(ColorReset  "${Esc}[m")
   set(Red         "${Esc}[31m")
   set(Green       "${Esc}[32m")
   set(Yellow      "${Esc}[33m")
