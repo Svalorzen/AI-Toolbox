@@ -25,11 +25,11 @@ int getVectorLen(const AIToolbox::Vector& v) {
 }
 
 double getMatrix2DItem(const AIToolbox::Matrix2D& m, boost::python::tuple i) {
-    return m(boost::python::extract<int>(i[0]), boost::python::extract<int>(i[1]));
+    return m((int)boost::python::extract<int>(i[0]), (int)boost::python::extract<int>(i[1]));
 }
 
 void setMatrix2DItem(AIToolbox::Matrix2D & m, boost::python::tuple i, double value) {
-    m(boost::python::extract<int>(i[0]), boost::python::extract<int>(i[1])) = value;
+    m((int)boost::python::extract<int>(i[0]), (int)boost::python::extract<int>(i[1])) = value;
 }
 
 boost::python::tuple getMatrix2DShape(const AIToolbox::Matrix2D& m) {
