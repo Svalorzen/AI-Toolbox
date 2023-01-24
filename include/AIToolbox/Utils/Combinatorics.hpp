@@ -1,6 +1,7 @@
 #ifndef AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
 #define AI_TOOLBOX_UTILS_COMBINATORICS_HEADER_FILE
 
+#include <cstddef>
 #include <vector>
 #include <numeric>
 #include <cassert>
