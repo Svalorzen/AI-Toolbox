@@ -8,6 +8,6 @@ def Settings( **kwargs ):
         '-Iinclude/',
         '-Itest/',
         '-isystem/usr/include/eigen3/',
-        '-isystem/usr/include/python3.8/'
+        '-isystem/usr/include/python3.10/'
     ],
   }
