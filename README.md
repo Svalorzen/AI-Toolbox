@@ -184,7 +184,7 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 [msml]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1SparseMaximumLikelihoodModel.html
 [mtmo]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1ThompsonModel.html
 
-[dynq]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1DynaQ.html, "Reinforcement Learning: An Introduction, Ch 9.2, Sutton & Barto"
+[dynq]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1DynaQ.html "Reinforcement Learning: An Introduction, Ch 9.2, Sutton & Barto"
 [dyn2]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1Dyna2.html "Sample-Based Learning and Search with Permanent and Transient Memories, Silver et al."
 [esar]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1ExpectedSARSA.html "A Theoretical and Empirical Analysis of Expected Sarsa, van Seijen et al."
 [hqle]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1MDP_1_1HystereticQLearning.html "Hysteretic Q-Learning : an algorithm for decentralized reinforcement learning in cooperative multi-agent teams, Matignon et al."
