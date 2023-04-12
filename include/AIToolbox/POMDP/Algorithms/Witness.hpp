@@ -16,7 +16,7 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This class implements the Witness algorithm.
      *
-     * This algorithm solves a POMDP Model perfectly. It computes solutions
+     * This algorithm solves a POMDP Model exactly. It computes solutions
      * for each horizon incrementally, every new solution building upon the
      * previous one.
      *
@@ -98,7 +98,7 @@ namespace AIToolbox::POMDP {
             unsigned getHorizon() const;
 
             /**
-             * @brief This function solves a POMDP::Model completely.
+             * @brief This function solves a POMDP::Model exactly.
              *
              * This function is pretty expensive (as are possibly all POMDP
              * solvers). It solves a series of LPs trying to find all possible
