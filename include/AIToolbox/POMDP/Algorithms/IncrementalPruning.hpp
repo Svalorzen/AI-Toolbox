@@ -14,32 +14,31 @@ namespace AIToolbox::POMDP {
     /**
      * @brief This class implements the Incremental Pruning algorithm.
      *
-     * This algorithm solves a POMDP Model perfectly. It computes solutions
-     * for each horizon incrementally, every new solution building upon the
+     * This algorithm solves a POMDP Model exactly. It computes solutions for
+     * each horizon incrementally, every new solution building upon the
      * previous one.
      *
-     * From each solution, it computes the full set of possible
-     * projections. It then computes all possible cross-sums of such
-     * projections, in order to compute all possible vectors that can be
-     * included in the final solution.
+     * From each solution, it computes the full set of possible projections. It
+     * then computes all possible cross-sums of such projections, in order to
+     * compute all possible vectors that can be included in the final solution.
      *
      * What makes this method unique is its pruning strategy. Instead of
-     * generating every possible vector, combining them and pruning, it
-     * tries to prune at every possible occasion in order to minimize the
-     * number of possible vectors at any given time. Thus it will prune
-     * after creating the projections, after every single cross-sum, and
-     * in the end when combining all projections for each action.
+     * generating every possible vector, combining them and pruning, it tries
+     * to prune at every possible occasion in order to minimize the number of
+     * possible vectors at any given time. Thus it will prune after creating
+     * the projections, after every single cross-sum, and in the end when
+     * combining all projections for each action.
      *
-     * The performances of this method are *heavily* dependent on the linear
-     * programming methods used. In particular, this code currently
-     * utilizes the lp_solve55 library. However, this library is not the
-     * most efficient implementation, as it defaults to a somewhat slow
-     * solver, and its problem-building API also tends to be slow due to
-     * lots of bounds checking (which are cool, but sometimes people know
-     * what they are doing). Still, to avoid replicating infinite amounts
-     * of code and managing memory by ourselves, we use its API. It would
-     * be nice if one day we could port directly into the code a fast lp
-     * implementation; for now we do what we can.
+     * The performances of this method is *heavily* dependent on the linear
+     * programming solver used. In particular, this code currently utilizes the
+     * lp_solve55 library. However, this library is not the most efficient
+     * implementation, as it defaults to a somewhat slow solver, and its
+     * problem-building API also tends to be slow due to lots of bounds
+     * checking (which are cool, but sometimes people know what they are
+     * doing). Still, to avoid replicating infinite amounts of code and
+     * managing memory by ourselves, we use its API. It would be nice if one
+     * day we could port directly into the code a fast lp implementation; for
+     * now we do what we can.
      */
     class IncrementalPruning {
         public:
@@ -101,7 +100,7 @@ namespace AIToolbox::POMDP {
              * @brief This function solves a POMDP::Model completely.
              *
              * This function is pretty expensive (as are possibly all POMDP
-             * solvers).  It generates for each new solved timestep the
+             * solvers). It generates for each new solved timestep the
              * whole set of possible ValueFunctions, and prunes it
              * incrementally, trying to reduce as much as possible the
              * linear programming solves required.
@@ -158,7 +157,10 @@ namespace AIToolbox::POMDP {
         Projecter projecter(model);
 
         const bool useTolerance = checkDifferentSmall(tolerance_, 0.0);
-        double variation = tolerance_ * 2; // Make it bigger
+        // Make the initial variation bigger than the tolerance to ensure we
+        // enter the while loop.
+        double variation = tolerance_ * 2;
+
         while ( timestep < horizon_ && ( !useTolerance || variation > tolerance_ ) ) {
             ++timestep;
 
@@ -179,6 +181,11 @@ namespace AIToolbox::POMDP {
                     const auto end   = std::end  (projs[a][o]);
                     projs[a][o].erase(prune(begin, end, unwrap), end);
                 }
+
+                // TODO: A better strategy for the code below might be to
+                // simply iterate the list and at each step pick the two
+                // smallest lists. Need to compare the performance of the two
+                // approaches.
 
                 // Here we reduce at the minimum the cross-summing, by alternating
                 // merges. We pick matches like a reverse binary tree, so that
