@@ -14,22 +14,25 @@ jobs:
       # Do not stop all jobs if a single job fails.
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04]
-        build_type: ["Release"]
+        os: [ubuntu-20.04]
+        build-type: ["Release"]
         cxx: ["g++"] #, "clang++"]
-        python_version: [2, 3]
+        gcc: [10]
+        clang: [12]
+        python-version: ["2.7", "3.8"]
 
     steps:
     - name: Checkout repository.
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
 
     - name: Install dependencies.
       run: |
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo add-apt-repository ppa:ostogvin/tjo-develop -y
-        sudo add-apt-repository ppa:rsjtaylor/cmake-backports
-        sudo apt update
-        sudo apt install -qq g++-10 cmake libboost1.71-all-dev liblpsolve55-dev lp-solve libeigen3-dev python-future
+        sudo apt install libboost-all-dev liblpsolve55-dev lp-solve libeigen3-dev python3-future
 
     - name: Create build folder
       run: |
@@ -39,8 +42,8 @@ jobs:
       working-directory: ${{ runner.workspace }}/AI-Toolbox/build
       run: |
         if [ "${{ matrix.cxx }}" = "g++" ];     then export CXX="/usr/bin/g++-10"     CC="/usr/bin/gcc-10"; fi
-        if [ "${{ matrix.cxx }}" = "clang++" ]; then export CXX="/usr/bin/clang++" CC="/usr/bin/clang"; fi
-        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DMAKE_PYTHON=1 -DAI_PYTHON_VERSION=${{ matrix.python_version }}
+        if [ "${{ matrix.cxx }}" = "clang++" ]; then export CXX="/usr/bin/clang++-12" CC="/usr/bin/clang-12"; fi
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DMAKE_PYTHON=1 -DAI_PYTHON_VERSION=${{ matrix.python-version }} -DAI_LOGGING_ENABLED=1
 
     - name: Build
       working-directory: ${{ runner.workspace }}/AI-Toolbox/build
