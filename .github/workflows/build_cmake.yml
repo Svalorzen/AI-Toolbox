@@ -32,7 +32,15 @@ jobs:
 
     - name: Install dependencies.
       run: |
-        sudo apt install libboost-all-dev liblpsolve55-dev lp-solve libeigen3-dev python3-future
+        sudo apt install libboost-all-dev liblpsolve55-dev lp-solve python3-future
+
+    - name: Install Eigen 3.4
+      run: |
+        git clone --single-branch --depth=1 --branch 3.4.0 https://gitlab.com/libeigen/eigen.git
+        mkdir eigen/build
+        cd eigen/build
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$HOME/.local/eigen"
+        make -j2 install
 
     - name: Create build folder
       run: |
@@ -43,7 +51,7 @@ jobs:
       run: |
         if [ "${{ matrix.cxx }}" = "g++" ];     then export CXX="/usr/bin/g++-10"     CC="/usr/bin/gcc-10"; fi
         if [ "${{ matrix.cxx }}" = "clang++" ]; then export CXX="/usr/bin/clang++-12" CC="/usr/bin/clang-12"; fi
-        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DMAKE_PYTHON=1 -DAI_PYTHON_VERSION=${{ matrix.python-version }} -DAI_LOGGING_ENABLED=1
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DEIGEN3_INCLUDE_DIR="$HOME/.local/eigen/include/eigen3" -DMAKE_PYTHON=1 -DAI_PYTHON_VERSION=${{ matrix.python-version }} -DAI_LOGGING_ENABLED=1
 
     - name: Build
       working-directory: ${{ runner.workspace }}/AI-Toolbox/build
