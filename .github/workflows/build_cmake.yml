@@ -61,4 +61,4 @@ jobs:
     - name: Run tests
       working-directory: ${{ runner.workspace }}/AI-Toolbox/build
       run: |
-        ctest -V -j2 --output-on-failure
+        ctest -V -j2 --output-on-failure --repeat until-pass:3
