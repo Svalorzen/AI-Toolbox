@@ -259,7 +259,8 @@ Not in Python yet.
 | [Variable Elimination][vael]                             | [Local Search][lose]                                           | [Reusing Iterative Local Search][rils]               |
 |                                                          | **Policies**                                                   |                                                      |
 | [Q-Greedy Policy][fbqg]                                  | [Random Policy][fbra]                                          | [Learning with Linear Rewards (LLR)][llre]           |
-| [Multi-Agent Upper Confidence Exploration (MAUCE)][mauc] | [Multi-Agent Thompson-Sampling (Student-t distribution)][mats] | [Single-Action Policy][fbsa]                         |
+| [Multi-Agent Upper Confidence Exploration (MAUCE)][mauc] | [Multi-Agent Thompson-Sampling (Student-t distribution)][mats] | [Multi-Agent RMax (MARMax)][mmax]                    |
+| [Single-Action Policy][fbsa]                             |
 
 [fbmo]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1Model.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
 [fbfm]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1FlattenedModel.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
@@ -276,6 +277,7 @@ Not in Python yet.
 [llre]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1LLRPolicy.html "Combinatorial Network Optimization with Unknown Variables: Multi-Armed Bandits with Linear Rewards, Gai et al."
 [mauc]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MAUCEPolicy.html "Learning to Coordinate with Coordination Graphs in Repeated Single-Stage Multi-Agent Decision Problems, Bargiacchi et al."
 [mats]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1ThompsonSamplingPolicy.html "Multi-Agent Thompson Sampling for Bandit Applications with Sparse Neighbourhood Structures, Verstraeten et al."
+[mmax]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1MARMaxPolicy.html "Multi-agent RMax for Multi-Agent Multi-Armed Bandits, Bargiacchi et al."
 [fbsa]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1Factored_1_1Bandit_1_1SingleActionPolicy.html
 
 #### MDP: ####

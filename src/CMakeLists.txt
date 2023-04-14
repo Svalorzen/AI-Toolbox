@@ -97,6 +97,7 @@ if (MAKE_FMDP)
         Factored/Bandit/Policies/ThompsonSamplingPolicy.cpp
         Factored/Bandit/Policies/LLRPolicy.cpp
         Factored/Bandit/Policies/MAUCEPolicy.cpp
+        Factored/Bandit/Policies/MARMaxPolicy.cpp
         Factored/MDP/Utils.cpp
         Factored/MDP/CooperativeExperience.cpp
         Factored/MDP/CooperativeMaximumLikelihoodModel.cpp
