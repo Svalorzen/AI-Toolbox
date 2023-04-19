@@ -148,8 +148,9 @@ if (MAKE_PYTHON)
             Python/Bandit/Policies/ESRLPolicy.cpp
             Python/BanditWrappers.cpp
             # MDP
-            Python/MDP/Utils.cpp
             Python/MDP/Types.cpp
+            Python/MDP/Utils.cpp
+            Python/MDP/IO.cpp
             Python/MDP/Experience.cpp
             Python/MDP/MaximumLikelihoodModel.cpp
             Python/MDP/SparseExperience.cpp
@@ -192,6 +193,7 @@ if (MAKE_PYTHON)
         set(PYTHON_FILES ${PYTHON_FILES}
             Python/POMDP/Types.cpp
             Python/POMDP/Utils.cpp
+            Python/POMDP/IO.cpp
             Python/POMDP/Model.cpp
             Python/POMDP/SparseModel.cpp
             Python/POMDP/Algorithms/POMCP.cpp

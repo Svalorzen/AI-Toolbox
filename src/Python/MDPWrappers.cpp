@@ -5,6 +5,7 @@ class NamespaceMDP{};
 void exportMDPTypes();
 
 void exportMDPUtils();
+void exportMDPIO();
 
 void exportMDPExperience();
 void exportMDPMaximumLikelihoodModel();
@@ -52,6 +53,7 @@ void exportMDP() {
     exportMDPTypes();
 
     exportMDPUtils();
+    exportMDPIO();
 
     exportMDPExperience();
     exportMDPSparseExperience();

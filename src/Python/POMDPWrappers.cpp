@@ -5,6 +5,7 @@ class NamespacePOMDP{};
 void exportPOMDPTypes();
 
 void exportPOMDPUtils();
+void exportPOMDPIO();
 
 void exportPOMDPModel();
 void exportPOMDPSparseModel();
@@ -37,6 +38,7 @@ void exportPOMDP() {
     exportPOMDPTypes();
 
     exportPOMDPUtils();
+    exportPOMDPIO();
 
     exportPOMDPModel();
     exportPOMDPSparseModel();
