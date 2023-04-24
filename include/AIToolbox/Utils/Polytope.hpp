@@ -161,7 +161,7 @@ namespace AIToolbox {
      *
      * This function uses an already existing bound containing previously
      * marked useful hyperplanes. The order is 'begin'->'bound'->'end', where
-     * bound may be equal to end where no previous bound exists. The found
+     * 'bound' may be equal to 'begin' where no previous bound exists. The found
      * hyperplane is moved between 'begin' and 'bound', but only if it was not
      * there previously.
      *
@@ -193,7 +193,7 @@ namespace AIToolbox {
      *
      * This function uses an already existing bound containing previously
      * marked useful hyperplanes. The order is 'begin'->'bound'->'end', where
-     * bound may be equal to end where no previous bound exists. All found
+     * 'bound' may be equal to 'begin' where no previous bound exists. All found
      * hyperplanes are added between 'begin' and 'bound', but only if they were
      * not there previously.
      *
