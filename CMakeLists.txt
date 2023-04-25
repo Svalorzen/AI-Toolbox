@@ -254,7 +254,7 @@ if (MAKE_TESTS)
     add_subdirectory(${PROJECT_SOURCE_DIR}/test)
 endif()
 
-# If enabled, add Python bindings
+# If enabled, compile examples
 if (MAKE_EXAMPLES)
     add_subdirectory(${PROJECT_SOURCE_DIR}/examples)
 endif()
