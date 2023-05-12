@@ -241,7 +241,7 @@ enumerate here. In particular, we have utilities for [combinatorics][comb],
 [rtbs]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1RTBSS.html "Real-Time Decision Making for Large POMDPs, Paquet et al."
 [ssop]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1SARSOP.html "SARSOP: Efficient Point-Based POMDP Planning by Approximating Optimally Reachable Belief Spaces, Kurniawati et al."
 [witn]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1Witness.html "Planning and acting in partially observable stochastic domains, Kaelbling et al."
-[rpom]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1rPOMCP.html "Dynamic Resource Allocation for Multi-Camera Systems, Phd Thesis, Bargiacchi"
+[rpom]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1rPOMCP.html "Dynamic Resource Allocation for Multi-Camera Systems, Master Thesis, Bargiacchi"
 
 [ppol]: http://svalorzen.github.io/AI-Toolbox/classAIToolbox_1_1POMDP_1_1Policy.html
 
