@@ -19,9 +19,9 @@ namespace AIToolbox::Factored::Bandit {
         // m >= ln(2/delta) * sum(range^2) / 2 * eps^2 * sum(range)^2
         {
             double sumR = 0.0, sumRSquared = 0.0;
-            for (auto r : ranges_) {
-                sumR += r;
-                sumRSquared += r * r;
+            for (int i = 0; i < ranges_.size(); i++) {
+                sumR += ranges_[i];
+                sumRSquared += ranges_[i] * ranges_[i];
             }
             m_ = std::max(
                 1.0,

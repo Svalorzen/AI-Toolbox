@@ -1,0 +1,20 @@
+name: AIToolbox-docker-image
+
+on:
+  push:
+    branches:
+      - master
+      - test
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build the Docker image
+      # tag the image with the current timestamp to avoid any caching issues
+      run: docker build . --file docker/Dockerfile -t ai-toolbox:$(date +%s)
