@@ -19,7 +19,7 @@ jobs:
         cxx: ["g++"] #, "clang++"]
         gcc: [10]
         clang: [12]
-        python-version: ["2.7", "3.8"]
+        python-version: ["3.8"]
 
     steps:
     - name: Checkout repository.
